@@ -3,8 +3,11 @@ Mutaborn is a grid based tactical-strategy game in a gritty fantastical universe
 
 # Authored by:
 Tristan Day
+
 Christopher Doughty
+
 Kevin Gray
+
 Michael Lewis-Pryce
 -------------------------------
 -------------------------------
