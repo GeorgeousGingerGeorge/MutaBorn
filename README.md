@@ -9,7 +9,7 @@ Christopher Doughty
 Kevin Gray
 
 Michael Lewis-Pryce
--------------------------------
+
 -------------------------------
 ## Disclosure and Usage Notice
 
