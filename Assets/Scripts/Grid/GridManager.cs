@@ -86,11 +86,18 @@ public class GridManager : MonoBehaviour
                 //Add Components to the Tile(sliceObject) that we are manipulating in the grid
 
                 Debug.Log($"Current Node Coordinate:{coords} CurrentFloor: {floor.GetFloorID()} ");
-                
+                if (sliceObject.TryGetComponent<TileController>(out TileController currentTile)) 
+                {
+                    currentTile.Initialize(currentNode);
+                    currentTile.SetHighlight(true, Color.blue.WithAlpha(.15f));
+                  
+                }
 
                 //Adds the node to the grid
                 grid.Add(coords, currentNode);
                 z++;
+
+
             }
            
             x++;
@@ -135,7 +142,25 @@ public class GridManager : MonoBehaviour
         }   
     }
 
+    public GridNode GetNodeFromGridPosition(int floorID, Vector2Int gridPosition) 
+    {
+        GridNode current = null;
 
+        if (gridFloors.TryGetValue(floorID, out Dictionary<Vector2Int, GridNode> thisGrid)) 
+        {
+            if (thisGrid.TryGetValue(gridPosition, out GridNode thisNode)) 
+            {
+                current = thisNode; 
+            }
+        }
+
+        if (current != null) 
+        {
+           return current;
+        }
+
+        return null;
+    }
     public GridNode GetNodeFromClosestWorldPosition(Vector3 worldPosition) //Receives the object worldPosition 
     {
 
