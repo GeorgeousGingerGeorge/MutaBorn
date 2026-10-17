@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ObstacleDatas
+public class ObstacleData
 {
     
 }
