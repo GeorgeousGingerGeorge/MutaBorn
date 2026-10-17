@@ -1,6 +1,7 @@
 using Unity.AppUI.UI;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 public struct RGB_Color
 {
@@ -33,7 +34,7 @@ public class OutlineController : MonoBehaviour
     private Color hoverColor;
     private Color selectedColor;
     private bool isHovered = false;
-    private bool isSelected = true;
+    private bool isSelected = false;
 
     
     
@@ -52,62 +53,9 @@ public class OutlineController : MonoBehaviour
         isSelected = selected; 
     }
 
-    public void UpdateController(LayerMask targetLayer, UnitController unit = null, ObstacleController obstacle = null) 
+    public void UpdateColors() 
     {
-        RGB_Color changeColor = new RGB_Color(0f, 0f, 0f, 0f);
-        switch (targetLayer) 
-        {
-            case 6: //Unit Layer
-                {
-                    if (unit.CompareTag("Player"))
-                    {
-                        changeColor.green = 1f;
-                        changeColor.blue = 1f;
-                        changeColor.alpha = 0.25f;
-                        hoverColor = new Color(changeColor.red,changeColor.green,changeColor.blue, changeColor.alpha);
-
-                        changeColor.alpha = 0.5f;
-                        selectedColor = new Color(changeColor.red,changeColor.green, changeColor.blue, changeColor.alpha);
-                    }
-                    else if (unit.CompareTag("Enemy"))
-                    {
-                        changeColor.red = 1f;
-                        changeColor.alpha = 0.25f;
-                        hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
-
-                        changeColor.alpha = 0.5f;
-                        selectedColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
-                    }
-                    else if (unit.CompareTag("Allies"))
-                    {
-                        changeColor.green = 1f;
-                        changeColor.alpha = 0.25f;
-                        hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
-
-                        changeColor.alpha = 0.5f;
-                        selectedColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
-                    }
-                    else if (unit.CompareTag("Neutral")) 
-                    {
-                        changeColor.red = 1f;
-                        changeColor.green = 1f;
-                        changeColor.alpha = 0.25f;
-                        hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
-
-                        changeColor.alpha = 0.5f;
-                        selectedColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
-                    }
-                }
-                break;
-            case 7: //Obstacle Layer
-                { 
-                
-                }
-                break;
-            default:
-                break;
-        }
-
+        outlineRenderer.GetPropertyBlock(properties);
         Color color;
         if (isSelected)
         {
@@ -128,4 +76,62 @@ public class OutlineController : MonoBehaviour
         outlineRenderer.enabled = isHovered || isSelected;
     }
 
+    public void UpdateController(LayerMask targetLayer, UnitController unit = null, ObstacleController obstacle = null) 
+    {
+        RGB_Color changeColor = new RGB_Color(0f, 0f, 0f, 0f);
+
+        switch (targetLayer)
+        {
+            case 6: //Unit Layer
+                {
+                    Debug.Log($"Do we enter the Units case. {targetLayer.ToString()}");
+                    if (unit.CompareTag("Player"))
+                    {
+                        Debug.Log("UnitsLayer, Player, Do we enter?");
+                        changeColor.green = 1f;
+                        changeColor.blue = 1f;
+                        changeColor.alpha = 0.25f;
+                        hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
+
+                        changeColor.alpha = 0.5f;
+                        selectedColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
+                    }
+                    else if (unit.CompareTag("Enemy"))
+                    {
+                        changeColor.red = 1f;
+                        changeColor.alpha = 0.25f;
+                        hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
+
+                        changeColor.alpha = 0.5f;
+                        selectedColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
+                    }
+                    else if (unit.CompareTag("Ally"))
+                    {
+                        changeColor.green = 1f;
+                        changeColor.alpha = 0.25f;
+                        hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
+
+                        changeColor.alpha = 0.5f;
+                        selectedColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
+                    }
+                    else if (unit.CompareTag("Neutral"))
+                    {
+                        changeColor.red = 1f;
+                        changeColor.green = 1f;
+                        changeColor.alpha = 0.25f;
+                        hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
+
+                        changeColor.alpha = 0.5f;
+                        selectedColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
+                    }
+                }
+                break;
+            case 7: //Obstacle Layer
+                {
+
+                }
+                break;
+
+        }
+    }
 }

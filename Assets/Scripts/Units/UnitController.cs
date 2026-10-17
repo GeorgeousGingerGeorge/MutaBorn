@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitController : MonoBehaviour
@@ -8,14 +9,17 @@ public class UnitController : MonoBehaviour
     [Header("Controls Outline Visuals")]
     private OutlineController characterOutline;
     private bool isHovered = false;
-    private bool isSelected = false; 
-    
-
+    private bool isSelected = false;
+    public void Awake() 
+    {
+        GetOutlineController();
+    }
 
     //Sets the Node of the unit,
     public void InitializeNode() 
     {
         currentNode = FindAnyObjectByType<GridManager>().GetNodeFromClosestWorldPosition(transform.position);
+        
     }
     public void SetNode(GridNode node) 
     {
@@ -29,13 +33,24 @@ public class UnitController : MonoBehaviour
     }
     public void SetHover(bool hover) 
     {
-        isHovered = hover; 
+        isHovered = hover;
+        GetOutlineController();
+        characterOutline.SetupRenderer();
+        characterOutline.SetHovered(isHovered);
+        characterOutline.UpdateController(LayerMask.NameToLayer("Units"), this);
+        characterOutline.UpdateColors();
     }
     public void SetSelected(bool selected) 
     {
-        isSelected = selected; 
+        isSelected = selected;
+      
+        GetOutlineController();
+        characterOutline.SetupRenderer();
+        characterOutline.SetSelected(isSelected);
+        characterOutline.UpdateController(LayerMask.NameToLayer("Units"), this);
+        characterOutline.UpdateColors();
     }
 
-    
+  
     
 }
