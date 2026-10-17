@@ -11,7 +11,7 @@ public class TileController : MonoBehaviour
     [SerializeField] private Renderer highlightRenderer;
     private bool isHovered;
     private bool isSelected;
-    
+    private RGB_Color currentColor = new RGB_Color(0f, 0f, 0f, 0f);
     public void Initialize(GridNode node)
     {
         this.node = node;
