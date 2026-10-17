@@ -21,7 +21,7 @@ public class SelectionManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         isClicked = input.OnLeftClick();
 
@@ -49,26 +49,26 @@ public class SelectionManager : MonoBehaviour
     }
 
     private void UnitSelected(UnitController current) 
-    {
-        if (previousUnit == current && current != null) 
+    {   
+        if (previousUnit == current && current != null)
         {
             current.SetSelected(true);
             previousUnit = null;
-            return; 
+            return;
         }
 
         if (previousUnit != null) 
         {
             previousUnit.SetSelected(false);
-        }
-
+        } 
         current.SetSelected(true);
         previousUnit = current; 
     }
 
     private void TileSelected(TileController current) 
     {
-        if(previousTile == current && current != null) 
+       
+        if (previousTile == current && current != null) 
         {
             current.SetSelected(false);
             previousTile = null;
