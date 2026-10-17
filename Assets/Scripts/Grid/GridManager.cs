@@ -86,10 +86,11 @@ public class GridManager : MonoBehaviour
                 //Add Components to the Tile(sliceObject) that we are manipulating in the grid
 
                 Debug.Log($"Current Node Coordinate:{coords} CurrentFloor: {floor.GetFloorID()} ");
-                if (sliceObject.TryGetComponent<TileController>(out TileController currentTile)) 
+                if (sliceObject.GetComponentInParent<TileController>()) 
                 {
+                    TileController currentTile = sliceObject.GetComponentInParent<TileController>();
                     currentTile.Initialize(currentNode);
-                    currentTile.SetHighlight(true, Color.blue.WithAlpha(.15f));
+                    
                   
                 }
 

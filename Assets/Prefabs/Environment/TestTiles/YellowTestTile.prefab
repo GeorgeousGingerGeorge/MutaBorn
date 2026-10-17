@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 5200781709889948859}
   - component: {fileID: 6797815661508350405}
   - component: {fileID: 5175287013549764427}
-  - component: {fileID: 2190038712796985963}
+  - component: {fileID: 8650841392076068639}
   - component: {fileID: -8204504635882078879}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: YellowTestTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2190038712796985963
+--- !u!65 &8650841392076068639
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,6 +179,14 @@ PrefabInstance:
     - target: {fileID: 7451715968718742625, guid: 8578f7831ca7b6841bfcf16aa45bb143, type: 3}
       propertyPath: m_Name
       value: HighlightOverlay
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451715968718742625, guid: 8578f7831ca7b6841bfcf16aa45bb143, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451715968718742625, guid: 8578f7831ca7b6841bfcf16aa45bb143, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

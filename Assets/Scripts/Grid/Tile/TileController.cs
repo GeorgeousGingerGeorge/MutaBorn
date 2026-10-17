@@ -37,6 +37,7 @@ public class TileController : MonoBehaviour
     }
     public void SetHover(bool hover) 
     {
+        Debug.Log("Do we ever Set Hover");
         isHovered = hover;
         UpdateHighLight();
         
@@ -59,7 +60,7 @@ public class TileController : MonoBehaviour
     private void UpdateHighLight() 
     {
         bool visible = isHovered || isSelected;
-        Color color = Color.white; 
+        Color color = Color.red; 
         if (isSelected) 
         {
             color = Color.cyan;
