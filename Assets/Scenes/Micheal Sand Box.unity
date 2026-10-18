@@ -277,7 +277,7 @@ Transform:
   m_GameObject: {fileID: 383664587}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.82446, y: 0, z: 14.36016}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -295,16 +295,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e556b3f5c13f4f34cb83826d0cd82761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
-  currentLevel: {fileID: 11400000, guid: 28063380af6d95e418771914d7c8d233, type: 2}
+  currentLevel: {fileID: 0}
   gridCellSize: 2
+  gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
   floorGenerator:
   - floorID: 1
     worldPosition: {x: 0, y: 0, z: 0}
     gridSize: {x: 10, y: 10}
   - floorID: 2
-    worldPosition: {x: 12, y: 6, z: 0}
+    worldPosition: {x: 0, y: 4, z: 20}
     gridSize: {x: 10, y: 10}
-  stairGenerator: []
+  stairGenerator:
+  - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
+    stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
+    worldPosition: {x: 0, y: 2, z: 17}
+    worldRotation: {x: 0, y: 0, z: 0, w: 0}
+    lowerFloorId: 1
+    lowerGridPosition: {x: 0, y: 7}
+    upperFloorId: 2
+    upperGridPosition: {x: 0, y: 0}
 --- !u!114 &383664590
 MonoBehaviour:
   m_ObjectHideFlags: 0
