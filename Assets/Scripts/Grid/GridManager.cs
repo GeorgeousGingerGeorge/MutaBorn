@@ -143,6 +143,8 @@ public class GridManager : MonoBehaviour
         }   
     }
 
+
+    //Getters- NodeFromGridPosition, NodeFrom-WorldPosition, Grid itself
     public GridNode GetNodeFromGridPosition(int floorID, Vector2Int gridPosition) 
     {
         GridNode current = null;
@@ -183,5 +185,15 @@ public class GridManager : MonoBehaviour
         }
 
         return closestNode;
+    }
+    public Dictionary<Vector2Int, GridNode> GetGrid(int ID) 
+    {
+        Dictionary<Vector2Int, GridNode> thisGrid = null;
+        if (gridFloors.TryGetValue(ID, out Dictionary<Vector2Int, GridNode> currentGrid)) 
+        {
+            thisGrid = currentGrid;
+        }
+
+        return thisGrid; 
     }
 }

@@ -14,14 +14,14 @@ public class SelectionManager : MonoBehaviour
     ObstacleController previousObstacle; 
 
     
-    private void Start()
+    public void Start()
     {
         mouseInWorld = FindAnyObjectByType<MouseLocation>();
         input = FindAnyObjectByType<InputManager>();
     }
 
     // Update is called once per frame
-    private void Update()
+    public void Update()
     {
         isClicked = input.OnLeftClick();
 
