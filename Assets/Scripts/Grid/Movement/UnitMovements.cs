@@ -13,6 +13,7 @@ public class UnitMovements : MonoBehaviour
     private bool isMoving = false;
     private int pathIndex = 0;
     private List<GridNode> movementPath = new List<GridNode>();
+    private List<TileController> highlightedTiles = new List<TileController>();
 
     public void Awake() 
     {
@@ -33,6 +34,10 @@ public class UnitMovements : MonoBehaviour
 
     private void HandleMovement() 
     {
+        if (selectionController.selectedUnit != unit) 
+        {
+            return;
+        }
         if (selectionController.selectedTile == null) 
         {
             return;
@@ -43,7 +48,7 @@ public class UnitMovements : MonoBehaviour
         {
             GridNode targetNode = selectionController.selectedTile.node;
             unit.InitializeNode();
-            movementController.SetNodes(unit.currentNode, targetNode);
+            movementController.SetNodes(unit.currentNode, targetNode, unit.StaminaCost());
 
 
             movementPath = movementController.GetPath();
@@ -67,7 +72,9 @@ public class UnitMovements : MonoBehaviour
         {
             isMoving = false;
             selectionController.ClearDestination();
+            selectionController.ClearUnitSelection();
             movementPath.Clear();
+            pathIndex = 0;
             return;
         }
 
@@ -102,14 +109,28 @@ public class UnitMovements : MonoBehaviour
 
     public void ShowMovementRange() 
     {
+        ClearMovementRange();
         Dictionary<GridNode, float> reachables = new Dictionary<GridNode, float>();
-    
-        GridNode startNode = selectionController.selectedUnit.currentNode;
+
+        unit.InitializeNode();
+        GridNode startNode = unit.currentNode;
 
         reachables = movementController.GetReachableNodes(startNode, unit.StaminaCost());
+        
+        Debug.Log($"Movement allowance: {unit.StaminaCost()}");
+        Debug.Log($"Reachable tiles: {reachables.Count}");
 
-        foreach (GridNode node in reachables.Keys) 
+      
+        foreach (KeyValuePair<GridNode, float> values in reachables) 
         {
+            GridNode node = values.Key;
+            float cost = values.Value;
+
+            if(cost > unit.StaminaCost())
+            {
+                continue;
+
+            }
             if (node == startNode) 
             {
                 continue;
@@ -118,30 +139,30 @@ public class UnitMovements : MonoBehaviour
             TileController tile = movementController.GetGridManager().FindTile(node);
 
             if(tile != null)
+            { 
                 tile.SetMovementRange(true);
+                highlightedTiles.Add(tile);
+            }
         }
         
     }
     public void ClearMovementRange() 
     {
-        Dictionary<GridNode, float> reachables = new Dictionary<GridNode, float>();
-
-        GridNode startNode = selectionController.selectedUnit.currentNode;
-
-        reachables = movementController.GetReachableNodes(startNode, unit.StaminaCost());
-
-        foreach (GridNode node in reachables.Keys)
+        if (highlightedTiles.Count == 0) 
         {
-            if (node == startNode)
-            {
-                continue;
-            }
-
-            TileController tile = movementController.GetGridManager().FindTile(node);
-
-            if (tile != null)
-                tile.SetMovementRange(false);
+            return;
         }
+
+        foreach (TileController tile in highlightedTiles) 
+        {
+            if (tile != null)
+            {
+                tile.SetMovementRange(false);
+
+            }
+        }
+
+        highlightedTiles.Clear();
     }
  
     

@@ -16,7 +16,7 @@ public class MovementManager : MonoBehaviour
     private List<GridNode> route = new List<GridNode>();
     private Dictionary<Vector2Int, GridNode> grid = new Dictionary<Vector2Int, GridNode>();
 
-    public void SetNodes(GridNode start, GridNode destination) 
+    public void SetNodes(GridNode start, GridNode destination, float movementAllowed) 
     {
         if (gridManager == null)
             return;
@@ -35,14 +35,14 @@ public class MovementManager : MonoBehaviour
             return;
         }
 
-        route = FindPath(startNode, targetNode);
+        route = FindPath(startNode, targetNode, movementAllowed);
         if (route == null) 
         {
             return; 
         }
     }
 
-    private List<GridNode> FindPath(GridNode startNode, GridNode targetNode) 
+    private List<GridNode> FindPath(GridNode startNode, GridNode targetNode, float movementAllowed) 
     {
         Dictionary<GridNode, float> distance = new Dictionary<GridNode, float>();
         Dictionary<GridNode, GridNode> previousNode = new Dictionary<GridNode, GridNode>();
@@ -68,6 +68,15 @@ public class MovementManager : MonoBehaviour
             }
 
             unvisited.Remove(current);
+
+            if (visited.Contains(current))
+                continue;
+
+            float currentCost = distance[current];
+
+            if (currentCost > movementAllowed)
+                break;
+
             visited.Add(current);
 
 
@@ -78,11 +87,14 @@ public class MovementManager : MonoBehaviour
 
             foreach (GridNode neighbor in current.GetNeighbors())
             {
-                if (visited.Contains(neighbor))
+                if (neighbor == null || visited.Contains(neighbor))
                     continue;
 
 
                 float newCost = distance[current] + GetMovementCost(neighbor, current);
+
+                if (newCost > movementAllowed)
+                    continue;
 
                 if (!distance.TryGetValue(neighbor, out float oldCost) || newCost < oldCost) 
                 {
@@ -105,7 +117,7 @@ public class MovementManager : MonoBehaviour
         Dictionary<GridNode, float> distances = new Dictionary<GridNode, float>();
 
         List<GridNode> unvisited = new List<GridNode>();
-       
+        List<GridNode> visited = new List<GridNode>();
 
         if (startNode == null || movementAllowed < 0f) 
         {
@@ -130,20 +142,33 @@ public class MovementManager : MonoBehaviour
 
             unvisited.Remove(current);
 
+            if (visited.Contains(current))
+                continue;
+
+            
+
             float currentCost = distances[current];
 
             if (currentCost > movementAllowed)
                 break;
 
+            visited.Add(current);
+
             foreach (GridNode neighbor in current.GetNeighbors()) 
             {
-                if (neighbor == null)
+                if (neighbor == null || visited.Contains(neighbor)) 
+                    continue;
+
+                float stepCost = GetMovementCost(neighbor, current);
+
+                if (stepCost < 0f)
                     continue;
 
                 float newCost = distances[current] + GetMovementCost(neighbor, current);
 
                 if (newCost > movementAllowed)
                     continue;
+
                 if(!distances.TryGetValue(neighbor, out float oldCost) || newCost < oldCost)
                 {
                     distances[neighbor] = newCost;

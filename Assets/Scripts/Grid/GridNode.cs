@@ -28,7 +28,7 @@ public class GridNode
     //Adds a node to a list of neighbors if they're next to the current node
     public void AddConnections(GridNode current) 
     {
-        Debug.Log($"This Node {current.coords} was added as neighbor");
+       
             connectTo.Add(current);
     }
 

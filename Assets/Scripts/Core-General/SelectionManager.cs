@@ -58,8 +58,17 @@ public class SelectionManager : MonoBehaviour
             
         if (selectedUnit != null) 
         {
+            UnitMovements previousMovement = selectedUnit.GetComponent<UnitMovements>();
+
+            if (previousMovement != null) 
+            {
+                previousMovement.ClearMovementRange();
+            }
             selectedUnit.SetSelected(false);
+         
         }
+
+        ClearDestination();
 
         selectedUnit = unit;
         selectedUnit.SetSelected(true);
@@ -104,6 +113,13 @@ public class SelectionManager : MonoBehaviour
     {
         if (selectedUnit != null) 
         {
+            UnitMovements movement = selectedUnit.GetComponent<UnitMovements>();
+            if (movement != null) 
+            {
+                movement.ClearMovementRange();
+                
+            }
+
             selectedUnit.SetSelected(false);
         }
 
