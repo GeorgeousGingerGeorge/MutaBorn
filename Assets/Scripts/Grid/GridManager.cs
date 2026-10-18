@@ -2,6 +2,26 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.Hierarchy;
+
+[System.Serializable]
+public struct ConnectorsBetweenLevels 
+{
+    [Header("FloorConnector Object")]
+    [SerializeField]public GameObject connector;
+    [SerializeField] public FloorConnector stairObject;
+    [Header("CurrentWorldOrientation")]
+    [SerializeField] public Vector3 worldPosition;
+    [SerializeField] public Quaternion worldRotation;
+    [Header("LowerFloorNodes")]
+    [SerializeField] public int lowerFloorId;
+    [SerializeField] public Vector2Int lowerGridPosition;
+    [Header("UpperFloorNodes")]
+    [SerializeField] public int upperFloorId;
+    [SerializeField] public Vector2Int upperGridPosition;
+
+    
+    
+}
 public class GridManager : MonoBehaviour
 {
     [Header("Level Configuration")]
@@ -12,8 +32,15 @@ public class GridManager : MonoBehaviour
     [Header("CurrentGrid Information")]
     private Dictionary<Vector2Int, GridNode> grid = new Dictionary<Vector2Int, GridNode>();
 
+    [Header("CurrentGrid Information- Generating a grid (No LevelPrefab)")]
+
+    [SerializeField]public GameObject gridCellPrefab;
+    public List<FloorIdentification> floorGenerator = new List<FloorIdentification>();
+    public List<ConnectorsBetweenLevels> stairGenerator = new List<ConnectorsBetweenLevels>();
+
     [Header("CurrentGrid Information- Grid Hierarchy")]
-    private GameObject mainLevel;
+    private GameObject mainGrid;
+    private GameObject level;
     private GameObject floorNumber;
 
     [Header("CurrentGrid Information- Grids for Each Floor")]
@@ -31,37 +58,113 @@ public class GridManager : MonoBehaviour
     public void BuildLevel()
     {
         //Checks if currentLevel and the levelPrefab exists, if it doesn't it would switch to the other generator
-        if (currentLevel != null && currentLevel.levelPrefab != null) 
+        if (currentLevel != null && currentLevel.levelPrefab != null)
         {
-            mainLevel = new GameObject($"{currentLevel.levelName}_Grid");
-            mainLevel.transform.position = Vector3.zero;
+            mainGrid = new GameObject($"{currentLevel.levelName}_Grid");
+            mainGrid.transform.position = Vector3.zero;
 
-            floorNumber = Instantiate(currentLevel.levelPrefab, Vector3.zero, Quaternion.identity, mainLevel.transform);
-            floorNumber.transform.SetParent(mainLevel.transform, false);
+            floorNumber = Instantiate(currentLevel.levelPrefab, Vector3.zero, Quaternion.identity, mainGrid.transform);
+            floorNumber.transform.SetParent(mainGrid.transform, false);
 
-            
+
             foreach (PlacedFloor floorData in currentLevel.placedFloors)
             {
-                BuildFloor(floorData.floorIndex);
+                BuildFloor_Prefab(floorData.floorIndex);
             }
         }
+        else 
+        {
+            mainGrid = new GameObject($"Generated_Grid");
+            mainGrid.transform.position = Vector3.zero;
+
+            level = new GameObject($"level");
+            level.transform.position = Vector3.zero;
+            level.transform.SetParent(mainGrid.transform, false);
+            
+            foreach (FloorIdentification floorData in floorGenerator)
+            {
+                BuildFloor_Generated(floorData);
+            }
+        }
+
+        ConnectFloors();
     }
 
     
 
-    public void BuildFloor()   // Build's procedurally generated grid
+    public void BuildFloor_Generated(FloorIdentification data)   // Build's procedurally generated grid
     {
-        CreateGrid_Level_Generated(); 
+        CreateGrid_Level_Generated(data); 
     }
-    public void BuildFloor(FloorIdentification index)  //Builds a prefab Grid
+    public void BuildFloor_Prefab(FloorIdentification data)  //Builds a prefab Grid
     {
-        CreateGrid_Level_Prefab(index); 
+        CreateGrid_Level_Prefab(data); 
     }
 
     //used for when we procedurally generate tiles later 
-    public void CreateGrid_Level_Generated() 
+    public void CreateGrid_Level_Generated(FloorIdentification floor) 
     {
-        
+        floorNumber = new GameObject($"Floor_{floor.GetFloorID()}");
+        floorNumber.transform.position = Vector3.zero;
+        floorNumber.transform.SetParent(level.transform, false);
+
+        for (int gridX = 0; gridX < floor.GetGridSize().x; gridX++) 
+        {
+            GameObject floorSlice = new GameObject($"FloorSlice_{gridX}");
+            floorSlice.transform.SetParent(floorNumber.transform, false);
+            for (int gridZ = 0; gridZ < floor.GetGridSize().y; gridZ++) 
+            {
+
+                Vector3 worldPos = floor.GetWorldPosition();
+                worldPos = worldPos + new Vector3((gridX) * gridCellSize, 0f, (gridZ) * gridCellSize);
+              
+
+                Vector2Int coords = new Vector2Int(gridX, gridZ);
+                GridNode currentNode = new GridNode(coords, floor.GetFloorID(), worldPos);
+
+               
+                GameObject tilePrefab = Instantiate(gridCellPrefab, worldPos, Quaternion.identity, floorSlice.transform);
+                tilePrefab.transform.SetParent(floorSlice.transform, false);
+               
+
+                if (tilePrefab.GetComponentInParent<TileController>()) 
+                {
+                    TileController currentTile = tilePrefab.GetComponentInParent<TileController>();
+                    currentTile.Initialize(currentNode);
+                    RegisterTile(currentTile);
+
+
+                }
+
+                grid.Add(coords, currentNode);
+            }
+        }
+        GameObject stairNumber = new GameObject($"Stair_{floor.GetFloorID()}");
+        stairNumber.transform.SetParent(floorNumber.transform, false);
+
+        for (int thisStair = 0; thisStair < stairGenerator.Count; thisStair++) 
+        {
+            Vector3 worldPos = stairGenerator[thisStair].worldPosition;
+            Quaternion worldRotation = stairGenerator[thisStair].worldRotation;
+            int lowerFloor = stairGenerator[thisStair].lowerFloorId;
+            Vector2Int lowerGrid = stairGenerator[thisStair].lowerGridPosition;
+            int upperFloor = stairGenerator[thisStair].upperFloorId;
+            Vector2Int upperGrid = stairGenerator[thisStair].upperGridPosition;
+
+            stairGenerator[thisStair].stairObject.SetWorldPosition(worldPos);
+            stairGenerator[thisStair].stairObject.SetLowerFloor(lowerFloor);
+            stairGenerator[thisStair].stairObject.SetLowerGridNode(lowerGrid);
+            stairGenerator[thisStair].stairObject.SetUpperFloor(upperFloor);
+            stairGenerator[thisStair].stairObject.SetUpperGridNode(upperGrid);
+
+            GameObject stair = Instantiate(stairGenerator[thisStair].connector, worldPos, worldRotation, stairNumber.transform);
+            stair.transform.SetParent(floorNumber.transform, false);
+            
+        }
+
+        SetUpConnections(grid);
+        gridFloors.Add(floor.GetFloorID(), grid);
+        grid = new Dictionary<Vector2Int, GridNode>();
     }
     //used for when we create level using a prefab
     public void CreateGrid_Level_Prefab(FloorIdentification floor) 
@@ -150,6 +253,15 @@ public class GridManager : MonoBehaviour
 
         tileLookup[tile.node] = tile;
         
+    }
+    public void ConnectFloors() 
+    {
+        FloorConnector[] connections = FindObjectsByType<FloorConnector>();
+
+        foreach (FloorConnector connection in connections) 
+        {
+            connection.Connect(this);
+        }
     }
 
 
