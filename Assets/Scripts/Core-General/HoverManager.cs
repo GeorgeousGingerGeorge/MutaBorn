@@ -70,7 +70,7 @@ public class HoverManager : MonoBehaviour
         //Checks if previous unit is not null and compares it to current  
         if (previousUnit != null && previousUnit != current)
         {
-            Debug.Log("We've entered the previousUnits section");
+          
             previousUnit.SetHover(false);
         }
 

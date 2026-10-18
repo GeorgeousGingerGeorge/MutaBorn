@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.AI.Assistant.Agent.Dynamic.Extension.Editor;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -5,6 +7,8 @@ public class UnitController : MonoBehaviour
 {
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
+
+    public float stamina = 10f;
     
     [Header("Controls Outline Visuals")]
     private OutlineController characterOutline;
@@ -15,6 +19,7 @@ public class UnitController : MonoBehaviour
         GetOutlineController();
     }
 
+ 
     //Sets the Node of the unit,
     public void InitializeNode() 
     {
@@ -51,6 +56,13 @@ public class UnitController : MonoBehaviour
         characterOutline.UpdateColors();
     }
 
-  
-    
+    public bool GetSelected() 
+    {
+        return isSelected; 
+    }
+
+    public float StaminaCost() 
+    {
+        return stamina;
+    }
 }

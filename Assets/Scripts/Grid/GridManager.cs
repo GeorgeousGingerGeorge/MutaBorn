@@ -19,6 +19,9 @@ public class GridManager : MonoBehaviour
     [Header("CurrentGrid Information- Grids for Each Floor")]
     private Dictionary<int, Dictionary<Vector2Int, GridNode>> gridFloors = new Dictionary<int, Dictionary<Vector2Int, GridNode>>();
 
+    [Header("CurrentGrid Information- Tile Lookup by Node")]
+    private Dictionary<GridNode, TileController> tileLookup = new Dictionary<GridNode, TileController>();
+
 
     public void Start()
     {
@@ -36,7 +39,7 @@ public class GridManager : MonoBehaviour
             floorNumber = Instantiate(currentLevel.levelPrefab, Vector3.zero, Quaternion.identity, mainLevel.transform);
             floorNumber.transform.SetParent(mainLevel.transform, false);
 
-            Debug.Log(floorNumber.name);
+            
             foreach (PlacedFloor floorData in currentLevel.placedFloors)
             {
                 BuildFloor(floorData.floorIndex);
@@ -64,48 +67,46 @@ public class GridManager : MonoBehaviour
     public void CreateGrid_Level_Prefab(FloorIdentification floor) 
     {
         Transform thisFloor = floorNumber.transform.Find($"Floor_{floor.GetFloorID()}");
-        Debug.Log(thisFloor.name);
+      
 
-        int x = 0;
-        int z = 0;
 
         foreach (Transform floorSlice in thisFloor) 
         {
             foreach (Transform sliceObject in floorSlice) 
             {
-                if (z == floor.GetGridSize().y) 
-                {
-                    z = 0;
-                }
-
+               
                 Vector3 worldPos = sliceObject.position;
 
-                Vector2Int coords = new Vector2Int(x, z);
+
+                int gridX = Mathf.FloorToInt(worldPos.x / gridCellSize);
+                int gridZ = Mathf.FloorToInt(worldPos.z / gridCellSize);
+
+                Vector2Int coords = new Vector2Int(gridX, gridZ);
                 GridNode currentNode = new GridNode(coords, floor.GetFloorID(), worldPos);
 
                 //Add Components to the Tile(sliceObject) that we are manipulating in the grid
 
-                Debug.Log($"Current Node Coordinate:{coords} CurrentFloor: {floor.GetFloorID()} ");
+               
                 if (sliceObject.GetComponentInParent<TileController>()) 
                 {
                     TileController currentTile = sliceObject.GetComponentInParent<TileController>();
                     currentTile.Initialize(currentNode);
-                    
+                    RegisterTile(currentTile);
                   
                 }
 
                 //Adds the node to the grid
                 grid.Add(coords, currentNode);
-                z++;
+                
 
 
             }
            
-            x++;
+           
         }
 
         //We need to set up connections for all the nodes in the grid
-        //SetUpConnections(grid); 
+        SetUpConnections(grid); 
         gridFloors.Add(floor.GetFloorID(), grid);
         grid = new Dictionary<Vector2Int, GridNode>(); //Since grid has been added, we declare a new grid
     }
@@ -142,7 +143,17 @@ public class GridManager : MonoBehaviour
             }
         }   
     }
+    public void RegisterTile(TileController tile)
+    {
+        if (tile == null || tile.node == null)
+            return;
 
+        tileLookup[tile.node] = tile;
+        
+    }
+
+
+    //Getters- NodeFromGridPosition, NodeFrom-WorldPosition, Grid itself
     public GridNode GetNodeFromGridPosition(int floorID, Vector2Int gridPosition) 
     {
         GridNode current = null;
@@ -184,4 +195,24 @@ public class GridManager : MonoBehaviour
 
         return closestNode;
     }
+    public Dictionary<Vector2Int, GridNode> GetGrid(int ID) 
+    {
+        Dictionary<Vector2Int, GridNode> thisGrid = null;
+        if (gridFloors.TryGetValue(ID, out Dictionary<Vector2Int, GridNode> currentGrid)) 
+        {
+            thisGrid = currentGrid;
+        }
+
+        return thisGrid; 
+    }
+    public TileController FindTile(GridNode node)
+    {
+        if (node == null)
+            return null;
+
+        tileLookup.TryGetValue(node, out TileController tile);
+        return tile;
+    }
+
+
 }

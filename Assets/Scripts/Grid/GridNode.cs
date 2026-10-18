@@ -28,12 +28,14 @@ public class GridNode
     //Adds a node to a list of neighbors if they're next to the current node
     public void AddConnections(GridNode current) 
     {
-        connectTo.Add(current);
+       
+            connectTo.Add(current);
     }
 
 
     //Getters;
 
+ 
     public List<GridNode> GetNeighbors() 
     {
         return connectTo;
