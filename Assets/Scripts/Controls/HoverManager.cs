@@ -75,11 +75,7 @@ public class HoverManager : MonoBehaviour
         }
 
         //Null check on current
-        if (current == null) 
-        {
-            return;
-        }
-        else if (current != null)
+        if (current != null)
         {
             current.SetHover(true);
         }

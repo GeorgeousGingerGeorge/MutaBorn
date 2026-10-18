@@ -50,19 +50,19 @@ public class MouseLocation : MonoBehaviour
 
         if (Physics.Raycast(cameraRay, out targetHit, maxDistance, unitLayer)) 
         {
-            Debug.Log($"unitLayer, unit<{targetHit.collider.name}>");
+           
             unitTarget = targetHit;
             unitHit = true;
         }
         else if (Physics.Raycast(cameraRay, out targetHit, maxDistance, obstacleLayer)) 
         {
-            Debug.Log($"obstacleLayer, obstacle<{targetHit.collider.name}>");
+           
             obstacleTarget = targetHit;
             obstacleHit = true;
         }
         else if (Physics.Raycast(cameraRay, out targetHit, maxDistance, groundLayer)) 
         {
-            Debug.Log($"goundLayer, ground<{targetHit.collider.name}>");
+            
             groundTarget = targetHit;
             surfaceHit = true;
         }
