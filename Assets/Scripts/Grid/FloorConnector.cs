@@ -26,8 +26,35 @@ public class FloorConnector : MonoBehaviour
         upperNode.AddConnections(lowerNode);
     }
 
+    //Setters
+    public void SetWorldPosition(Vector3 worldPosition)
+    {
+        this.worldPosition = worldPosition;
+    }
+    public void SetLowerFloor(int index) 
+    {
+        lowerFloorID = index;
+    }
+    public void SetLowerGridNode(Vector2Int lowerGridPosition) 
+    {
+        this.lowerGridPosition = lowerGridPosition;
+    }
+    public void SetUpperFloor(int index) 
+    {
+        upperFloorID = index;
+    }
+    public void SetUpperGridNode(Vector2Int upperGridPosition)
+    {
+        this.upperGridPosition = upperGridPosition;
+    }
+
+
+
+    //Getters
     public Vector3 GetWorldPosition() 
     {
         return worldPosition;
     }
+
+   
 }
