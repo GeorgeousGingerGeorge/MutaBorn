@@ -34,7 +34,7 @@ public class UnitMovements : MonoBehaviour
 
     private void HandleMovement() 
     {
-        if (selectionController.selectedUnit != unit) 
+        if (unit == null || selectionController.selectedUnit != unit) 
         {
             return;
         }
