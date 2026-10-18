@@ -1,87 +1,113 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public TileController selectedTile { get; private set; }
-    public bool isSelected { get; private set; }
-    private bool isClicked = false;
+    public UnitController selectedUnit { get; private set; }
 
-    MouseLocation mouseInWorld;
-    InputManager input;
-    UnitController previousUnit;
-    TileController previousTile;
-    ObstacleController previousObstacle; 
+    private MouseLocation mouseInWorld;
+    private InputManager input;
 
-    
-    public void Start()
+    private void Start() 
     {
         mouseInWorld = FindAnyObjectByType<MouseLocation>();
         input = FindAnyObjectByType<InputManager>();
+
     }
 
-    // Update is called once per frame
-    public void Update()
+    private void Update() 
     {
-        isClicked = input.OnLeftClick();
+        if (mouseInWorld == null || input == null)
+            return;
+        if (!input.OnLeftClick())
+            return;
 
-        TileController currentTile = null;
-        UnitController currentUnit = null;
-        //ObstacleController currentObstacle = null;
-
-        if (mouseInWorld.unitHit && isClicked) 
+        if(mouseInWorld.unitHit)
         {
-            currentUnit = mouseInWorld.unitTarget.collider.GetComponentInParent<UnitController>();
+            UnitController currentUnit = mouseInWorld.unitTarget.collider.GetComponentInParent<UnitController>();
+
+            if (currentUnit != null) 
+            {
+                SelectUnit(currentUnit);
+                return;
+            }
+
         }
-        UnitSelected(currentUnit);
 
-        if (mouseInWorld.surfaceHit && isClicked) 
+        if (mouseInWorld.surfaceHit) 
         {
-            currentTile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
+            TileController currentTile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
 
             if (currentTile != null) 
             {
-                selectedTile = currentTile;
-                isSelected = true; 
+                SelecteTile(currentTile);
+                return;
             }
         }
-        TileSelected(currentTile);
     }
 
-    private void UnitSelected(UnitController current) 
-    {   
-        if (previousUnit == current && current != null)
-        {
-            current.SetSelected(true);
-            previousUnit = null;
-            return;
-        }
-
-        if (previousUnit != null) 
-        {
-            previousUnit.SetSelected(false);
-        } 
-        current.SetSelected(true);
-        previousUnit = current; 
-    }
-
-    private void TileSelected(TileController current) 
+    private void SelectUnit(UnitController unit) 
     {
-       
-        if (previousTile == current && current != null) 
+        if (selectedUnit == unit)
         {
-            current.SetSelected(false);
-            previousTile = null;
+            ClearUnitSelection();
             return;
         }
-
-        if (previousTile != null) 
+            
+        if (selectedUnit != null) 
         {
-            previousTile.SetSelected(false);
+            selectedUnit.SetSelected(false);
         }
 
-        current.SetSelected(true);
+        selectedUnit = unit;
+        selectedUnit.SetSelected(true);
 
-        previousTile = current; 
+        UnitMovements movement = unit.GetComponent<UnitMovements>();
+
+        if (movement != null) 
+        {
+            movement.ShowMovementRange();
+        }
     }
+    private void SelecteTile(TileController tile) 
+    {
+        if (selectedTile == tile)
+        {
+            ClearDestination();
+            return;
+        }
+        if (selectedTile != null) 
+        {
+            selectedTile.SetSelected(false);
+        }
+
+        selectedTile = tile;
+        selectedTile.SetSelected(true);
+
+       
+    }
+
+
+    public void ClearDestination() 
+    {
+        if (selectedTile != null) 
+        {
+            selectedTile.SetSelected(false);
+
+        }
+
+        selectedTile = null;
+    }
+    public void ClearUnitSelection() 
+    {
+        if (selectedUnit != null) 
+        {
+            selectedUnit.SetSelected(false);
+        }
+
+        selectedUnit = null;
+    }
+
 }

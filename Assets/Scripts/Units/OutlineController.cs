@@ -84,10 +84,9 @@ public class OutlineController : MonoBehaviour
         {
             case 6: //Unit Layer
                 {
-                    Debug.Log($"Do we enter the Units case. {targetLayer.ToString()}");
+                    ;
                     if (unit.CompareTag("Player"))
                     {
-                        Debug.Log("UnitsLayer, Player, Do we enter?");
                         changeColor.green = 0.5f;
                         changeColor.blue = 1f;
                         changeColor.alpha = 0.15f;

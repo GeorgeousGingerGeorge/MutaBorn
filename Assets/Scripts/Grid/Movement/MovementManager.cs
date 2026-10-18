@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Collections.Tests.CoreCLR.TestJobs;
 using UnityEngine;
 using UnityEngine.Assemblies;
 
@@ -72,10 +73,10 @@ public class MovementManager : MonoBehaviour
 
             if (current == targetNode)
             {
-                //return ReconstructedPath(previousNode, startNode, targetNode);
+                return ReconstructedPath(previousNode, startNode, targetNode);
             }
 
-            foreach (GridNode neighbor in current.GetConnections())
+            foreach (GridNode neighbor in current.GetNeighbors())
             {
                 if (visited.Contains(neighbor))
                     continue;
@@ -99,7 +100,62 @@ public class MovementManager : MonoBehaviour
        
             return null;
     }
+    public Dictionary<GridNode, float> GetReachableNodes(GridNode startNode, float movementAllowed) 
+    {
+        Dictionary<GridNode, float> distances = new Dictionary<GridNode, float>();
 
+        List<GridNode> unvisited = new List<GridNode>();
+       
+
+        if (startNode == null || movementAllowed < 0f) 
+        {
+            return distances;
+        }
+
+        distances[startNode] = 0f;
+        unvisited.Add(startNode);
+
+        while (unvisited.Count > 0) 
+        {
+            int front = 0; 
+            GridNode current = unvisited[front];
+
+            foreach (GridNode node in unvisited) 
+            {
+                if (distances[node] < distances[current]) 
+                {
+                    current = node;
+                }
+            }
+
+            unvisited.Remove(current);
+
+            float currentCost = distances[current];
+
+            if (currentCost > movementAllowed)
+                break;
+
+            foreach (GridNode neighbor in current.GetNeighbors()) 
+            {
+                if (neighbor == null)
+                    continue;
+
+                float newCost = distances[current] + GetMovementCost(neighbor, current);
+
+                if (newCost > movementAllowed)
+                    continue;
+                if(!distances.TryGetValue(neighbor, out float oldCost) || newCost < oldCost)
+                {
+                    distances[neighbor] = newCost;
+
+                    if (!unvisited.Contains(neighbor))
+                        unvisited.Add(neighbor);
+                }
+            }
+        }
+
+        return distances;
+    }
 
     private List<GridNode> ReconstructedPath(Dictionary<GridNode, GridNode> previousNode, GridNode home, GridNode destination) 
     {
@@ -136,5 +192,14 @@ public class MovementManager : MonoBehaviour
             movementCost *= Mathf.Sqrt(2f);
         }
         return movementCost;
+    }
+
+    public List<GridNode> GetPath() 
+    {
+        return route; 
+    }
+    public GridManager GetGridManager() 
+    {
+        return gridManager;
     }
 }

@@ -16,7 +16,7 @@ public class InputManager : MonoBehaviour
         mouseLeftAction.action.Disable();
     }
 
-    public bool OnLeftClick() 
+    public bool OnLeftClick()   
     {
         return mouseLeftAction.action.WasPressedThisFrame();
     }
