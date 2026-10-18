@@ -124,6 +124,27 @@ public class UnitStats : MonoBehaviour
 
     public int AttackDamage => Mathf.CeilToInt(Strength * 2f);
 
+    //Test 1: Dynamic Stat Allocation
+    [ContextMenu("Test Dynamic Stat Allocation")]
+    private void TestDynamicStatAllocation()
+    {
+        Debug.Log($"Starting points: {AvailableDynamicPoints}");
+        Debug.Log($"Starting melee damage: {MeleeDamage}");
+
+        bool allocated = AllocateDynamicStat(DynamicStat.Strength);
+
+        Debug.Log($"Allocation successful: {allocated}");
+        Debug.Log($"Points after allocation: {AvailableDynamicPoints}");
+        Debug.Log($"Melee damage after allocation: {MeleeDamage}");
+
+        bool refunded = RefundDynamicStat(DynamicStat.Strength);
+
+        Debug.Log($"Refund successful: {refunded}");
+        Debug.Log($"Points after refund: {AvailableDynamicPoints}");
+        Debug.Log($"Melee damage after refund: {MeleeDamage}");
+    }
+
+
     public bool AllocateDynamicStat(DynamicStat stat)
     {
         if (availableDynamicPoints <= 0)
