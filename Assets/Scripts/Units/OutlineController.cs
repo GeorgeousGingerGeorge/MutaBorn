@@ -88,18 +88,19 @@ public class OutlineController : MonoBehaviour
                     if (unit.CompareTag("Player"))
                     {
                         Debug.Log("UnitsLayer, Player, Do we enter?");
-                        changeColor.green = 1f;
+                        changeColor.green = 0.5f;
                         changeColor.blue = 1f;
-                        changeColor.alpha = 0.25f;
+                        changeColor.alpha = 0.15f;
                         hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
 
+                        changeColor.green = 1f;
                         changeColor.alpha = 0.5f;
                         selectedColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
                     }
                     else if (unit.CompareTag("Enemy"))
                     {
                         changeColor.red = 1f;
-                        changeColor.alpha = 0.25f;
+                        changeColor.alpha = 0.15f;
                         hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
 
                         changeColor.alpha = 0.5f;
@@ -108,7 +109,7 @@ public class OutlineController : MonoBehaviour
                     else if (unit.CompareTag("Ally"))
                     {
                         changeColor.green = 1f;
-                        changeColor.alpha = 0.25f;
+                        changeColor.alpha = 0.15f;
                         hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
 
                         changeColor.alpha = 0.5f;
@@ -118,7 +119,7 @@ public class OutlineController : MonoBehaviour
                     {
                         changeColor.red = 1f;
                         changeColor.green = 1f;
-                        changeColor.alpha = 0.25f;
+                        changeColor.alpha = 0.15f;
                         hoverColor = new Color(changeColor.red, changeColor.green, changeColor.blue, changeColor.alpha);
 
                         changeColor.alpha = 0.5f;

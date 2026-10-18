@@ -8,7 +8,7 @@ public class SelectionManager : MonoBehaviour
     private bool isClicked = false;
 
     MouseLocation mouseInWorld;
-    //InputManager input;
+    InputManager input;
     UnitController previousUnit;
     TileController previousTile;
     ObstacleController previousObstacle; 
@@ -17,17 +17,17 @@ public class SelectionManager : MonoBehaviour
     private void Start()
     {
         mouseInWorld = FindAnyObjectByType<MouseLocation>();
-        //Input = FindAnyObjectByType<InputManager>();
+        input = FindAnyObjectByType<InputManager>();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        //isClicked = Input.OnLeftClick();
+        isClicked = input.OnLeftClick();
 
         TileController currentTile = null;
         UnitController currentUnit = null;
-        ObstacleController currentObstacle = null;
+        //ObstacleController currentObstacle = null;
 
         if (mouseInWorld.unitHit && isClicked) 
         {
@@ -49,26 +49,26 @@ public class SelectionManager : MonoBehaviour
     }
 
     private void UnitSelected(UnitController current) 
-    {
-        if (previousUnit == current && current != null) 
+    {   
+        if (previousUnit == current && current != null)
         {
             current.SetSelected(true);
             previousUnit = null;
-            return; 
+            return;
         }
 
         if (previousUnit != null) 
         {
             previousUnit.SetSelected(false);
-        }
-
+        } 
         current.SetSelected(true);
         previousUnit = current; 
     }
 
     private void TileSelected(TileController current) 
     {
-        if(previousTile == current && current != null) 
+       
+        if (previousTile == current && current != null) 
         {
             current.SetSelected(false);
             previousTile = null;
