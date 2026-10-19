@@ -1428,7 +1428,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1082271958561512970, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
       propertyPath: m_Layer
@@ -1589,6 +1589,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1319110274}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1319110278}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1319110280}
+    - targetCorrespondingSourceObject: {fileID: -5528992320403146408, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1386183473}
   m_SourcePrefab: {fileID: 100100000, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
 --- !u!1 &1319110272 stripped
 GameObject:
@@ -1646,7 +1655,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37cecde66f7b5c441bd9d6094f447d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
-  stamina: 10
+  getStats: {fileID: 0}
+  actionPoints: 0
 --- !u!114 &1319110277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1666,11 +1676,73 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &1319110278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319110272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e27292a15679545b93039a34ebb1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFaction
+  faction: {fileID: 11400000, guid: ac38e192e56f8624f81298e54fd09a5d, type: 2}
+--- !u!114 &1319110280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319110272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee654d61a1c06274e95709e49a605257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStats
+  baseHealth: 100
+  baseMana: 1
+  baseMeleeDamage: 1
+  rangeDamage: 1
+  magicDamage: 1
+  baseArmor: 1
+  baseWill: 1
+  baseMovement: 1
+  visionLOS: 45
+  actionPoints: 10
 --- !u!4 &1336114629 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
   m_PrefabInstance: {fileID: 1068651689}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1386183470 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5528992320403146408, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
+  m_PrefabInstance: {fileID: 1319110271}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1386183473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386183470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee654d61a1c06274e95709e49a605257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStats
+  baseHealth: 100
+  baseMana: 1
+  baseMeleeDamage: 1
+  rangeDamage: 1
+  magicDamage: 1
+  baseArmor: 1
+  baseWill: 1
+  baseMovement: 1
+  visionLOS: 45
+  actionPoints: 20
 --- !u!1 &1599099679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2333,6 +2405,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1858235733}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1858235737}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1858235739}
   m_SourcePrefab: {fileID: 100100000, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
 --- !u!1 &1858235731 stripped
 GameObject:
@@ -2390,7 +2468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37cecde66f7b5c441bd9d6094f447d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
-  stamina: 10
+  getStats: {fileID: 0}
+  actionPoints: 0
 --- !u!114 &1858235736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2410,6 +2489,41 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &1858235737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858235731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e27292a15679545b93039a34ebb1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFaction
+  faction: {fileID: 11400000, guid: 90b103caf4fcfae468947a5282f4e9b2, type: 2}
+--- !u!114 &1858235739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1858235731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee654d61a1c06274e95709e49a605257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStats
+  baseHealth: 100
+  baseMana: 1
+  baseMeleeDamage: 1
+  rangeDamage: 1
+  magicDamage: 1
+  baseArmor: 1
+  baseWill: 3
+  baseMovement: 1
+  visionLOS: 45
+  actionPoints: 5
 --- !u!1 &1927168989
 GameObject:
   m_ObjectHideFlags: 0

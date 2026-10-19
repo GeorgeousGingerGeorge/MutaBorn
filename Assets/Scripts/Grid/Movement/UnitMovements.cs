@@ -48,7 +48,7 @@ public class UnitMovements : MonoBehaviour
         {
             GridNode targetNode = selectionController.selectedTile.node;
             unit.InitializeNode();
-            movementController.SetNodes(unit.currentNode, targetNode, unit.StaminaCost());
+            movementController.SetNodes(unit.currentNode, targetNode, unit.CurrentActionPoints());
 
 
             movementPath = movementController.GetPath();
@@ -86,7 +86,7 @@ public class UnitMovements : MonoBehaviour
 
 
         Vector3 target = nextnode.cellWorldPosition;
-        target.y += 1;
+        target.y += 0.5f;
 
         if (!isFloorChange)
         {
@@ -115,18 +115,15 @@ public class UnitMovements : MonoBehaviour
         unit.InitializeNode();
         GridNode startNode = unit.currentNode;
 
-        reachables = movementController.GetReachableNodes(startNode, unit.StaminaCost());
-        
-        Debug.Log($"Movement allowance: {unit.StaminaCost()}");
-        Debug.Log($"Reachable tiles: {reachables.Count}");
+        reachables = movementController.GetReachableNodes(startNode, unit.CurrentActionPoints());
+       
 
-      
         foreach (KeyValuePair<GridNode, float> values in reachables) 
         {
             GridNode node = values.Key;
             float cost = values.Value;
 
-            if(cost > unit.StaminaCost())
+            if(cost > unit.CurrentActionPoints())
             {
                 continue;
 
