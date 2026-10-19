@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Rendering;
+
 
 public class TileController : MonoBehaviour
 {
@@ -73,18 +73,19 @@ public class TileController : MonoBehaviour
         Color color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
         tileColors.alpha = 0.15f;
 
-        if (isInMovementRange)
-        {
-            tileColors.red = 0.2f;
-            tileColors.green = 0.8f;
-            
-
-            color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
-        }
-        else if (isSelected)
+       
+        if (isSelected)
         {
             tileColors.green = 0.75f;
             tileColors.blue = 1f;
+            color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
+        }
+        else if (isInMovementRange)
+        {
+            tileColors.red = 0.2f;
+            tileColors.green = 0.45f;
+
+
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
         }
         else if (isHovered) 

@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Unity.AI.Assistant.Agent.Dynamic.Extension.Editor;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitController : MonoBehaviour
