@@ -522,6 +522,11 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!137 &870103019 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6860641434701783778, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
+  m_PrefabInstance: {fileID: 1065995738}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &910416839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -904,11 +909,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
   m_PrefabInstance: {fileID: 910416839}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &1055764197 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6374709604153893705, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
-  m_PrefabInstance: {fileID: 910416839}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1065995738
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1234,8 +1234,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are already bound by a Humanoid avatar. These transforms can only be changed by Humanoid clips.\n\tTransform 'mixamorig:Hips'\n\tTransform 'mixamorig:LeftFoot'\n\tTransform 'mixamorig:LeftHandIndex1'\n\tTransform 'mixamorig:LeftHandPinky2'\n\tTransform 'mixamorig:RightHandRing2'\n\tTransform 'mixamorig:Spine1'\n\tTransform 'mixamorig:LeftToeBase'\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftLeg'\n\tTransform 'mixamorig:LeftShoulder'\n\tand more ...\n\tFrom animation clip 'mixamo.com'"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
       propertyPath: m_ApplyRootMotion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6142133227246661357, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
       propertyPath: m_Layer
@@ -1327,7 +1331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a77ac0ea130039645852cda716738754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlineController
-  outlineRenderer: {fileID: 1055764197}
+  outlineRenderer: {fileID: 870103019}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -1406,14 +1410,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595737800}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.15401514, y: -0, z: -0, w: 0.9880685}
-  m_LocalPosition: {x: -2.80704, y: 3.8146951, z: -16.897}
+  m_LocalRotation: {x: -0.11366274, y: -0.6667524, z: 0.10393002, w: 0.7291918}
+  m_LocalPosition: {x: -0.58, y: 5.52, z: -11.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 619062641}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -17.719, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -1.557, y: -85.12, z: 17.653}
 --- !u!114 &1595737802
 MonoBehaviour:
   m_ObjectHideFlags: 0
