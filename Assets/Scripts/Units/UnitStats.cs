@@ -202,7 +202,33 @@ public class UnitStats : MonoBehaviour
         Debug.Log($"Refund accepted: {refundAccepted}");
         Debug.Log($"Points after refund: {AvailableDynamicPoints}");
         Debug.Log($"Melee damage after refund: {MeleeDamage}");
+    }
 
+    //Test 4: Reset Progression
+
+    [ContextMenu("Test Reset Progression")]
+    private void TestResetProgression()
+    {
+        ResetProgression();
+
+        AllocateDynamicStat(DynamicStat.Vitality);
+        AllocateDynamicStat(DynamicStat.Strength);
+        AllocateDynamicStat(DynamicStat.Intelligence);
+
+        Debug.Log($"Points before reset: {AvailableDynamicPoints}");
+        Debug.Log($"Vitality before reset: {DynVitality}");
+        Debug.Log($"Strength before reset: {DynStrength}");
+        Debug.Log($"Intelligence before reset: {DynIntelligence}");
+
+        ResetProgression();
+
+        Debug.Log($"Points after reset: {AvailableDynamicPoints}");
+        Debug.Log($"Vitality after reset: {DynVitality}");
+        Debug.Log($"Constitution after reset: {DynConstitution}");
+        Debug.Log($"Strength after reset: {DynStrength}");
+        Debug.Log($"Perception after reset: {DynPerception}");
+        Debug.Log($"Intelligence after reset: {DynIntelligence}");
+        Debug.Log($"Dexterity after reset: {DynDexterity}");
     }
 
 
