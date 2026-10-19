@@ -1,8 +1,4 @@
-using Unity.AppUI.UI;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
-
 public struct RGB_Color
 {
     public float red { get; set; }
