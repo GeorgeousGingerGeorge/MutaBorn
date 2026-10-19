@@ -172,8 +172,39 @@ public class UnitStats : MonoBehaviour
         bool extraPointAccepted = AllocateDynamicStat(DynamicStat.Strength);
         Debug.Log($"Extra point accepted: {extraPointAccepted}");
         Debug.Log($"Points adter extra attempt: {AvailableDynamicPoints}");
+    }
+
+    //Test 3: Allocation Limit and Refund
+
+    [ContextMenu("Test Allocation Limit and Refund")]
+        private void TestAllocationLimitRefund()
+    {
+        ResetProgression();
+
+        //spend all 10 points on Strength
+        for (int i = 0; i < 10; i++)
+        {
+            AllocateDynamicStat(DynamicStat.Strength);
+        }
+
+        Debug.Log($"Points after 10 allocations: {AvailableDynamicPoints}");
+        Debug.Log($"Melee damage at 10 Strength: {MeleeDamage}");
+
+        bool extraPointAccepted =
+            AllocateDynamicStat(DynamicStat.Strength);
+
+        Debug.Log($"11th allocation accepted: {extraPointAccepted}");
+        Debug.Log($"Points after extra attempt: {AvailableDynamicPoints}");
+
+        //Refund one point.
+        bool refundAccepted = RefundDynamicStat(DynamicStat.Strength);
+
+        Debug.Log($"Refund accepted: {refundAccepted}");
+        Debug.Log($"Points after refund: {AvailableDynamicPoints}");
+        Debug.Log($"Melee damage after refund: {MeleeDamage}");
 
     }
+
 
     public bool AllocateDynamicStat(DynamicStat stat)
     {
