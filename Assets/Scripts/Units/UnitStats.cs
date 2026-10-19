@@ -1,30 +1,7 @@
 
 using UnityEngine;
-
-public enum LabStat{ Strength,Defense,Vitality }
-public enum LabRace { Human, Orc, Elf }
-public enum LabClass { Warrior, Scout, Mage }
-
 public class UnitStats : MonoBehaviour
 {
-    [Header("Base stats before allocated points")]
-    [SerializeField, Min(1)] private int baseStrength = 10;
-    [SerializeField, Min(0)] private int baseDefense = 5;
-    [SerializeField, Min(0)] private int baseVitality = 10;
-
-    //New variables
-    private int dynVitality;
-    private int dynConstitution;
-    private int dynStrength;
-    private int dynPerception;
-    private int dynIntelligence;
-    private int dynDexterity;
-
-    //Dynamic Stat Point Allocation
-    private int availableDynamicPoints = 10;
-
-    public int AvailableDynamicPoints => availableDynamicPoints;
-
     public enum DynamicStat
     {
         Vitality,
@@ -33,8 +10,17 @@ public class UnitStats : MonoBehaviour
         Perception,
         Intelligence,
         Dexterity
-
     }
+
+    private int dynVitality;
+    private int dynConstitution;
+    private int dynStrength;
+    private int dynPerception;
+    private int dynIntelligence;
+    private int dynDexterity;
+
+    private int availableDynamicPoints = 10;
+    public int AvailableDynamicPoints => availableDynamicPoints;
 
     [Header("Flat Stats - Starting Values")]
     [SerializeField, Min(1)] private int baseHealth = 100;
@@ -91,146 +77,6 @@ public class UnitStats : MonoBehaviour
     public float VisionAngle => visionLOS + (dynPerception * 25);
 
     public float DetectionChance => (dynPerception * 1f) + (dynIntelligence * 2f);
-
-    //Old Variables
-    private int strengthPoints;
-    private int defensePoints;
-    private int vitalityPoints;
-    private bool swordEquipped;
-    private bool mutationActive;
-    private float buffEndsAt;
-
-    public int Level { get; private set; } = 1;
-    public int AvailablePoints { get; private set; } = 10;
-    public int BaseStrength => baseStrength;
-    public int BaseDefense => baseDefense;
-    public int BaseVitality => baseVitality;
-    public int StrengthPoints => strengthPoints;
-    public int DefensePoints => defensePoints;
-    public int VitalityPoints => vitalityPoints;
-    public bool SwordEquipped => swordEquipped;
-    public bool MutationEquipped => mutationActive;
-    public bool BuffActive => Time.time < buffEndsAt;
-    public float BuffSecondsLeft => Mathf.Max(0f, buffEndsAt - Time.time);
-
-    public int SwordStrength => SwordEquipped ? 5 : 0;
-    public int SwordDefense => SwordEquipped ? 2 : 0;
-
-    public float StrengthPercent => (BuffActive ? 0.20f : 0f) + (mutationActive ? 0.20f : 0f);
-    public float Strength => (baseStrength + strengthPoints + SwordStrength) * (1f + StrengthPercent);
-    public int Defense => baseDefense + defensePoints + SwordDefense;
-    public int Vitality => baseVitality + vitalityPoints;
-    public int MaxHealth => Vitality * 10;
-
-    public int AttackDamage => Mathf.CeilToInt(Strength * 2f);
-
-    //Test 1: Dynamic Stat Allocation
-    [ContextMenu("Test Dynamic Stat Allocation")]
-    private void TestDynamicStatAllocation()
-    {
-        Debug.Log($"Starting points: {AvailableDynamicPoints}");
-        Debug.Log($"Starting melee damage: {MeleeDamage}");
-
-        bool allocated = AllocateDynamicStat(DynamicStat.Strength);
-
-        Debug.Log($"Allocation successful: {allocated}");
-        Debug.Log($"Points after allocation: {AvailableDynamicPoints}");
-        Debug.Log($"Melee damage after allocation: {MeleeDamage}");
-
-        bool refunded = RefundDynamicStat(DynamicStat.Strength);
-
-        Debug.Log($"Refund successful: {refunded}");
-        Debug.Log($"Points after refund: {AvailableDynamicPoints}");
-        Debug.Log($"Melee damage after refund: {MeleeDamage}");
-    }
-
-    //Test 2: Dynamic Stats
-    [ContextMenu("Test All Dynamic Stats")]
-    private void TestAllDynamicStats()
-    {
-        ResetProgression();
-
-        AllocateDynamicStat(DynamicStat.Vitality);
-        AllocateDynamicStat(DynamicStat.Constitution);
-        AllocateDynamicStat(DynamicStat.Strength);
-        AllocateDynamicStat(DynamicStat.Perception);
-        AllocateDynamicStat(DynamicStat.Intelligence);
-        AllocateDynamicStat(DynamicStat.Dexterity);
-
-        Debug.Log($"Points remaining: {AvailableDynamicPoints}");
-        Debug.Log($"Max health: {CalculatedMaxHealth}");
-        Debug.Log($"Max mana: {MaxMana}");
-        Debug.Log($"Melee damage: {MeleeDamage}");
-        Debug.Log($"Ranged damage: {FinalRangeDamage}");
-        Debug.Log($"Magic damage: {FinalMagicDamage}");
-        Debug.Log($"Armor: {FinalArmor}");
-        Debug.Log($"Will: {Will}");
-        Debug.Log($"Max action points: {MaxActionPoints}");
-        Debug.Log($"Vision angle: {VisionAngle}");
-        Debug.Log($"Detection chance: {DetectionChance}%");
-
-        bool extraPointAccepted = AllocateDynamicStat(DynamicStat.Strength);
-        Debug.Log($"Extra point accepted: {extraPointAccepted}");
-        Debug.Log($"Points adter extra attempt: {AvailableDynamicPoints}");
-    }
-
-    //Test 3: Allocation Limit and Refund
-
-    [ContextMenu("Test Allocation Limit and Refund")]
-        private void TestAllocationLimitRefund()
-    {
-        ResetProgression();
-
-        //spend all 10 points on Strength
-        for (int i = 0; i < 10; i++)
-        {
-            AllocateDynamicStat(DynamicStat.Strength);
-        }
-
-        Debug.Log($"Points after 10 allocations: {AvailableDynamicPoints}");
-        Debug.Log($"Melee damage at 10 Strength: {MeleeDamage}");
-
-        bool extraPointAccepted =
-            AllocateDynamicStat(DynamicStat.Strength);
-
-        Debug.Log($"11th allocation accepted: {extraPointAccepted}");
-        Debug.Log($"Points after extra attempt: {AvailableDynamicPoints}");
-
-        //Refund one point.
-        bool refundAccepted = RefundDynamicStat(DynamicStat.Strength);
-
-        Debug.Log($"Refund accepted: {refundAccepted}");
-        Debug.Log($"Points after refund: {AvailableDynamicPoints}");
-        Debug.Log($"Melee damage after refund: {MeleeDamage}");
-    }
-
-    //Test 4: Reset Progression
-
-    [ContextMenu("Test Reset Progression")]
-    private void TestResetProgression()
-    {
-        ResetProgression();
-
-        AllocateDynamicStat(DynamicStat.Vitality);
-        AllocateDynamicStat(DynamicStat.Strength);
-        AllocateDynamicStat(DynamicStat.Intelligence);
-
-        Debug.Log($"Points before reset: {AvailableDynamicPoints}");
-        Debug.Log($"Vitality before reset: {DynVitality}");
-        Debug.Log($"Strength before reset: {DynStrength}");
-        Debug.Log($"Intelligence before reset: {DynIntelligence}");
-
-        ResetProgression();
-
-        Debug.Log($"Points after reset: {AvailableDynamicPoints}");
-        Debug.Log($"Vitality after reset: {DynVitality}");
-        Debug.Log($"Constitution after reset: {DynConstitution}");
-        Debug.Log($"Strength after reset: {DynStrength}");
-        Debug.Log($"Perception after reset: {DynPerception}");
-        Debug.Log($"Intelligence after reset: {DynIntelligence}");
-        Debug.Log($"Dexterity after reset: {DynDexterity}");
-    }
-
 
     public bool AllocateDynamicStat(DynamicStat stat)
     {
@@ -312,102 +158,8 @@ public class UnitStats : MonoBehaviour
         availableDynamicPoints++;
         return true;
     }
-    public bool Allocate(LabStat stat)
-    {
-        if (AvailablePoints <= 0) return false;
-
-        switch (stat)
-        {
-            case LabStat.Strength:
-                strengthPoints++;
-                break;
-
-            case LabStat.Defense:
-                defensePoints++;
-                break;
-
-            case LabStat.Vitality:
-                vitalityPoints++;
-                break;
-
-            default:
-                return false;
-        }
-
-        AvailablePoints--;
-        return true;
-    }
-
-    public bool Refund(LabStat stat)
-    {
-        switch (stat)
-        {
-            case LabStat.Strength:
-                if (strengthPoints <= 0) return false;
-                strengthPoints--;
-                break;
-
-            case LabStat.Defense:
-                if (defensePoints <= 0) return false;
-                defensePoints--;
-                break;
-
-            case LabStat.Vitality:
-                if (vitalityPoints <= 0) return false;
-                vitalityPoints--;
-                break;
-
-            default:
-                return false;
-        }
-
-        AvailablePoints++;
-        return true;
-    }
-
-
-    public void LevelUp()
-    {
-        Level++;
-        AvailablePoints += 3;
-    }
-
-    public void SetSword(bool equipped)
-    {
-        swordEquipped = equipped;
-    }
-
-    public void ApplyBuff()
-    {
-        buffEndsAt = Time.time + 10f;
-    }
-
-    public void RemoveBuff()
-    {
-        buffEndsAt = 0f;
-    }
-
-    public void SetMutation(bool active)
-    {
-        mutationActive = active;
-    }
-
-    public void SetBaseStats(int strength, int defense, int vitality)
-    {
-        baseStrength = Mathf.Max(1, strength);
-        baseDefense = Mathf.Max(0, defense);
-        baseVitality = Mathf.Max(1, vitality);
-    }
-
     public void ResetProgression()
     {
-        Level = 1;
-        AvailablePoints = 10;
-        strengthPoints = 0;
-        defensePoints = 0;
-        vitalityPoints = 0;
-
-        //Reset new dynamic stats
         dynVitality = 0;
         dynConstitution = 0;
         dynStrength = 0;
@@ -415,54 +167,6 @@ public class UnitStats : MonoBehaviour
         dynIntelligence = 0;
         dynDexterity = 0;
         availableDynamicPoints = 10;
-
-        //Reset equipment and effects
-        swordEquipped = false;
-        mutationActive = false;
-        RemoveBuff();
     }
 
-    public void ApplyPreset(LabRace race, LabClass unitClass)
-    {
-        int strength = 8;
-        int defense = 3;
-        int vitality = 8;
-
-        switch (race)
-        {
-            case LabRace.Orc:
-                strength = 12;
-                defense = 4;
-                vitality = 10;
-                break;
-
-            case LabRace.Elf:
-                strength = 6;
-                defense = 2;
-                vitality = 7;
-                break;
-        }
-
-        switch (unitClass)
-        {
-            case LabClass.Warrior:
-                strength += 2;
-                defense += 2;
-                vitality += 2;
-                break;
-
-            case LabClass.Scout:
-                strength += 3;
-                defense += 1;
-                vitality += 1;
-                break;
-
-            case LabClass.Mage:
-                vitality += 2;
-                break;
-        }
-
-        SetBaseStats(strength, defense, vitality);
-        ResetProgression();
-    }
-} 
+}
