@@ -144,6 +144,36 @@ public class UnitStats : MonoBehaviour
         Debug.Log($"Melee damage after refund: {MeleeDamage}");
     }
 
+    //Test 2: Dynamic Stats
+    [ContextMenu("Test All Dynamic Stats")]
+    private void TestAllDynamicStats()
+    {
+        ResetProgression();
+
+        AllocateDynamicStat(DynamicStat.Vitality);
+        AllocateDynamicStat(DynamicStat.Constitution);
+        AllocateDynamicStat(DynamicStat.Strength);
+        AllocateDynamicStat(DynamicStat.Perception);
+        AllocateDynamicStat(DynamicStat.Intelligence);
+        AllocateDynamicStat(DynamicStat.Dexterity);
+
+        Debug.Log($"Points remaining: {AvailableDynamicPoints}");
+        Debug.Log($"Max health: {CalculatedMaxHealth}");
+        Debug.Log($"Max mana: {MaxMana}");
+        Debug.Log($"Melee damage: {MeleeDamage}");
+        Debug.Log($"Ranged damage: {FinalRangeDamage}");
+        Debug.Log($"Magic damage: {FinalMagicDamage}");
+        Debug.Log($"Armor: {FinalArmor}");
+        Debug.Log($"Will: {Will}");
+        Debug.Log($"Max action points: {MaxActionPoints}");
+        Debug.Log($"Vision angle: {VisionAngle}");
+        Debug.Log($"Detection chance: {DetectionChance}%");
+
+        bool extraPointAccepted = AllocateDynamicStat(DynamicStat.Strength);
+        Debug.Log($"Extra point accepted: {extraPointAccepted}");
+        Debug.Log($"Points adter extra attempt: {AvailableDynamicPoints}");
+
+    }
 
     public bool AllocateDynamicStat(DynamicStat stat)
     {
