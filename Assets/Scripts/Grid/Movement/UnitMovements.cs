@@ -124,10 +124,7 @@ public class UnitMovements : MonoBehaviour
 
         foreach (KeyValuePair<GridNode, float> values in reachables) 
         {
-            if (values.Key == null) 
-            {
-                continue;
-            }
+            
             GridNode node = values.Key;
             float cost = values.Value;
 
