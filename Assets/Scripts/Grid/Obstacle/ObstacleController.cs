@@ -13,7 +13,7 @@ public class ObstacleController : MonoBehaviour
 
     public ObstacleData currentData { get; private set; }
     private int currentHealth;
-
+    private CoverState currentState; 
 
     public void Awake()
     {
@@ -21,8 +21,9 @@ public class ObstacleController : MonoBehaviour
         if (currentData != null)
         {
             currentHealth = currentData.maxHealth;
+            currentState = currentData.coverState;
         }
-        InitializeNodes();
+        
     }
 
     public void InitializeNodes() 
@@ -65,13 +66,17 @@ public class ObstacleController : MonoBehaviour
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= (currentData.maxHealth / 2))
+        if (currentHealth <= (currentData.maxHealth / 2) && currentHealth > (currentData.maxHealth / 4))
         {
             ChangeState(CoverState.LOW);
         }
-        else if (currentHealth <= ((currentData.maxHealth/4))) 
+        else if (currentHealth <= ((currentData.maxHealth / 4)))
         {
             ChangeState(CoverState.NONE);
+        }
+        else if (currentHealth <= 0) 
+        {
+            Destroy(this);
         }
     }
 
@@ -79,29 +84,40 @@ public class ObstacleController : MonoBehaviour
     {
         currentHealth += repair;
 
-        if (currentHealth > (currentData.maxHealth / 2)) 
+        if (currentHealth > (currentData.maxHealth / 2))
         {
             ChangeState(CoverState.HIGH);
+        }
+        else if (currentHealth < (currentData.maxHealth / 2) && currentHealth > (currentData.maxHealth / 4)) 
+        {
+            ChangeState(CoverState.LOW);
         }
         
     }
 
     public void ChangeState(CoverState state) //Needed later for when we change state 
     {
+        if (currentState == state) 
+        {
+            return;
+        }
+
         switch (state) 
         {
             case CoverState.HIGH:
-                { 
-                    
+                {
+                    currentState = state;
                 }
                 break;
             case CoverState.LOW:
-                { 
-                    
+                {
+                    currentState = state;
                 }
                 break;
             case CoverState.NONE:
-                
+                {
+                    currentState = state;
+                }
                 break;
             default:
                 break; 
@@ -116,6 +132,8 @@ public class ObstacleController : MonoBehaviour
                 break;
             case ObstacleType.Edges:
                 occupancy.UnregisterEdgeObstacles(firstnode, secondnode, this);
+                break;
+            default:
                 break;
         }
         Destroy(this);

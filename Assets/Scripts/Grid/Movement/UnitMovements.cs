@@ -97,7 +97,7 @@ public class UnitMovements : MonoBehaviour
         {
 
             transform.position = target;
-
+            
             unit.SetNode(nextnode);
             pathIndex++;
         }

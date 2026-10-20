@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class MovementManager : MonoBehaviour
 {
-    [Header("GridManager info")]
+    [Header("Necessary Information Game Information")]
     [SerializeField] private GridManager gridManager;
+    [SerializeField] private Occupancy occupancy;
 
     [Header("Beginning Node and Destination Node")]
     public GridNode startNode { get; private set; }
@@ -15,6 +16,7 @@ public class MovementManager : MonoBehaviour
     private List<GridNode> route = new List<GridNode>();
     private Dictionary<Vector2Int, GridNode> grid = new Dictionary<Vector2Int, GridNode>();
 
+    
     public void SetNodes(GridNode start, GridNode destination, float movementAllowed) 
     {
         if (gridManager == null)
@@ -86,10 +88,17 @@ public class MovementManager : MonoBehaviour
 
             foreach (GridNode neighbor in current.GetNeighbors())
             {
-                if (neighbor == null || visited.Contains(neighbor))
+                if(neighbor == null || visited.Contains(neighbor))
                     continue;
-
-
+                if (occupancy == null) 
+                {
+                    return null;
+                }
+                if (!occupancy.CanEnterNode(current, neighbor)) 
+                {
+                    continue;
+                }
+            
                 float newCost = distance[current] + GetMovementCost(neighbor, current);
 
                 if (newCost > movementAllowed)
@@ -157,6 +166,14 @@ public class MovementManager : MonoBehaviour
             {
                 if (neighbor == null || visited.Contains(neighbor)) 
                     continue;
+                if (occupancy == null)
+                {
+                    return null;
+                }
+                if (!occupancy.CanEnterNode(current, neighbor))
+                {
+                    continue;
+                }
 
                 float stepCost = GetMovementCost(neighbor, current);
 

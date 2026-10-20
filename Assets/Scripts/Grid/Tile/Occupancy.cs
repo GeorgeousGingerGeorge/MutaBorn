@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.Collections.Tests.CoreCLR.TestJobs;
+
 
 public class Occupancy : MonoBehaviour
 {
@@ -20,11 +19,6 @@ public class Occupancy : MonoBehaviour
         if (!currentNode.GetNeighbors().Contains(destination)) 
         {
             return false;
-        }
-
-        if (units.ContainsKey(destination)) 
-        {
-            return false; 
         }
 
         if (IsBlockedBySolidObstacle(destination)) 
@@ -71,6 +65,11 @@ public class Occupancy : MonoBehaviour
             return true;
         }
 
+        if (edgeObstacles.ContainsKey((destination, current)))
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -81,7 +80,10 @@ public class Occupancy : MonoBehaviour
         {
             return; 
         }
-        
+        if (units.ContainsKey(currentNode)) 
+        {
+            return;
+        }
 
         units.Add(currentNode, unit);
     }
