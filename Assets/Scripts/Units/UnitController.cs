@@ -8,15 +8,18 @@ public class UnitController : MonoBehaviour
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
 
-    public float stamina = 10f;
-    
+    public UnitStats getStats;
+
+    public float actionPoints;
     [Header("Controls Outline Visuals")]
     private OutlineController characterOutline;
     private bool isHovered = false;
     private bool isSelected = false;
     public void Awake() 
     {
+        getStats = this.GetComponent<UnitStats>();
         GetOutlineController();
+        actionPoints = getStats.MaxActionPoints * 1f;
     }
 
  
@@ -61,8 +64,8 @@ public class UnitController : MonoBehaviour
         return isSelected; 
     }
 
-    public float StaminaCost() 
+    public float CurrentActionPoints() 
     {
-        return stamina;
+        return actionPoints;
     }
 }

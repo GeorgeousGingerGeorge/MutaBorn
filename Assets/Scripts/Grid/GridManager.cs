@@ -36,7 +36,7 @@ public class GridManager : MonoBehaviour
 
     [SerializeField]public GameObject gridCellPrefab;
     public List<FloorIdentification> floorGenerator = new List<FloorIdentification>();
-    public List<ConnectorsBetweenLevels> stairGenerator = new List<ConnectorsBetweenLevels>();
+    [SerializeField]public Dictionary<int,List<ConnectorsBetweenLevels>> stairGenerator = new Dictionary<int,List<ConnectorsBetweenLevels>>();
 
     [Header("CurrentGrid Information- Grid Hierarchy")]
     private GameObject mainGrid;
@@ -142,24 +142,28 @@ public class GridManager : MonoBehaviour
         GameObject stairNumber = new GameObject($"Stair_{floor.GetFloorID()}");
         stairNumber.transform.SetParent(floorNumber.transform, false);
 
-        for (int thisStair = 0; thisStair < stairGenerator.Count; thisStair++) 
+        if(stairGenerator.TryGetValue(floor.GetFloorID(), out List<ConnectorsBetweenLevels> stairPerFloor))
         {
-            Vector3 worldPos = stairGenerator[thisStair].worldPosition;
-            Quaternion worldRotation = stairGenerator[thisStair].worldRotation;
-            int lowerFloor = stairGenerator[thisStair].lowerFloorId;
-            Vector2Int lowerGrid = stairGenerator[thisStair].lowerGridPosition;
-            int upperFloor = stairGenerator[thisStair].upperFloorId;
-            Vector2Int upperGrid = stairGenerator[thisStair].upperGridPosition;
+       
+            for (int thisStair = 0; thisStair < stairPerFloor.Count; thisStair++)
+            {
+                Vector3 worldPos = stairPerFloor[thisStair].worldPosition;
+                Quaternion worldRotation = stairPerFloor[thisStair].worldRotation;
+                int lowerFloor = stairPerFloor[thisStair].lowerFloorId;
+                Vector2Int lowerGrid = stairPerFloor[thisStair].lowerGridPosition;
+                int upperFloor = stairPerFloor[thisStair].upperFloorId;
+                Vector2Int upperGrid = stairPerFloor[thisStair].upperGridPosition;
 
-            stairGenerator[thisStair].stairObject.SetWorldPosition(worldPos);
-            stairGenerator[thisStair].stairObject.SetLowerFloor(lowerFloor);
-            stairGenerator[thisStair].stairObject.SetLowerGridNode(lowerGrid);
-            stairGenerator[thisStair].stairObject.SetUpperFloor(upperFloor);
-            stairGenerator[thisStair].stairObject.SetUpperGridNode(upperGrid);
+                stairPerFloor[thisStair].stairObject.SetWorldPosition(worldPos);
+                stairPerFloor[thisStair].stairObject.SetLowerFloor(lowerFloor);
+                stairPerFloor[thisStair].stairObject.SetLowerGridNode(lowerGrid);
+                stairPerFloor[thisStair].stairObject.SetUpperFloor(upperFloor);
+                stairPerFloor[thisStair].stairObject.SetUpperGridNode(upperGrid);
 
-            GameObject stair = Instantiate(stairGenerator[thisStair].connector, worldPos, worldRotation, stairNumber.transform);
-            stair.transform.SetParent(floorNumber.transform, false);
-            
+                GameObject stair = Instantiate(stairPerFloor[thisStair].connector, worldPos, worldRotation, stairNumber.transform);
+                stair.transform.SetParent(floorNumber.transform, false);
+
+            }
         }
 
         SetUpConnections(grid);
