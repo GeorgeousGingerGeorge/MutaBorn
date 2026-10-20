@@ -14,7 +14,7 @@ public class GridNode
 
     [Header("Node Inforamtion")]
     public float movementCost = 2f;
-        
+  
 
     public GridNode(Vector2Int gridCoords, int currentFloor, Vector3 worldPosition) 
     {
@@ -35,7 +35,7 @@ public class GridNode
 
     //Getters;
 
- 
+    
     public List<GridNode> GetNeighbors() 
     {
         return connectTo;
