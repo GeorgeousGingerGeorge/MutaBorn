@@ -14,6 +14,7 @@ public class UnitMovements : MonoBehaviour
     private List<GridNode> movementPath = new List<GridNode>();
     private List<TileController> highlightedTiles = new List<TileController>();
     private Animator animBaseChar;
+    private Animator CDGoblin;
 
     public void Awake() 
     {
@@ -21,6 +22,7 @@ public class UnitMovements : MonoBehaviour
         selectionController = FindAnyObjectByType<SelectionManager>();
         unit = this.GetComponent<UnitController>();
         animBaseChar = GetComponent<Animator>();
+        CDGoblin = GetComponent<Animator>();
 
     }
     
@@ -30,7 +32,7 @@ public class UnitMovements : MonoBehaviour
         
         HandleMovement();
         animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
-    
+        CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
 
     }
 
