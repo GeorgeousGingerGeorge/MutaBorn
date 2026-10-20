@@ -14,12 +14,7 @@ public class GridNode
 
     [Header("Node Inforamtion")]
     public float movementCost = 2f;
-    public UnitController occupyingUnit;
-    public List<ObstacleController> obstacles = new();
-
-    public bool hasUnit => occupyingUnit != null;
-    public bool hasObstacles => obstacles.Count > 0; 
-        
+  
 
     public GridNode(Vector2Int gridCoords, int currentFloor, Vector3 worldPosition) 
     {
@@ -40,7 +35,7 @@ public class GridNode
 
     //Getters;
 
- 
+    
     public List<GridNode> GetNeighbors() 
     {
         return connectTo;
