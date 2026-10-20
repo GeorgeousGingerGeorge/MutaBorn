@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.Hierarchy;
 
 [System.Serializable]
 public struct ConnectorsBetweenLevels 
