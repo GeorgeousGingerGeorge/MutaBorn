@@ -5,7 +5,8 @@ public class UnitController : MonoBehaviour
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
     public Occupancy occupancy;
-    private UnitStats getStats;
+    [Header("Unit Stats")]
+    [SerializeField]private UnitStats getStats;
 
     public float actionPoints;
     [Header("Controls Outline Visuals")]

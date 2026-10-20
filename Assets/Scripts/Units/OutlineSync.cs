@@ -1,11 +1,12 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class OutlineSync : MonoBehaviour
 {
     [Header("Original Character")]
-    [SerializeField] SkinnedMeshRenderer originalRenderer;
+    [SerializeField] List<SkinnedMeshRenderer> originalRenderer = new List<SkinnedMeshRenderer>();
     [Header("Outline Character")]
-    [SerializeField] SkinnedMeshRenderer outlineRenderer;
+    [SerializeField] List<SkinnedMeshRenderer> outlineRenderer = new List<SkinnedMeshRenderer>();
 
     void Awake() 
     {
@@ -13,8 +14,10 @@ public class OutlineSync : MonoBehaviour
         {
             return;
         }
-
-        outlineRenderer.bones = originalRenderer.bones;
-        outlineRenderer.rootBone = originalRenderer.rootBone;
+        for (int bone_count = 0; bone_count < originalRenderer.Count; bone_count++)
+        {
+            outlineRenderer[bone_count].bones = originalRenderer[bone_count].bones;
+            outlineRenderer[bone_count].rootBone = originalRenderer[bone_count].rootBone;
+        }
     }
 }
