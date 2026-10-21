@@ -90,6 +90,10 @@ public class MovementManager : MonoBehaviour
             {
                 if(neighbor == null || visited.Contains(neighbor))
                     continue;
+                if (!TerrainLogic.CheckTerrainType(neighbor.currentTerrain)) 
+                {
+                    continue; 
+                }
                 if (occupancy == null) 
                 {
                     return null;
@@ -98,7 +102,7 @@ public class MovementManager : MonoBehaviour
                 {
                     continue;
                 }
-            
+                
                 float newCost = distance[current] + GetMovementCost(neighbor, current);
 
                 if (newCost > movementAllowed)
@@ -218,10 +222,10 @@ public class MovementManager : MonoBehaviour
         return path; 
     }
 
-    //Calculation--MovevementCost, need to add implentation for tile effect
+    //Calculation--MovementCost, need to add implentation for tile effect
     private float GetMovementCost(GridNode neighbor, GridNode home) 
     {
-        float movementCost = neighbor.GetMovementCost();
+        float movementCost = neighbor.GetNodeMovementCost();
 
         float dx = Mathf.Abs(neighbor.coords.x - home.coords.x);
         float dy = Mathf.Abs(neighbor.coords.y - home.coords.y);

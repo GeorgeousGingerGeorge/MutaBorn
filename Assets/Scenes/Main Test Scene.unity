@@ -1697,6 +1697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   occupancy: {fileID: 1599099688}
+  getStats: {fileID: 1319110280}
   actionPoints: 0
 --- !u!114 &1319110277
 MonoBehaviour:
@@ -1769,18 +1770,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1365345295cc2489f66c67d3742948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlineSync
-  originalRenderer: {fileID: 1551748254}
-  outlineRenderer: {fileID: 1068651690}
---- !u!137 &1386183475 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6374709604153893705, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
-  m_PrefabInstance: {fileID: 1319110271}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &1551748254 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6374709604153893705, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
-  m_PrefabInstance: {fileID: 1858235730}
-  m_PrefabAsset: {fileID: 0}
+  originalRenderer:
+  - {fileID: 0}
+  outlineRenderer:
+  - {fileID: 0}
 --- !u!1 &1599099679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2080,8 +2073,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce1365345295cc2489f66c67d3742948, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OutlineSync
-  originalRenderer: {fileID: 1386183475}
-  outlineRenderer: {fileID: 1108824902}
+  originalRenderer:
+  - {fileID: 0}
+  outlineRenderer:
+  - {fileID: 0}
 --- !u!4 &1692637926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5465940246521907071, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
@@ -2546,6 +2541,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   occupancy: {fileID: 1599099688}
+  getStats: {fileID: 1858235739}
   actionPoints: 0
 --- !u!114 &1858235736
 MonoBehaviour:
