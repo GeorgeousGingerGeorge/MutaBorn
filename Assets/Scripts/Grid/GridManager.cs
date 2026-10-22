@@ -53,8 +53,11 @@ public class GridManager : MonoBehaviour
     {
         BuildLevel();
         Vector3 positionGrid = new Vector3(8f, 1f, 6f);
-        GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, level.transform);
-        current.GetComponent<ObstacleController>().InitializeNodes();
+        if(currentLevel == null)
+        {  
+            GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, level.transform);
+            current.GetComponent<ObstacleController>().InitializeNodes();
+        }
     }
 
     public void BuildLevel()
@@ -123,7 +126,7 @@ public class GridManager : MonoBehaviour
 
                 Vector2Int coords = new Vector2Int(gridX, gridZ);
                 GridNode currentNode = new GridNode(coords, floor.GetFloorID(), worldPos);
-
+                currentNode.SetTerrain(TerrainType.OpenGround);
                
                 GameObject tilePrefab = Instantiate(gridCellPrefab, worldPos, Quaternion.identity, floorSlice.transform);
                 tilePrefab.transform.SetParent(floorSlice.transform, false);
@@ -193,10 +196,10 @@ public class GridManager : MonoBehaviour
 
                 Vector2Int coords = new Vector2Int(gridX, gridZ);
                 GridNode currentNode = new GridNode(coords, floor.GetFloorID(), worldPos);
-
+                currentNode.SetTerrain(TerrainType.OpenGround);
                 //Add Components to the Tile(sliceObject) that we are manipulating in the grid
 
-               
+
                 if (sliceObject.GetComponentInParent<TileController>()) 
                 {
                     TileController currentTile = sliceObject.GetComponentInParent<TileController>();
