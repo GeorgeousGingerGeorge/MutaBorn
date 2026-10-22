@@ -1,7 +1,15 @@
-
 using UnityEngine;
 public class UnitStats : MonoBehaviour
 {
+    public enum UnitRace
+    {
+        Human,
+        Goblin
+    }
+
+    [SerializeField] private UnitRace race = UnitRace.Human;
+
+    public UnitRace Race => race;
 
     [SerializeField] private UnitFlatStats flatstats;
     public enum DynamicStat
@@ -37,7 +45,7 @@ public class UnitStats : MonoBehaviour
 
     //Calculated stats
 
-    public int CalculatedMaxHealth => flatstats.BaseHealth + (dynVitality * 15);
+    public int CalculatedMaxHealth => flatstats.BaseHealth + (dynVitality * 10);
 
     public int MaxMana => flatstats.BaseMana + (dynIntelligence * 10);
 
@@ -45,17 +53,17 @@ public class UnitStats : MonoBehaviour
 
     public int FinalRangeDamage => flatstats.RangeDamage + (dynPerception * 15) + (dynDexterity * 15);
 
-    public int FinalMagicDamage => flatstats.MagicDamage + (dynIntelligence * 15);
+    public int FinalMagicDamage => flatstats.MagicDamage + (dynIntelligence * 20);
+
+    public float AilmentResistence => Mathf.Min(dynConstitution * 0.10f, 0.75f);
 
     public int FinalArmor => flatstats.BaseArmor + (dynConstitution * 25) + (dynStrength * 25);
 
-    public int Will => flatstats.BaseWill + (dynIntelligence * 20);
+    public int Will => flatstats.BaseWill;
 
-    public int MaxActionPoints => flatstats.ActionPoints + (dynVitality * 20);
+    public int MaxActionPoints => flatstats.ActionPoints + (dynVitality * 2);
 
-    public float VisionAngle => flatstats.VisionLOS + (dynPerception * 25);
-
-    public float DetectionChance => (dynPerception * 1f) + (dynIntelligence * 2f);
+    public float DetectionChance => (dynPerception * 0.05f) + (dynIntelligence * 0.02f);
 
     public bool AllocateDynamicStat(DynamicStat stat)
     {
