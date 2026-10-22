@@ -7,6 +7,7 @@ public class ObstacleData : ScriptableObject
 {
     [Header("Identity")]
     public string obstacleName;
+    public ObstacleType typeOfObstacle;
 
     [Header("Movement")]
     public bool blocksMovement = true;

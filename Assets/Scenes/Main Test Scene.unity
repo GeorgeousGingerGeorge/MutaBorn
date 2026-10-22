@@ -1655,6 +1655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37cecde66f7b5c441bd9d6094f447d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  occupancy: {fileID: 0}
   getStats: {fileID: 0}
   actionPoints: 0
 --- !u!114 &1319110277
@@ -1759,6 +1760,7 @@ GameObject:
   - component: {fileID: 1599099682}
   - component: {fileID: 1599099681}
   - component: {fileID: 1599099680}
+  - component: {fileID: 1599099688}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1859,6 +1861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementManager
   gridManager: {fileID: 1599099686}
+  occupancy: {fileID: 1599099688}
 --- !u!114 &1599099686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1874,6 +1877,7 @@ MonoBehaviour:
   currentLevel: {fileID: 0}
   gridCellSize: 2
   gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
+  obstaclePrefab: {fileID: 1490576499627723649, guid: 4d64a26457947d7409f3f24854110fcc, type: 3}
   floorGenerator:
   - floorID: 1
     worldPosition: {x: 0, y: 0, z: 0}
@@ -2005,6 +2009,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1599099688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599099679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e24697c9f0f2aaf4f8ed5be02bb75c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Occupancy
 --- !u!4 &1660693691 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 66306832f161fd34e86818ece5c9ec03, type: 3}
@@ -2468,6 +2484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37cecde66f7b5c441bd9d6094f447d48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  occupancy: {fileID: 0}
   getStats: {fileID: 0}
   actionPoints: 0
 --- !u!114 &1858235736
@@ -2523,7 +2540,7 @@ MonoBehaviour:
   baseWill: 3
   baseMovement: 1
   visionLOS: 45
-  actionPoints: 5
+  actionPoints: 20
 --- !u!1 &1927168989
 GameObject:
   m_ObjectHideFlags: 0

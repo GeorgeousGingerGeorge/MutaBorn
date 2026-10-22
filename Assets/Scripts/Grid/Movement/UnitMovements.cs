@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.GraphToolkit.Editor;
 using UnityEngine;
 
 public class UnitMovements : MonoBehaviour
@@ -14,12 +13,16 @@ public class UnitMovements : MonoBehaviour
     private int pathIndex = 0;
     private List<GridNode> movementPath = new List<GridNode>();
     private List<TileController> highlightedTiles = new List<TileController>();
+    private Animator animBaseChar;
+    private Animator CDGoblin;
 
     public void Awake() 
     {
         movementController = FindAnyObjectByType<MovementManager>();
         selectionController = FindAnyObjectByType<SelectionManager>();
         unit = this.GetComponent<UnitController>();
+        animBaseChar = GetComponent<Animator>();
+        CDGoblin = GetComponent<Animator>();
 
     }
     
@@ -28,7 +31,8 @@ public class UnitMovements : MonoBehaviour
 
         
         HandleMovement();
-    
+        animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
+        CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
 
     }
 
@@ -98,7 +102,7 @@ public class UnitMovements : MonoBehaviour
         {
 
             transform.position = target;
-
+            
             unit.SetNode(nextnode);
             pathIndex++;
         }

@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.Hierarchy;
 
 [System.Serializable]
 public struct ConnectorsBetweenLevels 
@@ -35,6 +33,7 @@ public class GridManager : MonoBehaviour
     [Header("CurrentGrid Information- Generating a grid (No LevelPrefab)")]
 
     [SerializeField]public GameObject gridCellPrefab;
+    [SerializeField] public GameObject obstaclePrefab; 
     public List<FloorIdentification> floorGenerator = new List<FloorIdentification>();
     [SerializeField]public Dictionary<int,List<ConnectorsBetweenLevels>> stairGenerator = new Dictionary<int,List<ConnectorsBetweenLevels>>();
 
@@ -52,7 +51,10 @@ public class GridManager : MonoBehaviour
 
     public void Start()
     {
-        BuildLevel(); 
+        BuildLevel();
+        Vector3 positionGrid = new Vector3(8f, 1f, 6f);
+        GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, level.transform);
+        current.GetComponent<ObstacleController>().InitializeNodes();
     }
 
     public void BuildLevel()
@@ -162,6 +164,7 @@ public class GridManager : MonoBehaviour
 
                 GameObject stair = Instantiate(stairPerFloor[thisStair].connector, worldPos, worldRotation, stairNumber.transform);
                 stair.transform.SetParent(floorNumber.transform, false);
+                stair.GetComponent<ObstacleController>().InitializeNodes();
 
             }
         }

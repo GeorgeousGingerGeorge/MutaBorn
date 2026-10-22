@@ -1,13 +1,10 @@
-using System.Collections.Generic;
-using Unity.AI.Assistant.Agent.Dynamic.Extension.Editor;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
-
+    public Occupancy occupancy;
     public UnitStats getStats;
 
     public float actionPoints;
@@ -15,11 +12,12 @@ public class UnitController : MonoBehaviour
     private OutlineController characterOutline;
     private bool isHovered = false;
     private bool isSelected = false;
-    public void Awake() 
+    public void Start() 
     {
         getStats = this.GetComponent<UnitStats>();
         GetOutlineController();
         actionPoints = getStats.MaxActionPoints * 1f;
+
     }
 
  
@@ -27,11 +25,15 @@ public class UnitController : MonoBehaviour
     public void InitializeNode() 
     {
         currentNode = FindAnyObjectByType<GridManager>().GetNodeFromClosestWorldPosition(transform.position);
+        occupancy = FindAnyObjectByType<Occupancy>();
+        occupancy.RegisterUnit(currentNode, this);
         
     }
     public void SetNode(GridNode node) 
     {
+        occupancy.UnregisterUnit(currentNode, this);
         currentNode = node;
+        occupancy.RegisterUnit(currentNode, this);
     }
 
     //Controls the Outline of the unit 
