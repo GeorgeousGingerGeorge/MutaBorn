@@ -41,7 +41,8 @@ public class EquipmentData : ScriptableObject
 {
     [Header("ItemInformation")]
     [SerializeField]public string itemName;
-    [SerializeField]public ArmorCategory itemWeight = ArmorCategory.None; 
+    [SerializeField]public ArmorCategory armor= ArmorCategory.None; 
+    [SerializeField]public WeaponCategory weapon = WeaponCategory.None; 
     [SerializeField]public EquipmentSlots targetSlot;
     [SerializeField]public EquipmentGrade currentRarity;
     [SerializeField]public EquipmentStatBonus currentStat; 

@@ -17,8 +17,6 @@ public class UnitController : MonoBehaviour
     public void Start() 
     {
 
-        GetOutlineController();
-      
 
     }
 
@@ -46,21 +44,13 @@ public class UnitController : MonoBehaviour
     public void SetHover(bool hover) 
     {
         isHovered = hover;
-        GetOutlineController();
-        characterOutline.SetupRenderer();
-        characterOutline.SetHovered(isHovered);
-        characterOutline.UpdateController(LayerMask.NameToLayer("Units"), this);
-        characterOutline.UpdateColors();
+      
     }
     public void SetSelected(bool selected) 
     {
         isSelected = selected;
       
-        GetOutlineController();
-        characterOutline.SetupRenderer();
-        characterOutline.SetSelected(isSelected);
-        characterOutline.UpdateController(LayerMask.NameToLayer("Units"), this);
-        characterOutline.UpdateColors();
+       
     }
 
     public bool GetSelected() 
