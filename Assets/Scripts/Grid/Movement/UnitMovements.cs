@@ -21,8 +21,8 @@ public class UnitMovements : MonoBehaviour
         movementController = FindAnyObjectByType<MovementManager>();
         selectionController = FindAnyObjectByType<SelectionManager>();
         unit = this.GetComponent<UnitController>();
-        animBaseChar = GetComponent<Animator>();
-        CDGoblin = GetComponent<Animator>();
+        animBaseChar = GetComponentInChildren<Animator>();
+        CDGoblin = GetComponentInChildren<Animator>();
 
     }
     
@@ -32,7 +32,8 @@ public class UnitMovements : MonoBehaviour
         
         HandleMovement();
         animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
-        CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
+        animBaseChar.transform.position = transform.position;
+        //CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
 
     }
 
@@ -85,24 +86,22 @@ public class UnitMovements : MonoBehaviour
 
 
         GridNode nextnode = movementPath[pathIndex];
-        bool isFloorChange = unit.currentNode.floorID != nextnode.floorID;
+       
 
 
 
         Vector3 target = nextnode.cellWorldPosition;
-        target.y += 0.5f;
+        target.y += 0.26f;
 
-        if (!isFloorChange)
-        {
-            target.y = transform.position.y;
-        }
         transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+        
 
         if (Vector3.Distance(transform.position, target) < 0.01f)
         {
-
+           
             transform.position = target;
-            
+
+              
             unit.SetNode(nextnode);
             pathIndex++;
         }
