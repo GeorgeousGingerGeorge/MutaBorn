@@ -1,7 +1,17 @@
-
 using UnityEngine;
 public class UnitStats : MonoBehaviour
 {
+    public enum UnitRace
+    {
+        Human,
+        Goblin
+    }
+
+    [SerializeField] private UnitRace race = UnitRace.Human;
+
+    public UnitRace Race => race;
+
+    [SerializeField] private UnitFlatStats flatstats;
     public enum DynamicStat
     {
         Vitality,
@@ -22,17 +32,7 @@ public class UnitStats : MonoBehaviour
     private int availableDynamicPoints = 10;
     public int AvailableDynamicPoints => availableDynamicPoints;
 
-    [Header("Flat Stats - Starting Values")]
-    [SerializeField, Min(1)] private int baseHealth = 100;
-    [SerializeField, Min(1)] private int baseMana = 1;
-    [SerializeField, Min(1)] private int baseMeleeDamage = 1;
-    [SerializeField, Min(1)] private int rangeDamage = 1;
-    [SerializeField, Min(1)] private int magicDamage = 1;
-    [SerializeField, Min(1)] private int baseArmor = 1;
-    [SerializeField, Min(1)] private int baseWill = 1;
-    [SerializeField, Min(1)] private int baseMovement = 1;
-    [SerializeField, Min(1)] private int visionLOS = 45;
-    [SerializeField, Min(1)] private int actionPoints = 20;
+   
 
 
     //Public access to Dynamic Stats
@@ -43,40 +43,27 @@ public class UnitStats : MonoBehaviour
     public int DynIntelligence => dynIntelligence;
     public int DynDexterity => dynDexterity;
 
-
-    //Public access to Flat Stats
-    public int BaseHealth => baseHealth;
-    public int BaseMana => baseMana;
-    public int BaseMeleeDamage => baseMeleeDamage;
-    public int RangeDamage => rangeDamage;
-    public int MagicDamage => magicDamage;
-    public int BaseArmor => baseArmor;
-    public int BaseWill => baseWill;
-    public int BaseMovement => baseMovement;
-    public int VisionLOS => visionLOS;
-    public int ActionPoints => actionPoints;
-
     //Calculated stats
 
-    public int CalculatedMaxHealth => baseHealth + (dynVitality * 15);
+    public int CalculatedMaxHealth => flatstats.BaseHealth + (dynVitality * 10);
 
-    public int MaxMana => baseMana + (dynIntelligence * 10);
+    public int MaxMana => flatstats.BaseMana + (dynIntelligence * 10);
 
-    public int MeleeDamage => baseMeleeDamage + (dynStrength * 20) + (dynDexterity * 10);
+    public int MeleeDamage => flatstats.BaseMeleeDamage + (dynStrength * 20) + (dynDexterity * 10);
 
-    public int FinalRangeDamage => rangeDamage + (dynPerception * 15) + (dynDexterity * 15);
+    public int FinalRangeDamage => flatstats.RangeDamage + (dynPerception * 15) + (dynDexterity * 15);
 
-    public int FinalMagicDamage => magicDamage + (dynIntelligence * 15);
+    public int FinalMagicDamage => flatstats.MagicDamage + (dynIntelligence * 20);
 
-    public int FinalArmor => baseArmor + (dynConstitution * 25) + (dynStrength * 25);
+    public float AilmentResistence => Mathf.Min(dynConstitution * 0.10f, 0.75f);
 
-    public int Will => baseWill + (dynIntelligence * 20);
+    public int FinalArmor => flatstats.BaseArmor + (dynConstitution * 25) + (dynStrength * 25);
 
-    public int MaxActionPoints => actionPoints + (dynVitality * 20);
+    public int Will => flatstats.BaseWill;
 
-    public float VisionAngle => visionLOS + (dynPerception * 25);
+    public int MaxActionPoints => flatstats.ActionPoints + (dynVitality * 2);
 
-    public float DetectionChance => (dynPerception * 1f) + (dynIntelligence * 2f);
+    public float DetectionChance => (dynPerception * 0.05f) + (dynIntelligence * 0.02f);
 
     public bool AllocateDynamicStat(DynamicStat stat)
     {
