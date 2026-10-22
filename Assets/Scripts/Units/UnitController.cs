@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
+    [Header("Units Data- Status, Inventory, Equipment, Mutations")]
+    UnitData data; 
+
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
     public Occupancy occupancy;
-    public UnitStats getStats;
-
+  
     public float actionPoints;
     [Header("Controls Outline Visuals")]
     private OutlineController characterOutline;
@@ -14,9 +16,9 @@ public class UnitController : MonoBehaviour
     private bool isSelected = false;
     public void Start() 
     {
-        getStats = this.GetComponent<UnitStats>();
+
         GetOutlineController();
-        actionPoints = getStats.MaxActionPoints * 1f;
+      
 
     }
 
