@@ -61,7 +61,7 @@ public class TurnIndicatorUI : MonoBehaviour
         if (turnManager == null)
             turnManager = TurnManager.Instance != null
                 ? TurnManager.Instance
-                : FindFirstObjectByType<TurnManager>();
+                : FindAnyObjectByType<TurnManager>();
 
         if (subscribedManager == turnManager)
             return;

@@ -55,7 +55,7 @@ public class TurnManager : MonoBehaviour
         Instance = this;
 
         if (factionManager == null)
-            factionManager = FindFirstObjectByType<FactionManager>();
+            factionManager = FindAnyObjectByType<FactionManager>();
     }
 
     private void Start()
