@@ -32,17 +32,17 @@ public class DynamicStats : ScriptableObject
 
     [Header("Core(Dynamic) Stat- Modifiers ")]
     [Range(0.3f, 2.0f)]
-    [SerializeField] private float strengthModifier = 1.0f;
+    [SerializeField] private float _strengthModifier = 1.0f;
     [Range(0.3f, 2.0f)]
-    [SerializeField] private float dexterityModifier = 1.0f;
+    [SerializeField] private float _dexterityModifier = 1.0f;
     [Range(0.3f, 2.0f)]
-    [SerializeField] private float vitalityModifier = 1.0f;
+    [SerializeField] private float _vitalityModifier = 1.0f;
     [Range(0.3f, 2.0f)]
-    [SerializeField] private float constitutionModifier = 1.0f;
+    [SerializeField] private float _constitutionModifier = 1.0f;
     [Range(0.3f, 2.0f)]
-    [SerializeField] private float perceptionModifier = 1.0f;
+    [SerializeField] private float _perceptionModifier = 1.0f;
     [Range(0.3f, 2.0f)]
-    [SerializeField] private float intelligenceModifier = 1.0f;
+    [SerializeField] private float _intelligenceModifier = 1.0f;
 
 
     [Header("Racial Modifiers")]
@@ -78,8 +78,22 @@ public class DynamicStats : ScriptableObject
 
     [SerializeField] private int _Will;
 
+    [Header("BaseCharater- Modifiers")]
+    public float strengthModifier => _strengthModifier;
+    public float dexterityModifier => _dexterityModifier;
+    public float vitalityModifier => _vitalityModifier;
+    public float constitutionModifier => _constitutionModifier;
+    public float perceptionModifier => _perceptionModifier;
+    public float intelligenceModifier => _intelligenceModifier;
+    [Header("BaseCharacter- CoreStats (read-only)")]
+    public int startStrength => baseStrength;
+    public int startDexterity => baseDexterity;
+    public int startVitality => baseVitality;
+    public int startConstitution => baseConstitution;
+    public int startPerception => basePerception;
+    public int startIntelligence => baseIntelligence;
 
-    [Header("BaseCharacter-FlatStats Changed")]
+    [Header("BaseCharacter-FlatStats Changed (read-only)")]
 
 
     public int baseHealth => _BaseHealth;
