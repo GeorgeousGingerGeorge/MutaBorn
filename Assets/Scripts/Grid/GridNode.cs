@@ -14,6 +14,9 @@ public class GridNode
 
     [Header("Node Inforamtion")]
     public float movementCost = 2f;
+    public TerrainType currentTerrain { get; private set; }
+
+    
   
 
     public GridNode(Vector2Int gridCoords, int currentFloor, Vector3 worldPosition) 
@@ -28,10 +31,12 @@ public class GridNode
     //Adds a node to a list of neighbors if they're next to the current node
     public void AddConnections(GridNode current) 
     {
-       
-            connectTo.Add(current);
+        connectTo.Add(current);
     }
-
+    public void SetTerrain(TerrainType type) 
+    {
+        currentTerrain = type;
+    }
 
     //Getters;
 
@@ -40,9 +45,11 @@ public class GridNode
     {
         return connectTo;
     }
-    public float GetMovementCost() 
+    public float GetNodeMovementCost() 
     {
-        return movementCost;
+        float totalCost = 0f;
+        totalCost = movementCost + TerrainLogic.GetTerrainMovementCost(currentTerrain);
+        return totalCost;
     }
    
 

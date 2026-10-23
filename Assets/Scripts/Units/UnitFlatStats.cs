@@ -12,8 +12,8 @@ public class UnitFlatStats : ScriptableObject
     [SerializeField, Min(1)] private int magicDamage = 10;
     [SerializeField, Min(1)] private int baseArmor = 10;
     [SerializeField, Min(1)] private int baseWill = 100;
-    [SerializeField, Min(1)] private int LineOfSight_Distance= 15;
-    [SerializeField, Min(1)] private int LineOfSight_Angle= 360;
+    [SerializeField, Min(1)] private int LineOfSight_Distance = 15;
+    [SerializeField, Min(1)] private int LineOfSight_Angle = 360;
 
 
     [Header("Public Flat Stats")]
