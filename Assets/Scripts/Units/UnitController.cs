@@ -3,7 +3,12 @@ using UnityEngine;
 public class UnitController : MonoBehaviour
 {
     [Header("Units Data- Status, Inventory, Equipment, Mutations")]
-    UnitData data; 
+
+    [SerializeField] public string unitName; 
+    [SerializeField] public string raceName;
+    DynamicStats race = null;
+
+    public UnitData data; 
 
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
@@ -15,11 +20,24 @@ public class UnitController : MonoBehaviour
     private bool isSelected = false;
     public void Start() 
     {
+        InitializeUnitData();
         InitializeNode();
-
+        Debug.Log(data.characterName);
+        Debug.Log(data.raceName);
+        Debug.Log(data.maxHealth);
+        Debug.Log(data.maxMana);
+        Debug.Log(data.maxActionPoints);
+       
     }
 
- 
+  
+
+
+    private void InitializeUnitData() 
+    {
+        race = GameDataBaseLoader.Instance.raceData.GetRace(raceName);
+        data = UnitData.CreateNewUnit(unitName, race);
+    }
     //Sets the Node of the unit,
     public void InitializeNode() 
     {
@@ -34,12 +52,6 @@ public class UnitController : MonoBehaviour
         currentNode = node;
         occupancy.RegisterUnit(currentNode, this);
     }
-
-    //Controls the Outline of the unit 
-    //public void GetOutlineController() 
-    //{
-    //    characterOutline = GetComponent<OutlineController>();
-    //}
     public void SetHover(bool hover) 
     {
         isHovered = hover;
@@ -59,6 +71,6 @@ public class UnitController : MonoBehaviour
 
     public float CurrentActionPoints() 
     {
-        return actionPoints;
+        return data.currentActionPoints;
     }
 }

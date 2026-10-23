@@ -1,60 +1,52 @@
 using UnityEngine;
 
-public enum ArmorCategory
-{
-    None,
-    Light,
-    Medium,
-    Heavy
-}
-public enum WeaponCategory 
-{
-    None,
-    Melee,
-    Range,
-    Magic
-}
-public enum EquipmentGrade
-{
-    None,
-    OneStar,
-    TwoStar,
-    ThreeStar,
-    FourStar,
-    FiveStar
 
-}
-
-[System.Flags]
-public enum EquipmentStatBonus 
-{
-    None = 0, 
-    Strength = 1 << 0,
-    Dexterity = 1 << 1,
-    Vitality = 1 << 2, 
-    Constitution = 1 << 3,
-    Perception = 1 << 4, 
-    Intelligence = 1 << 5
-}
 [CreateAssetMenu(fileName = "EquipmentData", menuName = "Scriptable Objects/EquipmentData")]
 public class EquipmentData : ScriptableObject
 {
-    [Header("ItemInformation")]
-    [SerializeField]public string itemName;
-    [SerializeField]public ArmorCategory armor= ArmorCategory.None; 
-    [SerializeField]public WeaponCategory weapon = WeaponCategory.None; 
-    [SerializeField]public EquipmentSlots targetSlot;
-    [SerializeField]public EquipmentGrade currentRarity;
-    [SerializeField]public EquipmentStatBonus currentStat; 
+    [Header("ItemInformation- Name (ex: Iron Sword)")]
+    
+    [SerializeField] private string itemName;
 
-    [Header("StatModifiers")]
+    [Header("ItemInformation- ID (ex: Weapon_Iron_Sword)")]
+    [SerializeField] private string itemID;
 
-    [SerializeField]public int armorRating;
-    [SerializeField]public int movementPenalty; //additional movement cost depends on 
-    [SerializeField]public int meleeDamage;
-    [SerializeField]public int rangeDamage;
-    [SerializeField]public int magicDamage;
-    [SerializeField]public int accuracy;
+    [Header("ItemInforamtion- equipmentType/Grade/Scalers")]
+    [SerializeField] private ArmorCategory armor= ArmorCategory.None; 
+    [SerializeField] private WeaponCategory weapon = WeaponCategory.None; 
+    [SerializeField] private EquipmentSlots targetSlot;
+    [SerializeField] private EquipmentGrade currentRarity;
+    [SerializeField] private EquipmentGenerationType type; 
+    [SerializeField] private EquipmentStatBonus statModifier; //StatModifier
+
+    
+   
+
+    [Header("StatValues")]
+
+    [SerializeField] private int _armorRating;
+    [SerializeField] private int _movementPenalty; //additional movement cost depends on 
+    [SerializeField] private int _meleeDamage;
+    [SerializeField] private int _rangeDamage;
+    [SerializeField] private int _magicDamage;
+    [SerializeField] private int _accuracyBonus;
+
+    [Header("RandomModifiers- Min(StatValues were set too)")]
+    [SerializeField] private Vector2Int _meleeDamageRange = new Vector2Int();
+    [SerializeField] private Vector2Int _distanceDamageRange = new Vector2Int();
+    [SerializeField] private Vector2Int _magicDamageRange = new Vector2Int();
+    [SerializeField] private Vector2Int _armorRatingRange = new Vector2Int();
+    [SerializeField] private Vector2Int _movementPenaltyRange = new Vector2Int();
+    [SerializeField] private Vector2Int _accuracyRange = new Vector2Int();
+
+
+    [Header("Access To Equipments Detail")]
+    public int armorRating => _armorRating;
+    public int movementPenalty => _movementPenalty;
+    public int meleeDamage => _meleeDamage;
+    public int rangeDamage => _rangeDamage;
+    public int magicDamage => _magicDamage;
+    public int accuracyBonus => _accuracyBonus;
 
 
 }

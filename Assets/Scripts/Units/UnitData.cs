@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
+
 public class UnitData
 {
 
@@ -11,12 +12,12 @@ public class UnitData
     public string raceName;
 
     [Header("Character Information- startingStats")]
-    public int startingStrength;
-    public int startingDexterity;
-    public int startingVitality;
-    public int startingConstitution;
-    public int startingPerception;
-    public int startingIntelligence;
+    private int startingStrength;
+    private int startingDexterity;
+    private int startingVitality;
+    private int startingConstitution;
+    private int startingPerception;
+    private int startingIntelligence;
 
     [Header("Character Inforamtion- CoreStats/LevelUpStats")]
 
@@ -28,26 +29,26 @@ public class UnitData
     public int leveledIntelligence { get; private set; }
 
     [Header("Character Information- MutationBonus")]
-    public int mutationStrength;
-    public int mutationDexterity;
-    public int mutationVitality;
-    public int mutationConstitution;
-    public int mutationPerception;
-    public int mutationIntelligence;
+    public int mutationStrength { get; set; }
+    public int mutationDexterity { get; set; }
+    public int mutationVitality { get; set; }
+    public int mutationConstitution { get; set; }
+    public int mutationPerception { get; set; }
+    public int mutationIntelligence { get; set; }
 
     [Header("Character Information- EquipmentBonus")]
-    public int equipmentStrength;
-    public int equipmentDexterity;
-    public int equipmentVitality;
-    public int equipmentConstitution;
-    public int equipmentPerception;
-    public int equipmentIntelligence;
+    public int equipmentStrength { get; set; }
+    public int equipmentDexterity { get; set; }
+    public int equipmentVitality { get; set; }
+    public int equipmentConstitution { get; set; }
+    public int equipmentPerception { get; set; }
+    public int equipmentIntelligence { get; set; }
 
     [Header("Character Information- Total Core Stats")]
     public int totalStrength => leveledStrength + startingStrength + mutationStrength + equipmentStrength;
     public int totalDexterity => leveledDexterity + startingDexterity + mutationDexterity + equipmentDexterity;
     public int totalVitality => leveledVitality + startingVitality + mutationVitality + equipmentVitality;
-    public int totalConstitutio => leveledConstitution + startingConstitution + mutationConstitution + equipmentConstitution;
+    public int totalConstitution => leveledConstitution + startingConstitution + mutationConstitution + equipmentConstitution;
     public int totalPerception => leveledPerception + startingPerception + mutationPerception + equipmentPerception;
     public int totalIntelligence => leveledIntelligence + startingIntelligence + mutationIntelligence + equipmentIntelligence;
 
@@ -89,49 +90,51 @@ public class UnitData
     public int armor { get; private set; }
     public int will { get; private set; }
 
-
-    public void GetMaxHealth(DynamicStats race)
+    //Local StatCalculations for the CurrentStatus
+    public void CalcMaxHealth(DynamicStats race)
     {
         maxHealth = Mathf.CeilToInt((float)race.baseHealth + ((float)totalVitality * ((float)race.vitalityHealthBonus * race.vitalityModifier)) 
             + (float)mutationHealth + (float)equipmentHealth);
     }
-    public void GetMaxMana(DynamicStats race)
+    public void CalcMaxMana(DynamicStats race)
     {
         maxMana = Mathf.CeilToInt((float)race.baseMana + ((float)totalIntelligence * ((float)race.intelligenceManaBonus * race.intelligenceModifier)) 
             + (float) mutationMana + (float)equipmentMana);
 
     }
-    public void GetMaxActionPoints(DynamicStats race)
+    public void CalcMaxActionPoints(DynamicStats race)
     {
         maxActionPoints = Mathf.CeilToInt((float)race.actionPoints + ((float)totalVitality * ((float)race.vitalityActionPointBonus * race.vitalityModifier)) 
             + (float)mutationActionPoints + (float)equipmentActionPoints);
 
     }
-    public void GetMeleeDamage(DynamicStats race) 
+    public void CalcMeleeDamage(DynamicStats race) 
     {
         meleeDamage = Mathf.CeilToInt((float)race.meleeDamage + ((float)totalStrength * ((float)race.strengthMeleeDMGBonus * race.strengthModifier))
         + ((float)totalDexterity * ((float)race.dexterityMeleeDMGBonus * race.dexterityModifier)) + (float)mutationMeleeDamage + (float)equipmentMeleeDamage);
     }
-    public void GetRangeDamage(DynamicStats race) 
+    public void CalcRangeDamage(DynamicStats race) 
     {
-        rangeDamage = Mathf.CeilToInt((float)race.meleeDamage + ((float)totalPerception * ((float)race.perceptionRangeDMGBonus * race.perceptionModifier))
+        rangeDamage = Mathf.CeilToInt((float)race.rangeDamage + ((float)totalPerception * ((float)race.perceptionRangeDMGBonus * race.perceptionModifier))
         + ((float)totalDexterity * ((float)race.dexterityRangeDMGBonus * race.perceptionModifier)) + (float)mutationRangeDamage + (float)equipmentRangeDamage);
     }
-    public void GetMagicDamage(DynamicStats race) 
+    public void CalcMagicDamage(DynamicStats race) 
     {
-        magicDamage = Mathf.CeilToInt((float)race.meleeDamage + ((float)totalIntelligence* ((float)race.intelligenceMagicDMGBonus * race.intelligenceModifier))
+        magicDamage = Mathf.CeilToInt((float)race.magicDamage + ((float)totalIntelligence * ((float)race.intelligenceMagicDMGBonus * race.intelligenceModifier))
      + (float)mutationMagicDamage + (float)equipmentMagicDamage);
     }
 
-    public void GetArmor(DynamicStats race) 
+    public void CalcArmor(DynamicStats race) 
     {
-    
+        armor = Mathf.CeilToInt((float)race.armorDef + ((float)totalConstitution * ((float)race.intelligenceMagicDMGBonus * race.intelligenceModifier))
+            + (float)mutationArmor + (float)equipmentMagicDamage);
     }
-    public void GetWill(DynamicStats race) 
+    public void CalcWill(DynamicStats race) 
     {
-    
+        will = race.will + mutationWill + equipmentWill;
     }
 
+   
     //Initializes the unit
     public static UnitData CreateNewUnit(string name,DynamicStats race) 
     {
@@ -150,10 +153,18 @@ public class UnitData
         newUnit.startingPerception = race.startPerception;
         newUnit.startingIntelligence = race.startIntelligence;
 
-        newUnit.GetMaxHealth(race);
-        newUnit.GetMaxMana(race);
-        newUnit.GetMaxActionPoints(race);
+        newUnit.CalcMaxHealth(race);
+        newUnit.CalcMaxMana(race);
+        newUnit.CalcMaxActionPoints(race);
+        newUnit.CalcMeleeDamage(race);
+        newUnit.CalcRangeDamage(race);
+        newUnit.CalcMagicDamage(race);
+        newUnit.CalcArmor(race);
+        newUnit.CalcWill(race);
 
+        newUnit.currentHealth = newUnit.maxHealth;
+        newUnit.currentMana = newUnit.maxMana;
+        newUnit.currentActionPoints = newUnit.maxActionPoints;
         return newUnit; 
         
     }

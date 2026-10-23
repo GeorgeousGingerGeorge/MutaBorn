@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ public class UnitMovements : MonoBehaviour
         animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
         animBaseChar.transform.position = transform.position;
         //CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
-
+      
     }
 
     private void HandleMovement() 
