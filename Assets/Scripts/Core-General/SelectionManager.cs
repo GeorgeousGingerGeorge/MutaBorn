@@ -18,6 +18,13 @@ public class SelectionManager : MonoBehaviour
 
     private void Update() 
     {
+        if (selectedUnit != null && !CanCommandUnit(selectedUnit))
+        {
+            ClearUnitSelection();
+            ClearDestination();
+
+        }
+
         if (mouseInWorld == null || input == null)
             return;
         if (!input.OnLeftClick())
@@ -47,8 +54,31 @@ public class SelectionManager : MonoBehaviour
         }
     }
 
+    //New Method to help prevent selecting or controlling other Factions Units
+    private bool CanCommandUnit(UnitController unit)
+    {
+        TurnManager turns = TurnManager.Instance;
+
+        if (unit == null || turns == null || !turns.IsPlayerTurn)
+        {
+            return false;
+
+        }
+
+        UnitFaction unitFaction = unit.GetComponent<UnitFaction>();
+
+        return unitFaction != null && unitFaction.Faction != null && turns.IsFactionTurn(unitFaction.Faction);
+
+    }
+
     private void SelectUnit(UnitController unit) 
     {
+        if (!CanCommandUnit(unit))
+        {
+            return;
+
+        }
+
         if (selectedUnit == unit)
         {
             ClearUnitSelection();
