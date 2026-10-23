@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+
 using UnityEngine;
 
 public enum MutationID 
@@ -17,6 +17,26 @@ public enum MutationID
     //Warden Strain
     Sage
 }
+public class MutationBonus 
+{
+    // Core stat bonuses
+    public int strength;
+    public int dexterity;
+    public int vitality;
+    public int constitution;
+    public int perception;
+    public int intelligence;
+
+    // Derived stat bonuses
+    public int health;
+    public int mana;
+    public int actionPoints;
+    public int meleeDamage;
+    public int rangeDamage;
+    public int magicDamage;
+    public int armor;
+    public int will;
+}
 public abstract class BaseMutation
 {
     public abstract MutationID ID { get; }
@@ -26,7 +46,8 @@ public abstract class BaseMutation
 
     [Header("Improve Stage Progression")]
     public abstract int currentStage { get; }
-    public bool IsMaxStage => currentStage < 10; // The number of stages
+    public abstract bool IsMaxStage { get;  } // The number of stages
+    public abstract MutationBonus bonus{ get; }
 
     public abstract void OnEquipped(UnitController unit);
     public abstract void OnRemoved(UnitController unit);
@@ -41,7 +62,8 @@ public class VampirismMutation : BaseMutation
 
     [Header("Improve Stage Progression")]
     public override int currentStage => 1;
-    public bool IsMaxStage => currentStage < 10; // The number max Number of Stages;
+    public override bool IsMaxStage => currentStage >= 10; // The number max Number of Stages;
+    public override MutationBonus bonus => new MutationBonus { }; 
 
     public override void OnEquipped(UnitController unit) 
     {

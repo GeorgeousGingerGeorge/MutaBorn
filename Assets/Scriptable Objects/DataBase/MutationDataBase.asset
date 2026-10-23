@@ -14,9 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MutationDataBase
   mutationCost:
   - key: 1
-    value: 200
+    value:
+      intialCost: 100
+      stageMultiplier: 1.75
   - key: 2
-    value: 150
+    value:
+      intialCost: 150
+      stageMultiplier: 1.5
+  - key: 3
+    value:
+      intialCost: 200
+      stageMultiplier: 1.75
+  - key: 4
+    value:
+      intialCost: 250
+      stageMultiplier: 1.5
   entries:
   - slot: 1
     strain: 1
