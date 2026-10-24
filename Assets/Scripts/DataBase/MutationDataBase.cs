@@ -1,10 +1,18 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
+[System.Serializable]
+public struct MutationDefinition 
+{
+    [SerializeField]public int intialCost;
+    [SerializeField]public float stageMultiplier;
+}
+
 [CreateAssetMenu(fileName = "MutationDataBase", menuName = "Scriptable Objects/MutationDataBase")]
 public class MutationDataBase : ScriptableObject
 {
-    [SerializeField] private Dictionary<MutationID, int> mutationCost = new Dictionary<MutationID, int>();
+    [SerializeField] private Dictionary<MutationID, MutationDefinition> mutationCost = new Dictionary<MutationID, MutationDefinition>();
     [SerializeField] private List<MutationLookupEntry> entries = new List<MutationLookupEntry>();
 
     private Dictionary<(BodySlots, MutationStrain), List<MutationID>> mutationLookup = new Dictionary<(BodySlots, MutationStrain), List<MutationID>>();

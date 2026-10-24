@@ -6,6 +6,7 @@ public class UnitMovements : MonoBehaviour
 {
     private MovementManager movementController;
     private SelectionManager selectionController;
+   
     private UnitController unit;
 
     private float moveSpeed = 20f;
@@ -32,10 +33,13 @@ public class UnitMovements : MonoBehaviour
 
         
         HandleMovement();
-        animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
-        animBaseChar.transform.position = transform.position;
-        //CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
-      
+
+        if (unit.GetComponentInChildren<Animator>() != null)
+        {
+            animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
+            animBaseChar.transform.position = transform.position;
+            CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
+        }
     }
 
     private void HandleMovement() 
@@ -102,8 +106,11 @@ public class UnitMovements : MonoBehaviour
            
             transform.position = target;
 
-              
+            movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
+           
             unit.SetNode(nextnode);
+
+            movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
             pathIndex++;
         }
 
@@ -135,10 +142,14 @@ public class UnitMovements : MonoBehaviour
             }
             if (node == startNode) 
             {
+                TileController unitSelectedTile = movementController.GetGridManager().FindTile(node);
+                unitSelectedTile.SetUnitSelected(true);
+                highlightedTiles.Add(unitSelectedTile);
                 continue;
             }
 
             TileController tile = movementController.GetGridManager().FindTile(node);
+
 
             if(tile != null)
             { 
@@ -159,6 +170,11 @@ public class UnitMovements : MonoBehaviour
         {
             if (tile != null)
             {
+                if (tile.isUnitSelected)
+                {
+                    tile.SetUnitSelected(false);
+                    continue;
+                }
                 tile.SetMovementRange(false);
 
             }
