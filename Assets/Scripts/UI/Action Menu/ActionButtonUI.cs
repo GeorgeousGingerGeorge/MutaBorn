@@ -1,78 +1,112 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
+using UIButton = UnityEngine.UI.Button;
 
-
-[RequireComponent(typeof(Button))]
+[RequireComponent(typeof(UIButton))]
 public class ActionButtonUI : MonoBehaviour
 {
-    [Header("Button Parts")]
+    [Header("Button References")]
+    [SerializeField] private UIButton button;
 
-    [SerializeField] private Button button;
-    [SerializeField] private TMP_Text abilityName;
-    [SerializeField] private TMP_Text apCost;
-    [SerializeField] private Image iconImage;
+    [Header("Text References")]
+    [SerializeField] private TMP_Text buttonText;
+    [SerializeField] private TMP_Text apCostText;
 
     private ActionDefinition boundAction;
 
     private void Awake()
     {
-        if (button == null) button = GetComponent<Button>();
-
+        if (button == null)
+            button = GetComponent<UIButton>();
     }
 
-    public void Bind(ActionDefinition action, float availableAP,
+    public void Bind(
+        ActionDefinition action,
+        float availableAP,
         Action<ActionDefinition> onRequested)
     {
-        if (button == null) button = GetComponent<Button>();
+        if (button == null)
+            button = GetComponent<UIButton>();
 
         button.onClick.RemoveAllListeners();
 
         boundAction = action;
+
+        // Handle missing definitions.
         if (action == null)
         {
             button.interactable = false;
+
+            if (buttonText != null)
+                buttonText.text = "Missing Action";
+
+            if (apCostText != null)
+                apCostText.text = "";
 
             return;
 
         }
 
-        // Display the action's name.
-        if (abilityName != null)
-        {
-            abilityName.text = action.DisplayName;
+        // Display action name.
+        if (buttonText != null)
+            buttonText.text = action.DisplayName;
 
+        // Display AP cost or Passive label.
+        if (apCostText != null)
+        {
+            apCostText.text = action.IsPassive
+                ? "PASSIVE"
+                : $"{action.ApCost:0.#} AP";
         }
 
-        // Display the action's AP cost separately.
-        if (apCost != null)
+        // Determine whether the button is available.
+        RefreshAvailability(availableAP);
+
+        // Passive abilities display information.
+        if (action.IsPassive)
         {
-            apCost.text = $"{action.ApCost:0.#} AP";
-
+            button.onClick.AddListener(() =>
+            {
+                Debug.Log(
+                    $"Passive: {action.DisplayName}\n" +
+                    $"{action.Description}",
+                    this
+                );
+            });
         }
-
-        if (iconImage != null)
+        else
         {
-            iconImage.enabled = action.Icon != null;
-            iconImage.sprite = action.Icon;
-
+            // Active abilities request execution.
+            button.onClick.AddListener(() =>
+            {
+                onRequested?.Invoke(action);
+            });
         }
-
-        button.interactable = availableAP >= action.ApCost;
-
-        button.onClick.AddListener(() => onRequested?.Invoke(action));
-
     }
 
     public void RefreshAvailability(float availableAP)
     {
-        if (button != null)
-        {
-            button.interactable = boundAction != null && availableAP >= boundAction.ApCost;
+        if (button == null)
+            return;
 
+        if (boundAction == null)
+        {
+            button.interactable = false;
+            return;
         }
+
+        // Passives remain inspectable regardless of AP.
+        if (boundAction.IsPassive)
+        {
+            button.interactable = true;
+            return;
+        }
+
+        // Active actions require sufficient AP.
+        button.interactable =
+            availableAP >= boundAction.ApCost;
 
     }
 
