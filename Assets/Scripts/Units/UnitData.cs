@@ -10,6 +10,7 @@ public class UnitData
 
     public string characterName;
     public string raceName;
+    DynamicStats race;
 
     [Header("Character Information- startingStats")]
     private int startingStrength;
@@ -134,15 +135,78 @@ public class UnitData
         will = race.will + mutationWill + equipmentWill;
     }
 
-   
+    //Takes both negative/positive values for health
+    //if negative you lose the values. if positive you restore the value
+    public void ModifyHealth(int amount) 
+    {
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+
+    }
+    public void ModifyMana(int amount) 
+    {
+        currentMana = Mathf.Clamp(currentHealth + amount, 0, maxMana);
+
+    }
+    public void ModifyActionPoints(int amount) 
+    {
+        currentActionPoints = Mathf.Clamp(currentActionPoints + amount, 0, maxActionPoints);
+
+    }
+
+    public void ApplyMutationBonuses(MutationBonus bonus, int multiplier) 
+    {
+        if (bonus == null)
+            return;
+
+        //CoreBonus
+        mutationStrength += bonus.strength * multiplier;
+        mutationDexterity += bonus.dexterity * multiplier;
+        mutationVitality += bonus.vitality * multiplier;
+        mutationConstitution += bonus.constitution * multiplier;
+        mutationPerception += bonus.perception * multiplier;
+        mutationIntelligence += bonus.intelligence * multiplier;
+
+        //DerivedBonus 
+        mutationHealth += bonus.health * multiplier;
+        mutationMana += bonus.mana * multiplier;
+        mutationActionPoints += bonus.actionPoints * multiplier;
+        mutationMeleeDamage += bonus.meleeDamage * multiplier;
+        mutationRangeDamage += bonus.rangeDamage * multiplier;
+        mutationMagicDamage += bonus.magicDamage * multiplier;
+        mutationArmor += bonus.armor * multiplier;
+        mutationWill += bonus.will * multiplier;
+
+
+        RecalculateStats();
+
+    }
+
+
+    public void RecalculateStats() 
+    {
+        CalcMaxHealth(race);
+        CalcMaxMana(race);
+        CalcMaxActionPoints(race);
+        CalcMeleeDamage(race);
+        CalcRangeDamage(race);
+        CalcMagicDamage(race);
+        CalcArmor(race);
+        CalcWill(race);
+
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        currentMana = Mathf.Clamp(currentMana, 0, maxMana);
+        currentActionPoints = Mathf.Clamp(currentActionPoints, 0, maxActionPoints);
+    }
+
+
     //Initializes the unit
-    public static UnitData CreateNewUnit(string name,DynamicStats race) 
+    public static UnitData CreateNewUnit(string name = "harry",DynamicStats race = null) 
     {
         //Setting Character name and race name for search later
         UnitData newUnit = new UnitData();
         newUnit.characterName = name;
         newUnit.raceName = race.name;
-
+        newUnit.race = race; 
        
 
         //Setting Starting Stats 

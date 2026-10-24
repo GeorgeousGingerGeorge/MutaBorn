@@ -3,6 +3,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DynamicStats", menuName = "Scriptable Objects/DynamicStats")]
 public class DynamicStats : ScriptableObject
 {
+
+    [Header("Race Information")]
+    [SerializeField] private string raceName;
+    [SerializeField] private string objectName;
+
+    public string RaceName => raceName;
+    public string ObjectName => objectName;
+
+
     [Header("Base Character Flat Stats")]
     [SerializeField] public UnitFlatStats flatStats;
 
@@ -56,7 +65,7 @@ public class DynamicStats : ScriptableObject
     [SerializeField] public int baseWillModifier;
 
 
-    [Header("DisplayValues (readOnly")]
+    [Header("DisplayValues (readOnly)")]
     [SerializeField] private int _BaseHealth;
 
     [SerializeField] private int _BaseMana;
