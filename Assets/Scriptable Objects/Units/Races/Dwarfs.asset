@@ -12,26 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37788340fd3a1ca41a8bedb47258cbbc, type: 3}
   m_Name: Dwarfs
   m_EditorClassIdentifier: Assembly-CSharp::DynamicStats
+  raceName: Dwarf
+  objectName: 
   flatStats: {fileID: 11400000, guid: 614370313c2a7b848a80f6300ed0962d, type: 2}
-  strengthModifier: 1
-  dexterityModifier: 1
-  vitalityModifier: 1
-  constitutionModifier: 1
-  perceptionModifier: 1
-  intelligenceModifier: 1
-  healthModifier: 0
+  _strengthModifier: 1.15
+  _dexterityModifier: 0.55
+  _vitalityModifier: 1.1
+  _constitutionModifier: 1.65
+  _perceptionModifier: 0.6
+  _intelligenceModifier: 0.95
+  healthModifier: 10
   manaModifier: 0
-  actionPointsModifier: 0
-  baseMeleeModifier: 0
+  actionPointsModifier: -2
+  baseMeleeModifier: 2
   baseRangeModifier: 0
   baseMagicModifier: 0
-  baseArmorModifier: 0
+  baseArmorModifier: 5
   baseWillModifier: 0
-  _BaseHealth: 50
+  _BaseHealth: 60
   _BaseMana: 20
-  _ActionPoints: 20
-  _MeleeDamage: 10
+  _ActionPoints: 18
+  _MeleeDamage: 12
   _RangeDamage: 10
   _MagicDamage: 10
-  _ArmorDef: 10
+  _ArmorDef: 15
   _Will: 100
