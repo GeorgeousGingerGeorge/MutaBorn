@@ -5,7 +5,7 @@ public class TileController : MonoBehaviour
 {
     [Header("Reference Node")]
     public GridNode node { get; private set; }
-
+    [SerializeField]private TerrainType _terrain;
     [Header("Visual Elements")]
     [SerializeField] private GameObject highlightOverlay;
     [SerializeField] private Renderer highlightRenderer;
@@ -14,10 +14,13 @@ public class TileController : MonoBehaviour
     private bool isHovered;
     private bool isSelected;
     private bool isInMovementRange;
+    public bool isUnitSelected { get; private set; }
    
     public void Initialize(GridNode node)
     {
         this.node = node;
+
+        node.SetTerrain(_terrain);
 
         if (highlightOverlay == null) 
         {
@@ -56,6 +59,11 @@ public class TileController : MonoBehaviour
         isInMovementRange = active;
         UpdateHighLight();
     }
+    public void SetUnitSelected(bool selected) 
+    {
+        isUnitSelected = selected;
+        UpdateHighLight();
+    }
     public void SetHighlight(bool visible, Color color) 
     {
         highlightOverlay.SetActive(visible);
@@ -69,16 +77,26 @@ public class TileController : MonoBehaviour
     private void UpdateHighLight() 
     {
         RGB_Color tileColors = new RGB_Color(0f, 0f, 0f, 0f);  // Assigning it clear
-        bool visible = isHovered || isSelected || isInMovementRange;
+        bool visible = isHovered || isSelected || isInMovementRange || isUnitSelected;
         Color color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
         tileColors.alpha = 0.15f;
 
-       
+
         if (isSelected)
         {
+            
             tileColors.green = 0.75f;
             tileColors.blue = 1f;
+            tileColors.alpha = 0.5f; 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
+        }
+        else if (isUnitSelected) 
+        {
+            tileColors.red = 1f;
+            tileColors.green = 1f;
+            tileColors.alpha = 1f;
+            color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
+
         }
         else if (isInMovementRange)
         {
@@ -88,7 +106,7 @@ public class TileController : MonoBehaviour
 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
         }
-        else if (isHovered) 
+        else if (isHovered)
         {
             tileColors.red = 0.5f;
             tileColors.green = 0.45f;

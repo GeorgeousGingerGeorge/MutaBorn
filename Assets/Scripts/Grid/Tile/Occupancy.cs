@@ -296,5 +296,8 @@ public class Occupancy : MonoBehaviour
 
         return null;
     }
- 
+    public GridManager ReturnGrid()
+    {
+        return gridManager;
+    }
 }

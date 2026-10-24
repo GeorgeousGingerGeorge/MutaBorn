@@ -17,7 +17,6 @@ public class UnitController : MonoBehaviour
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
     public Occupancy occupancy;
-    public float actionPoints;
     [Header("Controls Outline Visuals")]
   //  private OutlineController characterOutline;
     private bool isHovered = false;

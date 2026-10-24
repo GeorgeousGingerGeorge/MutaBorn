@@ -4,7 +4,9 @@ public class SelectionManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public TileController selectedTile { get; private set; }
+    private TileController selectedUnitTile = null; 
     public UnitController selectedUnit { get; private set; }
+
     private Occupancy occupancy;
     private MouseLocation mouseInWorld;
     private InputManager input;
@@ -20,6 +22,7 @@ public class SelectionManager : MonoBehaviour
     {
         if (selectedUnit != null && !CanCommandUnit(selectedUnit))
         {
+
             ClearUnitSelection();
             ClearDestination();
 
@@ -29,9 +32,9 @@ public class SelectionManager : MonoBehaviour
             return;
         if (!input.OnLeftClick())
             return;
-        UnitSelectedLogic();
-        TileSelectedLogic();
-    
+
+
+        HandleClickSelection();
 
         
     }
@@ -55,15 +58,15 @@ public class SelectionManager : MonoBehaviour
 
     private void SelectUnit(UnitController unit) 
     {
-        if (!CanCommandUnit(unit))
-        {
-            return;
-
-        }
+        
+ 
 
         if (selectedUnit == unit)
         {
+            ClearUnitSelectedTile();
             ClearUnitSelection();
+            ClearDestination();
+           
             return;
         }
             
@@ -79,19 +82,39 @@ public class SelectionManager : MonoBehaviour
          
         }
 
+        ClearUnitSelection();
+        ClearUnitSelectedTile();
+
         ClearDestination();
 
         selectedUnit = unit;
         selectedUnit.SetSelected(true);
 
-        UnitMovements movement = unit.GetComponent<UnitMovements>();
-
-        if (movement != null) 
+        GridManager gridManager = occupancy.ReturnGrid();
+        if (gridManager != null && selectedUnit.currentNode != null)
         {
-            movement.ShowMovementRange();
+            selectedUnitTile = gridManager.FindTile(unit.currentNode);
+
+            if (selectedUnitTile != null)
+            {
+                selectedUnitTile.SetUnitSelected(true);
+            }
+        }
+       
+        
+
+      if(CanCommandUnit(unit))
+      {
+
+            UnitMovements movement = unit.GetComponent<UnitMovements>();
+
+            if (movement != null)
+            {
+                movement.ShowMovementRange();
+            }
         }
     }
-    private void SelecteTile(TileController tile) 
+    private void SelectTile(TileController tile) 
     {
         if (selectedTile == tile)
         {
@@ -136,9 +159,22 @@ public class SelectionManager : MonoBehaviour
 
         selectedUnit = null;
     }
-    private void UnitSelectedLogic() 
+    public void ClearUnitSelectedTile()
     {
-        if (mouseInWorld.unitHit)
+        if (selectedUnit == null)
+        {
+            return;
+        }
+
+        selectedUnitTile.SetUnitSelected(false);
+        selectedUnitTile = null;
+            
+    }
+       
+
+    private void HandleClickSelection() 
+    {
+        if (mouseInWorld.unitHit && mouseInWorld.unitTarget.collider != null)
         {
             UnitController currentUnit = mouseInWorld.unitTarget.collider.GetComponentInParent<UnitController>();
 
@@ -149,29 +185,32 @@ public class SelectionManager : MonoBehaviour
             }
 
         }
-    }
-    private void TileSelectedLogic() 
-    {
-        if (mouseInWorld.surfaceHit)
+
+        if (mouseInWorld.surfaceHit && mouseInWorld.groundTarget.collider != null)
         {
             TileController currentTile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
-            UnitController unit = occupancy.FindUnit(currentTile.node);
-           
-            if (currentTile != null)
-            {
-                SelecteTile(currentTile);
 
-                if (unit != null)
-                {
-                    SelectUnit(unit);
-                    return;
-                }
-                else 
-                {
-                
-                }
+            if (currentTile == null || currentTile.node == null) 
+            {
+                return; 
+            }
+
+            UnitController unit = occupancy.FindUnit(currentTile.node);
+
+            if (unit != null) 
+            {
+                SelectUnit(unit);
                 return;
             }
+
+            SelectTile(currentTile);
+
+            Debug.Log($"Terrain: {currentTile.node.currentTerrain}");
+            Debug.Log($"Coordinates: {currentTile.node.coords}");
+            Debug.Log($"Coordinates: {currentTile.node.floorID}");
+
         }
     }
+
+ 
 }
