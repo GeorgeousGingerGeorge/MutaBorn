@@ -200,7 +200,7 @@ public class UnitData
 
 
     //Initializes the unit
-    public static UnitData CreateNewUnit(string name,DynamicStats race) 
+    public static UnitData CreateNewUnit(string name = "harry",DynamicStats race = null) 
     {
         //Setting Character name and race name for search later
         UnitData newUnit = new UnitData();
