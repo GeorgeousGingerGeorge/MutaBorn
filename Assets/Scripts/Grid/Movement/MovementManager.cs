@@ -7,6 +7,7 @@ public class MovementManager : MonoBehaviour
     [Header("Necessary Information Game Information")]
     [SerializeField] private GridManager gridManager;
     [SerializeField] private Occupancy occupancy;
+    public Occupancy readOccupancy => occupancy;
 
     [Header("Beginning Node and Destination Node")]
     public GridNode startNode { get; private set; }
@@ -30,7 +31,9 @@ public class MovementManager : MonoBehaviour
         if (targetNode == null)
             return;
 
+       
         grid = gridManager.GetGrid(startNode.floorID);
+        
         if(grid == null) 
         {
             return;
@@ -45,6 +48,7 @@ public class MovementManager : MonoBehaviour
 
     private List<GridNode> FindPath(GridNode startNode, GridNode targetNode, float movementAllowed) 
     {
+        
         Dictionary<GridNode, float> distance = new Dictionary<GridNode, float>();
         Dictionary<GridNode, GridNode> previousNode = new Dictionary<GridNode, GridNode>();
 
@@ -98,7 +102,7 @@ public class MovementManager : MonoBehaviour
                 {
                     return null;
                 }
-                if (!occupancy.CanEnterNode(current, neighbor)) 
+                if (!occupancy.CanEnterNode(current, neighbor, occupancy.FindUnit(startNode))) 
                 {
                     continue;
                 }
@@ -174,7 +178,7 @@ public class MovementManager : MonoBehaviour
                 {
                     return null;
                 }
-                if (!occupancy.CanEnterNode(current, neighbor))
+                if (!occupancy.CanEnterNode(current, neighbor,occupancy.FindUnit(startNode)))
                 {
                     continue;
                 }

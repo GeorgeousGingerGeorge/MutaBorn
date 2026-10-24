@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
+    [Header("Unit's Size")]
+    [SerializeField] private Vector2Int footPrintSize = Vector2Int.one;
+    public Vector2Int footPrint => footPrintSize;
+
     [Header("Units Data- Status, Inventory, Equipment, Mutations")]
 
     [SerializeField] public string unitName; 

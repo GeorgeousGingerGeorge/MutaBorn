@@ -5,7 +5,7 @@ public class SelectionManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public TileController selectedTile { get; private set; }
     public UnitController selectedUnit { get; private set; }
-
+    private Occupancy occupancy;
     private MouseLocation mouseInWorld;
     private InputManager input;
 
@@ -13,7 +13,7 @@ public class SelectionManager : MonoBehaviour
     {
         mouseInWorld = FindAnyObjectByType<MouseLocation>();
         input = FindAnyObjectByType<InputManager>();
-
+        occupancy = FindAnyObjectByType<Occupancy>();
     }
 
     private void Update() 
@@ -29,29 +29,11 @@ public class SelectionManager : MonoBehaviour
             return;
         if (!input.OnLeftClick())
             return;
+        UnitSelectedLogic();
+        TileSelectedLogic();
+    
 
-        if(mouseInWorld.unitHit)
-        {
-            UnitController currentUnit = mouseInWorld.unitTarget.collider.GetComponentInParent<UnitController>();
-
-            if (currentUnit != null) 
-            {
-                SelectUnit(currentUnit);
-                return;
-            }
-
-        }
-
-        if (mouseInWorld.surfaceHit) 
-        {
-            TileController currentTile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
-
-            if (currentTile != null) 
-            {
-                SelecteTile(currentTile);
-                return;
-            }
-        }
+        
     }
 
     //New Method to help prevent selecting or controlling other Factions Units
@@ -154,5 +136,42 @@ public class SelectionManager : MonoBehaviour
 
         selectedUnit = null;
     }
+    private void UnitSelectedLogic() 
+    {
+        if (mouseInWorld.unitHit)
+        {
+            UnitController currentUnit = mouseInWorld.unitTarget.collider.GetComponentInParent<UnitController>();
 
+            if (currentUnit != null)
+            {
+                SelectUnit(currentUnit);
+                return;
+            }
+
+        }
+    }
+    private void TileSelectedLogic() 
+    {
+        if (mouseInWorld.surfaceHit)
+        {
+            TileController currentTile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
+            UnitController unit = occupancy.FindUnit(currentTile.node);
+           
+            if (currentTile != null)
+            {
+                SelecteTile(currentTile);
+
+                if (unit != null)
+                {
+                    SelectUnit(unit);
+                    return;
+                }
+                else 
+                {
+                
+                }
+                return;
+            }
+        }
+    }
 }

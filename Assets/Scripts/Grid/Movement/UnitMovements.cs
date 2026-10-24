@@ -6,6 +6,7 @@ public class UnitMovements : MonoBehaviour
 {
     private MovementManager movementController;
     private SelectionManager selectionController;
+   
     private UnitController unit;
 
     private float moveSpeed = 20f;
@@ -102,8 +103,11 @@ public class UnitMovements : MonoBehaviour
            
             transform.position = target;
 
-              
+            movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
+           
             unit.SetNode(nextnode);
+
+            movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
             pathIndex++;
         }
 
@@ -139,6 +143,7 @@ public class UnitMovements : MonoBehaviour
             }
 
             TileController tile = movementController.GetGridManager().FindTile(node);
+
 
             if(tile != null)
             { 
