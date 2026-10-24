@@ -3625,9 +3625,8 @@ CanvasRenderer:
   m_CullTransparentMesh: 1
 --- !u!1 &1111569074
 GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 3805319766816371577, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
+  m_PrefabInstance: {fileID: 1006784689}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
@@ -3781,7 +3780,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1228098362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 09e27292a15679545b93039a34ebb1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
@@ -7700,6 +7699,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      m_Calls:
+      - m_Target: {fileID: 2021259267}
+        m_TargetAssemblyTypeName: TurnManager, Assembly-CSharp
+        m_MethodName: EndTurn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1954876486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8464,6 +8476,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e24697c9f0f2aaf4f8ed5be02bb75c9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Occupancy
+  gridManager: {fileID: 2021259275}
 --- !u!114 &2021259270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8986,3 +8999,4 @@ SceneRoots:
   - {fileID: 10408801}
   - {fileID: 887849636}
   - {fileID: 768300624}
+  - {fileID: 1006784689}

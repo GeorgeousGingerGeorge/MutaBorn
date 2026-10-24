@@ -3,15 +3,17 @@ using UnityEngine;
 [System.Flags]
 public enum BodySlots 
 {
-    Head = 0, 
-    TorsoFront = 1 << 0,
-    TorsoBack = 1 << 1, 
-    LeftArm = 1 << 2,
-    RightArm = 1 << 3,
-    LeftLeg = 1 << 4, 
-    RightLeg = 1 << 5,
+    None = 0 ,
+    Head = 1 << 0, 
+    TorsoFront = 1 << 1,
+    TorsoBack = 1 << 2, 
+    LeftArm = 1 << 3,
+    RightArm = 1 << 4,
+    LeftLeg = 1 << 5, 
+    RightLeg = 1 << 6,
     BothArms = LeftArm | RightArm, 
-    BothLegs = LeftLeg | RightLeg
+    BothLegs = LeftLeg | RightLeg,
+    Chest = TorsoFront | TorsoBack
 }
 
 
@@ -27,14 +29,15 @@ public enum MutationStrain
 [System.Flags]
 public enum EquipmentSlots 
 {
-    MainHand = 0, //RightHand
-    OffHand = 1 << 0, //LeftHand
-    ArmorHelmet = 1 << 1,
-    ArmorChest = 1 << 2,
-    ArmorLeftArm = 1 << 3, 
-    ArmorRightArm = 1 << 4,
-    ArmorLeftLeg = 1 << 5,
-    ArmorRightLeg = 1 << 6, 
+    None,
+    MainHand = 1 << 0, //RightHand
+    OffHand = 1 << 1, //LeftHand
+    ArmorHelmet = 1 << 2,
+    ArmorChest = 1 << 3,
+    ArmorLeftArm = 1 << 4, 
+    ArmorRightArm = 1 << 5,
+    ArmorLeftLeg = 1 << 6,
+    ArmorRightLeg = 1 << 7, 
 
     TwoHanded = MainHand | OffHand,
     ArmorArms = ArmorLeftArm | ArmorRightArm,
