@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(
-    fileName = "NewActionSet",
-    menuName = "Game/Actions/Action Set"
-)]
+
+
+[CreateAssetMenu(fileName = "NewActionSet", menuName = "Game/Actions/Action Set")]
+
 public class ActionSet : ScriptableObject
 {
     [Header("Action Set Information")]
@@ -26,16 +26,23 @@ public class ActionSet : ScriptableObject
     public string Description => description;
     public IReadOnlyList<ActionDefinition> Actions => actions;
 
+
     // Checks whether this set contains an action.
     public bool ContainsAction(string actionId)
     {
         if (string.IsNullOrWhiteSpace(actionId))
+        {
             return false;
+
+        }
 
         foreach (ActionDefinition action in actions)
         {
             if (action == null)
+            {
                 continue;
+
+            }
 
             if (string.Equals(
                 action.Id,
@@ -43,10 +50,13 @@ public class ActionSet : ScriptableObject
                 System.StringComparison.OrdinalIgnoreCase))
             {
                 return true;
+
             }
+
         }
 
         return false;
+
     }
 
     // Detect duplicate actions within this set.
@@ -58,12 +68,18 @@ public class ActionSet : ScriptableObject
         foreach (ActionDefinition action in actions)
         {
             if (action == null)
+            {
                 continue;
+
+            }
 
             string id = action.Id?.Trim();
 
             if (string.IsNullOrEmpty(id))
+            {
                 continue;
+
+            }
 
             if (!registeredIds.Add(id))
             {

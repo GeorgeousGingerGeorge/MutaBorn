@@ -3830,6 +3830,7 @@ GameObject:
   - component: {fileID: 1289572212}
   - component: {fileID: 1289572216}
   - component: {fileID: 1289572217}
+  - component: {fileID: 1289572218}
   m_Layer: 0
   m_Name: Player Unit
   m_TagString: Untagged
@@ -3931,10 +3932,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be24f145174beef4fa8772b0555a43f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActionResolver
-  actionSets:
-  - {fileID: 11400000, guid: 90a4fe2b336afc946863e661e4cf8abe, type: 2}
-  - {fileID: 11400000, guid: c35429638cd49eb4193dd2990ff876ea, type: 2}
-  - {fileID: 11400000, guid: d1dec7a3a653b774bbd015822e698123, type: 2}
+  actionSets: []
+--- !u!114 &1289572218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1289572210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba01dd070daeba24f8f111d273e7fbf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStartingActions
+  universalActions: {fileID: 11400000, guid: c35429638cd49eb4193dd2990ff876ea, type: 2}
+  raceActionSets:
+  - raceName: Human
+    actionSet: {fileID: 11400000, guid: 90a4fe2b336afc946863e661e4cf8abe, type: 2}
 --- !u!1 &1289794038
 GameObject:
   m_ObjectHideFlags: 0
