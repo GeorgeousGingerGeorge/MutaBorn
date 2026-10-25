@@ -22,7 +22,7 @@ public class SelectionManager : MonoBehaviour
     {
         if (selectedUnit != null && !CanCommandUnit(selectedUnit))
         {
-
+           
             ClearUnitSelection();
             ClearDestination();
 
@@ -163,12 +163,13 @@ public class SelectionManager : MonoBehaviour
     {
         if (selectedUnit == null)
         {
+           
             return;
         }
 
         selectedUnitTile.SetUnitSelected(false);
         selectedUnitTile = null;
-            
+
     }
        
 

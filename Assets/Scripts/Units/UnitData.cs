@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 
 
@@ -56,7 +57,7 @@ public class UnitData
     [Header("Character Information- Equipped Mutations/Gear Plus Tracker")]
     Dictionary<BodySlots, BaseMutation> activeMutations;
     Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>> mutationTracker;
-    Dictionary<BodySlots, EquipmentSlots> equippedItems;
+    Dictionary<EquipmentSlots, EquipmentData> equippedItems;
 
     [Header("Character Information- Current Status (mutationBonus)")]
     public int mutationHealth;
@@ -180,8 +181,6 @@ public class UnitData
         RecalculateStats();
 
     }
-
-
     public void RecalculateStats() 
     {
         CalcMaxHealth(race);
@@ -198,6 +197,74 @@ public class UnitData
         currentActionPoints = Mathf.Clamp(currentActionPoints, 0, maxActionPoints);
     }
 
+
+
+    //Adding equipment checks to check slots
+    public bool CanEquipItem(EquipmentData item) 
+    {
+        foreach(EquipmentSlots slot in Enum.GetValues(typeof(EquipmentSlots)))
+        {
+            if (slot == EquipmentSlots.None) 
+            {
+                continue;
+            }
+
+            if ((item.slot & slot) == slot) 
+            {
+                if (equippedItems.ContainsKey(slot) && equippedItems[slot] != null) 
+                {
+                    return false;
+                }
+
+                BodySlots correspondingBodySlot = MapEquipmentToBodySlot(slot);
+                if (activeMutations.ContainsKey(correspondingBodySlot) && activeMutations[correspondingBodySlot] != null) 
+                {
+                    return false; 
+                }
+            }
+
+        }
+        return true;
+    }
+
+    //How to actually equip the item
+    public void EquipItem(EquipmentData item) 
+    {
+        if (!CanEquipItem(item)) 
+        {
+            return;
+        }
+
+        foreach (EquipmentSlots slot in Enum.GetValues(typeof(EquipmentSlots))) 
+        {
+            if (slot == EquipmentSlots.None) 
+            {
+                continue;
+            }
+
+            if ((item.slot & slot) == slot) 
+            {
+                equippedItems[slot] = item;
+            }
+        }
+    }
+    //Determines what equipment slots the item takes and returns it for a check
+    private BodySlots MapEquipmentToBodySlot(EquipmentSlots equipSlot) 
+    {
+        switch (equipSlot) 
+        {
+            case EquipmentSlots.ArmorArms: 
+                return BodySlots.BothArms;
+                
+            case EquipmentSlots.ArmorLegs: 
+                return BodySlots.BothLegs;
+                
+            case EquipmentSlots.ArmorChest: 
+                return BodySlots.Chest;
+                
+            default: return BodySlots.None;
+        }
+    }
 
     //Initializes the unit
     public static UnitData CreateNewUnit(string name = "harry",DynamicStats race = null) 
