@@ -165,21 +165,62 @@ public class SelectionManager : MonoBehaviour
             selectedUnit.SetSelected(false);
         }
 
+        ClearUnitSelectedTile();
         selectedUnit = null;
     }
     public void ClearUnitSelectedTile()
     {
-        if (selectedUnit == null)
+        if (selectedUnitTile == null)
         {
-           
+
             return;
+
         }
 
         selectedUnitTile.SetUnitSelected(false);
         selectedUnitTile = null;
 
     }
-       
+
+    // Keep the selected unit and its movement highlight after reaching a destination.
+    public void RefreshSelectedUnitAfterMovement(UnitController movedUnit)
+    {
+        if (movedUnit == null || selectedUnit != movedUnit || occupancy == null)
+        {
+
+            return;
+
+        }
+
+        UnitMovements movement = movedUnit.GetComponent<UnitMovements>();
+        if (movement != null)
+        {
+            movement.ClearMovementRange();
+
+        }
+
+        ClearUnitSelectedTile();
+
+        GridManager gridManager = occupancy.ReturnGrid();
+        if (gridManager != null && movedUnit.currentNode != null)
+        {
+            selectedUnitTile = gridManager.FindTile(movedUnit.currentNode);
+
+            if (selectedUnitTile != null)
+            {
+                selectedUnitTile.SetUnitSelected(true);
+
+            }
+
+        }
+
+        if (movement != null && CanCommandUnit(movedUnit))
+        {
+            movement.ShowMovementRange();
+
+        }
+
+    }
 
     private void HandleClickSelection() 
     {
@@ -201,6 +242,9 @@ public class SelectionManager : MonoBehaviour
 
             if (currentTile == null || currentTile.node == null) 
             {
+                ClearUnitSelection();
+                ClearDestination();
+
                 return; 
             }
 
@@ -218,7 +262,14 @@ public class SelectionManager : MonoBehaviour
             Debug.Log($"Coordinates: {currentTile.node.coords}");
             Debug.Log($"Coordinates: {currentTile.node.floorID}");
 
+            return;
+
         }
+
+        // Clicking outside all selectable tiles/units deselects the current unit.
+        ClearUnitSelection();
+        ClearDestination();
+
     }
 
  

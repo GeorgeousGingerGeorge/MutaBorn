@@ -54,14 +54,12 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     }
 
-    [Header("Temporary Playtest Support")]
-    [Tooltip("Until the turn rules own AP restoration, refill living units' AP at the start of each round.")]
-    [SerializeField] private bool refillAPAtRoundStart = true;
+    [Header("Unit Inspection")]
+    [SerializeField] private UnitInspectionUI unitInspectionUI;
 
     private UnitController attacker;
     private ActionDefinition pendingAction;
     private TargetingModeController targetingController;
-    private TurnManager subscribedTurnManager;
     private FactionManager factionManager;
 
     private void Awake()
@@ -79,18 +77,6 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        // TurnManager may be initialized after our Awake, so subscribe in Start.
-        subscribedTurnManager = TurnManager.Instance;
-        if (subscribedTurnManager != null)
-        {
-            subscribedTurnManager.RoundStarted += OnRoundStarted;
-
-        }
-
-    }
-
     public bool TryBeginAction(UnitController source, ActionDefinition action)
     {
         if (source == null || source.data == null || action == null || action.IsPassive)
@@ -101,7 +87,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         // Executable combat actions are selected by behavior, not by Action ID.
         if (action.CombatBehavior != CombatActionBehavior.DamageUnit &&
-            action.CombatBehavior != CombatActionBehavior.ApplyGuard)
+            action.CombatBehavior != CombatActionBehavior.ApplyGuard &&
+            action.CombatBehavior != CombatActionBehavior.InspectUnit)
         {
             Debug.LogWarning($"'{action.DisplayName}' does not have an executable combat behavior yet.", this);
 
@@ -133,7 +120,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        if (!granted)
+        // Inspect Unit is a universal UI command, not a granted combat ability.
+        if (!granted && action.CombatBehavior != CombatActionBehavior.InspectUnit)
         {
             Debug.LogWarning("Unit does not possess the requested action.", source);
             return false;
@@ -209,7 +197,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 this, source, action.DisplayName, action.CombatRange,
                 OnTargetPicked,
                 hit => hit.collider != null && hit.collider.GetComponentInParent<UnitController>() != null,
-                OnTargetingCancelled, () => CanCommand(source)))
+                OnTargetingCancelled, () => CanCommand(source),
+                showRangeIndicator: action.CombatBehavior != CombatActionBehavior.InspectUnit))
         {
             return false;
 
@@ -248,6 +237,75 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     private void TryExecuteAgainst(UnitController target)
     {
+        // Inspection is informational: any active unit can be selected, including allies and self.
+        // It must bypass hostile-target and attack-range validation.
+        if (pendingAction != null && pendingAction.CombatBehavior == CombatActionBehavior.InspectUnit)
+        {
+            if (target == null || !target.isActiveAndEnabled || target.data == null)
+            {
+                Debug.Log("Select an active unit to inspect.", this);
+
+                return;
+
+            }
+
+            if (!CanCommand(attacker))
+            {
+                CancelTargeting();
+
+                return;
+
+            }
+
+            if (unitInspectionUI == null)
+            {
+                unitInspectionUI = FindAnyObjectByType<UnitInspectionUI>();
+
+            }
+
+            if (unitInspectionUI == null)
+            {
+                Debug.LogWarning("CombatActionExecutor: UnitInspectionUI is missing from the scene.", this);
+                CancelTargeting();
+
+                return;
+
+            }
+
+            UnitController inspectionSource = attacker;
+            ActionDefinition inspectionAction = pendingAction;
+            int cost = Mathf.CeilToInt(inspectionAction.ApCost);
+
+            if (inspectionSource.data.currentActionPoints < cost)
+            {
+                CancelTargeting();
+
+                return;
+
+            }
+
+            // End targeting first so the targeting HUD and world input are released.
+            CancelTargeting();
+            unitInspectionUI.Open(target);
+
+            if (!unitInspectionUI.IsOpen)
+            {
+                return;
+
+            }
+
+            if (cost > 0)
+            {
+                inspectionSource.data.ModifyActionPoints(-cost);
+
+            }
+
+            inspectionSource.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(inspectionAction);
+
+            return;
+
+        }
+
         if (target == null || target == attacker || target.data == null ||
             !target.isActiveAndEnabled || target.data.currentHealth <= 0)
         {
@@ -430,27 +488,6 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     }
 
-    private void OnRoundStarted(int round)
-    {
-        if (!refillAPAtRoundStart)
-        {
-            return;
-
-        }
-
-        // Temporary vertical-slice rule. Move this to turn rules once they are finalized.
-        foreach (UnitController unit in FindObjectsByType<UnitController>())
-        {
-            if (unit.data != null && unit.data.currentHealth > 0)
-            {
-                unit.data.ModifyActionPoints(unit.data.maxActionPoints - unit.data.currentActionPoints);
-
-            }
-
-        }
-
-    }
-
     private void OnTargetingCancelled()
     {
         attacker = null;
@@ -473,11 +510,6 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (subscribedTurnManager != null)
-        {
-            subscribedTurnManager.RoundStarted -= OnRoundStarted;
-
-        }
         if (Instance == this)
         {
             CancelTargeting();

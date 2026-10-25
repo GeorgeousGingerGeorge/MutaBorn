@@ -82,9 +82,9 @@ public class UnitMovements : MonoBehaviour
         {
             isMoving = false;
             selectionController.ClearDestination();
-            selectionController.ClearUnitSelection();
             movementPath.Clear();
             pathIndex = 0;
+            selectionController.RefreshSelectedUnitAfterMovement(unit);
             return;
         }
 

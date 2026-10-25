@@ -5,7 +5,8 @@ public enum ActionMenuCategory
 {
     BasicAttacks,
     Defense,
-    Abilities
+    Abilities,
+    Interact
 
 }
 
@@ -23,7 +24,8 @@ public enum CombatActionBehavior
 {
     None,
     DamageUnit,
-    ApplyGuard
+    ApplyGuard,
+    InspectUnit
 
 }
 

@@ -240,6 +240,50 @@ public class TurnManager : MonoBehaviour
 
     }
 
+    private void RefillActionPointsForFaction(FactionData faction)
+    {
+        if (faction == null)
+        {
+
+            return;
+
+        }
+
+        int refilledUnits = 0;
+
+        foreach (UnitFaction member in FindObjectsByType<UnitFaction>())
+        {
+            if (member == null || !member.isActiveAndEnabled || member.Faction != faction)
+            {
+                continue;
+
+            }
+
+            UnitController unit = member.GetComponent<UnitController>();
+            if (unit == null || unit.data == null || unit.data.currentHealth <= 0)
+            {
+                continue;
+
+            }
+
+            int missingAP = unit.data.maxActionPoints - unit.data.currentActionPoints;
+            if (missingAP > 0)
+            {
+                unit.data.ModifyActionPoints(missingAP);
+                refilledUnits++;
+
+            }
+
+        }
+
+        if (refilledUnits > 0)
+        {
+            Debug.Log($"Restored AP for {refilledUnits} unit(s) in {faction.DisplayName}.", this);
+
+        }
+
+    }
+
     private void AdvanceTurn()
     {
         if (ActiveFaction != null)
@@ -274,6 +318,7 @@ public class TurnManager : MonoBehaviour
             }
 
             ActiveFaction = candidate;
+            RefillActionPointsForFaction(candidate);
             Debug.Log($"Round {Round} - {candidate.DisplayName}'s turn.");
             TurnStarted?.Invoke(candidate);
 

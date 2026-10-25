@@ -10,17 +10,16 @@ public sealed class TargetingModeController : MonoBehaviour
 {
     public static TargetingModeController Instance { get; private set; }
     public static bool IsTargeting => Instance != null && Instance.isTargeting;
-    public static bool BlocksSelection => Instance != null && (Instance.isTargeting || Instance.lastTargetingEndFrame == Time.frameCount);
+    public static bool BlocksSelection => Instance != null &&
+        (Instance.isTargeting || Instance.lastTargetingEndFrame == Time.frameCount);
 
     [Header("Targeting HUD (optional)")]
-
     [Tooltip("Assign a small banner under the Canvas, not the entire Action Menu.")]
     [SerializeField] private GameObject targetingBanner;
     [SerializeField] private TMP_Text targetingMessage;
     [SerializeField] private Button cancelButton;
 
     [Header("World-Space Range Ring (prototype)")]
-
     [Tooltip("An optional LineRenderer. If missing, one is created at runtime.")]
     [SerializeField] private LineRenderer rangeRing;
     [SerializeField] private Material rangeRingMaterial;
@@ -33,6 +32,7 @@ public sealed class TargetingModeController : MonoBehaviour
     private UnityEngine.Object owner;
     private UnitController sourceUnit;
     private float range;
+    private bool showRangeIndicator = true;
     private int startedOnFrame;
     private int lastTargetingEndFrame = -1;
     private Action<RaycastHit> targetSelected;
@@ -56,7 +56,6 @@ public sealed class TargetingModeController : MonoBehaviour
         {
             Debug.LogError("Only one TargetingModeController should exist in a scene.", this);
             enabled = false;
-
             return;
 
         }
@@ -83,7 +82,8 @@ public sealed class TargetingModeController : MonoBehaviour
         Action<RaycastHit> onTargetSelected,
         Func<RaycastHit, bool> targetFilter = null,
         Action onCancelled = null,
-        Func<bool> stillAllowed = null)
+        Func<bool> stillAllowed = null,
+        bool showRangeIndicator = true)
     {
         if (!isActiveAndEnabled || requester == null || source == null ||
             source.data == null || onTargetSelected == null)
@@ -101,6 +101,7 @@ public sealed class TargetingModeController : MonoBehaviour
         owner = requester;
         sourceUnit = source;
         range = Mathf.Max(0f, maximumRange);
+        this.showRangeIndicator = showRangeIndicator;
         targetSelected = onTargetSelected;
         acceptsHit = targetFilter;
         targetingCancelled = onCancelled;
@@ -127,8 +128,8 @@ public sealed class TargetingModeController : MonoBehaviour
         {
             targetingMessage.text =
                 $"TARGETING: {(displayName ?? "CHOOSE TARGET").ToUpperInvariant()}\n" +
-                $"RANGE : {range:0.#}\n\n" +
-                "Left-Click a Target | Right-Click / Esc to Cancel";
+                (showRangeIndicator ? $"RANGE : {range:0.#}\n\n" : "RANGE : ANY UNIT\n\n") +
+                "Left-Click a Target | Esc to Cancel";
 
         }
 
@@ -195,7 +196,6 @@ public sealed class TargetingModeController : MonoBehaviour
             if (hit.collider != null && (acceptsHit == null || acceptsHit(hit)))
             {
                 targetSelected?.Invoke(hit);
-
                 return;
 
             }
@@ -330,7 +330,7 @@ public sealed class TargetingModeController : MonoBehaviour
 
         if (rangeRing != null)
         {
-            rangeRing.enabled = active;
+            rangeRing.enabled = active && showRangeIndicator;
 
         }
 
@@ -344,7 +344,7 @@ public sealed class TargetingModeController : MonoBehaviour
 
     private void DrawRangeRing()
     {
-        if (rangeRing == null || sourceUnit == null)
+        if (!showRangeIndicator || rangeRing == null || sourceUnit == null)
         {
             return;
 

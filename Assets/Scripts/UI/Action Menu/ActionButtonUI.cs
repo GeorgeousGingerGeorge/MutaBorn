@@ -86,6 +86,17 @@ public class ActionButtonUI : MonoBehaviour
         }
     }
 
+    // Optional per-target context for action buttons generated from nearby objects.
+    public void SetContextLabel(string targetName)
+    {
+        if (boundAction != null && buttonText != null && !string.IsNullOrWhiteSpace(targetName))
+        {
+            buttonText.text = $"{boundAction.DisplayName} - {targetName}";
+
+        }
+
+    }
+
     public void RefreshAvailability(float availableAP)
     {
         if (button == null)
