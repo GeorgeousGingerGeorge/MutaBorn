@@ -10,14 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Vampirism
+  m_Name: Basic Melee Atack
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: vampirism
-  displayName: Vampirism
-  description: Restores health based on damage dealt.
+  actionId: basic-attack
+  displayName: Basic Attack
+  description: a simple strike to your foe, takes a moderate amount of energy.
   icon: {fileID: 0}
-  activationType: 1
-  category: 2
-  submenuGroup: Mutations
-  displayOrder: 10
-  apCost: 0
+  activationType: 0
+  category: 0
+  submenuGroup: General
+  displayOrder: 100
+  apCost: 5
+  combatBehavior: 1
+  damageStat: 0
+  combatRange: 2.9
+  damageMultiplier: 1
+  flatDamageBonus: 0
+  minimumDamage: 5
