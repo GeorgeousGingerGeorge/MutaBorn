@@ -12,7 +12,7 @@ public class EquipmentData : ScriptableObject
     [SerializeField] private string itemID;
 
     [Header("ItemInforamtion- equipmentType/Grade/Scalers")]
-    [SerializeField] private ArmorCategory armor= ArmorCategory.None; 
+    [SerializeField] private ArmorCategory armor = ArmorCategory.None; 
     [SerializeField] private WeaponCategory weapon = WeaponCategory.None; 
     [SerializeField] private EquipmentSlots targetSlot;
     [SerializeField] private EquipmentGrade currentRarity;
