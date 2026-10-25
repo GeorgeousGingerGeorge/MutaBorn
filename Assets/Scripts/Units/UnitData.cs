@@ -327,7 +327,7 @@ public class UnitData
         //Setting Character name and race name for search later
         UnitData newUnit = new UnitData();
         newUnit.characterName = name;
-        newUnit.raceName = race.name;
+        newUnit.raceName = race.RaceName;
         newUnit.race = race; 
        
 

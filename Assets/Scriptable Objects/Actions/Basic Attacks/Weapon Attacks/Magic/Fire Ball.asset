@@ -10,14 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Vampirism
+  m_Name: Fire Ball
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: vampirism
-  displayName: Vampirism
-  description: Restores health based on damage dealt.
+  actionId: fire-ball
+  displayName: Fire Ball
+  description: Shoot magic fire at enemy
   icon: {fileID: 0}
-  activationType: 1
-  category: 2
-  submenuGroup: Mutations
-  displayOrder: 10
-  apCost: 0
+  activationType: 0
+  category: 0
+  submenuGroup: Magic
+  displayOrder: 4
+  apCost: 8
+  combatBehavior: 1
+  damageStat: 2
+  combatRange: 7
+  damageMultiplier: 1.7
+  flatDamageBonus: 0
+  minimumDamage: 7

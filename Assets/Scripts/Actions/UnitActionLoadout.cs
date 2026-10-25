@@ -95,8 +95,55 @@ public class UnitActionLoadout : MonoBehaviour
 
         }
 
-        // Future sources: equipped items, active mutations, and learned skills.
-        // These belong to UnitData, not extra manually configured components.
+        // Equipment actions come from the items the unit actually brought into combat.
+        if (unit.data.equippedItems != null)
+        {
+            foreach (KeyValuePair<EquipmentSlots, EquipmentData> equipped in unit.data.equippedItems)
+            {
+                EquipmentData item = equipped.Value;
+
+                if (item == null)
+                {
+                    continue;
+
+                }
+
+                AddActionsFromSet(
+                    item.GrantedActionSet,
+                    $"Equipment ({item.name}, {equipped.Key})",
+                    ids,
+                    definitions);
+
+            }
+
+        }
+
+        // Mutation actions come from the mutations already equipped on UnitData.
+        if (gameData.mutationData != null && unit.data.activeMutations != null)
+        {
+            foreach (KeyValuePair<BodySlots, BaseMutation> equipped in unit.data.activeMutations)
+            {
+                BaseMutation mutation = equipped.Value;
+
+                if (mutation == null)
+                {
+                    continue;
+
+                }
+
+                ActionSet mutationActions = gameData.mutationData.GetGrantedActionSet(mutation.ID);
+
+                AddActionsFromSet(
+                    mutationActions,
+                    $"Mutation ({mutation.name}, {equipped.Key})",
+                    ids,
+                    definitions);
+
+            }
+
+        }
+
+        // Future source: learned skills. These belong to UnitData.
 
         Version++;
 
