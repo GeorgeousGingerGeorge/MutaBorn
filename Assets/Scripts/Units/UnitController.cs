@@ -10,9 +10,11 @@ public class UnitController : MonoBehaviour
 
     [SerializeField] public string unitName; 
     [SerializeField] public string raceName;
+    [SerializeField] public MutationID currentMutation;
+    [SerializeField] public EquipmentData currentEquipment;
     DynamicStats race = null;
 
-    public UnitData data; 
+    public UnitData data { get; private set; } 
 
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
@@ -30,6 +32,7 @@ public class UnitController : MonoBehaviour
         Debug.Log(data.maxHealth);
         Debug.Log(data.maxMana);
         Debug.Log(data.maxActionPoints);
+        Debug.Log(data.meleeDamage);
        
     }
 
@@ -40,6 +43,42 @@ public class UnitController : MonoBehaviour
     {
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName);
         data = UnitData.CreateNewUnit(unitName, race);
+
+        
+        if(currentMutation != MutationID.none)
+        {
+
+            bool equipped = data.EquipMutation(currentMutation);
+
+            Debug.Log($"Mutation equipped: {equipped}");
+            Debug.Log($"Active mutations: {data.activeMutations.Count}");
+            
+           
+
+            foreach(BaseMutation available in data.activeMutations.Values)
+            {
+                Debug.Log($"{available.name} , {available.ID}, {available.currentStage}");
+                    available.OnEquipped(this);
+
+                
+            }
+        }
+
+
+       
+        if (currentEquipment != null)
+        {
+            Debug.Log($"{currentEquipment.name}");
+            data.EquipItem(currentEquipment);
+          
+            Debug.Log($"Active Items: {data.equippedItems.Count}");
+            foreach (EquipmentData item in data.equippedItems.Values)
+            {
+              
+                data.ApplyEquipmentBonuses(item, 1);
+                
+            }
+        }
     }
     //Sets the Node of the unit,
     public void InitializeNode() 
