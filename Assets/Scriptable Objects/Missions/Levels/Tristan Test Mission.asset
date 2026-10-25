@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f19ee410294cac9e59405fec5051a6, type: 3}
+  m_Name: Tristan Test Mission
+  m_EditorClassIdentifier: Assembly-CSharp::LevelMissionData
+  missionId: tristan-test
+  missionName: Tristan Test Mission
+  playerFaction: {fileID: 11400000, guid: f70d6ea892e819b4eb2732e0c194dc1f, type: 2}
+  objectives:
+  - template: {fileID: 11400000, guid: 1fa0c02e19034b5899639cf97ba3d9ae, type: 2}
+    objectiveId: eliminate-hostiles
+    optional: 0
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 1
+    prerequisiteObjectiveIds: []
+  - template: {fileID: 11400000, guid: 47e4fdb836744d0abdd9aa2aab592d95, type: 2}
+    objectiveId: rescue-civilians
+    optional: 1
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 1
+    prerequisiteObjectiveIds: []

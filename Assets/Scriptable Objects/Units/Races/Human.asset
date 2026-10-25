@@ -9,16 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4beb5bae1ac138948a90f9972e4e643b, type: 3}
-  m_Name: TesstDynamic
+  m_Script: {fileID: 11500000, guid: 37788340fd3a1ca41a8bedb47258cbbc, type: 3}
+  m_Name: Human
   m_EditorClassIdentifier: Assembly-CSharp::DynamicStats
-  flatStats: {fileID: 11400000, guid: c0b6f5967b04fab4494037efdc067021, type: 2}
-  strengthModifier: 1
-  dexterityModifier: 1
-  vitalityModifier: 1
-  constitutionModifier: 1
-  perceptionModifier: 1
-  intelligenceModifier: 1
+  flatStats: {fileID: 11400000, guid: 614370313c2a7b848a80f6300ed0962d, type: 2}
+
+  _strengthModifier: 1
+  _dexterityModifier: 1
+  _vitalityModifier: 1
+  _constitutionModifier: 1
+  _perceptionModifier: 1
+  _intelligenceModifier: 1
+
   healthModifier: 0
   manaModifier: 0
   actionPointsModifier: 0
@@ -35,3 +37,5 @@ MonoBehaviour:
   _MagicDamage: 10
   _ArmorDef: 10
   _Will: 100
+  
+  racialActionSet: {fileID: 11400000, guid: 90a4fe2b336afc946863e661e4cf8abe, type: 2}

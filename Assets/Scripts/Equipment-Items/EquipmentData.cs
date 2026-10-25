@@ -5,22 +5,24 @@ using UnityEngine;
 public class EquipmentData : ScriptableObject
 {
     [Header("ItemInformation- Name (ex: Iron Sword)")]
-    
+
     [SerializeField] private string itemName;
 
     [Header("ItemInformation- ID (ex: Weapon_Iron_Sword)")]
     [SerializeField] private string itemID;
 
     [Header("ItemInforamtion- equipmentType/Grade/Scalers")]
-    [SerializeField] private ArmorCategory armor = ArmorCategory.None; 
-    [SerializeField] private WeaponCategory weapon = WeaponCategory.None; 
+    [SerializeField] private ArmorCategory armor = ArmorCategory.None;
+    [SerializeField] private WeaponCategory weapon = WeaponCategory.None;
     [SerializeField] private EquipmentSlots targetSlot;
     [SerializeField] private EquipmentGrade currentRarity;
-    [SerializeField] private EquipmentGenerationType type; 
+    [SerializeField] private EquipmentGenerationType type;
     [SerializeField] private EquipmentStatBonus statModifier; //StatModifier
 
-    
-   
+    [Header("Granted Actions")]
+    [SerializeField] private ActionSet grantedActionSet;
+
+
 
     [Header("StatValues")]
 
@@ -42,13 +44,14 @@ public class EquipmentData : ScriptableObject
 
     [Header("Access To Equipments Detail")]
 
-    public EquipmentSlots slot => targetSlot; 
+    public EquipmentSlots slot => targetSlot;
     public int armorRating => _armorRating;
     public int movementPenalty => _movementPenalty;
     public int meleeDamage => _meleeDamage;
     public int rangeDamage => _rangeDamage;
     public int magicDamage => _magicDamage;
     public int accuracyBonus => _accuracyBonus;
+    public ActionSet GrantedActionSet => grantedActionSet;
 
 
 }
