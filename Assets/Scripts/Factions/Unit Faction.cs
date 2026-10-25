@@ -13,5 +13,9 @@ public class UnitFaction : MonoBehaviour
         faction = newFaction;
 
     }
+    public string GetFactionID() 
+    {
+        return faction.Id;
+    }
 
 }
