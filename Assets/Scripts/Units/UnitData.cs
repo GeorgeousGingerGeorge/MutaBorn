@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Analytics;
 
 
 
@@ -266,6 +267,60 @@ public class UnitData
         }
     }
 
+
+    //Mutations- Equipping Mutations, Initializing Trackers
+    public void EquipMutation(MutationID id) 
+    {
+        if (!CanEquipMutation(id)) 
+        {
+            return;
+        }
+
+        foreach (BodySlots slot in Enum.GetValues(typeof(BodySlots)))
+        {
+            foreach (MutationStrain strain in Enum.GetValues(typeof(MutationStrain))) 
+            {
+                List<MutationID> listOfMutations = GameDataBaseLoader.Instance.mutationData.GetMutationsForSlots(slot, strain);
+
+                foreach (MutationID currID in listOfMutations) 
+                {
+                    if (id == currID) 
+                    {
+                        activeMutations[slot] = GameDataBaseLoader.Instance.mutationData.CreateMutation(id);
+                        return; 
+                    }
+                }
+            }
+        }
+    }
+
+    public bool CanEquipMutation(MutationID id) 
+    {
+
+        foreach (BodySlots slot in Enum.GetValues(typeof(BodySlots))) 
+        {
+            if (slot == BodySlots.None)
+            {
+                continue;
+            }
+            else if (activeMutations.ContainsKey(slot) && activeMutations[slot] != null) 
+            {
+                continue;
+            }
+
+
+            BaseMutation currentMutation = GameDataBaseLoader.Instance.mutationData.CreateMutation(id);
+
+            if (activeMutations.ContainsValue(currentMutation)) 
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+ 
     //Initializes the unit
     public static UnitData CreateNewUnit(string name = "harry",DynamicStats race = null) 
     {

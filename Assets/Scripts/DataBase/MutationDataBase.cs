@@ -17,6 +17,7 @@ public class MutationDataBase : ScriptableObject
     [SerializeField] private List<MutationLookupEntry> entries = new List<MutationLookupEntry>();
 
     private Dictionary<(BodySlots, MutationStrain), List<MutationID>> mutationLookup = new Dictionary<(BodySlots, MutationStrain), List<MutationID>>();
+
     private static readonly Dictionary<MutationID, Func<BaseMutation>> mutationFactory = new Dictionary<MutationID, Func<BaseMutation>>
     {
         {MutationID.Vampirism, () => new VampirismMutation() },
