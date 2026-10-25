@@ -63,10 +63,10 @@ public class VampirismMutation : BaseMutation
     [Header("Improve Stage Progression")]
     public override int currentStage => 1;
     public override bool IsMaxStage => currentStage >= 10; // The number max Number of Stages;
-    public override MutationBonus bonus => currentStage switch 
+    public override MutationBonus bonus => currentStage switch
     {
-         1 => new MutationBonus { }
-    }
+        1 => new MutationBonus { }
+    };
 
     public override void OnEquipped(UnitController unit) 
     {

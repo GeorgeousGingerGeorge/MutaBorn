@@ -41,6 +41,8 @@ public class EquipmentData : ScriptableObject
 
 
     [Header("Access To Equipments Detail")]
+
+    public EquipmentSlots slot => targetSlot; 
     public int armorRating => _armorRating;
     public int movementPenalty => _movementPenalty;
     public int meleeDamage => _meleeDamage;
