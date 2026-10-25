@@ -37,7 +37,7 @@ public class MutationBonus
     public int armor;
     public int will;
 }
-public abstract class BaseMutation
+public abstract class BaseMutation : IMutationCombatReaction
 {
     public abstract MutationID ID { get; }
     public abstract string name { get; }
@@ -51,6 +51,16 @@ public abstract class BaseMutation
 
     public abstract void OnEquipped(UnitController unit);
     public abstract void OnRemoved(UnitController unit);
+
+    public virtual void OnDamageDealt(UnitController owner, CombatDamageEvent damageEvent)
+    {
+
+    }
+
+    public virtual void OnDamageReceived(UnitController owner, CombatDamageEvent damageEvent)
+    {
+
+    }
 }
 
 public class VampirismMutation : BaseMutation 
@@ -92,6 +102,22 @@ public class VampirismMutation : BaseMutation
     public void VampireHeal(UnitController unit) 
     {
         unit.data.ModifyHealth(5);
+    }
+
+    public override void OnDamageDealt(UnitController owner, CombatDamageEvent damageEvent)
+    {
+        if (owner == null || owner.data == null || damageEvent.ActualDamage <= 0)
+        {
+            return;
+
+        }
+
+        int healthBefore = owner.data.currentHealth;
+        VampireHeal(owner);
+        int restoredHealth = owner.data.currentHealth - healthBefore;
+
+        Debug.Log($"{owner.data.characterName}'s {name} activated: restored {restoredHealth} HP.", owner);
+
     }
 }
 public class AssassinClawMutation : BaseMutation

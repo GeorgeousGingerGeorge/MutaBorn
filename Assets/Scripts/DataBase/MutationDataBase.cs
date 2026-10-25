@@ -10,11 +10,22 @@ public struct MutationDefinition
     [SerializeField]public float stageMultiplier;
 }
 
+[Serializable]
+public class MutationActionGrant
+{
+    public MutationID mutationId;
+    public ActionSet actionSet;
+
+}
+
 [CreateAssetMenu(fileName = "MutationDataBase", menuName = "Scriptable Objects/MutationDataBase")]
 public class MutationDataBase : ScriptableObject
 {
     [SerializeField] private Dictionary<MutationID, MutationDefinition> mutationCost = new Dictionary<MutationID, MutationDefinition>();
     [SerializeField] private List<MutationLookupEntry> entries = new List<MutationLookupEntry>();
+
+    [Header("Granted Mutation Actions")]
+    [SerializeField] private List<MutationActionGrant> actionGrants = new List<MutationActionGrant>();
 
     private Dictionary<(BodySlots, MutationStrain), List<MutationID>> mutationLookup = new Dictionary<(BodySlots, MutationStrain), List<MutationID>>();
 
@@ -57,5 +68,28 @@ public class MutationDataBase : ScriptableObject
             return mutations; 
         }
         return null;
+    }
+
+
+    public ActionSet GetGrantedActionSet(MutationID mutationId)
+    {
+        if (mutationId == MutationID.none)
+        {
+            return null;
+
+        }
+
+        foreach (MutationActionGrant grant in actionGrants)
+        {
+            if (grant != null && grant.mutationId == mutationId)
+            {
+                return grant.actionSet;
+
+            }
+
+        }
+
+        return null;
+
     }
 }

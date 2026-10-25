@@ -145,9 +145,9 @@ public class UnitData
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
 
     }
-    public void ModifyMana(int amount) 
+    public void ModifyMana(int amount)
     {
-        currentMana = Mathf.Clamp(currentHealth + amount, 0, maxMana);
+        currentMana = Mathf.Clamp(currentMana + amount, 0, maxMana);
 
     }
     public void ModifyActionPoints(int amount) 
@@ -320,14 +320,22 @@ public class UnitData
         return true;
     }
 
- 
+
+    public void RefillResourcesToMax()
+    {
+        currentHealth = maxHealth;
+        currentMana = maxMana;
+        currentActionPoints = maxActionPoints;
+
+    }
+
     //Initializes the unit
     public static UnitData CreateNewUnit(string name = "harry",DynamicStats race = null) 
     {
         //Setting Character name and race name for search later
         UnitData newUnit = new UnitData();
         newUnit.characterName = name;
-        newUnit.raceName = race.name;
+        newUnit.raceName = race.RaceName;
         newUnit.race = race; 
        
 

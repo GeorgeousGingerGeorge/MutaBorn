@@ -79,6 +79,9 @@ public class UnitController : MonoBehaviour
                 
             }
         }
+
+        data.RefillResourcesToMax();
+
     }
     //Sets the Node of the unit,
     public void InitializeNode() 

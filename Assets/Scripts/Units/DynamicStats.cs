@@ -87,6 +87,14 @@ public class DynamicStats : ScriptableObject
 
     [SerializeField] private int _Will;
 
+
+    [Header("Racial Actions")]
+    [Tooltip("Actions automatically granted to units of this race, in addition to the universal action set.")]
+    [SerializeField] private ActionSet racialActionSet;
+
+    public ActionSet RacialActions => racialActionSet;
+
+    
     [Header("BaseCharater- Modifiers")]
     public float strengthModifier => _strengthModifier;
     public float dexterityModifier => _dexterityModifier;
