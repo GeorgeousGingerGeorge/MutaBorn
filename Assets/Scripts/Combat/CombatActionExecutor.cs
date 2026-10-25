@@ -99,8 +99,9 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        // DamageUnit actions share one execution path, regardless of their Action ID.
-        if (action.CombatBehavior != CombatActionBehavior.DamageUnit)
+        // Executable combat actions are selected by behavior, not by Action ID.
+        if (action.CombatBehavior != CombatActionBehavior.DamageUnit &&
+            action.CombatBehavior != CombatActionBehavior.ApplyGuard)
         {
             Debug.LogWarning($"'{action.DisplayName}' does not have an executable combat behavior yet.", this);
 
@@ -144,6 +145,43 @@ public sealed class CombatActionExecutor : MonoBehaviour
             Debug.Log($"Not enough AP to use {action.DisplayName}.", source);
 
             return false;
+
+        }
+
+        // Defensive self-actions activate immediately; they do not enter targeting mode.
+        if (action.CombatBehavior == CombatActionBehavior.ApplyGuard)
+        {
+            if (IsTargeting)
+            {
+                Debug.Log("Finish or cancel the current targeting action before guarding.", this);
+
+                return false;
+
+            }
+
+            CombatStatusHandler statuses = CombatStatusHandler.Instance;
+            if (statuses == null)
+            {
+                Debug.LogError("CombatStatusHandler is missing. Add it to the Managers GameObject.", this);
+
+                return false;
+
+            }
+
+            if (!statuses.ApplyGuard(source, action.GuardDamageReductionPercent))
+            {
+                return false;
+
+            }
+
+            int cost = Mathf.CeilToInt(action.ApCost);
+            source.data.ModifyActionPoints(-cost);
+            loadout.RecordSuccessfulUse(action);
+
+            Debug.Log($"{source.data.characterName} used {action.DisplayName}. " +
+                      $"AP: {source.data.currentActionPoints}/{source.data.maxActionPoints}", this);
+
+            return true;
 
         }
 
@@ -249,6 +287,13 @@ public sealed class CombatActionExecutor : MonoBehaviour
         // Prototype rules still assume guaranteed hits and subtract armor for all damage stats.
         // UnitData already includes race, equipment, and mutation stat bonuses.
         int damage = CalculateDamage(attacker.data, target.data, pendingAction);
+
+        // Defenses modify incoming damage before health changes or damage events fire.
+        if (CombatStatusHandler.Instance != null)
+        {
+            damage = CombatStatusHandler.Instance.FilterIncomingDamage(target, damage);
+
+        }
 
         // All successful-attack bookkeeping remains centralized here.
         // Report the ACTUAL health lost (a 50-damage hit against 8 HP dealt 8 HP of damage).

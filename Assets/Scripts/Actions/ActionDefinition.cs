@@ -22,7 +22,8 @@ public enum ActionActivationType
 public enum CombatActionBehavior
 {
     None,
-    DamageUnit
+    DamageUnit,
+    ApplyGuard
 
 }
 
@@ -63,7 +64,7 @@ public class ActionDefinition : ScriptableObject
 
     [Header("Combat Rules")]
 
-    [Tooltip("Only Damage Unit is executable by the current combat prototype. None is used for non-combat actions and passives.")]
+    [Tooltip("Select the gameplay behavior. None is for passive or not-yet-implemented actions.")]
     [SerializeField] private CombatActionBehavior combatBehavior = CombatActionBehavior.None;
 
     [Tooltip("Which calculated UnitData damage stat this attack uses. Includes relevant equipment and mutation bonuses.")]
@@ -73,6 +74,11 @@ public class ActionDefinition : ScriptableObject
     [SerializeField, Min(0f)] private float damageMultiplier = 1f;
     [SerializeField] private int flatDamageBonus = 0;
     [SerializeField, Min(0)] private int minimumDamage = 5;
+
+    [Header("Defensive Rules")]
+
+    [Tooltip("For ApplyGuard: incoming damage reduction percentage until the unit's next faction turn begins.")]
+    [SerializeField, Range(0f, 100f)] private float guardDamageReductionPercent = 50f;
 
     public string Id => actionId;
     public string DisplayName => displayName;
@@ -90,4 +96,5 @@ public class ActionDefinition : ScriptableObject
     public float DamageMultiplier => damageMultiplier;
     public int FlatDamageBonus => flatDamageBonus;
     public int MinimumDamage => minimumDamage;
+    public float GuardDamageReductionPercent => guardDamageReductionPercent;
 }

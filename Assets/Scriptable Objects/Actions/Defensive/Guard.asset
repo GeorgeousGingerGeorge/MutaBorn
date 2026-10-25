@@ -10,20 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Arcane Bolt 1
+  m_Name: Guard
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: fire-ball
-  displayName: Fire Ball
-  description: Shoot magic fire at enemy
+  actionId: guard
+  displayName: Guard
+  description: Enter a defensive stance, reducing incoming damage by 50% until the start of your next turn.
   icon: {fileID: 0}
   activationType: 0
-  category: 0
-  submenuGroup: Magic
-  displayOrder: 4
+  category: 1
+  submenuGroup: Defensive
+  displayOrder: 10
   apCost: 8
-  combatBehavior: 1
-  damageStat: 2
-  combatRange: 7
-  damageMultiplier: 1.7
+  combatBehavior: 2
+  damageStat: 0
+  combatRange: 0.1
+  damageMultiplier: 0
   flatDamageBonus: 0
-  minimumDamage: 7
+  minimumDamage: 0
+  guardDamageReductionPercent: 50

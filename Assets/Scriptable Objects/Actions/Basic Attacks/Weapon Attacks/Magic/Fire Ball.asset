@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Basic Melee Atack
+  m_Name: Fire Ball
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: basic-attack
-  displayName: Basic Attack
-  description: a simple strike to your foe, takes a moderate amount of energy.
+  actionId: fire-ball
+  displayName: Fire Ball
+  description: Shoot magic fire at enemy
   icon: {fileID: 0}
   activationType: 0
   category: 0
-  submenuGroup: General
-  displayOrder: 100
-  apCost: 5
+  submenuGroup: Magic
+  displayOrder: 4
+  apCost: 8
   combatBehavior: 1
-  damageStat: 0
-  combatRange: 2.9
-  damageMultiplier: 1
+  damageStat: 2
+  combatRange: 7
+  damageMultiplier: 1.7
   flatDamageBonus: 0
-  minimumDamage: 5
+  minimumDamage: 7
