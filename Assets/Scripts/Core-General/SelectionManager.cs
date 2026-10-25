@@ -33,6 +33,14 @@ public class SelectionManager : MonoBehaviour
         if (!input.OnLeftClick())
             return;
 
+        // Target clicks belong to targeting mode, not unit/terrain selection.
+        if (TargetingModeController.BlocksSelection)
+            return;
+
+        // Do not select units or tiles through Action Menu UI.
+        if (UnityEngine.EventSystems.EventSystem.current != null &&
+            UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            return;
 
         HandleClickSelection();
 

@@ -39,6 +39,9 @@ public class ActionMenuUI : MonoBehaviour
     [SerializeField] private UIButton closeExpandedButton;
     [SerializeField] private TMP_Text emptyMessageText;
 
+    [Header("Combat Execution")]
+    [SerializeField] private CombatActionExecutor combatExecutor;
+
     [Header("Prototype Interaction")]
     [SerializeField, Min(0.1f)] private float interactionRange = 2.5f;
 
@@ -284,9 +287,20 @@ public class ActionMenuUI : MonoBehaviour
         if (displayedUnit.data.currentActionPoints < action.ApCost)
             return;
 
-        // No combat executor is connected yet. Don't deduct AP or record successful use.
-        Debug.Log($"Action requested: {action.DisplayName} by {displayedUnit.data.characterName}. " +
-                  "Gameplay execution is not implemented yet.", this);
+        if (action.IsPassive)
+            return;
+
+        if (combatExecutor == null)
+            combatExecutor = FindAnyObjectByType<CombatActionExecutor>();
+
+        if (combatExecutor == null)
+        {
+            Debug.LogError("No CombatActionExecutor in scene. Add it to the Action Menu object.", this);
+            return;
+        }
+
+        if (combatExecutor.TryBeginAction(displayedUnit, action))
+            CloseCategory();
     }
 
     private SimpleInteractable FindNearbyInteractable(UnitController unit)

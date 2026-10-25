@@ -18,6 +18,22 @@ public enum ActionActivationType
 
 }
 
+// Combat behavior is separate from the menu category and Active/Passive classification.
+public enum CombatActionBehavior
+{
+    None,
+    DamageUnit
+
+}
+
+public enum CombatDamageStat
+{
+    Melee,
+    Ranged,
+    Magic
+
+}
+
 [CreateAssetMenu(fileName = "NewAction", menuName = "Game/Actions/Action Definition")]
 public class ActionDefinition : ScriptableObject
 {
@@ -45,6 +61,19 @@ public class ActionDefinition : ScriptableObject
     [Tooltip("Only applies to active actions. Passive abilities do not spend AP to activate.")]
     [SerializeField, Min(0)] private float apCost = 5f;
 
+    [Header("Combat Rules")]
+
+    [Tooltip("Only Damage Unit is executable by the current combat prototype. None is used for non-combat actions and passives.")]
+    [SerializeField] private CombatActionBehavior combatBehavior = CombatActionBehavior.None;
+
+    [Tooltip("Which calculated UnitData damage stat this attack uses. Includes relevant equipment and mutation bonuses.")]
+    [SerializeField] private CombatDamageStat damageStat = CombatDamageStat.Melee;
+
+    [SerializeField, Min(0.1f)] private float combatRange = 2.5f;
+    [SerializeField, Min(0f)] private float damageMultiplier = 1f;
+    [SerializeField] private int flatDamageBonus = 0;
+    [SerializeField, Min(0)] private int minimumDamage = 5;
+
     public string Id => actionId;
     public string DisplayName => displayName;
     public string Description => description;
@@ -55,4 +84,10 @@ public class ActionDefinition : ScriptableObject
     public string SubmenuGroup => submenuGroup;
     public int DisplayOrder => displayOrder;
     public float ApCost => apCost;
+    public CombatActionBehavior CombatBehavior => combatBehavior;
+    public CombatDamageStat DamageStat => damageStat;
+    public float CombatRange => combatRange;
+    public float DamageMultiplier => damageMultiplier;
+    public int FlatDamageBonus => flatDamageBonus;
+    public int MinimumDamage => minimumDamage;
 }

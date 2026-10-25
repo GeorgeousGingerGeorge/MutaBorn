@@ -10,11 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Basic Melee Atack
+  m_Name: Throw Debris
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: basic-attack
-  displayName: Basic Attack
-  description: a simple strike to your foe, takes a moderate amount of energy.
+  actionId: throw-debris
+  displayName: Throw Debris
+  description: Throw a rock or something from the ground at the enemy
   icon: {fileID: 0}
+  activationType: 0
   category: 0
-  apCost: 5
+  submenuGroup: Ranged
+  displayOrder: 2
+  apCost: 4
+  combatBehavior: 1
+  damageStat: 1
+  combatRange: 8
+  damageMultiplier: 0
+  flatDamageBonus: 0
+  minimumDamage: 2
