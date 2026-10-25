@@ -23,7 +23,7 @@ public class MutationDataBase : ScriptableObject
         {MutationID.Vampirism, () => new VampirismMutation() },
         {MutationID.LaunchExplosive, () => new VampirismMutation() },
         {MutationID.Sage, () => new VampirismMutation() },
-        {MutationID.AssassinClaws, () => new VampirismMutation() },
+        {MutationID.AssassinClaws, () => new AssassinClawMutation() },
        
     };
 

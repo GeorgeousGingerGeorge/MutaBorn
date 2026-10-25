@@ -56,9 +56,10 @@ public class UnitData
     public int totalIntelligence => leveledIntelligence + startingIntelligence + mutationIntelligence + equipmentIntelligence;
 
     [Header("Character Information- Equipped Mutations/Gear Plus Tracker")]
-    Dictionary<BodySlots, BaseMutation> activeMutations;
-    Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>> mutationTracker;
-    Dictionary<EquipmentSlots, EquipmentData> equippedItems;
+    public Dictionary<BodySlots, BaseMutation> activeMutations = new Dictionary<BodySlots, BaseMutation>();
+    public Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>> mutationTracker
+        = new Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>>();
+    public Dictionary<EquipmentSlots, EquipmentData> equippedItems = new Dictionary<EquipmentSlots, EquipmentData>();
 
     [Header("Character Information- Current Status (mutationBonus)")]
     public int mutationHealth;
@@ -182,6 +183,21 @@ public class UnitData
         RecalculateStats();
 
     }
+    public void ApplyEquipmentBonuses(EquipmentData item, int multiplier)
+    {
+        if (item == null)
+            return;
+       
+        equipmentMeleeDamage += item.meleeDamage * multiplier;
+        equipmentRangeDamage += item.rangeDamage * multiplier;
+        equipmentMagicDamage += item.magicDamage * multiplier;
+        equipmentArmor += item.armorRating * multiplier;
+       
+
+
+        RecalculateStats();
+
+    }
     public void RecalculateStats() 
     {
         CalcMaxHealth(race);
@@ -203,52 +219,49 @@ public class UnitData
     //Adding equipment checks to check slots
     public bool CanEquipItem(EquipmentData item) 
     {
-        foreach(EquipmentSlots slot in Enum.GetValues(typeof(EquipmentSlots)))
+        if (item == null || item.slot == EquipmentSlots.None) 
         {
-            if (slot == EquipmentSlots.None) 
-            {
-                continue;
-            }
-
-            if ((item.slot & slot) == slot) 
-            {
-                if (equippedItems.ContainsKey(slot) && equippedItems[slot] != null) 
-                {
-                    return false;
-                }
-
-                BodySlots correspondingBodySlot = MapEquipmentToBodySlot(slot);
-                if (activeMutations.ContainsKey(correspondingBodySlot) && activeMutations[correspondingBodySlot] != null) 
-                {
-                    return false; 
-                }
-            }
-
+            return false;
         }
+        
+
+        BodySlots targetSlot = MapEquipmentToBodySlot(item.slot);
+        if (activeMutations.ContainsKey(targetSlot) && activeMutations[targetSlot] != null) 
+        {
+            return false;
+        }
+
         return true;
     }
 
     //How to actually equip the item
-    public void EquipItem(EquipmentData item) 
+    public void EquipItem(EquipmentData item)
     {
-        if (!CanEquipItem(item)) 
+        if (!CanEquipItem(item))
         {
+            
             return;
         }
 
-        foreach (EquipmentSlots slot in Enum.GetValues(typeof(EquipmentSlots))) 
-        {
-            if (slot == EquipmentSlots.None) 
-            {
-                continue;
-            }
 
-            if ((item.slot & slot) == slot) 
-            {
-                equippedItems[slot] = item;
-            }
+
+        if (equippedItems.ContainsKey(item.slot) && equippedItems[item.slot] != null)
+        {
+            equippedItems.Remove(item.slot);
+            equippedItems.Add(item.slot, item);
+
         }
+        else 
+        {
+            equippedItems.Add(item.slot, item);
+        }
+        
+        
+        
+
     }
+
+        
     //Determines what equipment slots the item takes and returns it for a check
     private BodySlots MapEquipmentToBodySlot(EquipmentSlots equipSlot) 
     {
@@ -269,53 +282,40 @@ public class UnitData
 
 
     //Mutations- Equipping Mutations, Initializing Trackers
-    public void EquipMutation(MutationID id) 
+    public bool EquipMutation(MutationID id) 
     {
         if (!CanEquipMutation(id)) 
         {
-            return;
+            return false;
         }
 
-        foreach (BodySlots slot in Enum.GetValues(typeof(BodySlots)))
-        {
-            foreach (MutationStrain strain in Enum.GetValues(typeof(MutationStrain))) 
-            {
-                List<MutationID> listOfMutations = GameDataBaseLoader.Instance.mutationData.GetMutationsForSlots(slot, strain);
+        BaseMutation mutation = GameDataBaseLoader.Instance.mutationData.CreateMutation(id);
 
-                foreach (MutationID currID in listOfMutations) 
-                {
-                    if (id == currID) 
-                    {
-                        activeMutations[slot] = GameDataBaseLoader.Instance.mutationData.CreateMutation(id);
-                        return; 
-                    }
-                }
-            }
-        }
+        activeMutations.Add(mutation.slot, mutation);
+       
+        return true;
     }
 
     public bool CanEquipMutation(MutationID id) 
     {
-
-        foreach (BodySlots slot in Enum.GetValues(typeof(BodySlots))) 
+        if (id == MutationID.none) 
         {
-            if (slot == BodySlots.None)
-            {
-                continue;
-            }
-            else if (activeMutations.ContainsKey(slot) && activeMutations[slot] != null) 
-            {
-                continue;
-            }
-
-
-            BaseMutation currentMutation = GameDataBaseLoader.Instance.mutationData.CreateMutation(id);
-
-            if (activeMutations.ContainsValue(currentMutation)) 
-            {
-                return false;
-            }
+            return false;
         }
+
+
+        BaseMutation currentMutation = GameDataBaseLoader.Instance.mutationData.CreateMutation(id);
+
+        if (currentMutation == null) 
+        {
+            return false;
+        }
+
+        if (activeMutations.ContainsKey(currentMutation.slot) && activeMutations[currentMutation.slot] != null) 
+        {
+                return false;
+        }
+        
 
         return true;
     }
