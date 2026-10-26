@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
-using Unity.GraphToolkit.Editor;
 using UnityEngine;
 
 public class UnitMovements : MonoBehaviour
 {
     private MovementManager movementController;
     private SelectionManager selectionController;
+   
     private UnitController unit;
 
     private float moveSpeed = 20f;
@@ -14,12 +15,16 @@ public class UnitMovements : MonoBehaviour
     private int pathIndex = 0;
     private List<GridNode> movementPath = new List<GridNode>();
     private List<TileController> highlightedTiles = new List<TileController>();
+    private Animator animBaseChar;
+    private Animator CDGoblin;
 
     public void Awake() 
     {
         movementController = FindAnyObjectByType<MovementManager>();
         selectionController = FindAnyObjectByType<SelectionManager>();
         unit = this.GetComponent<UnitController>();
+        animBaseChar = GetComponentInChildren<Animator>();
+        CDGoblin = GetComponentInChildren<Animator>();
 
     }
     
@@ -28,8 +33,13 @@ public class UnitMovements : MonoBehaviour
 
         
         HandleMovement();
-    
 
+        if (unit.GetComponentInChildren<Animator>() != null)
+        {
+            animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
+            animBaseChar.transform.position = transform.position;
+            CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
+        }
     }
 
     private void HandleMovement() 
@@ -72,34 +82,35 @@ public class UnitMovements : MonoBehaviour
         {
             isMoving = false;
             selectionController.ClearDestination();
-            selectionController.ClearUnitSelection();
             movementPath.Clear();
             pathIndex = 0;
+            selectionController.RefreshSelectedUnitAfterMovement(unit);
             return;
         }
 
 
 
         GridNode nextnode = movementPath[pathIndex];
-        bool isFloorChange = unit.currentNode.floorID != nextnode.floorID;
+       
 
 
 
         Vector3 target = nextnode.cellWorldPosition;
-        target.y += 0.5f;
+        target.y += 0.26f;
 
-        if (!isFloorChange)
-        {
-            target.y = transform.position.y;
-        }
         transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+        
 
         if (Vector3.Distance(transform.position, target) < 0.01f)
         {
-
+           
             transform.position = target;
 
+            movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
+           
             unit.SetNode(nextnode);
+
+            movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
             pathIndex++;
         }
 
@@ -120,6 +131,7 @@ public class UnitMovements : MonoBehaviour
 
         foreach (KeyValuePair<GridNode, float> values in reachables) 
         {
+            
             GridNode node = values.Key;
             float cost = values.Value;
 
@@ -130,10 +142,14 @@ public class UnitMovements : MonoBehaviour
             }
             if (node == startNode) 
             {
+                TileController unitSelectedTile = movementController.GetGridManager().FindTile(node);
+                unitSelectedTile.SetUnitSelected(true);
+                highlightedTiles.Add(unitSelectedTile);
                 continue;
             }
 
             TileController tile = movementController.GetGridManager().FindTile(node);
+
 
             if(tile != null)
             { 
@@ -154,6 +170,11 @@ public class UnitMovements : MonoBehaviour
         {
             if (tile != null)
             {
+                if (tile.isUnitSelected)
+                {
+                    tile.SetUnitSelected(false);
+                    continue;
+                }
                 tile.SetMovementRange(false);
 
             }

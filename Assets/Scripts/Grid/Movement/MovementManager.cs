@@ -1,12 +1,13 @@
 using System.Collections.Generic;
-using Unity.Collections.Tests.CoreCLR.TestJobs;
 using UnityEngine;
-using UnityEngine.Assemblies;
+
 
 public class MovementManager : MonoBehaviour
 {
-    [Header("GridManager info")]
+    [Header("Necessary Information Game Information")]
     [SerializeField] private GridManager gridManager;
+    [SerializeField] private Occupancy occupancy;
+    public Occupancy readOccupancy => occupancy;
 
     [Header("Beginning Node and Destination Node")]
     public GridNode startNode { get; private set; }
@@ -16,6 +17,7 @@ public class MovementManager : MonoBehaviour
     private List<GridNode> route = new List<GridNode>();
     private Dictionary<Vector2Int, GridNode> grid = new Dictionary<Vector2Int, GridNode>();
 
+    
     public void SetNodes(GridNode start, GridNode destination, float movementAllowed) 
     {
         if (gridManager == null)
@@ -29,7 +31,9 @@ public class MovementManager : MonoBehaviour
         if (targetNode == null)
             return;
 
+       
         grid = gridManager.GetGrid(startNode.floorID);
+        
         if(grid == null) 
         {
             return;
@@ -44,6 +48,7 @@ public class MovementManager : MonoBehaviour
 
     private List<GridNode> FindPath(GridNode startNode, GridNode targetNode, float movementAllowed) 
     {
+        
         Dictionary<GridNode, float> distance = new Dictionary<GridNode, float>();
         Dictionary<GridNode, GridNode> previousNode = new Dictionary<GridNode, GridNode>();
 
@@ -87,10 +92,21 @@ public class MovementManager : MonoBehaviour
 
             foreach (GridNode neighbor in current.GetNeighbors())
             {
-                if (neighbor == null || visited.Contains(neighbor))
+                if(neighbor == null || visited.Contains(neighbor))
                     continue;
-
-
+                if (!TerrainLogic.CheckTerrainType(neighbor.currentTerrain)) 
+                {
+                    continue; 
+                }
+                if (occupancy == null) 
+                {
+                    return null;
+                }
+                if (!occupancy.CanEnterNode(current, neighbor, occupancy.FindUnit(startNode))) 
+                {
+                    continue;
+                }
+                
                 float newCost = distance[current] + GetMovementCost(neighbor, current);
 
                 if (newCost > movementAllowed)
@@ -158,6 +174,14 @@ public class MovementManager : MonoBehaviour
             {
                 if (neighbor == null || visited.Contains(neighbor)) 
                     continue;
+                if (occupancy == null)
+                {
+                    return null;
+                }
+                if (!occupancy.CanEnterNode(current, neighbor,occupancy.FindUnit(startNode)))
+                {
+                    continue;
+                }
 
                 float stepCost = GetMovementCost(neighbor, current);
 
@@ -202,10 +226,10 @@ public class MovementManager : MonoBehaviour
         return path; 
     }
 
-    //Calculation--MovevementCost, need to add implentation for tile effect
+    //Calculation--MovementCost, need to add implentation for tile effect
     private float GetMovementCost(GridNode neighbor, GridNode home) 
     {
-        float movementCost = neighbor.GetMovementCost();
+        float movementCost = neighbor.GetNodeMovementCost();
 
         float dx = Mathf.Abs(neighbor.coords.x - home.coords.x);
         float dy = Mathf.Abs(neighbor.coords.y - home.coords.y);

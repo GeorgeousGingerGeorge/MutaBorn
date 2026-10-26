@@ -1,62 +1,112 @@
-using System.Collections.Generic;
-using Unity.AI.Assistant.Agent.Dynamic.Extension.Editor;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
+    [Header("Unit's Size")]
+    [SerializeField] private Vector2Int footPrintSize = Vector2Int.one;
+    public Vector2Int footPrint => footPrintSize;
+
+    [Header("Units Data- Status, Inventory, Equipment, Mutations")]
+
+    [SerializeField] public string unitName; 
+    [SerializeField] public string raceName;
+    [SerializeField] public MutationID currentMutation;
+    [SerializeField] public EquipmentData currentEquipment;
+    DynamicStats race = null;
+
+    public UnitData data { get; private set; } 
+
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
-
-    public UnitStats getStats;
-
-    public float actionPoints;
+    public Occupancy occupancy;
     [Header("Controls Outline Visuals")]
-    private OutlineController characterOutline;
+  //  private OutlineController characterOutline;
     private bool isHovered = false;
     private bool isSelected = false;
-    public void Awake() 
+    public void Start() 
     {
-        getStats = this.GetComponent<UnitStats>();
-        GetOutlineController();
-        actionPoints = getStats.MaxActionPoints * 1f;
+        InitializeUnitData();
+        InitializeNode();
+        Debug.Log(data.characterName);
+        Debug.Log(data.raceName);
+        Debug.Log(data.maxHealth);
+        Debug.Log(data.maxMana);
+        Debug.Log(data.maxActionPoints);
+        Debug.Log(data.meleeDamage);
+       
     }
 
- 
+  
+
+
+    private void InitializeUnitData() 
+    {
+        race = GameDataBaseLoader.Instance.raceData.GetRace(raceName);
+        data = UnitData.CreateNewUnit(unitName, race);
+
+        
+        if(currentMutation != MutationID.none)
+        {
+
+            bool equipped = data.EquipMutation(currentMutation);
+
+            Debug.Log($"Mutation equipped: {equipped}");
+            Debug.Log($"Active mutations: {data.activeMutations.Count}");
+            
+           
+
+            foreach(BaseMutation available in data.activeMutations.Values)
+            {
+                Debug.Log($"{available.name} , {available.ID}, {available.currentStage}");
+                    available.OnEquipped(this);
+
+                
+            }
+        }
+
+
+       
+        if (currentEquipment != null)
+        {
+            Debug.Log($"{currentEquipment.name}");
+            data.EquipItem(currentEquipment);
+          
+            Debug.Log($"Active Items: {data.equippedItems.Count}");
+            foreach (EquipmentData item in data.equippedItems.Values)
+            {
+              
+                data.ApplyEquipmentBonuses(item, 1);
+                
+            }
+        }
+
+        data.RefillResourcesToMax();
+
+    }
     //Sets the Node of the unit,
     public void InitializeNode() 
     {
         currentNode = FindAnyObjectByType<GridManager>().GetNodeFromClosestWorldPosition(transform.position);
+        occupancy = FindAnyObjectByType<Occupancy>();
+        occupancy.RegisterUnit(currentNode, this);
         
     }
     public void SetNode(GridNode node) 
     {
+        occupancy.UnregisterUnit(currentNode, this);
         currentNode = node;
-    }
-
-    //Controls the Outline of the unit 
-    public void GetOutlineController() 
-    {
-        characterOutline = GetComponent<OutlineController>();
+        occupancy.RegisterUnit(currentNode, this);
     }
     public void SetHover(bool hover) 
     {
         isHovered = hover;
-        GetOutlineController();
-        characterOutline.SetupRenderer();
-        characterOutline.SetHovered(isHovered);
-        characterOutline.UpdateController(LayerMask.NameToLayer("Units"), this);
-        characterOutline.UpdateColors();
+
     }
     public void SetSelected(bool selected) 
     {
         isSelected = selected;
       
-        GetOutlineController();
-        characterOutline.SetupRenderer();
-        characterOutline.SetSelected(isSelected);
-        characterOutline.UpdateController(LayerMask.NameToLayer("Units"), this);
-        characterOutline.UpdateColors();
+
     }
 
     public bool GetSelected() 
@@ -66,6 +116,6 @@ public class UnitController : MonoBehaviour
 
     public float CurrentActionPoints() 
     {
-        return actionPoints;
+        return data.currentActionPoints;
     }
 }

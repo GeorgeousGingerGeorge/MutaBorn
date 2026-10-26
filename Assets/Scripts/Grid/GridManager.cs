@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using Unity.Hierarchy;
 
 [System.Serializable]
 public struct ConnectorsBetweenLevels 
@@ -35,6 +33,7 @@ public class GridManager : MonoBehaviour
     [Header("CurrentGrid Information- Generating a grid (No LevelPrefab)")]
 
     [SerializeField]public GameObject gridCellPrefab;
+    [SerializeField] public GameObject obstaclePrefab; 
     public List<FloorIdentification> floorGenerator = new List<FloorIdentification>();
     [SerializeField]public Dictionary<int,List<ConnectorsBetweenLevels>> stairGenerator = new Dictionary<int,List<ConnectorsBetweenLevels>>();
 
@@ -52,7 +51,13 @@ public class GridManager : MonoBehaviour
 
     public void Start()
     {
-        BuildLevel(); 
+        BuildLevel();
+        Vector3 positionGrid = new Vector3(8f, 1f, 6f);
+        if(currentLevel == null)
+        {  
+            GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, level.transform);
+            current.GetComponent<ObstacleController>().InitializeNodes();
+        }
     }
 
     public void BuildLevel()
@@ -121,7 +126,7 @@ public class GridManager : MonoBehaviour
 
                 Vector2Int coords = new Vector2Int(gridX, gridZ);
                 GridNode currentNode = new GridNode(coords, floor.GetFloorID(), worldPos);
-
+                currentNode.SetTerrain(TerrainType.OpenGround);
                
                 GameObject tilePrefab = Instantiate(gridCellPrefab, worldPos, Quaternion.identity, floorSlice.transform);
                 tilePrefab.transform.SetParent(floorSlice.transform, false);
@@ -162,6 +167,7 @@ public class GridManager : MonoBehaviour
 
                 GameObject stair = Instantiate(stairPerFloor[thisStair].connector, worldPos, worldRotation, stairNumber.transform);
                 stair.transform.SetParent(floorNumber.transform, false);
+                stair.GetComponent<ObstacleController>().InitializeNodes();
 
             }
         }
@@ -190,10 +196,10 @@ public class GridManager : MonoBehaviour
 
                 Vector2Int coords = new Vector2Int(gridX, gridZ);
                 GridNode currentNode = new GridNode(coords, floor.GetFloorID(), worldPos);
-
+                currentNode.SetTerrain(TerrainType.OpenGround);
                 //Add Components to the Tile(sliceObject) that we are manipulating in the grid
 
-               
+
                 if (sliceObject.GetComponentInParent<TileController>()) 
                 {
                     TileController currentTile = sliceObject.GetComponentInParent<TileController>();
