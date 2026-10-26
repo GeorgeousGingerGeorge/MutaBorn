@@ -13,6 +13,9 @@ public class UnitHealthBarUI : MonoBehaviour
     [Tooltip("World-space size of the health bar UI.")]
     [SerializeField, Min(0.001f)] private float canvasScale = 0.005f;
 
+    [Tooltip("Extra size applied to existing health bars, including units already in your scene.")]
+    [SerializeField, Min(0.1f)] private float sizeMultiplier = 3f;
+
     [Header("Display")]
     [SerializeField] private bool showHealthNumbers = true;
     [SerializeField] private bool hideAtFullHealth = false;
@@ -101,7 +104,7 @@ public class UnitHealthBarUI : MonoBehaviour
         }
 
         barRoot.position = unit.transform.position + Vector3.up * heightAboveUnit;
-        barRoot.localScale = Vector3.one * canvasScale;
+        barRoot.localScale = Vector3.one * canvasScale * sizeMultiplier;
 
         if (targetCamera != null)
         {
@@ -118,7 +121,7 @@ public class UnitHealthBarUI : MonoBehaviour
 
         barRoot = canvasObject.GetComponent<RectTransform>();
         barRoot.sizeDelta = new Vector2(204f, 36f);
-        barRoot.localScale = Vector3.one * canvasScale;
+        barRoot.localScale = Vector3.one * canvasScale * sizeMultiplier;
 
         Canvas canvas = canvasObject.GetComponent<Canvas>();
         canvas.renderMode = RenderMode.WorldSpace;

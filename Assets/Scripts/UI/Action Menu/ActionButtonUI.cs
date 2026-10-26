@@ -1,11 +1,12 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using UIButton = UnityEngine.UI.Button;
 
 [RequireComponent(typeof(UIButton))]
-public class ActionButtonUI : MonoBehaviour
+public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     [Header("Button References")]
     [SerializeField] private UIButton button;
@@ -15,6 +16,8 @@ public class ActionButtonUI : MonoBehaviour
     [SerializeField] private TMP_Text apCostText;
 
     private ActionDefinition boundAction;
+    private Action<ActionDefinition> previewStarted;
+    private Action<ActionDefinition> previewEnded;
 
     private void Awake()
     {
@@ -25,7 +28,9 @@ public class ActionButtonUI : MonoBehaviour
     public void Bind(
         ActionDefinition action,
         float availableAP,
-        Action<ActionDefinition> onRequested)
+        Action<ActionDefinition> onRequested,
+        Action<ActionDefinition> onPreviewStarted = null,
+        Action<ActionDefinition> onPreviewEnded = null)
     {
         if (button == null)
             button = GetComponent<UIButton>();
@@ -33,6 +38,8 @@ public class ActionButtonUI : MonoBehaviour
         button.onClick.RemoveAllListeners();
 
         boundAction = action;
+        previewStarted = onPreviewStarted;
+        previewEnded = onPreviewEnded;
 
         // Handle missing definitions.
         if (action == null)
@@ -84,6 +91,54 @@ public class ActionButtonUI : MonoBehaviour
                 onRequested?.Invoke(action);
             });
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (boundAction != null)
+        {
+            previewStarted?.Invoke(boundAction);
+
+        }
+
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        EndPreview();
+
+    }
+
+    public void OnSelect(BaseEventData eventData)
+    {
+        if (boundAction != null)
+        {
+            previewStarted?.Invoke(boundAction);
+
+        }
+
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        EndPreview();
+
+    }
+
+    private void OnDisable()
+    {
+        EndPreview();
+
+    }
+
+    private void EndPreview()
+    {
+        if (boundAction != null)
+        {
+            previewEnded?.Invoke(boundAction);
+
+        }
+
     }
 
     // Optional per-target context for action buttons generated from nearby objects.
