@@ -342,42 +342,106 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        // Prototype rules still assume guaranteed hits and subtract armor for all damage stats.
-        // UnitData already includes race, equipment, and mutation stat bonuses.
-        int damage = CalculateDamage(attacker.data, target.data, pendingAction);
+        ApplyDamage(attacker, target, pendingAction, true);
 
-        // Defenses modify incoming damage before health changes or damage events fire.
+    }
+
+    // Direct entry point for non-player factions: no player selection or targeting HUD.
+    public bool TryExecuteAiAttack(UnitController source, UnitController target, ActionDefinition action)
+    {
+        TurnManager turns = TurnManager.Instance;
+        if (turns == null || turns.IsPlayerTurn || source == null || target == null ||
+            action == null || action.IsPassive ||
+            action.CombatBehavior != CombatActionBehavior.DamageUnit ||
+            !source.isActiveAndEnabled || !target.isActiveAndEnabled ||
+            source.data == null || target.data == null ||
+            source.data.currentHealth <= 0 || target.data.currentHealth <= 0)
+        {
+            return false;
+
+        }
+
+        UnitFaction sourceFaction = source.GetComponent<UnitFaction>();
+        UnitFaction targetFaction = target.GetComponent<UnitFaction>();
+        if (sourceFaction == null || targetFaction == null || factionManager == null ||
+            !turns.IsFactionTurn(sourceFaction.Faction) ||
+            !factionManager.AreHostile(sourceFaction.Faction, targetFaction.Faction))
+        {
+            return false;
+
+        }
+
+        UnitActionLoadout loadout = source.GetComponent<UnitActionLoadout>();
+        bool ownsAction = false;
+        if (loadout != null)
+        {
+            foreach (ActionDefinition available in loadout.Actions)
+            {
+                if (available == action)
+                {
+                    ownsAction = true;
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+        int apCost = Mathf.CeilToInt(action.ApCost);
+        if (!ownsAction || source.data.currentActionPoints < apCost ||
+            Vector3.Distance(source.transform.position, target.transform.position) > action.CombatRange)
+        {
+            return false;
+
+        }
+
+        return ApplyDamage(source, target, action, false);
+
+    }
+
+    private bool ApplyDamage(UnitController source, UnitController target, ActionDefinition action,
+        bool clearPlayerTargeting)
+    {
+        if (source == null || target == null || action == null ||
+            source.data == null || target.data == null)
+        {
+            return false;
+
+        }
+
+        // Both player and AI attacks use the exact same damage and event pipeline.
+        int damage = CalculateDamage(source.data, target.data, action);
         if (CombatStatusHandler.Instance != null)
         {
             damage = CombatStatusHandler.Instance.FilterIncomingDamage(target, damage);
 
         }
 
-        // All successful-attack bookkeeping remains centralized here.
-        // Report the ACTUAL health lost (a 50-damage hit against 8 HP dealt 8 HP of damage).
-        UnitController source = attacker;
-        ActionDefinition usedAction = pendingAction;
+        int apCost = Mathf.CeilToInt(action.ApCost);
         int healthBefore = target.data.currentHealth;
 
         source.data.ModifyActionPoints(-apCost);
         target.data.ModifyHealth(-damage);
         int actualDamage = Mathf.Max(0, healthBefore - target.data.currentHealth);
-        source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(usedAction);
+        source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
 
-        Debug.Log($"{source.data.characterName} hit {target.data.characterName} for {actualDamage}. " +
-                  $"HP: {target.data.currentHealth}/{target.data.maxHealth}; " +
+        Debug.Log($"{source.data.characterName} used {action.DisplayName} on {target.data.characterName} " +
+                  $"for {actualDamage}. HP: {target.data.currentHealth}/{target.data.maxHealth}; " +
                   $"attacker AP: {source.data.currentActionPoints}/{source.data.maxActionPoints}", this);
 
-        // Cancel before emitting events, so subscribers cannot accidentally
-        // observe or reuse a pending attack targeting request.
-        CancelTargeting();
+        if (clearPlayerTargeting)
+        {
+            CancelTargeting();
 
-        var damageEvent = new CombatDamageEvent(
-            source, target, usedAction, actualDamage, healthBefore, target.data.currentHealth);
+        }
+
+        CombatDamageEvent damageEvent = new CombatDamageEvent(
+            source, target, action, actualDamage, healthBefore, target.data.currentHealth);
         PublishDamageApplied(damageEvent);
 
-        // A damage reaction could restore the target's health. Only defeat it
-        // if it is still at zero after damage listeners have run.
+        // Keep mutation reactions, objective events, and defeat handling identical.
         if (target != null && target.data != null && target.data.currentHealth <= 0)
         {
             if (target.occupancy != null && target.currentNode != null)
@@ -386,13 +450,13 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
             }
 
-            // Deactivate first: objective listeners scanning living units now
-            // see the correct active-unit count when UnitDefeated fires.
             target.gameObject.SetActive(false);
             Debug.Log($"{target.data.characterName} was defeated!", this);
             PublishUnitDefeated(source, target);
 
         }
+
+        return true;
 
     }
 

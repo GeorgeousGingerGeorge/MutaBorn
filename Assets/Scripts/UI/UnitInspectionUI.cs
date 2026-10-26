@@ -3,6 +3,7 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using UIButton = UnityEngine.UI.Button;
 
 
@@ -15,6 +16,11 @@ public sealed class UnitInspectionUI : MonoBehaviour
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text detailsText;
     [SerializeField] private UIButton closeButton;
+
+    [Header("Inspection Scrolling")]
+    [Tooltip("Optional: UnitScroll in the inspection panel. Found automatically if unassigned.")]
+    [SerializeField] private ScrollRect inspectionScroll;
+    [SerializeField, Min(0f)] private float textPadding = 8f;
 
     [Header("Live Data")]
     [Tooltip("How often to refresh visible stats while inspecting a unit.")]
@@ -99,7 +105,16 @@ public sealed class UnitInspectionUI : MonoBehaviour
 
         inspectedUnit = unit;
         panelRoot.SetActive(true);
+        ConfigureScroll();
         Refresh();
+
+        if (inspectionScroll != null)
+        {
+            Canvas.ForceUpdateCanvases();
+            inspectionScroll.StopMovement();
+            inspectionScroll.verticalNormalizedPosition = 1f;
+
+        }
         nextRefreshTime = Time.unscaledTime + refreshInterval;
 
     }
@@ -216,7 +231,86 @@ public sealed class UnitInspectionUI : MonoBehaviour
 
         }
 
-        detailsText.text = details.ToString();
+        string result = details.ToString();
+        if (detailsText.text != result)
+        {
+            detailsText.text = result;
+            RefreshScrollHeight();
+
+        }
+
+    }
+
+    private void ConfigureScroll()
+    {
+        if (inspectionScroll == null && panelRoot != null)
+        {
+            inspectionScroll = panelRoot.GetComponentInChildren<ScrollRect>(true);
+
+        }
+
+        if (inspectionScroll == null || inspectionScroll.content == null || detailsText == null ||
+            !detailsText.transform.IsChildOf(inspectionScroll.content))
+        {
+            return;
+
+        }
+
+        inspectionScroll.horizontal = false;
+        inspectionScroll.vertical = true;
+        inspectionScroll.movementType = ScrollRect.MovementType.Clamped;
+        inspectionScroll.scrollSensitivity = Mathf.Max(25f, inspectionScroll.scrollSensitivity);
+
+        // Repair the scene's collapsed 0 x 0 UnitScroll viewport at runtime.
+        RectTransform viewport = inspectionScroll.viewport;
+        if (viewport != null && viewport.anchorMin == viewport.anchorMax &&
+            viewport.sizeDelta.sqrMagnitude < 1f)
+        {
+            float scrollbarWidth = inspectionScroll.verticalScrollbar != null
+                ? Mathf.Max(16f, inspectionScroll.verticalScrollbar.GetComponent<RectTransform>().rect.width)
+                : 0f;
+
+            viewport.anchorMin = Vector2.zero;
+            viewport.anchorMax = Vector2.one;
+            viewport.offsetMin = Vector2.zero;
+            viewport.offsetMax = new Vector2(-scrollbarWidth, 0f);
+
+        }
+
+        RectTransform content = inspectionScroll.content;
+        content.anchorMin = new Vector2(0f, 1f);
+        content.anchorMax = Vector2.one;
+        content.pivot = new Vector2(0f, 1f);
+        content.anchoredPosition = Vector2.zero;
+        content.sizeDelta = new Vector2(0f, content.sizeDelta.y);
+
+        RectTransform textRect = detailsText.rectTransform;
+        textRect.anchorMin = new Vector2(0f, 1f);
+        textRect.anchorMax = Vector2.one;
+        textRect.pivot = new Vector2(0f, 1f);
+        textRect.anchoredPosition = new Vector2(textPadding, -textPadding);
+        textRect.sizeDelta = new Vector2(-2f * textPadding, textRect.sizeDelta.y);
+
+        Canvas.ForceUpdateCanvases();
+        RefreshScrollHeight();
+
+    }
+
+    private void RefreshScrollHeight()
+    {
+        if (inspectionScroll == null || inspectionScroll.content == null ||
+            inspectionScroll.viewport == null || detailsText == null)
+        {
+            return;
+
+        }
+
+        float availableWidth = Mathf.Max(80f, inspectionScroll.viewport.rect.width - 2f * textPadding);
+        float preferredTextHeight = Mathf.Ceil(detailsText.GetPreferredValues(detailsText.text, availableWidth, 0f).y);
+        float contentHeight = Mathf.Max(inspectionScroll.viewport.rect.height, preferredTextHeight + 2f * textPadding);
+
+        detailsText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, preferredTextHeight);
+        inspectionScroll.content.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, contentHeight);
 
     }
 

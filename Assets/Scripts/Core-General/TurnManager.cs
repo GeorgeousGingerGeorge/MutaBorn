@@ -134,6 +134,21 @@ public class TurnManager : MonoBehaviour
 
     }
 
+    // Called by SimpleFactionAI after it finishes controlling a non-player faction.
+    public bool CompleteNonPlayerTurn(FactionData faction)
+    {
+        if (faction == null || ActiveFaction != faction || faction == playerFaction)
+        {
+            return false;
+
+        }
+
+        AdvanceTurn();
+
+        return true;
+
+    }
+
     public bool IsFactionTurn(FactionData faction)
     {
         return faction != null && ActiveFaction == faction;
@@ -290,6 +305,12 @@ public class TurnManager : MonoBehaviour
         {
             FactionData endedFaction = ActiveFaction;
             ActiveFaction = null;
+            if (endedFaction == playerFaction)
+            {
+                CombatActionExecutor.Instance?.CancelTargeting();
+
+            }
+
             TurnEnded?.Invoke(endedFaction);
 
         }
@@ -323,6 +344,14 @@ public class TurnManager : MonoBehaviour
             TurnStarted?.Invoke(candidate);
 
             if (candidate == playerFaction)
+            {
+                return;
+
+            }
+
+            // Optional prototype AI controls non-player faction turns.
+            SimpleFactionAI simpleAI = FindAnyObjectByType<SimpleFactionAI>();
+            if (simpleAI != null && simpleAI.isActiveAndEnabled && simpleAI.TryBeginTurn(candidate))
             {
                 return;
 

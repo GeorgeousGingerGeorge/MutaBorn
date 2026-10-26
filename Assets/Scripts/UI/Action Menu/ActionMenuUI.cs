@@ -48,6 +48,11 @@ public class ActionMenuUI : MonoBehaviour
     [Header("Unit Inspection")]
     [SerializeField] private UnitInspectionUI unitInspectionUI;
 
+    [Header("Action Description (Optional)")]
+    [Tooltip("Existing Action Info Boarder; located automatically if left unassigned.")]
+    [SerializeField] private GameObject actionInfoPanel;
+    [SerializeField] private TMP_Text actionDescriptionText;
+
     [Header("Contextual Interactions")]
     [Tooltip("How often to refresh actions from nearby targets (seconds). Uses grid-range checks from ObjectiveInteractable.")]
     [SerializeField, Min(0.05f)] private float interactionScanInterval = 0.2f;
@@ -60,9 +65,13 @@ public class ActionMenuUI : MonoBehaviour
     private int lastLoadoutVersion = -1;
     private float nextInteractionScanTime;
     private float lastExpandedAP = float.NaN;
+    private ActionDefinition previewAction;
+    private ActionDefinition targetedAction;
 
     private void Awake()
     {
+        ConfigureActionInfoPanel();
+
         if (selectionManager == null)
         {
             selectionManager = FindAnyObjectByType<SelectionManager>();
@@ -139,6 +148,7 @@ public class ActionMenuUI : MonoBehaviour
             lastLoadoutVersion = -1;
             nearbyInteractions.Clear();
             nextInteractionScanTime = 0f;
+            targetedAction = null;
             CloseCategory();
 
         }
@@ -154,6 +164,7 @@ public class ActionMenuUI : MonoBehaviour
         if (!hasUnit)
         {
             ShowNoSelection();
+            RefreshActionInfoPanel();
 
             return;
 
@@ -212,6 +223,7 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         UpdateQuickButtons(currentAP);
+        RefreshActionInfoPanel();
         if (categoryIsOpen && !Mathf.Approximately(lastExpandedAP, currentAP))
         {
             RefreshExpandedButtonAffordability(currentAP);
@@ -349,6 +361,7 @@ public class ActionMenuUI : MonoBehaviour
     private void CloseCategory()
     {
         categoryIsOpen = false;
+        previewAction = null;
         lastExpandedAP = float.NaN;
         if (expandedPanel != null)
         {
@@ -396,7 +409,7 @@ public class ActionMenuUI : MonoBehaviour
                 ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
                 ObjectiveInteractable selectedTarget = target;
                 item.Bind(action, displayedUnit.data.currentActionPoints,
-                    _ => RequestInteraction(selectedTarget));
+                    _ => RequestInteraction(selectedTarget), PreviewAction, EndActionPreview);
                 item.SetContextLabel(target.InteractionTargetName);
                 count++;
 
@@ -408,7 +421,8 @@ public class ActionMenuUI : MonoBehaviour
             foreach (ActionDefinition action in displayedLoadout.GetActions(openCategory))
             {
                 ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
-                item.Bind(action, displayedUnit.data.currentActionPoints, RequestAction);
+                item.Bind(action, displayedUnit.data.currentActionPoints, RequestAction,
+                    PreviewAction, EndActionPreview);
                 count++;
 
             }
@@ -482,7 +496,9 @@ public class ActionMenuUI : MonoBehaviour
 
         if (combatExecutor.TryBeginAction(displayedUnit, action))
         {
+            targetedAction = TargetingModeController.IsTargeting ? action : null;
             CloseCategory();
+            RefreshActionInfoPanel();
 
         }
 
@@ -569,6 +585,113 @@ public class ActionMenuUI : MonoBehaviour
         if (categoryIsOpen && openCategory == ActionMenuCategory.Interact)
         {
             RebuildCategory();
+
+        }
+
+    }
+
+    private void ConfigureActionInfoPanel()
+    {
+        // Reuse the existing Action Info Boarder from Tristan Sand Box.
+        if (actionInfoPanel == null)
+        {
+            Transform found = transform.Find("Action Info Boarder");
+            if (found != null)
+            {
+                actionInfoPanel = found.gameObject;
+
+            }
+
+        }
+
+        if (actionDescriptionText == null && actionInfoPanel != null)
+        {
+            actionDescriptionText = actionInfoPanel.GetComponentInChildren<TMP_Text>(true);
+
+        }
+
+        if (actionDescriptionText != null)
+        {
+            actionDescriptionText.enableAutoSizing = true;
+            actionDescriptionText.fontSizeMin = 12f;
+            actionDescriptionText.fontSizeMax = 17f;
+            actionDescriptionText.alignment = TextAlignmentOptions.Center;
+
+        }
+
+        if (actionInfoPanel != null)
+        {
+            // The tooltip must never steal pointer hover or clicks from action buttons.
+            foreach (UnityEngine.UI.Graphic graphic in actionInfoPanel.GetComponentsInChildren<UnityEngine.UI.Graphic>(true))
+            {
+                graphic.raycastTarget = false;
+
+            }
+
+            actionInfoPanel.SetActive(false);
+
+        }
+
+    }
+
+    private void PreviewAction(ActionDefinition action)
+    {
+        previewAction = action;
+        RefreshActionInfoPanel();
+
+    }
+
+    private void EndActionPreview(ActionDefinition action)
+    {
+        if (previewAction == action)
+        {
+            previewAction = null;
+            RefreshActionInfoPanel();
+
+        }
+
+    }
+
+    private void RefreshActionInfoPanel()
+    {
+        if (actionInfoPanel == null)
+        {
+            return;
+
+        }
+
+        if (targetedAction != null && !TargetingModeController.IsTargeting)
+        {
+            targetedAction = null;
+
+        }
+
+        ActionDefinition shown = displayedUnit != null ? targetedAction ?? previewAction : null;
+        bool shouldShow = shown != null;
+        if (actionInfoPanel.activeSelf != shouldShow)
+        {
+            actionInfoPanel.SetActive(shouldShow);
+
+        }
+
+        if (!shouldShow || actionDescriptionText == null)
+        {
+            return;
+
+        }
+
+        string cost = shown.IsPassive ? "PASSIVE" : $"{shown.ApCost:0.#} AP";
+        string range = shown.CombatBehavior == CombatActionBehavior.DamageUnit
+            ? $"  |  Range: {shown.CombatRange:0.#}"
+            : "";
+        string description = string.IsNullOrWhiteSpace(shown.Description)
+            ? "No description available."
+            : shown.Description.Trim();
+        string text = $"<b>{shown.DisplayName}</b>  |  {cost}{range}\n{description}";
+
+        if (actionDescriptionText.text != text)
+        {
+            actionDescriptionText.text = text;
 
         }
 
