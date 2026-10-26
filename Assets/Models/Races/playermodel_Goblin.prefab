@@ -432,15 +432,6 @@ PrefabInstance:
       addedObject: {fileID: 4147589210018556976}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3e89cbdb7fefd384989aa2fc042e5077, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4950978339065809008}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3e89cbdb7fefd384989aa2fc042e5077, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2807891797246742004}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3e89cbdb7fefd384989aa2fc042e5077, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1854940238333256030}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3e89cbdb7fefd384989aa2fc042e5077, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 8782074697063126684}
   m_SourcePrefab: {fileID: 100100000, guid: 3e89cbdb7fefd384989aa2fc042e5077, type: 3}
 --- !u!4 &2430803816492986848 stripped
@@ -475,53 +466,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4950978339065809008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3805319766816371577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a77ac0ea130039645852cda716738754, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OutlineController
-  outlineRenderer: {fileID: 0}
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  unitLayer:
-    serializedVersion: 2
-    m_Bits: 64
---- !u!114 &2807891797246742004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3805319766816371577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37cecde66f7b5c441bd9d6094f447d48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnitController
-  footPrintSize: {x: 1, y: 1}
-  unitName: 
-  raceName: 
-  occupancy: {fileID: 0}
---- !u!114 &1854940238333256030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3805319766816371577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
 --- !u!65 &8782074697063126684
 BoxCollider:
   m_ObjectHideFlags: 0
