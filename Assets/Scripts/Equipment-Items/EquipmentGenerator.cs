@@ -70,9 +70,10 @@ public class EquipmentGenerator : MonoBehaviour
         return equipment;
     }
 
-
+    //Uses Normal stats, No modifications or different scaling
     private void CreateEquipmentFixed(EquipmentInstance equipment, EquipmentData equipmentInfo) 
     {
+       
         equipment.armorRating = equipmentInfo.armorRating;
         equipment.movementPenalty = equipmentInfo.movementPenalty;
         equipment.accuracyBonus = equipmentInfo.accuracyBonus;
@@ -82,6 +83,7 @@ public class EquipmentGenerator : MonoBehaviour
 
         GradeBonus(equipment);
     }
+    //Based Scaling is still the same but possibly different starting values
     private void CreateEquipmentRandom(EquipmentInstance equipment, EquipmentData equipmentInfo) 
     {
         equipment.armorRating = Random.Range(equipmentInfo.armorRatingRange.x, equipmentInfo.armorRatingRange.y);
@@ -92,6 +94,8 @@ public class EquipmentGenerator : MonoBehaviour
         equipment.magicDamage = Random.Range(equipmentInfo.magicDamageRange.x, equipmentInfo.magicDamageRange.y);
         GradeBonus(equipment);
     }
+
+    //Unique Equipment- Just changes based scaling
     private void CreateEquipmentUnique(EquipmentInstance equipment, EquipmentData equipmentInfo) 
     {
         equipmentScaling[0] = 0.35f;
@@ -104,50 +108,33 @@ public class EquipmentGenerator : MonoBehaviour
         GradeBonus(equipment);
     }
 
+    //Rarity/Scaling Benefits
     private void GradeBonus(EquipmentInstance equipment) 
     {
         float usingCoefficient = equipmentScaling[(int)equipment.rarity];
         float basedCoefficient = equipmentScaling[0];
-        switch (equipment.rarity) 
+
+
+        if (equipment.rarity == EquipmentGrade.None)
         {
-            case EquipmentGrade.OneStar:
-                {
-                    equipment.scalingCoefficient = basedCoefficient * (1 * equipmentScaling[(int)equipment.rarity]);
-
-                }
-                break;
-            case EquipmentGrade.TwoStar:
-                {
-                    equipment.scalingCoefficient = basedCoefficient * (1 * equipmentScaling[(int)equipment.rarity]);
-                }
-                break;
-            case EquipmentGrade.ThreeStar:
-                {
-                    equipment.scalingCoefficient = basedCoefficient * (1 * equipmentScaling[(int)equipment.rarity]);
-                }
-                break;
-            case EquipmentGrade.FourStar:
-                {
-                    equipment.scalingCoefficient = basedCoefficient * (1 * equipmentScaling[(int)equipment.rarity]);
-                }
-                break;
-            case EquipmentGrade.FiveStar:
-                {
-
-                    equipment.scalingCoefficient = basedCoefficient * (1 * equipmentScaling[(int)equipment.rarity]);
-                }
-                break;
-            default:
-                equipment.scalingCoefficient = equipmentScaling[(int)equipment.rarity];
-                break;
+            equipment.scalingCoefficient = basedCoefficient;
+        }
+        else 
+        {
+            //Base 20% or 35% if unique
+            //Base times the rarityMultiplier = which is then used to get the scaling coefficient when we get
+            //to unitData to calculate the scaling bonus to damage or any of the stats
+            equipment.scalingCoefficient = basedCoefficient * (1 + usingCoefficient);
         }
 
-        equipment.armorRating = Mathf.CeilToInt((equipment.armorRating * (1 + equipment.scalingCoefficient)));
-        equipment.movementPenalty = Mathf.CeilToInt((equipment.movementPenalty * (1 + equipment.scalingCoefficient)));
-        equipment.accuracyBonus = Mathf.CeilToInt((equipment.accuracyBonus * (1 + equipment.scalingCoefficient)));
-        equipment.meleeDamage = Mathf.CeilToInt((equipment.meleeDamage * (1 + equipment.scalingCoefficient)));
-        equipment.rangeDamage = Mathf.CeilToInt((equipment.rangeDamage * (1 + equipment.scalingCoefficient)));
-        equipment.magicDamage = Mathf.CeilToInt((equipment.magicDamage * (1 + equipment.scalingCoefficient)));
+        float statMultiplier = (1 + equipment.scalingCoefficient);
+
+        equipment.armorRating = Mathf.CeilToInt((equipment.armorRating * statMultiplier ));
+        equipment.movementPenalty = Mathf.CeilToInt((equipment.movementPenalty * statMultiplier));
+        equipment.accuracyBonus = Mathf.CeilToInt((equipment.accuracyBonus * statMultiplier));
+        equipment.meleeDamage = Mathf.CeilToInt((equipment.meleeDamage * statMultiplier));
+        equipment.rangeDamage = Mathf.CeilToInt((equipment.rangeDamage * statMultiplier)); 
+        equipment.magicDamage = Mathf.CeilToInt((equipment.magicDamage * statMultiplier));
     }
 }
 
