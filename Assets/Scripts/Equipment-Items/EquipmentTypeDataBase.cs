@@ -14,6 +14,15 @@ public enum WeaponCategory
     Range,
     Magic
 }
+public enum AccessoryCategory 
+{
+    None, 
+    Carried,
+    Worn,
+    Functional
+
+   
+}
 public enum EquipmentGrade
 {
     None,
