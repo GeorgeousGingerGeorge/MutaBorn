@@ -51,3 +51,12 @@ public enum EquipmentGenerationType
     Fixed,
     Unique
 }
+
+public enum ConsumableType 
+{ 
+    None, 
+    Eat,
+    Throw,
+    Place
+}
+

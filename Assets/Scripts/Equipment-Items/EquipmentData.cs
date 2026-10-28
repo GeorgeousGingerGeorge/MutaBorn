@@ -2,15 +2,9 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "EquipmentData", menuName = "Scriptable Objects/EquipmentData")]
-public class EquipmentData : ScriptableObject
+public class EquipmentData : ItemData
 {
-    [Header("ItemInformation- Name (ex: Iron Sword)")]
-
-    [SerializeField] private string itemName;
-
-    [Header("ItemInformation- ID (ex: Weapon_Iron_Sword)")]
-    [SerializeField] private string itemID;
-
+   
     [Header("ItemInforamtion- equipmentType/Grade/Scalers")]
     [SerializeField] private ArmorCategory armor = ArmorCategory.None;
     [SerializeField] private WeaponCategory weapon = WeaponCategory.None;
@@ -52,8 +46,7 @@ public class EquipmentData : ScriptableObject
 
 
     [Header("Access To Equipments Detail")]
-    public string name => itemName;
-    public string id => itemID; 
+
     public ArmorCategory armorGear => armor; 
     public WeaponCategory weaponGear => weapon;
     public AccessoryCategory accessoryGear => accessory;
