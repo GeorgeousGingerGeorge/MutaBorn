@@ -44,13 +44,21 @@ public class UnitMovements : MonoBehaviour
 
     private void HandleMovement() 
     {
-        if (unit == null || selectionController.selectedUnit != unit) 
+        if (unit == null || selectionController == null)
         {
             return;
+
         }
-        if (selectionController.selectedTile == null) 
+
+        // Once a path has started, finish it even if the player cycles units.
+        // New movement orders still require an active player turn.
+        if (!isMoving &&
+            (selectionController.selectedUnit != unit ||
+             selectionController.selectedTile == null ||
+             !selectionController.CanCommandUnit(unit)))
         {
             return;
+
         }
 
        
@@ -81,7 +89,12 @@ public class UnitMovements : MonoBehaviour
         if (pathIndex >= movementPath.Count)
         {
             isMoving = false;
-            selectionController.ClearDestination();
+            if (selectionController.selectedUnit == unit)
+            {
+                selectionController.ClearDestination();
+
+            }
+
             movementPath.Clear();
             pathIndex = 0;
             selectionController.RefreshSelectedUnitAfterMovement(unit);

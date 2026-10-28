@@ -271,23 +271,7 @@ public class ActionMenuUI : MonoBehaviour
 
     private bool CanCommand(UnitController unit)
     {
-        if (unit == null || !unit.isActiveAndEnabled)
-        {
-            return false;
-
-        }
-
-        TurnManager turns = TurnManager.Instance;
-        if (turns == null || !turns.IsPlayerTurn)
-        {
-            return false;
-
-        }
-
-        UnitFaction unitFaction = unit.GetComponent<UnitFaction>();
-
-        return unitFaction != null && unitFaction.Faction != null &&
-            turns.IsFactionTurn(unitFaction.Faction);
+        return selectionManager != null && selectionManager.CanCommandUnit(unit);
 
     }
 
@@ -505,17 +489,24 @@ public class ActionMenuUI : MonoBehaviour
 
         }
 
+        if (action.IsPassive)
+        {
+            CloseCategory();
+            RefreshActionInfoPanel();
+
+            return;
+
+        }
+
         if (displayedUnit.data.currentActionPoints < action.ApCost)
         {
             return;
 
         }
 
-        if (action.IsPassive)
-        {
-            return;
-
-        }
+        // A valid action click dismisses the expanded menu, even if execution
+        // cannot begin (for example, an action without an implemented behavior).
+        CloseCategory();
 
         if (combatExecutor == null)
         {
@@ -526,6 +517,7 @@ public class ActionMenuUI : MonoBehaviour
         if (combatExecutor == null)
         {
             Debug.LogError("No CombatActionExecutor in scene. Add it to the Action Menu object.", this);
+            RefreshActionInfoPanel();
 
             return;
 
@@ -534,10 +526,10 @@ public class ActionMenuUI : MonoBehaviour
         if (combatExecutor.TryBeginAction(displayedUnit, action))
         {
             targetedAction = TargetingModeController.IsTargeting ? action : null;
-            CloseCategory();
-            RefreshActionInfoPanel();
 
         }
+
+        RefreshActionInfoPanel();
 
     }
 
@@ -766,13 +758,9 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         displayedUnit.data.ModifyActionPoints(-apCost);
+        CloseCategory();
         RefreshNearbyInteractions();
-
-        if (categoryIsOpen && openCategory == ActionMenuCategory.Interact)
-        {
-            RebuildCategory();
-
-        }
+        RefreshActionInfoPanel();
 
     }
 
