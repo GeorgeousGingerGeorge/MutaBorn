@@ -125,11 +125,11 @@ public class ActionMenuUI : MonoBehaviour
         //
         //}
 
-        //if (closeExpandedButton != null)
-        //{
-        //    closeExpandedButton.onClick.AddListener(CloseCategory);
-        //
-        //}
+        if (closeExpandedButton != null)
+        {
+            closeExpandedButton.onClick.AddListener(CloseCategory);
+
+        }
 
         //if (mostUsedButton != null)
         //{
