@@ -59,7 +59,7 @@ public class UnitData
     public Dictionary<BodySlots, BaseMutation> activeMutations = new Dictionary<BodySlots, BaseMutation>();
     public Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>> mutationTracker
         = new Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>>();
-    public Dictionary<EquipmentSlots, EquipmentData> equippedItems = new Dictionary<EquipmentSlots, EquipmentData>();
+    public Dictionary<EquipmentSlots, EquipmentInstance> equippedItems = new Dictionary<EquipmentSlots, EquipmentInstance>();
 
     [Header("Character Information- Current Status (mutationBonus)")]
     public int mutationHealth;
@@ -183,9 +183,9 @@ public class UnitData
         RecalculateStats();
 
     }
-    public void ApplyEquipmentBonuses(EquipmentData item, int multiplier)
+    public void ApplyEquipmentBonuses(EquipmentInstance item, int multiplier)
     {
-        if (item == null)
+        if (item.Equals(default(EquipmentInstance)))
             return;
        
         equipmentMeleeDamage += item.meleeDamage * multiplier;
@@ -217,9 +217,9 @@ public class UnitData
 
 
     //Adding equipment checks to check slots
-    public bool CanEquipItem(EquipmentData item) 
+    public bool CanEquipItem(EquipmentInstance item) 
     {
-        if (item == null || item.slot == EquipmentSlots.None) 
+        if (item.Equals(default(EquipmentInstance)) || item.slot == EquipmentSlots.None) 
         {
             return false;
         }
@@ -235,8 +235,10 @@ public class UnitData
     }
 
     //How to actually equip the item
-    public void EquipItem(EquipmentData item)
+    public void EquipItem(ItemData equipmentData)
     {
+
+        EquipmentInstance item = (EquipmentInstance)ItemGenerator.ItemInstance(equipmentData);
         if (!CanEquipItem(item))
         {
             
@@ -245,7 +247,7 @@ public class UnitData
 
 
 
-        if (equippedItems.ContainsKey(item.slot) && equippedItems[item.slot] != null)
+        if (equippedItems.ContainsKey(item.slot) && equippedItems[item.slot].Equals(default(EquipmentInstance)))
         {
             equippedItems.Remove(item.slot);
             equippedItems.Add(item.slot, item);
