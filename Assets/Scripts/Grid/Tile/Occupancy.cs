@@ -33,17 +33,12 @@ public class Occupancy : MonoBehaviour
             return false;
         }
 
-        if (unit == null) 
+        if (unit != null) 
         {
-            if (IsBlockedBySolidObstacle(destination)) 
-            {
-                return false;
-            }
 
             if (IsUnitInNode(destination))
             {
                 return false;
-            
             }
         }   
         else if(!IsFootPrintMovable(destination, unit)) 
