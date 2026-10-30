@@ -11,7 +11,7 @@ public class UnitController : MonoBehaviour
     [SerializeField] public string unitName; 
     [SerializeField] public string raceName;
     [SerializeField] public MutationID currentMutation;
-    [SerializeField] public EquipmentData currentEquipment;
+    [SerializeField] public ItemData currentEquipment;
     DynamicStats race = null;
 
     public UnitData data { get; private set; } 
@@ -72,7 +72,7 @@ public class UnitController : MonoBehaviour
             data.EquipItem(currentEquipment);
           
             Debug.Log($"Active Items: {data.equippedItems.Count}");
-            foreach (EquipmentData item in data.equippedItems.Values)
+            foreach (EquipmentInstance item in data.equippedItems.Values)
             {
               
                 data.ApplyEquipmentBonuses(item, 1);

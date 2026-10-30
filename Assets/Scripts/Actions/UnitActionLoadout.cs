@@ -98,19 +98,19 @@ public class UnitActionLoadout : MonoBehaviour
         // Equipment actions come from the items the unit actually brought into combat.
         if (unit.data.equippedItems != null)
         {
-            foreach (KeyValuePair<EquipmentSlots, EquipmentData> equipped in unit.data.equippedItems)
+            foreach (KeyValuePair<EquipmentSlots, EquipmentInstance> equipped in unit.data.equippedItems)
             {
-                EquipmentData item = equipped.Value;
+                EquipmentInstance item = equipped.Value;
 
-                if (item == null)
+                if (item.Equals(default(EquipmentInstance)))
                 {
                     continue;
 
                 }
 
                 AddActionsFromSet(
-                    item.GrantedActionSet,
-                    $"Equipment ({item.name}, {equipped.Key})",
+                    item.grantedActionSet,
+                    $"Equipment ({item.itemName}, {equipped.Key})",
                     ids,
                     definitions);
 

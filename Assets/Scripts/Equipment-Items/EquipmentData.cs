@@ -2,18 +2,13 @@ using UnityEngine;
 
 
 [CreateAssetMenu(fileName = "EquipmentData", menuName = "Scriptable Objects/EquipmentData")]
-public class EquipmentData : ScriptableObject
+public class EquipmentData : ItemData
 {
-    [Header("ItemInformation- Name (ex: Iron Sword)")]
-
-    [SerializeField] private string itemName;
-
-    [Header("ItemInformation- ID (ex: Weapon_Iron_Sword)")]
-    [SerializeField] private string itemID;
-
+   
     [Header("ItemInforamtion- equipmentType/Grade/Scalers")]
     [SerializeField] private ArmorCategory armor = ArmorCategory.None;
     [SerializeField] private WeaponCategory weapon = WeaponCategory.None;
+    [SerializeField] private AccessoryCategory accessory = AccessoryCategory.None; 
     [SerializeField] private EquipmentSlots targetSlot;
     [SerializeField] private EquipmentGrade currentRarity;
     [SerializeField] private EquipmentGenerationType type;
@@ -42,9 +37,23 @@ public class EquipmentData : ScriptableObject
     [SerializeField] private Vector2Int _accuracyRange = new Vector2Int();
 
 
+    public Vector2Int meleeDamageRange => _meleeDamageRange;
+    public Vector2Int distanceDamageRange => _distanceDamageRange;
+    public Vector2Int magicDamageRange => _magicDamageRange;
+    public Vector2Int armorRatingRange => _armorRatingRange;
+    public Vector2Int movementPenaltyRange => _movementPenaltyRange;
+    public Vector2Int accuracyRange => _accuracyRange;
+
+
     [Header("Access To Equipments Detail")]
 
+    public ArmorCategory armorGear => armor; 
+    public WeaponCategory weaponGear => weapon;
+    public AccessoryCategory accessoryGear => accessory;
     public EquipmentSlots slot => targetSlot;
+    public EquipmentGrade rarity => currentRarity;
+    public EquipmentGenerationType genType => type;
+    public EquipmentStatBonus statMod => statModifier;
     public int armorRating => _armorRating;
     public int movementPenalty => _movementPenalty;
     public int meleeDamage => _meleeDamage;
