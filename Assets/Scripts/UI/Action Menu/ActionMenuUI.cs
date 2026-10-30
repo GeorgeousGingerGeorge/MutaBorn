@@ -34,9 +34,6 @@ public class ActionMenuUI : MonoBehaviour
     //[SerializeField] private TMP_Text mostUsedText;
     //[SerializeField] private UIButton lastUsedButton;
     //[SerializeField] private TMP_Text lastUsedText;
-    //[SerializeField] private UIButton unitInfoButton;
-    //[SerializeField] private UIButton inspectUnitButton;
-    //[SerializeField] private ActionDefinition inspectUnitAction;
 
     [Header("Optional Expanded Menu (Not Collapsible Groups Yet)")]
     [SerializeField] private GameObject expandedPanel;
@@ -48,9 +45,6 @@ public class ActionMenuUI : MonoBehaviour
 
     [Header("Combat Execution")]
     [SerializeField] private CombatActionExecutor combatExecutor;
-
-    [Header("Unit Inspection")]
-    [SerializeField] private UnitInspectionUI unitInspectionUI;
 
     [Header("Action Description (Optional)")]
     [Tooltip("Existing Action Info Boarder; located automatically if left unassigned.")]
@@ -112,18 +106,6 @@ public class ActionMenuUI : MonoBehaviour
             itemsButton.onClick.AddListener(() => OpenCategory(ActionMenuCategory.Items));
 
         }
-
-        //if (unitInfoButton != null)
-        //{
-        //    unitInfoButton.onClick.AddListener(RequestUnitInfo);
-        //
-        //}
-
-        //if (inspectUnitButton != null)
-        //{
-        //    inspectUnitButton.onClick.AddListener(() => RequestAction(inspectUnitAction));
-        //
-        //}
 
         if (closeExpandedButton != null)
         {
@@ -229,12 +211,6 @@ public class ActionMenuUI : MonoBehaviour
         SetInteractable(defenseButton, true);
         SetInteractable(abilitiesButton, true);
         SetInteractable(itemsButton, true);
-
-        //SetInteractable(unitInfoButton, true);
-        //SetInteractable(inspectUnitButton,
-        //    inspectUnitAction != null &&
-        //    inspectUnitAction.CombatBehavior == CombatActionBehavior.InspectUnit &&
-        //    currentAP >= Mathf.CeilToInt(inspectUnitAction.ApCost));
 
         // Refresh nearby interactions before updating the Interact button availability.
         if (Time.unscaledTime >= nextInteractionScanTime)
@@ -530,33 +506,6 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         RefreshActionInfoPanel();
-
-    }
-
-    private void RequestUnitInfo()
-    {
-        if (displayedUnit == null || displayedUnit.data == null)
-        {
-            return;
-
-        }
-
-        if (unitInspectionUI == null)
-        {
-            unitInspectionUI = FindAnyObjectByType<UnitInspectionUI>();
-
-        }
-
-        if (unitInspectionUI == null)
-        {
-            Debug.LogWarning("ActionMenuUI: Assign the UnitInspectionUI component in the Inspector.", this);
-
-            return;
-
-        }
-
-        CloseCategory();
-        unitInspectionUI.Open(displayedUnit);
 
     }
 
