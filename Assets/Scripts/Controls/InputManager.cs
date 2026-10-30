@@ -28,13 +28,4 @@ public class InputManager : MonoBehaviour
     {
         return returnToMainMenu.action.WasPressedThisFrame();
     }
-
-    private void Update()
-    {
-        if (onReturnToMenu())
-        {
-            Debug.Log("Return to menu key pressed");
-            SceneManager.LoadScene("Main Menu Sand Box");
-        }
-    }
 }
