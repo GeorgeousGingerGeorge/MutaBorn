@@ -10,7 +10,6 @@ public class UnitMovements : MonoBehaviour
     private UnitController unit;
 
     private float moveSpeed = 20f;
-    private bool isSelected = false;
     private bool isMoving = false;
     private int pathIndex = 0;
     private List<GridNode> movementPath = new List<GridNode>();
