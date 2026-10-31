@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using MutaBorn.Gameplay;
 
 
 
@@ -21,6 +22,8 @@ public struct EquipmentInstance
 
     [Header("Equipment Damage")]
     public int armorRating;
+    public int wardRating;
+    public DamageResistance[] resistances;
     public int movementPenalty;
     public int meleeDamage;
     public int rangeDamage;
@@ -92,19 +95,23 @@ public static class EquipmentGenerator
         equipment.type = equipmentInfo.genType;
         equipment.statModifier = equipmentInfo.statMod;
         equipment.grantedActionSet = equipmentInfo.GrantedActionSet;
+        equipment.wardRating = equipmentInfo.wardRating;
+        equipment.resistances = equipmentInfo.Resistances == null
+            ? new DamageResistance[0]
+            : (DamageResistance[])equipmentInfo.Resistances.Clone();
 
 
         switch (equipment.type)
         {
 
             case EquipmentGenerationType.Fixed:
-                CreateEquipmentFixed(equipment, equipmentInfo);
+                CreateEquipmentFixed(ref equipment, equipmentInfo);
                 break;
             case EquipmentGenerationType.Random:
-                CreateEquipmentRandom(equipment, equipmentInfo);
+                CreateEquipmentRandom(ref equipment, equipmentInfo);
                 break;
             case EquipmentGenerationType.Unique:
-                CreateEquipmentUnique(equipment, equipmentInfo);
+                CreateEquipmentUnique(ref equipment, equipmentInfo);
                 break;
             default:
                 break;
@@ -115,7 +122,7 @@ public static class EquipmentGenerator
     }
 
     //Uses Normal stats, No modifications or different scaling
-    private static void CreateEquipmentFixed(EquipmentInstance equipment, EquipmentData equipmentInfo)
+    private static void CreateEquipmentFixed(ref EquipmentInstance equipment, EquipmentData equipmentInfo)
     {
 
         equipment.armorRating = equipmentInfo.armorRating;
@@ -125,10 +132,10 @@ public static class EquipmentGenerator
         equipment.rangeDamage = equipmentInfo.rangeDamage;
         equipment.magicDamage = equipmentInfo.magicDamage;
 
-        GradeBonus(equipment);
+        GradeBonus(ref equipment);
     }
     //Based Scaling is still the same but possibly different starting values
-    private static void CreateEquipmentRandom(EquipmentInstance equipment, EquipmentData equipmentInfo)
+    private static void CreateEquipmentRandom(ref EquipmentInstance equipment, EquipmentData equipmentInfo)
     {
         equipment.armorRating = Random.Range(equipmentInfo.armorRatingRange.x, equipmentInfo.armorRatingRange.y);
         equipment.movementPenalty = Random.Range(equipmentInfo.movementPenaltyRange.x, equipmentInfo.movementPenaltyRange.y);
@@ -136,11 +143,11 @@ public static class EquipmentGenerator
         equipment.meleeDamage = Random.Range(equipmentInfo.meleeDamageRange.x, equipmentInfo.meleeDamageRange.y);
         equipment.rangeDamage = Random.Range(equipmentInfo.distanceDamageRange.x, equipmentInfo.distanceDamageRange.y);
         equipment.magicDamage = Random.Range(equipmentInfo.magicDamageRange.x, equipmentInfo.magicDamageRange.y);
-        GradeBonus(equipment);
+        GradeBonus(ref equipment);
     }
 
     //Unique Equipment- Just changes based scaling
-    private static void CreateEquipmentUnique(EquipmentInstance equipment, EquipmentData equipmentInfo)
+    private static void CreateEquipmentUnique(ref EquipmentInstance equipment, EquipmentData equipmentInfo)
     {
         equipmentScaling[0] = 0.35f;
         equipment.armorRating = equipmentInfo.armorRating;
@@ -149,11 +156,11 @@ public static class EquipmentGenerator
         equipment.meleeDamage = equipmentInfo.meleeDamage;
         equipment.rangeDamage = equipmentInfo.rangeDamage;
         equipment.magicDamage = equipmentInfo.magicDamage;
-        GradeBonus(equipment);
+        GradeBonus(ref equipment);
     }
 
     //Rarity/Scaling Benefits
-    private static void GradeBonus(EquipmentInstance equipment)
+    private static void GradeBonus(ref EquipmentInstance equipment)
     {
         float usingCoefficient = equipmentScaling[(int)equipment.rarity];
         float basedCoefficient = equipmentScaling[0];
@@ -174,6 +181,7 @@ public static class EquipmentGenerator
         float statMultiplier = (1 + equipment.scalingCoefficient);
 
         equipment.armorRating = Mathf.CeilToInt((equipment.armorRating * statMultiplier));
+        equipment.wardRating = Mathf.CeilToInt((equipment.wardRating * statMultiplier));
         equipment.movementPenalty = Mathf.CeilToInt((equipment.movementPenalty * statMultiplier));
         equipment.accuracyBonus = Mathf.CeilToInt((equipment.accuracyBonus * statMultiplier));
         equipment.meleeDamage = Mathf.CeilToInt((equipment.meleeDamage * statMultiplier));

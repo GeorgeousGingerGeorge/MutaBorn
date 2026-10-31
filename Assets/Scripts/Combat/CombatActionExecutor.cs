@@ -346,12 +346,21 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         int apCost = Mathf.CeilToInt(action.ApCost);
+        int apBefore = source.data.currentActionPoints;
         source.data.ModifyActionPoints(-apCost);
         source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
 
-        Debug.Log($"{source.data.characterName} used {action.DisplayName} on {target.data.characterName} " +
-                  $"for {damageResult.ActualDamage}. HP: {target.data.currentHealth}/{target.data.maxHealth}; " +
-                  $"attacker AP: {source.data.currentActionPoints}/{source.data.maxActionPoints}", this);
+        string damageTypes = DescribeDamageTypes(damageResult.Request, target.data);
+        Debug.Log($"[Combat] {source.data.characterName} used {action.DisplayName} on " +
+                  $"{target.data.characterName} for {damageResult.ActualDamage} damage.\n" +
+                  $"Types: {damageTypes} | Armor: {target.data.armor} | Ward: {target.data.ward}\n" +
+                  $"Damage: {damageResult.DamageBeforeArmor} raw -> " +
+                  $"{damageResult.DamageAfterArmor} after Armor/Ward -> " +
+                  $"{damageResult.DamageAfterResistances} after resistance/minimum -> " +
+                  $"{damageResult.DamageAfterGuard} after Guard -> " +
+                  $"{damageResult.ActualDamage} actual\n" +
+                  $"HP: {damageResult.HealthBefore} -> {damageResult.HealthAfter}/{target.data.maxHealth} | " +
+                  $"Attacker AP: {apBefore} -> {source.data.currentActionPoints}/{source.data.maxActionPoints}", this);
 
         if (clearPlayerTargeting)
         {
@@ -380,6 +389,37 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         return true;
+
+    }
+
+    private static string DescribeDamageTypes(DamageRequest request, UnitData target)
+    {
+        System.Collections.Generic.List<DamageType> types = new System.Collections.Generic.List<DamageType>();
+        types.Add(request.DamageType);
+
+        if (request.AdditionalComponents != null)
+        {
+            foreach (DamageComponent component in request.AdditionalComponents)
+            {
+                if (component.Amount > 0 && !types.Contains(component.Type))
+                {
+                    types.Add(component.Type);
+
+                }
+
+            }
+
+        }
+
+        System.Collections.Generic.List<string> descriptions = new System.Collections.Generic.List<string>();
+        foreach (DamageType type in types)
+        {
+            float resistance = target.GetDamageResistancePercent(type);
+            descriptions.Add($"{type} ({resistance:+0.##;-0.##;0}% resist)");
+
+        }
+
+        return string.Join(" + ", descriptions);
 
     }
 

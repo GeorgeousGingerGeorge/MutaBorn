@@ -1,4 +1,5 @@
 using UnityEngine;
+using MutaBorn.Gameplay;
 
 // Main buttons in the current MutaBorn Action Menu.
 public enum ActionMenuCategory
@@ -78,6 +79,12 @@ public class ActionDefinition : ScriptableObject
     [SerializeField] private int flatDamageBonus = 0;
     [SerializeField, Min(0)] private int minimumDamage = 5;
 
+    [Header("Damage Types")]
+    [Tooltip("Unspecified uses Slash for Melee, Pierce for Ranged, or Arcane for Magic. Existing actions do not need reconfiguration.")]
+    [SerializeField] private DamageType damageType = DamageType.Unspecified;
+    [Tooltip("Additional fixed-damage components, each using its own Armor/Ward and damage resistance. Optional.")]
+    [SerializeField] private DamageComponent[] additionalDamage = new DamageComponent[0];
+
     [Header("Defensive Rules")]
 
     [Tooltip("For ApplyGuard: incoming damage reduction percentage until the unit's next faction turn begins.")]
@@ -99,5 +106,7 @@ public class ActionDefinition : ScriptableObject
     public float DamageMultiplier => damageMultiplier;
     public int FlatDamageBonus => flatDamageBonus;
     public int MinimumDamage => minimumDamage;
+    public DamageType DamageType => damageType;
+    public DamageComponent[] AdditionalDamage => additionalDamage;
     public float GuardDamageReductionPercent => guardDamageReductionPercent;
 }

@@ -11,7 +11,11 @@ public class UnitController : MonoBehaviour
     [SerializeField] public string unitName; 
     [SerializeField] public string raceName;
     [SerializeField] public MutationID currentMutation;
-    [SerializeField] public ItemData currentEquipment;
+    [Header("Starting Equipment - 6 Test Slots (Duplicates Allowed)")]
+    [SerializeField] private EquipmentData[] startingEquipment = new EquipmentData[6];
+
+    // Retained for pre-existing scenes/prefabs. Used only if the new array is empty.
+    [SerializeField, HideInInspector] public ItemData currentEquipment;
     DynamicStats race = null;
 
     public UnitData data { get; private set; } 
@@ -66,19 +70,35 @@ public class UnitController : MonoBehaviour
 
 
        
-        if (currentEquipment != null)
+        bool hasStartingEquipment = false;
+
+        if (startingEquipment != null)
         {
-            Debug.Log($"{currentEquipment.name}");
-            data.EquipItem(currentEquipment);
-          
-            Debug.Log($"Active Items: {data.equippedItems.Count}");
-            foreach (EquipmentInstance item in data.equippedItems.Values)
+            foreach (EquipmentData equipment in startingEquipment)
             {
-              
-                data.ApplyEquipmentBonuses(item, 1);
-                
+                if (equipment == null)
+                {
+                    continue;
+
+                }
+
+                hasStartingEquipment = true;
+                data.EquipItem(equipment);
+                Debug.Log($"Equipped starting item: {equipment.name}");
+
             }
+
         }
+
+        // Preserve equipment already assigned in existing scenes and prefabs.
+        if (!hasStartingEquipment && currentEquipment != null)
+        {
+            data.EquipItem(currentEquipment);
+            Debug.Log($"Equipped existing starting item: {currentEquipment.name}");
+
+        }
+
+        Debug.Log($"Active Items: {data.equippedItems.Count}");
 
         data.RefillResourcesToMax();
 

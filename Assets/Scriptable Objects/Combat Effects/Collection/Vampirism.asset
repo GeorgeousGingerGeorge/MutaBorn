@@ -15,20 +15,20 @@ MonoBehaviour:
   effects:
   - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
     activation:
-      trigger: 1
+      trigger: 2
       phase: 1
-      frequency: 1
+      frequency: 0
       eventActor: 0
       requireGrantingSourceMatch: 0
     targeting:
       reference: 0
       selection: 0
-      factionMask: 0
-      includeOwner: 0
+      factionMask: -1
+      includeOwner: 1
       radiusInTiles: 0
       sameFloorOnly: 0
     lifetime:
-      lifetime: 0
+      lifetime: 1
       durationTurns: 0
       maximumUses: 0
     operationParameters:
@@ -40,6 +40,41 @@ MonoBehaviour:
       statusId: 
     value:
       constant: 0
+      terms:
+      - source: 1
+        literalValue: 0
+        stat: 0
+        resource: 0
+        multiplier: 0.2
+      rounding: 1
+    conditions: []
+  - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+    activation:
+      trigger: 2
+      phase: 1
+      frequency: 0
+      eventActor: 0
+      requireGrantingSourceMatch: 0
+    targeting:
+      reference: 0
+      selection: 0
+      factionMask: -1
+      includeOwner: 1
+      radiusInTiles: 0
+      sameFloorOnly: 0
+    lifetime:
+      lifetime: 1
+      durationTurns: 0
+      maximumUses: 0
+    operationParameters:
+      resource: 0
+      stat: 0
+      damageType: 0
+      damageDelivery: 0
+      defenseStat: 0
+      statusId: 
+    value:
+      constant: 5
       terms: []
-      rounding: 0
+      rounding: 1
     conditions: []

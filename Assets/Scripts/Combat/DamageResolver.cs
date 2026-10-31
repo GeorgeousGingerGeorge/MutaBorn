@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MutaBorn.Gameplay
 {
-    // Raw damage input. The source may be an action, a status, or a future
-    // environmental effect; the resolver does not choose how it was created.
+    // An attack may have a primary stat-scaled component and additional
+    // fixed components. Armor and Ward apply once per damage category.
     public readonly struct DamageRequest
     {
         public UnitController Attacker { get; }
@@ -16,11 +17,13 @@ namespace MutaBorn.Gameplay
         public int MinimumDamage { get; }
         public DamageType DamageType { get; }
         public DamageDeliveryType DeliveryType { get; }
+        public IReadOnlyList<DamageComponent> AdditionalComponents { get; }
 
         public DamageRequest(UnitController attacker, UnitController target, int baseDamage,
             float multiplier = 1f, int flatDamageBonus = 0, int minimumDamage = 0,
             ActionDefinition action = null, DamageType damageType = DamageType.Unspecified,
-            DamageDeliveryType deliveryType = DamageDeliveryType.Unspecified)
+            DamageDeliveryType deliveryType = DamageDeliveryType.Unspecified,
+            IReadOnlyList<DamageComponent> additionalComponents = null)
         {
             Attacker = attacker;
             Target = target;
@@ -31,18 +34,20 @@ namespace MutaBorn.Gameplay
             MinimumDamage = minimumDamage;
             DamageType = damageType;
             DeliveryType = deliveryType;
+            AdditionalComponents = additionalComponents;
 
         }
 
     }
 
-    // Snapshot of one application. ActualDamage is capped by health remaining;
-    // DamageAfterGuard is the amount requested before health clamps it.
+    // DamageAfterArmor is before percentage resistances and the minimum hit
+    // rule. DamageAfterResistances includes the minimum, before Guard.
     public readonly struct DamageResult
     {
         public DamageRequest Request { get; }
         public int DamageBeforeArmor { get; }
         public int DamageAfterArmor { get; }
+        public int DamageAfterResistances { get; }
         public int DamageAfterGuard { get; }
         public int ActualDamage { get; }
         public int HealthBefore { get; }
@@ -50,11 +55,13 @@ namespace MutaBorn.Gameplay
         public bool ReducedHealthToZero => HealthBefore > 0 && HealthAfter <= 0;
 
         public DamageResult(DamageRequest request, int damageBeforeArmor,
-            int damageAfterArmor, int damageAfterGuard, int healthBefore, int healthAfter)
+            int damageAfterArmor, int damageAfterResistances, int damageAfterGuard,
+            int healthBefore, int healthAfter)
         {
             Request = request;
             DamageBeforeArmor = damageBeforeArmor;
             DamageAfterArmor = damageAfterArmor;
+            DamageAfterResistances = damageAfterResistances;
             DamageAfterGuard = damageAfterGuard;
             HealthBefore = healthBefore;
             HealthAfter = healthAfter;
@@ -64,13 +71,10 @@ namespace MutaBorn.Gameplay
 
     }
 
-    // Shared damage calculator and application layer. Action costs, combat
-    // event publication, defeat cleanup, and targeting remain with the caller.
+    // Shared damage application. Resource costs, events, objective updates,
+    // and defeat cleanup remain with CombatActionExecutor until migrated.
     public static class DamageResolver
     {
-        // Compatibility adapter for existing ActionDefinition-based attacks.
-        // Other sources can build a DamageRequest directly, but their callers
-        // still need to publish combat events and handle defeat.
         public static bool TryResolveAction(UnitController attacker, UnitController target,
             ActionDefinition action, out DamageResult result)
         {
@@ -84,8 +88,43 @@ namespace MutaBorn.Gameplay
             }
 
             int baseDamage = GetBaseDamage(attacker.data, action.DamageStat);
+            DamageType type = action.DamageType;
+
+            // Legacy assets have no damage type. Preserve a working default
+            // until the team's ActionDefinition assets receive explicit types.
+            if (type == DamageType.Unspecified)
+            {
+                switch (action.DamageStat)
+                {
+                    case CombatDamageStat.Ranged:
+                    {
+                        type = DamageType.Pierce;
+
+                        break;
+
+                    }
+                    case CombatDamageStat.Magic:
+                    {
+                        type = DamageType.Arcane;
+
+                        break;
+
+                    }
+                    default:
+                    {
+                        type = DamageType.Slash;
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
             DamageRequest request = new DamageRequest(attacker, target, baseDamage,
-                action.DamageMultiplier, action.FlatDamageBonus, action.MinimumDamage, action);
+                action.DamageMultiplier, action.FlatDamageBonus, action.MinimumDamage,
+                action, type, DamageDeliveryType.Unspecified, action.AdditionalDamage);
 
             return TryResolve(request, out result);
 
@@ -103,17 +142,88 @@ namespace MutaBorn.Gameplay
 
             }
 
-            // Keep the existing MutaBorn attack formula and rounding intact.
+            // Preserve the Step 6 primary-damage scaling (including rounding).
             int scaledDamage = Mathf.CeilToInt(Mathf.Max(0, request.BaseDamage) * request.Multiplier);
-            long damageBeforeArmor = (long)scaledDamage + request.FlatDamageBonus;
-            long damageAfterArmor = damageBeforeArmor - Mathf.Max(0, target.data.armor);
-            long minimumDamage = Math.Max(0L, request.MinimumDamage);
-            long resolvedDamage = Math.Max(minimumDamage, damageAfterArmor);
+            long primaryDamage = Math.Max(0L, (long)scaledDamage + request.FlatDamageBonus);
+            long beforeArmor = primaryDamage;
 
-            int damageBeforeArmorInt = ClampToInt(damageBeforeArmor);
-            int damageAfterArmorInt = (int)Math.Min(resolvedDamage, int.MaxValue);
-            int damageAfterGuard = damageAfterArmorInt;
+            // Combine identical types so extra components cannot change the
+            // outcome simply by being split into separate entries.
+            Dictionary<DamageType, long> components = new Dictionary<DamageType, long>();
+            AddComponent(components, request.DamageType, primaryDamage);
 
+            if (request.AdditionalComponents != null)
+            {
+                foreach (DamageComponent component in request.AdditionalComponents)
+                {
+                    long amount = Math.Max(0, component.Amount);
+                    beforeArmor += amount;
+                    AddComponent(components, component.Type, amount);
+
+                }
+
+            }
+
+            long physicalDamage = 0L;
+            long magicalDamage = 0L;
+
+            foreach (KeyValuePair<DamageType, long> component in components)
+            {
+                if (IsPhysicalDamage(component.Key))
+                {
+                    physicalDamage += component.Value;
+
+                }
+                else
+                {
+                    magicalDamage += component.Value;
+
+                }
+
+            }
+
+            // Flat defenses apply once to the total physical and magical
+            // portions of the hit, not once for every damage type.
+            long physicalAfterArmor = Math.Max(0L, physicalDamage - Math.Max(0, target.data.armor));
+            long magicalAfterWard = Math.Max(0L, magicalDamage - Math.Max(0, target.data.ward));
+            long afterArmor = physicalAfterArmor + magicalAfterWard;
+            double afterResistances = 0d;
+
+            // Preserve each type's share after flat defense, then apply its
+            // individual resistance or weakness. This makes splitting damage
+            // across types unable to multiply the Armor/Ward subtraction.
+            foreach (KeyValuePair<DamageType, long> component in components)
+            {
+                bool physical = IsPhysicalDamage(component.Key);
+                long categoryTotal = physical ? physicalDamage : magicalDamage;
+                long categoryRemaining = physical ? physicalAfterArmor : magicalAfterWard;
+
+                if (categoryTotal <= 0 || categoryRemaining <= 0)
+                {
+                    continue;
+
+                }
+
+                double shareAfterDefense = (double)component.Value * categoryRemaining / categoryTotal;
+                double resistance = target.data.GetDamageResistancePercent(component.Key);
+                double multiplier = Math.Max(0d, 1d - resistance / 100d);
+                afterResistances += shareAfterDefense * multiplier;
+
+            }
+
+            // One minimum for the entire hit, never one per component.
+            // A zero-damage request with no minimum can still do zero damage.
+            int damageAfterResistances = 0;
+            if (beforeArmor > 0 || request.MinimumDamage > 0)
+            {
+                double rounded = Math.Ceiling(Math.Max(0d, afterResistances));
+                long minimumDamage = Math.Max(1L, request.MinimumDamage);
+                damageAfterResistances = (int)Math.Min(int.MaxValue,
+                    Math.Max((double)minimumDamage, rounded));
+
+            }
+
+            int damageAfterGuard = damageAfterResistances;
             CombatStatusHandler statuses = CombatStatusHandler.Instance;
             if (statuses != null)
             {
@@ -126,10 +236,33 @@ namespace MutaBorn.Gameplay
             target.data.ModifyHealth(-damageAfterGuard);
             int healthAfter = target.data.currentHealth;
 
-            result = new DamageResult(request, damageBeforeArmorInt,
-                damageAfterArmorInt, damageAfterGuard, healthBefore, healthAfter);
+            result = new DamageResult(request, ClampToInt(beforeArmor),
+                ClampToInt(afterArmor), damageAfterResistances, damageAfterGuard,
+                healthBefore, healthAfter);
 
             return true;
+
+        }
+
+        private static void AddComponent(Dictionary<DamageType, long> components,
+            DamageType type, long damage)
+        {
+            if (damage <= 0)
+            {
+                return;
+
+            }
+
+            components.TryGetValue(type, out long existing);
+            components[type] = existing + damage;
+
+        }
+
+        private static bool IsPhysicalDamage(DamageType type)
+        {
+            // Unspecified direct requests retain the legacy physical default.
+            return type == DamageType.Unspecified || type == DamageType.Slash ||
+                type == DamageType.Pierce || type == DamageType.Blunt;
 
         }
 

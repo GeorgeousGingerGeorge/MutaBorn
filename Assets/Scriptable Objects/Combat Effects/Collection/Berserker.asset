@@ -12,4 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41144560ec1e9ec4aa5b5733ccebc53e, type: 3}
   m_Name: Berserker
   m_EditorClassIdentifier: Assembly-CSharp::MutaBorn.Gameplay.EffectCollection
-  effects: []
+  effects:
+  - definition: {fileID: 11400000, guid: f154e272dc2b47446814e51f4d6e7b0e, type: 2}
+    activation:
+      trigger: 9
+      phase: 1
+      frequency: 0
+      eventActor: 0
+      requireGrantingSourceMatch: 0
+    targeting:
+      reference: 0
+      selection: 0
+      factionMask: 0
+      includeOwner: 1
+      radiusInTiles: 0
+      sameFloorOnly: 0
+    lifetime:
+      lifetime: 1
+      durationTurns: 0
+      maximumUses: 0
+    operationParameters:
+      resource: 0
+      stat: 1
+      damageType: 0
+      damageDelivery: 0
+      defenseStat: 0
+      statusId: 
+    value:
+      constant: 10
+      terms: []
+      rounding: 0
+    conditions: []
+  - definition: {fileID: 11400000, guid: f154e272dc2b47446814e51f4d6e7b0e, type: 2}
+    activation:
+      trigger: 9
+      phase: 1
+      frequency: 0
+      eventActor: 0
+      requireGrantingSourceMatch: 0
+    targeting:
+      reference: 0
+      selection: 0
+      factionMask: 0
+      includeOwner: 1
+      radiusInTiles: 0
+      sameFloorOnly: 0
+    lifetime:
+      lifetime: 1
+      durationTurns: 0
+      maximumUses: 0
+    operationParameters:
+      resource: 0
+      stat: 4
+      damageType: 0
+      damageDelivery: 0
+      defenseStat: 0
+      statusId: 
+    value:
+      constant: -5
+      terms: []
+      rounding: 0
+    conditions: []

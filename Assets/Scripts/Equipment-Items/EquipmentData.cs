@@ -1,4 +1,5 @@
 using UnityEngine;
+using MutaBorn.Gameplay;
 
 
 [CreateAssetMenu(fileName = "EquipmentData", menuName = "Scriptable Objects/EquipmentData")]
@@ -22,6 +23,11 @@ public class EquipmentData : ItemData
     [Header("StatValues")]
 
     [SerializeField] private int _armorRating;
+    [SerializeField, Min(0)] private int _wardRating;
+
+    [Header("Damage Type Resistances / Weaknesses")]
+    [Tooltip("Percent per damage type. Positive = resistance, negative = weakness. Unlisted types have 0%. Values stack across equipment slots.")]
+    [SerializeField] private DamageResistance[] resistances = new DamageResistance[0];
     [SerializeField] private int _movementPenalty; //additional movement cost depends on 
     [SerializeField] private int _meleeDamage;
     [SerializeField] private int _rangeDamage;
@@ -55,6 +61,8 @@ public class EquipmentData : ItemData
     public EquipmentGenerationType genType => type;
     public EquipmentStatBonus statMod => statModifier;
     public int armorRating => _armorRating;
+    public int wardRating => _wardRating;
+    public DamageResistance[] Resistances => resistances;
     public int movementPenalty => _movementPenalty;
     public int meleeDamage => _meleeDamage;
     public int rangeDamage => _rangeDamage;

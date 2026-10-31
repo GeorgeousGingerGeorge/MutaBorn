@@ -1,3 +1,6 @@
+using System;
+using UnityEngine;
+
 namespace MutaBorn.Gameplay
 {
     // Describes what kind of damage is dealt, independently of delivery or defenses.
@@ -36,6 +39,46 @@ namespace MutaBorn.Gameplay
 
         Direct = 4,
         Environmental = 5
+
+    }
+
+
+    // An additional fixed-damage part of an attack, such as Fire on a sword.
+    [Serializable]
+    public struct DamageComponent
+    {
+        [SerializeField] private DamageType damageType;
+        [SerializeField, Min(0)] private int amount;
+
+        public DamageType Type => damageType;
+        public int Amount => amount;
+
+        public DamageComponent(DamageType type, int damage)
+        {
+            damageType = type;
+            amount = damage;
+
+        }
+
+    }
+
+    // Positive percentage resists the type; negative percentage is weakness.
+    // 100%+ resistance is permitted. Immunity is a separate future mechanic.
+    [Serializable]
+    public struct DamageResistance
+    {
+        [SerializeField] private DamageType damageType;
+        [SerializeField] private float percent;
+
+        public DamageType Type => damageType;
+        public float Percent => percent;
+
+        public DamageResistance(DamageType type, float resistancePercent)
+        {
+            damageType = type;
+            percent = resistancePercent;
+
+        }
 
     }
 

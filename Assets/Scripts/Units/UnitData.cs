@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using UnityEngine.Analytics;
+using MutaBorn.Gameplay;
 
 
 
@@ -59,7 +60,7 @@ public class UnitData
     public Dictionary<BodySlots, BaseMutation> activeMutations = new Dictionary<BodySlots, BaseMutation>();
     public Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>> mutationTracker
         = new Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>>();
-    public Dictionary<EquipmentSlots, EquipmentInstance> equippedItems = new Dictionary<EquipmentSlots, EquipmentInstance>();
+    public List<EquipmentInstance> equippedItems = new List<EquipmentInstance>();
 
     [Header("Character Information- Current Status (mutationBonus)")]
     public int mutationHealth;
@@ -92,6 +93,57 @@ public class UnitData
     public int rangeDamage { get; private set; }
     public int magicDamage { get; private set; }
     public int armor { get; private set; }
+
+    // Ward and damage resistances are derived from equipped gear, not cached
+    // separately. Future stat modifiers can extend these accessors.
+    public int ward
+    {
+        get
+        {
+            long total = 0;
+
+            foreach (EquipmentInstance equipment in equippedItems)
+            {
+                total += Math.Max(0, equipment.wardRating);
+
+            }
+
+            return (int)Math.Min(int.MaxValue, total);
+
+        }
+
+    }
+
+    public float GetDamageResistancePercent(DamageType damageType)
+    {
+        double total = 0d;
+
+        foreach (EquipmentInstance equipment in equippedItems)
+        {
+            if (equipment.resistances == null)
+            {
+                continue;
+
+            }
+
+            foreach (DamageResistance resistance in equipment.resistances)
+            {
+                if (resistance.Type != damageType || float.IsNaN(resistance.Percent) ||
+                    float.IsInfinity(resistance.Percent))
+                {
+                    continue;
+
+                }
+
+                total += resistance.Percent;
+
+            }
+
+        }
+
+        return (float)Math.Max(-float.MaxValue, Math.Min(float.MaxValue, total));
+
+    }
     public int will { get; private set; }
 
     //Local StatCalculations for the CurrentStatus
@@ -130,8 +182,8 @@ public class UnitData
 
     public void CalcArmor(DynamicStats race) 
     {
-        armor = Mathf.CeilToInt((float)race.armorDef + ((float)totalConstitution * ((float)race.intelligenceMagicDMGBonus * race.intelligenceModifier))
-            + (float)mutationArmor + (float)equipmentMagicDamage);
+        armor = Mathf.CeilToInt((float)race.armorDef + ((float)totalConstitution * ((float)race.constitutionArmorBonus * race.constitutionModifier))
+            + (float)mutationArmor + (float)equipmentArmor);
     }
     public void CalcWill(DynamicStats race) 
     {
@@ -216,70 +268,32 @@ public class UnitData
 
 
 
-    //Adding equipment checks to check slots
-    public bool CanEquipItem(EquipmentInstance item) 
+    // During combat testing, equipment has no slot restrictions.
+    public bool CanEquipItem(EquipmentInstance item)
     {
-        if (item.Equals(default(EquipmentInstance)) || item.slot == EquipmentSlots.None) 
-        {
-            return false;
-        }
-        
+        return !item.Equals(default(EquipmentInstance));
 
-        BodySlots targetSlot = MapEquipmentToBodySlot(item.slot);
-        if (activeMutations.ContainsKey(targetSlot) && activeMutations[targetSlot] != null) 
-        {
-            return false;
-        }
-
-        return true;
     }
 
-    //How to actually equip the item
     public void EquipItem(ItemData equipmentData)
     {
+        if (equipmentData is not EquipmentData)
+        {
+            return;
+
+        }
 
         EquipmentInstance item = (EquipmentInstance)ItemGenerator.ItemInstance(equipmentData);
+
         if (!CanEquipItem(item))
         {
-            
             return;
-        }
-
-
-
-        if (equippedItems.ContainsKey(item.slot) && equippedItems[item.slot].Equals(default(EquipmentInstance)))
-        {
-            equippedItems.Remove(item.slot);
-            equippedItems.Add(item.slot, item);
 
         }
-        else 
-        {
-            equippedItems.Add(item.slot, item);
-        }
-        
-        
-        
 
-    }
+        equippedItems.Add(item);
+        ApplyEquipmentBonuses(item, 1);
 
-        
-    //Determines what equipment slots the item takes and returns it for a check
-    private BodySlots MapEquipmentToBodySlot(EquipmentSlots equipSlot) 
-    {
-        switch (equipSlot) 
-        {
-            case EquipmentSlots.ArmorArms: 
-                return BodySlots.BothArms;
-                
-            case EquipmentSlots.ArmorLegs: 
-                return BodySlots.BothLegs;
-                
-            case EquipmentSlots.ArmorChest: 
-                return BodySlots.Chest;
-                
-            default: return BodySlots.None;
-        }
     }
 
 

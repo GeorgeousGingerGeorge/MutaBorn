@@ -233,15 +233,15 @@ public sealed class UnitInspectionUI : MonoBehaviour
 
         if (data.equippedItems != null)
         {
-            foreach (KeyValuePair<EquipmentSlots, EquipmentInstance> equipped in data.equippedItems)
+            foreach (EquipmentInstance item in data.equippedItems)
             {
-                if (equipped.Value.Equals(default(EquipmentInstance)))
+                if (item.Equals(default(EquipmentInstance)))
                 {
                     continue;
 
                 }
 
-                details.AppendLine($"{equipped.Key}: {equipped.Value.itemName}");
+                details.AppendLine($"{item.slot}: {item.itemName}");
                 equipmentCount++;
 
 
