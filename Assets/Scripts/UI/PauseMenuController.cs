@@ -8,6 +8,7 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] string GameScene = "";
 
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject optionsMenu;
 
     private bool isPaused = false;
 
@@ -48,6 +49,13 @@ public class PauseMenuController : MonoBehaviour
 
     public void OptionsMenu()
     {
-        // will implement later
+        pauseMenu.SetActive(false);
+        optionsMenu.SetActive(true);
+    }
+
+    public void BackToPauseMenu()
+    {
+        optionsMenu.SetActive(false);
+        pauseMenu.SetActive(true);
     }
 }
