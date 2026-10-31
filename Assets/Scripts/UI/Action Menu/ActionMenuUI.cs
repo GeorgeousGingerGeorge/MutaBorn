@@ -64,6 +64,7 @@ public class ActionMenuUI : MonoBehaviour
     private float nextInteractionScanTime;
     private float lastExpandedAP = float.NaN;
     private ActionDefinition previewAction;
+    private ConsumableData previewConsumable;
     private ActionDefinition targetedAction;
 
     private void Awake()
@@ -357,6 +358,7 @@ public class ActionMenuUI : MonoBehaviour
     {
         categoryIsOpen = false;
         previewAction = null;
+        previewConsumable = null;
         lastExpandedAP = float.NaN;
         if (expandedPanel != null)
         {
@@ -420,6 +422,29 @@ public class ActionMenuUI : MonoBehaviour
                 ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
                 item.Bind(action, displayedUnit.data.currentActionPoints, RequestAction,
                     PreviewAction, EndActionPreview);
+                count++;
+
+            }
+
+        }
+
+        if (openCategory == ActionMenuCategory.Items && displayedUnit != null && displayedUnit.data != null)
+        {
+            for (int i = 0; i < displayedUnit.data.carriedConsumables.Count; i++)
+            {
+                ConsumableInstance consumableInstance = displayedUnit.data.carriedConsumables[i];
+                ConsumableData consumable = consumableInstance.definition;
+                if (consumable == null)
+                {
+                    continue;
+
+                }
+
+                int selectedIndex = i;
+                ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
+                item.BindConsumable(consumable, consumable.UseAction, consumableInstance.remainingUses,
+                    displayedUnit.data.currentActionPoints,
+                    () => RequestConsumable(selectedIndex), PreviewConsumable, EndConsumablePreview);
                 count++;
 
             }
@@ -645,7 +670,8 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         ActionDefinition shown = displayedUnit != null ? targetedAction ?? previewAction : null;
-        bool shouldShow = shown != null;
+        ConsumableData shownConsumable = displayedUnit != null && shown == null ? previewConsumable : null;
+        bool shouldShow = shown != null || shownConsumable != null;
         if (actionInfoPanel.activeSelf != shouldShow)
         {
             actionInfoPanel.SetActive(shouldShow);
@@ -654,6 +680,28 @@ public class ActionMenuUI : MonoBehaviour
 
         if (!shouldShow || actionDescriptionText == null)
         {
+            return;
+
+        }
+
+        if (shownConsumable != null)
+        {
+            string consumableDescription = string.IsNullOrWhiteSpace(shownConsumable.description)
+                ? "No description available."
+                : shownConsumable.description.Trim();
+            ActionDefinition useAction = shownConsumable.UseAction;
+            if (useAction != null)
+            {
+                consumableDescription = string.IsNullOrWhiteSpace(useAction.Description)
+                    ? consumableDescription
+                    : useAction.Description.Trim();
+
+            }
+
+            string label = useAction != null ? useAction.DisplayName : shownConsumable.itemName;
+            actionDescriptionText.text = $"<b>{label}</b>  |  Consumable\n" +
+                consumableDescription;
+
             return;
 
         }
@@ -670,6 +718,43 @@ public class ActionMenuUI : MonoBehaviour
         if (actionDescriptionText.text != text)
         {
             actionDescriptionText.text = text;
+
+        }
+
+    }
+
+    private void PreviewConsumable(ConsumableData consumable)
+    {
+        previewConsumable = consumable;
+        RefreshActionInfoPanel();
+
+    }
+
+    private void EndConsumablePreview(ConsumableData consumable)
+    {
+        if (previewConsumable == consumable)
+        {
+            previewConsumable = null;
+            RefreshActionInfoPanel();
+
+        }
+
+    }
+
+    private void RequestConsumable(int index)
+    {
+        if (displayedUnit == null || displayedUnit.data == null || !CanCommand(displayedUnit))
+        {
+            return;
+
+        }
+
+        if (displayedUnit.TryUseConsumable(index))
+        {
+            // Preserve the item button and refresh its use count/availability.
+            RebuildCategory();
+            lastExpandedAP = float.NaN;
+            RefreshActionInfoPanel();
 
         }
 

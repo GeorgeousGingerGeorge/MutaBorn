@@ -16,12 +16,13 @@ namespace MutaBorn.Gameplay
         public int ActualDamage { get; }
         public bool HasActualDamage { get; }
         public int AffectedTargetCount { get; }
+        public int SourceEquipmentIndex { get; }
 
         public EffectEventContext(EffectTrigger trigger, long resolutionId,
             UnitController actor, UnitController eventSource,
             UnitController eventTarget, UnitController actionTarget,
             ActionDefinition action, int actualDamage, bool hasActualDamage,
-            int affectedTargetCount)
+            int affectedTargetCount, int sourceEquipmentIndex = -1)
         {
             Trigger = trigger;
             ResolutionId = resolutionId;
@@ -33,6 +34,7 @@ namespace MutaBorn.Gameplay
             ActualDamage = actualDamage;
             HasActualDamage = hasActualDamage;
             AffectedTargetCount = affectedTargetCount;
+            SourceEquipmentIndex = sourceEquipmentIndex;
 
         }
 

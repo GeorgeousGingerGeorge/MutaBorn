@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using MutaBorn.Gameplay;
 
 
 [System.Serializable]
@@ -15,6 +16,7 @@ public class MutationActionGrant
 {
     public MutationID mutationId;
     public ActionSet actionSet;
+    public EffectCollection effectCollection;
 
 }
 
@@ -24,7 +26,7 @@ public class MutationDataBase : ScriptableObject
     [SerializeField] private Dictionary<MutationID, MutationDefinition> mutationCost = new Dictionary<MutationID, MutationDefinition>();
     [SerializeField] private List<MutationLookupEntry> entries = new List<MutationLookupEntry>();
 
-    [Header("Granted Mutation Actions")]
+    [Header("Granted Mutation Actions and Effects")]
     [SerializeField] private List<MutationActionGrant> actionGrants = new List<MutationActionGrant>();
 
     private Dictionary<(BodySlots, MutationStrain), List<MutationID>> mutationLookup = new Dictionary<(BodySlots, MutationStrain), List<MutationID>>();
@@ -70,6 +72,28 @@ public class MutationDataBase : ScriptableObject
         return null;
     }
 
+
+    public EffectCollection GetGrantedEffectCollection(MutationID mutationId)
+    {
+        if (mutationId == MutationID.none)
+        {
+            return null;
+
+        }
+
+        foreach (MutationActionGrant grant in actionGrants)
+        {
+            if (grant != null && grant.mutationId == mutationId)
+            {
+                return grant.effectCollection;
+
+            }
+
+        }
+
+        return null;
+
+    }
 
     public ActionSet GetGrantedActionSet(MutationID mutationId)
     {

@@ -7,6 +7,7 @@ namespace MutaBorn.Gameplay
     {
         public EffectGrant Grant { get; }
         public EffectCollection Collection { get; }
+        public int SourceEquipmentIndex { get; }
         public int RemainingTurns { get; private set; }
         public int RemainingUses { get; private set; }
         public bool Expired { get; private set; }
@@ -15,10 +16,11 @@ namespace MutaBorn.Gameplay
         private long lastTargetResolutionId = -1;
         private EntityId lastTargetId;
 
-        public EffectRuntimeInstance(EffectCollection collection, EffectGrant grant)
+        public EffectRuntimeInstance(EffectCollection collection, EffectGrant grant, int sourceEquipmentIndex = -1)
         {
             Collection = collection;
             Grant = grant;
+            SourceEquipmentIndex = sourceEquipmentIndex;
             RemainingTurns = grant != null && grant.Lifetime != null
                 ? Mathf.Max(1, grant.Lifetime.DurationTurns) : 0;
             RemainingUses = grant != null && grant.Lifetime != null

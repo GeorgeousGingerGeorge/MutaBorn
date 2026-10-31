@@ -10,6 +10,7 @@ public readonly struct CombatDamageEvent
     public int ActualDamage { get; }
     public int HealthBefore { get; }
     public int HealthAfter { get; }
+    public int SourceEquipmentIndex { get; }
 
     public bool ReducedHealthToZero => HealthBefore > 0 && HealthAfter <= 0;
 
@@ -19,7 +20,8 @@ public readonly struct CombatDamageEvent
         ActionDefinition action,
         int actualDamage,
         int healthBefore,
-        int healthAfter)
+        int healthAfter,
+        int sourceEquipmentIndex = -1)
     {
         Attacker = attacker;
         Target = target;
@@ -27,6 +29,7 @@ public readonly struct CombatDamageEvent
         ActualDamage = actualDamage;
         HealthBefore = healthBefore;
         HealthAfter = healthAfter;
+        SourceEquipmentIndex = sourceEquipmentIndex;
 
     }
 
@@ -339,7 +342,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         // The resolver owns calculations, Guard, and actual health changes.
         // Player and AI attacks share this path; action/event handling stays here.
-        if (!DamageResolver.TryResolveAction(source, target, action, out DamageResult damageResult))
+        int sourceIndex = FindUniqueEquipmentSourceIndex(source, action);
+        if (!DamageResolver.TryResolveAction(source, target, action, out DamageResult damageResult, sourceIndex))
         {
             return false;
 
@@ -370,7 +374,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         CombatDamageEvent damageEvent = new CombatDamageEvent(
             source, target, action, damageResult.ActualDamage,
-            damageResult.HealthBefore, damageResult.HealthAfter);
+            damageResult.HealthBefore, damageResult.HealthAfter,
+            sourceIndex);
         PublishDamageApplied(damageEvent);
 
         // Keep mutation reactions, objective events, and defeat handling identical.
@@ -389,6 +394,61 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         return true;
+
+    }
+
+    // Action ownership is the only current attribution signal. If two items
+    // grant the same action, there is no selected weapon in combat yet, so
+    // fail closed rather than credit both weapons for the same hit.
+    private static int FindUniqueEquipmentSourceIndex(UnitController attacker, ActionDefinition action)
+    {
+        if (attacker == null || attacker.data == null || action == null ||
+            attacker.data.equippedItems == null)
+        {
+            return -1;
+
+        }
+
+        int sourceIndex = -1;
+        for (int i = 0; i < attacker.data.equippedItems.Count; i++)
+        {
+            EquipmentInstance equipment = attacker.data.equippedItems[i];
+            bool hasAction = equipment.grantedActionSet != null &&
+                equipment.grantedActionSet.ContainsAction(action.Id);
+            if (!hasAction && equipment.grantedActions != null)
+            {
+                foreach (ActionDefinition granted in equipment.grantedActions)
+                {
+                    if (granted != null && string.Equals(granted.Id, action.Id,
+                        StringComparison.OrdinalIgnoreCase))
+                    {
+                        hasAction = true;
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+            if (!hasAction)
+            {
+                continue;
+
+            }
+
+            if (sourceIndex >= 0)
+            {
+                return -1;
+
+            }
+
+            sourceIndex = i;
+
+        }
+
+        return sourceIndex;
 
     }
 
@@ -414,6 +474,14 @@ public sealed class CombatActionExecutor : MonoBehaviour
         System.Collections.Generic.List<string> descriptions = new System.Collections.Generic.List<string>();
         foreach (DamageType type in types)
         {
+            if (type == DamageType.True)
+            {
+                descriptions.Add("True (ignores Armor, Ward, resistance, Guard)");
+
+                continue;
+
+            }
+
             float resistance = target.GetDamageResistancePercent(type);
             descriptions.Add($"{type} ({resistance:+0.##;-0.##;0}% resist)");
 

@@ -24,7 +24,10 @@ namespace MutaBorn.Gameplay
         Wind = 18,
         Earth = 19,
         Water = 20,
-        Nature = 21
+        Nature = 21,
+
+        // Ignores Armor, Ward, resistances and Guard.
+        True = 22
 
     }
 

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using MutaBorn.Gameplay;
 
@@ -15,8 +16,26 @@ public class EquipmentData : ItemData
     [SerializeField] private EquipmentGenerationType type;
     [SerializeField] private EquipmentStatBonus statModifier; //StatModifier
 
-    [Header("Granted Actions")]
+    [Header("Guaranteed Actions")]
+    [SerializeField] private ActionDefinition[] guaranteedActions = new ActionDefinition[0];
+
+    [Header("Guaranteed Effects")]
+    [SerializeField] private EffectGrant[] guaranteedEffects = new EffectGrant[0];
+
+    [Header("Weapon Damage")]
+    [Tooltip("Default damage type for an action without an explicit damage type when this weapon is its source.")]
+    [SerializeField] private DamageType primaryDamageType = DamageType.Unspecified;
+    [SerializeField] private DamageComponent[] guaranteedBonusDamage = new DamageComponent[0];
+
+    [Header("Star Reward Generation")]
+    [Tooltip("Enable for templates with configured reward pools. Existing templates remain compatible when disabled.")]
+    [SerializeField] private bool generateStarRewards;
+    [SerializeField] private EquipmentAbilityOption[] possibleAbilities = new EquipmentAbilityOption[0];
+    [SerializeField] private EquipmentBonusOption[] possibleBonuses = new EquipmentBonusOption[0];
+
+    [Header("Legacy Shared Grants (Optional)")]
     [SerializeField] private ActionSet grantedActionSet;
+    [SerializeField] private EffectCollection grantedEffectCollection;
 
 
 
@@ -69,6 +88,54 @@ public class EquipmentData : ItemData
     public int magicDamage => _magicDamage;
     public int accuracyBonus => _accuracyBonus;
     public ActionSet GrantedActionSet => grantedActionSet;
+    public EffectCollection GrantedEffectCollection => grantedEffectCollection;
+    public ActionDefinition[] GuaranteedActions => guaranteedActions;
+    public EffectGrant[] GuaranteedEffects => guaranteedEffects;
+    public DamageType PrimaryDamageType => primaryDamageType;
+    public DamageComponent[] GuaranteedBonusDamage => guaranteedBonusDamage;
+    public bool GenerateStarRewards => generateStarRewards;
+    public EquipmentAbilityOption[] PossibleAbilities => possibleAbilities;
+    public EquipmentBonusOption[] PossibleBonuses => possibleBonuses;
 
+
+}
+
+[Serializable]
+public class EquipmentAbilityOption
+{
+    public ActionDefinition action;
+    [Min(0f)] public float weight = 1f;
+
+}
+
+public enum EquipmentBonusKind
+{
+    Stat = 0,
+    DamageComponent = 1,
+    Resistance = 2,
+    Effect = 3
+
+}
+
+public enum EquipmentRollStat
+{
+    Armor = 0,
+    Ward = 1,
+    MeleeDamage = 2,
+    RangedDamage = 3,
+    MagicDamage = 4
+
+}
+
+[Serializable]
+public class EquipmentBonusOption
+{
+    public EquipmentBonusKind kind;
+    [Min(0f)] public float weight = 1f;
+    public EquipmentRollStat stat;
+    public DamageType damageType = DamageType.Unspecified;
+    [Tooltip("Inclusive integer range for stats, extra typed damage, and resistance percent.")]
+    public Vector2Int amountRange;
+    public EffectGrant effect;
 
 }

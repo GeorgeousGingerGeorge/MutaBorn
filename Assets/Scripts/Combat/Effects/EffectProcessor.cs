@@ -62,12 +62,12 @@ namespace MutaBorn.Gameplay
 
                 }
 
-                if (grant.Activation.RequireGrantingSourceMatch)
+                if (grant.Activation.RequireGrantingSourceMatch &&
+                    (owner != context.EventSource || instance.SourceEquipmentIndex < 0 ||
+                    instance.SourceEquipmentIndex != context.SourceEquipmentIndex))
                 {
-                    // The current collection binder does not know which gear
-                    // instance caused a hit. Fail closed until source IDs exist.
-                    WarnSkipped(grant, "source matching requires source attribution (later integration)", owner, logResults);
-
+                    // No weapon attribution, or a different weapon's attack.
+                    // Never guess which weapon caused an ambiguous attack.
                     continue;
 
                 }

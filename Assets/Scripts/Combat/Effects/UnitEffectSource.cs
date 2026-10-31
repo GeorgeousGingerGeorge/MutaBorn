@@ -3,17 +3,21 @@ using UnityEngine;
 
 namespace MutaBorn.Gameplay
 {
-    // Opt-in bridge: add this to a UnitController GameObject and assign
-    // Effect Collections to exercise the processor. Source integration with
-    // equipment, mutations, and actions happens after the proof of concept.
+    // Resolves runtime effect grants from mutations and equipped items.
+    // Inspector collections remain available for existing effect tests.
     [RequireComponent(typeof(UnitController))]
     public sealed class UnitEffectSource : MonoBehaviour
     {
-        [Header("Temporary Step 5 Effect Sources")]
+        [Header("Additional Effect Collections (Testing)")]
         [SerializeField] private List<EffectCollection> collections = new List<EffectCollection>();
         [SerializeField] private bool logEffectResults = true;
 
+        [Header("Temporary Effect Test (Play Mode)")]
+        [SerializeField] private EffectGrant temporaryTestGrant = new EffectGrant();
+
         private readonly List<EffectRuntimeInstance> runtime = new List<EffectRuntimeInstance>();
+        private readonly List<EffectRuntimeInstance> temporary = new List<EffectRuntimeInstance>();
+        private readonly HashSet<MutationID> boundMutationEffects = new HashSet<MutationID>();
         private UnitController owner;
         private TurnManager turns;
         private FactionManager factions;
@@ -71,27 +75,49 @@ namespace MutaBorn.Gameplay
 
         }
 
-        // Can be called after a future inventory/mutation loadout update.
-        // It deliberately restarts runtime durations: don't call every frame.
+        // Rebuild after changing a unit's equipped sources; doing this resets
+        // runtime durations, so do not call it every frame.
         [ContextMenu("Rebuild Runtime Effect Grants")]
         public void RefreshEffects()
         {
             runtime.Clear();
+            boundMutationEffects.Clear();
+
+            HashSet<EffectCollection> boundCollections = new HashSet<EffectCollection>();
             if (collections != null)
             {
                 foreach (EffectCollection collection in collections)
                 {
-                    if (collection == null || collection.Effects == null)
-                    {
-                        continue;
+                    AddCollection(collection, boundCollections);
 
-                    }
+                }
 
-                    foreach (EffectGrant grant in collection.Effects)
+            }
+
+            if (owner == null)
+            {
+                owner = GetComponent<UnitController>();
+
+            }
+
+            if (owner != null && owner.data != null && owner.data.activeMutations != null)
+            {
+                GameDataBase database = GameDataBaseLoader.Instance;
+                MutationDataBase mutationDatabase = database != null ? database.mutationData : null;
+                if (mutationDatabase != null)
+                {
+                    foreach (BaseMutation mutation in owner.data.activeMutations.Values)
                     {
-                        if (grant != null)
+                        if (mutation == null)
                         {
-                            runtime.Add(new EffectRuntimeInstance(collection, grant));
+                            continue;
+
+                        }
+
+                        EffectCollection collection = mutationDatabase.GetGrantedEffectCollection(mutation.ID);
+                        if (AddCollection(collection, boundCollections))
+                        {
+                            boundMutationEffects.Add(mutation.ID);
 
                         }
 
@@ -101,7 +127,179 @@ namespace MutaBorn.Gameplay
 
             }
 
+            // One runtime grant per equipped item, even when multiple items
+            // reference the same reusable EffectCollection.
+            if (owner != null && owner.data != null && owner.data.equippedItems != null)
+            {
+                for (int i = 0; i < owner.data.equippedItems.Count; i++)
+                {
+                    EquipmentInstance item = owner.data.equippedItems[i];
+                    AddEquipmentCollection(item.grantedEffectCollection, i);
+                    if (item.grantedEffects != null)
+                    {
+                        foreach (EffectGrant grant in item.grantedEffects)
+                        {
+                            if (grant != null && grant.Definition != null)
+                            {
+                                runtime.Add(new EffectRuntimeInstance(null, grant, i));
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            // Rebuilding equipment and mutation grants must not restart or
+            // erase temporary effects that were already applied to this unit.
+            for (int i = temporary.Count - 1; i >= 0; i--)
+            {
+                EffectRuntimeInstance instance = temporary[i];
+                if (instance.Expired)
+                {
+                    temporary.RemoveAt(i);
+
+                    continue;
+
+                }
+
+                runtime.Add(instance);
+
+            }
+
             initialized = true;
+
+        }
+
+        // Temporary effects are runtime grants, not mutations or equipment.
+        // Each application gets independent turn counters and proc tracking.
+        public bool ApplyTemporaryEffect(EffectGrant grant)
+        {
+            if (!Application.isPlaying || grant == null || grant.Definition == null ||
+                grant.Activation == null || grant.Targeting == null || grant.Lifetime == null ||
+                grant.Lifetime.Lifetime != EffectLifetime.TurnCount ||
+                grant.Lifetime.DurationTurns < 1 || grant.Activation.RequireGrantingSourceMatch)
+            {
+                return false;
+
+            }
+
+            if (owner == null)
+            {
+                owner = GetComponent<UnitController>();
+
+            }
+
+            if (owner == null || owner.data == null)
+            {
+                return false;
+
+            }
+
+            if (!initialized)
+            {
+                RefreshEffects();
+
+            }
+
+            EffectRuntimeInstance instance = new EffectRuntimeInstance(null, grant);
+            temporary.Add(instance);
+            runtime.Add(instance);
+
+            return true;
+
+        }
+
+        [ContextMenu("Test / Apply Temporary Effect")]
+        private void TestApplyTemporaryEffect()
+        {
+            if (!ApplyTemporaryEffect(temporaryTestGrant))
+            {
+                Debug.LogWarning("Temporary test grant requires Play Mode, a ready unit, " +
+                    "a valid effect definition, Turn Count lifetime, at least 1 turn, " +
+                    "and Granting Source Match disabled.", this);
+
+                return;
+
+            }
+
+            Debug.Log($"Applied temporary effect '{temporaryTestGrant.Definition.DisplayName}' " +
+                $"for {temporaryTestGrant.Lifetime.DurationTurns} owner turn ends.", this);
+
+        }
+
+        [ContextMenu("Test / Log Temporary Effects")]
+        private void TestLogTemporaryEffects()
+        {
+            Debug.Log($"Active temporary effects: {temporary.Count}", this);
+            foreach (EffectRuntimeInstance instance in temporary)
+            {
+                Debug.Log($"Temporary '{instance.Grant.Definition.DisplayName}': " +
+                    $"{instance.RemainingTurns} owner turn ends remaining, expired={instance.Expired}.", this);
+
+            }
+
+        }
+
+        private void AddEquipmentCollection(EffectCollection collection, int equipmentIndex)
+        {
+            if (collection == null || collection.Effects == null)
+            {
+                return;
+
+            }
+
+            foreach (EffectGrant grant in collection.Effects)
+            {
+                if (grant == null || grant.Definition == null)
+                {
+                    continue;
+
+                }
+
+                runtime.Add(new EffectRuntimeInstance(collection, grant, equipmentIndex));
+
+            }
+
+        }
+
+        public bool HasMutationEffects(MutationID mutationId)
+        {
+            return initialized && boundMutationEffects.Contains(mutationId);
+
+        }
+
+        private bool AddCollection(EffectCollection collection, HashSet<EffectCollection> boundCollections)
+        {
+            if (collection == null || collection.Effects == null)
+            {
+                return false;
+
+            }
+
+            bool hasGrant = false;
+            bool shouldAdd = boundCollections.Add(collection);
+            foreach (EffectGrant grant in collection.Effects)
+            {
+                if (grant == null || grant.Definition == null)
+                {
+                    continue;
+
+                }
+
+                hasGrant = true;
+                if (shouldAdd)
+                {
+                    runtime.Add(new EffectRuntimeInstance(collection, grant));
+
+                }
+
+            }
+
+            return hasGrant;
 
         }
 
@@ -154,10 +352,10 @@ namespace MutaBorn.Gameplay
             long resolutionId = ++nextResolutionId;
             ProcessEvent(new EffectEventContext(EffectTrigger.OnDamageDealt, resolutionId,
                 report.Attacker, report.Attacker, report.Target, report.Target,
-                report.Action, report.ActualDamage, true, 1));
+                report.Action, report.ActualDamage, true, 1, report.SourceEquipmentIndex));
             ProcessEvent(new EffectEventContext(EffectTrigger.OnDamageReceived, resolutionId,
                 report.Target, report.Attacker, report.Target, report.Target,
-                report.Action, report.ActualDamage, true, 1));
+                report.Action, report.ActualDamage, true, 1, report.SourceEquipmentIndex));
 
         }
 
@@ -186,6 +384,21 @@ namespace MutaBorn.Gameplay
             foreach (EffectRuntimeInstance instance in runtime)
             {
                 instance.OnOwnerTurnEnded();
+
+            }
+
+            for (int i = temporary.Count - 1; i >= 0; i--)
+            {
+                EffectRuntimeInstance instance = temporary[i];
+                if (!instance.Expired)
+                {
+                    continue;
+
+                }
+
+                Debug.Log($"Temporary effect '{instance.Grant.Definition.DisplayName}' expired.", this);
+                runtime.Remove(instance);
+                temporary.RemoveAt(i);
 
             }
 

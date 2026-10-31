@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using MutaBorn.Gameplay;
 
 public enum MutationID 
 {
@@ -107,6 +108,15 @@ public class VampirismMutation : BaseMutation
     public override void OnDamageDealt(UnitController owner, CombatDamageEvent damageEvent)
     {
         if (owner == null || owner.data == null || damageEvent.ActualDamage <= 0)
+        {
+            return;
+
+        }
+
+        // Keep the legacy reaction as a fallback until the new mutation effect
+        // has been verified in Unity, but never process both for the same hit.
+        UnitEffectSource effectSource = owner.GetComponent<UnitEffectSource>();
+        if (effectSource != null && effectSource.HasMutationEffects(ID))
         {
             return;
 

@@ -14,6 +14,7 @@ public class UnitData
     public string characterName;
     public string raceName;
     DynamicStats race;
+    public DynamicStats RaceDefinition => race;
 
     [Header("Character Information- startingStats")]
     private int startingStrength;
@@ -61,6 +62,9 @@ public class UnitData
     public Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>> mutationTracker
         = new Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>>();
     public List<EquipmentInstance> equippedItems = new List<EquipmentInstance>();
+
+    public const int ConsumableCapacity = 2;
+    public List<ConsumableInstance> carriedConsumables = new List<ConsumableInstance>();
 
     [Header("Character Information- Current Status (mutationBonus)")]
     public int mutationHealth;
@@ -296,6 +300,73 @@ public class UnitData
 
     }
 
+
+    public bool TryUpgradeEquippedItem(int index)
+    {
+        if (index < 0 || index >= equippedItems.Count)
+        {
+            return false;
+
+        }
+
+        EquipmentInstance previous = equippedItems[index];
+        EquipmentInstance upgraded = previous;
+        if (!EquipmentGenerator.TryUpgrade(ref upgraded))
+        {
+            return false;
+
+        }
+
+        equippedItems[index] = upgraded;
+        equipmentMeleeDamage += upgraded.meleeDamage - previous.meleeDamage;
+        equipmentRangeDamage += upgraded.rangeDamage - previous.rangeDamage;
+        equipmentMagicDamage += upgraded.magicDamage - previous.magicDamage;
+        equipmentArmor += upgraded.armorRating - previous.armorRating;
+        RecalculateStats();
+
+        return true;
+
+    }
+
+    // Consumables are selected before a mission and stored separately from gear.
+    // Each entry occupies one of the two available consumable slots.
+    public bool TryAddConsumable(ConsumableData template)
+    {
+        if (template == null || carriedConsumables.Count >= ConsumableCapacity)
+        {
+            return false;
+
+        }
+
+        ConsumableInstance instance = ConsumableGenerator.CreateConsumable(template);
+        carriedConsumables.Add(instance);
+
+        return true;
+
+    }
+
+    // Spending a use never removes the item from its mission slot.
+    public bool TrySpendConsumableUse(int index)
+    {
+        if (index < 0 || index >= carriedConsumables.Count)
+        {
+            return false;
+
+        }
+
+        ConsumableInstance item = carriedConsumables[index];
+        if (item.definition == null || item.remainingUses <= 0)
+        {
+            return false;
+
+        }
+
+        item.remainingUses--;
+        carriedConsumables[index] = item;
+
+        return true;
+
+    }
 
     //Mutations- Equipping Mutations, Initializing Trackers
     public bool EquipMutation(MutationID id) 

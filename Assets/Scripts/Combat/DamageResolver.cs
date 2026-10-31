@@ -76,7 +76,7 @@ namespace MutaBorn.Gameplay
     public static class DamageResolver
     {
         public static bool TryResolveAction(UnitController attacker, UnitController target,
-            ActionDefinition action, out DamageResult result)
+            ActionDefinition action, out DamageResult result, int sourceEquipmentIndex = -1)
         {
             result = default(DamageResult);
 
@@ -122,9 +122,37 @@ namespace MutaBorn.Gameplay
 
             }
 
+            IReadOnlyList<DamageComponent> components = action.AdditionalDamage;
+            if (sourceEquipmentIndex >= 0 && attacker.data.equippedItems != null &&
+                sourceEquipmentIndex < attacker.data.equippedItems.Count)
+            {
+                EquipmentInstance equipment = attacker.data.equippedItems[sourceEquipmentIndex];
+                if (action.DamageType == DamageType.Unspecified &&
+                    equipment.primaryDamageType != DamageType.Unspecified)
+                {
+                    type = equipment.primaryDamageType;
+
+                }
+
+                if (equipment.bonusDamage != null && equipment.bonusDamage.Length > 0)
+                {
+                    List<DamageComponent> combined = new List<DamageComponent>();
+                    if (components != null)
+                    {
+                        combined.AddRange(components);
+
+                    }
+
+                    combined.AddRange(equipment.bonusDamage);
+                    components = combined;
+
+                }
+
+            }
+
             DamageRequest request = new DamageRequest(attacker, target, baseDamage,
                 action.DamageMultiplier, action.FlatDamageBonus, action.MinimumDamage,
-                action, type, DamageDeliveryType.Unspecified, action.AdditionalDamage);
+                action, type, DamageDeliveryType.Unspecified, components);
 
             return TryResolve(request, out result);
 
@@ -166,10 +194,16 @@ namespace MutaBorn.Gameplay
 
             long physicalDamage = 0L;
             long magicalDamage = 0L;
+            long trueDamage = 0L;
 
             foreach (KeyValuePair<DamageType, long> component in components)
             {
-                if (IsPhysicalDamage(component.Key))
+                if (component.Key == DamageType.True)
+                {
+                    trueDamage += component.Value;
+
+                }
+                else if (IsPhysicalDamage(component.Key))
                 {
                     physicalDamage += component.Value;
 
@@ -182,18 +216,23 @@ namespace MutaBorn.Gameplay
 
             }
 
-            // Flat defenses apply once to the total physical and magical
-            // portions of the hit, not once for every damage type.
+            // Each flat defense applies once; True damage bypasses both.
             long physicalAfterArmor = Math.Max(0L, physicalDamage - Math.Max(0, target.data.armor));
             long magicalAfterWard = Math.Max(0L, magicalDamage - Math.Max(0, target.data.ward));
-            long afterArmor = physicalAfterArmor + magicalAfterWard;
-            double afterResistances = 0d;
+            long afterArmor = physicalAfterArmor + magicalAfterWard + trueDamage;
+            double afterResistances = trueDamage;
 
             // Preserve each type's share after flat defense, then apply its
             // individual resistance or weakness. This makes splitting damage
             // across types unable to multiply the Armor/Ward subtraction.
             foreach (KeyValuePair<DamageType, long> component in components)
             {
+                if (component.Key == DamageType.True)
+                {
+                    continue;
+
+                }
+
                 bool physical = IsPhysicalDamage(component.Key);
                 long categoryTotal = physical ? physicalDamage : magicalDamage;
                 long categoryRemaining = physical ? physicalAfterArmor : magicalAfterWard;
@@ -223,15 +262,18 @@ namespace MutaBorn.Gameplay
 
             }
 
-            int damageAfterGuard = damageAfterResistances;
+            // Guard reduces only ordinary damage; True damage is not guardable.
+            int trueDamageToApply = (int)Math.Min(trueDamage, damageAfterResistances);
+            int guardableDamage = damageAfterResistances - trueDamageToApply;
             CombatStatusHandler statuses = CombatStatusHandler.Instance;
-            if (statuses != null)
+            if (statuses != null && guardableDamage > 0)
             {
-                damageAfterGuard = statuses.FilterIncomingDamage(target, damageAfterGuard);
+                guardableDamage = statuses.FilterIncomingDamage(target, guardableDamage);
 
             }
 
-            damageAfterGuard = Mathf.Max(0, damageAfterGuard);
+            int damageAfterGuard = (int)Math.Min(int.MaxValue,
+                (long)Mathf.Max(0, guardableDamage) + trueDamageToApply);
             int healthBefore = target.data.currentHealth;
             target.data.ModifyHealth(-damageAfterGuard);
             int healthAfter = target.data.currentHealth;

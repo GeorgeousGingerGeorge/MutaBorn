@@ -16,6 +16,11 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private TMP_Text apCostText;
 
     private ActionDefinition boundAction;
+    private ConsumableData boundConsumable;
+    private ActionDefinition boundConsumableAction;
+    private int boundConsumableUses;
+    private Action<ConsumableData> consumablePreviewStarted;
+    private Action<ConsumableData> consumablePreviewEnded;
     private Action<ActionDefinition> previewStarted;
     private Action<ActionDefinition> previewEnded;
 
@@ -38,6 +43,9 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         button.onClick.RemoveAllListeners();
 
         boundAction = action;
+        boundConsumable = null;
+        boundConsumableAction = null;
+        boundConsumableUses = 0;
         previewStarted = onPreviewStarted;
         previewEnded = onPreviewEnded;
 
@@ -94,11 +102,67 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
     }
 
+    public void BindConsumable(
+        ConsumableData consumable,
+        ActionDefinition useAction,
+        int remainingUses,
+        float availableAP,
+        Action onRequested,
+        Action<ConsumableData> onPreviewStarted = null,
+        Action<ConsumableData> onPreviewEnded = null)
+    {
+        if (button == null)
+        {
+            button = GetComponent<UIButton>();
+
+        }
+
+        button.onClick.RemoveAllListeners();
+        boundAction = null;
+        boundConsumable = consumable;
+        boundConsumableAction = useAction;
+        boundConsumableUses = Mathf.Max(0, remainingUses);
+        previewStarted = null;
+        previewEnded = null;
+        consumablePreviewStarted = onPreviewStarted;
+        consumablePreviewEnded = onPreviewEnded;
+
+        if (buttonText != null)
+        {
+            buttonText.text = consumable == null
+                ? "Missing Consumable"
+                : useAction != null ? useAction.DisplayName : "Missing Item Action";
+
+        }
+
+        if (apCostText != null)
+        {
+            apCostText.text = consumable == null
+                ? ""
+                : $"{boundConsumableUses}/{consumable.MaxUses} Uses";
+
+        }
+
+        RefreshAvailability(availableAP);
+        if (consumable != null && useAction != null &&
+            useAction.Category == ActionMenuCategory.Items && !useAction.IsPassive)
+        {
+            button.onClick.AddListener(() => onRequested?.Invoke());
+
+        }
+
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (boundAction != null)
         {
             previewStarted?.Invoke(boundAction);
+
+        }
+        else if (boundConsumable != null)
+        {
+            consumablePreviewStarted?.Invoke(boundConsumable);
 
         }
 
@@ -115,6 +179,11 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (boundAction != null)
         {
             previewStarted?.Invoke(boundAction);
+
+        }
+        else if (boundConsumable != null)
+        {
+            consumablePreviewStarted?.Invoke(boundConsumable);
 
         }
 
@@ -139,6 +208,11 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             previewEnded?.Invoke(boundAction);
 
         }
+        else if (boundConsumable != null)
+        {
+            consumablePreviewEnded?.Invoke(boundConsumable);
+
+        }
 
     }
 
@@ -157,6 +231,16 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (button == null)
             return;
+
+        if (boundConsumable != null)
+        {
+            button.interactable = boundConsumableAction != null &&
+                boundConsumableAction.Category == ActionMenuCategory.Items &&
+                !boundConsumableAction.IsPassive && boundConsumableUses > 0;
+
+            return;
+
+        }
 
         if (boundAction == null)
         {
