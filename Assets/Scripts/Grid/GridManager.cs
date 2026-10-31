@@ -26,6 +26,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private Level_Design currentLevel;
     [Header("Adjust Tile Size")]
     [SerializeField] private float gridCellSize = 2f;
+    [SerializeField, Min(0f)] private float maxStepHeight = 0.5f;
 
     [Header("CurrentGrid Information")]
     private Dictionary<Vector2Int, GridNode> grid = new Dictionary<Vector2Int, GridNode>();
@@ -249,7 +250,7 @@ public class GridManager : MonoBehaviour
             {
                 Vector2Int neighborPosition = pair.Value.coords + direction; //Stores the offset position of the current Node
 
-                if (currentGrid.TryGetValue(neighborPosition, out GridNode neighbor)) //Checks if the offset is in the grid
+                if (currentGrid.TryGetValue(neighborPosition, out GridNode neighbor) && Mathf.Abs(pair.Value.cellWorldPosition.y - neighbor.cellWorldPosition.y) <= maxStepHeight) //Checks if the offset is in the grid
                 {
                     pair.Value.AddConnections(neighbor); //establish the connection to the node if it receives a neighbor node
                 }
