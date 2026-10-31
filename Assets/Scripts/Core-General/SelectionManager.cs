@@ -50,6 +50,15 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
+        int floorDirection = input.GetFloorChangeDirection();
+
+        if (floorDirection != 0 && occupancy != null)
+        {
+            Debug.Log($"FloorChange occurred:{floorDirection}");
+
+            occupancy.ReturnGrid()?.ChangeActiveFloor(floorDirection);
+            Debug.Log($"Active Floor: {occupancy.ReturnGrid().activeFloorID}");
+        }
         if (Time.unscaledTime >= nextRosterRefreshTime)
         {
             RefreshPlayerRoster();
