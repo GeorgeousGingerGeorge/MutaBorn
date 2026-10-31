@@ -1,4 +1,5 @@
 using System;
+using MutaBorn.Gameplay;
 using UnityEngine;
 
 public readonly struct CombatDamageEvent
@@ -336,24 +337,20 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        // Both player and AI attacks use the exact same damage and event pipeline.
-        int damage = CalculateDamage(source.data, target.data, action);
-        if (CombatStatusHandler.Instance != null)
+        // The resolver owns calculations, Guard, and actual health changes.
+        // Player and AI attacks share this path; action/event handling stays here.
+        if (!DamageResolver.TryResolveAction(source, target, action, out DamageResult damageResult))
         {
-            damage = CombatStatusHandler.Instance.FilterIncomingDamage(target, damage);
+            return false;
 
         }
 
         int apCost = Mathf.CeilToInt(action.ApCost);
-        int healthBefore = target.data.currentHealth;
-
         source.data.ModifyActionPoints(-apCost);
-        target.data.ModifyHealth(-damage);
-        int actualDamage = Mathf.Max(0, healthBefore - target.data.currentHealth);
         source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
 
         Debug.Log($"{source.data.characterName} used {action.DisplayName} on {target.data.characterName} " +
-                  $"for {actualDamage}. HP: {target.data.currentHealth}/{target.data.maxHealth}; " +
+                  $"for {damageResult.ActualDamage}. HP: {target.data.currentHealth}/{target.data.maxHealth}; " +
                   $"attacker AP: {source.data.currentActionPoints}/{source.data.maxActionPoints}", this);
 
         if (clearPlayerTargeting)
@@ -363,7 +360,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         CombatDamageEvent damageEvent = new CombatDamageEvent(
-            source, target, action, actualDamage, healthBefore, target.data.currentHealth);
+            source, target, action, damageResult.ActualDamage,
+            damageResult.HealthBefore, damageResult.HealthAfter);
         PublishDamageApplied(damageEvent);
 
         // Keep mutation reactions, objective events, and defeat handling identical.
@@ -382,44 +380,6 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         return true;
-
-    }
-
-    private static int CalculateDamage(UnitData sourceData, UnitData targetData, ActionDefinition action)
-    {
-        int baseDamage;
-
-        switch (action.DamageStat)
-        {
-            case CombatDamageStat.Ranged:
-            {
-                baseDamage = sourceData.rangeDamage;
-
-                break;
-
-            }
-            case CombatDamageStat.Magic:
-            {
-                baseDamage = sourceData.magicDamage;
-
-                break;
-
-            }
-            default:
-            {
-                baseDamage = sourceData.meleeDamage;
-
-                break;
-
-            }
-
-        }
-
-        int scaledDamage = Mathf.CeilToInt(Mathf.Max(0, baseDamage) * action.DamageMultiplier);
-        int damageBeforeArmor = scaledDamage + action.FlatDamageBonus;
-        int damageAfterArmor = damageBeforeArmor - Mathf.Max(0, targetData.armor);
-
-        return Mathf.Max(action.MinimumDamage, damageAfterArmor);
 
     }
 
