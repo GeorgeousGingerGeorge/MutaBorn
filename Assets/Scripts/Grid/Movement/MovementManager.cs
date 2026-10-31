@@ -12,6 +12,7 @@ public class MovementManager : MonoBehaviour
     [Header("Beginning Node and Destination Node")]
     public GridNode startNode { get; private set; }
     public GridNode targetNode { get; private set; }
+    public float movementCost { get; private set; }
 
     [Header("Holds the Path to the Destination")]
     private List<GridNode> route = new List<GridNode>();
@@ -20,6 +21,7 @@ public class MovementManager : MonoBehaviour
     
     public void SetNodes(GridNode start, GridNode destination, float movementAllowed) 
     {
+        movementCost = 0f;
         if (gridManager == null)
             return;
 
@@ -87,6 +89,7 @@ public class MovementManager : MonoBehaviour
 
             if (current == targetNode)
             {
+                movementCost = currentCost; 
                 return ReconstructedPath(previousNode, startNode, targetNode);
             }
 
