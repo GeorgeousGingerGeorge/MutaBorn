@@ -23,7 +23,7 @@ namespace MutaBorn.Gameplay
         [SerializeField] private EffectProcFrequency frequency = EffectProcFrequency.OncePerResolution;
         [SerializeField] private EffectEventActorFilter eventActor = EffectEventActorFilter.OwnerOnly;
 
-        [Tooltip("For weapon/item-specific reactions: require the event to identify this exact granting source. Event source attribution will be added when the processor is integrated.")]
+        [Tooltip("For weapon/item-specific reactions: require the event to identify this exact granting source. The Step 5 collection binder cannot attribute damage to a specific equipped item yet. Matching grants remain inactive until source identity is wired.")]
         [SerializeField] private bool requireGrantingSourceMatch;
 
         public EffectTrigger Trigger => trigger;
@@ -74,7 +74,7 @@ namespace MutaBorn.Gameplay
     [Serializable]
     public sealed class EffectOperationParameters
     {
-        [SerializeField] private ResourceIdentifier resource = ResourceIdentifier.Health;
+        [SerializeField] private ResourceIdentifier resource = ResourceIdentifier.None;
         [SerializeField] private StatIdentifier stat = StatIdentifier.None;
         [SerializeField] private DamageType damageType = DamageType.Unspecified;
         [SerializeField] private DamageDeliveryType damageDelivery = DamageDeliveryType.Unspecified;
@@ -141,4 +141,4 @@ namespace MutaBorn.Gameplay
         public IReadOnlyList<EffectCondition> Conditions => conditions;
 
     }
-}
+}

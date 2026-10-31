@@ -3,7 +3,7 @@ using System;
 namespace MutaBorn.Gameplay
 {
     // Actual change is not necessarily the requested amount (e.g., healing at max HP).
-    // This can be used by a future effect processor when publishing events.
+    // Step 5 consumes this result. Health-restoration events come in a later step.
     public readonly struct ResourceChangeResult
     {
         public ResourceIdentifier Resource { get; }
@@ -128,4 +128,4 @@ namespace MutaBorn.Gameplay
 
     }
 
-}
+}

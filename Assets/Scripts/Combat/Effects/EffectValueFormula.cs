@@ -5,7 +5,8 @@ using UnityEngine;
 namespace MutaBorn.Gameplay
 {
     // Which number an individual term reads at resolution time.
-    // These values are resolved by the future processor from the event and targets.
+    // Step 5 resolves supported values from the triggering event and target.
+    // AttemptedDamage and AppliedHealing require later event data integration.
     public enum EffectValueSource
     {
         Constant = 0,
@@ -33,7 +34,7 @@ namespace MutaBorn.Gameplay
         [SerializeField] private EffectValueSource source = EffectValueSource.Constant;
         [SerializeField] private float literalValue;
         [SerializeField] private StatIdentifier stat = StatIdentifier.Strength;
-        [SerializeField] private ResourceIdentifier resource = ResourceIdentifier.Health;
+        [SerializeField] private ResourceIdentifier resource = ResourceIdentifier.None;
         [SerializeField] private float multiplier = 1f;
 
         public EffectValueSource Source => source;
@@ -60,4 +61,4 @@ namespace MutaBorn.Gameplay
         public CalculationRounding Rounding => rounding;
 
     }
-}
+}

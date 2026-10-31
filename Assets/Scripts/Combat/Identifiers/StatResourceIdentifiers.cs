@@ -27,6 +27,8 @@ namespace MutaBorn.Gameplay
 
     public enum ResourceIdentifier
     {
+        // -1 preserves the serialized values of existing Health/Mana/AP assets.
+        None = -1,
         Health = 0,
         Mana = 1,
         ActionPoints = 2
