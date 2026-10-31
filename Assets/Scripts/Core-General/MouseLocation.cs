@@ -25,6 +25,32 @@ public class MouseLocation : MonoBehaviour
     [Header("Camera its using")]
     private Camera mainCamera;
 
+    // Uses the same unit layer mask as left-click selection, but casts on demand
+    // so right-click inspection never depends on another script's Update order.
+    public bool TryGetUnitUnderCursor(out UnitController unit)
+    {
+        unit = null;
+
+        Camera camera = mainCamera != null ? mainCamera : Camera.main;
+        if (camera == null || Mouse.current == null)
+        {
+            return false;
+
+        }
+
+        Ray ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (!Physics.Raycast(ray, out RaycastHit hit, maxDistance, unitLayer) || hit.collider == null)
+        {
+            return false;
+
+        }
+
+        unit = hit.collider.GetComponentInParent<UnitController>();
+
+        return unit != null;
+
+    }
+
     public void Start()
     {
         mainCamera = Camera.main;

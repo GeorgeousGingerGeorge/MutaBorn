@@ -3,14 +3,19 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UIButton = UnityEngine.UI.Button;
 
 
 public sealed class UnitInspectionUI : MonoBehaviour
 {
+    [Header("World Inspection Input")]
+    [Tooltip("The MouseLocation component responsible for unit-layer raycasts. Automatically found if unassigned.")]
+    [SerializeField] private MouseLocation mouseLocation;
+
     [Header("Inspection Panel")]
-    [Tooltip("Assign the panel GameObject. Keep this component on an always-active Canvas or Action Menu object.")]
+    [Tooltip("Assign the panel GameObject. Keep this controller on an always-active GameObject, separate from Panel Root.")]
     [SerializeField] private GameObject panelRoot;
 
     [SerializeField] private TMP_Text titleText;
@@ -54,8 +59,20 @@ public sealed class UnitInspectionUI : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+        if (mouseLocation == null)
+        {
+            mouseLocation = FindAnyObjectByType<MouseLocation>();
+
+        }
+
+    }
+
     private void Update()
     {
+        HandleRightClickInspection();
+
         if (!IsOpen)
         {
             return;
@@ -84,6 +101,40 @@ public sealed class UnitInspectionUI : MonoBehaviour
             nextRefreshTime = Time.unscaledTime + refreshInterval;
 
         }
+
+    }
+
+    // Inspection is an independent world UI control, not a combat action.
+    // Right-clicking cancels attack targeting first; it must not also inspect.
+    private void HandleRightClickInspection()
+    {
+        if (Mouse.current == null || !Mouse.current.rightButton.wasPressedThisFrame ||
+            TargetingModeController.BlocksSelection)
+        {
+            return;
+
+        }
+
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+
+        }
+
+        if (mouseLocation == null)
+        {
+            mouseLocation = FindAnyObjectByType<MouseLocation>();
+
+        }
+
+        if (mouseLocation == null || !mouseLocation.TryGetUnitUnderCursor(out UnitController unit) ||
+            unit == null || !unit.isActiveAndEnabled || unit.data == null || unit.data.currentHealth <= 0)
+        {
+            return;
+
+        }
+
+        Open(unit);
 
     }
 

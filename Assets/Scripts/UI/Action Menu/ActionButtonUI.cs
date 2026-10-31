@@ -81,6 +81,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                     $"{action.Description}",
                     this
                 );
+                onRequested?.Invoke(action);
             });
         }
         else

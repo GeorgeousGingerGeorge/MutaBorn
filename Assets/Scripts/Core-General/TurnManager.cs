@@ -34,6 +34,7 @@ public class TurnManager : MonoBehaviour
 
     public int Round { get; private set; }
     public FactionData ActiveFaction { get; private set; }
+    public FactionData PlayerFaction => playerFaction;
     public bool IsPlayerTurn => ActiveFaction != null && ActiveFaction == playerFaction;
 
     // Other systems can subscribe later (e.g. stamina refresh, HUD, AI).

@@ -1,178 +1,369 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UIButton = UnityEngine.UI.Button;
 
 public class SelectionManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Unit Cycling (Optional UI Buttons)")]
+    [SerializeField] private UIButton previousUnitButton;
+    [SerializeField] private UIButton nextUnitButton;
+
     public TileController selectedTile { get; private set; }
-    private TileController selectedUnitTile = null; 
     public UnitController selectedUnit { get; private set; }
 
+    private TileController selectedUnitTile;
     private Occupancy occupancy;
     private MouseLocation mouseInWorld;
     private InputManager input;
 
-    private void Start() 
+    private readonly List<UnitController> playerUnits = new List<UnitController>();
+    private readonly List<UnitController> newUnits = new List<UnitController>();
+    private float nextRosterRefreshTime;
+    private bool? lastPlayerTurn;
+
+    private void Awake()
+    {
+        if (previousUnitButton != null)
+        {
+            previousUnitButton.onClick.AddListener(SelectPreviousUnit);
+
+        }
+
+        if (nextUnitButton != null)
+        {
+            nextUnitButton.onClick.AddListener(SelectNextUnit);
+
+        }
+
+    }
+
+    private void Start()
     {
         mouseInWorld = FindAnyObjectByType<MouseLocation>();
         input = FindAnyObjectByType<InputManager>();
         occupancy = FindAnyObjectByType<Occupancy>();
+        RefreshPlayerRoster();
+        EnsureUnitSelected();
+
     }
 
-    private void Update() 
+    private void Update()
     {
-        if (selectedUnit != null && !CanCommandUnit(selectedUnit))
+        if (Time.unscaledTime >= nextRosterRefreshTime)
         {
-           
-            ClearUnitSelection();
-            ClearDestination();
+            RefreshPlayerRoster();
+            nextRosterRefreshTime = Time.unscaledTime + 0.5f;
 
         }
 
-        if (mouseInWorld == null || input == null)
-            return;
-        if (!input.OnLeftClick())
+        EnsureUnitSelected();
+        RefreshTurnSelectionVisuals();
+        RefreshCycleButtons();
+
+        if (input == null)
+        {
             return;
 
-        // Target clicks belong to targeting mode, not unit/terrain selection.
-        if (TargetingModeController.BlocksSelection)
+        }
+
+        int cycleDirection = input.GetUnitCycleDirection();
+        if (cycleDirection != 0)
+        {
+            CycleUnit(cycleDirection);
+
+        }
+
+        if (mouseInWorld == null || !input.OnLeftClick() ||
+            !CanSelectManually() || TargetingModeController.BlocksSelection)
+        {
             return;
 
-        // Do not select units or tiles through Action Menu UI.
-        if (UnityEngine.EventSystems.EventSystem.current != null &&
-            UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        }
+
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
             return;
+
+        }
 
         HandleClickSelection();
 
-        
     }
 
-    //New Method to help prevent selecting or controlling other Factions Units
-    private bool CanCommandUnit(UnitController unit)
+    private bool CanSelectManually()
     {
         TurnManager turns = TurnManager.Instance;
-
-        if (unit == null || turns == null || !turns.IsPlayerTurn)
+        if (turns == null || !turns.IsPlayerTurn)
         {
             return false;
 
         }
 
-        UnitFaction unitFaction = unit.GetComponent<UnitFaction>();
-
-        return unitFaction != null && unitFaction.Faction != null && turns.IsFactionTurn(unitFaction.Faction);
+        MissionObjectiveManager mission = MissionObjectiveManager.Instance;
+        return mission == null ||
+            (mission.Status != MissionStatus.Victory && mission.Status != MissionStatus.Defeat);
 
     }
 
-    private void SelectUnit(UnitController unit) 
+    private bool IsLivingPlayerUnit(UnitController unit)
     {
-        
- 
-
-        if (selectedUnit == unit)
+        TurnManager turns = TurnManager.Instance;
+        if (unit == null || !unit.isActiveAndEnabled || unit.data == null ||
+            unit.data.currentHealth <= 0 || turns == null || turns.PlayerFaction == null)
         {
-            ClearUnitSelectedTile();
+            return false;
+
+        }
+
+        UnitFaction membership = unit.GetComponent<UnitFaction>();
+        return membership != null && membership.Faction == turns.PlayerFaction;
+
+    }
+
+    // Shared command validation for selection, movement, and the action menu.
+    public bool CanCommandUnit(UnitController unit)
+    {
+        TurnManager turns = TurnManager.Instance;
+        return IsLivingPlayerUnit(unit) && turns != null && turns.IsPlayerTurn;
+
+    }
+
+    private void RefreshPlayerRoster()
+    {
+        playerUnits.RemoveAll(unit => !IsLivingPlayerUnit(unit));
+        newUnits.Clear();
+
+        foreach (UnitFaction membership in FindObjectsByType<UnitFaction>())
+        {
+            if (membership == null)
+            {
+                continue;
+
+            }
+
+            UnitController unit = membership.GetComponent<UnitController>();
+            if (IsLivingPlayerUnit(unit) && !playerUnits.Contains(unit))
+            {
+                newUnits.Add(unit);
+
+            }
+
+        }
+
+        // Keep the existing roster order stable throughout the mission.
+        // Newly discovered units are appended without relying on deprecated object IDs.
+        playerUnits.AddRange(newUnits);
+
+    }
+
+    private void EnsureUnitSelected()
+    {
+        if (IsLivingPlayerUnit(selectedUnit))
+        {
+            return;
+
+        }
+
+        if (selectedUnit != null || selectedUnitTile != null)
+        {
             ClearUnitSelection();
             ClearDestination();
-           
-            return;
+
         }
-            
-        if (selectedUnit != null) 
+
+        if (playerUnits.Count > 0)
         {
-            UnitMovements previousMovement = selectedUnit.GetComponent<UnitMovements>();
+            SelectUnit(playerUnits[0]);
 
-            if (previousMovement != null) 
-            {
-                previousMovement.ClearMovementRange();
-            }
-            selectedUnit.SetSelected(false);
-         
         }
 
-        ClearUnitSelection();
-        ClearUnitSelectedTile();
+    }
+
+    private void RefreshTurnSelectionVisuals()
+    {
+        TurnManager turns = TurnManager.Instance;
+        bool playerTurn = turns != null && turns.IsPlayerTurn;
+        if (lastPlayerTurn.HasValue && lastPlayerTurn.Value == playerTurn)
+        {
+            return;
+
+        }
+
+        lastPlayerTurn = playerTurn;
+        if (selectedUnit == null)
+        {
+            return;
+
+        }
+
+        UnitMovements movement = selectedUnit.GetComponent<UnitMovements>();
+        if (movement == null)
+        {
+            return;
+
+        }
+
+        movement.ClearMovementRange();
+        if (playerTurn && !TargetingModeController.IsTargeting)
+        {
+            movement.ShowMovementRange();
+
+        }
+
+    }
+
+    private void RefreshCycleButtons()
+    {
+        bool canCycle = CanSelectManually() && playerUnits.Count > 1;
+
+        if (previousUnitButton != null && previousUnitButton.interactable != canCycle)
+        {
+            previousUnitButton.interactable = canCycle;
+
+        }
+
+        if (nextUnitButton != null && nextUnitButton.interactable != canCycle)
+        {
+            nextUnitButton.interactable = canCycle;
+
+        }
+
+    }
+
+    public void SelectNextUnit()
+    {
+        CycleUnit(1);
+
+    }
+
+    public void SelectPreviousUnit()
+    {
+        CycleUnit(-1);
+
+    }
+
+    private void CycleUnit(int direction)
+    {
+        if (direction == 0 || !CanSelectManually())
+        {
+            return;
+
+        }
+
+        RefreshPlayerRoster();
+        if (playerUnits.Count == 0)
+        {
+            return;
+
+        }
+
+        int currentIndex = playerUnits.IndexOf(selectedUnit);
+        int nextIndex = currentIndex < 0
+            ? (direction > 0 ? 0 : playerUnits.Count - 1)
+            : (currentIndex + (direction > 0 ? 1 : -1) + playerUnits.Count) % playerUnits.Count;
+
+        SelectUnit(playerUnits[nextIndex]);
+
+    }
+
+    private void SelectUnit(UnitController unit)
+    {
+        if (!IsLivingPlayerUnit(unit) || selectedUnit == unit)
+        {
+            return;
+
+        }
+
+        // An action begun by the previous unit must not survive a unit switch.
+        CombatActionExecutor.Instance?.CancelTargeting();
+        TargetingModeController.Instance?.CancelTargeting();
 
         ClearDestination();
+        ClearUnitSelection();
 
         selectedUnit = unit;
         selectedUnit.SetSelected(true);
+        RefreshSelectedUnitTile();
+
+        if (CanCommandUnit(unit) && !TargetingModeController.IsTargeting)
+        {
+            unit.GetComponent<UnitMovements>()?.ShowMovementRange();
+
+        }
+
+    }
+
+    private void RefreshSelectedUnitTile()
+    {
+        ClearUnitSelectedTile();
+        if (selectedUnit == null || selectedUnit.currentNode == null || occupancy == null)
+        {
+            return;
+
+        }
 
         GridManager gridManager = occupancy.ReturnGrid();
-        if (gridManager != null && selectedUnit.currentNode != null)
+        if (gridManager == null)
         {
-            selectedUnitTile = gridManager.FindTile(unit.currentNode);
-
-            if (selectedUnitTile != null)
-            {
-                selectedUnitTile.SetUnitSelected(true);
-            }
-        }
-       
-        
-
-      if(CanCommandUnit(unit))
-      {
-
-            UnitMovements movement = unit.GetComponent<UnitMovements>();
-
-            if (movement != null)
-            {
-                movement.ShowMovementRange();
-            }
-        }
-    }
-    private void SelectTile(TileController tile) 
-    {
-        if (selectedTile == tile)
-        {
-            ClearDestination();
             return;
-        }
-        if (selectedTile != null) 
-        {
-            selectedTile.SetSelected(false);
+
         }
 
+        selectedUnitTile = gridManager.FindTile(selectedUnit.currentNode);
+        if (selectedUnitTile != null)
+        {
+            selectedUnitTile.SetUnitSelected(true);
+
+        }
+
+    }
+
+    private void SelectTile(TileController tile)
+    {
+        if (tile == null || tile == selectedTile)
+        {
+            return;
+
+        }
+
+        ClearDestination();
         selectedTile = tile;
         selectedTile.SetSelected(true);
 
-       
     }
 
-
-    public void ClearDestination() 
+    public void ClearDestination()
     {
-        if (selectedTile != null) 
+        if (selectedTile != null)
         {
             selectedTile.SetSelected(false);
 
         }
 
         selectedTile = null;
-    }
-    public void ClearUnitSelection() 
-    {
-        if (selectedUnit != null) 
-        {
-            UnitMovements movement = selectedUnit.GetComponent<UnitMovements>();
-            if (movement != null) 
-            {
-                movement.ClearMovementRange();
-                
-            }
 
+    }
+
+    // Internal reset for disabled/defeated units; regular clicks never deselect.
+    public void ClearUnitSelection()
+    {
+        if (selectedUnit != null)
+        {
+            selectedUnit.GetComponent<UnitMovements>()?.ClearMovementRange();
             selectedUnit.SetSelected(false);
+
         }
 
         ClearUnitSelectedTile();
         selectedUnit = null;
+
     }
+
     public void ClearUnitSelectedTile()
     {
         if (selectedUnitTile == null)
         {
-
             return;
 
         }
@@ -182,39 +373,19 @@ public class SelectionManager : MonoBehaviour
 
     }
 
-    // Keep the selected unit and its movement highlight after reaching a destination.
     public void RefreshSelectedUnitAfterMovement(UnitController movedUnit)
     {
-        if (movedUnit == null || selectedUnit != movedUnit || occupancy == null)
+        if (movedUnit == null || selectedUnit != movedUnit)
         {
-
             return;
 
         }
 
         UnitMovements movement = movedUnit.GetComponent<UnitMovements>();
-        if (movement != null)
-        {
-            movement.ClearMovementRange();
+        movement?.ClearMovementRange();
+        RefreshSelectedUnitTile();
 
-        }
-
-        ClearUnitSelectedTile();
-
-        GridManager gridManager = occupancy.ReturnGrid();
-        if (gridManager != null && movedUnit.currentNode != null)
-        {
-            selectedUnitTile = gridManager.FindTile(movedUnit.currentNode);
-
-            if (selectedUnitTile != null)
-            {
-                selectedUnitTile.SetUnitSelected(true);
-
-            }
-
-        }
-
-        if (movement != null && CanCommandUnit(movedUnit))
+        if (movement != null && CanCommandUnit(movedUnit) && !TargetingModeController.IsTargeting)
         {
             movement.ShowMovementRange();
 
@@ -222,55 +393,74 @@ public class SelectionManager : MonoBehaviour
 
     }
 
-    private void HandleClickSelection() 
+    private void HandleClickSelection()
     {
         if (mouseInWorld.unitHit && mouseInWorld.unitTarget.collider != null)
         {
-            UnitController currentUnit = mouseInWorld.unitTarget.collider.GetComponentInParent<UnitController>();
-
-            if (currentUnit != null)
+            UnitController clickedUnit = mouseInWorld.unitTarget.collider.GetComponentInParent<UnitController>();
+            if (clickedUnit != null)
             {
-                SelectUnit(currentUnit);
+                if (IsLivingPlayerUnit(clickedUnit))
+                {
+                    SelectUnit(clickedUnit);
+
+                }
+
+                // Clicking enemies never changes the selected player unit.
                 return;
+
             }
 
         }
 
-        if (mouseInWorld.surfaceHit && mouseInWorld.groundTarget.collider != null)
+        if (!mouseInWorld.surfaceHit || mouseInWorld.groundTarget.collider == null)
         {
-            TileController currentTile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
+            return;
 
-            if (currentTile == null || currentTile.node == null) 
+        }
+
+        TileController tile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
+        if (tile == null || tile.node == null || occupancy == null)
+        {
+            return;
+
+        }
+
+        UnitController occupant = occupancy.FindUnit(tile.node);
+        if (occupant != null)
+        {
+            if (IsLivingPlayerUnit(occupant))
             {
-                ClearUnitSelection();
-                ClearDestination();
+                SelectUnit(occupant);
 
-                return; 
             }
-
-            UnitController unit = occupancy.FindUnit(currentTile.node);
-
-            if (unit != null) 
-            {
-                SelectUnit(unit);
-                return;
-            }
-
-            SelectTile(currentTile);
-
-            Debug.Log($"Terrain: {currentTile.node.currentTerrain}");
-            Debug.Log($"Coordinates: {currentTile.node.coords}");
-            Debug.Log($"Coordinates: {currentTile.node.floorID}");
 
             return;
 
         }
 
-        // Clicking outside all selectable tiles/units deselects the current unit.
-        ClearUnitSelection();
-        ClearDestination();
+        if (CanCommandUnit(selectedUnit))
+        {
+            SelectTile(tile);
+
+        }
 
     }
 
- 
+    private void OnDestroy()
+    {
+        if (previousUnitButton != null)
+        {
+            previousUnitButton.onClick.RemoveListener(SelectPreviousUnit);
+
+        }
+
+        if (nextUnitButton != null)
+        {
+            nextUnitButton.onClick.RemoveListener(SelectNextUnit);
+
+        }
+
+    }
+
 }

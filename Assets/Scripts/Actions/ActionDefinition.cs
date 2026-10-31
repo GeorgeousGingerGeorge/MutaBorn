@@ -3,10 +3,11 @@ using UnityEngine;
 // Main buttons in the current MutaBorn Action Menu.
 public enum ActionMenuCategory
 {
-    BasicAttacks,
+    Attacks,
     Defense,
     Abilities,
-    Interact
+    Interact,
+    Items
 
 }
 
