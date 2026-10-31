@@ -35,6 +35,12 @@ namespace MutaBorn.Gameplay
         private void Awake()
         {
             owner = GetComponent<UnitController>();
+            if (GetComponent<UnitStatusController>() == null)
+            {
+                gameObject.AddComponent<UnitStatusController>();
+
+            }
+
             factions = FindAnyObjectByType<FactionManager>();
             RefreshEffects();
 

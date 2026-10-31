@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MutaBorn.Gameplay
@@ -15,6 +16,8 @@ namespace MutaBorn.Gameplay
         private long lastResolutionId = -1;
         private long lastTargetResolutionId = -1;
         private EntityId lastTargetId;
+        private long lastFailedProcResolutionId = -1;
+        private readonly HashSet<EntityId> failedProcTargets = new HashSet<EntityId>();
 
         public EffectRuntimeInstance(EffectCollection collection, EffectGrant grant, int sourceEquipmentIndex = -1)
         {
@@ -33,6 +36,20 @@ namespace MutaBorn.Gameplay
             if (Expired || Grant == null || Grant.Lifetime == null || Grant.Activation == null)
             {
                 return false;
+
+            }
+
+            if (lastFailedProcResolutionId == resolutionId)
+            {
+                if (Grant.Activation.Frequency != EffectProcFrequency.OncePerTarget ||
+                    failedProcTargets.Contains(recipientId))
+                {
+                    // A missed chance cannot be re-rolled by delivering the
+                    // same event a second time. Other future targets can roll
+                    // independently when using OncePerTarget.
+                    return false;
+
+                }
 
             }
 
@@ -56,6 +73,19 @@ namespace MutaBorn.Gameplay
                 }
 
             }
+
+        }
+
+        public void RecordFailedProcRoll(long resolutionId, EntityId recipientId)
+        {
+            if (lastFailedProcResolutionId != resolutionId)
+            {
+                failedProcTargets.Clear();
+                lastFailedProcResolutionId = resolutionId;
+
+            }
+
+            failedProcTargets.Add(recipientId);
 
         }
 

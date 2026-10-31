@@ -11,6 +11,8 @@ public readonly struct CombatDamageEvent
     public int HealthBefore { get; }
     public int HealthAfter { get; }
     public int SourceEquipmentIndex { get; }
+    public DamageType DamageType { get; }
+    public System.Collections.Generic.IReadOnlyList<DamageTypeAmount> DamageByType { get; }
 
     public bool ReducedHealthToZero => HealthBefore > 0 && HealthAfter <= 0;
 
@@ -21,7 +23,9 @@ public readonly struct CombatDamageEvent
         int actualDamage,
         int healthBefore,
         int healthAfter,
-        int sourceEquipmentIndex = -1)
+        int sourceEquipmentIndex = -1,
+        DamageType damageType = DamageType.Unspecified,
+        System.Collections.Generic.IReadOnlyList<DamageTypeAmount> damageByType = null)
     {
         Attacker = attacker;
         Target = target;
@@ -30,6 +34,8 @@ public readonly struct CombatDamageEvent
         HealthBefore = healthBefore;
         HealthAfter = healthAfter;
         SourceEquipmentIndex = sourceEquipmentIndex;
+        DamageType = damageType;
+        DamageByType = damageByType ?? Array.Empty<DamageTypeAmount>();
 
     }
 
@@ -48,6 +54,9 @@ public sealed class CombatActionExecutor : MonoBehaviour
     // Fired once after a unit is removed from active combat.
     public static event Action<UnitController, UnitController> UnitDefeated;
 
+    private static int effectDamagePublishDepth;
+    public static bool CanPublishEffectDamage => effectDamagePublishDepth < 4;
+
     // Avoid stale subscriptions when Unity's Enter Play Mode uses disabled domain reload.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStatics()
@@ -55,6 +64,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         Instance = null;
         DamageApplied = null;
         UnitDefeated = null;
+        effectDamagePublishDepth = 0;
 
     }
 
@@ -372,14 +382,57 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        CombatDamageEvent damageEvent = new CombatDamageEvent(
-            source, target, action, damageResult.ActualDamage,
-            damageResult.HealthBefore, damageResult.HealthAfter,
-            sourceIndex);
-        PublishDamageApplied(damageEvent);
+        FinalizeResolvedDamage(damageResult, sourceIndex);
 
-        // Keep mutation reactions, objective events, and defeat handling identical.
-        if (target != null && target.data != null && target.data.currentHealth <= 0)
+        return true;
+
+    }
+
+    // Status ticks and direct effect damage use the same damage events,
+    // objectives and defeat cleanup as ordinary attacks, without spending AP.
+    public static void PublishResolvedEffectDamage(DamageResult result)
+    {
+        if (!CanPublishEffectDamage)
+        {
+            Debug.LogWarning("Effect damage reaction limit reached; nested reactions suppressed.");
+
+            return;
+
+        }
+
+        effectDamagePublishDepth++;
+        try
+        {
+            FinalizeResolvedDamage(result, -1);
+
+        }
+        finally
+        {
+            effectDamagePublishDepth--;
+
+        }
+
+    }
+
+    private static void FinalizeResolvedDamage(DamageResult result, int sourceIndex)
+    {
+        UnitController target = result.Request.Target;
+        if (target == null || target.data == null)
+        {
+            return;
+
+        }
+
+        if (result.ActualDamage > 0)
+        {
+            PublishDamageApplied(new CombatDamageEvent(result.Request.Attacker, target,
+                result.Request.Action, result.ActualDamage, result.HealthBefore,
+                result.HealthAfter, sourceIndex, result.Request.DamageType,
+                result.DamageByType));
+
+        }
+
+        if (result.ReducedHealthToZero && target.gameObject.activeSelf)
         {
             if (target.occupancy != null && target.currentNode != null)
             {
@@ -388,12 +441,10 @@ public sealed class CombatActionExecutor : MonoBehaviour
             }
 
             target.gameObject.SetActive(false);
-            Debug.Log($"{target.data.characterName} was defeated!", this);
-            PublishUnitDefeated(source, target);
+            Debug.Log($"{target.data.characterName} was defeated!", target);
+            PublishUnitDefeated(result.Request.Attacker, target);
 
         }
-
-        return true;
 
     }
 

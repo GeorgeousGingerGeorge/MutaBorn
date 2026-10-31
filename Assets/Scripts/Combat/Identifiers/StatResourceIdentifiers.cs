@@ -21,7 +21,9 @@ namespace MutaBorn.Gameplay
 
         PhysicalDefense = 40,
         MagicDefense = 41,
-        Will = 42
+        Will = 42,
+
+        MovementEfficiency = 50
 
     }
 

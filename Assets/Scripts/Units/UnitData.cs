@@ -157,7 +157,7 @@ public class UnitData
     // Existing mutation and equipment bonuses remain the base values.
     private sealed class RuntimeStatBonus
     {
-        public EffectRuntimeInstance Source;
+        public object Source;
         public StatIdentifier Stat;
         public StatModifierMode Mode;
         public double Value;
@@ -166,7 +166,93 @@ public class UnitData
 
     private readonly List<RuntimeStatBonus> runtimeStatBonuses = new List<RuntimeStatBonus>();
 
-    public bool TryApplyStatModifier(EffectRuntimeInstance source, StatIdentifier stat,
+    // A single status can modify several stats while retaining one lifetime/source.
+    public readonly struct StatModifierEntry
+    {
+        public readonly StatIdentifier Stat;
+        public readonly StatModifierMode Mode;
+        public readonly double Value;
+
+        public StatModifierEntry(StatIdentifier stat, StatModifierMode mode, double value)
+        {
+            Stat = stat;
+            Mode = mode;
+            Value = value;
+
+        }
+
+    }
+
+    public bool TryReplaceStatModifiers(object source, IReadOnlyList<StatModifierEntry> modifiers)
+    {
+        if (source == null || modifiers == null)
+        {
+            return false;
+
+        }
+
+        foreach (StatModifierEntry modifier in modifiers)
+        {
+            if (modifier.Stat == StatIdentifier.None ||
+                !Enum.IsDefined(typeof(StatIdentifier), modifier.Stat) ||
+                !Enum.IsDefined(typeof(StatModifierMode), modifier.Mode) ||
+                double.IsNaN(modifier.Value) || double.IsInfinity(modifier.Value))
+            {
+                return false;
+
+            }
+
+        }
+
+        bool changed = false;
+        for (int i = runtimeStatBonuses.Count - 1; i >= 0; i--)
+        {
+            if (ReferenceEquals(runtimeStatBonuses[i].Source, source))
+            {
+                runtimeStatBonuses.RemoveAt(i);
+                changed = true;
+
+            }
+
+        }
+
+        foreach (StatModifierEntry modifier in modifiers)
+        {
+            if (modifier.Value == 0d)
+            {
+                continue;
+
+            }
+
+            runtimeStatBonuses.Add(new RuntimeStatBonus
+            {
+                Source = source,
+                Stat = modifier.Stat,
+                Mode = modifier.Mode,
+                Value = modifier.Value
+
+            });
+            changed = true;
+
+        }
+
+        if (changed)
+        {
+            RecalculateStats();
+
+        }
+
+        return true;
+
+    }
+
+    // Movement pathfinding uses this to scale the usable movement budget;
+    // spending AP uses the reciprocal, so a -10% penalty costs ~11% more AP.
+    public float MovementEfficiency => Mathf.Max(0.1f,
+        CalculateModifiedStat(StatIdentifier.MovementEfficiency, 100d) / 100f);
+
+
+    public bool TryApplyStatModifier(object source, StatIdentifier stat,
         StatModifierMode mode, double value)
     {
         if (source == null || stat == StatIdentifier.None ||
@@ -203,7 +289,7 @@ public class UnitData
 
     }
 
-    public bool RemoveStatModifier(EffectRuntimeInstance source)
+    public bool RemoveStatModifier(object source)
     {
         bool removed = false;
         for (int i = runtimeStatBonuses.Count - 1; i >= 0; i--)

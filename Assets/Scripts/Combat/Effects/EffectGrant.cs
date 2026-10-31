@@ -25,12 +25,15 @@ namespace MutaBorn.Gameplay
 
         [Tooltip("For weapon/item-specific reactions: require the event to identify this exact granting source. The Step 5 collection binder cannot attribute damage to a specific equipped item yet. Matching grants remain inactive until source identity is wired.")]
         [SerializeField] private bool requireGrantingSourceMatch;
+        [Tooltip("Requires a real combat action; excludes damage-over-time and environmental damage events.")]
+        [SerializeField] private bool requireAction;
 
         public EffectTrigger Trigger => trigger;
         public EffectResolutionPhase Phase => phase;
         public EffectProcFrequency Frequency => frequency;
         public EffectEventActorFilter EventActor => eventActor;
         public bool RequireGrantingSourceMatch => requireGrantingSourceMatch;
+        public bool RequireAction => requireAction;
 
     }
 
@@ -89,8 +92,9 @@ namespace MutaBorn.Gameplay
         [SerializeField] private DamageDeliveryType damageDelivery = DamageDeliveryType.Unspecified;
         [SerializeField] private StatIdentifier defenseStat = StatIdentifier.None;
 
-        [Tooltip("Reserved for ApplyStatus / RemoveStatus. Status lookup is implemented in a later step.")]
+        [Tooltip("Optional status ID for removing a named status. Leave blank to cleanse debuffs.")]
         [SerializeField] private string statusId;
+        [SerializeField] private StatusDefinition statusDefinition;
 
         public ResourceIdentifier Resource => resource;
         public StatIdentifier Stat => stat;
@@ -99,6 +103,7 @@ namespace MutaBorn.Gameplay
         public DamageDeliveryType DamageDelivery => damageDelivery;
         public StatIdentifier DefenseStat => defenseStat;
         public string StatusId => statusId;
+        public StatusDefinition StatusDefinition => statusDefinition;
 
     }
 
@@ -130,9 +135,18 @@ namespace MutaBorn.Gameplay
     // Serializable *configuration*, not active state. Every grant owns its own
     // values, so a sword, mutation stage, and consumable can reuse one definition.
     [Serializable]
-    public sealed class EffectGrant
+    public sealed class EffectGrant : ISerializationCallbackReceiver
     {
         [SerializeField] private EffectDefinition definition;
+
+        [Header("Application Chance")]
+        [Range(0f, 100f)]
+        [Tooltip("Chance this effect applies each time its trigger, targeting and conditions qualify. 100 = guaranteed; 0 = never. Failed rolls do not consume limited uses.")]
+        [SerializeField] private float procChancePercent = 100f;
+
+        // Old grants were guaranteed. Upgrade missing serialized fields safely
+        // without turning previously authored effects into 0%-chance effects.
+        [SerializeField, HideInInspector] private int procChanceSchemaVersion = 1;
         [SerializeField] private EffectTriggerRules activation = new EffectTriggerRules();
         [SerializeField] private EffectTargetRules targeting = new EffectTargetRules();
         [SerializeField] private EffectLifetimeRules lifetime = new EffectLifetimeRules();
@@ -143,6 +157,24 @@ namespace MutaBorn.Gameplay
         [SerializeField] private List<EffectCondition> conditions = new List<EffectCondition>();
 
         public EffectDefinition Definition => definition;
+        public float ProcChancePercent => procChanceSchemaVersion < 1
+            ? 100f : Mathf.Clamp(procChancePercent, 0f, 100f);
+
+        public void OnBeforeSerialize()
+        {
+
+        }
+
+        public void OnAfterDeserialize()
+        {
+            if (procChanceSchemaVersion < 1)
+            {
+                procChancePercent = 100f;
+                procChanceSchemaVersion = 1;
+
+            }
+
+        }
         public EffectTriggerRules Activation => activation;
         public EffectTargetRules Targeting => targeting;
         public EffectLifetimeRules Lifetime => lifetime;
@@ -151,4 +183,4 @@ namespace MutaBorn.Gameplay
         public IReadOnlyList<EffectCondition> Conditions => conditions;
 
     }
-}
+}

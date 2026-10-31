@@ -244,8 +244,9 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
         }
 
+        float movementEfficiency = actor.data.MovementEfficiency;
         Dictionary<GridNode, float> reachable = movementManager.GetReachableNodes(
-            actor.currentNode, actor.data.currentActionPoints);
+            actor.currentNode, actor.data.currentActionPoints * movementEfficiency);
         if (reachable == null)
         {
             return null;
@@ -270,7 +271,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
             }
 
-            int moveCost = Mathf.CeilToInt(entry.Value);
+            int moveCost = Mathf.CeilToInt(entry.Value / movementEfficiency);
             int remainingAP = actor.data.currentActionPoints - moveCost;
             if (remainingAP < 0)
             {
@@ -333,15 +334,17 @@ public sealed class SimpleFactionAI : MonoBehaviour
         }
 
         GridNode origin = actor.currentNode;
+        float movementEfficiency = actor.data.MovementEfficiency;
+        float movementBudget = actor.data.currentActionPoints * movementEfficiency;
         Dictionary<GridNode, float> reachable = movementManager.GetReachableNodes(origin,
-            actor.data.currentActionPoints);
+            movementBudget);
         if (reachable == null || !reachable.TryGetValue(destination, out float cost))
         {
             yield break;
 
         }
 
-        movementManager.SetNodes(origin, destination, actor.data.currentActionPoints);
+        movementManager.SetNodes(origin, destination, movementBudget);
         List<GridNode> path = movementManager.GetPath();
         if (path == null || path.Count < 2 || path[path.Count - 1] != destination)
         {
@@ -351,7 +354,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
         // Clone the shared manager's path, because it is used by player movement too.
         List<GridNode> steps = new List<GridNode>(path);
-        int totalAPCost = Mathf.CeilToInt(cost);
+        int totalAPCost = Mathf.CeilToInt(cost / movementEfficiency);
         if (totalAPCost > actor.data.currentActionPoints)
         {
             yield break;

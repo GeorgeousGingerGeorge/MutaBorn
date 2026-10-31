@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5483456f279d43c7a73054c3ac7e27b0, type: 3}
+  m_Name: DamageIndicatorPalette
+  m_EditorClassIdentifier: 
+  styles:
+  - damageType: 1
+    backgroundSprite: {fileID: 21300000, guid: 61e87b98541707647ab23f09ac7da4c0, type: 3}
+    backgroundColor: {r: 0.329412, g: 0.380392, b: 0.419608, a: 0.91}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Slash
+  - damageType: 2
+    backgroundSprite: {fileID: 21300000, guid: 4d165cfcc77f5f8429aa45f40e047e28, type: 3}
+    backgroundColor: {r: 0.337255, g: 0.494118, b: 0.603922, a: 0.91}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Pierce
+  - damageType: 3
+    backgroundSprite: {fileID: 21300000, guid: 48e366dce82dd814ea0bed9b0f29c014, type: 3}
+    backgroundColor: {r: 0.580392, g: 0.466667, b: 0.32549, a: 0.91}
+    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    label: Blunt
+  - damageType: 4
+    backgroundSprite: {fileID: 21300000, guid: 40d8803d8ebcd9143addd18a782c858b, type: 3}
+    backgroundColor: {r: 0.462745, g: 0.329412, b: 0.698039, a: 0.91}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Arcane
+  - damageType: 11
+    backgroundSprite: {fileID: 21300000, guid: 04bbea909c3349a48868cf3c6e2b338a, type: 3}
+    backgroundColor: {r: 0.784314, g: 0.294118, b: 0.152941, a: 0.91}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Fire
+  - damageType: 12
+    backgroundSprite: {fileID: 21300000, guid: f1a069f4c8bfc7749b5a4aa2cb79ee64, type: 3}
+    backgroundColor: {r: 0.290196, g: 0.670588, b: 0.788235, a: 0.91}
+    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    label: Ice
+  - damageType: 13
+    backgroundSprite: {fileID: 21300000, guid: 041a954be5846064497b2ebe2ed4359c, type: 3}
+    backgroundColor: {r: 0.72549, g: 0.603922, b: 0.137255, a: 0.91}
+    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    label: Lightning
+  - damageType: 14
+    backgroundSprite: {fileID: 21300000, guid: df10306177ec59546a5647fa80320223, type: 3}
+    backgroundColor: {r: 0.4843004, g: 0.33590436, b: 0.55345905, a: 0.91}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Poison
+  - damageType: 15
+    backgroundSprite: {fileID: 21300000, guid: 614c5ce3021d73e44a44fb29451fc70c, type: 3}
+    backgroundColor: {r: 0.411765, g: 0.611765, b: 0.215686, a: 0.91}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Acid
+  - damageType: 16
+    backgroundSprite: {fileID: 21300000, guid: 64d84248d0a229342b228bca284f24fd, type: 3}
+    backgroundColor: {r: 0.32704395, g: 0.32704395, b: 0.32704395, a: 0.91}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Dark
+  - damageType: 17
+    backgroundSprite: {fileID: 21300000, guid: 8dda6bcad89b98b4184badd4f8857e05, type: 3}
+    backgroundColor: {r: 0.768627, g: 0.603922, b: 0.239216, a: 0.91}
+    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    label: Holy
+  - damageType: 18
+    backgroundSprite: {fileID: 21300000, guid: 564944bc650b14a4a819cf1337dc2b03, type: 3}
+    backgroundColor: {r: 0.356863, g: 0.619608, b: 0.576471, a: 0.91}
+    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    label: Wind
+  - damageType: 19
+    backgroundSprite: {fileID: 21300000, guid: 5b3bed082e09f2e4ab8e81ca79f52f51, type: 3}
+    backgroundColor: {r: 0.537255, g: 0.388235, b: 0.258824, a: 0.91}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Earth
+  - damageType: 20
+    backgroundSprite: {fileID: 21300000, guid: dd408c37fde63c24eb430185aa01d6c7, type: 3}
+    backgroundColor: {r: 0.2, g: 0.466667, b: 0.690196, a: 0.91}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Water
+  - damageType: 22
+    backgroundSprite: {fileID: 21300000, guid: 135e0c8324c20a24384f3d5593cbc59c, type: 3}
+    backgroundColor: {r: 0.47058824, g: 0, b: 0, a: 1}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
+    label: Tru
+  lifetime: 1.05
+  holdDuration: 0.16
+  driftSpeed: 25
+  acceleration: 220
+  spawnHeight: 1.1
+  sideSpacing: 46
+  clusterWindow: 0.25

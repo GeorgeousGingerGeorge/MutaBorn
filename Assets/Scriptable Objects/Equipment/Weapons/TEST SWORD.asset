@@ -28,12 +28,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: be753f8925e3ba94aa1ae565860a1177, type: 2}
   guaranteedEffects:
   - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+    procChancePercent: 100
+    procChanceSchemaVersion: 1
     activation:
       trigger: 2
       phase: 3
       frequency: 0
       eventActor: 0
       requireGrantingSourceMatch: 1
+      requireAction: 0
     targeting:
       reference: 0
       selection: 0
@@ -48,10 +51,12 @@ MonoBehaviour:
     operationParameters:
       resource: 0
       stat: 0
+      statModifierMode: 0
       damageType: 0
       damageDelivery: 0
       defenseStat: 0
       statusId: 
+      statusDefinition: {fileID: 0}
     value:
       constant: 0
       terms:
@@ -63,12 +68,15 @@ MonoBehaviour:
       rounding: 1
     conditions: []
   - definition: {fileID: 11400000, guid: f154e272dc2b47446814e51f4d6e7b0e, type: 2}
+    procChancePercent: 100
+    procChanceSchemaVersion: 1
     activation:
       trigger: 9
       phase: 1
       frequency: 0
       eventActor: 0
       requireGrantingSourceMatch: 0
+      requireAction: 0
     targeting:
       reference: 0
       selection: 0
@@ -87,19 +95,23 @@ MonoBehaviour:
       damageType: 0
       damageDelivery: 0
       defenseStat: 0
-      statusId:
+      statusId: 
+      statusDefinition: {fileID: 0}
     value:
       constant: 10
       terms: []
       rounding: 1
     conditions: []
   - definition: {fileID: 11400000, guid: f154e272dc2b47446814e51f4d6e7b0e, type: 2}
+    procChancePercent: 100
+    procChanceSchemaVersion: 1
     activation:
       trigger: 9
       phase: 1
       frequency: 0
       eventActor: 0
       requireGrantingSourceMatch: 0
+      requireAction: 0
     targeting:
       reference: 0
       selection: 0
@@ -118,7 +130,8 @@ MonoBehaviour:
       damageType: 0
       damageDelivery: 0
       defenseStat: 0
-      statusId:
+      statusId: 
+      statusDefinition: {fileID: 0}
     value:
       constant: 20
       terms: []
@@ -148,12 +161,15 @@ MonoBehaviour:
     amountRange: {x: 2, y: 5}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -168,10 +184,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -184,12 +202,15 @@ MonoBehaviour:
     amountRange: {x: 2, y: 5}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -204,10 +225,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -220,12 +243,15 @@ MonoBehaviour:
     amountRange: {x: 2, y: 5}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -240,10 +266,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -256,12 +284,15 @@ MonoBehaviour:
     amountRange: {x: 1, y: 3}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -276,10 +307,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -292,12 +325,15 @@ MonoBehaviour:
     amountRange: {x: 3, y: 3}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -312,10 +348,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -328,12 +366,15 @@ MonoBehaviour:
     amountRange: {x: 0, y: 0}
     effect:
       definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 2
         phase: 3
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 1
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -348,10 +389,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms:
@@ -369,12 +412,15 @@ MonoBehaviour:
     amountRange: {x: 0, y: 0}
     effect:
       definition: {fileID: 11400000, guid: f154e272dc2b47446814e51f4d6e7b0e, type: 2}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 2
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -389,10 +435,12 @@ MonoBehaviour:
       operationParameters:
         resource: -1
         stat: 1
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 1
         terms: []

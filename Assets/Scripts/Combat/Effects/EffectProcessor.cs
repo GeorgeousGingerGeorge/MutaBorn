@@ -56,6 +56,7 @@ namespace MutaBorn.Gameplay
                 if (grant.Definition == null || grant.Activation == null ||
                     grant.Targeting == null || grant.OperationParameters == null || grant.Value == null ||
                     grant.Activation.Trigger != context.Trigger ||
+                    (grant.Activation.RequireAction && context.Action == null) ||
                     !MatchesActor(owner, context.Actor, grant.Activation.EventActor, factions))
                 {
                     continue;
@@ -81,7 +82,10 @@ namespace MutaBorn.Gameplay
                 }
 
                 if (grant.Definition.Operation != EffectOperation.ModifyResource &&
-                    grant.Definition.Operation != EffectOperation.ApplyStatModifier)
+                    grant.Definition.Operation != EffectOperation.ApplyStatModifier &&
+                    grant.Definition.Operation != EffectOperation.DealDamage &&
+                    grant.Definition.Operation != EffectOperation.ApplyStatus &&
+                    grant.Definition.Operation != EffectOperation.RemoveStatus)
                 {
                     WarnSkipped(grant, "operation is not implemented by this processor", owner, logResults);
 
@@ -123,9 +127,31 @@ namespace MutaBorn.Gameplay
 
                 try
                 {
-                    if (grant.Definition.Operation == EffectOperation.ModifyResource)
+                    if (grant.Definition.Operation == EffectOperation.ModifyResource ||
+                        grant.Definition.Operation == EffectOperation.DealDamage ||
+                        grant.Definition.Operation == EffectOperation.ApplyStatus)
                     {
                         EffectCalculations.ToInt(value, grant.Value.Rounding);
+
+                    }
+
+                    // Roll only after a valid recipient, all conditions, and
+                    // the operation value have been successfully resolved.
+                    // Guaranteed grants consume no random draw, and 0% never
+                    // applies (even if Random.value happens to return zero).
+                    float chance = grant.ProcChancePercent;
+                    if (chance <= 0f ||
+                        (chance < 100f && UnityEngine.Random.value * 100f >= chance))
+                    {
+                        instance.RecordFailedProcRoll(context.ResolutionId, recipient.GetEntityId());
+                        if (logResults)
+                        {
+                            Debug.Log($"Effect '{grant.Definition.DisplayName}' did not proc " +
+                                $"({chance:0.##}% chance), trigger {context.Trigger}.", owner);
+
+                        }
+
+                        continue;
 
                     }
 
@@ -173,6 +199,87 @@ namespace MutaBorn.Gameplay
                             $"{plan.Value:+0.##;-0.##;0}{suffix}, trigger {context.Trigger}.", owner);
 
                     }
+
+                    continue;
+
+                }
+
+                if (grant.Definition.Operation == EffectOperation.ApplyStatus ||
+                    grant.Definition.Operation == EffectOperation.RemoveStatus)
+                {
+                    UnitStatusController statuses = plan.Recipient.GetComponent<UnitStatusController>();
+                    if (statuses == null)
+                    {
+                        statuses = plan.Recipient.gameObject.AddComponent<UnitStatusController>();
+
+                    }
+
+                    StatusDefinition status = grant.OperationParameters.StatusDefinition;
+                    bool statusOk;
+                    if (grant.Definition.Operation == EffectOperation.ApplyStatus)
+                    {
+                        // Unset value defaults to a single stack. A separate
+                        // StatusDefinition controls its duration and tick behavior.
+                        int requestedStacks = EffectCalculations.ToInt(plan.Value, grant.Value.Rounding);
+                        statusOk = statuses.TryApply(status, owner, Mathf.Max(1, requestedStacks));
+
+                    }
+                    else
+                    {
+                        string statusId = status != null ? status.Id : grant.OperationParameters.StatusId;
+                        statusOk = statuses.Remove(statusId, string.IsNullOrWhiteSpace(statusId)) > 0;
+
+                    }
+
+                    if (!statusOk)
+                    {
+                        WarnSkipped(grant, "status missing, invalid, or no matching active status", owner, logResults);
+
+                        continue;
+
+                    }
+
+                    plan.Instance.RecordSuccessfulUse(context.ResolutionId, plan.Recipient.GetEntityId());
+                    applied++;
+
+                    continue;
+
+                }
+
+                if (grant.Definition.Operation == EffectOperation.DealDamage)
+                {
+                    int requestedDamage = EffectCalculations.ToInt(plan.Value, grant.Value.Rounding);
+                    if (requestedDamage <= 0 || !CombatActionExecutor.CanPublishEffectDamage)
+                    {
+                        WarnSkipped(grant, "damage must be positive and reaction depth must be below limit", owner, logResults);
+
+                        continue;
+
+                    }
+
+                    DamageRequest request = new DamageRequest(owner, plan.Recipient, requestedDamage,
+                        1f, 0, 0, context.Action, grant.OperationParameters.DamageKind,
+                        grant.OperationParameters.DamageDelivery);
+                    if (!DamageResolver.TryResolve(request, out DamageResult damage))
+                    {
+                        WarnSkipped(grant, "unable to resolve damage", owner, logResults);
+
+                        continue;
+
+                    }
+
+                    plan.Instance.RecordSuccessfulUse(context.ResolutionId, plan.Recipient.GetEntityId());
+                    applied++;
+                    if (logResults)
+                    {
+                        Debug.Log($"Effect '{grant.Definition.DisplayName}': " +
+                            $"{owner.data.characterName} -> {plan.Recipient.data.characterName} " +
+                            $"{damage.ActualDamage} {grant.OperationParameters.DamageKind} damage " +
+                            $"({damage.HealthBefore} -> {damage.HealthAfter}).", owner);
+
+                    }
+
+                    CombatActionExecutor.PublishResolvedEffectDamage(damage);
 
                     continue;
 

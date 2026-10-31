@@ -40,6 +40,22 @@ namespace MutaBorn.Gameplay
 
     }
 
+    // The portion of actual HP damage credited to a specific damage type.
+    // All contributions in a result add up to DamageResult.ActualDamage.
+    public readonly struct DamageTypeAmount
+    {
+        public DamageType Type { get; }
+        public int Amount { get; }
+
+        public DamageTypeAmount(DamageType type, int amount)
+        {
+            Type = type;
+            Amount = amount;
+
+        }
+
+    }
+
     // DamageAfterArmor is before percentage resistances and the minimum hit
     // rule. DamageAfterResistances includes the minimum, before Guard.
     public readonly struct DamageResult
@@ -50,13 +66,15 @@ namespace MutaBorn.Gameplay
         public int DamageAfterResistances { get; }
         public int DamageAfterGuard { get; }
         public int ActualDamage { get; }
+        public IReadOnlyList<DamageTypeAmount> DamageByType { get; }
         public int HealthBefore { get; }
         public int HealthAfter { get; }
         public bool ReducedHealthToZero => HealthBefore > 0 && HealthAfter <= 0;
 
         public DamageResult(DamageRequest request, int damageBeforeArmor,
             int damageAfterArmor, int damageAfterResistances, int damageAfterGuard,
-            int healthBefore, int healthAfter)
+            int healthBefore, int healthAfter,
+            IReadOnlyList<DamageTypeAmount> damageByType = null)
         {
             Request = request;
             DamageBeforeArmor = damageBeforeArmor;
@@ -66,6 +84,7 @@ namespace MutaBorn.Gameplay
             HealthBefore = healthBefore;
             HealthAfter = healthAfter;
             ActualDamage = Mathf.Max(0, healthBefore - healthAfter);
+            DamageByType = damageByType ?? Array.Empty<DamageTypeAmount>();
 
         }
 
@@ -221,6 +240,7 @@ namespace MutaBorn.Gameplay
             long magicalAfterWard = Math.Max(0L, magicalDamage - Math.Max(0, target.data.ward));
             long afterArmor = physicalAfterArmor + magicalAfterWard + trueDamage;
             double afterResistances = trueDamage;
+            Dictionary<DamageType, double> ordinaryWeights = new Dictionary<DamageType, double>();
 
             // Preserve each type's share after flat defense, then apply its
             // individual resistance or weakness. This makes splitting damage
@@ -246,7 +266,13 @@ namespace MutaBorn.Gameplay
                 double shareAfterDefense = (double)component.Value * categoryRemaining / categoryTotal;
                 double resistance = target.data.GetDamageResistancePercent(component.Key);
                 double multiplier = Math.Max(0d, 1d - resistance / 100d);
-                afterResistances += shareAfterDefense * multiplier;
+                double typeDamage = shareAfterDefense * multiplier;
+                afterResistances += typeDamage;
+                if (typeDamage > 0d)
+                {
+                    ordinaryWeights[component.Key] = typeDamage;
+
+                }
 
             }
 
@@ -278,11 +304,133 @@ namespace MutaBorn.Gameplay
             target.data.ModifyHealth(-damageAfterGuard);
             int healthAfter = target.data.currentHealth;
 
+            // These allocations are visual/diagnostic only. They never alter
+            // the total damage or the existing defense/Guard/health calculation.
+            // Shared damage is apportioned proportionally with deterministic
+            // largest-remainder rounding (ties by DamageType enum value).
+            Dictionary<DamageType, int> afterGuardByType = DistributeDamage(
+                guardableDamage, ordinaryWeights, request.DamageType);
+            if (trueDamageToApply > 0)
+            {
+                afterGuardByType.TryGetValue(DamageType.True, out int existingTrue);
+                afterGuardByType[DamageType.True] = existingTrue + trueDamageToApply;
+
+            }
+
+            Dictionary<DamageType, double> finalWeights = new Dictionary<DamageType, double>();
+            foreach (KeyValuePair<DamageType, int> entry in afterGuardByType)
+            {
+                finalWeights[entry.Key] = entry.Value;
+
+            }
+
+            int actualDamage = Mathf.Max(0, healthBefore - healthAfter);
+            Dictionary<DamageType, int> actualByType = DistributeDamage(
+                actualDamage, finalWeights, request.DamageType);
+            List<DamageTypeAmount> breakdown = new List<DamageTypeAmount>();
+            List<DamageType> sortedTypes = new List<DamageType>(actualByType.Keys);
+            sortedTypes.Sort();
+            foreach (DamageType type in sortedTypes)
+            {
+                int amount = actualByType[type];
+                if (amount > 0)
+                {
+                    breakdown.Add(new DamageTypeAmount(type, amount));
+
+                }
+
+            }
+
             result = new DamageResult(request, ClampToInt(beforeArmor),
                 ClampToInt(afterArmor), damageAfterResistances, damageAfterGuard,
-                healthBefore, healthAfter);
+                healthBefore, healthAfter, breakdown.ToArray());
 
             return true;
+
+        }
+
+        private sealed class WeightedShare
+        {
+            public DamageType Type;
+            public int Amount;
+            public double Remainder;
+
+        }
+
+        // A shared reduction or an overkill cap must not manufacture damage.
+        // Use the exact requested total, distributing indivisible points by
+        // largest fractional remainder; never round each type independently.
+        private static Dictionary<DamageType, int> DistributeDamage(int amount,
+            Dictionary<DamageType, double> weights, DamageType fallbackType)
+        {
+            Dictionary<DamageType, int> result = new Dictionary<DamageType, int>();
+            if (amount <= 0)
+            {
+                return result;
+
+            }
+
+            double total = 0d;
+            List<WeightedShare> shares = new List<WeightedShare>();
+            foreach (KeyValuePair<DamageType, double> entry in weights)
+            {
+                if (entry.Value <= 0d || double.IsNaN(entry.Value) ||
+                    double.IsInfinity(entry.Value))
+                {
+                    continue;
+
+                }
+
+                total += entry.Value;
+                shares.Add(new WeightedShare { Type = entry.Key });
+
+            }
+
+            if (total <= 0d)
+            {
+                // Minimum hit damage may exist even when defenses zeroed
+                // every component; attribute it to the attack's primary type.
+                result[fallbackType] = amount;
+
+                return result;
+
+            }
+
+            int assigned = 0;
+            foreach (WeightedShare share in shares)
+            {
+                double exact = (double)amount * weights[share.Type] / total;
+                share.Amount = (int)Math.Floor(exact);
+                share.Remainder = exact - share.Amount;
+                assigned += share.Amount;
+
+            }
+
+            shares.Sort((a, b) =>
+            {
+                int remainderOrder = b.Remainder.CompareTo(a.Remainder);
+                return remainderOrder != 0 ? remainderOrder : a.Type.CompareTo(b.Type);
+
+            });
+
+            int leftovers = amount - assigned;
+            for (int i = 0; i < leftovers; i++)
+            {
+                shares[i % shares.Count].Amount++;
+
+            }
+
+            foreach (WeightedShare share in shares)
+            {
+                if (share.Amount > 0)
+                {
+                    result[share.Type] = share.Amount;
+
+                }
+
+            }
+
+            return result;
 
         }
 

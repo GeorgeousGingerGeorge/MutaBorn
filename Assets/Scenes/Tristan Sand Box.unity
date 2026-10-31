@@ -194,13 +194,16 @@ MonoBehaviour:
   unitName: TEST Enemy
   raceName: Orcs
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
   startingEquipment:
   - {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
   - {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
+  - {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
+  - {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
+  - {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
@@ -873,6 +876,9 @@ MonoBehaviour:
   unitName: TEST Enemy
   raceName: Human
   currentMutation: 2
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
   startingEquipment:
   - {fileID: 0}
   - {fileID: 0}
@@ -2462,7 +2468,7 @@ GameObject:
   - component: {fileID: 544627607}
   - component: {fileID: 544627613}
   m_Layer: 0
-  m_Name: Player Unit (1)
+  m_Name: Elfinstien
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2533,6 +2539,9 @@ MonoBehaviour:
   unitName: Elfinstien
   raceName: Elves
   currentMutation: 1
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
   startingEquipment:
   - {fileID: 0}
   - {fileID: 0}
@@ -3269,6 +3278,7 @@ MonoBehaviour:
   MainMenuScene: 
   GameScene: 
   pauseMenu: {fileID: 107112453}
+  optionsMenu: {fileID: 0}
 --- !u!1 &794927623
 GameObject:
   m_ObjectHideFlags: 0
@@ -4046,6 +4056,9 @@ MonoBehaviour:
   unitName: TEST Civilian
   raceName: Human
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
   startingEquipment:
   - {fileID: 0}
   - {fileID: 0}
@@ -5099,6 +5112,9 @@ MonoBehaviour:
   unitName: TEST Civilian
   raceName: Human
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
   startingEquipment:
   - {fileID: 0}
   - {fileID: 0}
@@ -5197,16 +5213,19 @@ MonoBehaviour:
   logEffectResults: 1
   temporaryTestGrant:
     definition: {fileID: 0}
+    procChancePercent: 100
+    procChanceSchemaVersion: 1
     activation:
       trigger: 1
       phase: 1
       frequency: 0
       eventActor: 0
       requireGrantingSourceMatch: 0
+      requireAction: 0
     targeting:
       reference: 0
       selection: 0
-      factionMask: 7
+      factionMask: -1
       includeOwner: 1
       radiusInTiles: 0
       sameFloorOnly: 1
@@ -5217,10 +5236,12 @@ MonoBehaviour:
     operationParameters:
       resource: -1
       stat: 0
+      statModifierMode: 0
       damageType: 0
       damageDelivery: 0
       defenseStat: 0
       statusId: 
+      statusDefinition: {fileID: 0}
     value:
       constant: 0
       terms: []
@@ -6705,7 +6726,7 @@ GameObject:
   - component: {fileID: 1289572217}
   - component: {fileID: 1289572218}
   m_Layer: 0
-  m_Name: Player Unit
+  m_Name: Goblino
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6780,9 +6801,12 @@ MonoBehaviour:
   unitName: Goblino
   raceName: Goblins
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
   startingEquipment:
-  - {fileID: 11400000, guid: 37026e738eaaa214682cf097e673f69a, type: 2}
-  - {fileID: 11400000, guid: 37026e738eaaa214682cf097e673f69a, type: 2}
+  - {fileID: 11400000, guid: 083813b8b10ac7340aa72c5ba283692f, type: 2}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -6837,36 +6861,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cad5b72585b678440a9193b483f080ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MutaBorn.Gameplay.UnitEffectSource
-  collections: []
+  collections:
+  - {fileID: 11400000, guid: 71da8dd9e18b4704ac43d3b19a4c004b, type: 2}
   logEffectResults: 1
   temporaryTestGrant:
-    definition: {fileID: 0}
+    definition: {fileID: 11400000, guid: f154e272dc2b47446814e51f4d6e7b0e, type: 2}
+    procChancePercent: 100
+    procChanceSchemaVersion: 1
     activation:
-      trigger: 1
+      trigger: 9
       phase: 1
       frequency: 0
       eventActor: 0
       requireGrantingSourceMatch: 0
+      requireAction: 0
     targeting:
       reference: 0
       selection: 0
-      factionMask: 7
+      factionMask: -1
       includeOwner: 1
       radiusInTiles: 0
       sameFloorOnly: 1
     lifetime:
-      lifetime: 0
-      durationTurns: 1
+      lifetime: 2
+      durationTurns: 3
       maximumUses: 1
     operationParameters:
       resource: -1
-      stat: 0
+      stat: 30
+      statModifierMode: 1
       damageType: 0
       damageDelivery: 0
       defenseStat: 0
       statusId: 
+      statusDefinition: {fileID: 0}
     value:
-      constant: 0
+      constant: 20
       terms: []
       rounding: 1
     conditions: []
@@ -9784,6 +9814,9 @@ MonoBehaviour:
   unitName: TEST Enemy
   raceName: Orcs
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
   startingEquipment:
   - {fileID: 0}
   - {fileID: 0}
@@ -11769,6 +11802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
   currentLevel: {fileID: 0}
   gridCellSize: 2
+  maxStepHeight: 0.5
   gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
   obstaclePrefab: {fileID: 1490576499627723649, guid: 4d64a26457947d7409f3f24854110fcc, type: 3}
   wallPrefab: {fileID: 3797262535275334675, guid: 97086ef4986f44c4ca51188d9f3c1cc8, type: 3}
@@ -11789,105 +11823,45 @@ MonoBehaviour:
   - key: 1
     value:
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 15, y: 2, z: 4}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 6, y: 2}
-      upperFloorId: 3
-      upperGridPosition: {x: 0, y: 2}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 15, y: 2, z: 6}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 6, y: 3}
-      upperFloorId: 3
-      upperGridPosition: {x: 0, y: 3}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 15, y: 2, z: 8}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 6, y: 4}
-      upperFloorId: 3
-      upperGridPosition: {x: 0, y: 4}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 1, y: 2, z: 4}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 2, y: 2}
-      upperFloorId: 2
-      upperGridPosition: {x: 9, y: 2}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 1, y: 2, z: 6}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 2, y: 3}
-      upperFloorId: 2
-      upperGridPosition: {x: 9, y: 3}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 1, y: 2, z: 8}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 2, y: 4}
-      upperFloorId: 2
-      upperGridPosition: {x: 9, y: 4}
   - key: 2
     value:
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: -3, y: 6, z: 14}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 2
-      lowerGridPosition: {x: 7, y: 7}
-      upperFloorId: 4
-      upperGridPosition: {x: 0, y: 0}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: -3, y: 6, z: 16}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 2
-      lowerGridPosition: {x: 7, y: 8}
-      upperFloorId: 4
-      upperGridPosition: {x: 0, y: 1}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: -3, y: 6, z: 18}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 2
-      lowerGridPosition: {x: 7, y: 9}
-      upperFloorId: 4
-      upperGridPosition: {x: 0, y: 2}
   - key: 3
     value:
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 21, y: 6, z: 14}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 3
-      lowerGridPosition: {x: 3, y: 7}
-      upperFloorId: 4
-      upperGridPosition: {x: 9, y: 0}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 21, y: 6, z: 16}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 3
-      lowerGridPosition: {x: 3, y: 8}
-      upperFloorId: 4
-      upperGridPosition: {x: 9, y: 1}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 21, y: 6, z: 18}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 3
-      lowerGridPosition: {x: 3, y: 9}
-      upperFloorId: 4
-      upperGridPosition: {x: 9, y: 2}
 --- !u!4 &2021259276
 Transform:
   m_ObjectHideFlags: 0
@@ -12058,6 +12032,9 @@ MonoBehaviour:
   unitName: TEST Enemy
   raceName: Orcs
   currentMutation: 1
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
   startingEquipment:
   - {fileID: 0}
   - {fileID: 0}
@@ -12204,7 +12181,7 @@ GameObject:
   - component: {fileID: 2056897411}
   - component: {fileID: 2056897417}
   m_Layer: 0
-  m_Name: Player Unit (2)
+  m_Name: Digy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12275,6 +12252,9 @@ MonoBehaviour:
   unitName: Digy
   raceName: Dwarfs
   currentMutation: 2
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
   startingEquipment:
   - {fileID: 0}
   - {fileID: 0}
