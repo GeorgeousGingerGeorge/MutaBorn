@@ -80,6 +80,21 @@ namespace MutaBorn.Gameplay
         [ContextMenu("Rebuild Runtime Effect Grants")]
         public void RefreshEffects()
         {
+            // Temporary grants survive refreshes; permanent grants are rebound.
+            if (owner != null && owner.data != null)
+            {
+                foreach (EffectRuntimeInstance previous in runtime)
+                {
+                    if (!temporary.Contains(previous))
+                    {
+                        owner.data.RemoveStatModifier(previous);
+
+                    }
+
+                }
+
+            }
+
             runtime.Clear();
             boundMutationEffects.Clear();
 
@@ -118,6 +133,66 @@ namespace MutaBorn.Gameplay
                         if (AddCollection(collection, boundCollections))
                         {
                             boundMutationEffects.Add(mutation.ID);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+            // Each fixed mutation node owns its effect grants. Two different families
+            // may reference the same definition without losing their independent effects.
+            if (owner != null && owner.data != null && owner.data.activeMutationNodes != null)
+            {
+                GameDataBase gameData = GameDataBaseLoader.Instance;
+                MutationDataBase database = gameData != null ? gameData.mutationData : null;
+                if (database != null)
+                {
+                    foreach (ActiveMutationRecord active in owner.data.activeMutationNodes)
+                    {
+                        MutationNodeDefinition node = database.GetNode(active.MutationId);
+                        if (node == null)
+                        {
+                            continue;
+
+                        }
+
+                        bool added = false;
+                        if (node.EffectCollection != null && node.EffectCollection.Effects != null)
+                        {
+                            foreach (EffectGrant grant in node.EffectCollection.Effects)
+                            {
+                                if (grant == null || grant.Definition == null)
+                                {
+                                    continue;
+
+                                }
+
+                                runtime.Add(new EffectRuntimeInstance(node.EffectCollection, grant));
+                                added = true;
+
+                            }
+
+                        }
+
+                        foreach (EffectGrant grant in node.GrantedEffects)
+                        {
+                            if (grant == null || grant.Definition == null)
+                            {
+                                continue;
+
+                            }
+
+                            runtime.Add(new EffectRuntimeInstance(null, grant));
+                            added = true;
+
+                        }
+
+                        if (added)
+                        {
+                            boundMutationEffects.Add(node.Id);
 
                         }
 
@@ -172,6 +247,24 @@ namespace MutaBorn.Gameplay
 
             initialized = true;
 
+            // Passive mutation/equipment stat grants activate on binding.
+            if (owner != null && owner.data != null)
+            {
+                List<EffectRuntimeInstance> sources = new List<EffectRuntimeInstance>();
+                foreach (EffectRuntimeInstance instance in runtime)
+                {
+                    if (!temporary.Contains(instance))
+                    {
+                        sources.Add(instance);
+
+                    }
+
+                }
+
+                ProcessSourceActivated(sources);
+
+            }
+
         }
 
         // Temporary effects are runtime grants, not mutations or equipment.
@@ -208,6 +301,7 @@ namespace MutaBorn.Gameplay
             EffectRuntimeInstance instance = new EffectRuntimeInstance(null, grant);
             temporary.Add(instance);
             runtime.Add(instance);
+            ProcessSourceActivated(new List<EffectRuntimeInstance> { instance });
 
             return true;
 
@@ -387,6 +481,16 @@ namespace MutaBorn.Gameplay
 
             }
 
+            foreach (EffectRuntimeInstance instance in runtime)
+            {
+                if (instance.Expired && owner != null && owner.data != null)
+                {
+                    owner.data.RemoveStatModifier(instance);
+
+                }
+
+            }
+
             for (int i = temporary.Count - 1; i >= 0; i--)
             {
                 EffectRuntimeInstance instance = temporary[i];
@@ -433,6 +537,27 @@ namespace MutaBorn.Gameplay
             long resolutionId = ++nextResolutionId;
             ProcessEvent(new EffectEventContext(trigger, resolutionId,
                 owner, owner, owner, owner, null, 0, false, 0));
+
+        }
+
+        private void ProcessSourceActivated(IReadOnlyList<EffectRuntimeInstance> sources)
+        {
+            if (owner == null || owner.data == null || sources.Count == 0)
+            {
+                return;
+
+            }
+
+            if (factions == null)
+            {
+                factions = FindAnyObjectByType<FactionManager>();
+
+            }
+
+            long resolutionId = ++nextResolutionId;
+            EffectProcessor.Process(owner, sources,
+                new EffectEventContext(EffectTrigger.OnSourceActivated, resolutionId,
+                    owner, owner, owner, owner, null, 0, false, 0), factions, logEffectResults);
 
         }
 

@@ -13,6 +13,11 @@ public class UnitController : MonoBehaviour
     [SerializeField] public string unitName; 
     [SerializeField] public string raceName;
     [SerializeField] public MutationID currentMutation;
+    [Header("Starting Fixed Mutations (No Slot Limit)")]
+    [SerializeField] private MutationID[] startingMutations = new MutationID[0];
+    [Header("Evolution Testing (Play Mode)")]
+    [SerializeField] private MutationID testEvolutionCurrent = MutationID.none;
+    [SerializeField] private MutationID testEvolutionNext = MutationID.none;
     [Header("Starting Equipment - 6 Test Slots (Duplicates Allowed)")]
     [SerializeField] private EquipmentData[] startingEquipment = new EquipmentData[6];
 
@@ -54,27 +59,31 @@ public class UnitController : MonoBehaviour
         data = UnitData.CreateNewUnit(unitName, race);
 
         
-        if(currentMutation != MutationID.none)
+        bool hasFixedStartingMutations = false;
+        if (startingMutations != null)
         {
-
-            bool equipped = data.EquipMutation(currentMutation);
-
-            Debug.Log($"Mutation equipped: {equipped}");
-            Debug.Log($"Active mutations: {data.activeMutations.Count}");
-            
-           
-
-            foreach(BaseMutation available in data.activeMutations.Values)
+            foreach (MutationID id in startingMutations)
             {
-                Debug.Log($"{available.name} , {available.ID}, {available.currentStage}");
-                    available.OnEquipped(this);
+                if (id == MutationID.none)
+                {
+                    continue;
 
-                
+                }
+
+                hasFixedStartingMutations = true;
+                InitializeStartingMutation(id);
+
             }
+
         }
 
+        // Existing scenes keep their currentMutation without requiring edits.
+        if (!hasFixedStartingMutations && currentMutation != MutationID.none)
+        {
+            InitializeStartingMutation(currentMutation);
 
-       
+        }
+
         bool hasStartingEquipment = false;
 
         if (startingEquipment != null)
@@ -126,11 +135,96 @@ public class UnitController : MonoBehaviour
 
         }
 
-        data.RefillResourcesToMax();
-
         RefreshEquipmentAndMutationGrants();
 
+        // Starting passive stat grants can change maximum resources.
+        data.RefillResourcesToMax();
+
     }
+    private void InitializeStartingMutation(MutationID id)
+    {
+        if (!data.EquipMutation(id))
+        {
+            Debug.LogWarning($"Could not equip starting mutation '{id}' on {unitName}.", this);
+
+            return;
+
+        }
+
+        // Legacy mutations still need their existing OnEquipped hook.
+        foreach (BaseMutation mutation in data.activeMutations.Values)
+        {
+            if (mutation != null && mutation.ID == id)
+            {
+                mutation.OnEquipped(this);
+
+                break;
+
+            }
+
+        }
+
+        Debug.Log($"Equipped mutation {id}. Fixed nodes: {data.activeMutationNodes.Count}, " +
+            $"legacy mutations: {data.activeMutations.Count}.", this);
+
+    }
+
+    public bool TryEvolveMutation(MutationID current, MutationID next)
+    {
+        if (!Application.isPlaying || data == null || !data.TryEvolveMutation(current, next))
+        {
+            return false;
+
+        }
+
+        RefreshEquipmentAndMutationGrants();
+        Debug.Log($"Evolved mutation {current} -> {next} on {unitName}.", this);
+
+        return true;
+
+    }
+
+    [ContextMenu("Test / Log Fixed Mutation Evolutions")]
+    private void TestLogFixedMutationEvolutions()
+    {
+        if (data == null || GameDataBaseLoader.Instance == null)
+        {
+            Debug.LogWarning("No runtime mutation data. Enter Play Mode first.", this);
+
+            return;
+
+        }
+
+        MutationDataBase database = GameDataBaseLoader.Instance.mutationData;
+        foreach (ActiveMutationRecord record in data.activeMutationNodes)
+        {
+            MutationNodeDefinition node = database.GetNode(record.MutationId);
+            if (node == null)
+            {
+                continue;
+
+            }
+
+            string choices = string.Join(", ", node.NextEvolutions);
+            Debug.Log($"{unitName}: {node.DisplayName} (Level {node.Level}, family {node.FamilyId}), " +
+                $"next: {(string.IsNullOrEmpty(choices) ? "None" : choices)}.", this);
+
+        }
+
+    }
+
+    [ContextMenu("Test / Evolve Selected Mutation")]
+    private void TestEvolveSelectedMutation()
+    {
+        if (!TryEvolveMutation(testEvolutionCurrent, testEvolutionNext))
+        {
+            Debug.LogWarning("Evolution failed. In Evolution Testing, set Current and Next " +
+                "to a valid linked node in the same family.", this);
+
+        }
+
+    }
+
     public bool TryUpgradeEquipment(int index)
     {
         if (data == null || !data.TryUpgradeEquippedItem(index))
@@ -168,17 +262,27 @@ public class UnitController : MonoBehaviour
 
         ConsumableInstance item = data.carriedConsumables[index];
         ConsumableData definition = item.definition;
+        EffectGrant useEffect = definition != null ? definition.OnUseEffect : null;
+        EffectOperation operation = useEffect != null && useEffect.Definition != null
+            ? useEffect.Definition.Operation : EffectOperation.None;
+        bool validOperation = (operation == EffectOperation.ModifyResource &&
+            useEffect.OperationParameters != null &&
+            useEffect.OperationParameters.Resource != ResourceIdentifier.None) ||
+            (operation == EffectOperation.ApplyStatModifier &&
+            useEffect.OperationParameters != null &&
+            useEffect.OperationParameters.Stat != StatIdentifier.None &&
+            useEffect.Activation != null &&
+            useEffect.Activation.Trigger == EffectTrigger.OnSourceActivated);
+
         if (item.remainingUses <= 0 || definition == null || definition.UseAction == null ||
             definition.UseAction.IsPassive ||
             definition.UseAction.Category != ActionMenuCategory.Items ||
             definition.OnUseEffect == null ||
             definition.OnUseEffect.Definition == null ||
-            definition.OnUseEffect.Definition.Operation != EffectOperation.ModifyResource ||
+            !validOperation ||
             definition.OnUseEffect.Targeting == null ||
             definition.OnUseEffect.Targeting.Reference != EffectTargetReference.Owner ||
             definition.OnUseEffect.Targeting.Selection != EffectTargetSelection.Single ||
-            definition.OnUseEffect.OperationParameters == null ||
-            definition.OnUseEffect.OperationParameters.Resource == ResourceIdentifier.None ||
             item.consumableType != ConsumableType.Eat)
         {
             return false;
@@ -210,6 +314,24 @@ public class UnitController : MonoBehaviour
             $"Consumables: {data.carriedConsumables.Count}/{UnitData.ConsumableCapacity}.", this);
 
         return true;
+
+    }
+
+    [ContextMenu("Test / Log Current Unit Stats")]
+    private void DebugCurrentUnitStats()
+    {
+        if (data == null)
+        {
+            Debug.LogWarning("Unit data is initialized during Play Mode.", this);
+
+            return;
+
+        }
+
+        Debug.Log($"{unitName} stats: Strength {data.totalStrength}, Vitality {data.totalVitality}, " +
+            $"Health {data.currentHealth}/{data.maxHealth}, AP {data.currentActionPoints}/{data.maxActionPoints}, " +
+            $"Melee {data.meleeDamage}, Ranged {data.rangeDamage}, Magic {data.magicDamage}, " +
+            $"Armor {data.armor}, Ward {data.ward}, Will {data.will}.", this);
 
     }
 
@@ -340,7 +462,7 @@ public class UnitController : MonoBehaviour
 
         }
 
-        bool hasEffects = data.activeMutations.Count > 0;
+        bool hasEffects = data.activeMutations.Count > 0 || data.activeMutationNodes.Count > 0;
         foreach (EquipmentInstance item in data.equippedItems)
         {
             if (item.grantedEffectCollection != null ||

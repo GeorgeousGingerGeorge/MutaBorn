@@ -12,16 +12,16 @@ namespace MutaBorn.Gameplay
         {
             public EffectRuntimeInstance Instance { get; }
             public UnitController Recipient { get; }
-            public int Amount { get; }
+            public double Value { get; }
             public EffectResolutionPhase Phase { get; }
             public int OriginalOrder { get; }
 
             public PlannedEffect(EffectRuntimeInstance instance, UnitController recipient,
-                int amount, EffectResolutionPhase phase, int originalOrder)
+                double value, EffectResolutionPhase phase, int originalOrder)
             {
                 Instance = instance;
                 Recipient = recipient;
-                Amount = amount;
+                Value = value;
                 Phase = phase;
                 OriginalOrder = originalOrder;
 
@@ -80,9 +80,21 @@ namespace MutaBorn.Gameplay
 
                 }
 
-                if (grant.Definition.Operation != EffectOperation.ModifyResource)
+                if (grant.Definition.Operation != EffectOperation.ModifyResource &&
+                    grant.Definition.Operation != EffectOperation.ApplyStatModifier)
                 {
-                    WarnSkipped(grant, "operation waits for the Damage Resolver or Stat/Status system", owner, logResults);
+                    WarnSkipped(grant, "operation is not implemented by this processor", owner, logResults);
+
+                    continue;
+
+                }
+
+                if (grant.Definition.Operation == EffectOperation.ApplyStatModifier &&
+                    (grant.OperationParameters.Stat == StatIdentifier.None ||
+                    grant.Lifetime == null || grant.Lifetime.Lifetime == EffectLifetime.Instant ||
+                    grant.Lifetime.Lifetime == EffectLifetime.LimitedUses))
+                {
+                    WarnSkipped(grant, "stat bonuses require a stat and WhileSourceActive, TurnCount, or UntilRemoved lifetime", owner, logResults);
 
                     continue;
 
@@ -111,8 +123,13 @@ namespace MutaBorn.Gameplay
 
                 try
                 {
-                    int amount = EffectCalculations.ToInt(value, grant.Value.Rounding);
-                    planned.Add(new PlannedEffect(instance, recipient, amount, grant.Activation.Phase, i));
+                    if (grant.Definition.Operation == EffectOperation.ModifyResource)
+                    {
+                        EffectCalculations.ToInt(value, grant.Value.Rounding);
+
+                    }
+
+                    planned.Add(new PlannedEffect(instance, recipient, value, grant.Activation.Phase, i));
 
                 }
                 catch (Exception exception) when (exception is ArgumentException || exception is OverflowException)
@@ -134,11 +151,39 @@ namespace MutaBorn.Gameplay
             int applied = 0;
             foreach (PlannedEffect plan in planned)
             {
-                ResourceIdentifier resource = plan.Instance.Grant.OperationParameters.Resource;
-                if (!ResourceOperations.TryApply(plan.Recipient.data, resource, plan.Amount,
+                EffectGrant grant = plan.Instance.Grant;
+                if (grant.Definition.Operation == EffectOperation.ApplyStatModifier)
+                {
+                    if (!plan.Recipient.data.TryApplyStatModifier(plan.Instance,
+                        grant.OperationParameters.Stat, grant.OperationParameters.ModifierMode, plan.Value))
+                    {
+                        WarnSkipped(grant, "invalid stat modifier", owner, logResults);
+
+                        continue;
+
+                    }
+
+                    plan.Instance.RecordSuccessfulUse(context.ResolutionId, plan.Recipient.GetEntityId());
+                    applied++;
+                    if (logResults)
+                    {
+                        string suffix = grant.OperationParameters.ModifierMode == StatModifierMode.Percent ? "%" : "";
+                        Debug.Log($"Effect '{grant.Definition.DisplayName}': " +
+                            $"{plan.Recipient.data.characterName} {grant.OperationParameters.Stat} " +
+                            $"{plan.Value:+0.##;-0.##;0}{suffix}, trigger {context.Trigger}.", owner);
+
+                    }
+
+                    continue;
+
+                }
+
+                int amount = EffectCalculations.ToInt(plan.Value, grant.Value.Rounding);
+                ResourceIdentifier resource = grant.OperationParameters.Resource;
+                if (!ResourceOperations.TryApply(plan.Recipient.data, resource, amount,
                     out ResourceChangeResult change))
                 {
-                    WarnSkipped(plan.Instance.Grant, "invalid resource or change (health damage must use Damage Resolver)",
+                    WarnSkipped(grant, "invalid resource or change (health damage must use Damage Resolver)",
                         owner, logResults);
 
                     continue;
@@ -150,7 +195,7 @@ namespace MutaBorn.Gameplay
 
                 if (logResults)
                 {
-                    Debug.Log($"Effect '{plan.Instance.Grant.Definition.DisplayName}': " +
+                    Debug.Log($"Effect '{grant.Definition.DisplayName}': " +
                         $"{owner.data.characterName} -> {plan.Recipient.data.characterName} " +
                         $"{change.Resource} {change.AppliedAmount:+#;-#;0} " +
                         $"({change.Before} -> {change.After}), trigger {context.Trigger}.", owner);

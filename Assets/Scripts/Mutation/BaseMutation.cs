@@ -16,8 +16,14 @@ public enum MutationID
     //MindBore Strain
 
     //Warden Strain
-    Sage
+    Sage,
+
+    // Fixed evolution nodes keep stable IDs across save files.
+    VampirismII = 5,
+    VampirismIII = 6,
+    BloodHunter = 7
 }
+[System.Serializable]
 public class MutationBonus 
 {
     // Core stat bonuses

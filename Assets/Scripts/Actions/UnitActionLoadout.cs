@@ -149,6 +149,29 @@ public class UnitActionLoadout : MonoBehaviour
 
         }
 
+        // Fixed mutations grant their own exact node content, independent of body slots.
+        if (gameData.mutationData != null && unit.data.activeMutationNodes != null)
+        {
+            foreach (ActiveMutationRecord active in unit.data.activeMutationNodes)
+            {
+                MutationNodeDefinition node = gameData.mutationData.GetNode(active.MutationId);
+                if (node == null)
+                {
+                    continue;
+
+                }
+
+                AddActionsFromSet(node.ActionSet, $"Mutation ({node.DisplayName})", ids, definitions);
+                foreach (ActionDefinition action in node.GrantedActions)
+                {
+                    AddAction(action, $"Mutation ({node.DisplayName})", ids, definitions);
+
+                }
+
+            }
+
+        }
+
         // Future source: learned skills. These belong to UnitData.
 
         Version++;

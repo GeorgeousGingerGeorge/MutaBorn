@@ -276,6 +276,13 @@ namespace MutaBorn.Gameplay
                     break;
 
                 }
+                case StatIdentifier.MagicDefense:
+                {
+                    value = data.ward;
+
+                    break;
+
+                }
                 case StatIdentifier.Will:
                 {
                     value = data.will;
@@ -283,7 +290,7 @@ namespace MutaBorn.Gameplay
                     break;
 
                 }
-                // MagicDefense is defined but doesn't exist in UnitData yet.
+                // Unknown/None identifiers have no stat value.
                 default:
                 {
                     return false;

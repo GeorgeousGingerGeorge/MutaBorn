@@ -276,6 +276,26 @@ public sealed class UnitInspectionUI : MonoBehaviour
 
         }
 
+        if (data.activeMutationNodes != null && GameDataBaseLoader.Instance != null &&
+            GameDataBaseLoader.Instance.mutationData != null)
+        {
+            MutationDataBase database = GameDataBaseLoader.Instance.mutationData;
+            foreach (ActiveMutationRecord record in data.activeMutationNodes)
+            {
+                MutationNodeDefinition node = database.GetNode(record.MutationId);
+                if (node == null)
+                {
+                    continue;
+
+                }
+
+                details.AppendLine($"{node.DisplayName} ({node.FamilyId}, Level {node.Level})");
+                mutationCount++;
+
+            }
+
+        }
+
         if (mutationCount == 0)
         {
             details.AppendLine("None");

@@ -42,6 +42,270 @@ MonoBehaviour:
   - slot: 1
     strain: 4
     mutations: 04000000i
+  mutationNodes:
+  - id: 2
+    displayName: Assassin Claws I
+    familyId: assassin-claws
+    strain: 1
+    level: 1
+    bonus:
+      strength: 2
+      dexterity: 2
+      vitality: 1
+      constitution: 0
+      perception: 0
+      intelligence: 0
+      health: 15
+      mana: 10
+      actionPoints: 15
+      meleeDamage: 8
+      rangeDamage: 0
+      magicDamage: 5
+      armor: 5
+      will: 0
+    grantedActions:
+    - {fileID: 11400000, guid: 73671fdadb7f96a44a18abdd7173926c, type: 2}
+    grantedEffects: []
+    actionSet: {fileID: 0}
+    effectCollection: {fileID: 11400000, guid: c640f2afbb4a74049b3f91921ee042cd, type: 2}
+    nextEvolutions: []
+  - id: 1
+    displayName: Vampirism I
+    familyId: vampirism
+    strain: 1
+    level: 1
+    bonus:
+      strength: 1
+      dexterity: 2
+      vitality: 2
+      constitution: 0
+      perception: 2
+      intelligence: 1
+      health: 20
+      mana: 15
+      actionPoints: 5
+      meleeDamage: 5
+      rangeDamage: 3
+      magicDamage: 8
+      armor: 2
+      will: 10
+    grantedActions:
+    - {fileID: 11400000, guid: 0a00f9dcde603584da4d77f0aa43c24e, type: 2}
+    - {fileID: 11400000, guid: d4e9f1fb263e73840a32cd51a68e845b, type: 2}
+    grantedEffects:
+    - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+      activation:
+        trigger: 2
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: -1
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 1
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+      value:
+        constant: 5
+        terms: []
+        rounding: 1
+      conditions: []
+    actionSet: {fileID: 0}
+    effectCollection: {fileID: 0}
+    nextEvolutions: 05000000i
+  - id: 5
+    displayName: Vampirism II
+    familyId: vampirism
+    strain: 1
+    level: 2
+    bonus:
+      strength: 2
+      dexterity: 3
+      vitality: 3
+      constitution: -1
+      perception: 3
+      intelligence: 2
+      health: 35
+      mana: 25
+      actionPoints: 10
+      meleeDamage: 10
+      rangeDamage: 6
+      magicDamage: 16
+      armor: 4
+      will: 12
+    grantedActions:
+    - {fileID: 11400000, guid: 0a00f9dcde603584da4d77f0aa43c24e, type: 2}
+    - {fileID: 11400000, guid: d4e9f1fb263e73840a32cd51a68e845b, type: 2}
+    grantedEffects:
+    - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+      activation:
+        trigger: 2
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: -1
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 1
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+      value:
+        constant: 10
+        terms: []
+        rounding: 1
+      conditions: []
+    actionSet: {fileID: 0}
+    effectCollection: {fileID: 0}
+    nextEvolutions: 0600000007000000i
+  - id: 6
+    displayName: Vampirism III
+    familyId: vampirism
+    strain: 1
+    level: 3
+    bonus:
+      strength: 3
+      dexterity: 4
+      vitality: 4
+      constitution: -1
+      perception: 4
+      intelligence: 3
+      health: 45
+      mana: 30
+      actionPoints: 12
+      meleeDamage: 14
+      rangeDamage: 8
+      magicDamage: 20
+      armor: 5
+      will: 15
+    grantedActions:
+    - {fileID: 11400000, guid: 0a00f9dcde603584da4d77f0aa43c24e, type: 2}
+    - {fileID: 11400000, guid: d4e9f1fb263e73840a32cd51a68e845b, type: 2}
+    grantedEffects:
+    - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+      activation:
+        trigger: 2
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: -1
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 1
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+      value:
+        constant: 15
+        terms: []
+        rounding: 1
+      conditions: []
+    actionSet: {fileID: 0}
+    effectCollection: {fileID: 0}
+    nextEvolutions: []
+  - id: 7
+    displayName: Blood Hunter
+    familyId: vampirism
+    strain: 1
+    level: 3
+    bonus:
+      strength: 2
+      dexterity: 5
+      vitality: 3
+      constitution: -2
+      perception: 5
+      intelligence: 2
+      health: 30
+      mana: 20
+      actionPoints: 10
+      meleeDamage: 17
+      rangeDamage: 8
+      magicDamage: 13
+      armor: 3
+      will: 15
+    grantedActions:
+    - {fileID: 11400000, guid: 0a00f9dcde603584da4d77f0aa43c24e, type: 2}
+    - {fileID: 11400000, guid: d4e9f1fb263e73840a32cd51a68e845b, type: 2}
+    grantedEffects:
+    - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+      activation:
+        trigger: 2
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: -1
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 1
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+      value:
+        constant: 0
+        terms:
+        - source: 1
+          literalValue: 0
+          stat: 0
+          resource: 0
+          multiplier: 0.2
+        rounding: 1
+      conditions: []
+    actionSet: {fileID: 0}
+    effectCollection: {fileID: 0}
+    nextEvolutions: []
   actionGrants:
   - mutationId: 1
     actionSet: {fileID: 11400000, guid: d1dec7a3a653b774bbd015822e698123, type: 2}

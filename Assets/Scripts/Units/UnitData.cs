@@ -50,15 +50,18 @@ public class UnitData
     public int equipmentIntelligence { get; set; }
 
     [Header("Character Information- Total Core Stats")]
-    public int totalStrength => leveledStrength + startingStrength + mutationStrength + equipmentStrength;
-    public int totalDexterity => leveledDexterity + startingDexterity + mutationDexterity + equipmentDexterity;
-    public int totalVitality => leveledVitality + startingVitality + mutationVitality + equipmentVitality;
-    public int totalConstitution => leveledConstitution + startingConstitution + mutationConstitution + equipmentConstitution;
-    public int totalPerception => leveledPerception + startingPerception + mutationPerception + equipmentPerception;
-    public int totalIntelligence => leveledIntelligence + startingIntelligence + mutationIntelligence + equipmentIntelligence;
+    public int totalStrength => CalculateModifiedStat(StatIdentifier.Strength, leveledStrength + startingStrength + mutationStrength + equipmentStrength);
+    public int totalDexterity => CalculateModifiedStat(StatIdentifier.Dexterity, leveledDexterity + startingDexterity + mutationDexterity + equipmentDexterity);
+    public int totalVitality => CalculateModifiedStat(StatIdentifier.Vitality, leveledVitality + startingVitality + mutationVitality + equipmentVitality);
+    public int totalConstitution => CalculateModifiedStat(StatIdentifier.Constitution, leveledConstitution + startingConstitution + mutationConstitution + equipmentConstitution);
+    public int totalPerception => CalculateModifiedStat(StatIdentifier.Perception, leveledPerception + startingPerception + mutationPerception + equipmentPerception);
+    public int totalIntelligence => CalculateModifiedStat(StatIdentifier.Intelligence, leveledIntelligence + startingIntelligence + mutationIntelligence + equipmentIntelligence);
 
     [Header("Character Information- Equipped Mutations/Gear Plus Tracker")]
+    // Legacy mutation scripts remain for pre-existing scenes until migration is verified.
     public Dictionary<BodySlots, BaseMutation> activeMutations = new Dictionary<BodySlots, BaseMutation>();
+    // Fixed nodes are stored by ID, not body slot. Multiple families may share a slot.
+    public List<ActiveMutationRecord> activeMutationNodes = new List<ActiveMutationRecord>();
     public Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>> mutationTracker
         = new Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>>();
     public List<EquipmentInstance> equippedItems = new List<EquipmentInstance>();
@@ -112,7 +115,7 @@ public class UnitData
 
             }
 
-            return (int)Math.Min(int.MaxValue, total);
+            return CalculateModifiedStat(StatIdentifier.MagicDefense, Math.Min(int.MaxValue, total));
 
         }
 
@@ -150,48 +153,160 @@ public class UnitData
     }
     public int will { get; private set; }
 
+    // Applied effects live on the unit, keyed by their exact runtime grant.
+    // Existing mutation and equipment bonuses remain the base values.
+    private sealed class RuntimeStatBonus
+    {
+        public EffectRuntimeInstance Source;
+        public StatIdentifier Stat;
+        public StatModifierMode Mode;
+        public double Value;
+
+    }
+
+    private readonly List<RuntimeStatBonus> runtimeStatBonuses = new List<RuntimeStatBonus>();
+
+    public bool TryApplyStatModifier(EffectRuntimeInstance source, StatIdentifier stat,
+        StatModifierMode mode, double value)
+    {
+        if (source == null || stat == StatIdentifier.None ||
+            !Enum.IsDefined(typeof(StatIdentifier), stat) ||
+            !Enum.IsDefined(typeof(StatModifierMode), mode) ||
+            double.IsNaN(value) || double.IsInfinity(value))
+        {
+            return false;
+
+        }
+
+        // A re-trigger updates this grant; it cannot silently stack itself.
+        for (int i = runtimeStatBonuses.Count - 1; i >= 0; i--)
+        {
+            if (ReferenceEquals(runtimeStatBonuses[i].Source, source))
+            {
+                runtimeStatBonuses.RemoveAt(i);
+
+            }
+
+        }
+
+        runtimeStatBonuses.Add(new RuntimeStatBonus
+        {
+            Source = source,
+            Stat = stat,
+            Mode = mode,
+            Value = value
+
+        });
+        RecalculateStats();
+
+        return true;
+
+    }
+
+    public bool RemoveStatModifier(EffectRuntimeInstance source)
+    {
+        bool removed = false;
+        for (int i = runtimeStatBonuses.Count - 1; i >= 0; i--)
+        {
+            if (ReferenceEquals(runtimeStatBonuses[i].Source, source))
+            {
+                runtimeStatBonuses.RemoveAt(i);
+                removed = true;
+
+            }
+
+        }
+
+        if (removed)
+        {
+            RecalculateStats();
+
+        }
+
+        return removed;
+
+    }
+
+    private int CalculateModifiedStat(StatIdentifier stat, double baseValue)
+    {
+        double flat = 0d;
+        double percent = 0d;
+        foreach (RuntimeStatBonus bonus in runtimeStatBonuses)
+        {
+            if (bonus.Stat != stat)
+            {
+                continue;
+
+            }
+
+            if (bonus.Mode == StatModifierMode.Flat)
+            {
+                flat += bonus.Value;
+
+            }
+            else
+            {
+                percent += bonus.Value;
+
+            }
+
+        }
+
+        // Flat bonuses first, additive percentages second; round once.
+        double result = (baseValue + flat) * (1d + percent / 100d);
+        if (double.IsNaN(result) || double.IsInfinity(result))
+        {
+            return 0;
+
+        }
+
+        return result >= int.MaxValue ? int.MaxValue :
+            result <= int.MinValue ? int.MinValue : (int)Math.Ceiling(result);
+
+    }
+
     //Local StatCalculations for the CurrentStatus
     public void CalcMaxHealth(DynamicStats race)
     {
-        maxHealth = Mathf.CeilToInt((float)race.baseHealth + ((float)totalVitality * ((float)race.vitalityHealthBonus * race.vitalityModifier)) 
-            + (float)mutationHealth + (float)equipmentHealth);
+        maxHealth = Mathf.Max(1, CalculateModifiedStat(StatIdentifier.MaxHealth, (float)race.baseHealth + ((float)totalVitality * ((float)race.vitalityHealthBonus * race.vitalityModifier))
+            + (float)mutationHealth + (float)equipmentHealth));
     }
     public void CalcMaxMana(DynamicStats race)
     {
-        maxMana = Mathf.CeilToInt((float)race.baseMana + ((float)totalIntelligence * ((float)race.intelligenceManaBonus * race.intelligenceModifier)) 
-            + (float) mutationMana + (float)equipmentMana);
+        maxMana = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.MaxMana, (float)race.baseMana + ((float)totalIntelligence * ((float)race.intelligenceManaBonus * race.intelligenceModifier))
+            + (float) mutationMana + (float)equipmentMana));
 
     }
     public void CalcMaxActionPoints(DynamicStats race)
     {
-        maxActionPoints = Mathf.CeilToInt((float)race.actionPoints + ((float)totalVitality * ((float)race.vitalityActionPointBonus * race.vitalityModifier)) 
-            + (float)mutationActionPoints + (float)equipmentActionPoints);
+        maxActionPoints = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.MaxActionPoints, (float)race.actionPoints + ((float)totalVitality * ((float)race.vitalityActionPointBonus * race.vitalityModifier))
+            + (float)mutationActionPoints + (float)equipmentActionPoints));
 
     }
     public void CalcMeleeDamage(DynamicStats race) 
     {
-        meleeDamage = Mathf.CeilToInt((float)race.meleeDamage + ((float)totalStrength * ((float)race.strengthMeleeDMGBonus * race.strengthModifier))
-        + ((float)totalDexterity * ((float)race.dexterityMeleeDMGBonus * race.dexterityModifier)) + (float)mutationMeleeDamage + (float)equipmentMeleeDamage);
+        meleeDamage = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.MeleeDamage, (float)race.meleeDamage + ((float)totalStrength * ((float)race.strengthMeleeDMGBonus * race.strengthModifier))
+        + ((float)totalDexterity * ((float)race.dexterityMeleeDMGBonus * race.dexterityModifier)) + (float)mutationMeleeDamage + (float)equipmentMeleeDamage));
     }
     public void CalcRangeDamage(DynamicStats race) 
     {
-        rangeDamage = Mathf.CeilToInt((float)race.rangeDamage + ((float)totalPerception * ((float)race.perceptionRangeDMGBonus * race.perceptionModifier))
-        + ((float)totalDexterity * ((float)race.dexterityRangeDMGBonus * race.perceptionModifier)) + (float)mutationRangeDamage + (float)equipmentRangeDamage);
+        rangeDamage = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.RangedDamage, (float)race.rangeDamage + ((float)totalPerception * ((float)race.perceptionRangeDMGBonus * race.perceptionModifier))
+        + ((float)totalDexterity * ((float)race.dexterityRangeDMGBonus * race.perceptionModifier)) + (float)mutationRangeDamage + (float)equipmentRangeDamage));
     }
     public void CalcMagicDamage(DynamicStats race) 
     {
-        magicDamage = Mathf.CeilToInt((float)race.magicDamage + ((float)totalIntelligence * ((float)race.intelligenceMagicDMGBonus * race.intelligenceModifier))
-     + (float)mutationMagicDamage + (float)equipmentMagicDamage);
+        magicDamage = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.MagicDamage, (float)race.magicDamage + ((float)totalIntelligence * ((float)race.intelligenceMagicDMGBonus * race.intelligenceModifier))
+     + (float)mutationMagicDamage + (float)equipmentMagicDamage));
     }
 
     public void CalcArmor(DynamicStats race) 
     {
-        armor = Mathf.CeilToInt((float)race.armorDef + ((float)totalConstitution * ((float)race.constitutionArmorBonus * race.constitutionModifier))
-            + (float)mutationArmor + (float)equipmentArmor);
+        armor = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.PhysicalDefense, (float)race.armorDef + ((float)totalConstitution * ((float)race.constitutionArmorBonus * race.constitutionModifier))
+            + (float)mutationArmor + (float)equipmentArmor));
     }
     public void CalcWill(DynamicStats race) 
     {
-        will = race.will + mutationWill + equipmentWill;
+        will = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.Will, (double)race.will + mutationWill + equipmentWill));
     }
 
     //Takes both negative/positive values for health
@@ -212,7 +327,7 @@ public class UnitData
 
     }
 
-    public void ApplyMutationBonuses(MutationBonus bonus, int multiplier) 
+    public void ApplyMutationBonuses(MutationBonus bonus, int multiplier, bool recalculate = true) 
     {
         if (bonus == null)
             return;
@@ -236,7 +351,11 @@ public class UnitData
         mutationWill += bonus.will * multiplier;
 
 
-        RecalculateStats();
+        if (recalculate)
+        {
+            RecalculateStats();
+
+        }
 
     }
     public void ApplyEquipmentBonuses(EquipmentInstance item, int multiplier)
@@ -368,18 +487,96 @@ public class UnitData
 
     }
 
+    public bool TryEvolveMutation(MutationID currentId, MutationID nextId)
+    {
+        MutationDataBase database = GameDataBaseLoader.Instance != null
+            ? GameDataBaseLoader.Instance.mutationData : null;
+        if (database == null)
+        {
+            return false;
+
+        }
+
+        MutationNodeDefinition previous = database.GetNode(currentId);
+        MutationNodeDefinition next = database.GetNode(nextId);
+        if (previous == null || next == null || !previous.CanEvolveTo(nextId) ||
+            !string.Equals(previous.FamilyId, next.FamilyId, StringComparison.OrdinalIgnoreCase) ||
+            next.Level <= previous.Level)
+        {
+            return false;
+
+        }
+
+        foreach (ActiveMutationRecord record in activeMutationNodes)
+        {
+            if (record == null || record.MutationId != currentId)
+            {
+                continue;
+
+            }
+
+            // The replacement contains the complete new level, not an incremental bonus.
+            ApplyMutationBonuses(previous.Bonus, -1, false);
+            record.EvolveTo(nextId);
+            ApplyMutationBonuses(next.Bonus, 1);
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    public bool TryAddFixedMutation(MutationID id, MutationDataBase database)
+    {
+        MutationNodeDefinition node = database != null ? database.GetNode(id) : null;
+        if (node == null || string.IsNullOrEmpty(node.FamilyId))
+        {
+            return false;
+
+        }
+
+        foreach (ActiveMutationRecord existing in activeMutationNodes)
+        {
+            MutationNodeDefinition existingNode = database.GetNode(existing.MutationId);
+            if (existingNode != null &&
+                string.Equals(existingNode.FamilyId, node.FamilyId, StringComparison.OrdinalIgnoreCase))
+            {
+                // A unit can only own one current node within each evolution family.
+                return false;
+
+            }
+
+        }
+
+        activeMutationNodes.Add(new ActiveMutationRecord(id));
+        ApplyMutationBonuses(node.Bonus, 1);
+
+        return true;
+
+    }
+
     //Mutations- Equipping Mutations, Initializing Trackers
     public bool EquipMutation(MutationID id) 
     {
-        if (!CanEquipMutation(id)) 
+        MutationDataBase database = GameDataBaseLoader.Instance != null
+            ? GameDataBaseLoader.Instance.mutationData : null;
+        if (database != null && database.GetNode(id) != null)
         {
-            return false;
+            return TryAddFixedMutation(id, database);
+
         }
 
-        BaseMutation mutation = GameDataBaseLoader.Instance.mutationData.CreateMutation(id);
+        if (!CanEquipMutation(id))
+        {
+            return false;
 
+        }
+
+        BaseMutation mutation = database.CreateMutation(id);
         activeMutations.Add(mutation.slot, mutation);
-       
+
         return true;
     }
 
@@ -391,7 +588,34 @@ public class UnitData
         }
 
 
-        BaseMutation currentMutation = GameDataBaseLoader.Instance.mutationData.CreateMutation(id);
+        MutationDataBase database = GameDataBaseLoader.Instance != null
+            ? GameDataBaseLoader.Instance.mutationData : null;
+        if (database == null)
+        {
+            return false;
+
+        }
+
+        MutationNodeDefinition fixedNode = database.GetNode(id);
+        if (fixedNode != null)
+        {
+            foreach (ActiveMutationRecord record in activeMutationNodes)
+            {
+                MutationNodeDefinition owned = database.GetNode(record.MutationId);
+                if (owned != null && string.Equals(owned.FamilyId, fixedNode.FamilyId,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    return false;
+
+                }
+
+            }
+
+            return true;
+
+        }
+
+        BaseMutation currentMutation = database.CreateMutation(id);
 
         if (currentMutation == null) 
         {

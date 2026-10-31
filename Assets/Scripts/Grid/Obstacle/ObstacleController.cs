@@ -49,7 +49,7 @@ public class ObstacleController : MonoBehaviour
                     perpendicular.y = 0f;
                     perpendicular.Normalize();
 
-                    float cellsizeCenter = gridManager.gridCellSize / 2f;
+                    float cellsizeCenter = gridManager.GridCellSize / 2f;
 
                     Vector3 positionA = transform.position + perpendicular * cellsizeCenter;
                     Vector3 positionB = transform.position - perpendicular * cellsizeCenter;

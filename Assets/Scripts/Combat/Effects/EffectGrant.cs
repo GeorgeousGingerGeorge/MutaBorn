@@ -69,6 +69,14 @@ namespace MutaBorn.Gameplay
 
     }
 
+    // A value of 20 in Percent mode means +20% to the final stat.
+    public enum StatModifierMode
+    {
+        Flat = 0,
+        Percent = 1
+
+    }
+
     // Parameters for the operation selected by EffectDefinition.
     // Only parameters relevant to that operation will be read by the processor.
     [Serializable]
@@ -76,6 +84,7 @@ namespace MutaBorn.Gameplay
     {
         [SerializeField] private ResourceIdentifier resource = ResourceIdentifier.None;
         [SerializeField] private StatIdentifier stat = StatIdentifier.None;
+        [SerializeField] private StatModifierMode statModifierMode = StatModifierMode.Flat;
         [SerializeField] private DamageType damageType = DamageType.Unspecified;
         [SerializeField] private DamageDeliveryType damageDelivery = DamageDeliveryType.Unspecified;
         [SerializeField] private StatIdentifier defenseStat = StatIdentifier.None;
@@ -85,6 +94,7 @@ namespace MutaBorn.Gameplay
 
         public ResourceIdentifier Resource => resource;
         public StatIdentifier Stat => stat;
+        public StatModifierMode ModifierMode => statModifierMode;
         public DamageType DamageKind => damageType;
         public DamageDeliveryType DamageDelivery => damageDelivery;
         public StatIdentifier DefenseStat => defenseStat;
