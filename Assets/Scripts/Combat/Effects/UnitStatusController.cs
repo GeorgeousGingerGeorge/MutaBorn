@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 namespace MutaBorn.Gameplay
@@ -40,6 +41,145 @@ namespace MutaBorn.Gameplay
         private TurnManager turns;
         private int lastStartRound = -1;
         private int lastEndRound = -1;
+        private int statusRevision;
+
+        public int ActiveStatusCount => active.Count;
+        public int StatusRevision => statusRevision;
+
+        public string GetStatusSummary(int maxVisible = 5)
+        {
+            if (active.Count == 0)
+            {
+                return string.Empty;
+
+            }
+
+            int limit = Mathf.Max(1, maxVisible);
+            StringBuilder summary = new StringBuilder();
+            summary.Append(active.Count).Append(" STATUS");
+            if (active.Count != 1)
+            {
+                summary.Append('S');
+
+            }
+
+            summary.Append("  |  ");
+            int shown = 0;
+
+            // Invisible stays visible in the compact readout even when the
+            // unit also has many other temporary buffs/debuffs.
+            foreach (ActiveStatus status in active)
+            {
+                if ((status.Definition.Controls & StatusControlFlags.Invisible) != 0)
+                {
+                    AppendStatusLabel(summary, status);
+                    shown++;
+
+                    break;
+
+                }
+
+            }
+
+            foreach (ActiveStatus status in active)
+            {
+                if (shown >= limit)
+                {
+                    break;
+
+                }
+
+                if ((status.Definition.Controls & StatusControlFlags.Invisible) != 0)
+                {
+                    continue;
+
+                }
+
+                if (shown > 0)
+                {
+                    summary.Append("  ·  ");
+
+                }
+
+                AppendStatusLabel(summary, status);
+                shown++;
+
+            }
+
+            if (active.Count > shown)
+            {
+                summary.Append("  +").Append(active.Count - shown).Append(" more");
+
+            }
+
+            return summary.ToString();
+
+        }
+
+        // Full overhead readout. Unlike the compact summary, every effect gets its own line.
+        public string GetStatusLines()
+        {
+            if (active.Count == 0)
+            {
+                return string.Empty;
+
+            }
+
+            StringBuilder lines = new StringBuilder();
+
+            // Show invisibility first so it remains easy to spot even on a busy unit.
+            foreach (ActiveStatus status in active)
+            {
+                if ((status.Definition.Controls & StatusControlFlags.Invisible) == 0)
+                {
+                    continue;
+
+                }
+
+                AppendStatusLine(lines, status);
+
+            }
+
+            foreach (ActiveStatus status in active)
+            {
+                if ((status.Definition.Controls & StatusControlFlags.Invisible) != 0)
+                {
+                    continue;
+
+                }
+
+                AppendStatusLine(lines, status);
+
+            }
+
+            return lines.ToString();
+
+        }
+
+        private static void AppendStatusLine(StringBuilder lines, ActiveStatus status)
+        {
+            if (lines.Length > 0)
+            {
+                lines.Append('\n');
+
+            }
+
+            lines.Append(status.Definition.DisplayName).Append(" x").Append(status.Stacks);
+
+        }
+
+
+        private static void AppendStatusLabel(StringBuilder summary, ActiveStatus status)
+        {
+            summary.Append(status.Definition.DisplayName);
+            if (status.Stacks > 1)
+            {
+                summary.Append(" x").Append(status.Stacks);
+
+            }
+
+        }
+
 
         private void Awake()
         {
@@ -97,8 +237,10 @@ namespace MutaBorn.Gameplay
                 existing.RemainingTurns = definition.DurationOwnerTurns;
                 // Refreshing an existing effect must not restart its first-turn grace.
                 RefreshStatModifier(existing);
+                statusRevision++;
                 Log($"Status '{definition.DisplayName}' refreshed on {owner.data.characterName}: " +
                     $"{existing.Stacks} stack(s), {existing.RemainingTurns} owner turns remaining.");
+                CombatFloatingFeedback.ReportStatusApplied(owner, definition.IsDebuff);
 
                 return true;
 
@@ -115,10 +257,114 @@ namespace MutaBorn.Gameplay
 
             active.Add(status);
             RefreshStatModifier(status);
+            statusRevision++;
             Log($"Status '{definition.DisplayName}' applied to {owner.data.characterName}: " +
                 $"{status.Stacks} stack(s), {status.RemainingTurns} owner turns remaining.");
+            CombatFloatingFeedback.ReportStatusApplied(owner, definition.IsDebuff);
 
             return true;
+
+        }
+
+        public bool HasStatus(string statusId)
+        {
+            if (string.IsNullOrWhiteSpace(statusId))
+            {
+                return false;
+
+            }
+
+            foreach (ActiveStatus status in active)
+            {
+                if (string.Equals(status.Definition.Id, statusId,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+
+                }
+
+            }
+
+            return false;
+
+        }
+
+        public bool HasControl(StatusControlFlags restriction)
+        {
+            foreach (ActiveStatus status in active)
+            {
+                if ((status.Definition.Controls & restriction) != 0)
+                {
+                    return true;
+
+                }
+
+            }
+
+            return false;
+
+        }
+
+        public bool CanMoveVoluntarily => !HasControl(StatusControlFlags.Stun | StatusControlFlags.Root);
+
+        public bool CanUseAction(ActionDefinition action)
+        {
+            if (action == null || HasControl(StatusControlFlags.Stun))
+            {
+                return false;
+
+            }
+
+            if (HasControl(StatusControlFlags.Silence) &&
+                ((action.ControlTags & ActionControlTags.MagicOrMutation) != 0 ||
+                 action.DamageStat == CombatDamageStat.Magic))
+            {
+                return false;
+
+            }
+
+            if (HasControl(StatusControlFlags.Disarm) &&
+                (action.ControlTags & ActionControlTags.RequiresWeapon) != 0)
+            {
+                return false;
+
+            }
+
+            return true;
+
+        }
+
+        public float DodgeChancePercent
+        {
+            get
+            {
+                float chance = 0f;
+                foreach (ActiveStatus status in active)
+                {
+                    chance += status.Definition.DodgeChancePercentPerStack * status.Stacks;
+
+                }
+
+                return Mathf.Clamp(chance, 0f, 95f);
+
+            }
+
+        }
+
+        public float IncomingOrdinaryDamageMultiplier
+        {
+            get
+            {
+                float modifierPercent = 0f;
+                foreach (ActiveStatus status in active)
+                {
+                    modifierPercent += status.Definition.IncomingDamagePercentPerStack * status.Stacks;
+
+                }
+
+                return Mathf.Clamp(1f + modifierPercent / 100f, 0f, 10f);
+
+            }
 
         }
 
@@ -308,6 +554,7 @@ namespace MutaBorn.Gameplay
             }
 
             active.RemoveAt(index);
+            statusRevision++;
             Log($"Status '{status.Definition.DisplayName}' {reason} on " +
                 $"{(owner != null && owner.data != null ? owner.data.characterName : gameObject.name)}.");
 

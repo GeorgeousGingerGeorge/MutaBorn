@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41144560ec1e9ec4aa5b5733ccebc53e, type: 3}
+  m_Name: TEST Apply Evasive On Source Active
+  m_EditorClassIdentifier: Assembly-CSharp::MutaBorn.Gameplay.EffectCollection
+  effects:
+  - definition: {fileID: 11400000, guid: ed956567807d49be963646e49d60075c, type: 2}
+    procChancePercent: 100
+    procChanceSchemaVersion: 1
+    activation:
+      trigger: 9
+      phase: 1
+      frequency: 0
+      eventActor: 0
+      requireGrantingSourceMatch: 0
+      requireAction: 0
+    targeting:
+      reference: 0
+      selection: 0
+      factionMask: 7
+      includeOwner: 1
+      radiusInTiles: 0
+      sameFloorOnly: 1
+    lifetime:
+      lifetime: 0
+      durationTurns: 1
+      maximumUses: 1
+    operationParameters:
+      resource: -1
+      stat: 0
+      statModifierMode: 0
+      damageType: 0
+      damageDelivery: 0
+      defenseStat: 0
+      statusId:
+      statusDefinition: {fileID: 11400000, guid: 8e07eec9280244b2905ffc1fbd6fc99a, type: 2}
+    value:
+      constant: 1
+      terms: []
+      rounding: 1
+    conditions: []

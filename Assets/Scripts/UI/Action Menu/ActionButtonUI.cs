@@ -139,7 +139,9 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             apCostText.text = consumable == null
                 ? ""
-                : $"{boundConsumableUses}/{consumable.MaxUses} Uses";
+                : consumable.UsesActionPointsOnly
+                    ? $"{useAction.ApCost:0.#} AP"
+                    : $"{boundConsumableUses}/{consumable.MaxUses} Uses";
 
         }
 
@@ -236,7 +238,9 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             button.interactable = boundConsumableAction != null &&
                 boundConsumableAction.Category == ActionMenuCategory.Items &&
-                !boundConsumableAction.IsPassive && boundConsumableUses > 0;
+                !boundConsumableAction.IsPassive &&
+                (boundConsumable.UsesActionPointsOnly || boundConsumableUses > 0) &&
+                availableAP >= boundConsumableAction.ApCost;
 
             return;
 

@@ -14,16 +14,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
   actionId: vampirism
   displayName: Vampirism
-  description: Restores health based on damage dealt.
+  description: 'PASSIVE: recover health equal to a portion of the actual damage you deal. Higher evolutions improve the rate.'
   icon: {fileID: 0}
   activationType: 1
   category: 2
   submenuGroup: Mutations
-  displayOrder: 10
+  displayOrder: 20
   apCost: 0
+  controlTags: 0
   combatBehavior: 0
   damageStat: 0
   combatRange: 0.1
   damageMultiplier: 0
   flatDamageBonus: 0
   minimumDamage: 0
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 1
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
+  damageType: 0
+  additionalDamage: []
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 0}
+  guardDamageReductionPercent: 50

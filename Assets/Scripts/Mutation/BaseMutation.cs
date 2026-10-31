@@ -21,7 +21,11 @@ public enum MutationID
     // Fixed evolution nodes keep stable IDs across save files.
     VampirismII = 5,
     VampirismIII = 6,
-    BloodHunter = 7
+    BloodHunter = 7,
+    BioLauncher = 8,
+    CloakSkin = 9,
+    DodgeJet = 10,
+    HealingHands = 11
 }
 [System.Serializable]
 public class MutationBonus 

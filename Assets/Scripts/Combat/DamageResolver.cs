@@ -18,12 +18,17 @@ namespace MutaBorn.Gameplay
         public DamageType DamageType { get; }
         public DamageDeliveryType DeliveryType { get; }
         public IReadOnlyList<DamageComponent> AdditionalComponents { get; }
+        public int FlatArmorPenetration { get; }
+        public int FlatWardPenetration { get; }
+        public bool IsCritical { get; }
 
         public DamageRequest(UnitController attacker, UnitController target, int baseDamage,
             float multiplier = 1f, int flatDamageBonus = 0, int minimumDamage = 0,
             ActionDefinition action = null, DamageType damageType = DamageType.Unspecified,
             DamageDeliveryType deliveryType = DamageDeliveryType.Unspecified,
-            IReadOnlyList<DamageComponent> additionalComponents = null)
+            IReadOnlyList<DamageComponent> additionalComponents = null,
+            int flatArmorPenetration = 0, int flatWardPenetration = 0,
+            bool isCritical = false)
         {
             Attacker = attacker;
             Target = target;
@@ -35,6 +40,9 @@ namespace MutaBorn.Gameplay
             DamageType = damageType;
             DeliveryType = deliveryType;
             AdditionalComponents = additionalComponents;
+            FlatArmorPenetration = Mathf.Max(0, flatArmorPenetration);
+            FlatWardPenetration = Mathf.Max(0, flatWardPenetration);
+            IsCritical = isCritical;
 
         }
 
@@ -69,12 +77,15 @@ namespace MutaBorn.Gameplay
         public IReadOnlyList<DamageTypeAmount> DamageByType { get; }
         public int HealthBefore { get; }
         public int HealthAfter { get; }
+        public bool IsCritical => Request.IsCritical;
+        public bool Evaded { get; }
         public bool ReducedHealthToZero => HealthBefore > 0 && HealthAfter <= 0;
 
         public DamageResult(DamageRequest request, int damageBeforeArmor,
             int damageAfterArmor, int damageAfterResistances, int damageAfterGuard,
             int healthBefore, int healthAfter,
-            IReadOnlyList<DamageTypeAmount> damageByType = null)
+            IReadOnlyList<DamageTypeAmount> damageByType = null,
+            bool evaded = false)
         {
             Request = request;
             DamageBeforeArmor = damageBeforeArmor;
@@ -84,6 +95,7 @@ namespace MutaBorn.Gameplay
             HealthBefore = healthBefore;
             HealthAfter = healthAfter;
             ActualDamage = Mathf.Max(0, healthBefore - healthAfter);
+            Evaded = evaded;
             DamageByType = damageByType ?? Array.Empty<DamageTypeAmount>();
 
         }
@@ -95,7 +107,8 @@ namespace MutaBorn.Gameplay
     public static class DamageResolver
     {
         public static bool TryResolveAction(UnitController attacker, UnitController target,
-            ActionDefinition action, out DamageResult result, int sourceEquipmentIndex = -1)
+            ActionDefinition action, out DamageResult result, int sourceEquipmentIndex = -1,
+            bool ignoreDodge = false)
         {
             result = default(DamageResult);
 
@@ -169,9 +182,29 @@ namespace MutaBorn.Gameplay
 
             }
 
+            // One critical roll per action, not one per damage type.
+            bool critical = action.CriticalChancePercent >= 100f ||
+                (action.CriticalChancePercent > 0f &&
+                 UnityEngine.Random.value * 100f < action.CriticalChancePercent);
+            float multiplier = action.DamageMultiplier *
+                (critical ? action.CriticalDamageMultiplier : 1f);
+
             DamageRequest request = new DamageRequest(attacker, target, baseDamage,
-                action.DamageMultiplier, action.FlatDamageBonus, action.MinimumDamage,
-                action, type, DamageDeliveryType.Unspecified, components);
+                multiplier, action.FlatDamageBonus, action.MinimumDamage,
+                action, type, DamageDeliveryType.Unspecified, components,
+                action.FlatArmorPenetration, action.FlatWardPenetration, critical);
+
+            UnitStatusController defendingStatuses = target.GetComponent<UnitStatusController>();
+            float dodgeChance = defendingStatuses != null ? defendingStatuses.DodgeChancePercent : 0f;
+            if (!ignoreDodge && dodgeChance > 0f && UnityEngine.Random.value * 100f < dodgeChance)
+            {
+                int health = target.data.currentHealth;
+                result = new DamageResult(request, 0, 0, 0, 0, health, health,
+                    null, true);
+
+                return true;
+
+            }
 
             return TryResolve(request, out result);
 
@@ -236,9 +269,13 @@ namespace MutaBorn.Gameplay
             }
 
             // Each flat defense applies once; True damage bypasses both.
-            long physicalAfterArmor = Math.Max(0L, physicalDamage - Math.Max(0, target.data.armor));
-            long magicalAfterWard = Math.Max(0L, magicalDamage - Math.Max(0, target.data.ward));
+            long effectiveArmor = Math.Max(0L, (long)target.data.armor - request.FlatArmorPenetration);
+            long effectiveWard = Math.Max(0L, (long)target.data.ward - request.FlatWardPenetration);
+            long physicalAfterArmor = Math.Max(0L, physicalDamage - effectiveArmor);
+            long magicalAfterWard = Math.Max(0L, magicalDamage - effectiveWard);
             long afterArmor = physicalAfterArmor + magicalAfterWard + trueDamage;
+            UnitStatusController targetStatuses = target.GetComponent<UnitStatusController>();
+            double incomingMultiplier = targetStatuses != null ? targetStatuses.IncomingOrdinaryDamageMultiplier : 1d;
             double afterResistances = trueDamage;
             Dictionary<DamageType, double> ordinaryWeights = new Dictionary<DamageType, double>();
 
@@ -266,7 +303,7 @@ namespace MutaBorn.Gameplay
                 double shareAfterDefense = (double)component.Value * categoryRemaining / categoryTotal;
                 double resistance = target.data.GetDamageResistancePercent(component.Key);
                 double multiplier = Math.Max(0d, 1d - resistance / 100d);
-                double typeDamage = shareAfterDefense * multiplier;
+                double typeDamage = shareAfterDefense * multiplier * incomingMultiplier;
                 afterResistances += typeDamage;
                 if (typeDamage > 0d)
                 {

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a55a7212599a0419e986f77eb48d6c, type: 3}
+  m_Name: Umbral Codex
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
+  _itemName: "Umbral Codex"
+  _itemID: "weapon-magic-umbral-codex"
+  _description: "Dark curses and Holy restoration share these forbidden pages."
+  _sprite: {fileID: 0}
+  armor: 0
+  weapon: 3
+  accessory: 0
+  targetSlot: 1
+  currentRarity: 2
+  type: 1
+  statModifier: 32
+  possibleBonuses:
+  - kind: 0
+    weight: 70
+    stat: 4
+    damageType: 4
+    amountRange: {x: 1, y: 3}
+    effect: {}
+  - kind: 0
+    weight: 30
+    stat: 1
+    damageType: 4
+    amountRange: {x: 1, y: 2}
+    effect: {}
+  grantedActionSet: {fileID: 11400000, guid: 0c10095b3c78493699f7f0b52d00a2c9, type: 2}
+  _armorRating: 0
+  _movementPenalty: 0
+  _meleeDamage: 0
+  _rangeDamage: 0
+  _magicDamage: 8
+  _accuracyBonus: 1
+  _meleeDamageRange: {x: 0, y: 0}
+  _distanceDamageRange: {x: 0, y: 0}
+  _magicDamageRange: {x: 0, y: 0}
+  _armorRatingRange: {x: 0, y: 0}
+  _movementPenaltyRange: {x: 0, y: 0}
+  _accuracyRange: {x: 0, y: 0}
+  generateStarRewards: 1
+  possibleAbilities:
+  - action: {fileID: 11400000, guid: bb5e5d7133814c428c17c1c4ea8e65f1, type: 2}
+    weight: 40
+  - action: {fileID: 11400000, guid: ef2441f2344779f428833a8e65f75783, type: 2}
+    weight: 60
+  primaryDamageType: 4

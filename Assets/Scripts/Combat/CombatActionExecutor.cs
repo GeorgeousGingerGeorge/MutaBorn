@@ -56,6 +56,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     private static int effectDamagePublishDepth;
     public static bool CanPublishEffectDamage => effectDamagePublishDepth < 4;
+    public static bool IsPublishingEffectDamage => effectDamagePublishDepth > 0;
 
     // Avoid stale subscriptions when Unity's Enter Play Mode uses disabled domain reload.
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -72,6 +73,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
     private ActionDefinition pendingAction;
     private TargetingModeController targetingController;
     private FactionManager factionManager;
+    private int pendingConsumableIndex = -1;
+    private bool lastAreaKilledTarget;
 
     private void Awake()
     {
@@ -98,9 +101,21 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         // Executable combat actions are selected by behavior, not by Action ID.
         if (action.CombatBehavior != CombatActionBehavior.DamageUnit &&
-            action.CombatBehavior != CombatActionBehavior.ApplyGuard)
+            action.CombatBehavior != CombatActionBehavior.ApplyGuard &&
+            action.CombatBehavior != CombatActionBehavior.DamageArea &&
+            action.CombatBehavior != CombatActionBehavior.HealArea &&
+            action.CombatBehavior != CombatActionBehavior.ApplySelfStatus)
         {
             Debug.LogWarning($"'{action.DisplayName}' does not have an executable combat behavior yet.", this);
+
+            return false;
+
+        }
+
+        UnitStatusController actionStatuses = source.GetComponent<UnitStatusController>();
+        if (actionStatuses != null && !actionStatuses.CanUseAction(action))
+        {
+            Debug.Log($"{source.data.characterName} cannot use {action.DisplayName} while affected by a disabling status.", source);
 
             return false;
 
@@ -165,7 +180,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
             }
 
-            if (!statuses.ApplyGuard(source, action.GuardDamageReductionPercent))
+            if (!statuses.ApplyGuard(source, action.GuardDamageReductionPercent, action.GuardFlatDamageReduction))
             {
                 return false;
 
@@ -177,6 +192,39 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
             Debug.Log($"{source.data.characterName} used {action.DisplayName}. " +
                       $"AP: {source.data.currentActionPoints}/{source.data.maxActionPoints}", this);
+
+            return true;
+
+        }
+
+        // Self status actions are immediate and share the same AP and loadout rules.
+        if (action.CombatBehavior == CombatActionBehavior.ApplySelfStatus)
+        {
+            if (IsTargeting || action.SelfStatus == null)
+            {
+                Debug.LogWarning("Finish targeting first, or assign a Self Status to this action.", source);
+
+                return false;
+
+            }
+
+            UnitStatusController statuses = source.GetComponent<UnitStatusController>();
+            if (statuses == null)
+            {
+                statuses = source.gameObject.AddComponent<UnitStatusController>();
+
+            }
+
+            if (!statuses.TryApply(action.SelfStatus, source))
+            {
+                return false;
+
+            }
+
+            source.data.ModifyActionPoints(-Mathf.CeilToInt(action.ApCost));
+            loadout.RecordSuccessfulUse(action);
+            Debug.Log($"[Status Action] {source.data.characterName} used {action.DisplayName}. " +
+                $"AP {source.data.currentActionPoints}/{source.data.maxActionPoints}.", source);
 
             return true;
 
@@ -202,11 +250,40 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+        bool isArea = action.CombatBehavior == CombatActionBehavior.DamageArea ||
+            action.CombatBehavior == CombatActionBehavior.HealArea;
+        GridManager grid = isArea ? FindAnyObjectByType<GridManager>() : null;
+        if (isArea && (source.currentNode == null || grid == null))
+        {
+            Debug.LogWarning("Area targeting requires a grid and a unit on a grid tile.", source);
+
+            return false;
+
+        }
+
+        float cellSize = grid != null ? grid.GridCellSize : 1f;
+        Func<RaycastHit, bool> targetFilter;
+        if (isArea)
+        {
+            targetFilter = hit => hit.collider != null &&
+                hit.collider.GetComponentInParent<TileController>() != null;
+
+        }
+        else
+        {
+            targetFilter = hit => hit.collider != null &&
+                hit.collider.GetComponentInParent<UnitController>() != null;
+
+        }
+
         if (!targetingController.TryBeginTargeting(
-                this, source, action.DisplayName, action.CombatRange,
-                OnTargetPicked,
-                hit => hit.collider != null && hit.collider.GetComponentInParent<UnitController>() != null,
-                OnTargetingCancelled, () => CanCommand(source)))
+                this, source, action.DisplayName,
+                isArea ? action.AreaThrowRangeInTiles * cellSize : action.CombatRange,
+                OnTargetPicked, targetFilter,
+                OnTargetingCancelled, () => CanCommand(source),
+                true, isArea, isArea ? action.AreaRadiusInTiles * cellSize : 0f,
+                isArea && action.AreaSameFloorOnly ? source.currentNode.floorID : -1,
+                isArea ? OnAreaPointPicked : null))
         {
             return false;
 
@@ -214,17 +291,135 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         attacker = source;
         pendingAction = action;
+        pendingConsumableIndex = -1;
         return true;
+
+    }
+
+    // Consumables are carried in two mission slots, not granted by ActionSets.
+    // Targeting is shared with ordinary actions; the item use is spent only on a successful resolution.
+    public bool TryBeginConsumable(UnitController source, int index)
+    {
+        if (!CanCommand(source) || source.data.carriedConsumables == null ||
+            index < 0 || index >= source.data.carriedConsumables.Count)
+        {
+            return false;
+
+        }
+
+        ConsumableInstance item = source.data.carriedConsumables[index];
+        ConsumableData definition = item.definition;
+        ActionDefinition action = definition != null ? definition.UseAction : null;
+        if (definition == null || action == null || action.IsPassive ||
+            action.Category != ActionMenuCategory.Items ||
+            (action.CombatBehavior != CombatActionBehavior.DamageUnit &&
+             action.CombatBehavior != CombatActionBehavior.DamageArea) ||
+            (!definition.UsesActionPointsOnly && item.remainingUses <= 0) ||
+            source.data.currentActionPoints < Mathf.CeilToInt(action.ApCost))
+        {
+            return false;
+
+        }
+
+        UnitStatusController statuses = source.GetComponent<UnitStatusController>();
+        if (statuses != null && !statuses.CanUseAction(action))
+        {
+            return false;
+
+        }
+
+        if (targetingController == null)
+        {
+            targetingController = TargetingModeController.Instance;
+
+        }
+
+        if (targetingController == null)
+        {
+            targetingController = FindAnyObjectByType<TargetingModeController>();
+
+        }
+
+        if (targetingController == null)
+        {
+            return false;
+
+        }
+
+        bool isArea = action.CombatBehavior == CombatActionBehavior.DamageArea;
+        GridManager grid = isArea ? FindAnyObjectByType<GridManager>() : null;
+        if (isArea && (source.currentNode == null || grid == null))
+        {
+            return false;
+
+        }
+
+        float cellSize = grid != null ? grid.GridCellSize : 1f;
+        Func<RaycastHit, bool> filter = isArea
+            ? hit => hit.collider != null && hit.collider.GetComponentInParent<TileController>() != null
+            : hit => hit.collider != null && hit.collider.GetComponentInParent<UnitController>() != null;
+
+        if (!targetingController.TryBeginTargeting(
+                this, source, action.DisplayName,
+                isArea ? action.AreaThrowRangeInTiles * cellSize : action.CombatRange,
+                OnTargetPicked, filter, OnTargetingCancelled, () => CanCommand(source),
+                true, isArea, isArea ? action.AreaRadiusInTiles * cellSize : 0f,
+                isArea && action.AreaSameFloorOnly ? source.currentNode.floorID : -1,
+                isArea ? OnAreaPointPicked : null))
+        {
+            return false;
+
+        }
+
+        attacker = source;
+        pendingAction = action;
+        pendingConsumableIndex = index;
+        return true;
+
+    }
+
+    private void CompleteConsumableUse(UnitController source, int index, bool killedTarget)
+    {
+        if (source == null || source.data == null || index < 0 ||
+            index >= source.data.carriedConsumables.Count)
+        {
+            return;
+
+        }
+
+        ConsumableInstance item = source.data.carriedConsumables[index];
+        if (item.definition == null)
+        {
+            return;
+
+        }
+
+        if (!item.definition.UsesActionPointsOnly)
+        {
+            source.data.TrySpendConsumableUse(index);
+            if (killedTarget && item.definition.RefillOnKill)
+            {
+                source.data.TryRefillConsumableUses(index);
+
+            }
+
+        }
+
+        int remaining = source.data.carriedConsumables[index].remainingUses;
+        Debug.Log($"[Consumable] {source.data.characterName} used {item.definition.itemName}: " +
+            $"{remaining}/{item.definition.MaxUses} uses remaining.", source);
 
     }
 
     private void OnTargetPicked(RaycastHit hit)
     {
-        if (hit.collider != null)
+        if (hit.collider == null)
         {
-            TryExecuteAgainst(hit.collider.GetComponentInParent<UnitController>());
+            return;
 
         }
+
+        TryExecuteAgainst(hit.collider.GetComponentInParent<UnitController>());
 
     }
 
@@ -249,6 +444,15 @@ public sealed class CombatActionExecutor : MonoBehaviour
             !target.isActiveAndEnabled || target.data.currentHealth <= 0)
         {
             Debug.Log("Invalid attack target.", this);
+            return;
+
+        }
+
+        UnitStatusController targetStatuses = target.GetComponent<UnitStatusController>();
+        if (targetStatuses != null && targetStatuses.HasControl(StatusControlFlags.Invisible))
+        {
+            Debug.Log($"Cannot directly target {target.data.characterName}: Invisible.", target);
+
             return;
 
         }
@@ -281,7 +485,350 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        ApplyDamage(attacker, target, pendingAction, true);
+        UnitController source = attacker;
+        int index = pendingConsumableIndex;
+        if (ApplyDamage(source, target, pendingAction, true) && index >= 0)
+        {
+            CompleteConsumableUse(source, index, target.data.currentHealth <= 0);
+
+        }
+
+    }
+
+    private void OnAreaPointPicked(Vector3 point, int floorId)
+    {
+        TryExecuteArea(point, floorId);
+
+    }
+
+    private void TryExecuteArea(Vector3 impactPoint, int impactFloor)
+    {
+        if (attacker == null || pendingAction == null || !CanCommand(attacker))
+        {
+            return;
+
+        }
+
+        UnitController source = attacker;
+        ActionDefinition action = pendingAction;
+        int index = pendingConsumableIndex;
+        if (ResolveAreaAction(source, action, impactPoint, impactFloor))
+        {
+            // The callback is only reached on successful targeting; area kill-refills
+            // are tracked by the resolver rather than guessing from the scene afterwards.
+            if (index >= 0)
+            {
+                CompleteConsumableUse(source, index, lastAreaKilledTarget);
+
+            }
+
+            CancelTargeting();
+
+        }
+
+    }
+
+    // Non-player area attacks and team healing use the same rules as player targeting.
+    public bool TryExecuteAiArea(UnitController source, UnitController aimAt, ActionDefinition action)
+    {
+        TurnManager turns = TurnManager.Instance;
+        if (turns == null || turns.IsPlayerTurn || source == null || aimAt == null ||
+            action == null || action.IsPassive || source.data == null || aimAt.data == null ||
+            source.data.currentHealth <= 0 || aimAt.data.currentHealth <= 0 ||
+            !source.isActiveAndEnabled || !aimAt.isActiveAndEnabled ||
+            source.currentNode == null || aimAt.currentNode == null ||
+            (action.CombatBehavior != CombatActionBehavior.DamageArea &&
+            action.CombatBehavior != CombatActionBehavior.HealArea))
+        {
+            return false;
+
+        }
+
+        UnitFaction sourceFaction = source.GetComponent<UnitFaction>();
+        UnitFaction aimFaction = aimAt.GetComponent<UnitFaction>();
+        if (sourceFaction == null || aimFaction == null || sourceFaction.Faction == null ||
+            aimFaction.Faction == null || !turns.IsFactionTurn(sourceFaction.Faction))
+        {
+            return false;
+
+        }
+
+        if (action.CombatBehavior == CombatActionBehavior.DamageArea &&
+            (factionManager == null ||
+            !factionManager.AreHostile(sourceFaction.Faction, aimFaction.Faction)))
+        {
+            return false;
+
+        }
+
+        if (action.CombatBehavior == CombatActionBehavior.HealArea &&
+            sourceFaction.Faction != aimFaction.Faction &&
+            (factionManager == null ||
+            !factionManager.AreAllied(sourceFaction.Faction, aimFaction.Faction)))
+        {
+            return false;
+
+        }
+
+        return ResolveAreaAction(source, action, aimAt.transform.position,
+            aimAt.currentNode.floorID);
+
+    }
+
+    public bool TryExecuteAiSelfStatus(UnitController source, ActionDefinition action)
+    {
+        TurnManager turns = TurnManager.Instance;
+        if (turns == null || turns.IsPlayerTurn || source == null || source.data == null ||
+            action == null || action.IsPassive ||
+            action.CombatBehavior != CombatActionBehavior.ApplySelfStatus ||
+            action.SelfStatus == null || source.data.currentHealth <= 0)
+        {
+            return false;
+
+        }
+
+        UnitFaction member = source.GetComponent<UnitFaction>();
+        if (member == null || member.Faction == null || !turns.IsFactionTurn(member.Faction) ||
+            !HasGrantedAction(source, action) ||
+            source.data.currentActionPoints < Mathf.CeilToInt(action.ApCost))
+        {
+            return false;
+
+        }
+
+        UnitStatusController statuses = source.GetComponent<UnitStatusController>();
+        if (statuses != null && (!statuses.CanUseAction(action) ||
+            statuses.HasStatus(action.SelfStatus.Id)))
+        {
+            return false;
+
+        }
+
+        if (statuses == null)
+        {
+            statuses = source.gameObject.AddComponent<UnitStatusController>();
+
+        }
+
+        if (!statuses.TryApply(action.SelfStatus, source))
+        {
+            return false;
+
+        }
+
+        source.data.ModifyActionPoints(-Mathf.CeilToInt(action.ApCost));
+        source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
+        Debug.Log($"[AI Mutation] {source.data.characterName} used {action.DisplayName}.", source);
+
+        return true;
+
+    }
+
+    private bool HasGrantedAction(UnitController source, ActionDefinition action)
+    {
+        UnitActionLoadout loadout = source.GetComponent<UnitActionLoadout>();
+        if (loadout == null)
+        {
+            return false;
+
+        }
+
+        if (loadout.Version == 0)
+        {
+            loadout.InitializeForCombat();
+
+        }
+
+        foreach (ActionDefinition granted in loadout.Actions)
+        {
+            if (granted == action)
+            {
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    private bool ResolveAreaAction(UnitController source, ActionDefinition action,
+        Vector3 impactPoint, int impactFloor)
+    {
+        if (source == null || source.data == null || source.currentNode == null ||
+            action == null || !HasGrantedAction(source, action) ||
+            (action.CombatBehavior != CombatActionBehavior.DamageArea &&
+            action.CombatBehavior != CombatActionBehavior.HealArea))
+        {
+            return false;
+
+        }
+
+        UnitStatusController statuses = source.GetComponent<UnitStatusController>();
+        if (statuses != null && !statuses.CanUseAction(action))
+        {
+            return false;
+
+        }
+
+        if (action.AreaSameFloorOnly && impactFloor != source.currentNode.floorID)
+        {
+            Debug.Log("Area target must be on the caster's floor.", this);
+
+            return false;
+
+        }
+
+        GridManager grid = FindAnyObjectByType<GridManager>();
+        if (grid == null)
+        {
+            Debug.LogWarning("Area actions require an active GridManager.", this);
+
+            return false;
+
+        }
+
+        float cellSize = grid.GridCellSize;
+        Vector3 throwOffset = impactPoint - source.transform.position;
+        throwOffset.y = 0f;
+        float throwDistance = action.AreaThrowRangeInTiles * cellSize;
+        if (throwOffset.sqrMagnitude > throwDistance * throwDistance + 0.0001f)
+        {
+            Debug.Log($"Area target is out of range ({action.AreaThrowRangeInTiles} tiles).", source);
+
+            return false;
+
+        }
+
+        int cost = Mathf.CeilToInt(action.ApCost);
+        if (source.data.currentActionPoints < cost)
+        {
+            return false;
+
+        }
+
+        int sourceIndex = FindUniqueEquipmentSourceIndex(source, action);
+        source.data.ModifyActionPoints(-cost);
+        source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
+
+        bool healing = action.CombatBehavior == CombatActionBehavior.HealArea;
+        if (!healing)
+        {
+            statuses?.Remove("invisible");
+
+        }
+
+        lastAreaKilledTarget = false;
+        int totalHealed = 0;
+        int totalDamage = 0;
+        int affected = 0;
+        int eligible = 0;
+        float radiusWorld = action.AreaRadiusInTiles * cellSize;
+        float radiusSquared = radiusWorld * radiusWorld;
+        UnitFaction sourceFaction = source.GetComponent<UnitFaction>();
+        UnitController[] units = FindObjectsByType<UnitController>();
+        foreach (UnitController target in units)
+        {
+            if (target == null || !target.isActiveAndEnabled || target.data == null ||
+                target.data.currentHealth <= 0 || target.currentNode == null)
+            {
+                continue;
+
+            }
+
+            if (action.AreaSameFloorOnly && target.currentNode.floorID != impactFloor)
+            {
+                continue;
+
+            }
+
+            Vector3 delta = target.transform.position - impactPoint;
+            delta.y = 0f;
+            if (delta.sqrMagnitude > radiusSquared + 0.0001f)
+            {
+                continue;
+
+            }
+
+            UnitFaction member = target.GetComponent<UnitFaction>();
+            if (healing)
+            {
+                if (sourceFaction == null || sourceFaction.Faction == null || member == null ||
+                    member.Faction == null || (sourceFaction.Faction != member.Faction &&
+                    (factionManager == null ||
+                    !factionManager.AreAllied(sourceFaction.Faction, member.Faction))))
+                {
+                    continue;
+
+                }
+
+                eligible++;
+                int before = target.data.currentHealth;
+                target.data.ModifyHealth(action.AreaHealAmount);
+                int restored = target.data.currentHealth - before;
+                totalHealed += restored;
+                affected++;
+                Debug.Log($"[AoE Heal] {action.DisplayName} healed {target.data.characterName} " +
+                    $"for {restored} HP ({before} -> {target.data.currentHealth}/" +
+                    $"{target.data.maxHealth}).", target);
+
+                continue;
+
+            }
+
+            if (!action.AreaFriendlyFire)
+            {
+                if (sourceFaction == null || member == null || factionManager == null ||
+                    !factionManager.AreHostile(sourceFaction.Faction, member.Faction))
+                {
+                    continue;
+
+                }
+
+            }
+
+            eligible++;
+            // AoE cannot be dodged by the direct-attack Evasive roll.
+            if (!DamageResolver.TryResolveAction(source, target, action, out DamageResult damage,
+                sourceIndex, ignoreDodge: true))
+            {
+                continue;
+
+            }
+
+            affected++;
+            totalDamage += damage.ActualDamage;
+            if (damage.HealthBefore > 0 && damage.HealthAfter <= 0)
+            {
+                lastAreaKilledTarget = true;
+
+            }
+            Debug.Log($"[AoE] {action.DisplayName} hit {target.data.characterName}: " +
+                $"{damage.ActualDamage} {damage.Request.DamageType} damage, " +
+                $"HP {damage.HealthBefore} -> {damage.HealthAfter}/{target.data.maxHealth}.", target);
+            FinalizeResolvedDamage(damage, sourceIndex);
+
+        }
+
+        if (healing)
+        {
+            Debug.Log($"[AoE Heal] {source.data.characterName} used {action.DisplayName} at " +
+                $"{impactPoint:F2}, radius {action.AreaRadiusInTiles} tiles: " +
+                $"{affected}/{eligible} friendly units healed, {totalHealed} total HP restored. " +
+                $"AP {source.data.currentActionPoints}/{source.data.maxActionPoints}.", source);
+
+            return true;
+
+        }
+
+        Debug.Log($"[AoE] {source.data.characterName} used {action.DisplayName} at " +
+            $"point {impactPoint:F2} (floor {impactFloor}), " +
+            $"radius {action.AreaRadiusInTiles} tiles: {affected}/{eligible} targets hit, " +
+            $"{totalDamage} total HP damage. AP {source.data.currentActionPoints}/" +
+            $"{source.data.maxActionPoints}.", source);
+
+        return true;
 
     }
 
@@ -328,6 +875,20 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+        UnitStatusController aiStatuses = source.GetComponent<UnitStatusController>();
+        if (aiStatuses != null && !aiStatuses.CanUseAction(action))
+        {
+            return false;
+
+        }
+
+        UnitStatusController invisibleTarget = target.GetComponent<UnitStatusController>();
+        if (invisibleTarget != null && invisibleTarget.HasControl(StatusControlFlags.Invisible))
+        {
+            return false;
+
+        }
+
         int apCost = Mathf.CeilToInt(action.ApCost);
         if (!ownsAction || source.data.currentActionPoints < apCost ||
             Vector3.Distance(source.transform.position, target.transform.position) > action.CombatRange)
@@ -350,41 +911,63 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        // The resolver owns calculations, Guard, and actual health changes.
-        // Player and AI attacks share this path; action/event handling stays here.
-        int sourceIndex = FindUniqueEquipmentSourceIndex(source, action);
-        if (!DamageResolver.TryResolveAction(source, target, action, out DamageResult damageResult, sourceIndex))
+        UnitStatusController executionStatuses = source.GetComponent<UnitStatusController>();
+        if (executionStatuses != null && !executionStatuses.CanUseAction(action))
         {
             return false;
 
         }
 
+        // Each hit goes through the full resolver: individual defenses, status procs,
+        // damage indicators and kill events. Cost/usage is charged once for the combo.
+        int sourceIndex = FindUniqueEquipmentSourceIndex(source, action);
         int apCost = Mathf.CeilToInt(action.ApCost);
         int apBefore = source.data.currentActionPoints;
-        source.data.ModifyActionPoints(-apCost);
-        source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
+        bool landed = false;
+        int hits = action.HitCount;
+        for (int hitNumber = 0; hitNumber < hits; hitNumber++)
+        {
+            if (target == null || target.data == null || target.data.currentHealth <= 0)
+            {
+                break;
 
-        string damageTypes = DescribeDamageTypes(damageResult.Request, target.data);
-        Debug.Log($"[Combat] {source.data.characterName} used {action.DisplayName} on " +
-                  $"{target.data.characterName} for {damageResult.ActualDamage} damage.\n" +
-                  $"Types: {damageTypes} | Armor: {target.data.armor} | Ward: {target.data.ward}\n" +
-                  $"Damage: {damageResult.DamageBeforeArmor} raw -> " +
-                  $"{damageResult.DamageAfterArmor} after Armor/Ward -> " +
-                  $"{damageResult.DamageAfterResistances} after resistance/minimum -> " +
-                  $"{damageResult.DamageAfterGuard} after Guard -> " +
-                  $"{damageResult.ActualDamage} actual\n" +
-                  $"HP: {damageResult.HealthBefore} -> {damageResult.HealthAfter}/{target.data.maxHealth} | " +
-                  $"Attacker AP: {apBefore} -> {source.data.currentActionPoints}/{source.data.maxActionPoints}", this);
+            }
 
-        if (clearPlayerTargeting)
+            if (!DamageResolver.TryResolveAction(source, target, action,
+                out DamageResult damageResult, sourceIndex))
+            {
+                break;
+
+            }
+
+            if (!landed)
+            {
+                source.data.ModifyActionPoints(-apCost);
+                source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
+                source.GetComponent<UnitStatusController>()?.Remove("invisible");
+                landed = true;
+
+            }
+
+            string critical = damageResult.IsCritical && !damageResult.Evaded ? " CRITICAL!" : "";
+            string dodged = damageResult.Evaded ? " DODGED!" : "";
+            Debug.Log($"[Combat] {source.data.characterName} used {action.DisplayName} " +
+                $"(hit {hitNumber + 1}/{hits}) on {target.data.characterName}: " +
+                $"{damageResult.ActualDamage} HP damage{critical}{dodged}. " +
+                $"Types: {DescribeDamageTypes(damageResult.Request, target.data)}. " +
+                $"HP {damageResult.HealthBefore}->{damageResult.HealthAfter}/{target.data.maxHealth}; " +
+                $"AP {apBefore}->{source.data.currentActionPoints}.", source);
+            FinalizeResolvedDamage(damageResult, sourceIndex);
+
+        }
+
+        if (landed && clearPlayerTargeting)
         {
             CancelTargeting();
 
         }
 
-        FinalizeResolvedDamage(damageResult, sourceIndex);
-
-        return true;
+        return landed;
 
     }
 
@@ -600,6 +1183,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
     {
         attacker = null;
         pendingAction = null;
+        pendingConsumableIndex = -1;
 
     }
 
@@ -607,6 +1191,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
     {
         attacker = null;
         pendingAction = null;
+        pendingConsumableIndex = -1;
 
         if (targetingController != null)
         {

@@ -21,13 +21,20 @@ MonoBehaviour:
   submenuGroup: General
   displayOrder: 100
   apCost: 5
+  controlTags: 0
   combatBehavior: 1
   damageStat: 0
   combatRange: 3
   damageMultiplier: 0
   flatDamageBonus: 0
   minimumDamage: 0
-  damageType: 0
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 1
+  areaHealAmount: 15
+  selfStatus: {fileID: 0}
+  damageType: 22
   additionalDamage:
   - damageType: 1
     amount: 10
@@ -57,4 +64,9 @@ MonoBehaviour:
     amount: 10
   - damageType: 20
     amount: 10
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 0}
   guardDamageReductionPercent: 50

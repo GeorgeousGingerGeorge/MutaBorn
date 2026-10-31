@@ -64,6 +64,15 @@ public class UnitMovements : MonoBehaviour
        
         if (!isMoving)
         {
+            MutaBorn.Gameplay.UnitStatusController statuses = unit.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
+            if (statuses != null && !statuses.CanMoveVoluntarily)
+            {
+                selectionController.ClearDestination();
+
+                return;
+
+            }
+
             GridNode targetNode = selectionController.selectedTile.node;
             unit.InitializeNode();
             movementEfficiencyAtStart = unit.data != null ? unit.data.MovementEfficiency : 1f;
@@ -86,6 +95,8 @@ public class UnitMovements : MonoBehaviour
                 pathIndex++;
             }
             isMoving = true;
+            CameraController.Instance?.FocusOnUnit(unit, true);
+
         }
 
         if (pathIndex >= movementPath.Count)
@@ -139,6 +150,12 @@ public class UnitMovements : MonoBehaviour
     public void ShowMovementRange() 
     {
         ClearMovementRange();
+        MutaBorn.Gameplay.UnitStatusController statuses = unit.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
+        if (statuses != null && !statuses.CanMoveVoluntarily)
+        {
+            return;
+
+        }
         Dictionary<GridNode, float> reachables = new Dictionary<GridNode, float>();
 
         unit.InitializeNode();

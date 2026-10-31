@@ -2,8 +2,6 @@ using UnityEngine;
 
 namespace MutaBorn.Gameplay
 {
-    // Reusable behavior identity. A grant supplies the values, trigger, and recipients.
-    // The processor reads this operation; no gameplay behavior lives in this asset.
     [CreateAssetMenu(fileName = "NewEffectDefinition", menuName = "MutaBorn/Effects/Effect Definition")]
     public sealed class EffectDefinition : ScriptableObject
     {
@@ -22,4 +20,4 @@ namespace MutaBorn.Gameplay
         public EffectOperation Operation => operation;
 
     }
-}
+}

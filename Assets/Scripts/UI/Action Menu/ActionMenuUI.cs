@@ -66,6 +66,7 @@ public class ActionMenuUI : MonoBehaviour
     private ActionDefinition previewAction;
     private ConsumableData previewConsumable;
     private ActionDefinition targetedAction;
+    private bool wasConsumableTargeting;
 
     private void Awake()
     {
@@ -234,6 +235,16 @@ public class ActionMenuUI : MonoBehaviour
             }
 
         }
+
+        bool isConsumableTargeting = CombatActionExecutor.IsTargeting;
+        if (categoryIsOpen && openCategory == ActionMenuCategory.Items &&
+            wasConsumableTargeting && !isConsumableTargeting)
+        {
+            RebuildCategory();
+
+        }
+
+        wasConsumableTargeting = isConsumableTargeting;
 
         //UpdateQuickButtons(currentAP);
         RefreshActionInfoPanel();
@@ -527,6 +538,7 @@ public class ActionMenuUI : MonoBehaviour
         if (combatExecutor.TryBeginAction(displayedUnit, action))
         {
             targetedAction = TargetingModeController.IsTargeting ? action : null;
+            CameraController.Instance?.FocusOnUnit(displayedUnit, true);
 
         }
 
@@ -709,7 +721,10 @@ public class ActionMenuUI : MonoBehaviour
         string cost = shown.IsPassive ? "PASSIVE" : $"{shown.ApCost:0.#} AP";
         string range = shown.CombatBehavior == CombatActionBehavior.DamageUnit
             ? $"  |  Range: {shown.CombatRange:0.#}"
-            : "";
+            : (shown.CombatBehavior == CombatActionBehavior.DamageArea ||
+                shown.CombatBehavior == CombatActionBehavior.HealArea)
+                ? $"  |  Throw: {shown.AreaThrowRangeInTiles} tiles | Blast: {shown.AreaRadiusInTiles} tiles"
+                : "";
         string description = string.IsNullOrWhiteSpace(shown.Description)
             ? "No description available."
             : shown.Description.Trim();
@@ -751,6 +766,7 @@ public class ActionMenuUI : MonoBehaviour
 
         if (displayedUnit.TryUseConsumable(index))
         {
+            CameraController.Instance?.FocusOnUnit(displayedUnit, true);
             // Preserve the item button and refresh its use count/availability.
             RebuildCategory();
             lastExpandedAP = float.NaN;

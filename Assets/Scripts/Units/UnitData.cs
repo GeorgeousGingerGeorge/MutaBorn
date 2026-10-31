@@ -399,17 +399,35 @@ public class UnitData
     //if negative you lose the values. if positive you restore the value
     public void ModifyHealth(int amount) 
     {
+        int before = currentHealth;
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        if (currentHealth > before)
+        {
+            CombatFloatingFeedback.ReportResourceGain(this, ResourceIdentifier.Health, currentHealth - before);
+
+        }
 
     }
     public void ModifyMana(int amount)
     {
+        int before = currentMana;
         currentMana = Mathf.Clamp(currentMana + amount, 0, maxMana);
+        if (currentMana > before)
+        {
+            CombatFloatingFeedback.ReportResourceGain(this, ResourceIdentifier.Mana, currentMana - before);
+
+        }
 
     }
     public void ModifyActionPoints(int amount) 
     {
+        int before = currentActionPoints;
         currentActionPoints = Mathf.Clamp(currentActionPoints + amount, 0, maxActionPoints);
+        if (currentActionPoints > before)
+        {
+            CombatFloatingFeedback.ReportResourceGain(this, ResourceIdentifier.ActionPoints, currentActionPoints - before);
+
+        }
 
     }
 
@@ -569,6 +587,27 @@ public class UnitData
         item.remainingUses--;
         carriedConsumables[index] = item;
 
+        return true;
+
+    }
+
+    public bool TryRefillConsumableUses(int index)
+    {
+        if (index < 0 || index >= carriedConsumables.Count)
+        {
+            return false;
+
+        }
+
+        ConsumableInstance item = carriedConsumables[index];
+        if (item.definition == null)
+        {
+            return false;
+
+        }
+
+        item.remainingUses = item.definition.MaxUses;
+        carriedConsumables[index] = item;
         return true;
 
     }

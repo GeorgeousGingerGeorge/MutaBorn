@@ -10,23 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Cleave
+  m_Name: "Cleave"
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: cleave
-  displayName: Cleave
-  description: attack the oponent with a powerful slash
+  actionId: "cleave"
+  displayName: "Cleave"
+  description: "Sweep a short circle around an aimed point. Hits all hostile units in the blast."
   icon: {fileID: 0}
   activationType: 0
   category: 0
-  submenuGroup: Melee
-  displayOrder: 20
-  apCost: 12
-  combatBehavior: 1
+  submenuGroup: "Sword"
+  displayOrder: 50
+  apCost: 9
+  controlTags: 2
+  combatBehavior: 4
   damageStat: 0
-  combatRange: 3
-  damageMultiplier: 2
+  combatRange: 2.5
+  damageMultiplier: 1.12
   flatDamageBonus: 0
-  minimumDamage: 7
-  damageType: 0
+  minimumDamage: 1
+  damageType: 1
   additionalDamage: []
-  guardDamageReductionPercent: 50
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 0}
+  guardDamageReductionPercent: 0
+  hitCount: 1
+  areaThrowRangeInTiles: 2
+  areaRadiusInTiles: 1
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
+  guardFlatDamageReduction: 0

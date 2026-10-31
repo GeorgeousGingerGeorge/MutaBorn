@@ -21,13 +21,25 @@ public enum ActionActivationType
 
 }
 
+[System.Flags]
+public enum ActionControlTags
+{
+    None = 0,
+    MagicOrMutation = 1,
+    RequiresWeapon = 2
+
+}
+
 // Combat behavior is separate from the menu category and Active/Passive classification.
 public enum CombatActionBehavior
 {
     None,
     DamageUnit,
     ApplyGuard,
-    InspectUnit
+    InspectUnit,
+    DamageArea,
+    ApplySelfStatus,
+    HealArea
 
 }
 
@@ -66,6 +78,10 @@ public class ActionDefinition : ScriptableObject
     [Tooltip("Only applies to active actions. Passive abilities do not spend AP to activate.")]
     [SerializeField, Min(0)] private float apCost = 5f;
 
+    [Header("Status Interaction")]
+    [Tooltip("Silence blocks MagicOrMutation actions. Disarm blocks RequiresWeapon actions. Unarmed attacks should not have RequiresWeapon.")]
+    [SerializeField] private ActionControlTags controlTags = ActionControlTags.None;
+
     [Header("Combat Rules")]
 
     [Tooltip("Select the gameplay behavior. None is for passive or not-yet-implemented actions.")]
@@ -78,6 +94,25 @@ public class ActionDefinition : ScriptableObject
     [SerializeField, Min(0f)] private float damageMultiplier = 1f;
     [SerializeField] private int flatDamageBonus = 0;
     [SerializeField, Min(0)] private int minimumDamage = 5;
+    [Tooltip("Number of separate direct attacks. AP is paid once; each hit resolves independently.")]
+    [SerializeField, Range(1, 5)] private int hitCount = 1;
+
+    [Header("Area Explosion (DamageArea only)")]
+    [Tooltip("How far the explosion can be thrown, measured in grid tiles.")]
+    [SerializeField, Min(0)] private int areaThrowRangeInTiles = 6;
+    [Tooltip("Blast radius in grid tiles. All units in the circle receive the same raw attack.")]
+    [SerializeField, Min(0)] private int areaRadiusInTiles = 2;
+    [Tooltip("First version: throw and explosion stay on the actor's floor.")]
+    [SerializeField] private bool areaSameFloorOnly = true;
+    [Tooltip("Explosions damage allies, civilians and the caster when they are inside the blast.")]
+    [SerializeField] private bool areaFriendlyFire = true;
+
+    [Header("Area Healing (HealArea only)")]
+    [Tooltip("Health restored to each friendly unit in the blast circle. Cannot heal past maximum HP.")]
+    [SerializeField, Min(0)] private int areaHealAmount = 15;
+
+    [Header("Self Status (ApplySelfStatus only)")]
+    [SerializeField] private StatusDefinition selfStatus;
 
     [Header("Damage Types")]
     [Tooltip("Unspecified uses Slash for Melee, Pierce for Ranged, or Arcane for Magic. Existing actions do not need reconfiguration.")]
@@ -85,10 +120,23 @@ public class ActionDefinition : ScriptableObject
     [Tooltip("Additional fixed-damage components, each using its own Armor/Ward and damage resistance. Optional.")]
     [SerializeField] private DamageComponent[] additionalDamage = new DamageComponent[0];
 
+    [Header("Optional Crit and Penetration")]
+    [Tooltip("0 by default. Applied only to this attack, before defenses.")]
+    [SerializeField, Range(0f, 100f)] private float criticalChancePercent;
+    [SerializeField, Min(1f)] private float criticalDamageMultiplier = 1.5f;
+    [SerializeField, Min(0)] private int flatArmorPenetration;
+    [SerializeField, Min(0)] private int flatWardPenetration;
+
+    [Header("Action-Specific Effects (Optional)")]
+    [Tooltip("Effects to trigger when this particular action successfully damages a unit. Does not apply to other actions.")]
+    [SerializeField] private EffectCollection onDamageEffects;
+
     [Header("Defensive Rules")]
 
-    [Tooltip("For ApplyGuard: incoming damage reduction percentage until the unit's next faction turn begins.")]
-    [SerializeField, Range(0f, 100f)] private float guardDamageReductionPercent = 50f;
+    [Tooltip("For ApplyGuard: percentage of ordinary damage prevented until the unit's next faction turn begins. Zero for flat-only Guard.")]
+    [SerializeField, Range(0f, 100f)] private float guardDamageReductionPercent = 0f;
+    [Tooltip("For ApplyGuard: flat ordinary damage prevented per hit, after Armor, Ward, and resistances. Guard cannot reduce positive damage below 1.")]
+    [SerializeField, Min(0)] private int guardFlatDamageReduction = 3;
 
     public string Id => actionId;
     public string DisplayName => displayName;
@@ -101,12 +149,26 @@ public class ActionDefinition : ScriptableObject
     public int DisplayOrder => displayOrder;
     public float ApCost => apCost;
     public CombatActionBehavior CombatBehavior => combatBehavior;
+    public ActionControlTags ControlTags => controlTags;
     public CombatDamageStat DamageStat => damageStat;
     public float CombatRange => combatRange;
     public float DamageMultiplier => damageMultiplier;
     public int FlatDamageBonus => flatDamageBonus;
     public int MinimumDamage => minimumDamage;
+    public int HitCount => Mathf.Clamp(hitCount, 1, 5);
+    public int AreaThrowRangeInTiles => Mathf.Max(0, areaThrowRangeInTiles);
+    public int AreaRadiusInTiles => Mathf.Max(0, areaRadiusInTiles);
+    public bool AreaSameFloorOnly => areaSameFloorOnly;
+    public bool AreaFriendlyFire => areaFriendlyFire;
+    public int AreaHealAmount => Mathf.Max(0, areaHealAmount);
+    public StatusDefinition SelfStatus => selfStatus;
     public DamageType DamageType => damageType;
     public DamageComponent[] AdditionalDamage => additionalDamage;
+    public EffectCollection OnDamageEffects => onDamageEffects;
     public float GuardDamageReductionPercent => guardDamageReductionPercent;
+    public int GuardFlatDamageReduction => Mathf.Max(0, guardFlatDamageReduction);
+    public float CriticalChancePercent => criticalChancePercent;
+    public float CriticalDamageMultiplier => Mathf.Max(1f, criticalDamageMultiplier);
+    public int FlatArmorPenetration => Mathf.Max(0, flatArmorPenetration);
+    public int FlatWardPenetration => Mathf.Max(0, flatWardPenetration);
 }

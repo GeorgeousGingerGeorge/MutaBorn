@@ -257,8 +257,13 @@ namespace MutaBorn.Gameplay
 
                     }
 
+                    // A retaliation effect is not another weapon attack.
+                    // Clearing the origin action prevents action-gated thorns
+                    // from reflecting each other in a loop.
+                    ActionDefinition originAction = context.Trigger == EffectTrigger.OnDamageReceived
+                        ? null : context.Action;
                     DamageRequest request = new DamageRequest(owner, plan.Recipient, requestedDamage,
-                        1f, 0, 0, context.Action, grant.OperationParameters.DamageKind,
+                        1f, 0, 0, originAction, grant.OperationParameters.DamageKind,
                         grant.OperationParameters.DamageDelivery);
                     if (!DamageResolver.TryResolve(request, out DamageResult damage))
                     {

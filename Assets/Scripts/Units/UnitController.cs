@@ -262,57 +262,110 @@ public class UnitController : MonoBehaviour
 
         ConsumableInstance item = data.carriedConsumables[index];
         ConsumableData definition = item.definition;
-        EffectGrant useEffect = definition != null ? definition.OnUseEffect : null;
-        EffectOperation operation = useEffect != null && useEffect.Definition != null
-            ? useEffect.Definition.Operation : EffectOperation.None;
-        bool validOperation = (operation == EffectOperation.ModifyResource &&
-            useEffect.OperationParameters != null &&
-            useEffect.OperationParameters.Resource != ResourceIdentifier.None) ||
-            (operation == EffectOperation.ApplyStatModifier &&
-            useEffect.OperationParameters != null &&
-            useEffect.OperationParameters.Stat != StatIdentifier.None &&
-            useEffect.Activation != null &&
-            useEffect.Activation.Trigger == EffectTrigger.OnSourceActivated);
-
-        if (item.remainingUses <= 0 || definition == null || definition.UseAction == null ||
+        if (definition == null || definition.UseAction == null ||
             definition.UseAction.IsPassive ||
             definition.UseAction.Category != ActionMenuCategory.Items ||
-            definition.OnUseEffect == null ||
-            definition.OnUseEffect.Definition == null ||
-            !validOperation ||
-            definition.OnUseEffect.Targeting == null ||
-            definition.OnUseEffect.Targeting.Reference != EffectTargetReference.Owner ||
-            definition.OnUseEffect.Targeting.Selection != EffectTargetSelection.Single ||
-            item.consumableType != ConsumableType.Eat)
+            (!definition.UsesActionPointsOnly && item.remainingUses <= 0))
         {
             return false;
 
         }
 
-        UnitEffectSource effects = GetComponent<UnitEffectSource>();
-        if (effects == null)
+        UnitStatusController itemStatuses = GetComponent<UnitStatusController>();
+        if (itemStatuses != null && !itemStatuses.CanUseAction(definition.UseAction))
         {
-            effects = gameObject.AddComponent<UnitEffectSource>();
-
-        }
-
-        // A rejected grant must never spend a use.
-        if (!effects.ApplyTemporaryEffect(definition.OnUseEffect))
-        {
-            Debug.LogWarning($"'{definition.itemName}' needs a valid Turn Count effect " +
-                "with Source Match disabled.", this);
-
+            Debug.Log($"[Consumable] {definition.itemName} blocked by a disabling status.", this);
             return false;
 
         }
 
-        // The use was validated before the effect was applied.
-        data.TrySpendConsumableUse(index);
-        Debug.Log($"{data.characterName} used {definition.itemName}. " +
-            $"AP: {data.currentActionPoints}/{data.maxActionPoints}; " +
-            $"Uses remaining: {data.carriedConsumables[index].remainingUses}/{definition.MaxUses}; " +
-            $"Consumables: {data.carriedConsumables.Count}/{UnitData.ConsumableCapacity}.", this);
+        if (definition.UseKind == ConsumableUseKind.TargetedAttack)
+        {
+            CombatActionExecutor combat = CombatActionExecutor.Instance;
+            return combat != null && combat.TryBeginConsumable(this, index);
 
+        }
+
+        bool applied = false;
+        switch (definition.UseKind)
+        {
+            case ConsumableUseKind.RestoreHealth:
+                int beforeHealth = data.currentHealth;
+                data.ModifyHealth(definition.RestoreHealth);
+                applied = data.currentHealth > beforeHealth;
+                break;
+
+            case ConsumableUseKind.RestoreActionPoints:
+                int beforeAP = data.currentActionPoints;
+                data.ModifyActionPoints(definition.RestoreActionPoints);
+                applied = data.currentActionPoints > beforeAP;
+                break;
+
+            case ConsumableUseKind.ApplyStatus:
+                if (definition.AppliedStatus != null)
+                {
+                    UnitStatusController statuses = GetComponent<UnitStatusController>();
+                    if (statuses == null)
+                    {
+                        statuses = gameObject.AddComponent<UnitStatusController>();
+
+                    }
+
+                    applied = statuses.TryApply(definition.AppliedStatus, this);
+
+                }
+                break;
+
+            case ConsumableUseKind.LegacyEffect:
+                EffectGrant useEffect = definition.OnUseEffect;
+                EffectOperation operation = useEffect != null && useEffect.Definition != null
+                    ? useEffect.Definition.Operation : EffectOperation.None;
+                bool validOperation = (operation == EffectOperation.ModifyResource &&
+                    useEffect.OperationParameters != null &&
+                    useEffect.OperationParameters.Resource != ResourceIdentifier.None) ||
+                    (operation == EffectOperation.ApplyStatModifier &&
+                    useEffect.OperationParameters != null &&
+                    useEffect.OperationParameters.Stat != StatIdentifier.None &&
+                    useEffect.Activation != null &&
+                    useEffect.Activation.Trigger == EffectTrigger.OnSourceActivated);
+                if (!validOperation || useEffect.Targeting == null ||
+                    useEffect.Targeting.Reference != EffectTargetReference.Owner ||
+                    useEffect.Targeting.Selection != EffectTargetSelection.Single ||
+                    item.consumableType != ConsumableType.Eat)
+                {
+                    return false;
+
+                }
+
+                UnitEffectSource effects = GetComponent<UnitEffectSource>();
+                if (effects == null)
+                {
+                    effects = gameObject.AddComponent<UnitEffectSource>();
+
+                }
+
+                applied = effects.ApplyTemporaryEffect(useEffect);
+                break;
+
+        }
+
+        if (!applied)
+        {
+            Debug.Log($"[Consumable] {definition.itemName} had no valid effect or resource to restore.", this);
+            return false;
+
+        }
+
+        if (!definition.UsesActionPointsOnly)
+        {
+            data.TrySpendConsumableUse(index);
+
+        }
+
+        Debug.Log($"[Consumable] {data.characterName} used {definition.itemName}. " +
+            $"HP {data.currentHealth}/{data.maxHealth}; AP " +
+            $"{data.currentActionPoints}/{data.maxActionPoints}; " +
+            $"Uses {data.carriedConsumables[index].remainingUses}/{definition.MaxUses}.", this);
         return true;
 
     }

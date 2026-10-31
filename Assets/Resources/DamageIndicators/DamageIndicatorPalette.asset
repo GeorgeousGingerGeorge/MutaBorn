@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   styles:
   - damageType: 1
-    backgroundSprite: {fileID: 21300000, guid: 61e87b98541707647ab23f09ac7da4c0, type: 3}
+    backgroundSprite: {fileID: 21300000, guid: e6e27d393b8b36d46a7648121e447a3c, type: 3}
     backgroundColor: {r: 0.329412, g: 0.380392, b: 0.419608, a: 0.91}
     numberColor: {r: 1, g: 1, b: 1, a: 1}
     label: Slash
@@ -26,7 +26,7 @@ MonoBehaviour:
   - damageType: 3
     backgroundSprite: {fileID: 21300000, guid: 48e366dce82dd814ea0bed9b0f29c014, type: 3}
     backgroundColor: {r: 0.580392, g: 0.466667, b: 0.32549, a: 0.91}
-    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
     label: Blunt
   - damageType: 4
     backgroundSprite: {fileID: 21300000, guid: 40d8803d8ebcd9143addd18a782c858b, type: 3}
@@ -41,12 +41,12 @@ MonoBehaviour:
   - damageType: 12
     backgroundSprite: {fileID: 21300000, guid: f1a069f4c8bfc7749b5a4aa2cb79ee64, type: 3}
     backgroundColor: {r: 0.290196, g: 0.670588, b: 0.788235, a: 0.91}
-    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
     label: Ice
   - damageType: 13
     backgroundSprite: {fileID: 21300000, guid: 041a954be5846064497b2ebe2ed4359c, type: 3}
     backgroundColor: {r: 0.72549, g: 0.603922, b: 0.137255, a: 0.91}
-    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
     label: Lightning
   - damageType: 14
     backgroundSprite: {fileID: 21300000, guid: df10306177ec59546a5647fa80320223, type: 3}
@@ -66,12 +66,12 @@ MonoBehaviour:
   - damageType: 17
     backgroundSprite: {fileID: 21300000, guid: 8dda6bcad89b98b4184badd4f8857e05, type: 3}
     backgroundColor: {r: 0.768627, g: 0.603922, b: 0.239216, a: 0.91}
-    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
     label: Holy
   - damageType: 18
     backgroundSprite: {fileID: 21300000, guid: 564944bc650b14a4a819cf1337dc2b03, type: 3}
     backgroundColor: {r: 0.356863, g: 0.619608, b: 0.576471, a: 0.91}
-    numberColor: {r: 0, g: 0, b: 0, a: 1}
+    numberColor: {r: 1, g: 1, b: 1, a: 1}
     label: Wind
   - damageType: 19
     backgroundSprite: {fileID: 21300000, guid: 5b3bed082e09f2e4ab8e81ca79f52f51, type: 3}
@@ -88,6 +88,13 @@ MonoBehaviour:
     backgroundColor: {r: 0.47058824, g: 0, b: 0, a: 1}
     numberColor: {r: 1, g: 1, b: 1, a: 1}
     label: Tru
+  healIcon: {fileID: 21300000, guid: b17c7d171c70bc549b25c9c5a6502c34, type: 3}
+  apIcon: {fileID: 21300000, guid: e9772e94b49238a488b41b5356c2830f, type: 3}
+  manaIcon: {fileID: 21300000, guid: b31fc021e99483743b52de6eb20b9a58, type: 3}
+  buffIcon: {fileID: 21300000, guid: f6f8c42959b9c354b9406bbf0ec4adf9, type: 3}
+  debuffIcon: {fileID: 21300000, guid: 35343f58d8a376d408573988f0b6b705, type: 3}
+  blockedIcon: {fileID: 21300000, guid: 22df89a8b70d53349a2c71995ce385fe, type: 3}
+  guardActivationIcon: {fileID: 21300000, guid: 22df89a8b70d53349a2c71995ce385fe, type: 3}
   lifetime: 1.05
   holdDuration: 0.16
   driftSpeed: 25

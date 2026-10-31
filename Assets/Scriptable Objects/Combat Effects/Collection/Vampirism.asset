@@ -14,26 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MutaBorn.Gameplay.EffectCollection
   effects:
   - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+    procChancePercent: 100
+    procChanceSchemaVersion: 1
     activation:
       trigger: 2
       phase: 1
       frequency: 0
       eventActor: 0
       requireGrantingSourceMatch: 0
+      requireAction: 0
     targeting:
       reference: 0
       selection: 0
-      factionMask: -1
+      factionMask: 7
       includeOwner: 1
       radiusInTiles: 0
-      sameFloorOnly: 0
+      sameFloorOnly: 1
     lifetime:
-      lifetime: 1
-      durationTurns: 0
-      maximumUses: 0
+      lifetime: 0
+      durationTurns: 1
+      maximumUses: 1
     operationParameters:
       resource: 0
       stat: 0
+      statModifierMode: 0
       damageType: 0
       damageDelivery: 0
       defenseStat: 0
@@ -46,35 +50,5 @@ MonoBehaviour:
         stat: 0
         resource: 0
         multiplier: 0.2
-      rounding: 1
-    conditions: []
-  - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
-    activation:
-      trigger: 2
-      phase: 1
-      frequency: 0
-      eventActor: 0
-      requireGrantingSourceMatch: 0
-    targeting:
-      reference: 0
-      selection: 0
-      factionMask: -1
-      includeOwner: 1
-      radiusInTiles: 0
-      sameFloorOnly: 0
-    lifetime:
-      lifetime: 1
-      durationTurns: 0
-      maximumUses: 0
-    operationParameters:
-      resource: 0
-      stat: 0
-      damageType: 0
-      damageDelivery: 0
-      defenseStat: 0
-      statusId: 
-    value:
-      constant: 5
-      terms: []
       rounding: 1
     conditions: []

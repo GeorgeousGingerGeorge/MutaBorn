@@ -11,6 +11,18 @@ namespace MutaBorn.Gameplay
 
     }
 
+    [Flags]
+    public enum StatusControlFlags
+    {
+        None = 0,
+        Stun = 1,
+        Root = 2,
+        Silence = 4,
+        Disarm = 8,
+        Invisible = 16
+
+    }
+
     public enum StatusTickTiming
     {
         None = 0,
@@ -55,6 +67,13 @@ namespace MutaBorn.Gameplay
         [Min(1)] [SerializeField] private int maximumStacks = 1;
         [SerializeField] private StatusStackingPolicy stacking = StatusStackingPolicy.RefreshDuration;
 
+        [Header("Combat Control / Incoming Damage")]
+        [SerializeField] private StatusControlFlags controls = StatusControlFlags.None;
+        [Tooltip("Percentage points per stack. Positive increases incoming non-True damage; negative reduces it.")]
+        [SerializeField] private float incomingDamagePercentPerStack;
+        [Tooltip("Chance per stack to dodge a direct combat action. Status ticks are not dodged.")]
+        [SerializeField, Range(0f, 100f)] private float dodgeChancePercentPerStack;
+
         [Header("Periodic Operation")]
         [SerializeField] private StatusTickTiming tickTiming = StatusTickTiming.OwnerTurnStart;
         [SerializeField] private StatusPeriodicOperation periodicOperation = StatusPeriodicOperation.None;
@@ -84,6 +103,9 @@ namespace MutaBorn.Gameplay
         public StatModifierMode ModifierMode => modifierMode;
         public float ModifierPerStack => modifierPerStack;
         public IReadOnlyList<StatusStatModifier> StatModifiers => statModifiers;
+        public StatusControlFlags Controls => controls;
+        public float IncomingDamagePercentPerStack => incomingDamagePercentPerStack;
+        public float DodgeChancePercentPerStack => dodgeChancePercentPerStack;
 
     }
 }

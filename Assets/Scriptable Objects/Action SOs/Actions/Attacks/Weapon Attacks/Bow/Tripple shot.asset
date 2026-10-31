@@ -10,23 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Tripple shot
+  m_Name: "Tripple shot"
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: tripple-shot
-  displayName: Tripple Shot
-  description: Shoot 3 weeker arrows in quick susession
+  actionId: "triple-shot"
+  displayName: "Triple Shot"
+  description: "Fire three arrows at the same target. Each can crit or apply its own effects."
   icon: {fileID: 0}
   activationType: 0
   category: 0
-  submenuGroup: Ranged
-  displayOrder: 5
-  apCost: 9
+  submenuGroup: "Bow"
+  displayOrder: 40
+  apCost: 10
+  controlTags: 2
   combatBehavior: 1
   damageStat: 1
-  combatRange: 10
-  damageMultiplier: 1.7
+  combatRange: 9
+  damageMultiplier: 0.55
   flatDamageBonus: 0
-  minimumDamage: 7
-  damageType: 0
+  minimumDamage: 1
+  damageType: 2
   additionalDamage: []
-  guardDamageReductionPercent: 50
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 0}
+  guardDamageReductionPercent: 0
+  hitCount: 3
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
+  guardFlatDamageReduction: 0

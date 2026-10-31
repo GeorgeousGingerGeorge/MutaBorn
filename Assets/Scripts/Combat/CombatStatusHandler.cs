@@ -8,9 +8,24 @@ public sealed class CombatStatusHandler : MonoBehaviour
     [Header("Optional Playtest Tools")]
     [Tooltip("Assign an enemy here to test damage reduction while enemy AI is not implemented.")]
     [SerializeField] private UnitController debugGuardTarget;
-    [SerializeField, Range(0f, 100f)] private float debugGuardReductionPercent = 50f;
+    [SerializeField, Range(0f, 100f)] private float debugGuardReductionPercent = 0f;
+    [SerializeField, Min(0)] private int debugGuardFlatReduction = 3;
 
-    private readonly Dictionary<UnitController, float> guardReductions = new();
+    private readonly struct GuardProtection
+    {
+        public readonly float Percent;
+        public readonly int Flat;
+
+        public GuardProtection(float percent, int flat)
+        {
+            Percent = percent;
+            Flat = flat;
+
+        }
+
+    }
+
+    private readonly Dictionary<UnitController, GuardProtection> guardReductions = new();
     private readonly List<UnitController> expiredGuards = new();
     private TurnManager subscribedTurnManager;
 
@@ -56,6 +71,12 @@ public sealed class CombatStatusHandler : MonoBehaviour
 
     public bool ApplyGuard(UnitController owner, float damageReductionPercent)
     {
+        return ApplyGuard(owner, damageReductionPercent, 0);
+
+    }
+
+    public bool ApplyGuard(UnitController owner, float damageReductionPercent, int flatReduction)
+    {
         if (owner == null || !owner.isActiveAndEnabled ||
             owner.data == null || owner.data.currentHealth <= 0)
         {
@@ -63,10 +84,13 @@ public sealed class CombatStatusHandler : MonoBehaviour
 
         }
 
-        float reduction = Mathf.Clamp(damageReductionPercent, 0f, 100f);
-        guardReductions[owner] = reduction;
+        float percent = Mathf.Clamp(damageReductionPercent, 0f, 100f);
+        int flat = Mathf.Max(0, flatReduction);
+        guardReductions[owner] = new GuardProtection(percent, flat);
 
-        Debug.Log($"{owner.data.characterName} is Guarding: {reduction:0.#}% incoming damage reduction.", owner);
+        Debug.Log($"{owner.data.characterName} is Guarding: -{flat} damage per ordinary hit" +
+                  (percent > 0f ? $", then {percent:0.#}% reduction" : "") + ".", owner);
+        MutaBorn.Gameplay.CombatFloatingFeedback.ReportGuardActivated(owner);
 
         return true;
 
@@ -76,17 +100,29 @@ public sealed class CombatStatusHandler : MonoBehaviour
     {
         int damage = Mathf.Max(0, incomingDamage);
         if (target == null || damage == 0 ||
-            !guardReductions.TryGetValue(target, out float reduction))
+            !guardReductions.TryGetValue(target, out GuardProtection protection))
         {
             return damage;
 
         }
 
-        int reducedDamage = Mathf.CeilToInt(damage * (1f - reduction / 100f));
-        reducedDamage = Mathf.Max(0, reducedDamage);
+        int reducedDamage = Mathf.Max(1, damage - protection.Flat);
+        if (protection.Percent > 0f)
+        {
+            reducedDamage = Mathf.Max(1, Mathf.CeilToInt(reducedDamage *
+                (1f - protection.Percent / 100f)));
 
-        Debug.Log($"{target.data.characterName}'s Guard reduced incoming damage from " +
-                  $"{damage} to {reducedDamage}.", target);
+        }
+
+        if (reducedDamage < damage)
+        {
+            MutaBorn.Gameplay.CombatFloatingFeedback.ReportGuardBlocked(target, damage - reducedDamage);
+
+        }
+
+        Debug.Log($"{target.data.characterName}'s Guard reduced incoming ordinary damage from " +
+                  $"{damage} to {reducedDamage} (flat {protection.Flat}, " +
+                  $"percent {protection.Percent:0.#}).", target);
 
         return reducedDamage;
 
@@ -96,7 +132,7 @@ public sealed class CombatStatusHandler : MonoBehaviour
     {
         expiredGuards.Clear();
 
-        foreach (KeyValuePair<UnitController, float> active in guardReductions)
+        foreach (KeyValuePair<UnitController, GuardProtection> active in guardReductions)
         {
             UnitController unit = active.Key;
             if (unit == null || !unit.isActiveAndEnabled ||
@@ -154,7 +190,7 @@ public sealed class CombatStatusHandler : MonoBehaviour
 
         }
 
-        ApplyGuard(debugGuardTarget, debugGuardReductionPercent);
+        ApplyGuard(debugGuardTarget, debugGuardReductionPercent, debugGuardFlatReduction);
 
     }
 

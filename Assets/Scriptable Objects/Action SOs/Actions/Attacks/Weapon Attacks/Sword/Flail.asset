@@ -10,23 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Flail
+  m_Name: "Flail"
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: swing
-  displayName: Swing
-  description: Swing with your sword
+  actionId: "hilt-strike"
+  displayName: "Hilt Strike"
+  description: "Smash with the sword pommel for Blunt damage. May Daze or Stun the target."
   icon: {fileID: 0}
   activationType: 0
   category: 0
-  submenuGroup: General
-  displayOrder: 20
-  apCost: 8
+  submenuGroup: "Sword"
+  displayOrder: 70
+  apCost: 5
+  controlTags: 2
   combatBehavior: 1
   damageStat: 0
-  combatRange: 3
-  damageMultiplier: 1.5
+  combatRange: 2.4
+  damageMultiplier: 0.6
   flatDamageBonus: 0
-  minimumDamage: 5
-  damageType: 0
+  minimumDamage: 1
+  damageType: 3
   additionalDamage: []
-  guardDamageReductionPercent: 50
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 11400000, guid: 553aa48cc6f041a79ecc0ccfb7122abf, type: 2}
+  guardDamageReductionPercent: 0
+  hitCount: 1
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
+  guardFlatDamageReduction: 0

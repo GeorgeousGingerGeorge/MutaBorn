@@ -22,6 +22,22 @@ namespace MutaBorn.Gameplay
         [Header("Types")]
         [SerializeField] private DamageIndicatorStyle[] styles = Array.Empty<DamageIndicatorStyle>();
 
+        [Header("Combat Feedback Icons (Optional)")]
+        [Tooltip("Optional. Leave empty to load HealIcon.png from Resources/DamageIndicators.")]
+        [SerializeField] private Sprite healIcon;
+        [Tooltip("Optional. Leave empty to load APIcon.png from Resources/DamageIndicators.")]
+        [SerializeField] private Sprite apIcon;
+        [Tooltip("Optional. Leave empty to load ManaIcon.png from Resources/DamageIndicators.")]
+        [SerializeField] private Sprite manaIcon;
+        [Tooltip("Optional. Leave empty to load BuffIcon.png from Resources/DamageIndicators.")]
+        [SerializeField] private Sprite buffIcon;
+        [Tooltip("Optional. Leave empty to load DebuffIcon.png from Resources/DamageIndicators.")]
+        [SerializeField] private Sprite debuffIcon;
+        [Tooltip("Optional. Leave empty to load BlockedIcon.png from Resources/DamageIndicators.")]
+        [SerializeField] private Sprite blockedIcon;
+        [Tooltip("Optional. Leave empty to load GuardActivationIcon.png from Resources/DamageIndicators.")]
+        [SerializeField] private Sprite guardActivationIcon;
+
         [Header("Animation")]
         [SerializeField, Min(0.01f)] private float lifetime = 1.05f;
         [SerializeField, Min(0f)] private float holdDuration = 0.16f;
@@ -30,6 +46,14 @@ namespace MutaBorn.Gameplay
         [SerializeField, Min(0f)] private float spawnHeight = 1.1f;
         [SerializeField, Min(1f)] private float sideSpacing = 46f;
         [SerializeField, Min(0f)] private float clusterWindow = 0.25f;
+
+        public Sprite HealIcon => healIcon;
+        public Sprite APIcon => apIcon;
+        public Sprite ManaIcon => manaIcon;
+        public Sprite BuffIcon => buffIcon;
+        public Sprite DebuffIcon => debuffIcon;
+        public Sprite BlockedIcon => blockedIcon;
+        public Sprite GuardActivationIcon => guardActivationIcon;
 
         public float Lifetime => Mathf.Max(0.01f, lifetime);
         public float HoldDuration => Mathf.Clamp(holdDuration, 0f, Lifetime);

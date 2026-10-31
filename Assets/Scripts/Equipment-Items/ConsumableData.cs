@@ -1,6 +1,15 @@
-using Unity.Collections.Tests.CoreCLR.TestJobs;
 using UnityEngine;
 using MutaBorn.Gameplay;
+
+public enum ConsumableUseKind
+{
+    LegacyEffect = 0,
+    RestoreHealth = 1,
+    RestoreActionPoints = 2,
+    ApplyStatus = 3,
+    TargetedAttack = 4
+
+}
 
 [CreateAssetMenu(fileName = "ConsumableData", menuName = "Scriptable Objects/ConsumableData")]
 public class ConsumableData : ItemData
@@ -22,6 +31,15 @@ public class ConsumableData : ItemData
     // Retained for existing assets. Consumables no longer cost AP.
     [SerializeField, HideInInspector] private int apCost = 5;
     [SerializeField] private EffectGrant onUseEffect = new EffectGrant();
+    [Header("New Consumable Behavior")]
+    [SerializeField] private ConsumableUseKind useKind = ConsumableUseKind.LegacyEffect;
+    [SerializeField, Min(0)] private int restoreHealth;
+    [SerializeField, Min(0)] private int restoreActionPoints;
+    [SerializeField] private StatusDefinition appliedStatus;
+    [Tooltip("Throwing knife: restore every charge after this item scores a killing blow.")]
+    [SerializeField] private bool refillOnKill;
+    [Tooltip("Boomerang: spend AP on the attack, not an item charge.")]
+    [SerializeField] private bool usesActionPointsOnly;
 
 
     public ConsumableType consumable => _consumable;
@@ -34,5 +52,11 @@ public class ConsumableData : ItemData
     // Legacy API: consumables now use their remaining uses instead of AP.
     public int ApCost => 0;
     public EffectGrant OnUseEffect => onUseEffect;
+    public ConsumableUseKind UseKind => useKind;
+    public int RestoreHealth => Mathf.Max(0, restoreHealth);
+    public int RestoreActionPoints => Mathf.Max(0, restoreActionPoints);
+    public StatusDefinition AppliedStatus => appliedStatus;
+    public bool RefillOnKill => refillOnKill;
+    public bool UsesActionPointsOnly => usesActionPointsOnly;
     
 }

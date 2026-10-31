@@ -205,7 +205,19 @@ public sealed class MissionObjectiveHUD : MonoBehaviour
 
         content.Append("    <color=#B0BDCB>");
 
-        if (objective.Type == MissionObjectiveType.EliminateUnits)
+        if (objective.Type == MissionObjectiveType.ExtractPlayerUnits)
+        {
+            content.Append("In extraction: ").Append(objective.Progress)
+                .Append(" / ").Append(objective.Total);
+
+            if (!objective.HasExtractionZone)
+            {
+                content.Append("  (Place extraction zone)");
+
+            }
+
+        }
+        else if (objective.Type == MissionObjectiveType.EliminateUnits)
         {
             content.Append("Remaining: ").Append(objective.Remaining)
                 .Append(" / ").Append(objective.Total);

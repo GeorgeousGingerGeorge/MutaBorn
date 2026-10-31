@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance { get; private set; }
+
+
     [Header("References")]
     [SerializeField] private Transform cameraTransform;
 
@@ -14,6 +17,15 @@ public class CameraController : MonoBehaviour
     [SerializeField, Min(0f)] private float acceleration = 30f;
     [SerializeField, Min(0f)] private float deceleration = 35f;
     [SerializeField, Min(1f)] private float fastMoveMultiplier = 2f;
+
+
+    [Header("Automatic Unit Focus")]
+    [SerializeField, Min(0.1f)] private float focusTravelSpeed = 12f;
+    [SerializeField, Min(0.01f)] private float focusSmoothTime = 0.22f;
+    [SerializeField, Min(0f)] private float focusArrivalDistance = 0.05f;
+    [SerializeField] private bool focusOnUnitSwitch = true;
+    [SerializeField] private bool focusOnAction = true;
+    [SerializeField] private bool cancelFocusOnManualMovement = true;
 
 
     [Header("Rotation")]
@@ -37,6 +49,11 @@ public class CameraController : MonoBehaviour
     private Vector3 zoomDirection;
     private float currentZoomDistance;
     private float targetZoomDistance;
+    private Transform focusTarget;
+    private Vector3 focusVelocity;
+    private bool isFocusing;
+
+
 
 
 
@@ -60,6 +77,17 @@ public class CameraController : MonoBehaviour
             enabled = false;
 
             return;
+
+        }
+
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning("Multiple CameraControllers found; unit focus will use the first active rig.", this);
+
+        }
+        else
+        {
+            Instance = this;
 
         }
 
@@ -89,11 +117,18 @@ public class CameraController : MonoBehaviour
         cameraControls.Camera.ZoomCamera.performed -= ZoomCamera;
         cameraControls.Camera.Disable();
         horizontalVelocity = Vector3.zero;
+        CancelFocus();
 
     }
 
     private void OnDestroy()
     {
+        if (Instance == this)
+        {
+            Instance = null;
+
+        }
+
         cameraControls?.Dispose();
 
     }
@@ -102,8 +137,47 @@ public class CameraController : MonoBehaviour
     {
         RotateCamera();
         GetKeyboardMovement();
+        if (isFocusing && cancelFocusOnManualMovement && targetMovement.sqrMagnitude > 0.0001f)
+        {
+            CancelFocus();
+
+        }
+
         UpdateBasePosition();
         UpdateCameraPosition();
+
+    }
+
+    // This only moves the CameraRig pivot. Rotation and zoom stay under player control.
+    public void FocusOnUnit(UnitController unit, bool actionFocus = false)
+    {
+        if (!isActiveAndEnabled || unit == null || !unit.isActiveAndEnabled ||
+            unit.data == null || unit.data.currentHealth <= 0 ||
+            (actionFocus ? !focusOnAction : !focusOnUnitSwitch))
+        {
+            return;
+
+        }
+
+        Transform target = unit.transform;
+        if (isFocusing && focusTarget == target)
+        {
+            return;
+
+        }
+
+        focusTarget = target;
+        isFocusing = true;
+        horizontalVelocity = Vector3.zero;
+        focusVelocity = Vector3.zero;
+
+    }
+
+    public void CancelFocus()
+    {
+        isFocusing = false;
+        focusTarget = null;
+        focusVelocity = Vector3.zero;
 
     }
 
@@ -128,6 +202,36 @@ public class CameraController : MonoBehaviour
 
     private void UpdateBasePosition()
     {
+        if (isFocusing)
+        {
+            if (focusTarget == null)
+            {
+                CancelFocus();
+
+            }
+            else
+            {
+                Vector3 destination = focusTarget.position;
+                if ((transform.position - destination).sqrMagnitude <=
+                    focusArrivalDistance * focusArrivalDistance)
+                {
+                    transform.position = destination;
+                    CancelFocus();
+
+                }
+                else
+                {
+                    transform.position = Vector3.SmoothDamp(transform.position, destination,
+                        ref focusVelocity, focusSmoothTime, focusTravelSpeed, Time.deltaTime);
+
+                }
+
+                return;
+
+            }
+
+        }
+
         float speed = maxMoveSpeed;
         if (fastMoveAction.IsPressed())
         {

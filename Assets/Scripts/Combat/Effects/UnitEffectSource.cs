@@ -457,6 +457,63 @@ namespace MutaBorn.Gameplay
                 report.Target, report.Attacker, report.Target, report.Target,
                 report.Action, report.ActualDamage, true, 1, report.SourceEquipmentIndex));
 
+            // Action-specific grants only fire for this action's attacker on
+            // the original hit, never on a recursive damage-over-time tick.
+            if (report.Attacker == owner && report.Action != null &&
+                !CombatActionExecutor.IsPublishingEffectDamage)
+            {
+                ProcessActionDamageEffects(report, resolutionId);
+
+            }
+
+        }
+
+        private void ProcessActionDamageEffects(CombatDamageEvent report, long resolutionId)
+        {
+            EffectCollection collection = report.Action.OnDamageEffects;
+            if (collection == null || collection.Effects == null)
+            {
+                return;
+
+            }
+
+            List<EffectRuntimeInstance> grants = new List<EffectRuntimeInstance>();
+            foreach (EffectGrant grant in collection.Effects)
+            {
+                if (grant != null && grant.Definition != null)
+                {
+                    grants.Add(new EffectRuntimeInstance(collection, grant));
+
+                }
+
+            }
+
+            if (grants.Count == 0)
+            {
+                return;
+
+            }
+
+            if (factions == null)
+            {
+                factions = FindAnyObjectByType<FactionManager>();
+
+            }
+
+            EffectEventContext context = new EffectEventContext(
+                EffectTrigger.OnDamageDealt, resolutionId,
+                owner, owner, report.Target, report.Target,
+                report.Action, report.ActualDamage, true, 1, report.SourceEquipmentIndex);
+
+            int applied = EffectProcessor.Process(owner, grants, context, factions, logEffectResults);
+            if (logEffectResults)
+            {
+                Debug.Log($"[Action Effects] {report.Action.DisplayName}: " +
+                    $"{applied}/{grants.Count} effect grant(s) applied to " +
+                    $"{report.Target.data.characterName} / {owner.data.characterName}.", owner);
+
+            }
+
         }
 
         private void OnTurnStarted(FactionData faction)

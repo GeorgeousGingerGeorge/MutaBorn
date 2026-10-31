@@ -14,17 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
   actionId: guard
   displayName: Guard
-  description: Enter a defensive stance, reducing incoming damage by 50% until the start of your next turn.
+  description: Take cover: reduce each ordinary hit by 3 (minimum 1 damage) until your next turn.
   icon: {fileID: 0}
   activationType: 0
   category: 1
   submenuGroup: Defensive
   displayOrder: 10
-  apCost: 8
+  apCost: 6
   combatBehavior: 2
   damageStat: 0
   combatRange: 0.1
   damageMultiplier: 0
   flatDamageBonus: 0
   minimumDamage: 0
-  guardDamageReductionPercent: 50
+  guardDamageReductionPercent: 0
+  guardFlatDamageReduction: 3

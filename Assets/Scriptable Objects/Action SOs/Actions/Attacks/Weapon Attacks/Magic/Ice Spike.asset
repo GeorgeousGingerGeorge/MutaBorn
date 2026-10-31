@@ -10,23 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Ice Spike
+  m_Name: "Ice Spike"
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: ice-spike
-  displayName: Ice Spike
-  description: Shoot magic ice at enemy
+  actionId: "ice-spike"
+  displayName: "Ice Spike"
+  description: "Piercing ice that chills movement; chance to inflict Slowed."
   icon: {fileID: 0}
   activationType: 0
   category: 0
-  submenuGroup: Magic
-  displayOrder: 4
-  apCost: 8
+  submenuGroup: "Magic"
+  displayOrder: 30
+  apCost: 7
   combatBehavior: 1
   damageStat: 2
   combatRange: 7
-  damageMultiplier: 1.7
+  damageMultiplier: 1.2
   flatDamageBonus: 0
-  minimumDamage: 7
+  minimumDamage: 1
   damageType: 12
   additionalDamage: []
-  guardDamageReductionPercent: 50
+  guardDamageReductionPercent: 0
+  controlTags: 1
+  hitCount: 1
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 11400000, guid: 3c87f7d0b07940d29c597ab48f1c68b1, type: 2}
+  guardFlatDamageReduction: 0

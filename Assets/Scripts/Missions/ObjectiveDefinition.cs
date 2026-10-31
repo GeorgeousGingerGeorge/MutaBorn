@@ -3,7 +3,8 @@ using UnityEngine;
 public enum MissionObjectiveType
 {
     EliminateUnits,
-    InteractWithTargets
+    InteractWithTargets,
+    ExtractPlayerUnits
 
 }
 

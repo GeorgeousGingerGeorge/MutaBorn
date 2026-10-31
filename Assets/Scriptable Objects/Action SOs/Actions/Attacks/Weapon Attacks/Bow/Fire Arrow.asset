@@ -10,23 +10,37 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: Fire Arrow
+  m_Name: "Fire Arrow"
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: tripple-shot
-  displayName: Tripple Shot
-  description: Shoot 3 weeker arrows in quick susession
+  actionId: "fire-arrow"
+  displayName: "Fire Arrow"
+  description: "Ignite the arrowhead. Adds Fire damage and can inflict Burning."
   icon: {fileID: 0}
   activationType: 0
   category: 0
-  submenuGroup: Ranged
-  displayOrder: 5
-  apCost: 9
+  submenuGroup: "Bow"
+  displayOrder: 50
+  apCost: 7
+  controlTags: 2
   combatBehavior: 1
   damageStat: 1
-  combatRange: 10
-  damageMultiplier: 1.7
+  combatRange: 9
+  damageMultiplier: 0.95
   flatDamageBonus: 0
-  minimumDamage: 7
-  damageType: 0
-  additionalDamage: []
-  guardDamageReductionPercent: 50
+  minimumDamage: 1
+  damageType: 2
+  additionalDamage: [{damageType: 11, amount: 4}]
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 11400000, guid: 164d2411c7f8430e997f93bc50fffbae, type: 2}
+  guardDamageReductionPercent: 0
+  hitCount: 1
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
+  guardFlatDamageReduction: 0
