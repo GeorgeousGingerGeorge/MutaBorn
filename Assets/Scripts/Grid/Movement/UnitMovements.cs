@@ -87,7 +87,10 @@ public class UnitMovements : MonoBehaviour
 
         if (pathIndex >= movementPath.Count)
         {
+            unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost)); // Unity function that rounds a float UP to the nearest int
+
             isMoving = false;
+
             if (selectionController.selectedUnit == unit)
             {
                 selectionController.ClearDestination();
