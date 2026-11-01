@@ -23,6 +23,11 @@ public class UnitController : MonoBehaviour
   //  private OutlineController characterOutline;
     private bool isHovered = false;
     private bool isSelected = false;
+
+    [Header("Selection Circle")]
+    [SerializeField] private LineRenderer selectionCircle;
+
+
     public void Start() 
     {
         InitializeUnitData();
@@ -102,11 +107,14 @@ public class UnitController : MonoBehaviour
         isHovered = hover;
 
     }
-    public void SetSelected(bool selected) 
+    public void SetSelected(bool selected)
     {
         isSelected = selected;
-      
 
+        if (selectionCircle != null)
+        {
+            selectionCircle.enabled = selected;
+        }
     }
 
     public bool GetSelected() 
@@ -118,4 +126,8 @@ public class UnitController : MonoBehaviour
     {
         return data.currentActionPoints;
     }
+
+
 }
+
+
