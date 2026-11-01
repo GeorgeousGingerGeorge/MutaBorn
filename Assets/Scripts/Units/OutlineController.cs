@@ -26,7 +26,12 @@ public class OutlineController : MonoBehaviour
     [SerializeField]private LayerMask unitLayer;
 
     [Header("Selection/Hover Color Control")]
-  
+
+    [Header("Selection Circle")]
+    [SerializeField] private LineRenderer selectionCircle;
+    [SerializeField] private float circleRadius = 0.75f;
+    [SerializeField, Range(3, 128)] private int circleSegments = 48;
+    
     private Color hoverColor;
     private Color selectedColor;
     private bool isHovered = false;
@@ -37,16 +42,40 @@ public class OutlineController : MonoBehaviour
     public void SetupRenderer() 
     {
         properties = new MaterialPropertyBlock();
-        outlineRenderer.enabled = false; 
+        outlineRenderer.enabled = false;
+
+        if (selectionCircle != null)
+        {
+            selectionCircle.useWorldSpace = false;
+            selectionCircle.loop = true;
+            selectionCircle.positionCount = circleSegments;
+
+            for (int i = 0; i < circleSegments; i++)
+            {
+                float angle = i * Mathf.PI * 2f / circleSegments;
+
+                float x = Mathf.Cos(angle) * circleRadius;
+                float z = Mathf.Sin(angle) * circleRadius;
+
+                selectionCircle.SetPosition(i, new Vector3(x, 0f, z));
+            }
+
+            selectionCircle.enabled = false;
+        }
     }
 
     public void SetHovered(bool hovered) 
     {
         isHovered = hovered;
     }
-    public void SetSelected(bool selected) 
+    public void SetSelected(bool selected)
     {
-        isSelected = selected; 
+        isSelected = selected;
+
+        if (selectionCircle != null)
+        {
+            selectionCircle.enabled = selected;
+        }
     }
 
     public void UpdateColors() 
@@ -129,5 +158,29 @@ public class OutlineController : MonoBehaviour
                 break;
 
         }
+    }
+
+    private void Awake()
+    {
+        if (selectionCircle == null)
+        {
+            return;
+        }
+
+        selectionCircle.useWorldSpace = false;
+        selectionCircle.loop = true;
+        selectionCircle.positionCount = circleSegments;
+
+        for (int i = 0; i < circleSegments; i++)
+        {
+            float angle = i * Mathf.PI * 2f / circleSegments;
+
+            float x = Mathf.Cos(angle) * circleRadius;
+            float z = Mathf.Sin(angle) * circleRadius;
+
+            selectionCircle.SetPosition(i, new Vector3(x, 0f, z));
+        }
+
+        selectionCircle.enabled = false;
     }
 }

@@ -17,7 +17,7 @@ public class GridManager : MonoBehaviour
     [Header("Level Configuration")]
     [SerializeField] private Level_Design currentLevel;
     [Header("Adjust Tile Size")]
-    [SerializeField] private float gridCellSize = 2f;
+    [SerializeField] public float gridCellSize = 2f;
     [SerializeField, Min(0f)] private float maxStepHeight = 0.5f;
 
     public float GridCellSize => gridCellSize;

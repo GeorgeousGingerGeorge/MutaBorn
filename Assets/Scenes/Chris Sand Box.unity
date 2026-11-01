@@ -152,7 +152,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000026764224}
+  m_AnchoredPosition: {x: 0, y: -0.000012755111}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &53318439
@@ -882,6 +882,7 @@ MonoBehaviour:
   currentMutation: 0
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
+  selectionCircle: {fileID: 198351856}
 --- !u!4 &144338874
 Transform:
   m_ObjectHideFlags: 0
@@ -1172,6 +1173,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 165619440}
   m_CullTransparentMesh: 1
+--- !u!120 &198351856 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 5543561758195868811, guid: 3047e3a52d04c6348be3d9df0ddb20ed, type: 3}
+  m_PrefabInstance: {fileID: 2056515537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &212721983
 GameObject:
   m_ObjectHideFlags: 0
@@ -1556,6 +1562,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 252215668}
   m_CullTransparentMesh: 1
+--- !u!120 &254883448 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 738735851334246161, guid: 54a4aed9fb9a0f34882883988172cd3c, type: 3}
+  m_PrefabInstance: {fileID: 1138275766}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &265315016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,6 +1947,7 @@ MonoBehaviour:
   currentMutation: 1
   currentEquipment: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
   occupancy: {fileID: 493745286}
+  selectionCircle: {fileID: 491544963}
 --- !u!4 &273656778
 Transform:
   m_ObjectHideFlags: 0
@@ -2109,7 +2121,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 300604036}
   m_HandleRect: {fileID: 1204165093}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2784,6 +2796,7 @@ MonoBehaviour:
   currentMutation: 0
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
+  selectionCircle: {fileID: 0}
 --- !u!4 &452063849
 Transform:
   m_ObjectHideFlags: 0
@@ -3191,6 +3204,11 @@ Transform:
   - {fileID: 1405810192}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 9.584, y: 0, z: 0}
+--- !u!120 &491544963 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 2282912704499204947, guid: 1489c73ce72707641861c11c26b46483, type: 3}
+  m_PrefabInstance: {fileID: 1582211644}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &493745285
 GameObject:
   m_ObjectHideFlags: 0
@@ -3252,6 +3270,7 @@ MonoBehaviour:
   maxStepHeight: 0.5
   gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
   obstaclePrefab: {fileID: 1490576499627723649, guid: 4d64a26457947d7409f3f24854110fcc, type: 3}
+  wallPrefab: {fileID: 0}
   floorGenerator:
   - floorID: 1
     worldPosition: {x: 0, y: 0, z: 0}
@@ -3269,105 +3288,45 @@ MonoBehaviour:
   - key: 1
     value:
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 15, y: 2, z: 4}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 6, y: 2}
-      upperFloorId: 3
-      upperGridPosition: {x: 0, y: 2}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 15, y: 2, z: 6}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 6, y: 3}
-      upperFloorId: 3
-      upperGridPosition: {x: 0, y: 3}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 15, y: 2, z: 8}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 6, y: 4}
-      upperFloorId: 3
-      upperGridPosition: {x: 0, y: 4}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 1, y: 2, z: 4}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 2, y: 2}
-      upperFloorId: 2
-      upperGridPosition: {x: 9, y: 2}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 1, y: 2, z: 6}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 2, y: 3}
-      upperFloorId: 2
-      upperGridPosition: {x: 9, y: 3}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 1, y: 2, z: 8}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 2, y: 4}
-      upperFloorId: 2
-      upperGridPosition: {x: 9, y: 4}
   - key: 2
     value:
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: -3, y: 6, z: 14}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 2
-      lowerGridPosition: {x: 7, y: 7}
-      upperFloorId: 4
-      upperGridPosition: {x: 0, y: 0}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: -3, y: 6, z: 16}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 2
-      lowerGridPosition: {x: 7, y: 8}
-      upperFloorId: 4
-      upperGridPosition: {x: 0, y: 1}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: -3, y: 6, z: 18}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 2
-      lowerGridPosition: {x: 7, y: 9}
-      upperFloorId: 4
-      upperGridPosition: {x: 0, y: 2}
   - key: 3
     value:
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 21, y: 6, z: 14}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 3
-      lowerGridPosition: {x: 3, y: 7}
-      upperFloorId: 4
-      upperGridPosition: {x: 9, y: 0}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 21, y: 6, z: 16}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 3
-      lowerGridPosition: {x: 3, y: 8}
-      upperFloorId: 4
-      upperGridPosition: {x: 9, y: 1}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 21, y: 6, z: 18}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 3
-      lowerGridPosition: {x: 3, y: 9}
-      upperFloorId: 4
-      upperGridPosition: {x: 9, y: 2}
 --- !u!114 &493745288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4549,6 +4508,7 @@ MonoBehaviour:
   currentMutation: 0
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
+  selectionCircle: {fileID: 254883448}
 --- !u!4 &624169111
 Transform:
   m_ObjectHideFlags: 0
@@ -5400,7 +5360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e27292a15679545b93039a34ebb1d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitFaction
-  faction: {fileID: 11400000, guid: 90b103caf4fcfae468947a5282f4e9b2, type: 2}
+  faction: {fileID: 0}
 --- !u!64 &679525401
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5453,6 +5413,7 @@ MonoBehaviour:
   currentMutation: 0
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
+  selectionCircle: {fileID: 0}
 --- !u!114 &679525404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5472,6 +5433,9 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 64
+  selectionCircle: {fileID: 0}
+  circleRadius: 0.75
+  circleSegments: 48
 --- !u!1 &681401672
 GameObject:
   m_ObjectHideFlags: 0
@@ -5975,8 +5939,9 @@ MonoBehaviour:
   unitName: TEST Enemy
   raceName: Orcs
   currentMutation: 0
-  currentEquipment: {fileID: 11400000, guid: 527eda6b9605c494b933742239a57615, type: 2}
+  currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
+  selectionCircle: {fileID: 0}
 --- !u!4 &720631721
 Transform:
   m_ObjectHideFlags: 0
@@ -7545,6 +7510,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1008907116}
   m_CullTransparentMesh: 1
+--- !u!120 &1033813854 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 3457857045668915437, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
+  m_PrefabInstance: {fileID: 1496302690}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1060719787
 GameObject:
   m_ObjectHideFlags: 0
@@ -9155,6 +9125,11 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!120 &1317037241 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 6129726167203957634, guid: fa47fcdfab38e864ba231b94b89b172c, type: 3}
+  m_PrefabInstance: {fileID: 1460967266}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1323898957
 GameObject:
   m_ObjectHideFlags: 0
@@ -9546,6 +9521,7 @@ MonoBehaviour:
   currentMutation: 2
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
+  selectionCircle: {fileID: 0}
 --- !u!4 &1391256937
 Transform:
   m_ObjectHideFlags: 0
@@ -10431,6 +10407,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2060320076}
     m_Modifications:
+    - target: {fileID: 3457857045668915437, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0.7914429
+      objectReference: {fileID: 0}
+    - target: {fileID: 3457857045668915437, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.203619
+      objectReference: {fileID: 0}
     - target: {fileID: 3805319766816371577, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
       propertyPath: m_Name
       value: playermodel_Goblin
@@ -10479,10 +10463,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9051371487773597434, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
+      propertyPath: selectionCircle
+      value: 
+      objectReference: {fileID: 1033813854}
     m_RemovedComponents:
     - {fileID: 2807891797246742004, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
     - {fileID: 1854940238333256030, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
     - {fileID: 4950978339065809008, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
+    - {fileID: 9051371487773597434, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -10936,6 +10925,7 @@ MonoBehaviour:
   currentMutation: 2
   currentEquipment: {fileID: 11400000, guid: e96c41b3e172ea1418a16876e593f4d8, type: 2}
   occupancy: {fileID: 493745286}
+  selectionCircle: {fileID: 1317037241}
 --- !u!4 &1722696935
 Transform:
   m_ObjectHideFlags: 0
@@ -11137,6 +11127,7 @@ MonoBehaviour:
   currentMutation: 1
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
+  selectionCircle: {fileID: 1904682979}
 --- !u!4 &1793375462
 Transform:
   m_ObjectHideFlags: 0
@@ -11751,6 +11742,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861180796}
   m_CullTransparentMesh: 1
+--- !u!120 &1904682979 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 5543561758195868811, guid: 3047e3a52d04c6348be3d9df0ddb20ed, type: 3}
+  m_PrefabInstance: {fileID: 2095091966}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1941145767
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12712,8 +12708,9 @@ MonoBehaviour:
   unitName: Goblino
   raceName: Goblins
   currentMutation: 0
-  currentEquipment: {fileID: 11400000, guid: 3d831cbcb4b47aa419c854e5eab4fc7d, type: 2}
+  currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
+  selectionCircle: {fileID: 1033813854}
 --- !u!4 &2060320076
 Transform:
   m_ObjectHideFlags: 0

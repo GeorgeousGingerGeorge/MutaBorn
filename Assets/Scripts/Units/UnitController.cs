@@ -37,6 +37,11 @@ public class UnitController : MonoBehaviour
   //  private OutlineController characterOutline;
     private bool isHovered = false;
     private bool isSelected = false;
+
+    [Header("Selection Circle")]
+    [SerializeField] private LineRenderer selectionCircle;
+
+
     public void Start() 
     {
         InitializeUnitData();
@@ -570,11 +575,14 @@ public class UnitController : MonoBehaviour
         isHovered = hover;
 
     }
-    public void SetSelected(bool selected) 
+    public void SetSelected(bool selected)
     {
         isSelected = selected;
-      
 
+        if (selectionCircle != null)
+        {
+            selectionCircle.enabled = selected;
+        }
     }
 
     public bool GetSelected() 
@@ -586,4 +594,33 @@ public class UnitController : MonoBehaviour
     {
         return data.currentActionPoints;
     }
+
+    private void Awake()
+    {
+        if (selectionCircle == null)
+        {
+            return;
+        }
+
+        int segments = 48;
+        float radius = 0.75f;
+
+        selectionCircle.useWorldSpace = false;
+        selectionCircle.loop = true;
+        selectionCircle.positionCount = segments;
+
+        for (int i = 0; i < segments; i++)
+        {
+            float angle = i * Mathf.PI * 2f / segments;
+
+            float x = Mathf.Cos(angle) * radius;
+            float z = Mathf.Sin(angle) * radius;
+
+            selectionCircle.SetPosition(i, new Vector3(x, 0f, z));
+        }
+
+        selectionCircle.enabled = false;
+    }
 }
+
+
