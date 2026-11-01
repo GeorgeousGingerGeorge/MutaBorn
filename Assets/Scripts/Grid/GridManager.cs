@@ -20,6 +20,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] private float gridCellSize = 2f;
     [SerializeField, Min(0f)] private float maxStepHeight = 0.5f;
 
+    public float GridCellSize => gridCellSize;
+
     [Header("CurrentGrid Information")]
     private Dictionary<Vector2Int, GridNode> grid = new Dictionary<Vector2Int, GridNode>();
 

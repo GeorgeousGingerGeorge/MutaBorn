@@ -75,18 +75,18 @@ public class FloorConnector : MonoBehaviour
 
         float horizontalDistance = horizontalDirection.magnitude;
 
-        if (horizontalDistance < gridManager.gridCellSize) 
+        if (horizontalDistance < gridManager.GridCellSize) 
         {
             return;
         }
 
         horizontalDirection.Normalize();
 
-        int steps = Mathf.RoundToInt(horizontalDistance / gridManager.gridCellSize);
+        int steps = Mathf.RoundToInt(horizontalDistance / gridManager.GridCellSize);
 
         for (int i = 1; i < steps; i++) 
         {
-            Vector3 nodePosition = lowerPosition + horizontalDirection * (i * gridManager.gridCellSize);
+            Vector3 nodePosition = lowerPosition + horizontalDirection * (i * gridManager.GridCellSize);
 
             GridNode node = gridManager.GetNodeFromClosestWorldPosition(nodePosition);
 

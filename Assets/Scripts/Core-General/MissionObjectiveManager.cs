@@ -26,6 +26,7 @@ public sealed class MissionObjectiveEntry
 {
     private readonly HashSet<Component> targets = new();
     private readonly HashSet<Component> completedTargets = new();
+    private int extractionProgress;
 
     public string Id { get; }
     public string Title => Template.Title;
@@ -37,7 +38,8 @@ public sealed class MissionObjectiveEntry
     public bool CountWhileLocked { get; }
     public bool Visible { get; private set; }
     public MissionObjectiveStatus Status { get; private set; }
-    public int Progress => completedTargets.Count;
+    public int Progress => Type == MissionObjectiveType.ExtractPlayerUnits ? extractionProgress : completedTargets.Count;
+    public bool HasExtractionZone { get; private set; } = true;
     public int Total { get; private set; }
     public int TargetCount => targets.Count;
     public int Remaining => Mathf.Max(0, Total - Progress);
@@ -53,6 +55,20 @@ public sealed class MissionObjectiveEntry
         Visible = setup.InitiallyVisible;
         Prerequisites = setup.PrerequisiteObjectiveIds;
         Status = MissionObjectiveStatus.Locked;
+
+    }
+
+    internal bool SetExtractionProgress(int inside, int total, bool hasZone)
+    {
+        int newTotal = Mathf.Max(1, total);
+        int newProgress = Mathf.Clamp(inside, 0, newTotal);
+        bool changed = Total != newTotal || extractionProgress != newProgress || HasExtractionZone != hasZone;
+
+        Total = newTotal;
+        extractionProgress = newProgress;
+        HasExtractionZone = hasZone;
+
+        return changed;
 
     }
 
@@ -118,6 +134,8 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
     private readonly List<MissionObjectiveEntry> objectives = new();
     private readonly HashSet<string> ids = new(StringComparer.OrdinalIgnoreCase);
+    private float nextExtractionCheck;
+    private bool warnedAboutMissingZone;
 
     public IReadOnlyList<MissionObjectiveEntry> Objectives => objectives;
     public LevelMissionData LevelMission => levelMission;
@@ -168,6 +186,19 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Status != MissionStatus.InProgress || Time.time < nextExtractionCheck)
+        {
+            return;
+
+        }
+
+        nextExtractionCheck = Time.time + 0.15f;
+        RefreshExtractionProgress();
+
+    }
+
     private void InitializeMission()
     {
         if (levelMission == null || levelMission.PlayerFaction == null || factionManager == null)
@@ -181,6 +212,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         objectives.Clear();
         ids.Clear();
+        warnedAboutMissingZone = false;
 
         foreach (LevelObjectiveSetup setup in levelMission.Objectives)
         {
@@ -259,6 +291,15 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
             objective.FinishTargetCount();
 
+            if (objective.Type == MissionObjectiveType.ExtractPlayerUnits)
+            {
+                // Dynamic objective: progress is computed from living player units inside ONE zone.
+                // This is not an interaction or a fixed count of targets.
+                objective.SetExtractionProgress(0, 1, false);
+                continue;
+
+            }
+
             if (objective.TargetCount == 0)
             {
                 Debug.LogWarning($"Objective '{objective.Id}' found no matching targets. " +
@@ -277,6 +318,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         }
 
         Status = MissionStatus.InProgress;
+        RefreshExtractionProgress(false);
         RefreshDependencies();
         PublishChange();
         CheckMissionCompletion();
@@ -289,6 +331,135 @@ public sealed class MissionObjectiveManager : MonoBehaviour
                           $"{objective.Status}, optional={objective.Optional}.", this);
 
             }
+
+        }
+
+    }
+
+    private void RefreshExtractionProgress(bool publish = true)
+    {
+        bool hasExtractionObjective = false;
+
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            if (objective.Type == MissionObjectiveType.ExtractPlayerUnits)
+            {
+                hasExtractionObjective = true;
+                break;
+
+            }
+
+        }
+
+        if (!hasExtractionObjective || levelMission == null)
+        {
+            return;
+
+        }
+
+        List<UnitController> livingAllies = new();
+
+        foreach (UnitController unit in FindObjectsByType<UnitController>())
+        {
+            if (!IsLivingUnit(unit))
+            {
+                continue;
+
+            }
+
+            UnitFaction member = unit.GetComponent<UnitFaction>();
+            if (member != null && member.Faction == levelMission.PlayerFaction)
+            {
+                livingAllies.Add(unit);
+
+            }
+
+        }
+
+        // All-player-unit extraction cannot succeed with zero survivors.
+        if (livingAllies.Count == 0)
+        {
+            FinishMission(MissionStatus.Defeat);
+
+            return;
+
+        }
+
+        MissionExtractionZone[] zones = FindObjectsByType<MissionExtractionZone>();
+        bool changed = false;
+
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            if (objective.Type != MissionObjectiveType.ExtractPlayerUnits ||
+                objective.Status == MissionObjectiveStatus.Failed ||
+                objective.Status == MissionObjectiveStatus.Completed)
+            {
+                continue;
+
+            }
+
+            int bestInside = 0;
+            bool zoneFound = false;
+
+            foreach (MissionExtractionZone zone in zones)
+            {
+                if (zone == null || !zone.isActiveAndEnabled ||
+                    !zone.MatchesZoneId(objective.Template.TargetKey))
+                {
+                    continue;
+
+                }
+
+                zoneFound = true;
+                int inside = 0;
+
+                foreach (UnitController ally in livingAllies)
+                {
+                    if (zone.Contains(ally))
+                    {
+                        inside++;
+
+                    }
+
+                }
+
+                bestInside = Mathf.Max(bestInside, inside);
+
+            }
+
+            if (!zoneFound && !warnedAboutMissingZone)
+            {
+                warnedAboutMissingZone = true;
+                Debug.LogWarning($"Extraction objective '{objective.Id}' has no active MissionExtractionZone " +
+                                 $"with Zone ID '{objective.Template.TargetKey}'. Place the Extraction Zone prefab in the scene.", this);
+
+            }
+
+            // Keep completion impossible until at least one matching zone actually exists.
+            bool objectiveChanged = objective.SetExtractionProgress(zoneFound ? bestInside : 0,
+                livingAllies.Count, zoneFound);
+            changed |= objectiveChanged;
+
+            if (objectiveChanged && logProgress && publish)
+            {
+                Debug.Log($"Extraction '{objective.Title}': {objective.Progress}/{objective.Total} surviving allies inside.", this);
+
+            }
+
+        }
+
+        if (!changed)
+        {
+            return;
+
+        }
+
+        RefreshDependencies();
+
+        if (publish)
+        {
+            PublishChange();
+            CheckMissionCompletion();
 
         }
 
@@ -409,11 +580,21 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         RecordMatchingTarget(MissionObjectiveType.EliminateUnits, defeated);
 
-        if (Status == MissionStatus.InProgress && !HasLivingPlayerUnit())
+        if (Status != MissionStatus.InProgress)
+        {
+            return;
+
+        }
+
+        if (!HasLivingPlayerUnit())
         {
             FinishMission(MissionStatus.Defeat);
 
+            return;
+
         }
+
+        RefreshExtractionProgress();
 
     }
 
@@ -471,7 +652,8 @@ public sealed class MissionObjectiveManager : MonoBehaviour
                 }
 
                 if (objective.Status == MissionObjectiveStatus.Active &&
-                    objective.Progress >= objective.Total)
+                    objective.Progress >= objective.Total &&
+                    (objective.Type != MissionObjectiveType.ExtractPlayerUnits || objective.HasExtractionZone))
                 {
                     objective.SetStatus(MissionObjectiveStatus.Completed);
                     changed = true;

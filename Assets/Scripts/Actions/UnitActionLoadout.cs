@@ -74,33 +74,28 @@ public class UnitActionLoadout : MonoBehaviour
         // Shared starting actions are configured once in GameDataBase.
         AddActionsFromSet(gameData.universalActions, "Universal", ids, definitions);
 
-        // The race definition itself owns its racial ActionSet.
-        if (gameData.raceData != null &&
-            !string.IsNullOrWhiteSpace(unit.data.raceName))
+        // Reuse the race definition already selected when UnitData was created.
+        // Its RaceName may differ from the RaceDataBase's lookup key.
+        DynamicStats race = unit.data.RaceDefinition;
+        if (race != null)
         {
-            DynamicStats race = gameData.raceData.GetRace(unit.data.raceName);
-            if (race != null)
-            {
-                AddActionsFromSet(
-                    race.RacialActions, $"Race ({race.name})", ids, definitions);
+            AddActionsFromSet(
+                race.RacialActions, $"Race ({race.name})", ids, definitions);
 
-            }
-            else
-            {
-                Debug.LogWarning(
-                    $"No race definition found for '{unit.data.raceName}' on '{name}'.",
-                    this);
-
-            }
+        }
+        else
+        {
+            Debug.LogWarning(
+                $"No initialized race definition for '{unit.data.raceName}' on '{name}'.",
+                this);
 
         }
 
         // Equipment actions come from the items the unit actually brought into combat.
         if (unit.data.equippedItems != null)
         {
-            foreach (KeyValuePair<EquipmentSlots, EquipmentInstance> equipped in unit.data.equippedItems)
+            foreach (EquipmentInstance item in unit.data.equippedItems)
             {
-                EquipmentInstance item = equipped.Value;
 
                 if (item.Equals(default(EquipmentInstance)))
                 {
@@ -110,9 +105,20 @@ public class UnitActionLoadout : MonoBehaviour
 
                 AddActionsFromSet(
                     item.grantedActionSet,
-                    $"Equipment ({item.itemName}, {equipped.Key})",
+                    $"Equipment ({item.itemName}, {item.slot})",
                     ids,
                     definitions);
+
+                if (item.grantedActions != null)
+                {
+                    foreach (ActionDefinition action in item.grantedActions)
+                    {
+                        AddAction(action, $"Equipment ({item.itemName}, {item.slot})",
+                            ids, definitions);
+
+                    }
+
+                }
 
             }
 
@@ -143,6 +149,29 @@ public class UnitActionLoadout : MonoBehaviour
 
         }
 
+        // Fixed mutations grant their own exact node content, independent of body slots.
+        if (gameData.mutationData != null && unit.data.activeMutationNodes != null)
+        {
+            foreach (ActiveMutationRecord active in unit.data.activeMutationNodes)
+            {
+                MutationNodeDefinition node = gameData.mutationData.GetNode(active.MutationId);
+                if (node == null)
+                {
+                    continue;
+
+                }
+
+                AddActionsFromSet(node.ActionSet, $"Mutation ({node.DisplayName})", ids, definitions);
+                foreach (ActionDefinition action in node.GrantedActions)
+                {
+                    AddAction(action, $"Mutation ({node.DisplayName})", ids, definitions);
+
+                }
+
+            }
+
+        }
+
         // Future source: learned skills. These belong to UnitData.
 
         Version++;
@@ -163,42 +192,45 @@ public class UnitActionLoadout : MonoBehaviour
 
         foreach (ActionDefinition action in set.Actions)
         {
-            if (action == null)
-            {
-                continue;
-
-            }
-
-            string id = action.Id?.Trim();
-            if (string.IsNullOrEmpty(id))
-            {
-                Debug.LogWarning(
-                    $"Action '{action.name}' in {source} has an empty Action ID.",
-                    this);
-
-                continue;
-
-            }
-
-            if (!ids.Add(id))
-            {
-                if (definitions.TryGetValue(id, out ActionDefinition existing) && existing != action)
-                {
-                    Debug.LogWarning(
-                        $"Conflicting Action ID '{id}' in {source}: " +
-                        $"keeping '{existing.name}', ignoring '{action.name}'.",
-                        this);
-
-                }
-
-                continue;
-
-            }
-
-            definitions.Add(id, action);
-            resolvedActions.Add(action);
+            AddAction(action, source, ids, definitions);
 
         }
+
+    }
+
+    private void AddAction(ActionDefinition action, string source,
+        HashSet<string> ids, Dictionary<string, ActionDefinition> definitions)
+    {
+        if (action == null)
+        {
+            return;
+
+        }
+
+        string id = action.Id?.Trim();
+        if (string.IsNullOrEmpty(id))
+        {
+            Debug.LogWarning($"Action '{action.name}' in {source} has an empty Action ID.", this);
+
+            return;
+
+        }
+
+        if (!ids.Add(id))
+        {
+            if (definitions.TryGetValue(id, out ActionDefinition existing) && existing != action)
+            {
+                Debug.LogWarning($"Conflicting Action ID '{id}' in {source}: " +
+                    $"keeping '{existing.name}', ignoring '{action.name}'.", this);
+
+            }
+
+            return;
+
+        }
+
+        definitions.Add(id, action);
+        resolvedActions.Add(action);
 
     }
 

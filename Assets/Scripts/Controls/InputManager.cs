@@ -16,17 +16,46 @@ public class InputManager : MonoBehaviour
 
     public void OnEnable() 
     {
-        mouseLeftAction.action.Enable();
-        returnToMainMenu.action.Enable();
-        floorUpAction.action.Enable();
-        floorDownAction.action.Enable();
+        SetActionEnabled(mouseLeftAction, true);
+        SetActionEnabled(returnToMainMenu, true);
+        SetActionEnabled(floorUpAction, true);
+        SetActionEnabled(floorDownAction, true);
+
     }
     public void OnDisable() 
     {
-        mouseLeftAction.action.Disable();
-        returnToMainMenu.action.Disable();
-        floorUpAction.action.Disable();
-        floorDownAction.action.Disable();
+        SetActionEnabled(mouseLeftAction, false);
+        SetActionEnabled(returnToMainMenu, false);
+        SetActionEnabled(floorUpAction, false);
+        SetActionEnabled(floorDownAction, false);
+
+    }
+
+    private static void SetActionEnabled(InputActionReference reference, bool enabled)
+    {
+        if (reference == null || reference.action == null)
+        {
+            return;
+
+        }
+
+        if (enabled)
+        {
+            reference.action.Enable();
+
+        }
+        else
+        {
+            reference.action.Disable();
+
+        }
+
+    }
+
+    private static bool WasPressed(InputActionReference reference)
+    {
+        return reference != null && reference.action != null && reference.action.WasPressedThisFrame();
+
     }
 
     public int GetUnitCycleDirection()
@@ -59,12 +88,12 @@ public class InputManager : MonoBehaviour
             return 0;
         }
 
-        if (floorUpAction.action.WasPressedThisFrame())
+        if (WasPressed(floorUpAction))
         {
             return 1;
         }
 
-        if (floorDownAction.action.WasPressedThisFrame())
+        if (WasPressed(floorDownAction))
         {
             return -1;
         }
@@ -73,11 +102,11 @@ public class InputManager : MonoBehaviour
 
     public bool OnLeftClick()   
     {
-        return mouseLeftAction.action.WasPressedThisFrame();
+        return WasPressed(mouseLeftAction);
     }
 
     public bool onReturnToMenu()
     {
-        return returnToMainMenu.action.WasPressedThisFrame();
+        return WasPressed(returnToMainMenu);
     }
 }

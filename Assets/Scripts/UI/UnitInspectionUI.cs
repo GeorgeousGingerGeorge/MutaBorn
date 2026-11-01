@@ -233,15 +233,15 @@ public sealed class UnitInspectionUI : MonoBehaviour
 
         if (data.equippedItems != null)
         {
-            foreach (KeyValuePair<EquipmentSlots, EquipmentInstance> equipped in data.equippedItems)
+            foreach (EquipmentInstance item in data.equippedItems)
             {
-                if (equipped.Value.Equals(default(EquipmentInstance)))
+                if (item.Equals(default(EquipmentInstance)))
                 {
                     continue;
 
                 }
 
-                details.AppendLine($"{equipped.Key}: {equipped.Value.itemName}");
+                details.AppendLine($"{item.slot}: {item.itemName}");
                 equipmentCount++;
 
 
@@ -270,6 +270,26 @@ public sealed class UnitInspectionUI : MonoBehaviour
                 }
 
                 details.AppendLine($"{equipped.Value.name} ({equipped.Key}, Stage {equipped.Value.currentStage})");
+                mutationCount++;
+
+            }
+
+        }
+
+        if (data.activeMutationNodes != null && GameDataBaseLoader.Instance != null &&
+            GameDataBaseLoader.Instance.mutationData != null)
+        {
+            MutationDataBase database = GameDataBaseLoader.Instance.mutationData;
+            foreach (ActiveMutationRecord record in data.activeMutationNodes)
+            {
+                MutationNodeDefinition node = database.GetNode(record.MutationId);
+                if (node == null)
+                {
+                    continue;
+
+                }
+
+                details.AppendLine($"{node.DisplayName} ({node.FamilyId}, Level {node.Level})");
                 mutationCount++;
 
             }

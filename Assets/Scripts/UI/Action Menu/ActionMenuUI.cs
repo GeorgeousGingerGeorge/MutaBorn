@@ -64,7 +64,9 @@ public class ActionMenuUI : MonoBehaviour
     private float nextInteractionScanTime;
     private float lastExpandedAP = float.NaN;
     private ActionDefinition previewAction;
+    private ConsumableData previewConsumable;
     private ActionDefinition targetedAction;
+    private bool wasConsumableTargeting;
 
     private void Awake()
     {
@@ -234,6 +236,16 @@ public class ActionMenuUI : MonoBehaviour
 
         }
 
+        bool isConsumableTargeting = CombatActionExecutor.IsTargeting;
+        if (categoryIsOpen && openCategory == ActionMenuCategory.Items &&
+            wasConsumableTargeting && !isConsumableTargeting)
+        {
+            RebuildCategory();
+
+        }
+
+        wasConsumableTargeting = isConsumableTargeting;
+
         //UpdateQuickButtons(currentAP);
         RefreshActionInfoPanel();
         if (categoryIsOpen && !Mathf.Approximately(lastExpandedAP, currentAP))
@@ -357,6 +369,7 @@ public class ActionMenuUI : MonoBehaviour
     {
         categoryIsOpen = false;
         previewAction = null;
+        previewConsumable = null;
         lastExpandedAP = float.NaN;
         if (expandedPanel != null)
         {
@@ -420,6 +433,29 @@ public class ActionMenuUI : MonoBehaviour
                 ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
                 item.Bind(action, displayedUnit.data.currentActionPoints, RequestAction,
                     PreviewAction, EndActionPreview);
+                count++;
+
+            }
+
+        }
+
+        if (openCategory == ActionMenuCategory.Items && displayedUnit != null && displayedUnit.data != null)
+        {
+            for (int i = 0; i < displayedUnit.data.carriedConsumables.Count; i++)
+            {
+                ConsumableInstance consumableInstance = displayedUnit.data.carriedConsumables[i];
+                ConsumableData consumable = consumableInstance.definition;
+                if (consumable == null)
+                {
+                    continue;
+
+                }
+
+                int selectedIndex = i;
+                ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
+                item.BindConsumable(consumable, consumable.UseAction, consumableInstance.remainingUses,
+                    displayedUnit.data.currentActionPoints,
+                    () => RequestConsumable(selectedIndex), PreviewConsumable, EndConsumablePreview);
                 count++;
 
             }
@@ -502,6 +538,7 @@ public class ActionMenuUI : MonoBehaviour
         if (combatExecutor.TryBeginAction(displayedUnit, action))
         {
             targetedAction = TargetingModeController.IsTargeting ? action : null;
+            CameraController.Instance?.FocusOnUnit(displayedUnit, true);
 
         }
 
@@ -645,7 +682,8 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         ActionDefinition shown = displayedUnit != null ? targetedAction ?? previewAction : null;
-        bool shouldShow = shown != null;
+        ConsumableData shownConsumable = displayedUnit != null && shown == null ? previewConsumable : null;
+        bool shouldShow = shown != null || shownConsumable != null;
         if (actionInfoPanel.activeSelf != shouldShow)
         {
             actionInfoPanel.SetActive(shouldShow);
@@ -658,10 +696,35 @@ public class ActionMenuUI : MonoBehaviour
 
         }
 
+        if (shownConsumable != null)
+        {
+            string consumableDescription = string.IsNullOrWhiteSpace(shownConsumable.description)
+                ? "No description available."
+                : shownConsumable.description.Trim();
+            ActionDefinition useAction = shownConsumable.UseAction;
+            if (useAction != null)
+            {
+                consumableDescription = string.IsNullOrWhiteSpace(useAction.Description)
+                    ? consumableDescription
+                    : useAction.Description.Trim();
+
+            }
+
+            string label = useAction != null ? useAction.DisplayName : shownConsumable.itemName;
+            actionDescriptionText.text = $"<b>{label}</b>  |  Consumable\n" +
+                consumableDescription;
+
+            return;
+
+        }
+
         string cost = shown.IsPassive ? "PASSIVE" : $"{shown.ApCost:0.#} AP";
         string range = shown.CombatBehavior == CombatActionBehavior.DamageUnit
             ? $"  |  Range: {shown.CombatRange:0.#}"
-            : "";
+            : (shown.CombatBehavior == CombatActionBehavior.DamageArea ||
+                shown.CombatBehavior == CombatActionBehavior.HealArea)
+                ? $"  |  Throw: {shown.AreaThrowRangeInTiles} tiles | Blast: {shown.AreaRadiusInTiles} tiles"
+                : "";
         string description = string.IsNullOrWhiteSpace(shown.Description)
             ? "No description available."
             : shown.Description.Trim();
@@ -670,6 +733,44 @@ public class ActionMenuUI : MonoBehaviour
         if (actionDescriptionText.text != text)
         {
             actionDescriptionText.text = text;
+
+        }
+
+    }
+
+    private void PreviewConsumable(ConsumableData consumable)
+    {
+        previewConsumable = consumable;
+        RefreshActionInfoPanel();
+
+    }
+
+    private void EndConsumablePreview(ConsumableData consumable)
+    {
+        if (previewConsumable == consumable)
+        {
+            previewConsumable = null;
+            RefreshActionInfoPanel();
+
+        }
+
+    }
+
+    private void RequestConsumable(int index)
+    {
+        if (displayedUnit == null || displayedUnit.data == null || !CanCommand(displayedUnit))
+        {
+            return;
+
+        }
+
+        if (displayedUnit.TryUseConsumable(index))
+        {
+            CameraController.Instance?.FocusOnUnit(displayedUnit, true);
+            // Preserve the item button and refresh its use count/availability.
+            RebuildCategory();
+            lastExpandedAP = float.NaN;
+            RefreshActionInfoPanel();
 
         }
 

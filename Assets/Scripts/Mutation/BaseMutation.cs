@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using MutaBorn.Gameplay;
 
 public enum MutationID 
 {
@@ -15,8 +16,18 @@ public enum MutationID
     //MindBore Strain
 
     //Warden Strain
-    Sage
+    Sage,
+
+    // Fixed evolution nodes keep stable IDs across save files.
+    VampirismII = 5,
+    VampirismIII = 6,
+    BloodHunter = 7,
+    BioLauncher = 8,
+    CloakSkin = 9,
+    DodgeJet = 10,
+    HealingHands = 11
 }
+[System.Serializable]
 public class MutationBonus 
 {
     // Core stat bonuses
@@ -107,6 +118,15 @@ public class VampirismMutation : BaseMutation
     public override void OnDamageDealt(UnitController owner, CombatDamageEvent damageEvent)
     {
         if (owner == null || owner.data == null || damageEvent.ActualDamage <= 0)
+        {
+            return;
+
+        }
+
+        // Keep the legacy reaction as a fallback until the new mutation effect
+        // has been verified in Unity, but never process both for the same hit.
+        UnitEffectSource effectSource = owner.GetComponent<UnitEffectSource>();
+        if (effectSource != null && effectSource.HasMutationEffects(ID))
         {
             return;
 

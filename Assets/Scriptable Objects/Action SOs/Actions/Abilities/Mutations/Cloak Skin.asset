@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
+  m_Name: Cloak Skin
+  m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
+  actionId: cloak-skin
+  displayName: Cloak Skin
+  description: Hide from enemy targeting for two of your turns. Attacking removes invisibility; explosions still hit.
+  icon: {fileID: 0}
+  activationType: 0
+  category: 2
+  submenuGroup: Mutations
+  displayOrder: 20
+  apCost: 4
+  controlTags: 1
+  combatBehavior: 5
+  damageStat: 0
+  combatRange: 1
+  damageMultiplier: 0
+  flatDamageBonus: 0
+  minimumDamage: 0
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 1
+  areaHealAmount: 0
+  selfStatus: {fileID: 11400000, guid: acef78635ad14ec9ad7378b4e70606e9, type: 2}
+  damageType: 0
+  additionalDamage: []
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 0}
+  guardDamageReductionPercent: 50

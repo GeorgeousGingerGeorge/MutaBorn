@@ -12,6 +12,7 @@ public class UnitMovements : MonoBehaviour
     private float moveSpeed = 20f;
     private bool isMoving = false;
     private int pathIndex = 0;
+    private float movementEfficiencyAtStart = 1f;
     private List<GridNode> movementPath = new List<GridNode>();
     private List<TileController> highlightedTiles = new List<TileController>();
     private Animator animBaseChar;
@@ -63,9 +64,20 @@ public class UnitMovements : MonoBehaviour
        
         if (!isMoving)
         {
+            MutaBorn.Gameplay.UnitStatusController statuses = unit.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
+            if (statuses != null && !statuses.CanMoveVoluntarily)
+            {
+                selectionController.ClearDestination();
+
+                return;
+
+            }
+
             GridNode targetNode = selectionController.selectedTile.node;
             unit.InitializeNode();
-            movementController.SetNodes(unit.currentNode, targetNode, unit.CurrentActionPoints());
+            movementEfficiencyAtStart = unit.data != null ? unit.data.MovementEfficiency : 1f;
+            movementController.SetNodes(unit.currentNode, targetNode,
+                unit.CurrentActionPoints() * movementEfficiencyAtStart);
 
 
             movementPath = movementController.GetPath();
@@ -83,11 +95,13 @@ public class UnitMovements : MonoBehaviour
                 pathIndex++;
             }
             isMoving = true;
+            CameraController.Instance?.FocusOnUnit(unit, true);
+
         }
 
         if (pathIndex >= movementPath.Count)
         {
-            unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost)); // Unity function that rounds a float up to the nearest int
+            unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
 
             isMoving = false;
 
@@ -136,12 +150,20 @@ public class UnitMovements : MonoBehaviour
     public void ShowMovementRange() 
     {
         ClearMovementRange();
+        MutaBorn.Gameplay.UnitStatusController statuses = unit.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
+        if (statuses != null && !statuses.CanMoveVoluntarily)
+        {
+            return;
+
+        }
         Dictionary<GridNode, float> reachables = new Dictionary<GridNode, float>();
 
         unit.InitializeNode();
         GridNode startNode = unit.currentNode;
 
-        reachables = movementController.GetReachableNodes(startNode, unit.CurrentActionPoints());
+        float movementBudget = unit.CurrentActionPoints() *
+            (unit.data != null ? unit.data.MovementEfficiency : 1f);
+        reachables = movementController.GetReachableNodes(startNode, movementBudget);
        
 
         foreach (KeyValuePair<GridNode, float> values in reachables) 
@@ -150,7 +172,7 @@ public class UnitMovements : MonoBehaviour
             GridNode node = values.Key;
             float cost = values.Value;
 
-            if(cost > unit.CurrentActionPoints())
+            if(cost > movementBudget)
             {
                 continue;
 
