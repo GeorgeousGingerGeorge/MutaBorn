@@ -612,6 +612,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3e89cbdb7fefd384989aa2fc042e5077, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8782074697063126684}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3e89cbdb7fefd384989aa2fc042e5077, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9051371487773597434}
   m_SourcePrefab: {fileID: 100100000, guid: 3e89cbdb7fefd384989aa2fc042e5077, type: 3}
 --- !u!4 &2430803816492986848 stripped
 Transform:
@@ -666,6 +669,25 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.8847336, y: 2.5300367, z: 1}
   m_Center: {x: -0.012751877, y: 1.3622113, z: 0}
+--- !u!114 &9051371487773597434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3805319766816371577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77ac0ea130039645852cda716738754, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OutlineController
+  outlineRenderer: {fileID: 3457857045668915437}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &4577036584639850947 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3e89cbdb7fefd384989aa2fc042e5077, type: 3}
