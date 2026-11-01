@@ -42,23 +42,12 @@ public class UnitController : MonoBehaviour
     [SerializeField] private LineRenderer selectionCircle;
 
 
-    public void Start() 
-    {
-        InitializeUnitData();
-        InitializeNode();
-        Debug.Log(data.characterName);
-        Debug.Log(data.raceName);
-        Debug.Log(data.maxHealth);
-        Debug.Log(data.maxMana);
-        Debug.Log(data.maxActionPoints);
-        Debug.Log(data.meleeDamage);
-       
-    }
+   
 
   
 
 
-    private void InitializeUnitData() 
+    public void InitializeUnitData() 
     {
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName);
         data = UnitData.CreateNewUnit(unitName, race);
