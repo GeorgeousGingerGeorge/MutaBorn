@@ -294,7 +294,6 @@ public class SelectionManager : MonoBehaviour
         selectedUnit = unit;
         selectedUnit.SetSelected(true);
         RefreshSelectedUnitTile();
-        CameraController.Instance?.FocusOnUnit(unit);
 
         if (CanCommandUnit(unit) && !TargetingModeController.IsTargeting)
         {

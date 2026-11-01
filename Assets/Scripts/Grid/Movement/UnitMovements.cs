@@ -10,6 +10,8 @@ public class UnitMovements : MonoBehaviour
     private UnitController unit;
 
     private float moveSpeed = 20f;
+
+    [SerializeField] private float turnSpeed = 540f;
     private bool isMoving = false;
     private int pathIndex = 0;
     private float movementEfficiencyAtStart = 1f;
