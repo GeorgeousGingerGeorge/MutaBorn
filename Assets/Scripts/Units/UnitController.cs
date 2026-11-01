@@ -127,7 +127,32 @@ public class UnitController : MonoBehaviour
         return data.currentActionPoints;
     }
 
+    private void Awake()
+    {
+        if (selectionCircle == null)
+        {
+            return;
+        }
 
+        int segments = 48;
+        float radius = 0.75f;
+
+        selectionCircle.useWorldSpace = false;
+        selectionCircle.loop = true;
+        selectionCircle.positionCount = segments;
+
+        for (int i = 0; i < segments; i++)
+        {
+            float angle = i * Mathf.PI * 2f / segments;
+
+            float x = Mathf.Cos(angle) * radius;
+            float z = Mathf.Sin(angle) * radius;
+
+            selectionCircle.SetPosition(i, new Vector3(x, 0f, z));
+        }
+
+        selectionCircle.enabled = false;
+    }
 }
 
 
