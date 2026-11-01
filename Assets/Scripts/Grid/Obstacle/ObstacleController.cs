@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ObstacleController : MonoBehaviour
@@ -23,26 +24,66 @@ public class ObstacleController : MonoBehaviour
             currentHealth = currentData.maxHealth;
             currentState = currentData.coverState;
         }
-        
+       
     }
 
     public void InitializeNodes() 
     {
         GridManager gridManager = FindAnyObjectByType<GridManager>();
-        Occupancy occupancy = FindAnyObjectByType<Occupancy>();
-        switch (currentData.typeOfObstacle) 
+        occupancy = FindAnyObjectByType<Occupancy>();
+        switch (currentData.typeOfObstacle)
         {
-            
+
             case ObstacleType.Solid:
                 {
-                    firstnode = gridManager. GetNodeFromClosestWorldPosition(transform.position);
+                    firstnode = gridManager.GetNodeFromClosestWorldPosition(transform.position);
                     occupancy.RegisterSolidObstacles(firstnode, this);
-                   
+
                 }
                 break;
             case ObstacleType.Edges:
                 {
-                    
+
+
+                    Vector3 perpendicular = transform.right;
+                    perpendicular.y = 0f;
+                    perpendicular.Normalize();
+
+                    float cellsizeCenter = gridManager.gridCellSize / 2f;
+
+                    Vector3 positionA = transform.position + perpendicular * cellsizeCenter;
+                    Vector3 positionB = transform.position - perpendicular * cellsizeCenter;
+
+
+                    firstnode = gridManager.GetNodeFromClosestWorldPosition(positionA);
+                    secondnode = gridManager.GetNodeFromClosestWorldPosition(positionB);
+
+                    if (firstnode == null || secondnode == null || firstnode == secondnode)
+                    {
+
+                        return;
+                    }
+
+                    occupancy.RegisterEdgeObstacles(firstnode, secondnode, this);
+                }
+                break;
+            case ObstacleType.FloorConnectors:
+                {
+                    FloorConnector connector = GetComponent<FloorConnector>();
+                    switch (connector.connectorType) 
+                    {
+                        case ConnectorType.Stairs:
+                            {
+                                foreach (GridNode node in connector.nodes) 
+                                {
+                                    Debug.Log($"FloorID ->{node.floorID}, GridPosition -> {node.coords} ");
+                                    occupancy.RegisterSolidObstacles(node, this);
+                                }
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 break;
             default:
