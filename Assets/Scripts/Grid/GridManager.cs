@@ -17,7 +17,8 @@ public class GridManager : MonoBehaviour
     [Header("Level Configuration")]
     [SerializeField] private Level_Design currentLevel;
     [Header("Adjust Tile Size")]
-    [SerializeField] public float gridCellSize = 2f;
+    [SerializeField] private float gridCellSize = 2f;
+    [SerializeField, Min(0f)] private float maxStepHeight = 0.5f;
 
     [Header("CurrentGrid Information")]
     private Dictionary<Vector2Int, GridNode> grid = new Dictionary<Vector2Int, GridNode>();
@@ -38,6 +39,7 @@ public class GridManager : MonoBehaviour
 
     [Header("CurrentGrid Information- Grids for Each Floor")]
     private Dictionary<int, Dictionary<Vector2Int, GridNode>> gridFloors = new Dictionary<int, Dictionary<Vector2Int, GridNode>>();
+    public int activeFloorID { get; private set; }
 
     [Header("CurrentGrid Information- Tile Lookup by Node")]
     private Dictionary<GridNode, TileController> tileLookup = new Dictionary<GridNode, TileController>();
@@ -97,6 +99,18 @@ public class GridManager : MonoBehaviour
         }
 
         ConnectFloors();
+
+        if (gridFloors.Count > 0)
+        {
+            int lowestFloor = int.MaxValue;
+
+            foreach (int floorID in gridFloors.Keys)
+            {
+                lowestFloor = Mathf.Min(lowestFloor, floorID);
+            }
+
+            activeFloorID = lowestFloor;
+        }
     }
 
     
@@ -244,7 +258,7 @@ public class GridManager : MonoBehaviour
             {
                 Vector2Int neighborPosition = pair.Value.coords + direction; //Stores the offset position of the current Node
 
-                if (currentGrid.TryGetValue(neighborPosition, out GridNode neighbor)) //Checks if the offset is in the grid
+                if (currentGrid.TryGetValue(neighborPosition, out GridNode neighbor) && Mathf.Abs(pair.Value.cellWorldPosition.y - neighbor.cellWorldPosition.y) <= maxStepHeight) //Checks if the offset is in the grid
                 {
                     pair.Value.AddConnections(neighbor); //establish the connection to the node if it receives a neighbor node
                 }
@@ -332,5 +346,38 @@ public class GridManager : MonoBehaviour
         return tile;
     }
 
+    public void SetActiveFloor(int floorID)
+    {
+        if (gridFloors.ContainsKey(floorID))
+        {
+            activeFloorID = floorID;
+        }
+    }
 
+    public void ChangeActiveFloor(int direction)
+    {
+        if (direction == 0)
+        {
+            return;
+        }
+
+        int nextFloor = activeFloorID;
+
+        foreach (int floorID in gridFloors.Keys)
+        {
+            if (direction > 0 && floorID > activeFloorID && (nextFloor == activeFloorID || floorID < nextFloor))
+            {
+                nextFloor = floorID;
+            }
+            else if (direction < 0 && floorID < activeFloorID && (nextFloor == activeFloorID || floorID > nextFloor))
+            {
+                nextFloor = floorID;
+            }
+        }
+
+        if (nextFloor != activeFloorID)
+        {
+            SetActiveFloor(nextFloor);
+        }
+    }
 }
