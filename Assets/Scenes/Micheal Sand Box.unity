@@ -2538,6 +2538,7 @@ MonoBehaviour:
   gridCellSize: 2
   gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
   obstaclePrefab: {fileID: 1490576499627723649, guid: 4d64a26457947d7409f3f24854110fcc, type: 3}
+  wallPrefab: {fileID: 3797262535275334675, guid: 97086ef4986f44c4ca51188d9f3c1cc8, type: 3}
   floorGenerator:
   - floorID: 1
     worldPosition: {x: 0, y: 0, z: 0}
@@ -2555,105 +2556,45 @@ MonoBehaviour:
   - key: 1
     value:
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      worldPosition: {x: 15, y: 2, z: 4}
-      worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 6, y: 2}
-      upperFloorId: 3
-      upperGridPosition: {x: 0, y: 2}
-    - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      worldPosition: {x: 15, y: 2, z: 6}
-      worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 6, y: 3}
-      upperFloorId: 3
-      upperGridPosition: {x: 0, y: 3}
-    - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      worldPosition: {x: 15, y: 2, z: 8}
-      worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 6, y: 4}
-      upperFloorId: 3
-      upperGridPosition: {x: 0, y: 4}
-    - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 1, y: 2, z: 4}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 2, y: 2}
-      upperFloorId: 2
-      upperGridPosition: {x: 9, y: 2}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 1, y: 2, z: 6}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 2, y: 3}
-      upperFloorId: 2
-      upperGridPosition: {x: 9, y: 3}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 1, y: 2, z: 8}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 1
-      lowerGridPosition: {x: 2, y: 4}
-      upperFloorId: 2
-      upperGridPosition: {x: 9, y: 4}
+    - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
+      worldPosition: {x: 15, y: 2, z: 4}
+      worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+    - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
+      worldPosition: {x: 15, y: 2, z: 6}
+      worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+    - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
+      worldPosition: {x: 15, y: 2, z: 8}
+      worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
   - key: 2
     value:
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: -3, y: 6, z: 14}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 2
-      lowerGridPosition: {x: 7, y: 7}
-      upperFloorId: 4
-      upperGridPosition: {x: 0, y: 0}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: -3, y: 6, z: 16}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 2
-      lowerGridPosition: {x: 7, y: 8}
-      upperFloorId: 4
-      upperGridPosition: {x: 0, y: 1}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: -3, y: 6, z: 18}
       worldRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 2
-      lowerGridPosition: {x: 7, y: 9}
-      upperFloorId: 4
-      upperGridPosition: {x: 0, y: 2}
   - key: 3
     value:
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 21, y: 6, z: 14}
       worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 3
-      lowerGridPosition: {x: 3, y: 7}
-      upperFloorId: 4
-      upperGridPosition: {x: 9, y: 0}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 21, y: 6, z: 16}
-      worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 3
-      lowerGridPosition: {x: 3, y: 8}
-      upperFloorId: 4
-      upperGridPosition: {x: 9, y: 1}
+      worldRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
     - connector: {fileID: 3184901894131349091, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
-      stairObject: {fileID: 8008443261918146786, guid: 62df4035fc1601b428bdedd61b97b070, type: 3}
       worldPosition: {x: 21, y: 6, z: 18}
-      worldRotation: {x: 0, y: -0.70710677, z: 0, w: 0.70710677}
-      lowerFloorId: 3
-      lowerGridPosition: {x: 3, y: 9}
-      upperFloorId: 4
-      upperGridPosition: {x: 9, y: 2}
+      worldRotation: {x: 0, y: 0.70710677, z: 0, w: -0.70710677}
 --- !u!114 &386771584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2799,6 +2740,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81044d6f991b2814ea08adf5eb2d094a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SelectionManager
+  previousUnitButton: {fileID: 0}
+  nextUnitButton: {fileID: 0}
 --- !u!114 &386771593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6464,6 +6407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ce0813f123c6643a60ad9c2bcee822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitInspectionUI
+  mouseLocation: {fileID: 0}
   panelRoot: {fileID: 1737612440}
   titleText: {fileID: 342563592}
   detailsText: {fileID: 246370889}
@@ -6504,7 +6448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2de905376ccbf7848b3817fd2e3ab762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CombatActionExecutor
-  unitInspectionUI: {fileID: 0}
 --- !u!114 &857683431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6523,17 +6466,13 @@ MonoBehaviour:
   unitNameText: {fileID: 1791899410}
   apText: {fileID: 1773872945}
   apFillImage: {fileID: 921249660}
-  basicAttacksButton: {fileID: 1300688083}
+  mpText: {fileID: 0}
+  mpFillImage: {fileID: 0}
+  attacksButton: {fileID: 0}
   defenseButton: {fileID: 45060220}
   interactButton: {fileID: 1365014955}
   abilitiesButton: {fileID: 1836792771}
-  mostUsedButton: {fileID: 1431357261}
-  mostUsedText: {fileID: 772954236}
-  lastUsedButton: {fileID: 2046663138}
-  lastUsedText: {fileID: 1722004290}
-  unitInfoButton: {fileID: 588500139}
-  inspectUnitButton: {fileID: 1441075428}
-  inspectUnitAction: {fileID: 11400000, guid: cc9e3cf1d49c4c2a900459471bcceba8, type: 2}
+  itemsButton: {fileID: 0}
   expandedPanel: {fileID: 955113724}
   expandedTitle: {fileID: 1354366741}
   expandedContent: {fileID: 1728104389}
@@ -6541,7 +6480,6 @@ MonoBehaviour:
   closeExpandedButton: {fileID: 418248662}
   emptyMessageText: {fileID: 634487363}
   combatExecutor: {fileID: 857683430}
-  unitInspectionUI: {fileID: 857683428}
   actionInfoPanel: {fileID: 0}
   actionDescriptionText: {fileID: 0}
   interactionScanInterval: 0.2
@@ -7473,7 +7411,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000019034482}
+  m_AnchoredPosition: {x: 0, y: -0.000037863956}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &1005723189
@@ -12236,8 +12174,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1617489359}
   m_HandleRect: {fileID: 1608344221}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999999
+  m_Value: 0
+  m_Size: 0.9999902
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

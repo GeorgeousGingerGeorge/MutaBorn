@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using static Unity.Collections.AllocatorManager;
 
 
 public class Occupancy : MonoBehaviour
@@ -11,7 +12,7 @@ public class Occupancy : MonoBehaviour
     private Dictionary<GridNode, UnitController> units = new Dictionary<GridNode, UnitController>();
     private Dictionary<GridNode, ObstacleController> solidObstacles = new Dictionary<GridNode, ObstacleController>();
     private Dictionary<(GridNode, GridNode), ObstacleController> edgeObstacles = new Dictionary<(GridNode,GridNode), ObstacleController>();
-
+    //private Dictionary<GridNode, ObstacleController> connectors = new Dictionary<GridNode, ObstacleController>(); 
     
     public bool CanEnterNode(GridNode currentNode, GridNode destination, UnitController unit = null) 
     {
@@ -32,8 +33,12 @@ public class Occupancy : MonoBehaviour
         {
             return false;
         }
+        //if (IsBlockedByFloorConnector(destination)) 
+        //{
+        //    return false;
+        //}
 
-        if (unit != null) 
+        if (unit == null) 
         {
 
             if (IsUnitInNode(destination))
@@ -46,13 +51,16 @@ public class Occupancy : MonoBehaviour
             return false;
 
         }
-     
-        if (IsBlockedByEdgeObstacle(currentNode, destination)) 
+
+        if (IsBlockedByEdgeObstacle(currentNode, destination))
         {
             return false;
         }
 
-
+        if (IsDiagonalBlockedByEdgeObstacle(currentNode, destination)) 
+        {
+            return false;
+        }
 
         return true; 
     
@@ -89,6 +97,14 @@ public class Occupancy : MonoBehaviour
 
         return false; 
     }
+    //public bool IsBlockedByFloorConnector(GridNode destination) 
+    //{
+    //    if (connectors.ContainsKey(destination)) 
+    //    {
+    //        return true;
+    //    }
+    //    return false; 
+    //}
     public bool IsUnitInNode(GridNode destination) 
     {
         if (units.ContainsKey(destination)) 
@@ -100,18 +116,35 @@ public class Occupancy : MonoBehaviour
 
     public bool IsBlockedByEdgeObstacle(GridNode current, GridNode destination) 
     {
-        if (edgeObstacles.ContainsKey((current, destination))) 
-        {
-            return true;
-        }
-
-        if (edgeObstacles.ContainsKey((destination, current)))
-        {
-            return true;
-        }
-
-        return false;
+        bool isEdgeObstacle = edgeObstacles.ContainsKey((current, destination)) || edgeObstacles.ContainsKey((destination, current));
+    
+        return isEdgeObstacle;
     }
+    public bool IsDiagonalBlockedByEdgeObstacle(GridNode current, GridNode destination)
+    {
+        Vector2Int direction = destination.coords - current.coords;
+        if (Mathf.Abs(direction.x) != 1 || Mathf.Abs(direction.y) != 1) 
+        {
+            return false;
+        }
+
+        Vector2Int horizontal = current.coords + new Vector2Int(direction.x, 0);
+        Vector2Int vertical = current.coords + new Vector2Int(0, direction.y);
+
+        GridNode horizontalNode = gridManager.GetNodeFromGridPosition(current.floorID, horizontal);
+        GridNode verticalNode = gridManager.GetNodeFromGridPosition(current.floorID, vertical);
+
+        if (horizontalNode == null || verticalNode == null) 
+        {
+            return true;
+        }
+
+        bool horizontalBlocked = IsBlockedByEdgeObstacle(current, horizontalNode) || IsBlockedByEdgeObstacle(horizontalNode, destination);
+        bool verticalBlocked = IsBlockedByEdgeObstacle(current, verticalNode) || IsBlockedByEdgeObstacle(verticalNode, destination);
+
+        return horizontalBlocked || verticalBlocked; 
+    }
+
 
     //Registry-Adding
     public void RegisterUnit(GridNode currentNode, UnitController unit) 
@@ -161,13 +194,39 @@ public class Occupancy : MonoBehaviour
 
     public void RegisterEdgeObstacles(GridNode firstNode, GridNode secondNode, ObstacleController edgeObstacle) 
     {
+
         if (firstNode == null || secondNode == null || edgeObstacle == null) 
         {
             return;
         }
 
+        if (firstNode == secondNode) 
+        {
+            return; 
+        }
+
         edgeObstacles.Add((firstNode, secondNode), edgeObstacle);
+        edgeObstacles.Add((secondNode, firstNode), edgeObstacle);
+        
     }
+
+    //public void RegisterFloorConnector(ObstacleController connectorObstacle, List<GridNode> occupiedNodes) 
+    //{
+    //    if (connectorObstacle == null || occupiedNodes == null) 
+    //    {
+    //        return;
+    //    }
+
+    //    foreach (GridNode node in occupiedNodes) 
+    //    {
+    //        if (node == null) 
+    //        {
+    //            continue;
+    //        }
+
+    //        connectors.Add(node, connectorObstacle); 
+    //    }
+    //}
 
     //Registry-Removing
     public void UnregisterUnit(GridNode currentNode, UnitController unit) 
