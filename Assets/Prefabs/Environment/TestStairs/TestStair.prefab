@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &264553949895884963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2243786552039171659}
+  m_Layer: 7
+  m_Name: upperConnection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2243786552039171659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264553949895884963}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000700655924652981}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3184901894131349091
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,10 +63,12 @@ Transform:
   m_GameObject: {fileID: 3184901894131349091}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 21, y: 6, z: 18}
   m_LocalScale: {x: 1, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2243786552039171659}
+  - {fileID: 347374023034978564}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9030836359595659765
@@ -1219,11 +1252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903e5b555b5399d488af8e7ae2b3a9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloorConnector
-  worldPosition: {x: 0, y: 0, z: 0}
-  lowerFloorID: 1
-  lowerGridPosition: {x: 0, y: 0}
-  upperFloorID: 2
-  upperGridPosition: {x: 0, y: 0}
+  _connector: 0
+  lowerConnection: {fileID: 347374023034978564}
+  upperConnection: {fileID: 2243786552039171659}
 --- !u!114 &969887075008099846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1236,4 +1267,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10a4458cf2648e498c079ae547ec438, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleController
-  data: {fileID: 11400000, guid: 60a79f4e9600b5641aa40cabbe29fd90, type: 2}
+  data: {fileID: 11400000, guid: bdbf87e50f4ee1540acd6386056ae466, type: 2}
+--- !u!1 &7231227862497115469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 347374023034978564}
+  m_Layer: 7
+  m_Name: lowerConnection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &347374023034978564
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7231227862497115469}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: -3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4000700655924652981}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

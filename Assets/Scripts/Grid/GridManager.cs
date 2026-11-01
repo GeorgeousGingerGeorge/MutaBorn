@@ -6,18 +6,10 @@ public struct ConnectorsBetweenLevels
 {
     [Header("FloorConnector Object")]
     [SerializeField]public GameObject connector;
-    [SerializeField] public FloorConnector stairObject;
     [Header("CurrentWorldOrientation")]
     [SerializeField] public Vector3 worldPosition;
     [SerializeField] public Quaternion worldRotation;
-    [Header("LowerFloorNodes")]
-    [SerializeField] public int lowerFloorId;
-    [SerializeField] public Vector2Int lowerGridPosition;
-    [Header("UpperFloorNodes")]
-    [SerializeField] public int upperFloorId;
-    [SerializeField] public Vector2Int upperGridPosition;
-
-    
+ 
     
 }
 public class GridManager : MonoBehaviour
@@ -34,7 +26,9 @@ public class GridManager : MonoBehaviour
     [Header("CurrentGrid Information- Generating a grid (No LevelPrefab)")]
 
     [SerializeField]public GameObject gridCellPrefab;
-    [SerializeField] public GameObject obstaclePrefab; 
+    [SerializeField] public GameObject obstaclePrefab;
+    [SerializeField] public GameObject wallPrefab;
+
     public List<FloorIdentification> floorGenerator = new List<FloorIdentification>();
     [SerializeField]public Dictionary<int,List<ConnectorsBetweenLevels>> stairGenerator = new Dictionary<int,List<ConnectorsBetweenLevels>>();
 
@@ -59,7 +53,17 @@ public class GridManager : MonoBehaviour
         {  
             GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, level.transform);
             current.GetComponent<ObstacleController>().InitializeNodes();
+
+            Vector3 wallPosition = new Vector3(29.05f, 5.26f, 0f);
+            for (int multipleObjects = 0; multipleObjects < 10; multipleObjects++) 
+            {
+                GameObject wall = Instantiate(wallPrefab, wallPosition, Quaternion.identity, mainGrid.transform);
+                wall.GetComponent<ObstacleController>().InitializeNodes();
+                wallPosition.z += 2f;
+            }
         }
+
+
     }
 
     public void BuildLevel()
@@ -168,20 +172,11 @@ public class GridManager : MonoBehaviour
             {
                 Vector3 worldPos = stairPerFloor[thisStair].worldPosition;
                 Quaternion worldRotation = stairPerFloor[thisStair].worldRotation;
-                int lowerFloor = stairPerFloor[thisStair].lowerFloorId;
-                Vector2Int lowerGrid = stairPerFloor[thisStair].lowerGridPosition;
-                int upperFloor = stairPerFloor[thisStair].upperFloorId;
-                Vector2Int upperGrid = stairPerFloor[thisStair].upperGridPosition;
 
-                stairPerFloor[thisStair].stairObject.SetWorldPosition(worldPos);
-                stairPerFloor[thisStair].stairObject.SetLowerFloor(lowerFloor);
-                stairPerFloor[thisStair].stairObject.SetLowerGridNode(lowerGrid);
-                stairPerFloor[thisStair].stairObject.SetUpperFloor(upperFloor);
-                stairPerFloor[thisStair].stairObject.SetUpperGridNode(upperGrid);
-
+                stairPerFloor[thisStair].connector.GetComponent<FloorConnector>().SetWorldPosition(worldPos);
                 GameObject stair = Instantiate(stairPerFloor[thisStair].connector, worldPos, worldRotation, stairNumber.transform);
                 stair.transform.SetParent(floorNumber.transform, false);
-                stair.GetComponent<ObstacleController>().InitializeNodes();
+                
 
             }
         }
@@ -284,7 +279,8 @@ public class GridManager : MonoBehaviour
 
         foreach (FloorConnector connection in connections) 
         {
-            connection.Connect(this);
+            connection.Initialize(this);
+            connection.GetComponentInParent<ObstacleController>().InitializeNodes();
         }
     }
 
