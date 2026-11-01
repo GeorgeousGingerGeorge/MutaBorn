@@ -45,6 +45,7 @@ public class GridManager : MonoBehaviour
 
     [Header("CurrentGrid Information- Grids for Each Floor")]
     private Dictionary<int, Dictionary<Vector2Int, GridNode>> gridFloors = new Dictionary<int, Dictionary<Vector2Int, GridNode>>();
+    public int activeFloorID { get; private set; }
 
     [Header("CurrentGrid Information- Tile Lookup by Node")]
     private Dictionary<GridNode, TileController> tileLookup = new Dictionary<GridNode, TileController>();
@@ -94,6 +95,18 @@ public class GridManager : MonoBehaviour
         }
 
         ConnectFloors();
+
+        if (gridFloors.Count > 0)
+        {
+            int lowestFloor = int.MaxValue;
+
+            foreach (int floorID in gridFloors.Keys)
+            {
+                lowestFloor = Mathf.Min(lowestFloor, floorID);
+            }
+
+            activeFloorID = lowestFloor;
+        }
     }
 
     
@@ -337,5 +350,11 @@ public class GridManager : MonoBehaviour
         return tile;
     }
 
-
+    public void SetActiveFloor(int floorID)
+    {
+        if (gridFloors.ContainsKey(floorID))
+        {
+            activeFloorID = floorID;
+        }
+    }
 }
