@@ -6,6 +6,7 @@ public class TileController : MonoBehaviour
     [Header("Reference Node")]
     public GridNode node { get; private set; }
     [SerializeField]private TerrainType _terrain;
+    public TerrainType terrainType => _terrain;
     [Header("Visual Elements")]
     [SerializeField] private GameObject highlightOverlay;
     [SerializeField] private Renderer highlightRenderer;
@@ -87,7 +88,7 @@ public class TileController : MonoBehaviour
             
             tileColors.green = 0.75f;
             tileColors.blue = 1f;
-            tileColors.alpha = 0.5f; 
+            tileColors.alpha = 0.75f; 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
         }
         else if (isUnitSelected) 
@@ -102,6 +103,7 @@ public class TileController : MonoBehaviour
         {
             tileColors.red = 0.2f;
             tileColors.green = 0.45f;
+            tileColors.alpha = 0.5f;
 
 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
@@ -111,6 +113,7 @@ public class TileController : MonoBehaviour
             tileColors.red = 0.5f;
             tileColors.green = 0.45f;
             tileColors.blue = 0.8f;
+            tileColors.alpha = 0.35f;
 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
         }
