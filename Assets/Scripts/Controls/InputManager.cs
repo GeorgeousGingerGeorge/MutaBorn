@@ -35,7 +35,6 @@ public class InputManager : MonoBehaviour
         if (keyboard == null || !keyboard.tabKey.wasPressedThisFrame)
         {
             return 0;
-
         }
 
         // Do not cycle units while typing into a text field.
@@ -44,7 +43,6 @@ public class InputManager : MonoBehaviour
         if (focused != null && (focused.GetComponent<InputField>() != null || focused.GetComponent<TMP_InputField>() != null))
         {
             return 0;
-
         }
 
         bool reverse = keyboard.leftShiftKey.isPressed || keyboard.rightShiftKey.isPressed;
@@ -69,7 +67,6 @@ public class InputManager : MonoBehaviour
         if (floorDownAction.action.WasPressedThisFrame())
         {
             return -1;
-
         }
         return 0;
     }
@@ -77,12 +74,10 @@ public class InputManager : MonoBehaviour
     public bool OnLeftClick()   
     {
         return mouseLeftAction.action.WasPressedThisFrame();
-
     }
 
     public bool onReturnToMenu()
     {
         return returnToMainMenu.action.WasPressedThisFrame();
-
     }
 }

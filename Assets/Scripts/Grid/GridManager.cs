@@ -357,4 +357,31 @@ public class GridManager : MonoBehaviour
             activeFloorID = floorID;
         }
     }
+
+    public void ChangeActiveFloor(int direction)
+    {
+        if (direction == 0)
+        {
+            return;
+        }
+
+        int nextFloor = activeFloorID;
+
+        foreach (int floorID in gridFloors.Keys)
+        {
+            if (direction > 0 && floorID > activeFloorID && (nextFloor == activeFloorID || floorID < nextFloor))
+            {
+                nextFloor = floorID;
+            }
+            else if (direction < 0 && floorID < activeFloorID && (nextFloor == activeFloorID || floorID > nextFloor))
+            {
+                nextFloor = floorID;
+            }
+        }
+
+        if (nextFloor != activeFloorID)
+        {
+            SetActiveFloor(nextFloor);
+        }
+    }
 }
