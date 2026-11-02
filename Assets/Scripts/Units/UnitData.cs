@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using MutaBorn.Gameplay;
+using UnityEngine.Analytics;
 
 
 
@@ -704,9 +705,9 @@ public class UnitData
         return true;
     }
 
-    public bool CanEquipMutation(MutationID id) 
+    public bool CanEquipMutation(MutationID id)
     {
-        if (id == MutationID.none) 
+        if (id == MutationID.none)
         {
             return false;
         }
@@ -741,18 +742,42 @@ public class UnitData
 
         BaseMutation currentMutation = database.CreateMutation(id);
 
-        if (currentMutation == null) 
+        if (currentMutation == null)
         {
             return false;
         }
 
-        if (activeMutations.ContainsKey(currentMutation.slot) && activeMutations[currentMutation.slot] != null) 
+        if (activeMutations.ContainsKey(currentMutation.slot) && activeMutations[currentMutation.slot] != null)
         {
-                return false;
+            return false;
         }
-        
+
 
         return true;
+    }
+
+    public void InitializeTrackers() 
+    {
+        
+        foreach (BodySlots slot in Enum.GetValues(typeof(BodySlots)))
+        {
+            mutationTracker[slot] = new Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>();
+
+            foreach (MutationStrain strain in Enum.GetValues(typeof(MutationStrain))) 
+            {
+                mutationTracker[slot][strain] = new Dictionary<MutationID, MutationProgress>();
+
+                List<MutationID> currentMutations = GameDataBaseLoader.Instance.mutationData.GetMutationsForSlots(slot, strain);
+                foreach (MutationID id in currentMutations) 
+                {
+                    if (id == MutationID.none) continue;
+                    MutationDefinition mutationCosts = GameDataBaseLoader.Instance.mutationData.MutationCost[id];
+                    mutationTracker[slot][strain][id] = new MutationProgress(id, mutationCosts.intialCost, mutationCosts.stageMultiplier);
+                    
+                }
+            }
+        }
+
     }
 
 
@@ -790,6 +815,8 @@ public class UnitData
         newUnit.CalcMagicDamage(race);
         newUnit.CalcArmor(race);
         newUnit.CalcWill(race);
+
+        newUnit.InitializeTrackers();
 
         newUnit.currentHealth = newUnit.maxHealth;
         newUnit.currentMana = newUnit.maxMana;
