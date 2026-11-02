@@ -22,6 +22,9 @@ public sealed class SimpleFactionAI : MonoBehaviour
     [SerializeField, Range(1, 5)] private int maximumRejectedActions = 2;
     [SerializeField, Min(0f)] private float delayBetweenActions = 0.12f;
 
+    [Header("AI Camera Tracking")]
+    [SerializeField] private bool focusCameraOnAiActions = true;
+
     private Coroutine currentTurn;
 
     private void Awake()
@@ -105,6 +108,16 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
     }
 
+    private void FocusCameraOnActor(UnitController actor)
+    {
+        if (focusCameraOnAiActions && actor != null)
+        {
+            CameraController.Instance?.FocusOnUnit(actor, true);
+
+        }
+
+    }
+
     private IEnumerator PlayTurn(FactionData faction)
     {
         // Never finish a turn synchronously inside TurnManager.AdvanceTurn().
@@ -177,6 +190,8 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
     private IEnumerator PlayUnit(UnitController actor, FactionData faction)
     {
+        FocusCameraOnActor(actor);
+
         UnitActionLoadout loadout = actor.GetComponent<UnitActionLoadout>();
         if (loadout == null)
         {
@@ -294,6 +309,8 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
             if (best != null)
             {
+                FocusCameraOnActor(actor);
+
                 bool success = best.CombatBehavior == CombatActionBehavior.DamageArea
                     ? combatExecutor.TryExecuteAiArea(actor, enemy, best)
                     : combatExecutor.TryExecuteAiAttack(actor, enemy, best);
@@ -710,6 +727,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
         }
 
         actor.data.ModifyActionPoints(-totalAPCost);
+        FocusCameraOnActor(actor);
 
         foreach (GridNode node in steps)
         {
@@ -742,6 +760,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
                 actor.transform.position = Vector3.MoveTowards(actor.transform.position, goal,
                     movementSpeed * Time.deltaTime);
+                FocusCameraOnActor(actor);
                 yield return null;
 
             }

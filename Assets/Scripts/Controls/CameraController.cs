@@ -5,7 +5,42 @@ using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
-    public static CameraController Instance { get; private set; }
+    private static CameraController activeInstance;
+
+    public static CameraController Instance
+    {
+        get
+        {
+            if (activeInstance == null || !activeInstance.isActiveAndEnabled)
+            {
+                activeInstance = null;
+
+                // A disabled or destroyed rig must not keep receiving focus requests.
+                foreach (CameraController candidate in FindObjectsByType<CameraController>(
+                    FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+                {
+                    if (candidate != null && candidate.isActiveAndEnabled && candidate.cameraTransform != null)
+                    {
+                        activeInstance = candidate;
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+            return activeInstance;
+
+        }
+        private set
+        {
+            activeInstance = value;
+
+        }
+
+    }
 
 
     [Header("References")]
@@ -26,6 +61,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private bool focusOnUnitSwitch = true;
     [SerializeField] private bool focusOnAction = true;
     [SerializeField] private bool cancelFocusOnManualMovement = true;
+    [SerializeField] private bool logFocusDiagnostics = false;
 
 
     [Header("Rotation")]
@@ -107,6 +143,12 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+
+        }
+
         cameraControls.Camera.ZoomCamera.performed += ZoomCamera;
         cameraControls.Camera.Enable();
 
@@ -114,6 +156,12 @@ public class CameraController : MonoBehaviour
 
     private void OnDisable()
     {
+        if (activeInstance == this)
+        {
+            activeInstance = null;
+
+        }
+
         cameraControls.Camera.ZoomCamera.performed -= ZoomCamera;
         cameraControls.Camera.Disable();
         horizontalVelocity = Vector3.zero;
@@ -123,9 +171,9 @@ public class CameraController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (Instance == this)
+        if (activeInstance == this)
         {
-            Instance = null;
+            activeInstance = null;
 
         }
 
@@ -155,6 +203,15 @@ public class CameraController : MonoBehaviour
             unit.data == null || unit.data.currentHealth <= 0 ||
             (actionFocus ? !focusOnAction : !focusOnUnitSwitch))
         {
+            if (logFocusDiagnostics)
+            {
+                Debug.LogWarning($"Camera focus rejected: controller active={isActiveAndEnabled}, " +
+                    $"unit={(unit != null ? unit.name : "missing")}, " +
+                    $"unit ready={unit != null && unit.isActiveAndEnabled && unit.data != null}, " +
+                    $"action focus={actionFocus}, allowed={(actionFocus ? focusOnAction : focusOnUnitSwitch)}.", this);
+
+            }
+
             return;
 
         }
@@ -171,13 +228,43 @@ public class CameraController : MonoBehaviour
         horizontalVelocity = Vector3.zero;
         focusVelocity = Vector3.zero;
 
+        if (logFocusDiagnostics)
+        {
+            Debug.Log($"Camera focus started: {unit.name} (action focus={actionFocus}).", this);
+
+        }
+
     }
 
     public void CancelFocus()
     {
+        if (isFocusing && logFocusDiagnostics)
+        {
+            Debug.Log($"Camera focus ended/canceled: " +
+                $"{(focusTarget != null ? focusTarget.name : "no target")}", this);
+
+        }
+
         isFocusing = false;
         focusTarget = null;
         focusVelocity = Vector3.zero;
+
+    }
+
+    [ContextMenu("Test / Focus Selected Player Unit")]
+    private void TestFocusSelectedPlayerUnit()
+    {
+        SelectionManager selection = FindFirstObjectByType<SelectionManager>();
+        if (selection == null || selection.selectedUnit == null)
+        {
+            Debug.LogWarning("Camera focus test: no selected player unit.", this);
+
+            return;
+
+        }
+
+        Debug.Log($"Camera focus test requested for {selection.selectedUnit.name}.", this);
+        FocusOnUnit(selection.selectedUnit);
 
     }
 

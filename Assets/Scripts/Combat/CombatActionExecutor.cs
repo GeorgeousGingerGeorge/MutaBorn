@@ -653,11 +653,41 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     }
 
+    // Consumables are intentionally carried outside UnitActionLoadout. Allow the
+    // currently targeted item only when its exact inventory slot still authorizes it.
+    private bool HasAuthorizedAreaAction(UnitController source, ActionDefinition action)
+    {
+        if (HasGrantedAction(source, action))
+        {
+            return true;
+
+        }
+
+        if (source == null || source.data == null || action == null ||
+            attacker != source || pendingAction != action ||
+            pendingConsumableIndex < 0 || source.data.carriedConsumables == null ||
+            pendingConsumableIndex >= source.data.carriedConsumables.Count)
+        {
+            return false;
+
+        }
+
+        ConsumableInstance item = source.data.carriedConsumables[pendingConsumableIndex];
+        ConsumableData definition = item.definition;
+        return definition != null &&
+            definition.UseKind == ConsumableUseKind.TargetedAttack &&
+            definition.UseAction == action &&
+            action.Category == ActionMenuCategory.Items &&
+            action.CombatBehavior == CombatActionBehavior.DamageArea &&
+            (definition.UsesActionPointsOnly || item.remainingUses > 0);
+
+    }
+
     private bool ResolveAreaAction(UnitController source, ActionDefinition action,
         Vector3 impactPoint, int impactFloor)
     {
         if (source == null || source.data == null || source.currentNode == null ||
-            action == null || !HasGrantedAction(source, action) ||
+            action == null || !HasAuthorizedAreaAction(source, action) ||
             (action.CombatBehavior != CombatActionBehavior.DamageArea &&
             action.CombatBehavior != CombatActionBehavior.HealArea))
         {
