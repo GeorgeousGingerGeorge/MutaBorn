@@ -74,6 +74,7 @@ public sealed class MutationNodeDefinition
 public class MutationDataBase : ScriptableObject
 {
     [SerializeField] private Dictionary<MutationID, MutationDefinition> mutationCost = new Dictionary<MutationID, MutationDefinition>();
+    public Dictionary<MutationID, MutationDefinition> MutationCost => mutationCost;
     [SerializeField] private List<MutationLookupEntry> entries = new List<MutationLookupEntry>();
 
     [Header("Fixed Mutation Evolution Tree")]
