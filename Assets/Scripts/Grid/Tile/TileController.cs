@@ -101,9 +101,10 @@ public class TileController : MonoBehaviour
         }
         else if (isInMovementRange)
         {
-            tileColors.red = 0.2f;
-            tileColors.green = 0.45f;
-            tileColors.alpha = 0.5f;
+            tileColors.red = 1f;
+            tileColors.green = 1f;
+            tileColors.blue = 1f;
+            tileColors.alpha = 0.25f;
 
 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
