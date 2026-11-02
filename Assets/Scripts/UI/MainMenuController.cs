@@ -12,6 +12,9 @@ public class MainMenuController : MonoBehaviour
     public Button  creditsBackButton; // <-- Found on the credits panel
     public GameObject creditsPanel;
     public GameObject canvasMainMenu; 
+    public Button controlsButton;
+    public Button controlsBackButton;
+    public GameObject controlsPanel;
     
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -22,6 +25,18 @@ public class MainMenuController : MonoBehaviour
         quitButton.onClick.AddListener(QuitGame);
         creditsButton.onClick.AddListener(OpenCredits);
         creditsBackButton.onClick.AddListener(CloseCredits);
+
+        if (controlsButton != null)
+        {
+            controlsButton.onClick.AddListener(OpenControls);
+
+        }
+
+        if (controlsBackButton != null)
+        {
+            controlsBackButton.onClick.AddListener(CloseControls);
+
+        }
     }
 
     // Update is called once per frame
@@ -57,5 +72,35 @@ public class MainMenuController : MonoBehaviour
         Debug.Log("Credits Panel Closing");
         creditsPanel.SetActive(false);
         canvasMainMenu.SetActive(true);
+    }
+
+    void OpenControls()
+    {
+        if (controlsPanel == null || canvasMainMenu == null)
+        {
+            Debug.LogWarning("Main Menu Controls panel or menu panel is not assigned.", this);
+
+            return;
+
+        }
+
+        controlsPanel.SetActive(true);
+        canvasMainMenu.SetActive(false);
+
+    }
+
+    void CloseControls()
+    {
+        if (controlsPanel == null || canvasMainMenu == null)
+        {
+            Debug.LogWarning("Main Menu Controls panel or menu panel is not assigned.", this);
+
+            return;
+
+        }
+
+        controlsPanel.SetActive(false);
+        canvasMainMenu.SetActive(true);
+
     }
 }
