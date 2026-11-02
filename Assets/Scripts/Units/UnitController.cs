@@ -41,10 +41,8 @@ public class UnitController : MonoBehaviour
     [Header("Selection Circle")]
     [SerializeField] private LineRenderer selectionCircle;
 
-
-   
-
-  
+    [SerializeField] private Transform weaponSocket;
+    private GameObject activeWeapon;
 
 
     public void InitializeUnitData() 
@@ -92,6 +90,12 @@ public class UnitController : MonoBehaviour
 
                 hasStartingEquipment = true;
                 data.EquipItem(equipment);
+                
+                if (equipment.weaponModelPrefab != null)
+                {
+                    AttachWeapon(equipment.weaponModelPrefab);
+                }
+
                 Debug.Log($"Equipped starting item: {equipment.name}");
 
             }
@@ -609,6 +613,25 @@ public class UnitController : MonoBehaviour
         }
 
         selectionCircle.enabled = false;
+    }
+    public bool AttachWeapon(GameObject weaponPrefab)
+    {
+        if (weaponPrefab == null || weaponSocket == null)
+        {
+            return false;
+        }
+
+        if (activeWeapon != null)
+        {
+            Destroy(activeWeapon);
+        }
+
+        activeWeapon = Instantiate(weaponPrefab, weaponSocket, false);
+
+        activeWeapon.transform.localPosition = Vector3.zero;
+        activeWeapon.transform.localRotation = Quaternion.identity;
+
+        return true;
     }
 }
 
