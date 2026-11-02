@@ -1,6 +1,7 @@
 using System.Text;
 using UnityEngine;
 using MutaBorn.Gameplay;
+using System;
 
 public class UnitController : MonoBehaviour
 {
@@ -41,7 +42,14 @@ public class UnitController : MonoBehaviour
     [Header("Selection Circle")]
     [SerializeField] private LineRenderer selectionCircle;
 
-    [SerializeField] private Transform weaponSocket;
+    [SerializeField] private Transform[] playerSockets;
+    [SerializeField] private Transform weaponRSocket;
+    [SerializeField] private Transform weaponLSocket;
+    [SerializeField] private Transform armorHelmSocket;
+    [SerializeField] private Transform armorBodySocket;
+    [SerializeField] private Transform armorArmsSocket;
+    [SerializeField] private Transform armorLegsSocket;
+    [SerializeField] private Transform armorBootsSocket;
     private GameObject activeWeapon;
 
 
@@ -590,6 +598,17 @@ public class UnitController : MonoBehaviour
 
     private void Awake()
     {
+        playerSockets = new Transform[]
+        {
+            weaponRSocket,
+            weaponLSocket,
+            armorHelmSocket,
+            armorBodySocket,
+            armorArmsSocket,
+            armorLegsSocket,
+            armorBootsSocket
+        };
+
         if (selectionCircle == null)
         {
             return;
@@ -616,7 +635,7 @@ public class UnitController : MonoBehaviour
     }
     public bool AttachWeapon(GameObject weaponPrefab)
     {
-        if (weaponPrefab == null || weaponSocket == null)
+        if (weaponPrefab == null || playerSockets == null)
         {
             return false;
         }
@@ -626,7 +645,7 @@ public class UnitController : MonoBehaviour
             Destroy(activeWeapon);
         }
 
-        activeWeapon = Instantiate(weaponPrefab, weaponSocket, false);
+        activeWeapon = Instantiate(weaponPrefab, playerSockets[0], false);
 
         activeWeapon.transform.localPosition = Vector3.zero;
         activeWeapon.transform.localRotation = Quaternion.identity;
