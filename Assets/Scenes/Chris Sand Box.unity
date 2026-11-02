@@ -811,10 +811,9 @@ MonoBehaviour:
   sizeMultiplier: 3
   showHealthNumbers: 1
   hideAtFullHealth: 0
+  showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
-  woundedColor: {r: 0.98, g: 0.76, b: 0.18, a: 1}
-  criticalColor: {r: 0.93, g: 0.25, b: 0.22, a: 1}
 --- !u!114 &144338869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -864,6 +863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &144338873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -880,9 +880,23 @@ MonoBehaviour:
   unitName: TEST Enemy
   raceName: Orcs
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
   selectionCircle: {fileID: 198351856}
+  weaponSocket: {fileID: 0}
 --- !u!4 &144338874
 Transform:
   m_ObjectHideFlags: 0
@@ -1876,10 +1890,9 @@ MonoBehaviour:
   sizeMultiplier: 3
   showHealthNumbers: 1
   hideAtFullHealth: 0
+  showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
-  woundedColor: {r: 0.98, g: 0.76, b: 0.18, a: 1}
-  criticalColor: {r: 0.93, g: 0.25, b: 0.22, a: 1}
 --- !u!114 &273656773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1929,6 +1942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &273656777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1945,9 +1959,23 @@ MonoBehaviour:
   unitName: Elfinstien
   raceName: Elves
   currentMutation: 1
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
   occupancy: {fileID: 493745286}
   selectionCircle: {fileID: 491544963}
+  weaponSocket: {fileID: 0}
 --- !u!4 &273656778
 Transform:
   m_ObjectHideFlags: 0
@@ -2705,10 +2733,9 @@ MonoBehaviour:
   sizeMultiplier: 3
   showHealthNumbers: 1
   hideAtFullHealth: 0
+  showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
-  woundedColor: {r: 0.98, g: 0.76, b: 0.18, a: 1}
-  criticalColor: {r: 0.93, g: 0.25, b: 0.22, a: 1}
 --- !u!114 &452063843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2778,6 +2805,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &452063848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2794,9 +2822,23 @@ MonoBehaviour:
   unitName: TEST Civilian
   raceName: Human
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!4 &452063849
 Transform:
   m_ObjectHideFlags: 0
@@ -3183,6 +3225,12 @@ MonoBehaviour:
   acceleration: 30
   deceleration: 35
   fastMoveMultiplier: 10
+  focusTravelSpeed: 12
+  focusSmoothTime: 0.22
+  focusArrivalDistance: 0.05
+  focusOnUnitSwitch: 1
+  focusOnAction: 1
+  cancelFocusOnManualMovement: 1
   rotationSpeed: 90
   zoomStep: 2
   minZoomDistance: 25
@@ -3455,6 +3503,9 @@ MonoBehaviour:
   movementSpeed: 6
   delayBetweenUnits: 0.3
   logDecisions: 0
+  maxDecisionsPerUnit: 8
+  maximumRejectedActions: 2
+  delayBetweenActions: 0.12
 --- !u!114 &493745295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3488,6 +3539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatStatusHandler
   debugGuardTarget: {fileID: 0}
   debugGuardReductionPercent: 50
+  debugGuardFlatReduction: 3
 --- !u!114 &493745297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4417,10 +4469,9 @@ MonoBehaviour:
   sizeMultiplier: 3
   showHealthNumbers: 1
   hideAtFullHealth: 0
+  showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
-  woundedColor: {r: 0.98, g: 0.76, b: 0.18, a: 1}
-  criticalColor: {r: 0.93, g: 0.25, b: 0.22, a: 1}
 --- !u!114 &624169105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4490,6 +4541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &624169110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4506,9 +4558,23 @@ MonoBehaviour:
   unitName: TEST Civilian
   raceName: Human
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
   selectionCircle: {fileID: 254883448}
+  weaponSocket: {fileID: 0}
 --- !u!4 &624169111
 Transform:
   m_ObjectHideFlags: 0
@@ -5395,6 +5461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &679525403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5411,9 +5478,23 @@ MonoBehaviour:
   unitName: goblin_PeeZack
   raceName: Human
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &679525404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5870,10 +5951,9 @@ MonoBehaviour:
   sizeMultiplier: 3
   showHealthNumbers: 1
   hideAtFullHealth: 0
+  showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
-  woundedColor: {r: 0.98, g: 0.76, b: 0.18, a: 1}
-  criticalColor: {r: 0.93, g: 0.25, b: 0.22, a: 1}
 --- !u!114 &720631716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5923,6 +6003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &720631720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5939,9 +6020,23 @@ MonoBehaviour:
   unitName: TEST Enemy
   raceName: Orcs
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!4 &720631721
 Transform:
   m_ObjectHideFlags: 0
@@ -8593,6 +8688,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1262883578}
   m_CullTransparentMesh: 1
+--- !u!4 &1267894557 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7545711236839777696, guid: b351fe5b0bcb80b458f18699cd7c61ce, type: 3}
+  m_PrefabInstance: {fileID: 1496302690}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1275502565
 GameObject:
   m_ObjectHideFlags: 0
@@ -9450,10 +9550,9 @@ MonoBehaviour:
   sizeMultiplier: 3
   showHealthNumbers: 1
   hideAtFullHealth: 0
+  showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
-  woundedColor: {r: 0.98, g: 0.76, b: 0.18, a: 1}
-  criticalColor: {r: 0.93, g: 0.25, b: 0.22, a: 1}
 --- !u!114 &1391256932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9503,6 +9602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &1391256936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9519,9 +9619,23 @@ MonoBehaviour:
   unitName: TEST Enemy
   raceName: Human
   currentMutation: 2
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!4 &1391256937
 Transform:
   m_ObjectHideFlags: 0
@@ -10854,10 +10968,9 @@ MonoBehaviour:
   sizeMultiplier: 3
   showHealthNumbers: 1
   hideAtFullHealth: 0
+  showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
-  woundedColor: {r: 0.98, g: 0.76, b: 0.18, a: 1}
-  criticalColor: {r: 0.93, g: 0.25, b: 0.22, a: 1}
 --- !u!114 &1722696930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10907,6 +11020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &1722696934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10923,9 +11037,23 @@ MonoBehaviour:
   unitName: Digy
   raceName: Dwarfs
   currentMutation: 2
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 11400000, guid: e96c41b3e172ea1418a16876e593f4d8, type: 2}
   occupancy: {fileID: 493745286}
   selectionCircle: {fileID: 1317037241}
+  weaponSocket: {fileID: 0}
 --- !u!4 &1722696935
 Transform:
   m_ObjectHideFlags: 0
@@ -11056,10 +11184,9 @@ MonoBehaviour:
   sizeMultiplier: 3
   showHealthNumbers: 1
   hideAtFullHealth: 0
+  showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
-  woundedColor: {r: 0.98, g: 0.76, b: 0.18, a: 1}
-  criticalColor: {r: 0.93, g: 0.25, b: 0.22, a: 1}
 --- !u!114 &1793375457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11109,6 +11236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &1793375461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11125,9 +11253,23 @@ MonoBehaviour:
   unitName: TEST Enemy
   raceName: Orcs
   currentMutation: 1
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
   selectionCircle: {fileID: 1904682979}
+  weaponSocket: {fileID: 0}
 --- !u!4 &1793375462
 Transform:
   m_ObjectHideFlags: 0
@@ -12639,10 +12781,9 @@ MonoBehaviour:
   sizeMultiplier: 3
   showHealthNumbers: 1
   hideAtFullHealth: 0
+  showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
-  woundedColor: {r: 0.98, g: 0.76, b: 0.18, a: 1}
-  criticalColor: {r: 0.93, g: 0.25, b: 0.22, a: 1}
 --- !u!114 &2060320071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12692,6 +12833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &2060320075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12708,9 +12850,23 @@ MonoBehaviour:
   unitName: Goblino
   raceName: Goblins
   currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 493745286}
   selectionCircle: {fileID: 1033813854}
+  weaponSocket: {fileID: 1267894557}
 --- !u!4 &2060320076
 Transform:
   m_ObjectHideFlags: 0

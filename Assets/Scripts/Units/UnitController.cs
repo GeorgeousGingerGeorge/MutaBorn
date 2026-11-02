@@ -90,6 +90,12 @@ public class UnitController : MonoBehaviour
 
                 hasStartingEquipment = true;
                 data.EquipItem(equipment);
+                
+                if (equipment.weaponModelPrefab != null)
+                {
+                    AttachWeapon(equipment.weaponModelPrefab);
+                }
+
                 Debug.Log($"Equipped starting item: {equipment.name}");
 
             }
