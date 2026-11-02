@@ -10,6 +10,8 @@ public class EquipmentData : ItemData
     [Header("ItemInforamtion- equipmentType/Grade/Scalers")]
     [SerializeField] private ArmorCategory armor = ArmorCategory.None;
     [SerializeField] private WeaponCategory weapon = WeaponCategory.None;
+    [Header("Weapon Visuals")]
+    [SerializeField] private GameObject _weaponModelPrefab;
     [SerializeField] private AccessoryCategory accessory = AccessoryCategory.None; 
     [SerializeField] private EquipmentSlots targetSlot;
     [SerializeField] private EquipmentGrade currentRarity;
@@ -96,7 +98,7 @@ public class EquipmentData : ItemData
     public bool GenerateStarRewards => generateStarRewards;
     public EquipmentAbilityOption[] PossibleAbilities => possibleAbilities;
     public EquipmentBonusOption[] PossibleBonuses => possibleBonuses;
-
+    public GameObject weaponModelPrefab => _weaponModelPrefab;
 
 }
 

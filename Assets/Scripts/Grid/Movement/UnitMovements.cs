@@ -10,6 +10,7 @@ public class UnitMovements : MonoBehaviour
     private UnitController unit;
 
     private float moveSpeed = 20f;
+    [SerializeField] private float turnSpeed = 540f;
     private bool isMoving = false;
     private int pathIndex = 0;
     private float movementEfficiencyAtStart = 1f;
@@ -126,6 +127,14 @@ public class UnitMovements : MonoBehaviour
 
         Vector3 target = nextnode.cellWorldPosition;
         target.y += 0.26f;
+        Vector3 direction = target - transform.position;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude > 0.0001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
+        }
 
         transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
         

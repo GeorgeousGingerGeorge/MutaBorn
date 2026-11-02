@@ -22,4 +22,10 @@ public abstract class ItemData : ScriptableObject
     public string itemID => _itemID;
     public string description => _description;
     public Sprite sprite => _sprite;
+
+
+    [Header("Item Visuals")]
+    [SerializeField] private GameObject _equippedModelPrefab;
+
+    public GameObject equippedModelPrefab => _equippedModelPrefab;
 }
