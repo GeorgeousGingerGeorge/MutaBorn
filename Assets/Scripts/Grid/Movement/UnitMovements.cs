@@ -135,6 +135,7 @@ public class UnitMovements : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
         }
+
         transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
         
 
