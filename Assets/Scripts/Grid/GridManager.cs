@@ -47,7 +47,7 @@ public class GridManager : MonoBehaviour
     private Dictionary<GridNode, TileController> tileLookup = new Dictionary<GridNode, TileController>();
 
 
-    public void Start()
+    public void Awake()
     {
         BuildLevel();
         Vector3 positionGrid = new Vector3(8f, 1f, 6f);
@@ -101,6 +101,8 @@ public class GridManager : MonoBehaviour
         }
 
         ConnectFloors();
+        InitializeObstacles();
+        InitializeUnits();
 
         if (gridFloors.Count > 0)
         {
@@ -188,49 +190,55 @@ public class GridManager : MonoBehaviour
         grid = new Dictionary<Vector2Int, GridNode>();
     }
     //used for when we create level using a prefab
-    public void CreateGrid_Level_Prefab(FloorIdentification floor) 
+    public void CreateGrid_Level_Prefab(FloorIdentification floor)
     {
         Transform thisFloor = floorNumber.transform.Find($"Floor_{floor.GetFloorID()}");
-      
 
+        int gridX = 0;
+        int gridZ = 0;
 
-        foreach (Transform floorSlice in thisFloor) 
+        foreach (Transform floorSlice in thisFloor)
         {
-            foreach (Transform sliceObject in floorSlice) 
+            foreach (Transform sliceObject in floorSlice)
             {
-               
+                if (!sliceObject.GetComponentInParent<TileController>())
+                {
+                    continue;
+                }
+                if (gridZ == floor.GetGridSize().y)
+                {
+                    gridZ = 0;
+                }
                 Vector3 worldPos = sliceObject.position;
 
 
-                int gridX = Mathf.FloorToInt(worldPos.x / gridCellSize);
-                int gridZ = Mathf.FloorToInt(worldPos.z / gridCellSize);
-
                 Vector2Int coords = new Vector2Int(gridX, gridZ);
                 GridNode currentNode = new GridNode(coords, floor.GetFloorID(), worldPos);
-                currentNode.SetTerrain(TerrainType.OpenGround);
+
                 //Add Components to the Tile(sliceObject) that we are manipulating in the grid
 
 
-                if (sliceObject.GetComponentInParent<TileController>()) 
+                if (sliceObject.GetComponentInParent<TileController>())
                 {
                     TileController currentTile = sliceObject.GetComponentInParent<TileController>();
                     currentTile.Initialize(currentNode);
                     RegisterTile(currentTile);
-                  
+                    currentNode.SetTerrain(currentTile.terrainType);
+
                 }
 
                 //Adds the node to the grid
                 grid.Add(coords, currentNode);
-                
 
+                gridZ++;
 
             }
-           
-           
+            gridX++;
+
         }
 
         //We need to set up connections for all the nodes in the grid
-        SetUpConnections(grid); 
+        SetUpConnections(grid);
         gridFloors.Add(floor.GetFloorID(), grid);
         grid = new Dictionary<Vector2Int, GridNode>(); //Since grid has been added, we declare a new grid
     }
@@ -282,10 +290,28 @@ public class GridManager : MonoBehaviour
         foreach (FloorConnector connection in connections) 
         {
             connection.Initialize(this);
-            connection.GetComponentInParent<ObstacleController>().InitializeNodes();
+            
         }
     }
+    public void InitializeUnits() 
+    {
+        UnitController[] units = FindObjectsByType<UnitController>();
 
+        foreach (UnitController unit in units) 
+        {
+            unit.InitializeUnitData();
+            unit.InitializeNode();
+        }
+    }
+    public void InitializeObstacles() 
+    {
+        ObstacleController[] obstacles = FindObjectsByType<ObstacleController>();
+
+        foreach (ObstacleController obstacle in obstacles) 
+        {
+            obstacle.InitializeNodes();
+        }
+    }
 
     //Getters- NodeFromGridPosition, NodeFrom-WorldPosition, Grid itself
     public GridNode GetNodeFromGridPosition(int floorID, Vector2Int gridPosition) 
