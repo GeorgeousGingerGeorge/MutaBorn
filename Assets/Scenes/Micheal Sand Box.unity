@@ -1621,7 +1621,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 175692300}
   m_HandleRect: {fileID: 1267758192}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1842,6 +1842,7 @@ MonoBehaviour:
   focusOnUnitSwitch: 1
   focusOnAction: 1
   cancelFocusOnManualMovement: 1
+  logFocusDiagnostics: 0
   rotationSpeed: 90
   zoomStep: 2
   minZoomDistance: 25
@@ -8323,6 +8324,7 @@ MonoBehaviour:
   maxDecisionsPerUnit: 8
   maximumRejectedActions: 2
   delayBetweenActions: 0.12
+  focusCameraOnAiActions: 1
 --- !u!114 &1714028912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9320,7 +9322,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000070456454}
+  m_AnchoredPosition: {x: 0, y: 0.0000075490684}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1935075004

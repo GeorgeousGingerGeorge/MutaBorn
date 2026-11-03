@@ -87,6 +87,13 @@ public class DynamicStats : ScriptableObject
 
     [SerializeField] private int _Will;
 
+    [SerializeField]
+    [Range(1, 15)]
+    private int _LineOfSight;
+    [SerializeField]
+    [Range(45, 360)]
+    private int _fieldOfView;
+
 
     [Header("Racial Actions")]
     [Tooltip("Actions automatically granted to units of this race, in addition to the universal action set.")]
@@ -133,6 +140,9 @@ public class DynamicStats : ScriptableObject
 
 
     public int will => _Will;
+
+    public int lineOfSight => _LineOfSight;
+    public int fieldOfView =>_fieldOfView;
 
     private void OnValidate()
     {
