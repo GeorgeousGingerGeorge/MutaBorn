@@ -40,6 +40,9 @@ public class UnitMovements : MonoBehaviour
             animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
             animBaseChar.transform.position = transform.position;
             CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
+            CDGoblin.transform.position = transform.position;
+            CDGoblin.transform.rotation = transform.rotation;
+            
         }
     }
 
@@ -129,15 +132,11 @@ public class UnitMovements : MonoBehaviour
         target.y += 0.26f;
         Vector3 direction = target - transform.position;
         direction.y = 0f;
-
-        if (direction.sqrMagnitude > 0.0001f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
-        }
+        unit.unitDirection.SetFacing(direction);
 
         transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
         
+
 
         if (Vector3.Distance(transform.position, target) < 0.01f)
         {
