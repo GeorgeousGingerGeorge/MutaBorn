@@ -1,4 +1,15 @@
+
 using UnityEngine;
+
+public enum RaceNames 
+{
+    Elf,
+    Dwarf,
+    Human,
+    Orc,
+    Goblin,
+}
+
 
 [CreateAssetMenu(fileName = "DynamicStats", menuName = "Scriptable Objects/DynamicStats")]
 public class DynamicStats : ScriptableObject

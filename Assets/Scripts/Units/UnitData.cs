@@ -768,6 +768,11 @@ public class UnitData
                 mutationTracker[slot][strain] = new Dictionary<MutationID, MutationProgress>();
 
                 List<MutationID> currentMutations = GameDataBaseLoader.Instance.mutationData.GetMutationsForSlots(slot, strain);
+               
+                if (currentMutations == null) 
+                {
+                    continue;
+                }
                 foreach (MutationID id in currentMutations) 
                 {
                     if (id == MutationID.none) continue;

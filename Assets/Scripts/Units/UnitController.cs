@@ -7,11 +7,14 @@ public class UnitController : MonoBehaviour
     [Header("Unit's Size")]
     [SerializeField] private Vector2Int footPrintSize = Vector2Int.one;
     public Vector2Int footPrint => footPrintSize;
+    [Header("Unit's Direction")]
+    public UnitFacing unitDirection { get; private set; }
+   
 
     [Header("Units Data- Status, Inventory, Equipment, Mutations")]
 
     [SerializeField] public string unitName; 
-    [SerializeField] public string raceName;
+    [SerializeField] public RaceNames raceName;
     [SerializeField] public MutationID currentMutation;
     [Header("Starting Fixed Mutations (No Slot Limit)")]
     [SerializeField] private MutationID[] startingMutations = new MutationID[0];
@@ -47,7 +50,7 @@ public class UnitController : MonoBehaviour
 
     public void InitializeUnitData() 
     {
-        race = GameDataBaseLoader.Instance.raceData.GetRace(raceName);
+        race = GameDataBaseLoader.Instance.raceData.GetRace(raceName.ToString());
         data = UnitData.CreateNewUnit(unitName, race);
 
         
@@ -555,6 +558,7 @@ public class UnitController : MonoBehaviour
         currentNode = FindAnyObjectByType<GridManager>().GetNodeFromClosestWorldPosition(transform.position);
         occupancy = FindAnyObjectByType<Occupancy>();
         occupancy.RegisterUnit(currentNode, this);
+        unitDirection = GetComponent<UnitFacing>();
         
     }
     public void SetNode(GridNode node) 
