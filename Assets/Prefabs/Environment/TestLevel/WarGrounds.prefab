@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 2325312419449976211}
   - component: {fileID: 1380933562106226572}
   - component: {fileID: 1357562697734002160}
+  - component: {fileID: 4707625925808012895}
   m_Layer: 0
   m_Name: Tristram
   m_TagString: Untagged
@@ -133,7 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Tristram
-  raceName: Dwarfs
+  raceName: 1
   currentMutation: 2
   startingMutations: 
   testEvolutionCurrent: 0
@@ -151,6 +152,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 11400000, guid: e96c41b3e172ea1418a16876e593f4d8, type: 2}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &6503791839704346744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &9063465890047871474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +223,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &4707625925808012895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298531222558717536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 2657391556979907700}
+  turnSpeed: 360
 --- !u!1 &326556018738003981
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,6 +254,7 @@ GameObject:
   - component: {fileID: 6413797375951788803}
   - component: {fileID: 5957155821607188654}
   - component: {fileID: 60337894433372068}
+  - component: {fileID: 6159029729120168600}
   m_Layer: 0
   m_Name: Civilian B
   m_TagString: Untagged
@@ -273,7 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Civilian
-  raceName: Human
+  raceName: 2
   currentMutation: 0
   startingMutations: 
   testEvolutionCurrent: 0
@@ -291,6 +310,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &5845476624209576713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &4997653962793398095
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,6 +401,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &6159029729120168600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326556018738003981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 6571241847175937291}
+  turnSpeed: 360
 --- !u!1 &380633331913996036
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,6 +1080,7 @@ GameObject:
   - component: {fileID: 7617690786683553505}
   - component: {fileID: 3400673249875643697}
   - component: {fileID: 8227113800797829571}
+  - component: {fileID: 6895720661189396876}
   m_Layer: 0
   m_Name: Fle
   m_TagString: Untagged
@@ -1081,7 +1118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Fle
-  raceName: Elves
+  raceName: 0
   currentMutation: 1
   startingMutations: 
   testEvolutionCurrent: 0
@@ -1099,6 +1136,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &289119659977694093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1111,6 +1149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &5142452738037082736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1168,6 +1207,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &6895720661189396876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 892943000529855229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 1524243589619617726}
+  turnSpeed: 360
 --- !u!1 &897032142986950045
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,6 +2083,7 @@ GameObject:
   - component: {fileID: 6609223670501505256}
   - component: {fileID: 8131810511330305033}
   - component: {fileID: 8243939800264339980}
+  - component: {fileID: 802199974045963912}
   m_Layer: 0
   m_Name: Dave
   m_TagString: Untagged
@@ -2066,7 +2121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Dave
-  raceName: Orcs
+  raceName: 3
   currentMutation: 8
   startingMutations: 
   testEvolutionCurrent: 0
@@ -2084,6 +2139,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &8886976928919889090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2096,6 +2152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &1101076157788547297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2153,6 +2210,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &802199974045963912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2193493521193439495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 3245514399622122771}
+  turnSpeed: 360
 --- !u!1 &2230258177303914915
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,6 +2453,7 @@ GameObject:
   - component: {fileID: 8535558968516454008}
   - component: {fileID: 8554418112913650140}
   - component: {fileID: 391469419966972142}
+  - component: {fileID: 6491831787140967597}
   m_Layer: 0
   m_Name: Shrock
   m_TagString: Untagged
@@ -2418,7 +2491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Shrock
-  raceName: Orcs
+  raceName: 3
   currentMutation: 11
   startingMutations: 
   testEvolutionCurrent: 0
@@ -2436,6 +2509,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &6834336809447925766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2448,6 +2522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &3186833188177164608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2505,6 +2580,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &6491831787140967597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2672557812356040633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 7127262660207827928}
+  turnSpeed: 360
 --- !u!1 &2705465242463754789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2843,6 +2933,7 @@ GameObject:
   - component: {fileID: 3447160155495428944}
   - component: {fileID: 5998229555132967558}
   - component: {fileID: 257617568067840769}
+  - component: {fileID: 7896376447011537951}
   m_Layer: 0
   m_Name: Gibbinz
   m_TagString: Untagged
@@ -2880,7 +2971,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Gibbinz
-  raceName: Goblins
+  raceName: 4
   currentMutation: 4
   startingMutations: 
   testEvolutionCurrent: 0
@@ -2898,6 +2989,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &1655974739022743869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2910,6 +3002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &991910350774451682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3018,6 +3111,21 @@ MonoBehaviour:
       terms: []
       rounding: 1
     conditions: []
+--- !u!114 &7896376447011537951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3020544077600531792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 4640059328642664004}
+  turnSpeed: 360
 --- !u!1 &3055234591708581864
 GameObject:
   m_ObjectHideFlags: 0
@@ -3035,6 +3143,7 @@ GameObject:
   - component: {fileID: 5173235685806732773}
   - component: {fileID: 3167662018782845168}
   - component: {fileID: 157769536903614194}
+  - component: {fileID: 1459007965416525564}
   m_Layer: 0
   m_Name: Goblino
   m_TagString: Untagged
@@ -3072,7 +3181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Goblino
-  raceName: Goblins
+  raceName: 4
   currentMutation: 8
   startingMutations: 
   testEvolutionCurrent: 0
@@ -3090,6 +3199,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &8092203387796223832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3102,6 +3212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &8454604534051374898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3232,6 +3343,21 @@ MonoBehaviour:
   selectionCircle: {fileID: 4823920929817187415}
   circleRadius: 0.75
   circleSegments: 48
+--- !u!114 &1459007965416525564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3055234591708581864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 6207688743418204483}
+  turnSpeed: 360
 --- !u!1 &3109348267764637068
 GameObject:
   m_ObjectHideFlags: 0
@@ -4401,6 +4527,7 @@ GameObject:
   - component: {fileID: 8318744059978340767}
   - component: {fileID: 8995126550928014170}
   - component: {fileID: 8845917381566596763}
+  - component: {fileID: 2300863481740701010}
   m_Layer: 0
   m_Name: Badger
   m_TagString: Untagged
@@ -4416,14 +4543,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5213520548691415511}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.99, y: 0.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3868623713022118338}
   m_Father: {fileID: 6643630943166611505}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1786382894057834016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4438,7 +4565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Badger
-  raceName: Orcs
+  raceName: 3
   currentMutation: 2
   startingMutations: 
   testEvolutionCurrent: 0
@@ -4456,6 +4583,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &5797109279146837401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4468,6 +4596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &550390860111130752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4525,6 +4654,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &2300863481740701010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5213520548691415511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 9139188045057317919}
+  turnSpeed: 360
 --- !u!1 &5273953885221942811
 GameObject:
   m_ObjectHideFlags: 0
@@ -4630,6 +4774,7 @@ GameObject:
   - component: {fileID: 2511150869553490031}
   - component: {fileID: 616067747657650063}
   - component: {fileID: 5887978081979163607}
+  - component: {fileID: 3960482464107957440}
   m_Layer: 0
   m_Name: Digy
   m_TagString: Untagged
@@ -4667,7 +4812,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Digy
-  raceName: Dwarfs
+  raceName: 1
   currentMutation: 9
   startingMutations: 
   testEvolutionCurrent: 0
@@ -4685,6 +4830,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 11400000, guid: e96c41b3e172ea1418a16876e593f4d8, type: 2}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &5848758585383496335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4697,6 +4843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &3093112441480055141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4754,6 +4901,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &3960482464107957440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303415718241895847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 6069040743612951339}
+  turnSpeed: 360
 --- !u!1 &5335921003763503734
 GameObject:
   m_ObjectHideFlags: 0
@@ -4859,6 +5021,7 @@ GameObject:
   - component: {fileID: 1230720544791513740}
   - component: {fileID: 5027774068555050014}
   - component: {fileID: 3867505552941042012}
+  - component: {fileID: 8987163037268171162}
   m_Layer: 0
   m_Name: Mork
   m_TagString: Untagged
@@ -4896,7 +5059,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Mork
-  raceName: Orcs
+  raceName: 3
   currentMutation: 9
   startingMutations: 
   testEvolutionCurrent: 0
@@ -4914,6 +5077,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &6050898266001756254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4926,6 +5090,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &6102772499104731439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4983,6 +5148,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &8987163037268171162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5542909611823098182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 4771945347890956745}
+  turnSpeed: 360
 --- !u!1 &5565282271673424664
 GameObject:
   m_ObjectHideFlags: 0
@@ -4998,6 +5178,7 @@ GameObject:
   - component: {fileID: 6470186150055552174}
   - component: {fileID: 5812055106291771097}
   - component: {fileID: 6125660188541512358}
+  - component: {fileID: 8066008027554569419}
   m_Layer: 0
   m_Name: Chiefda
   m_TagString: Untagged
@@ -5035,7 +5216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Chiefda
-  raceName: Orcs
+  raceName: 3
   currentMutation: 0
   startingMutations: 
   testEvolutionCurrent: 0
@@ -5053,6 +5234,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &5099040942473855696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5065,6 +5247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &4256297388368572567
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5122,6 +5305,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &8066008027554569419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5565282271673424664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 4123466808950455653}
+  turnSpeed: 360
 --- !u!1 &5575746357476822660
 GameObject:
   m_ObjectHideFlags: 0
@@ -5213,6 +5411,7 @@ GameObject:
   - component: {fileID: 6767460049488863646}
   - component: {fileID: 3267560285912815391}
   - component: {fileID: 551767032408880843}
+  - component: {fileID: 504928531203203873}
   m_Layer: 0
   m_Name: Joker
   m_TagString: Untagged
@@ -5250,7 +5449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Joker
-  raceName: Orcs
+  raceName: 3
   currentMutation: 1
   startingMutations: 
   testEvolutionCurrent: 0
@@ -5268,6 +5467,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &2742897000490974191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5280,6 +5480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &496038105989250686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5337,6 +5538,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &504928531203203873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5721726533723296574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 1730896751629370866}
+  turnSpeed: 360
 --- !u!1 &5820631714533647965
 GameObject:
   m_ObjectHideFlags: 0
@@ -5842,6 +6058,7 @@ GameObject:
   - component: {fileID: 4896578459451758805}
   - component: {fileID: 9058662338251125117}
   - component: {fileID: 4115528468557388176}
+  - component: {fileID: 2763666439064650335}
   m_Layer: 0
   m_Name: Civilian A
   m_TagString: Untagged
@@ -5879,7 +6096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Civilian
-  raceName: Human
+  raceName: 2
   currentMutation: 0
   startingMutations: 
   testEvolutionCurrent: 0
@@ -5897,6 +6114,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &8297473124630097740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5909,6 +6127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &4875062876437402123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5986,6 +6205,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &2763666439064650335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6438336707472784948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 7581796884672511212}
+  turnSpeed: 360
 --- !u!1 &6655489335336290411
 GameObject:
   m_ObjectHideFlags: 0
@@ -6172,6 +6406,7 @@ GameObject:
   - component: {fileID: 9217798324367528364}
   - component: {fileID: 213197773289467279}
   - component: {fileID: 6464105944798849008}
+  - component: {fileID: 1153651917000355329}
   m_Layer: 0
   m_Name: Civilian C
   m_TagString: Untagged
@@ -6209,7 +6444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Civilian
-  raceName: Human
+  raceName: 2
   currentMutation: 0
   startingMutations: 
   testEvolutionCurrent: 0
@@ -6227,6 +6462,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &4285534808449534023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6239,6 +6475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &8441346247743723171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6316,6 +6553,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &1153651917000355329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7107134828830430431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 3028647365713976383}
+  turnSpeed: 360
 --- !u!1 &7238404299311891604
 GameObject:
   m_ObjectHideFlags: 0
@@ -6941,6 +7193,7 @@ GameObject:
   - component: {fileID: 7524482261298941831}
   - component: {fileID: 502030102657246283}
   - component: {fileID: 7291511629746541479}
+  - component: {fileID: 3943909052319016137}
   m_Layer: 0
   m_Name: Gork
   m_TagString: Untagged
@@ -6978,7 +7231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Gork
-  raceName: Orcs
+  raceName: 3
   currentMutation: 10
   startingMutations: 
   testEvolutionCurrent: 0
@@ -6996,6 +7249,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &8380001988188544628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7008,6 +7262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &5952477556253197161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7065,6 +7320,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &3943909052319016137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7767852542168168225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 8587247208411039797}
+  turnSpeed: 360
 --- !u!1 &7824134116540720835
 GameObject:
   m_ObjectHideFlags: 0
@@ -7175,6 +7445,7 @@ GameObject:
   - component: {fileID: 147527485024778354}
   - component: {fileID: 1826080588607964045}
   - component: {fileID: 3288624692830172885}
+  - component: {fileID: 379630041748530819}
   m_Layer: 0
   m_Name: Civilian D
   m_TagString: Untagged
@@ -7212,7 +7483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Civilian
-  raceName: Human
+  raceName: 2
   currentMutation: 0
   startingMutations: 
   testEvolutionCurrent: 0
@@ -7230,6 +7501,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &6409078446916787150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7242,6 +7514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &1378650929320722817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7370,6 +7643,21 @@ MonoBehaviour:
       terms: []
       rounding: 1
     conditions: []
+--- !u!114 &379630041748530819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8004274875486733103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 5533806070595809091}
+  turnSpeed: 360
 --- !u!1 &8032955314042107662
 GameObject:
   m_ObjectHideFlags: 0
@@ -7427,6 +7715,7 @@ GameObject:
   - component: {fileID: 1814612031363148328}
   - component: {fileID: 9222869706021796401}
   - component: {fileID: 1333733332605086388}
+  - component: {fileID: 1874268483078879949}
   m_Layer: 0
   m_Name: Civilian E
   m_TagString: Untagged
@@ -7464,7 +7753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Civilian
-  raceName: Human
+  raceName: 2
   currentMutation: 0
   startingMutations: 
   testEvolutionCurrent: 0
@@ -7482,6 +7771,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &2801005696663086998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7494,6 +7784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &3702149755388354628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7622,6 +7913,21 @@ MonoBehaviour:
       terms: []
       rounding: 1
     conditions: []
+--- !u!114 &1874268483078879949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8072919282930210599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 6783591924330887282}
+  turnSpeed: 360
 --- !u!1 &8085028872139614292
 GameObject:
   m_ObjectHideFlags: 0
@@ -7870,6 +8176,7 @@ GameObject:
   - component: {fileID: 7068460679416869354}
   - component: {fileID: 6902696915990890117}
   - component: {fileID: 5068099659397153480}
+  - component: {fileID: 2911276530855205501}
   m_Layer: 0
   m_Name: Elfinstien
   m_TagString: Untagged
@@ -7907,7 +8214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Elfinstien
-  raceName: Elves
+  raceName: 0
   currentMutation: 10
   startingMutations: 
   testEvolutionCurrent: 0
@@ -7925,6 +8232,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &8315346746302321748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7937,6 +8245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &2529821680208148489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7994,6 +8303,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &2911276530855205501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8455166306700622868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 5296461720407289098}
+  turnSpeed: 360
 --- !u!1 &8615148189078607819
 GameObject:
   m_ObjectHideFlags: 0
@@ -8103,6 +8427,7 @@ GameObject:
   - component: {fileID: 1513128024598061096}
   - component: {fileID: 2882496037382462926}
   - component: {fileID: 6890144715115075495}
+  - component: {fileID: 9121567952686827587}
   m_Layer: 0
   m_Name: Civilian Unit
   m_TagString: Untagged
@@ -8140,7 +8465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: TEST Civilian
-  raceName: Human
+  raceName: 2
   currentMutation: 0
   startingMutations: 
   testEvolutionCurrent: 0
@@ -8158,6 +8483,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &6293929745554338057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8170,6 +8496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &3748885201653179022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8247,6 +8574,21 @@ MonoBehaviour:
   showActiveStatuses: 1
   backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
   healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &9121567952686827587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8730136495042779910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 5801691316958077330}
+  turnSpeed: 360
 --- !u!1 &8747783574734492613
 GameObject:
   m_ObjectHideFlags: 0
@@ -8484,6 +8826,7 @@ GameObject:
   - component: {fileID: 4751493959664489405}
   - component: {fileID: 1335420201971889005}
   - component: {fileID: 8082635017418676746}
+  - component: {fileID: 8003888398635433835}
   m_Layer: 0
   m_Name: Master Mind
   m_TagString: Untagged
@@ -8521,7 +8864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitController
   footPrintSize: {x: 1, y: 1}
   unitName: Master Mind
-  raceName: Elves
+  raceName: 0
   currentMutation: 2
   startingMutations: 
   testEvolutionCurrent: 0
@@ -8539,6 +8882,7 @@ MonoBehaviour:
   currentEquipment: {fileID: 0}
   occupancy: {fileID: 0}
   selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
 --- !u!114 &685133872069389150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8551,6 +8895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
 --- !u!114 &5452445214467009804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8645,6 +8990,21 @@ MonoBehaviour:
   selectionCircle: {fileID: 1451513697242818861}
   circleRadius: 0.75
   circleSegments: 39
+--- !u!114 &8003888398635433835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8999743361583977290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 8814316609426288718}
+  turnSpeed: 360
 --- !u!1 &9056217997330082952
 GameObject:
   m_ObjectHideFlags: 0

@@ -452,6 +452,8 @@ public class SelectionManager : MonoBehaviour
         {
             SelectTile(tile);
 
+            selectedUnit.GetComponent<UnitMovements>()?.PlayerMovement(selectedTile.node);
+
         }
 
     }
