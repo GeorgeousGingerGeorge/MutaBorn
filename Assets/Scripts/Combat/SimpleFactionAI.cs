@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngineInternal;
 
 // Faction AI: recover from initialization races, prioritize usable attacks, and spend remaining AP.
 // No extra AI components are needed on individual units.
@@ -8,7 +9,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
 {
     [Header("References (Auto-found if empty)")]
     [SerializeField] private FactionManager factionManager;
-    [SerializeField] private MovementManager movementManager;
+    //[SerializeField] private MovementManager movementManager;
     [SerializeField] private CombatActionExecutor combatExecutor;
     [SerializeField] private MissionObjectiveManager missionManager;
 
@@ -35,11 +36,11 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
         }
 
-        if (movementManager == null)
-        {
-            movementManager = FindAnyObjectByType<MovementManager>();
+        //if (movementManager == null)
+        //{
+        //    movementManager = FindAnyObjectByType<MovementManager>();
 
-        }
+        //}
 
         if (combatExecutor == null)
         {
@@ -63,11 +64,11 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
         }
 
-        if (movementManager == null)
-        {
-            movementManager = FindAnyObjectByType<MovementManager>();
+        //if (movementManager == null)
+        //{
+        //    movementManager = FindAnyObjectByType<MovementManager>();
 
-        }
+        //}
 
         if (combatExecutor == null)
         {
@@ -123,7 +124,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
         // Never finish a turn synchronously inside TurnManager.AdvanceTurn().
         yield return null;
         RefreshManagers();
-        if (factionManager == null || movementManager == null || combatExecutor == null)
+        if (factionManager == null /*|| movementManager == null*/ || combatExecutor == null)
         {
             Debug.LogError("AI: required managers are still missing; completing turn safely.", this);
             currentTurn = null;
@@ -602,9 +603,12 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
         }
 
+
         float movementEfficiency = actor.data.MovementEfficiency;
-        Dictionary<GridNode, float> reachable = movementManager.GetReachableNodes(
-            actor.currentNode, actor.data.currentActionPoints * movementEfficiency);
+
+        actor.GetComponent<UnitMovements>().AIMovement();
+        Dictionary<GridNode, float> reachable = actor.GetComponent<UnitMovements>().reachableNodes;
+
         if (reachable == null)
         {
             return null;
@@ -629,7 +633,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
             }
 
-            int moveCost = Mathf.CeilToInt(entry.Value / movementEfficiency);
+            int moveCost = Mathf.CeilToInt(entry.Value / actor.data.MovementEfficiency);
             int remainingAP = actor.data.currentActionPoints - moveCost;
             if (remainingAP < 0)
             {
@@ -697,78 +701,34 @@ public sealed class SimpleFactionAI : MonoBehaviour
             yield break;
 
         }
-
-        GridNode origin = actor.currentNode;
-        float movementEfficiency = actor.data.MovementEfficiency;
-        float movementBudget = actor.data.currentActionPoints * movementEfficiency;
-        Dictionary<GridNode, float> reachable = movementManager.GetReachableNodes(origin,
-            movementBudget);
-        if (reachable == null || !reachable.TryGetValue(destination, out float cost))
+        if (!CanContinue(faction) || !IsLiving(actor))
         {
             yield break;
 
         }
-
-        movementManager.SetNodes(origin, destination, movementBudget);
-        List<GridNode> path = movementManager.GetPath();
-        if (path == null || path.Count < 2 || path[path.Count - 1] != destination)
-        {
-            yield break;
-
-        }
-
-        // Clone the shared manager's path, because it is used by player movement too.
-        List<GridNode> steps = new List<GridNode>(path);
-        int totalAPCost = Mathf.CeilToInt(cost / movementEfficiency);
-        if (totalAPCost > actor.data.currentActionPoints)
-        {
-            yield break;
-
-        }
-
-        actor.data.ModifyActionPoints(-totalAPCost);
         FocusCameraOnActor(actor);
 
-        foreach (GridNode node in steps)
+        UnitMovements actorMovement = actor.GetComponent<UnitMovements>();
+
+        if (actorMovement == null) 
         {
-            if (node == null || node == actor.currentNode)
-            {
-                continue;
-
-            }
-
-            if (!CanContinue(faction) || !IsLiving(actor))
-            {
-                yield break;
-
-            }
-
-            if (actor.occupancy == null || !actor.occupancy.CanEnterNode(actor.currentNode, node, actor))
-            {
-                yield break;
-
-            }
-
-            Vector3 goal = node.cellWorldPosition + Vector3.up * 0.26f;
-            while (Vector3.Distance(actor.transform.position, goal) > 0.01f)
-            {
-                if (!CanContinue(faction) || !IsLiving(actor))
-                {
-                    yield break;
-
-                }
-
-                actor.transform.position = Vector3.MoveTowards(actor.transform.position, goal,
-                    movementSpeed * Time.deltaTime);
-                FocusCameraOnActor(actor);
-                yield return null;
-
-            }
-
-            actor.transform.position = goal;
-            actor.SetNode(node);
-
+            yield break; 
         }
+        bool movementStarted = actorMovement.AIMovement(destination, movementSpeed);
+
+        if (!movementStarted) 
+        {
+            yield break;
+        }
+
+        yield return new WaitUntil(() => !actorMovement.isMoving);
+
+        if (!CanContinue(faction) || !IsLiving(actor)) 
+        {
+            yield break;
+        }
+       
+     
 
     }
 

@@ -5,18 +5,21 @@ using UnityEngine;
 public class UnitMovements : MonoBehaviour
 {
     private MovementManager movementController;
+    public MovementManager movementManager => movementController;
     private SelectionManager selectionController;
     private TurnManager turnController;
     private UnitFaction factionController;
    
+   
     private UnitController unit;
 
-    private float moveSpeed = 20f;
+    private float moveSpeed = 10f;
     [SerializeField] private float turnSpeed = 540f;
-    private bool isMoving = false;
+    public bool isMoving { get; private set; } = false;
     private int pathIndex = 0;
     private float movementEfficiencyAtStart = 1f;
     private List<GridNode> movementPath = new List<GridNode>();
+    public Dictionary<GridNode, float> reachableNodes { get; private set; }
     private List<TileController> highlightedTiles = new List<TileController>();
     private Animator animBaseChar;
     private Animator CDGoblin;
@@ -29,7 +32,7 @@ public class UnitMovements : MonoBehaviour
         factionController = GetComponent<UnitFaction>();
         unit = GetComponent<UnitController>();
         animBaseChar = GetComponentInChildren<Animator>();
-        CDGoblin = GetComponentInChildren<Animator>();
+        //CDGoblin = GetComponentInChildren<Animator>();
 
     }
     
@@ -39,15 +42,24 @@ public class UnitMovements : MonoBehaviour
         
         HandleMovement();
 
-        if (unit.GetComponentInChildren<Animator>() != null)
+        //if (unit.GetComponentInChildren<Animator>() != null)
+        //{
+        //    animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
+        //    animBaseChar.transform.position = transform.position;
+        //    CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
+        //    CDGoblin.transform.position = transform.position;
+
+
+        //}
+
+        if (animBaseChar == null)
         {
-            animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
-            animBaseChar.transform.position = transform.position;
-            CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
-            CDGoblin.transform.position = transform.position;
-            CDGoblin.transform.rotation = transform.rotation;
-            
+            return;
         }
+
+
+        animBaseChar.SetFloat("Speed", isMoving ? 1f : 0f);
+        animBaseChar.transform.position = transform.position;
     }
 
     public bool PlayerMovement(GridNode destination)
@@ -69,16 +81,26 @@ public class UnitMovements : MonoBehaviour
 
 
     }
-    public bool AIMovement(GridNode destination) 
+    public bool AIMovement(GridNode destination = null, float aiMoveSpeed = 20f) 
     {
         if (unit == null) 
         {
             return false; 
         }
 
-       
+        if (destination == null) 
+        {
+            ShowMovementRange();
+        }
 
-        return AttemptMovement(destination);
+        moveSpeed = aiMoveSpeed;
+
+        if (!AttemptMovement(destination)) 
+        {
+            return false;
+        }
+
+        return true;
     }
 
 
@@ -184,12 +206,20 @@ public class UnitMovements : MonoBehaviour
             unit.SetNode(nextnode);
 
             movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
+            
             pathIndex++;
         }
 
     }
     private void CompleteMovement() 
     {
+
+        //if (unit.GetComponent<UnitFaction>().GetFactionID() != "playerFaction") 
+        //{
+        //    SimpleFactionAI factionAI = FindAnyObjectByType<SimpleFactionAI>();
+
+            
+        //}
         unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
 
         isMoving = false;
@@ -198,6 +228,7 @@ public class UnitMovements : MonoBehaviour
 
         movementPath.Clear();
         pathIndex = 0;
+        moveSpeed = 10f; 
 
         if (selectionController.selectedUnit != null && selectionController.selectedUnit == unit)
         {
@@ -220,13 +251,28 @@ public class UnitMovements : MonoBehaviour
         }
         Dictionary<GridNode, float> reachables = new Dictionary<GridNode, float>();
 
-        unit.InitializeNode();
+        if(unit.currentNode == null) 
+        {
+            unit.InitializeNode();
+        }
+      
+
+
         GridNode startNode = unit.currentNode;
 
         float movementBudget = unit.CurrentActionPoints() *
-            (unit.data != null ? unit.data.MovementEfficiency : 1f);
+           (unit.data != null ? unit.data.MovementEfficiency : 1f);
+
+        if (unit.GetComponent<UnitFaction>().GetFactionID() != "playerFaction") 
+        {
+            reachableNodes = movementController.GetReachableNodes(startNode, movementBudget);
+            return;
+        }
+
+       
         reachables = movementController.GetReachableNodes(startNode, movementBudget);
        
+        
 
         foreach (KeyValuePair<GridNode, float> values in reachables) 
         {
