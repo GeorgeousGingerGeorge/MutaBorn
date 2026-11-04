@@ -50,16 +50,21 @@ public class GridManager : MonoBehaviour
     public void Awake()
     {
         BuildLevel();
-        Vector3 positionGrid = new Vector3(8f, 1f, 6f);
+        //Vector3 positionGrid = new Vector3(8f, 2.26f, 6f);
+  
         if(currentLevel == null)
         {  
-            GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, level.transform);
-            current.GetComponent<ObstacleController>().InitializeNodes();
+            //GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, level.transform);
+            //current.transform.localScale = new Vector3(1.5f, 2f, 1.5f);
+            //current.GetComponent<ObstacleController>().InitializeNodes();
 
-            Vector3 wallPosition = new Vector3(29.05f, 5.26f, 0f);
-            for (int multipleObjects = 0; multipleObjects < 10; multipleObjects++) 
+            Vector3 wallPosition = new Vector3(5.05f, 1.26f, 4f);
+
+            for (int multipleObjects = 0; multipleObjects < 6; multipleObjects++)
             {
+
                 GameObject wall = Instantiate(wallPrefab, wallPosition, Quaternion.identity, mainGrid.transform);
+                wall.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
                 wall.GetComponent<ObstacleController>().InitializeNodes();
                 wallPosition.z += 2f;
             }
@@ -364,6 +369,10 @@ public class GridManager : MonoBehaviour
         }
 
         return thisGrid; 
+    }
+    public IEnumerable<int> GetFloorIDS() 
+    {
+        return gridFloors.Keys;
     }
     public TileController FindTile(GridNode node)
     {

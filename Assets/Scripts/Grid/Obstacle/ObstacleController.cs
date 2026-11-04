@@ -13,7 +13,8 @@ public class ObstacleController : MonoBehaviour
 
     public ObstacleData currentData { get; private set; }
     private int currentHealth;
-    private CoverState currentState; 
+    private CoverState currentState;
+    public bool blockLineOfSight { get; private set; }
 
     public void Awake()
     {
@@ -22,6 +23,7 @@ public class ObstacleController : MonoBehaviour
         {
             currentHealth = currentData.maxHealth;
             currentState = currentData.coverState;
+            blockLineOfSight = currentData.blocksLineOfSight;
         }
        
     }
