@@ -6,6 +6,8 @@ public class UnitMovements : MonoBehaviour
 {
     private MovementManager movementController;
     private SelectionManager selectionController;
+    private TurnManager turnController;
+    private UnitFaction factionController;
    
     private UnitController unit;
 
@@ -23,7 +25,9 @@ public class UnitMovements : MonoBehaviour
     {
         movementController = FindAnyObjectByType<MovementManager>();
         selectionController = FindAnyObjectByType<SelectionManager>();
-        unit = this.GetComponent<UnitController>();
+        turnController = FindAnyObjectByType<TurnManager>();
+        factionController = GetComponent<UnitFaction>();
+        unit = GetComponent<UnitController>();
         animBaseChar = GetComponentInChildren<Animator>();
         CDGoblin = GetComponentInChildren<Animator>();
 
@@ -46,105 +50,137 @@ public class UnitMovements : MonoBehaviour
         }
     }
 
-    private void HandleMovement() 
+    public bool PlayerMovement(GridNode destination)
     {
-        if (unit == null || selectionController == null)
+        if (!turnController.IsFactionTurn(factionController.Faction) && factionController.GetFactionID() != "playerFaction") 
         {
-            return;
-
+            return false;
         }
 
-        // Once a path has started, finish it even if the player cycles units.
-        // New movement orders still require an active player turn.
-        if (!isMoving &&
-            (selectionController.selectedUnit != unit ||
-             selectionController.selectedTile == null ||
-             !selectionController.CanCommandUnit(unit)))
+        if (selectionController.selectedUnit != unit || 
+            selectionController == null || 
+            !selectionController.CanCommandUnit(unit)) 
         {
-            return;
+            return false; 
+        }
 
+       return AttemptMovement(destination);
+
+
+
+    }
+    public bool AIMovement(GridNode destination) 
+    {
+        if (unit == null) 
+        {
+            return false; 
         }
 
        
-        if (!isMoving)
+
+        return AttemptMovement(destination);
+    }
+
+
+    private bool AttemptMovement(GridNode destination) 
+    {
+        if (isMoving || destination == null) 
         {
-            MutaBorn.Gameplay.UnitStatusController statuses = unit.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
-            if (statuses != null && !statuses.CanMoveVoluntarily)
-            {
-                selectionController.ClearDestination();
+            return false;
+        }
 
-                return;
+        MutaBorn.Gameplay.UnitStatusController statuses = unit.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
 
-            }
+        if (statuses != null && !statuses.CanMoveVoluntarily) 
+        {
+            selectionController.ClearDestination();
+            return false;
+        }
 
-            GridNode targetNode = selectionController.selectedTile.node;
+        if (unit.currentNode == null) 
+        {
             unit.InitializeNode();
-            movementEfficiencyAtStart = unit.data != null ? unit.data.MovementEfficiency : 1f;
-            movementController.SetNodes(unit.currentNode, targetNode,
-                unit.CurrentActionPoints() * movementEfficiencyAtStart);
+        }
+
+        movementEfficiencyAtStart = unit.data != null ? unit.data.MovementEfficiency : 1f;
+
+        if (movementEfficiencyAtStart <= 0f) 
+        {
+            return false; 
+
+        }
+        float movementBudget = unit.CurrentActionPoints() * movementEfficiencyAtStart;
+
+        if (movementBudget <= 0f) 
+        {
+            return false;
+
+        }
+
+        movementController.SetNodes(unit.currentNode, destination, movementBudget);
+
+        List<GridNode> path = movementController.GetPath();
+
+        if (path == null || path.Count == 0) 
+        {
+            return false;
+        }
 
 
-            movementPath = movementController.GetPath();
-            if (movementPath == null || movementPath.Count == 0)
-            {
+        movementPath.Clear();
+        movementPath.AddRange(path);
 
-                isMoving = false;
-                selectionController.ClearDestination();
-                return;
-            }
+        pathIndex = 0;
 
-            pathIndex = 0;
-            while (pathIndex < movementPath.Count && movementPath[pathIndex] == unit.currentNode)
-            {
-                pathIndex++;
-            }
-            isMoving = true;
-            CameraController.Instance?.FocusOnUnit(unit, true);
+        while (pathIndex < movementPath.Count && movementPath[pathIndex] == unit.currentNode) 
+        {
+            pathIndex++;
+        }
 
+        isMoving = true;
+        CameraController.Instance?.FocusOnUnit(unit, true);
+
+        return true;
+    }
+    private void HandleMovement()
+    {
+
+        if (!isMoving || movementPath == null) 
+        {
+            return;
         }
 
         if (pathIndex >= movementPath.Count)
         {
-            unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
-
-            isMoving = false;
-
-            if (selectionController.selectedUnit == unit)
-            {
-                selectionController.ClearDestination();
-
-            }
-
-            movementPath.Clear();
-            pathIndex = 0;
-            selectionController.RefreshSelectedUnitAfterMovement(unit);
+            CompleteMovement();
             return;
         }
 
 
 
         GridNode nextnode = movementPath[pathIndex];
-       
 
-
-
+        //Transform its position
         Vector3 target = nextnode.cellWorldPosition;
         target.y += 0.26f;
-        Vector3 direction = target - transform.position;
+
+        //Rotation in directions its going
+        Vector3 direction = target - transform.position; 
         direction.y = 0f;
+
+        //Actually handles the rotation
         unit.unitDirection.SetFacing(direction);
 
+        //Handles the movement
         transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
-        
-
 
         if (Vector3.Distance(transform.position, target) < 0.01f)
         {
-           
+
             transform.position = target;
 
             movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
-           
+
             unit.SetNode(nextnode);
 
             movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
@@ -152,7 +188,25 @@ public class UnitMovements : MonoBehaviour
         }
 
     }
+    private void CompleteMovement() 
+    {
+        unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
 
+        isMoving = false;
+
+       
+
+        movementPath.Clear();
+        pathIndex = 0;
+
+        if (selectionController.selectedUnit != null && selectionController.selectedUnit == unit)
+        {
+            selectionController.ClearDestination();
+            selectionController.RefreshSelectedUnitAfterMovement(unit);
+
+        }
+       
+    }
 
 
     public void ShowMovementRange() 
