@@ -34,7 +34,7 @@ public class UnitFacing : MonoBehaviour
     public void SetFacing(Vector3 direction) 
     {
         direction.y = 0f;
-        Debug.Log($"SetFacing called. Direction: {direction}");
+      
         if (direction.sqrMagnitude < 0.001f) 
         {
             return;
@@ -46,8 +46,7 @@ public class UnitFacing : MonoBehaviour
 
         angle = (Mathf.Round(angle / 45f) * 45f + 360f) % 360f;
         currentFacing = (FacingDirection)angle;
-        Debug.Log($"Calculated facing: {currentFacing}");
-        Debug.Log($"Rotation target assigned: {targetToRotate.name}");
+       
         ApplyFacing();
     }
 
@@ -66,13 +65,11 @@ public class UnitFacing : MonoBehaviour
     {
         if (targetToRotate == null) 
         {
-            Debug.LogError("Rotation Target is NULL!");
+          
             return;
         }
         targetToRotate.rotation = Quaternion.RotateTowards(targetToRotate.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
-        Debug.Log(
-    $"Actual: {targetToRotate.eulerAngles.y} | Target: {targetRotation.eulerAngles.y}"
-);
+       
     }
 }
