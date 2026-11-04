@@ -3,6 +3,14 @@ using UnityEngine;
 using MutaBorn.Gameplay;
 using System;
 
+// SOCKET MAPPING //
+[System.Serializable]
+public struct SocketMapping
+{
+    public EquipmentSlots equipmentSlot;
+    public int socketIndex;
+}
+
 public class UnitController : MonoBehaviour
 {
     [Header("Unit's Size")]
@@ -45,6 +53,7 @@ public class UnitController : MonoBehaviour
     [Header("Selection Circle")]
     [SerializeField] private LineRenderer selectionCircle;
 
+    [SerializeField] private SocketMapping[] socketMappings;
     [SerializeField] private Transform[] playerSockets;
     [SerializeField] private Transform weaponRSocket;
     [SerializeField] private Transform weaponLSocket;
@@ -53,15 +62,13 @@ public class UnitController : MonoBehaviour
     [SerializeField] private Transform armorArmsSocket;
     [SerializeField] private Transform armorLegsSocket;
     [SerializeField] private Transform armorBootsSocket;
-    private GameObject activeWeapon;
-
+    private GameObject[] activeEquipmentModels;
 
     public void InitializeUnitData() 
     {
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName.ToString());
         data = UnitData.CreateNewUnit(unitName, race);
 
-        
         bool hasFixedStartingMutations = false;
         if (startingMutations != null)
         {
@@ -101,10 +108,19 @@ public class UnitController : MonoBehaviour
 
                 hasStartingEquipment = true;
                 data.EquipItem(equipment);
-                
+
                 if (equipment.weaponModelPrefab != null)
                 {
-                    AttachWeapon(equipment.weaponModelPrefab);
+                    int socketIndex = GetSocketIndex(equipment.slot);
+
+                    if (socketIndex >= 0)
+                    {
+                        AttachWeapon(equipment.weaponModelPrefab, socketIndex);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"No socket mapping for {equipment.name}");
+                    }
                 }
 
                 Debug.Log($"Equipped starting item: {equipment.name}");
@@ -148,7 +164,6 @@ public class UnitController : MonoBehaviour
 
         // Starting passive stat grants can change maximum resources.
         data.RefillResourcesToMax();
-
     }
     private void InitializeStartingMutation(MutationID id)
     {
@@ -613,6 +628,8 @@ public class UnitController : MonoBehaviour
             armorBootsSocket
         };
 
+        activeEquipmentModels = new GameObject[playerSockets.Length];
+
         if (selectionCircle == null)
         {
             return;
@@ -637,25 +654,39 @@ public class UnitController : MonoBehaviour
 
         selectionCircle.enabled = false;
     }
-    public bool AttachWeapon(GameObject weaponPrefab)
+    public bool AttachWeapon(GameObject weaponPrefab, int socketIndex = 0)
     {
-        if (weaponPrefab == null || playerSockets == null)
+        if (weaponPrefab == null || playerSockets == null || activeEquipmentModels == null || socketIndex < 0 || socketIndex >= playerSockets.Length ||     playerSockets[socketIndex] == null)
         {
             return false;
         }
 
-        if (activeWeapon != null)
+        if (activeEquipmentModels[socketIndex] != null)
         {
-            Destroy(activeWeapon);
+            Destroy(activeEquipmentModels[socketIndex]);
         }
 
-        activeWeapon = Instantiate(weaponPrefab, playerSockets[0], false);
+        activeEquipmentModels[socketIndex] = Instantiate(weaponPrefab, playerSockets[socketIndex], false);
 
-        activeWeapon.transform.localPosition = Vector3.zero;
-        activeWeapon.transform.localRotation = Quaternion.identity;
+        activeEquipmentModels[socketIndex].transform.localPosition = Vector3.zero;
+        activeEquipmentModels[socketIndex].transform.localRotation = Quaternion.identity;
 
         return true;
     }
+
+    private int GetSocketIndex(EquipmentSlots slot)
+    {
+        foreach (SocketMapping mapping in socketMappings)
+        {
+            if (mapping.equipmentSlot == slot)
+            {
+                return mapping.socketIndex;
+            }
+        }
+
+        return -1;
+    }
 }
+
 
 
