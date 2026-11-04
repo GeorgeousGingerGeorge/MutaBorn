@@ -9,6 +9,11 @@ public class UnitController : MonoBehaviour
     public Vector2Int footPrint => footPrintSize;
     [Header("Unit's Direction")]
     public UnitFacing unitDirection { get; private set; }
+
+    [Header("Unit's Vision")]
+    [SerializeField] private Transform VisionOrigin;
+    public Transform visionOrigin => VisionOrigin;
+
    
 
     [Header("Units Data- Status, Inventory, Equipment, Mutations")]
@@ -52,6 +57,7 @@ public class UnitController : MonoBehaviour
     {
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName.ToString());
         data = UnitData.CreateNewUnit(unitName, race);
+        gameObject.name = unitName; 
 
         
         bool hasFixedStartingMutations = false;

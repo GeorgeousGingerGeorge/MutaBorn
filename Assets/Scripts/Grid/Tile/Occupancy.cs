@@ -12,7 +12,7 @@ public class Occupancy : MonoBehaviour
     private Dictionary<GridNode, UnitController> units = new Dictionary<GridNode, UnitController>();
     private Dictionary<GridNode, ObstacleController> solidObstacles = new Dictionary<GridNode, ObstacleController>();
     private Dictionary<(GridNode, GridNode), ObstacleController> edgeObstacles = new Dictionary<(GridNode,GridNode), ObstacleController>();
-    //private Dictionary<GridNode, ObstacleController> connectors = new Dictionary<GridNode, ObstacleController>(); 
+   
     
     public bool CanEnterNode(GridNode currentNode, GridNode destination, UnitController unit = null) 
     {
@@ -33,10 +33,6 @@ public class Occupancy : MonoBehaviour
         {
             return false;
         }
-        //if (IsBlockedByFloorConnector(destination)) 
-        //{
-        //    return false;
-        //}
 
         if (unit == null) 
         {
@@ -97,14 +93,7 @@ public class Occupancy : MonoBehaviour
 
         return false; 
     }
-    //public bool IsBlockedByFloorConnector(GridNode destination) 
-    //{
-    //    if (connectors.ContainsKey(destination)) 
-    //    {
-    //        return true;
-    //    }
-    //    return false; 
-    //}
+
     public bool IsUnitInNode(GridNode destination) 
     {
         if (units.ContainsKey(destination)) 
@@ -210,23 +199,7 @@ public class Occupancy : MonoBehaviour
         
     }
 
-    //public void RegisterFloorConnector(ObstacleController connectorObstacle, List<GridNode> occupiedNodes) 
-    //{
-    //    if (connectorObstacle == null || occupiedNodes == null) 
-    //    {
-    //        return;
-    //    }
 
-    //    foreach (GridNode node in occupiedNodes) 
-    //    {
-    //        if (node == null) 
-    //        {
-    //            continue;
-    //        }
-
-    //        connectors.Add(node, connectorObstacle); 
-    //    }
-    //}
 
     //Registry-Removing
     public void UnregisterUnit(GridNode currentNode, UnitController unit) 
