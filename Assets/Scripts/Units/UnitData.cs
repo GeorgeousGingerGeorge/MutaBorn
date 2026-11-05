@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using MutaBorn.Gameplay;
-using UnityEngine.Analytics;
 
 
 
@@ -66,8 +65,25 @@ public class UnitData
         = new Dictionary<BodySlots, Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>>();
     public List<EquipmentInstance> equippedItems = new List<EquipmentInstance>();
 
-    public const int ConsumableCapacity = 2;
+    // The four physical slots are separate from progression availability.
+    public const int ConsumableCapacity = 4;
     public List<ConsumableInstance> carriedConsumables = new List<ConsumableInstance>();
+
+    // Slot assignments refer to the actual instances above; they are not copies.
+    private readonly List<UnitLoadoutSlotState> loadoutSlots = new List<UnitLoadoutSlotState>();
+    public IReadOnlyList<UnitLoadoutSlotState> LoadoutSlots
+    {
+        get
+        {
+            EnsureLoadoutSlots();
+
+            return loadoutSlots;
+
+        }
+
+    }
+
+    public event Action LoadoutChanged;
 
     [Header("Character Information- Current Status (mutationBonus)")]
     public int mutationHealth;
@@ -495,34 +511,375 @@ public class UnitData
 
 
 
-    // During combat testing, equipment has no slot restrictions.
+    private void EnsureLoadoutSlots()
+    {
+        foreach (UnitSlotId slot in UnitLoadoutSlots.All)
+        {
+            if (loadoutSlots.Exists(entry => entry != null && entry.Slot == slot))
+            {
+                continue;
+
+            }
+
+            loadoutSlots.Add(new UnitLoadoutSlotState(slot));
+
+        }
+
+    }
+
+    public UnitLoadoutSlotState GetSlot(UnitSlotId slot)
+    {
+        if (!UnitLoadoutSlots.IsValid(slot))
+        {
+            return null;
+
+        }
+
+        EnsureLoadoutSlots();
+
+        return loadoutSlots.Find(entry => entry != null && entry.Slot == slot);
+
+    }
+
+    private bool TryGetEquipmentInstance(string instanceId, out EquipmentInstance item)
+    {
+        foreach (EquipmentInstance equipped in equippedItems)
+        {
+            if (string.Equals(equipped.instanceId, instanceId, StringComparison.Ordinal))
+            {
+                item = equipped;
+
+                return true;
+
+            }
+
+        }
+
+        item = default(EquipmentInstance);
+
+        return false;
+
+    }
+
+    private bool IsTwoHandedBlocked(UnitSlotId slot)
+    {
+        UnitSlotId otherHand = UnitLoadoutSlots.OtherHand(slot);
+        if (otherHand == UnitSlotId.None)
+        {
+            return false;
+
+        }
+
+        UnitLoadoutSlotState other = GetSlot(otherHand);
+        return other != null && !string.IsNullOrEmpty(other.ItemInstanceId) &&
+            TryGetEquipmentInstance(other.ItemInstanceId, out EquipmentInstance item) &&
+            item.template != null && item.template.RequiresBothHands;
+
+    }
+
+    public UnitSlotBlockReason GetSlotBlockReason(UnitSlotId slot)
+    {
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state == null)
+        {
+            return UnitSlotBlockReason.ProgressionLocked;
+
+        }
+
+        if (state.OccupyingMutation != MutationID.none)
+        {
+            return UnitSlotBlockReason.MutationOccupied;
+
+        }
+
+        if (IsTwoHandedBlocked(slot))
+        {
+            return UnitSlotBlockReason.TwoHandedWeapon;
+
+        }
+
+        if (!state.ProgressionUnlocked)
+        {
+            return UnitSlotBlockReason.ProgressionLocked;
+
+        }
+
+        if (state.PlayerLocked)
+        {
+            return UnitSlotBlockReason.PlayerLocked;
+
+        }
+
+        return string.IsNullOrEmpty(state.ItemInstanceId)
+            ? UnitSlotBlockReason.None : UnitSlotBlockReason.ItemOccupied;
+
+    }
+
+    public bool TrySetPlayerSlotLock(UnitSlotId slot, bool locked)
+    {
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state == null || state.PlayerLocked == locked)
+        {
+            return false;
+
+        }
+
+        state.SetPlayerLock(locked);
+        LoadoutChanged?.Invoke();
+
+        return true;
+
+    }
+
+    // Level-up and research systems grant permanent slot unlocks later.
+    public bool TryUnlockProgressionSlot(UnitSlotId slot)
+    {
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state == null || state.ProgressionUnlocked)
+        {
+            return false;
+
+        }
+
+        state.SetProgressionUnlocked();
+        LoadoutChanged?.Invoke();
+
+        return true;
+
+    }
+
+    private bool TryChangeMutationSlotOccupancy(MutationID previousId, MutationID nextId,
+        IReadOnlyList<UnitSlotId> nextSlots)
+    {
+        EnsureLoadoutSlots();
+        HashSet<UnitSlotId> requested = new HashSet<UnitSlotId>();
+        if (nextSlots != null)
+        {
+            foreach (UnitSlotId slot in nextSlots)
+            {
+                if (!UnitLoadoutSlots.IsValid(slot) || !requested.Add(slot))
+                {
+                    return false;
+
+                }
+
+                UnitLoadoutSlotState state = GetSlot(slot);
+                if (state == null || !string.IsNullOrEmpty(state.ItemInstanceId) ||
+                    (state.OccupyingMutation != MutationID.none &&
+                     state.OccupyingMutation != previousId) || IsTwoHandedBlocked(slot))
+                {
+                    return false;
+
+                }
+
+            }
+
+        }
+
+        foreach (UnitLoadoutSlotState state in loadoutSlots)
+        {
+            if (previousId != MutationID.none && state.OccupyingMutation == previousId)
+            {
+                state.SetMutation(MutationID.none);
+
+            }
+
+        }
+
+        foreach (UnitSlotId slot in requested)
+        {
+            GetSlot(slot).SetMutation(nextId);
+
+        }
+
+        // Callers notify listeners only after their mutation state is committed.
+        return true;
+
+    }
+
+    // Future mutation integrations can occupy a free slot without creating an item.
+    // Existing equipped gear must first be safely transferred to storage.
+    public bool TryOccupySlotWithMutation(UnitSlotId slot, MutationID id)
+    {
+        if (id == MutationID.none)
+        {
+            return false;
+
+        }
+
+        if (!TryChangeMutationSlotOccupancy(MutationID.none, id,
+            new UnitSlotId[] { slot }))
+        {
+            return false;
+
+        }
+
+        LoadoutChanged?.Invoke();
+
+        return true;
+
+    }
+
+    public bool TryReleaseMutationSlot(UnitSlotId slot, MutationID id)
+    {
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (id == MutationID.none || state == null || state.OccupyingMutation != id)
+        {
+            return false;
+
+        }
+
+        state.SetMutation(MutationID.none);
+        LoadoutChanged?.Invoke();
+
+        return true;
+
+    }
+
+    public bool TryGetEquipmentAtSlot(UnitSlotId slot, out EquipmentInstance item)
+    {
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state != null && !string.IsNullOrEmpty(state.ItemInstanceId))
+        {
+            return TryGetEquipmentInstance(state.ItemInstanceId, out item);
+
+        }
+
+        item = default(EquipmentInstance);
+
+        return false;
+
+    }
+
+    public bool CanEquipInstance(EquipmentInstance item, UnitSlotId slot)
+    {
+        if (item.template == null || !UnitLoadoutSlots.IsValid(slot) ||
+            !UnitLoadoutSlots.Accepts(slot, item.template.EquipmentFit) ||
+            GetSlotBlockReason(slot) != UnitSlotBlockReason.None)
+        {
+            return false;
+
+        }
+
+        if (!string.IsNullOrWhiteSpace(item.instanceId) &&
+            (TryGetEquipmentInstance(item.instanceId, out EquipmentInstance existing) ||
+             carriedConsumables.Exists(consumable => consumable.instanceId == item.instanceId)))
+        {
+            return false;
+
+        }
+
+        return !item.template.RequiresBothHands ||
+            (UnitLoadoutSlots.IsHand(slot) &&
+             GetSlotBlockReason(UnitLoadoutSlots.OtherHand(slot)) == UnitSlotBlockReason.None);
+
+    }
+
+    public bool TryEquipInstance(EquipmentInstance item, UnitSlotId slot)
+    {
+        if (!CanEquipInstance(item, slot))
+        {
+            return false;
+
+        }
+
+        if (string.IsNullOrWhiteSpace(item.instanceId))
+        {
+            item.instanceId = Guid.NewGuid().ToString("N");
+
+        }
+
+        GetSlot(slot).SetItem(item.instanceId);
+        equippedItems.Add(item);
+        ApplyEquipmentBonuses(item, 1);
+        LoadoutChanged?.Invoke();
+
+        return true;
+
+    }
+
+    public bool TryUnequipInstance(UnitSlotId slot, out EquipmentInstance item)
+    {
+        item = default(EquipmentInstance);
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state == null || state.PlayerLocked || state.OccupyingMutation != MutationID.none ||
+            !state.ProgressionUnlocked || string.IsNullOrEmpty(state.ItemInstanceId))
+        {
+            return false;
+
+        }
+
+        for (int i = 0; i < equippedItems.Count; i++)
+        {
+            if (equippedItems[i].instanceId != state.ItemInstanceId)
+            {
+                continue;
+
+            }
+
+            item = equippedItems[i];
+            equippedItems.RemoveAt(i);
+            state.SetItem(string.Empty);
+            ApplyEquipmentBonuses(item, -1);
+            LoadoutChanged?.Invoke();
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    // Legacy test-scene helper: generate fresh starting equipment only, not storage transfers.
+    public bool TryEquipStartingItem(EquipmentData template)
+    {
+        if (template == null)
+        {
+            return false;
+
+        }
+
+        EquipmentInstance item = EquipmentGenerator.CreateEquipment(template);
+        foreach (UnitSlotId slot in UnitLoadoutSlots.All)
+        {
+            if (CanEquipInstance(item, slot))
+            {
+                return TryEquipInstance(item, slot);
+
+            }
+
+        }
+
+        return false;
+
+    }
+
     public bool CanEquipItem(EquipmentInstance item)
     {
-        return !item.Equals(default(EquipmentInstance));
+        foreach (UnitSlotId slot in UnitLoadoutSlots.All)
+        {
+            if (CanEquipInstance(item, slot))
+            {
+                return true;
+
+            }
+
+        }
+
+        return false;
 
     }
 
     public void EquipItem(ItemData equipmentData)
     {
-        if (equipmentData is not EquipmentData)
+        if (equipmentData is EquipmentData equipment)
         {
-            return;
+            TryEquipStartingItem(equipment);
 
         }
-
-        EquipmentInstance item = (EquipmentInstance)ItemGenerator.ItemInstance(equipmentData);
-
-        if (!CanEquipItem(item))
-        {
-            return;
-
-        }
-
-        equippedItems.Add(item);
-        ApplyEquipmentBonuses(item, 1);
 
     }
-
 
     public bool TryUpgradeEquippedItem(int index)
     {
@@ -551,20 +908,140 @@ public class UnitData
 
     }
 
-    // Consumables are selected before a mission and stored separately from gear.
-    // Each entry occupies one of the two available consumable slots.
-    public bool TryAddConsumable(ConsumableData template)
+    public bool TryGetConsumableAtSlot(UnitSlotId slot, out ConsumableInstance item)
     {
-        if (template == null || carriedConsumables.Count >= ConsumableCapacity)
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state != null && UnitLoadoutSlots.IsConsumable(slot) &&
+            !string.IsNullOrEmpty(state.ItemInstanceId))
+        {
+            foreach (ConsumableInstance carried in carriedConsumables)
+            {
+                if (carried.instanceId == state.ItemInstanceId)
+                {
+                    item = carried;
+
+                    return true;
+
+                }
+
+            }
+
+        }
+
+        item = default(ConsumableInstance);
+
+        return false;
+
+    }
+
+    public bool TryGetConsumableIndex(UnitSlotId slot, out int index)
+    {
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state != null && UnitLoadoutSlots.IsConsumable(slot))
+        {
+            for (int i = 0; i < carriedConsumables.Count; i++)
+            {
+                if (carriedConsumables[i].instanceId == state.ItemInstanceId &&
+                    !string.IsNullOrEmpty(state.ItemInstanceId))
+                {
+                    index = i;
+
+                    return true;
+
+                }
+
+            }
+
+        }
+
+        index = -1;
+
+        return false;
+
+    }
+
+    public bool TryAssignConsumable(ConsumableInstance item, UnitSlotId slot)
+    {
+        if (!UnitLoadoutSlots.IsConsumable(slot) || item.definition == null ||
+            carriedConsumables.Count >= ConsumableCapacity ||
+            GetSlotBlockReason(slot) != UnitSlotBlockReason.None ||
+            (!string.IsNullOrWhiteSpace(item.instanceId) &&
+             (carriedConsumables.Exists(carried => carried.instanceId == item.instanceId) ||
+              TryGetEquipmentInstance(item.instanceId, out EquipmentInstance existing))))
         {
             return false;
 
         }
 
-        ConsumableInstance instance = ConsumableGenerator.CreateConsumable(template);
-        carriedConsumables.Add(instance);
+        if (string.IsNullOrWhiteSpace(item.instanceId))
+        {
+            item.instanceId = Guid.NewGuid().ToString("N");
+
+        }
+
+        item.remainingUses = Mathf.Clamp(item.remainingUses, 0, item.definition.MaxUses);
+        GetSlot(slot).SetItem(item.instanceId);
+        carriedConsumables.Add(item);
+        LoadoutChanged?.Invoke();
 
         return true;
+
+    }
+
+    public bool TryRemoveConsumable(UnitSlotId slot, out ConsumableInstance item)
+    {
+        item = default(ConsumableInstance);
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state == null || !UnitLoadoutSlots.IsConsumable(slot) ||
+            state.PlayerLocked || state.OccupyingMutation != MutationID.none ||
+            !state.ProgressionUnlocked || string.IsNullOrEmpty(state.ItemInstanceId))
+        {
+            return false;
+
+        }
+
+        for (int i = 0; i < carriedConsumables.Count; i++)
+        {
+            if (carriedConsumables[i].instanceId != state.ItemInstanceId)
+            {
+                continue;
+
+            }
+
+            item = carriedConsumables[i];
+            carriedConsumables.RemoveAt(i);
+            state.SetItem(string.Empty);
+            LoadoutChanged?.Invoke();
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+
+    // Legacy scene setup still creates items; Barracks will transfer existing instances.
+    public bool TryAddConsumable(ConsumableData template)
+    {
+        if (template == null)
+        {
+            return false;
+
+        }
+
+        ConsumableInstance item = ConsumableGenerator.CreateConsumable(template);
+        foreach (UnitSlotId slot in UnitLoadoutSlots.All)
+        {
+            if (UnitLoadoutSlots.IsConsumable(slot) && TryAssignConsumable(item, slot))
+            {
+                return true;
+
+            }
+
+        }
+
+        return false;
 
     }
 
@@ -640,10 +1117,19 @@ public class UnitData
 
             }
 
+            // A changed mutation can claim new slots only if those slots are free.
+            if (!TryChangeMutationSlotOccupancy(currentId, nextId,
+                next.OccupiedEquipmentSlots))
+            {
+                return false;
+
+            }
+
             // The replacement contains the complete new level, not an incremental bonus.
             ApplyMutationBonuses(previous.Bonus, -1, false);
             record.EvolveTo(nextId);
             ApplyMutationBonuses(next.Bonus, 1);
+            LoadoutChanged?.Invoke();
 
             return true;
 
@@ -675,8 +1161,16 @@ public class UnitData
 
         }
 
+        if (!TryChangeMutationSlotOccupancy(MutationID.none, id,
+            node.OccupiedEquipmentSlots))
+        {
+            return false;
+
+        }
+
         activeMutationNodes.Add(new ActiveMutationRecord(id));
         ApplyMutationBonuses(node.Bonus, 1);
+        LoadoutChanged?.Invoke();
 
         return true;
 
@@ -795,7 +1289,7 @@ public class UnitData
     }
 
     //Initializes the unit
-    public static UnitData CreateNewUnit(string name = "harry",DynamicStats race = null) 
+    public static UnitData CreateNewUnit(string name = "Unit",DynamicStats race = null) 
     {
         //Setting Character name and race name for search later
         UnitData newUnit = new UnitData();
@@ -822,6 +1316,7 @@ public class UnitData
         newUnit.CalcWill(race);
 
         newUnit.InitializeTrackers();
+        newUnit.EnsureLoadoutSlots();
 
         newUnit.currentHealth = newUnit.maxHealth;
         newUnit.currentMana = newUnit.maxMana;

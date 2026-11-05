@@ -21,10 +21,10 @@ public class UnitController : MonoBehaviour
     [Header("Evolution Testing (Play Mode)")]
     [SerializeField] private MutationID testEvolutionCurrent = MutationID.none;
     [SerializeField] private MutationID testEvolutionNext = MutationID.none;
-    [Header("Starting Equipment - 6 Test Slots (Duplicates Allowed)")]
+    [Header("Legacy Scene Starting Equipment (Temporary)")]
     [SerializeField] private EquipmentData[] startingEquipment = new EquipmentData[6];
 
-    [Header("Starting Consumables - 2 Mission Slots")]
+    [Header("Legacy Scene Starting Consumables (Temporary)")]
     [SerializeField] private ConsumableData[] startingConsumables = new ConsumableData[2];
 
     // Retained for pre-existing scenes/prefabs. Used only if the new array is empty.
@@ -50,6 +50,12 @@ public class UnitController : MonoBehaviour
 
     public void InitializeUnitData() 
     {
+        if (data != null)
+        {
+            data.LoadoutChanged -= RefreshEquipmentAndMutationGrants;
+
+        }
+
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName.ToString());
         data = UnitData.CreateNewUnit(unitName, race);
 
@@ -92,8 +98,14 @@ public class UnitController : MonoBehaviour
                 }
 
                 hasStartingEquipment = true;
-                data.EquipItem(equipment);
-                
+                if (!data.TryEquipStartingItem(equipment))
+                {
+                    Debug.LogWarning($"Starting equipment '{equipment.name}' has no compatible free slot on {unitName}.", this);
+
+                    continue;
+
+                }
+
                 if (equipment.weaponModelPrefab != null)
                 {
                     AttachWeapon(equipment.weaponModelPrefab);
@@ -108,8 +120,12 @@ public class UnitController : MonoBehaviour
         // Preserve equipment already assigned in existing scenes and prefabs.
         if (!hasStartingEquipment && currentEquipment != null)
         {
-            data.EquipItem(currentEquipment);
-            Debug.Log($"Equipped existing starting item: {currentEquipment.name}");
+            if (currentEquipment is EquipmentData legacyEquipment &&
+                data.TryEquipStartingItem(legacyEquipment))
+            {
+                Debug.Log($"Equipped existing starting item: {currentEquipment.name}");
+
+            }
 
         }
 
@@ -127,7 +143,7 @@ public class UnitController : MonoBehaviour
 
                 if (!data.TryAddConsumable(consumable))
                 {
-                    Debug.LogWarning($"Consumable limit ({UnitData.ConsumableCapacity}) reached for {unitName}. " +
+                    Debug.LogWarning($"No unlocked consumable slot available on {unitName}. " +
                         $"Skipping '{consumable.itemName}'.", this);
 
                 }
@@ -136,6 +152,7 @@ public class UnitController : MonoBehaviour
 
         }
 
+        data.LoadoutChanged += RefreshEquipmentAndMutationGrants;
         RefreshEquipmentAndMutationGrants();
 
         // Starting passive stat grants can change maximum resources.
@@ -503,6 +520,16 @@ public class UnitController : MonoBehaviour
             }
 
             Debug.Log(message.ToString(), this);
+
+        }
+
+    }
+
+    private void OnDestroy()
+    {
+        if (data != null)
+        {
+            data.LoadoutChanged -= RefreshEquipmentAndMutationGrants;
 
         }
 
