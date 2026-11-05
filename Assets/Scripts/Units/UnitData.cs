@@ -10,6 +10,10 @@ public class UnitData
 
     [Header("Character Information- Name/RaceName")]
 
+    // Stable identity for the permanent player roster; assigned once at creation.
+    // Later save restore will reconstruct UnitData with its saved ID.
+    public string UnitId { get; private set; }
+
     public string characterName;
     public string raceName;
     DynamicStats race;
@@ -1280,6 +1284,22 @@ public class UnitData
     }
 
 
+    // Scene-bound status/effect sources must not keep modifying permanent data
+    // after their UnitController is destroyed. Future mid-mission restore will
+    // capture and explicitly restore temporary effects from a mission snapshot.
+    public void ClearSceneRuntimeStatModifiers()
+    {
+        if (runtimeStatBonuses.Count == 0)
+        {
+            return;
+
+        }
+
+        runtimeStatBonuses.Clear();
+        RecalculateStats();
+
+    }
+
     public void RefillResourcesToMax()
     {
         currentHealth = maxHealth;
@@ -1293,6 +1313,7 @@ public class UnitData
     {
         //Setting Character name and race name for search later
         UnitData newUnit = new UnitData();
+        newUnit.UnitId = Guid.NewGuid().ToString("N");
         newUnit.characterName = name;
         newUnit.raceName = race.RaceName;
         newUnit.race = race; 

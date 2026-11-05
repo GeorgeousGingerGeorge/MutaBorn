@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Stable IDs for the unit's fourteen real loadout slots.
+// RightHand=1 and LeftHand=2 preserve the original serialized IDs.
 // Existing EquipmentSlots bit values remain untouched for old equipment assets.
 public enum UnitSlotId
 {
     None = 0,
-    MainHand = 1,
-    OffHand = 2,
+    RightHand = 1,
+    LeftHand = 2,
     Head = 3,
     Chest = 4,
     Gloves = 5,
@@ -103,8 +104,8 @@ public static class UnitLoadoutSlots
 {
     public static readonly UnitSlotId[] All =
     {
-        UnitSlotId.MainHand,
-        UnitSlotId.OffHand,
+        UnitSlotId.RightHand,
+        UnitSlotId.LeftHand,
         UnitSlotId.Head,
         UnitSlotId.Chest,
         UnitSlotId.Gloves,
@@ -122,13 +123,13 @@ public static class UnitLoadoutSlots
 
     public static bool IsValid(UnitSlotId id)
     {
-        return id >= UnitSlotId.MainHand && id <= UnitSlotId.Consumable4;
+        return id >= UnitSlotId.RightHand && id <= UnitSlotId.Consumable4;
 
     }
 
     public static bool IsHand(UnitSlotId id)
     {
-        return id == UnitSlotId.MainHand || id == UnitSlotId.OffHand;
+        return id == UnitSlotId.RightHand || id == UnitSlotId.LeftHand;
 
     }
 
@@ -154,8 +155,8 @@ public static class UnitLoadoutSlots
 
     public static UnitSlotId OtherHand(UnitSlotId id)
     {
-        return id == UnitSlotId.MainHand ? UnitSlotId.OffHand :
-            id == UnitSlotId.OffHand ? UnitSlotId.MainHand : UnitSlotId.None;
+        return id == UnitSlotId.RightHand ? UnitSlotId.LeftHand :
+            id == UnitSlotId.LeftHand ? UnitSlotId.RightHand : UnitSlotId.None;
 
     }
 

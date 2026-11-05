@@ -13,9 +13,11 @@ public class EquipmentData : ItemData
     [Header("Weapon Visuals")]
     [SerializeField] private GameObject _weaponModelPrefab;
     [SerializeField] private AccessoryCategory accessory = AccessoryCategory.None; 
-    [SerializeField] private EquipmentSlots targetSlot;
+    // Legacy serialized bit flags remain for old instances and backward compatibility.
+    // Choose the visible Equipment Fit instead for new templates.
+    [SerializeField, HideInInspector] private EquipmentSlots targetSlot;
     [Header("Unit Loadout Slots")]
-    [Tooltip("Where this item can be equipped. Auto reads the legacy target slot for older assets.")]
+    [Tooltip("Hand accepts either Left Hand or Right Hand; includes shields, weapons, spellbooks, and other held gear. Auto reads legacy asset flags.")]
     [SerializeField] private EquipmentFitType equipmentFit = EquipmentFitType.Auto;
     [Tooltip("A two-handed item appears in one hand and blocks the other. Requires Hand fit.")]
     [SerializeField] private bool requiresBothHands;
@@ -100,7 +102,9 @@ public class EquipmentData : ItemData
             }
 
             if (weapon != WeaponCategory.None ||
-                (targetSlot & EquipmentSlots.TwoHanded) != EquipmentSlots.None)
+                targetSlot == EquipmentSlots.MainHand ||
+                targetSlot == EquipmentSlots.OffHand ||
+                targetSlot == EquipmentSlots.TwoHanded)
             {
                 return EquipmentFitType.Hand;
 
