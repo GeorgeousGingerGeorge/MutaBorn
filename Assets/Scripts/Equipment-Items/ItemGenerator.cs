@@ -59,9 +59,11 @@ public struct EquipmentInstance
 
 }
 
+[Serializable]
 public struct ConsumableInstance
 {
     [Header("Consumable Identifiers")]
+    public string instanceId;
     public ConsumableData definition;
     public ConsumableType consumableType;
     public bool consumeOnUse;
@@ -604,6 +606,7 @@ public static class ConsumableGenerator
         ConsumableInstance consumable = new ConsumableInstance();
 
         consumable.definition = consumableData;
+        consumable.instanceId = Guid.NewGuid().ToString("N");
         consumable.consumableType = consumableData.consumable;
         consumable.consumeOnUse = consumableData.consumeOnUse;
         consumable.remainingUses = consumableData.MaxUses;
