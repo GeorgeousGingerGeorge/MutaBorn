@@ -1,10 +1,13 @@
 
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class UnitMovements : MonoBehaviour
 {
     private MovementManager movementController;
+    private FogOfWarManager fogController;
     public MovementManager movementManager => movementController;
     private SelectionManager selectionController;
     private TurnManager turnController;
@@ -30,6 +33,7 @@ public class UnitMovements : MonoBehaviour
         selectionController = FindAnyObjectByType<SelectionManager>();
         turnController = FindAnyObjectByType<TurnManager>();
         factionController = GetComponent<UnitFaction>();
+        fogController = FindAnyObjectByType<FogOfWarManager>();
         unit = GetComponent<UnitController>();
         animBaseChar = GetComponentInChildren<Animator>();
         //CDGoblin = GetComponentInChildren<Animator>();
@@ -40,7 +44,7 @@ public class UnitMovements : MonoBehaviour
     {
 
         
-        HandleMovement();
+      
 
         //if (unit.GetComponentInChildren<Animator>() != null)
         //{
@@ -162,64 +166,64 @@ public class UnitMovements : MonoBehaviour
         isMoving = true;
         CameraController.Instance?.FocusOnUnit(unit, true);
 
+        StartCoroutine(HandleMovement());
+
         return true;
     }
-    private void HandleMovement()
+    private IEnumerator HandleMovement()
     {
 
         if (!isMoving || movementPath == null) 
         {
-            return;
+            yield return null; 
         }
 
-        if (pathIndex >= movementPath.Count)
-        {
-            CompleteMovement();
-            return;
-        }
-
-
-
-        GridNode nextnode = movementPath[pathIndex];
-
-        //Transform its position
-        Vector3 target = nextnode.cellWorldPosition;
-        target.y += 0.26f;
-
-        //Rotation in directions its going
-        Vector3 direction = target - transform.position; 
-        direction.y = 0f;
-
-        //Actually handles the rotation
-        unit.unitDirection.SetFacing(direction);
-
-        //Handles the movement
-        transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, target) < 0.01f)
+        while (pathIndex < movementPath.Count)
         {
 
-            transform.position = target;
+            GridNode nextnode = movementPath[pathIndex];
 
-            movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
+            //Transform its position
+            Vector3 target = nextnode.cellWorldPosition;
+            target.y += 0.26f;
 
-            unit.SetNode(nextnode);
+            //Rotation in directions its going
+            Vector3 direction = target - transform.position;
+            direction.y = 0f;
 
-            movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
-            
-            pathIndex++;
+            //Actually handles the rotation
+            unit.unitDirection.SetFacing(direction);
+
+            //Handles the movement
+            transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
+            if (factionController.GetFactionID() == "playerFaction")
+            {
+                fogController.UpdateFriendlyUnitVisibility();
+            }
+            if (Vector3.Distance(transform.position, target) < 0.01f)
+            {
+
+                transform.position = target;
+
+                movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
+
+                unit.SetNode(nextnode);
+
+                movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
+
+                pathIndex++;
+            }
+
+            yield return null;
         }
+
+        CompleteMovement();
 
     }
     private void CompleteMovement() 
     {
 
-        //if (unit.GetComponent<UnitFaction>().GetFactionID() != "playerFaction") 
-        //{
-        //    SimpleFactionAI factionAI = FindAnyObjectByType<SimpleFactionAI>();
-
-            
-        //}
+       
         unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
 
         isMoving = false;

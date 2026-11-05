@@ -103,7 +103,7 @@ public class LOSTest : MonoBehaviour
     [ContextMenu("Test All Visible Nodes")]
     private void TestAllVisibleNodes()
     {
-        List<GridNode> visibleNodes =
+        HashSet<GridNode> visibleNodes =
             lineOfSightSystem.GetVisibleNodes(observer);
 
         Debug.Log($"Visible nodes: {visibleNodes.Count}");

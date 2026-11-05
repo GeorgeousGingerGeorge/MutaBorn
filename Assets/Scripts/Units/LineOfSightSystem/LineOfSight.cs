@@ -61,6 +61,10 @@ public class LineOfSight : MonoBehaviour
     {
         return Mathf.Abs(observer.x - target.x) + Mathf.Abs(observer.y - target.y);
     }
+    private float GetManhattanDistance(Vector3 observer, Vector3 target)
+    {
+        return Mathf.Abs(observer.x - target.x) + Mathf.Abs(observer.z - target.z) ;
+    }
     private bool IsWithinVisionRange(UnitController observer, UnitController target) 
     {
 
@@ -264,12 +268,13 @@ public class LineOfSight : MonoBehaviour
             return false;
         }
 
-        Vector2Int observerCoords = observer.currentNode.coords;
-        Vector2Int targetCoords = node.coords;
+        Vector3 observerPosition = observer.currentNode.cellWorldPosition;
+        Vector3 targetPosition = node.cellWorldPosition;
 
-        int distance = GetManhattanDistance(observerCoords, targetCoords);
+        float horizontalDistance  = GetManhattanDistance(observerPosition, targetPosition);
+        float distanceInGridCells = horizontalDistance / gridManager.GridCellSize;
 
-        if (distance >= observer.data.currentLineOfSight) 
+        if (distanceInGridCells >= observer.data.currentLineOfSight) 
         {
             return false;
         }
@@ -313,9 +318,9 @@ public class LineOfSight : MonoBehaviour
 
         return false;
     }
-    public List<GridNode> GetVisibleNodes(UnitController observer) 
+    public HashSet<GridNode> GetVisibleNodes(UnitController observer) 
     {
-        List<GridNode> visibleNodes = new List<GridNode>();
+        HashSet<GridNode> visibleNodes = new HashSet<GridNode>();
 
         if (observer == null || observer.currentNode == null || observer.data == null) 
         {
