@@ -25,12 +25,33 @@ public sealed class UnitRosterDeployment
 
 }
 
+// Authored starting roster, NOT the saved roster or a second item inventory.
+// The ScriptableObject references below are templates; their generated instances
+// live only in UnitData after this roster creates the recruit once.
+[Serializable]
+public sealed class UnitRosterStarterUnit
+{
+    public int deploymentSlot;
+    public string characterName;
+    public DynamicStats raceDefinition;
+    public MutationID currentMutation;
+    public MutationID[] startingMutations = new MutationID[0];
+    public EquipmentData[] startingEquipment = new EquipmentData[0];
+    public ConsumableData[] startingConsumables = new ConsumableData[0];
+    public ItemData legacyEquipment;
+
+}
+
 // Persistent runtime owner of PLAYER UnitData. The roster never owns
 // UnitController GameObjects or copies equipment/consumable instances.
 // Disk snapshots are intentionally deferred to the save-system step.
 public sealed class UnitRoster : MonoBehaviour
 {
     public static UnitRoster Instance { get; private set; }
+
+    [Header("New-game starting crew (editor templates, not disk saves)")]
+    [SerializeField] private bool createStarterUnitsOnAwake;
+    [SerializeField] private List<UnitRosterStarterUnit> starterUnits = new List<UnitRosterStarterUnit>();
 
     private readonly List<UnitData> units = new List<UnitData>();
     private readonly List<UnitRosterDeployment> deployments = new List<UnitRosterDeployment>();
@@ -54,6 +75,12 @@ public sealed class UnitRoster : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        if (createStarterUnitsOnAwake)
+        {
+            TrySeedStarterRoster();
+
+        }
+
     }
 
     private void OnDestroy()
@@ -63,6 +90,168 @@ public sealed class UnitRoster : MonoBehaviour
             Instance = null;
 
         }
+
+    }
+
+    // Temporary new-game bootstrap: the HUB creates the authored crew before
+    // combat scenes load. Never runs against an existing roster or restored save.
+    // A future SaveManager must turn off this bootstrap when loading a slot.
+    public bool TrySeedStarterRoster()
+    {
+        if (units.Count != 0 || deployments.Count != 0 || starterUnits == null || starterUnits.Count == 0)
+        {
+            return false;
+
+        }
+
+        HashSet<int> assignedSlots = new HashSet<int>();
+        foreach (UnitRosterStarterUnit starter in starterUnits)
+        {
+            if (starter == null || starter.deploymentSlot < 0 ||
+                string.IsNullOrWhiteSpace(starter.characterName) ||
+                starter.raceDefinition == null || !assignedSlots.Add(starter.deploymentSlot))
+            {
+                Debug.LogError("[UnitRoster] Invalid starter crew: check race assets, names and unique slot numbers.", this);
+
+                return false;
+
+            }
+
+        }
+
+        foreach (UnitRosterStarterUnit starter in starterUnits)
+        {
+            // Use this factory ONLY for a brand-new campaign, not when binding or restoring.
+            UnitData unit = UnitData.CreateNewUnit(starter.characterName, starter.raceDefinition);
+
+            bool hasFixedMutations = false;
+            if (starter.startingMutations != null)
+            {
+                foreach (MutationID mutationId in starter.startingMutations)
+                {
+                    if (mutationId == MutationID.none)
+                    {
+                        continue;
+
+                    }
+
+                    hasFixedMutations = true;
+                    TryGiveStartingMutation(unit, mutationId);
+
+                }
+
+            }
+
+            if (!hasFixedMutations && starter.currentMutation != MutationID.none)
+            {
+                TryGiveStartingMutation(unit, starter.currentMutation);
+
+            }
+
+            bool hasStartingEquipment = false;
+            if (starter.startingEquipment != null)
+            {
+                foreach (EquipmentData equipment in starter.startingEquipment)
+                {
+                    if (equipment == null)
+                    {
+                        continue;
+
+                    }
+
+                    hasStartingEquipment = true;
+                    if (!unit.TryEquipStartingItem(equipment))
+                    {
+                        Debug.LogWarning($"[UnitRoster] {unit.characterName}: '{equipment.name}' cannot fit a free starting slot.", this);
+
+                    }
+
+                }
+
+            }
+
+            if (!hasStartingEquipment && starter.legacyEquipment is EquipmentData legacyEquipment)
+            {
+                if (!unit.TryEquipStartingItem(legacyEquipment))
+                {
+                    Debug.LogWarning($"[UnitRoster] {unit.characterName}: legacy gear '{legacyEquipment.name}' could not be equipped.", this);
+
+                }
+
+            }
+
+            if (starter.startingConsumables != null)
+            {
+                foreach (ConsumableData consumable in starter.startingConsumables)
+                {
+                    if (consumable != null && !unit.TryAddConsumable(consumable))
+                    {
+                        Debug.LogWarning($"[UnitRoster] {unit.characterName}: no free unlocked slot for '{consumable.itemName}'.", this);
+
+                    }
+
+                }
+
+            }
+
+            // Legacy mutation bonuses are applied exactly once here. Binding a
+            // scene wrapper must never invoke OnEquipped or add the bonuses again.
+            unit.RefillResourcesToMax();
+            if (!TryRegisterUnit(unit) || !TryAssignDeploymentSlot(starter.deploymentSlot, unit.UnitId))
+            {
+                Debug.LogError($"[UnitRoster] Could not register starter '{starter.characterName}'.", this);
+
+                return false;
+
+            }
+
+            Debug.Log($"[UnitRoster] Starter '{unit.characterName}' [{unit.UnitId}] created in Hub for slot {starter.deploymentSlot}.", this);
+
+        }
+
+        return true;
+
+    }
+
+    private void TryGiveStartingMutation(UnitData unit, MutationID id)
+    {
+        if (!unit.EquipMutation(id))
+        {
+            Debug.LogWarning($"[UnitRoster] {unit.characterName}: starting mutation '{id}' could not be applied.", this);
+
+            return;
+
+        }
+
+        foreach (BaseMutation mutation in unit.activeMutations.Values)
+        {
+            if (mutation != null && mutation.ID == id)
+            {
+                // Existing legacy OnEquipped methods only apply this bonus and
+                // a debug log. Apply it without a scene UnitController here.
+                // Fixed nodes already apply their bonus in EquipMutation.
+                unit.ApplyMutationBonuses(mutation.bonus, 1);
+
+                break;
+
+            }
+
+        }
+
+    }
+
+    [ContextMenu("Debug / Seed Starter Roster If Empty")]
+    private void DebugSeedStarterRoster()
+    {
+        if (!Application.isPlaying)
+        {
+            Debug.LogWarning("[UnitRoster] Starter roster can only be generated in Play Mode.", this);
+
+            return;
+
+        }
+
+        TrySeedStarterRoster();
 
     }
 
@@ -338,6 +527,13 @@ public sealed class UnitRoster : MonoBehaviour
         RosterChanged?.Invoke();
 
         return true;
+
+    }
+
+    // Barracks may edit loadouts only while a permanent unit is not deployed.
+    public bool IsUnitDeployed(string unitId)
+    {
+        return !string.IsNullOrWhiteSpace(unitId) && IsUnitBound(unitId);
 
     }
 

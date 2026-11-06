@@ -21,6 +21,11 @@ public class EquipmentData : ItemData
     [SerializeField] private EquipmentFitType equipmentFit = EquipmentFitType.Auto;
     [Tooltip("A two-handed item appears in one hand and blocks the other. Requires Hand fit.")]
     [SerializeField] private bool requiresBothHands;
+    [Header("Item Display - UI Only")]
+    [Tooltip("Player-facing category, e.g. Sword, Bow, Magic, Shield, Chest Armor. Does not affect slot compatibility or combat.")]
+    [SerializeField] private string displayTypeLabel;
+    public string DisplayTypeLabel => displayTypeLabel;
+
     [SerializeField] private EquipmentGrade currentRarity;
     [SerializeField] private EquipmentGenerationType type;
     [SerializeField] private EquipmentStatBonus statModifier; //StatModifier

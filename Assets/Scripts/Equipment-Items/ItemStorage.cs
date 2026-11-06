@@ -52,7 +52,6 @@ public sealed class StoredItem
 
         return true;
 
-
     }
 
 }
@@ -185,8 +184,73 @@ public class ItemStorage : MonoBehaviour
     // Storage only adds an item. It does not create, craft, upgrade, or recycle it.
     public bool TryStoreItem(StoredItem item)
     {
-        if (!TryPrepareItem(item, true, out StoredItem prepared) ||
-            FindItemIndex(prepared.InstanceId) >= 0)
+        return TryStorePreparedItem(item, true);
+
+    }
+
+    // Barracks transfers must preserve current battle charges and exact item rolls.
+    // Refreshes happen at a separate, explicit mission-return boundary.
+    public bool TryStoreTransferredItem(StoredItem item)
+    {
+        return CanStoreTransferredItem(item) && TryStorePreparedItem(item, false);
+
+    }
+
+    public bool CanStoreTransferredItem(StoredItem item)
+    {
+        return item != null && !string.IsNullOrWhiteSpace(item.InstanceId) &&
+            item.Definition != null && FindItemIndex(item.InstanceId) < 0 &&
+            !IsOwnedByRoster(item.InstanceId);
+
+    }
+
+    private static bool IsOwnedByRoster(string instanceId)
+    {
+        UnitRoster roster = UnitRoster.Instance;
+        if (roster == null)
+        {
+            return false;
+
+        }
+
+        foreach (UnitData unit in roster.Units)
+        {
+            if (unit == null)
+            {
+                continue;
+
+            }
+
+            foreach (EquipmentInstance equipment in unit.equippedItems)
+            {
+                if (string.Equals(equipment.instanceId, instanceId, StringComparison.Ordinal))
+                {
+                    return true;
+
+                }
+
+            }
+
+            foreach (ConsumableInstance consumable in unit.carriedConsumables)
+            {
+                if (string.Equals(consumable.instanceId, instanceId, StringComparison.Ordinal))
+                {
+                    return true;
+
+                }
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    private bool TryStorePreparedItem(StoredItem item, bool refillUses)
+    {
+        if (!TryPrepareItem(item, refillUses, out StoredItem prepared) ||
+            FindItemIndex(prepared.InstanceId) >= 0 || IsOwnedByRoster(prepared.InstanceId))
         {
             return false;
 

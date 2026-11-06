@@ -15,6 +15,36 @@ public class UnitData
     public string UnitId { get; private set; }
 
     public string characterName;
+    public event Action IdentityChanged;
+
+    public bool TryRename(string proposedName)
+    {
+        if (string.IsNullOrWhiteSpace(proposedName))
+        {
+            return false;
+
+        }
+
+        string cleaned = proposedName.Trim();
+        if (cleaned.Length > 40)
+        {
+            return false;
+
+        }
+
+        if (string.Equals(characterName, cleaned, StringComparison.Ordinal))
+        {
+            return true;
+
+        }
+
+        characterName = cleaned;
+        IdentityChanged?.Invoke();
+
+        return true;
+
+    }
+
     public string raceName;
     DynamicStats race;
     public DynamicStats RaceDefinition => race;
