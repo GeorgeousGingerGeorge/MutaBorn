@@ -1,0 +1,737 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c57949ce5449aaba01350586c59c03, type: 3}
+  m_Name: CraftingRecipeDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::CraftingRecipeDatabase
+  recipes:
+  - recipeId: craft.item.accessory-apprentice-wardstone
+    displayName: Apprentice Wardstone
+    description: A palm-sized stone inscribed with a simple defensive glyph. It gives its bearer a modest magical barrier.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 7a42f30bd2074cd3b7bfd0a35e8af290, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: runes
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 3
+    - resourceId: glass
+      amount: 1
+  - recipeId: craft.item.accessory-surveyors-lens
+    displayName: Field Surveyor's Lens
+    description: A compact sighting lens carried by scouts. Its markings help the wearer judge distance and aim.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: fd4d004001c1441db147413ebbb26e40, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: silver
+      amount: 2
+    - resourceId: gems
+      amount: 1
+    - resourceId: glass
+      amount: 1
+  - recipeId: craft.item.accessory-hearthglass-charm
+    displayName: Hearthglass Charm
+    description: An amber charm used by travelers who expect sparks, smoke, and open flames. It wards off a little heat.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 6d27046d8b4b4869a67f71066bfcc545, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: silver
+      amount: 2
+    - resourceId: gems
+      amount: 1
+    - resourceId: runes
+      amount: 1
+  - recipeId: craft.item.armor-steel-boots
+    displayName: Steel Sabatons
+    description: Steel Sabatons designed to protect the feet while crossing rough ground. Dense steel plates meant to absorb punishment at the cost of weight.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 5c077e17904fef146b523b63aecc5f9a, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: steel
+      amount: 4
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.armor-dragonhide-boots
+    displayName: Dragonhide Treads
+    description: Dragonhide Treads designed to protect the feet while crossing rough ground. Scaled hide that protects against heat while retaining flexibility.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: b7c682b618cd208469e174ae1998800b, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: enchanted_textiles
+      amount: 3
+    - resourceId: bones
+      amount: 2
+  - recipeId: craft.item.armor-leather-boots
+    displayName: Leather Boots
+    description: Leather Boots designed to protect the feet while crossing rough ground. Supple leather pieces made for mobility rather than heavy impact.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 6c3b0438f3e70f446bdb6feebf3888e9, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: textiles
+      amount: 4
+    - resourceId: bones
+      amount: 1
+  - recipeId: craft.item.armor-iron-boots
+    displayName: Iron Sabatons
+    description: Iron Sabatons designed to protect the feet while crossing rough ground. Reliable forged iron plates built for everyday battlefield protection.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 52cb6ff3f0fcf934bbe44f1607be6793, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 4
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.armor-steel-chest
+    displayName: Steel Cuirass
+    description: Steel Cuirass, made for guarding the torso. Dense steel plates meant to absorb punishment at the cost of weight.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 8680ad92ae581ab49872c622b25075d8, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: steel
+      amount: 4
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.armor_dragonhide_vest
+    displayName: Dragonhide Vest
+    description: A leather chestpiece created with heat-resistant dragon skin, providing additional protection against fire at the cost of some physical protection.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: ef9a37e997aa8d645a5d334d57fd4bf2, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: enchanted_textiles
+      amount: 3
+    - resourceId: bones
+      amount: 2
+  - recipeId: craft.item.armor-leather-chest
+    displayName: Leather Jerkin
+    description: Leather Jerkin, made for guarding the torso. Supple leather pieces made for mobility rather than heavy impact.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: c70bd34fa9736a04c9ca10ea7fa93534, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: textiles
+      amount: 4
+    - resourceId: bones
+      amount: 1
+  - recipeId: craft.item.armor-iron-chest
+    displayName: Iron Cuirass
+    description: Iron Cuirass, made for guarding the torso. Reliable forged iron plates built for everyday battlefield protection.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 1297319a33b238b4f83428898f2fe0cc, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 4
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.armor-steel-gloves
+    displayName: Steel Gauntlets
+    description: Steel Gauntlets shaped to protect the hands without fully sacrificing grip. Dense steel plates meant to absorb punishment at the cost of weight.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 0ca3d9cc3ab55924db8fa0acc3711146, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: steel
+      amount: 4
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.armor-dragonhide-gloves
+    displayName: Dragonhide Grips
+    description: Dragonhide Grips shaped to protect the hands without fully sacrificing grip. Scaled hide that protects against heat while retaining flexibility.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 47b56dc918bf8ba4096fdeccfe1ede4c, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: enchanted_textiles
+      amount: 3
+    - resourceId: bones
+      amount: 2
+  - recipeId: craft.item.armor-leather-gloves
+    displayName: Leather Gloves
+    description: Leather Gloves shaped to protect the hands without fully sacrificing grip. Supple leather pieces made for mobility rather than heavy impact.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 111e3ffb2a575274298607ba3dc289cc, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: textiles
+      amount: 4
+    - resourceId: bones
+      amount: 1
+  - recipeId: craft.item.armor-iron-gloves
+    displayName: Iron Gauntlets
+    description: Iron Gauntlets shaped to protect the hands without fully sacrificing grip. Reliable forged iron plates built for everyday battlefield protection.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 1bf95e7720c046246aff30acc5a9584a, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 4
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.armor-steel-helmet
+    displayName: Steel Helm
+    description: Steel Helm made to shield the head. Dense steel plates meant to absorb punishment at the cost of weight.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: c5a9bc9bea6243a4cb5565ebd6eed316, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: steel
+      amount: 4
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.armor-dragonhide-helmet
+    displayName: Dragonhide Cowl
+    description: Dragonhide Cowl made to shield the head. Scaled hide that protects against heat while retaining flexibility.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: enchanted_textiles
+      amount: 3
+    - resourceId: bones
+      amount: 2
+  - recipeId: craft.item.armor-leather-helmet
+    displayName: Leather Hood
+    description: Leather Hood made to shield the head. Supple leather pieces made for mobility rather than heavy impact.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 9807ae7336b479049b49930b92800cf2, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: textiles
+      amount: 4
+  - recipeId: craft.item.armor-iron-helmet
+    displayName: Iron Helm
+    description: Iron Helm made to shield the head. Reliable forged iron plates built for everyday battlefield protection.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 58d28df22d204b0449edab45f3e9def5, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 4
+    - resourceId: wood
+      amount: 1
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.armor-steel-pants
+    displayName: Steel Greaves
+    description: Steel Greaves fitted to protect the legs during long engagements. Dense steel plates meant to absorb punishment at the cost of weight.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: ff693b940ca9e104a91b07c8463194cb, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: steel
+      amount: 4
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.armor-dragonhide-pants
+    displayName: Dragonhide Legguards
+    description: Dragonhide Legguards fitted to protect the legs during long engagements. Scaled hide that protects against heat while retaining flexibility.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 7bc4fd1a4404d584d953e8ff81bd7609, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: enchanted_textiles
+      amount: 3
+    - resourceId: bones
+      amount: 2
+  - recipeId: craft.item.armor-leather-pants
+    displayName: Leather Leggings
+    description: Leather Leggings fitted to protect the legs during long engagements. Supple leather pieces made for mobility rather than heavy impact.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 9d54c82cf5d5bed4980c44a1cb52990f, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: textiles
+      amount: 4
+  - recipeId: craft.item.armor-iron-pants
+    displayName: Iron Greaves
+    description: Iron Greaves fitted to protect the legs during long engagements. Reliable forged iron plates built for everyday battlefield protection.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: bc3939317feb981478ce5a7838bc4218, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 4
+    - resourceId: wood
+      amount: 1
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.consumable-action-tonic
+    displayName: Action Tonic
+    description: Restore 12 AP, capped at maximum AP. Costs one charge and no AP.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 49effcffaced4aa3a0155eff5c42b03b, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: glass
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 2
+  - recipeId: craft.item.consumable-berserker-draught
+    displayName: Berserker Draught
+    description: Gain Empowered (+8% Melee/Ranged per stack) for 3 owner turns.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: abbfbb7c51134a6ab3cc0b4baadc19e0, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: glass
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 1
+    - resourceId: unstable_compound
+      amount: 3
+  - recipeId: craft.item.consumable-field-mending-potion
+    displayName: Field Mending Potion
+    description: Restore 30 HP. Cannot be used at full Health; consumes one mission charge.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: glass
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 2
+  - recipeId: craft.item.consumable-fleetfoot-elixir
+    displayName: Fleetfoot Elixir
+    description: Gain Hastened (+10% Movement Efficiency per stack) for 2 owner turns.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 6e281e7d08fc44ecb44b5d04479fa821, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: glass
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 2
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.consumable-lead-ball
+    displayName: Lead Ball
+    description: One use. Short range of 3 Tiles. Deals Blunt damage with Daze, Blind, and occasional Stun.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 41fe9655690e4985b3c9a443adafb52b, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 3
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.consumable-returning-boomerang
+    displayName: Returning Boomerang
+    description: Unlimited throws, 5 AP each. Returns after every attack and does not consume charges.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: f5e6620fc6ca4deba360e31228adafc6, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 3
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.consumable-runic-focus-tonic
+    displayName: Runic Focus Tonic
+    description: Gain Runic Focus (+12% Magic Damage, +8% Will) for 3 owner turns.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: e5e82b61b43b48e8b80377853620cbc5, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: glass
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 2
+    - resourceId: unstable_compound
+      amount: 1
+  - recipeId: craft.item.consumable-stoneblood-flask
+    displayName: Stoneblood Flask
+    description: Gain Stone Skin (+6 Armor / +4 Ward per stack) for 3 owner turns.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: e9971da9db65451b858e6f6686a9c6d8, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: stone
+      amount: 5
+    - resourceId: glass
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 1
+    - resourceId: unstable_compound
+      amount: 2
+  - recipeId: craft.item.consumable-tri-edge-throwing-knife
+    displayName: Tri-Edge Throwing Knife
+    description: Three uses. Throw a piercing blade up to 6 units; landing a killing blow with it restores all three uses.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 2cd8a6e5bddd4514946238aadcd20a6b, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 3
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.consumable-trueblast-grenade
+    displayName: Trueblast Grenade
+    description: Two throws, True damage in a two-tile radius. Ignores Armor, Ward, resistances, and Guard. Friendly fire applies.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 5524524084ab43099628b41770acdf97, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 2
+    - resourceId: gunpowder
+      amount: 2
+  - recipeId: craft.item.consumable-vampiric-elixir
+    displayName: Vampiric Elixir
+    description: Grants 35% lifesteal for three owner turn endings. Used in combat.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: acabf9cb1088424680785942017fe100, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: glass
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 1
+    - resourceId: unstable_compound
+      amount: 3
+  - recipeId: craft.item.weapon_cinder_codex
+    displayName: Cinder Codex
+    description: An infernal spellbook of Fire and corrosive acid. Favors area devastation.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: a22375e97d5554140b345f8f44dc9b96, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: runes
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 3
+    - resourceId: glass
+      amount: 1
+  - recipeId: craft.item.weapon_tempest_grimoire
+    displayName: Tempest Grimoire
+    description: A stormbound tome of Lightning, Wind, and Ice control.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: e96c41b3e172ea1418a16876e593f4d8, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: runes
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 3
+    - resourceId: glass
+      amount: 1
+  - recipeId: craft.item.weapon-magic-umbral-codex
+    displayName: Umbral Codex
+    description: Dark curses and Holy restoration share these forbidden pages.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 918e647135154c51a5d26039041c89f5, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: runes
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 3
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.weapon_verdant_lexicon
+    displayName: Verdant Lexicon
+    description: A living spellbook of Nature, Water healing, Poison, and Earth binds.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: b5a887e4ff7ff584ba9eab30d1a6eb2f, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: runes
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 3
+    - resourceId: textiles
+      amount: 1
+  - recipeId: craft.item.sword-blood-thirster
+    displayName: Bloodthirster
+    description: A hungry blade that rewards aggression. Strikes can cut deep and its legacy lifesteal enchantment remains.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: e7d3e203320d8f14aa6c947a9835ad75, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 4
+    - resourceId: wood
+      amount: 1
+    - resourceId: unstable_compound
+      amount: 2
+  - recipeId: craft.item.sword-duelist-sabre
+    displayName: Duelist Sabre
+    description: A nimble dueling blade. Opens with a three-hit Combo and rewards precision.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: ff96e83cf7c88e44890e8214700f1160, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 4
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.sword-wooden
+    displayName: Oak Practice Sword
+    description: A light practice blade. Fast swings and safe Blunt hilt strikes; ideal for learning combos.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: afe7a099f3bdae941b9f07aee626bc35, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: wood
+      amount: 3
+  - recipeId: craft.item.sword-guardian-longsword
+    displayName: Guardian Longsword
+    description: A versatile field blade with a wide Cleave. Its reinforced guard grants passive Armor.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 3b3104230ae184f4f860f297f92abf54, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: steel
+      amount: 4
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.sword-war-reaver
+    displayName: War Reaver
+    description: A brutal heavy sword. The Whirlwind blast hits multiple enemies; slower to carry.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: a917bea23fc8cec4ca03f5562e8f2bdb, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 2
+    - resourceId: wood
+      amount: 1
+    - resourceId: steel
+      amount: 2
+  - recipeId: craft.item.weapon_alchemist_greatbow
+    displayName: Alchemist Greatbow
+    description: An experimental bow designed for poison, volleys, and explosive projectiles.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: wood
+      amount: 3
+    - resourceId: textiles
+      amount: 2
+    - resourceId: mythical_lumber
+      amount: 2
+  - recipeId: craft.item.weapon_scout_recurve
+    displayName: Scout Recurve
+    description: Light and quick. Favors Quick Draw and elemental trick arrows.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 9841b40498097f54b95324da0ed2b3c1, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 4
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.weapon_war_longbow
+    displayName: War Longbow
+    description: A long draw and hard punches. Specializes in Power Shot and armor penetration.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: df63ada89427985418ccd60d39181620, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: wood
+      amount: 5
+    - resourceId: textiles
+      amount: 2
+  - recipeId: craft.item.shield-tower
+    displayName: Tower Shield
+    description: A massive heavy off-hand shield. Strong passive Armor and the most durable Guard stance.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 18e88434cf014e17b5c57265f09fb018, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 3
+    - resourceId: wood
+      amount: 3
+  - recipeId: craft.item.shield-buckler
+    displayName: Buckler
+    description: A light, mobile off-hand buckler. Low passive Armor with fast guarding and blunt counter pressure.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 760f01c9b3b7451a8c1e3b7699d8e3e4, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 4
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.shield-runic-tome
+    displayName: Runic Tome
+    description: A magical off-hand warding tome. Prioritizes Ward over Armor and enables Arcane defense and attacks.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 11c18a88c7d64b4a943844df2f7b83db, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 2
+    - resourceId: textiles
+      amount: 2
+    - resourceId: enchanted_textiles
+      amount: 1
+  - recipeId: craft.item.shield-kite
+    displayName: Kite Shield
+    description: A medium off-hand shield. Balanced Armor and guard, with a straightforward shield strike.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: a5dae2b85e394f00a81191d35ec9fc1f, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: iron
+      amount: 3
+    - resourceId: wood
+      amount: 3
+  - recipeId: craft.item.test-sword
+    displayName: TESTSWORD
+    description: 'Made for debuginin
+
+'
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 518944e3ade43494199d6b2cecd30bfb, type: 2}
+    outputResourceId: 
+    outputAmount: 1
+    ingredients:
+    - resourceId: mutantanium
+      amount: 1
+  - recipeId: craft.resource.steel
+    displayName: Steel
+    description: Craft a unit of Steel.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputResourceId: steel
+    outputAmount: 2
+    ingredients:
+    - resourceId: iron
+      amount: 1
+    - resourceId: copper
+      amount: 1
+    - resourceId: wood
+      amount: 2
+  - recipeId: craft.resource.runes
+    displayName: Runes
+    description: Craft a unit of Runes.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputResourceId: runes
+    outputAmount: 3
+    ingredients:
+    - resourceId: maana_crystals
+      amount: 1
+    - resourceId: stone
+      amount: 2
+    - resourceId: gems
+      amount: 1
+  - recipeId: craft.resource.mythical_lumber
+    displayName: Mythical Lumber
+    description: 'Craft a unit of Mythical Lumber. '
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputResourceId: mythical_lumber
+    outputAmount: 5
+    ingredients:
+    - resourceId: wood
+      amount: 5
+    - resourceId: maana_crystals
+      amount: 1
+    - resourceId: runes
+      amount: 1
+  - recipeId: craft.resource.enchanted_textiles
+    displayName: Enchanted Textiles
+    description: Craft a unit of Enchanted Textiles.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputResourceId: enchanted_textiles
+    outputAmount: 3
+    ingredients:
+    - resourceId: textiles
+      amount: 3
+    - resourceId: maana_crystals
+      amount: 1
+    - resourceId: runes
+      amount: 1
+  - recipeId: craft.resource.corrupt_nodule
+    displayName: Corrupt Nodule
+    description: Craft a unit of Corrupt Nodule.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputResourceId: corrupt_nodule
+    outputAmount: 1
+    ingredients:
+    - resourceId: unstable_compound
+      amount: 4
+  - recipeId: craft.resource.mutantium
+    displayName: Mutantium
+    description: Craft a unit of Mutantium.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputResourceId: mutantium
+    outputAmount: 1
+    ingredients:
+    - resourceId: steel
+      amount: 2
+    - resourceId: corrupt_nodule
+      amount: 1
