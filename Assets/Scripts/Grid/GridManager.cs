@@ -382,6 +382,10 @@ public class GridManager : MonoBehaviour
         tileLookup.TryGetValue(node, out TileController tile);
         return tile;
     }
+    public IEnumerable<TileController> GetTiles() 
+    {
+        return tileLookup.Values;
+    }
 
     public void SetActiveFloor(int floorID)
     {

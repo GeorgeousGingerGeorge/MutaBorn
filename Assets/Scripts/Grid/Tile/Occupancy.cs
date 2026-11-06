@@ -321,6 +321,39 @@ public class Occupancy : MonoBehaviour
 
         return null;
     }
+    public ObstacleController FindSolidObstacle(GridNode node) 
+    {
+        if (solidObstacles.TryGetValue(node, out ObstacleController obstacle))
+        {
+            return obstacle;
+
+        }
+
+        return null;
+    }
+    public ObstacleController FindEdgeObstacle(GridNode firstnode, GridNode secondNode) 
+    {
+        if (edgeObstacles.TryGetValue((firstnode, secondNode), out ObstacleController obstacle))
+        {
+            return obstacle;
+
+        }
+
+        return null;
+    }
+
+    public IEnumerable<UnitController> GetUnits() 
+    {
+        return new HashSet<UnitController>(units.Values);
+    }
+    public IEnumerable<ObstacleController> GetSolidObstacles() 
+    {
+        return new HashSet<ObstacleController>(solidObstacles.Values);
+    }
+    public IEnumerable<ObstacleController> GetEdgeObstacles() 
+    {
+        return new HashSet<ObstacleController>(edgeObstacles.Values);
+    }
     public GridManager ReturnGrid()
     {
         return gridManager;

@@ -56,14 +56,14 @@ public class UnitMovements : MonoBehaviour
 
         //}
 
-        if (animBaseChar == null)
+        if (animBaseChar != null)
         {
-            return;
+            animBaseChar.SetFloat("Speed", isMoving ? 1f : 0f);
+            animBaseChar.transform.position = transform.position;
         }
 
 
-        animBaseChar.SetFloat("Speed", isMoving ? 1f : 0f);
-        animBaseChar.transform.position = transform.position;
+       
     }
 
     public bool PlayerMovement(GridNode destination)
@@ -223,7 +223,7 @@ public class UnitMovements : MonoBehaviour
     private void CompleteMovement() 
     {
 
-       
+        fogController.UpdateFriendlyUnitVisibility();
         unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
 
         isMoving = false;

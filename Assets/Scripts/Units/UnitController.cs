@@ -1,6 +1,7 @@
 using System.Text;
 using UnityEngine;
 using MutaBorn.Gameplay;
+using UnityEngine.UI;
 
 public class UnitController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class UnitController : MonoBehaviour
     [SerializeField] private Transform VisionOrigin;
     public Transform visionOrigin => VisionOrigin;
 
+    public FogState fogstate { get; private set; } = FogState.CLEAR;
    
 
     [Header("Units Data- Status, Inventory, Equipment, Mutations")]
@@ -41,7 +43,10 @@ public class UnitController : MonoBehaviour
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
     public Occupancy occupancy;
+
+
     [Header("Controls Outline Visuals")]
+
   //  private OutlineController characterOutline;
     private bool isHovered = false;
     private bool isSelected = false;
@@ -642,6 +647,49 @@ public class UnitController : MonoBehaviour
         activeWeapon.transform.localRotation = Quaternion.identity;
 
         return true;
+    }
+
+    public void SetFogState(FogState state) 
+    {
+        
+        Animator model = GetComponentInChildren<Animator>();
+        Transform child = transform.Find("Floating Health Bar/Background");
+        GameObject canvas = child.gameObject;
+        
+        
+        
+        
+        Renderer[] character = model.GetComponentsInChildren<Renderer>();
+        
+
+        //GameObject canvas = uiBar.gameObject
+        switch (state)
+        {
+            case FogState.CLEAR:
+                {
+
+                    foreach (Renderer bodyParts in character) 
+                    {
+                        bodyParts.enabled = true;
+                    }
+
+                    canvas.SetActive(true);
+
+
+                }
+                break;
+            case FogState.DARK:
+                {
+                    foreach (Renderer bodyParts in character)
+                    {
+                        bodyParts.enabled = false;
+                    }
+
+                    canvas.SetActive(false);
+
+                }
+                break;
+        }
     }
 }
 
