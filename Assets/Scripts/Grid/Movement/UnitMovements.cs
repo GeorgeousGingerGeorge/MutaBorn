@@ -25,7 +25,7 @@ public class UnitMovements : MonoBehaviour
     public Dictionary<GridNode, float> reachableNodes { get; private set; }
     private List<TileController> highlightedTiles = new List<TileController>();
     private Animator animBaseChar;
-    private Animator CDGoblin;
+  
 
     public void Awake() 
     {
@@ -35,7 +35,7 @@ public class UnitMovements : MonoBehaviour
         factionController = GetComponent<UnitFaction>();
         fogController = FindAnyObjectByType<FogOfWarManager>();
         unit = GetComponent<UnitController>();
-        animBaseChar = GetComponentInChildren<Animator>();
+        
         //CDGoblin = GetComponentInChildren<Animator>();
 
     }

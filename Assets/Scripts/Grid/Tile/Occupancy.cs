@@ -342,6 +342,20 @@ public class Occupancy : MonoBehaviour
         return null;
     }
 
+    public bool NodeOwnedBySolidObstacle(GridNode node)
+    {
+        ObstacleController obstacle = null;
+
+        obstacle = FindSolidObstacle(node);
+
+        if (obstacle != null) 
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public IEnumerable<UnitController> GetUnits() 
     {
         return new HashSet<UnitController>(units.Values);

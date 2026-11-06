@@ -19,6 +19,7 @@ public sealed class MissionCrewSpawnArea : MonoBehaviour
     {
         UnitRoster roster = UnitRoster.Instance;
         Occupancy occupancy = FindAnyObjectByType<Occupancy>();
+        FogOfWarManager fogController = FindAnyObjectByType<FogOfWarManager>();
         Dictionary<Vector2Int, GridNode> floor = gridManager == null ? null : gridManager.GetGrid(floorId);
         if (roster == null || occupancy == null || floor == null || floor.Count == 0)
         {

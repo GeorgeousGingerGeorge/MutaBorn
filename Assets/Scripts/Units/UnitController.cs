@@ -180,6 +180,7 @@ public class UnitController : MonoBehaviour
         data = persistentData;
         race = data.RaceDefinition;
         unitName = data.characterName;
+        gameObject.name = unitName;
         if (Enum.TryParse(data.raceName, true, out RaceNames boundRace))
         {
             raceName = boundRace;
@@ -772,10 +773,13 @@ public class UnitController : MonoBehaviour
     public void SetSelected(bool selected)
     {
         isSelected = selected;
+        UnitFaction factionController = GetComponent<UnitFaction>();
 
         if (selectionCircle != null)
         {
             selectionCircle.enabled = selected;
+
+          
         }
     }
 
@@ -934,6 +938,7 @@ public class UnitController : MonoBehaviour
 
     private void InitializeSelectionCircle()
     {
+        UnitFaction factionController = GetComponent<UnitFaction>();
         if (selectionCircle == null)
         {
             return;
@@ -955,6 +960,20 @@ public class UnitController : MonoBehaviour
 
             selectionCircle.SetPosition(i, new Vector3(x, 0f, z));
         }
+
+        if (factionController.GetFactionID() != "playerFaction") 
+        {
+            if(factionController.GetFactionID() == "raiderFaction") 
+            {
+                selectionCircle.material = GameDataBaseLoader.Instance.selectionCircle[2];
+            }
+            else if(factionController.GetFactionID() == "civilians") 
+            {
+                selectionCircle.material = GameDataBaseLoader.Instance.selectionCircle[1];
+
+            }
+        }
+        
 
         selectionCircle.enabled = false;
     }
@@ -981,37 +1000,33 @@ public class UnitController : MonoBehaviour
     public void SetFogState(FogState state) 
     {
         
-        Animator model = GetComponentInChildren<Animator>();
+        
         Transform child = transform.Find("Floating Health Bar/Background");
         GameObject canvas = child.gameObject;
-        
-        
-        
-        
-        Renderer[] character = model.GetComponentsInChildren<Renderer>();
-        
+        Renderer[] character = activeRaceModel.GetComponentsInChildren<Renderer>();
 
-        //GameObject canvas = uiBar.gameObject
+
+      
         switch (state)
         {
             case FogState.CLEAR:
                 {
 
-                    foreach (Renderer bodyParts in character) 
+                    foreach (Renderer bodypart in character) 
                     {
-                        bodyParts.enabled = true;
+                        bodypart.enabled = true;
                     }
 
                     canvas.SetActive(true);
-
 
                 }
                 break;
             case FogState.DARK:
                 {
-                    foreach (Renderer bodyParts in character)
+
+                    foreach (Renderer bodypart in character)
                     {
-                        bodyParts.enabled = false;
+                        bodypart.enabled = false;
                     }
 
                     canvas.SetActive(false);

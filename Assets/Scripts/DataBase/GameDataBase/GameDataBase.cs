@@ -8,7 +8,7 @@ public class GameDataBase : ScriptableObject
     [SerializeField] private MutationDataBase mutationDataBase;
     [SerializeField] private RaceDataBase raceDataBase;
     [SerializeField] private EquipmentDataBase equipmentDataBase;
-
+    [SerializeField] private Material[] SelectionCircle;
     [Header("Actions")]
 
     [Tooltip("Registry of all action definitions.")]
@@ -24,4 +24,5 @@ public class GameDataBase : ScriptableObject
 
     public ActionDataBase actionData => actionDataBase;
     public ActionSet universalActions => universalActionSet;
+    public Material[] selectionCircle => SelectionCircle;
 }
