@@ -27,6 +27,10 @@ public sealed class ObjectiveDefinition : ScriptableObject
     [TextArea(2, 4)]
     [SerializeField] private string description;
 
+    [Header("World Marker (Optional Override)")]
+    [Tooltip("Override the automatic mission-type icon for world markers. Leave empty to use its default icon.")]
+    [SerializeField] private Sprite worldMarkerIcon;
+
     [Header("Objective Rules")]
     [SerializeField] private MissionObjectiveType objectiveType;
     [SerializeField] private MissionTargetFilter targetFilter;
@@ -47,6 +51,7 @@ public sealed class ObjectiveDefinition : ScriptableObject
 
     public string Title => title;
     public string Description => description;
+    public Sprite WorldMarkerIcon => worldMarkerIcon;
     public MissionObjectiveType ObjectiveType => objectiveType;
     public MissionTargetFilter TargetFilter => targetFilter;
     public FactionData TargetFaction => targetFaction;

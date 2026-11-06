@@ -26,6 +26,19 @@ public class UnitFacing : MonoBehaviour
     
     }
 
+    // Only redirect facing if its previous target belonged to the old model.
+    public void RebindRaceModel(Transform oldVisualRoot, Transform newVisualRoot)
+    {
+        if (targetToRotate == null ||
+            (oldVisualRoot != null && targetToRotate.IsChildOf(oldVisualRoot)))
+        {
+            targetToRotate = newVisualRoot;
+            ApplyFacing(true);
+
+        }
+
+    }
+
     public void SetFacing(FacingDirection direction) 
     {
         currentFacing = direction;

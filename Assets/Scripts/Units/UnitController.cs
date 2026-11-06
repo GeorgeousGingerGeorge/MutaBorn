@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using UnityEngine;
 using MutaBorn.Gameplay;
@@ -44,6 +45,15 @@ public class UnitController : MonoBehaviour
     [SerializeField, Min(0)] private int rosterDeploymentSlot;
     private string boundRosterUnitId;
 
+    // For an opt-in mission spawn area. Sets the wrapper's deployment slot
+    // before GridManager initializes it; it never creates a new UnitData.
+    public void ConfigureCrewDeployment(int slotIndex)
+    {
+        initializationMode = UnitInitializationMode.RosterOnly;
+        rosterDeploymentSlot = slotIndex;
+
+    }
+
     public UnitInitializationMode InitializationMode => initializationMode;
     public int RosterDeploymentSlot => rosterDeploymentSlot;
 
@@ -64,6 +74,7 @@ public class UnitController : MonoBehaviour
 
     [SerializeField] private Transform weaponSocket;
     private GameObject activeWeapon;
+    private GameObject activeRaceModel;
 
 
     public void InitializeUnitData()
@@ -159,6 +170,13 @@ public class UnitController : MonoBehaviour
         data = persistentData;
         race = data.RaceDefinition;
         unitName = data.characterName;
+        if (Enum.TryParse(data.raceName, true, out RaceNames boundRace))
+        {
+            raceName = boundRace;
+
+        }
+
+        InitializeRaceModel();
         data.LoadoutChanged += RefreshEquipmentAndMutationGrants;
         RefreshEquipmentAndMutationGrants();
 
@@ -185,6 +203,7 @@ public class UnitController : MonoBehaviour
 
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName.ToString());
         data = UnitData.CreateNewUnit(unitName, race);
+        InitializeRaceModel();
 
         
         bool hasFixedStartingMutations = false;
@@ -759,7 +778,150 @@ public class UnitController : MonoBehaviour
         return data.currentActionPoints;
     }
 
+    // The model is a VISUAL child of this combat wrapper, not another UnitData.
+    // Safe to call again when binding an existing roster unit: it keeps the same
+    // race model if present and only replaces a mismatched playermodel child.
+    public bool InitializeRaceModel()
+    {
+        if (data == null || data.RaceDefinition == null)
+        {
+            return false;
+
+        }
+
+        GameObject prefab = data.RaceDefinition.RaceModelPrefab;
+        if (prefab == null)
+        {
+            Debug.LogWarning($"[UnitVisual] No model prefab assigned for {data.raceName}.", this);
+
+            return false;
+
+        }
+
+        GameObject oldModel = activeRaceModel;
+        if (oldModel == null)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.name.StartsWith("playermodel_", StringComparison.OrdinalIgnoreCase))
+                {
+                    oldModel = child.gameObject;
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+        if (oldModel != null && string.Equals(
+            oldModel.name.Replace("(Clone)", "").Trim(), prefab.name, StringComparison.OrdinalIgnoreCase))
+        {
+            activeRaceModel = oldModel;
+            ReconnectRaceVisualComponents(null, oldModel);
+
+            return true;
+
+        }
+
+        GameObject model = Instantiate(prefab, transform, false);
+        model.name = prefab.name;
+        model.transform.localPosition = Vector3.zero;
+        model.transform.localRotation = Quaternion.identity;
+        // Leave the prefab's authored scale intact (Orcs and other races differ).
+        activeRaceModel = model;
+        ReconnectRaceVisualComponents(oldModel, model);
+
+        if (oldModel != null)
+        {
+            oldModel.SetActive(false);
+            Destroy(oldModel);
+
+        }
+
+        return true;
+
+    }
+
+    private void ReconnectRaceVisualComponents(GameObject oldModel, GameObject newModel)
+    {
+        Transform oldRoot = oldModel != null ? oldModel.transform : null;
+        Animator newAnimator = newModel.GetComponentInChildren<Animator>(true);
+        UnitMovements movement = GetComponent<UnitMovements>();
+        if (movement != null)
+        {
+            movement.RefreshRaceAnimator(newAnimator);
+
+        }
+
+        UnitFacing facing = GetComponent<UnitFacing>();
+        if (facing != null)
+        {
+            facing.RebindRaceModel(oldRoot, newModel.transform);
+
+        }
+
+        // Scene-prefab sockets can refer to a previous race model.
+        if (activeWeapon != null)
+        {
+            Destroy(activeWeapon);
+            activeWeapon = null;
+
+        }
+
+        weaponSocket = FindVisualChild(newModel.transform, "wpnSkt_R");
+        if (weaponSocket == null)
+        {
+            weaponSocket = FindVisualChild(newModel.transform, "wpnSkt_L");
+
+        }
+
+        if (weaponSocket == null)
+        {
+            Debug.LogWarning($"[UnitVisual] {data.characterName}: missing weapon socket on {newModel.name}.", this);
+
+        }
+
+        if (selectionCircle == null || (oldRoot != null && selectionCircle.transform.IsChildOf(oldRoot)))
+        {
+            selectionCircle = newModel.GetComponentInChildren<LineRenderer>(true);
+            InitializeSelectionCircle();
+
+        }
+
+        OutlineController outline = GetComponent<OutlineController>();
+        if (outline != null)
+        {
+            outline.RebindRaceModel(oldRoot, newModel.transform);
+
+        }
+
+    }
+
+    private static Transform FindVisualChild(Transform root, string childName)
+    {
+        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        {
+            if (string.Equals(child.name, childName, StringComparison.OrdinalIgnoreCase))
+            {
+                return child;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
     private void Awake()
+    {
+        InitializeSelectionCircle();
+
+    }
+
+    private void InitializeSelectionCircle()
     {
         if (selectionCircle == null)
         {
