@@ -20,8 +20,8 @@ public sealed class MissionObjectiveWorldMarkers : MonoBehaviour
 
     [Header("Visibility")]
     [SerializeField] private bool showOptionalObjectives = true;
-    [Tooltip("Hold this key to reveal optional objective banners. Releasing it restores primary markers.")]
-    [SerializeField] private Key optionalRevealKey = Key.O;
+    [Tooltip("Your existing InputSystem_Actions asset. The action UI/ShowOptionalObjectives is set up by the one-time Editor command.")]
+    [SerializeField] private InputActionAsset optionalRevealInputActions;
     [SerializeField, Min(0.1f)] private float rescanInterval = 0.35f;
 
     [Header("Position / Animation")]
@@ -46,6 +46,9 @@ public sealed class MissionObjectiveWorldMarkers : MonoBehaviour
     private bool dirty = true;
     private bool warnedAboutPrefab;
     private bool optionalKeyHeld;
+    private InputAction optionalRevealAction;
+    private bool enabledRevealActionHere;
+    private bool warnedAboutRevealAction;
 
     private readonly struct MarkerKey : IEquatable<MarkerKey>
     {
@@ -85,16 +88,49 @@ public sealed class MissionObjectiveWorldMarkers : MonoBehaviour
     private void OnEnable()
     {
         TryBindManager();
+        BindOptionalRevealAction();
         dirty = true;
+
+    }
+
+    private void BindOptionalRevealAction()
+    {
+        optionalRevealAction = optionalRevealInputActions != null
+            ? optionalRevealInputActions.FindAction("UI/ShowOptionalObjectives", false)
+            : null;
+
+        if (optionalRevealAction == null)
+        {
+            if (!warnedAboutRevealAction)
+            {
+                Debug.LogWarning("[ObjectiveMarkers] Optional reveal input is not wired. Run " +
+                    "Tools > MutaBorn > Objective Markers > Connect Optional Reveal Input. " +
+                    "Primary banners still work.", this);
+                warnedAboutRevealAction = true;
+
+            }
+
+            return;
+
+        }
+
+        // Only disable actions this component personally enabled. Another system
+        // may already be using the same UI action map.
+        enabledRevealActionHere = !optionalRevealAction.enabled;
+        if (enabledRevealActionHere)
+        {
+            optionalRevealAction.Enable();
+
+        }
 
     }
 
     private void Update()
     {
-        // Read the key every frame, even when objective rescan is throttled.
-        // Releasing O must immediately restore the primary marker on shared targets.
-        bool isHeld = showOptionalObjectives && Keyboard.current != null &&
-                      Keyboard.current[optionalRevealKey].isPressed;
+        // Read the configured Input Action every frame, even when rescans are throttled.
+        // Releasing the control immediately restores primary markers on shared targets.
+        bool isHeld = showOptionalObjectives && optionalRevealAction != null &&
+                      optionalRevealAction.enabled && optionalRevealAction.IsPressed();
         if (optionalKeyHeld != isHeld)
         {
             optionalKeyHeld = isHeld;
@@ -405,6 +441,16 @@ public sealed class MissionObjectiveWorldMarkers : MonoBehaviour
 
     private void OnDisable()
     {
+        if (enabledRevealActionHere && optionalRevealAction != null)
+        {
+            optionalRevealAction.Disable();
+
+        }
+
+        enabledRevealActionHere = false;
+        optionalRevealAction = null;
+        optionalKeyHeld = false;
+
         if (missionManager != null)
         {
             missionManager.ObjectivesChanged -= MarkDirty;
