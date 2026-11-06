@@ -9,7 +9,10 @@ public class TileController : MonoBehaviour
     public TerrainType terrainType => _terrain;
     [Header("Visual Elements")]
     [SerializeField] private GameObject highlightOverlay;
+    [SerializeField] private GameObject FogOverlay; 
     [SerializeField] private Renderer highlightRenderer;
+
+    public FogState fogState { get; private set; } = FogState.DARK;
 
     [Header("Controls Color states")]
     private bool isHovered;
@@ -41,8 +44,30 @@ public class TileController : MonoBehaviour
         isHovered = false;
         isSelected = false;
         isInMovementRange = false;
+        
         SetHighlight(false, Color.white);
+        SetFogState(FogState.DARK);
     }
+
+    public void SetFogState(FogState state) 
+    {
+        fogState = state; 
+        switch (fogState) 
+        {
+            case FogState.CLEAR:
+                {
+
+                    FogOverlay.SetActive(false);
+                }
+                break;
+            case FogState.DARK:
+                {
+                    FogOverlay.SetActive(true);
+                }
+                break;
+        }
+    }
+    
     public void SetHover(bool hover) 
     {
         

@@ -34,6 +34,7 @@ public sealed class MissionObjectiveEntry
     public MissionObjectiveType Type => Template.ObjectiveType;
     public ObjectiveDefinition Template { get; }
     public bool Optional { get; }
+    public int WorldMarkerPriority { get; }
     public bool StartsActive { get; }
     public bool CountWhileLocked { get; }
     public bool Visible { get; private set; }
@@ -42,6 +43,25 @@ public sealed class MissionObjectiveEntry
     public bool HasExtractionZone { get; private set; } = true;
     public int Total { get; private set; }
     public int TargetCount => targets.Count;
+
+    // Read-only, live targets for presentation systems such as world-space objective markers.
+    // Targets already completed by this objective are excluded.
+    public IEnumerable<Component> PendingTargets
+    {
+        get
+        {
+            foreach (Component target in targets)
+            {
+                if (target != null && !completedTargets.Contains(target))
+                {
+                    yield return target;
+
+                }
+
+            }
+
+        }
+    }
     public int Remaining => Mathf.Max(0, Total - Progress);
     public IReadOnlyList<string> Prerequisites { get; }
 
@@ -50,6 +70,7 @@ public sealed class MissionObjectiveEntry
         Template = setup.Template;
         Id = setup.ObjectiveId.Trim();
         Optional = setup.Optional;
+        WorldMarkerPriority = setup.WorldMarkerPriority;
         StartsActive = setup.InitiallyActive;
         CountWhileLocked = setup.CountWhileLocked;
         Visible = setup.InitiallyVisible;
@@ -136,6 +157,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
     private readonly HashSet<string> ids = new(StringComparer.OrdinalIgnoreCase);
     private float nextExtractionCheck;
     private bool warnedAboutMissingZone;
+    private const string WorldMarkersResourcePath = "MutaBorn/MissionObjectiveWorldMarkers";
 
     public IReadOnlyList<MissionObjectiveEntry> Objectives => objectives;
     public LevelMissionData LevelMission => levelMission;
@@ -320,6 +342,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         Status = MissionStatus.InProgress;
         RefreshExtractionProgress(false);
         RefreshDependencies();
+        EnsureObjectiveWorldMarkers();
         PublishChange();
         CheckMissionCompletion();
 
@@ -333,6 +356,40 @@ public sealed class MissionObjectiveManager : MonoBehaviour
             }
 
         }
+
+    }
+
+    // Only the mission manager needs to be placed in each scene. A single
+    // presentation controller follows its objectives, including prefab-spawned targets.
+    private void EnsureObjectiveWorldMarkers()
+    {
+        MissionObjectiveWorldMarkers markers = GetComponentInChildren<MissionObjectiveWorldMarkers>(true);
+        if (markers == null)
+        {
+            markers = FindAnyObjectByType<MissionObjectiveWorldMarkers>();
+
+        }
+
+        if (markers == null)
+        {
+            GameObject prefab = Resources.Load<GameObject>(WorldMarkersResourcePath);
+            if (prefab == null || prefab.GetComponent<MissionObjectiveWorldMarkers>() == null)
+            {
+                Debug.LogWarning("[Objectives] Auto-markers are not configured. Run " +
+                    "Tools > MutaBorn > Enable Automatic Objective World Markers once in the Editor. " +
+                    "Mission objectives will continue working without banners.", this);
+
+                return;
+
+            }
+
+            GameObject instance = Instantiate(prefab, transform);
+            instance.name = "MissionObjectiveWorldMarkers (Auto)";
+            markers = instance.GetComponent<MissionObjectiveWorldMarkers>();
+
+        }
+
+        markers.BindManager(this);
 
     }
 

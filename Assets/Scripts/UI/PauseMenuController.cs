@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenuController : MonoBehaviour
 {
     [SerializeField] string MainMenuScene = "";
-    [SerializeField] string GameScene = "";
+    [SerializeField] string HubScene = "";
 
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject optionsMenu;
@@ -39,6 +39,12 @@ public class PauseMenuController : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
+    }
+
+    public void ReturnToHub()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(HubScene);
     }
 
     public void ReturnToMenu()

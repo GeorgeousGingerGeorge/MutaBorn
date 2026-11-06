@@ -16,8 +16,7 @@ public class CameraController : MonoBehaviour
                 activeInstance = null;
 
                 // A disabled or destroyed rig must not keep receiving focus requests.
-                foreach (CameraController candidate in FindObjectsByType<CameraController>(
-                    FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+                foreach (CameraController candidate in FindObjectsByType<CameraController>(FindObjectsInactive.Exclude))
                 {
                     if (candidate != null && candidate.isActiveAndEnabled && candidate.cameraTransform != null)
                     {
@@ -254,7 +253,7 @@ public class CameraController : MonoBehaviour
     [ContextMenu("Test / Focus Selected Player Unit")]
     private void TestFocusSelectedPlayerUnit()
     {
-        SelectionManager selection = FindFirstObjectByType<SelectionManager>();
+        SelectionManager selection = FindAnyObjectByType<SelectionManager>();
         if (selection == null || selection.selectedUnit == null)
         {
             Debug.LogWarning("Camera focus test: no selected player unit.", this);

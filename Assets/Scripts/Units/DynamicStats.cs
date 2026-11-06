@@ -8,6 +8,7 @@ public enum RaceNames
     Human,
     Orc,
     Goblin,
+
 }
 
 
@@ -21,6 +22,11 @@ public class DynamicStats : ScriptableObject
 
     public string RaceName => raceName;
     public string ObjectName => objectName;
+
+    [Header("Race Visuals")]
+    [Tooltip("Instantiated under UnitController when a unit of this race enters a scene.")]
+    [SerializeField] private GameObject raceModelPrefab;
+    public GameObject RaceModelPrefab => raceModelPrefab;
 
 
     [Header("Base Character Flat Stats")]

@@ -13,7 +13,19 @@ public class EquipmentData : ItemData
     [Header("Weapon Visuals")]
     [SerializeField] private GameObject _weaponModelPrefab;
     [SerializeField] private AccessoryCategory accessory = AccessoryCategory.None; 
-    [SerializeField] private EquipmentSlots targetSlot;
+    // Legacy serialized bit flags remain for old instances and backward compatibility.
+    // Choose the visible Equipment Fit instead for new templates.
+    [SerializeField, HideInInspector] private EquipmentSlots targetSlot;
+    [Header("Unit Loadout Slots")]
+    [Tooltip("Hand accepts either Left Hand or Right Hand; includes shields, weapons, spellbooks, and other held gear. Auto reads legacy asset flags.")]
+    [SerializeField] private EquipmentFitType equipmentFit = EquipmentFitType.Auto;
+    [Tooltip("A two-handed item appears in one hand and blocks the other. Requires Hand fit.")]
+    [SerializeField] private bool requiresBothHands;
+    [Header("Item Display - UI Only")]
+    [Tooltip("Player-facing category, e.g. Sword, Bow, Magic, Shield, Chest Armor. Does not affect slot compatibility or combat.")]
+    [SerializeField] private string displayTypeLabel;
+    public string DisplayTypeLabel => displayTypeLabel;
+
     [SerializeField] private EquipmentGrade currentRarity;
     [SerializeField] private EquipmentGenerationType type;
     [SerializeField] private EquipmentStatBonus statModifier; //StatModifier
@@ -78,6 +90,52 @@ public class EquipmentData : ItemData
     public WeaponCategory weaponGear => weapon;
     public AccessoryCategory accessoryGear => accessory;
     public EquipmentSlots slot => targetSlot;
+    public EquipmentFitType EquipmentFit
+    {
+        get
+        {
+            if (equipmentFit != EquipmentFitType.Auto)
+            {
+                return equipmentFit;
+
+            }
+
+            if (accessory != AccessoryCategory.None)
+            {
+                return EquipmentFitType.Accessory;
+
+            }
+
+            if (weapon != WeaponCategory.None ||
+                targetSlot == EquipmentSlots.MainHand ||
+                targetSlot == EquipmentSlots.OffHand ||
+                targetSlot == EquipmentSlots.TwoHanded)
+            {
+                return EquipmentFitType.Hand;
+
+            }
+
+            switch (targetSlot)
+            {
+                case EquipmentSlots.ArmorHelmet:
+                    return EquipmentFitType.Head;
+                case EquipmentSlots.ArmorChest:
+                    return EquipmentFitType.Chest;
+                case EquipmentSlots.ArmorArms:
+                    return EquipmentFitType.Gloves;
+                case EquipmentSlots.ArmorLegs:
+                    return EquipmentFitType.Pants;
+                default:
+                    // Ambiguous old masks need an explicit fit, not an arbitrary slot.
+                    return EquipmentFitType.Auto;
+
+            }
+
+        }
+
+    }
+    public bool RequiresBothHands => EquipmentFit == EquipmentFitType.Hand &&
+        (requiresBothHands || targetSlot == EquipmentSlots.TwoHanded);
     public EquipmentGrade rarity => currentRarity;
     public EquipmentGenerationType genType => type;
     public EquipmentStatBonus statMod => statModifier;
