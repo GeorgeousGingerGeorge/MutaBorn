@@ -107,6 +107,29 @@ public class GridManager : MonoBehaviour
 
         ConnectFloors();
         InitializeObstacles();
+
+        // A placed crew area takes over ONLY the player's roster placeholders.
+        // Unmodified sandbox scenes continue to use their original unit setup.
+        MissionCrewSpawnArea crewArea = FindAnyObjectByType<MissionCrewSpawnArea>();
+        if (crewArea != null && crewArea.isActiveAndEnabled)
+        {
+            crewArea.PrepareDeployment(this);
+
+        }
+
+        // Spawn scene-owned faction units separately from the permanent player roster.
+        // This happens before the usual initialization/occupancy registration pass.
+        MissionFactionSpawnArea[] factionAreas = FindObjectsByType<MissionFactionSpawnArea>();
+        foreach (MissionFactionSpawnArea factionArea in factionAreas)
+        {
+            if (factionArea != null && factionArea.isActiveAndEnabled)
+            {
+                factionArea.PrepareDeployment(this);
+
+            }
+
+        }
+
         InitializeUnits();
 
         if (gridFloors.Count > 0)
@@ -302,10 +325,20 @@ public class GridManager : MonoBehaviour
     {
         UnitController[] units = FindObjectsByType<UnitController>();
 
-        foreach (UnitController unit in units) 
+        foreach (UnitController unit in units)
         {
-            unit.InitializeUnitData();
+            if (!unit.TryInitializeUnitData())
+            {
+                // Never initialize or register an unbound roster placeholder.
+                Debug.LogError($"Unable to initialize unit '{unit.name}'. Disabling scene unit.", unit);
+                unit.gameObject.SetActive(false);
+
+                continue;
+
+            }
+
             unit.InitializeNode();
+
         }
     }
     public void InitializeObstacles() 

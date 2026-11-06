@@ -13,13 +13,27 @@ public class MainHubController : MonoBehaviour
     void Start()
     {
         Debug.Log("MainHubController initialized");
-        startMissionButton.onClick.AddListener(TestLevel);
+        if (startMissionButton != null)
+        {
+            startMissionButton.onClick.AddListener(TestLevel);
+
+        }
     }
 
 
     void TestLevel()
     {
-        Debug.Log("Mission Starting....");
+        CrewMissionMenu crewMenu = FindAnyObjectByType<CrewMissionMenu>(FindObjectsInactive.Include);
+        if (crewMenu != null)
+        {
+            crewMenu.OpenMissionSelect();
+
+            return;
+
+        }
+
+        // Existing test-only Hub scenes without a Crew menu still work.
+        Debug.LogWarning("No CrewMissionMenu found; using legacy direct test-scene route.", this);
         SceneManager.LoadScene("Main Test Scene");
     }
 }

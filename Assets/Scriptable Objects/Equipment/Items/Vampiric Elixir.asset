@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d850438c1d1329458f294ccee8e6d52, type: 3}
+  m_Name: Vampiric Elixir
+  m_EditorClassIdentifier: Assembly-CSharp::ConsumableData
+  _itemName: Vampiric Elixir
+  _itemID: consumable-vampiric-elixir
+  _description: Grants 35% lifesteal for three owner turn endings. Used in combat.
+  _sprite: {fileID: 21300000, guid: 8809f5b793d70ef40bebc46fadaffd91, type: 3}
+  _consumable: 1
+  _consumeOnUse: 1
+  _magnitude: 0
+  _damage: 0
+  _coverValue: 0
+  useAction: {fileID: 11400000, guid: 07c70e807f6e4735a185b46f4602351f, type: 2}
+  maxUses: 1
+  apCost: 5
+  onUseEffect:
+    definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+    activation:
+      trigger: 2
+      phase: 3
+      frequency: 0
+      eventActor: 0
+      requireGrantingSourceMatch: 0
+    targeting:
+      reference: 0
+      selection: 0
+      factionMask: 7
+      includeOwner: 1
+      radiusInTiles: 0
+      sameFloorOnly: 0
+    lifetime:
+      lifetime: 2
+      durationTurns: 3
+      maximumUses: 1
+    operationParameters:
+      resource: 0
+      stat: 0
+      damageType: 0
+      damageDelivery: 0
+      defenseStat: 0
+      statusId: 
+    value:
+      constant: 0
+      terms:
+      - source: 1
+        literalValue: 0
+        stat: 0
+        resource: -1
+        multiplier: 0.35
+      rounding: 1
+    conditions: []
