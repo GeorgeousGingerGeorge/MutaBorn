@@ -1,14 +1,17 @@
+using System;
 using System.Text;
 using UnityEngine;
 using MutaBorn.Gameplay;
-using System;
+using UnityEngine.UI;
 
-// SOCKET MAPPING //
-[System.Serializable]
-public struct SocketMapping
+// Legacy units stay scene-local. Only explicitly configured player units
+// participate in the permanent roster.
+public enum UnitInitializationMode
 {
-    public EquipmentSlots equipmentSlot;
-    public int socketIndex;
+    LegacyScene = 0,
+    RosterOnly = 1,
+    RosterCreateOnceForTesting = 2
+
 }
 
 public class UnitController : MonoBehaviour
@@ -18,6 +21,12 @@ public class UnitController : MonoBehaviour
     public Vector2Int footPrint => footPrintSize;
     [Header("Unit's Direction")]
     public UnitFacing unitDirection { get; private set; }
+
+    [Header("Unit's Vision")]
+    [SerializeField] private Transform VisionOrigin;
+    public Transform visionOrigin => VisionOrigin;
+
+    public FogState fogstate { get; private set; } = FogState.CLEAR;
    
 
     [Header("Units Data- Status, Inventory, Equipment, Mutations")]
@@ -30,14 +39,31 @@ public class UnitController : MonoBehaviour
     [Header("Evolution Testing (Play Mode)")]
     [SerializeField] private MutationID testEvolutionCurrent = MutationID.none;
     [SerializeField] private MutationID testEvolutionNext = MutationID.none;
-    [Header("Starting Equipment - 6 Test Slots (Duplicates Allowed)")]
+    [Header("Legacy Scene Starting Equipment (Temporary)")]
     [SerializeField] private EquipmentData[] startingEquipment = new EquipmentData[6];
 
-    [Header("Starting Consumables - 2 Mission Slots")]
+    [Header("Legacy Scene Starting Consumables (Temporary)")]
     [SerializeField] private ConsumableData[] startingConsumables = new ConsumableData[2];
 
     // Retained for pre-existing scenes/prefabs. Used only if the new array is empty.
     [SerializeField, HideInInspector] public ItemData currentEquipment;
+    [Header("Optional Permanent Player Roster")]
+    [SerializeField] private UnitInitializationMode initializationMode = UnitInitializationMode.LegacyScene;
+    [SerializeField, Min(0)] private int rosterDeploymentSlot;
+    private string boundRosterUnitId;
+
+    // For an opt-in mission spawn area. Sets the wrapper's deployment slot
+    // before GridManager initializes it; it never creates a new UnitData.
+    public void ConfigureCrewDeployment(int slotIndex)
+    {
+        initializationMode = UnitInitializationMode.RosterOnly;
+        rosterDeploymentSlot = slotIndex;
+
+    }
+
+    public UnitInitializationMode InitializationMode => initializationMode;
+    public int RosterDeploymentSlot => rosterDeploymentSlot;
+
     DynamicStats race = null;
 
     public UnitData data { get; private set; } 
@@ -45,7 +71,10 @@ public class UnitController : MonoBehaviour
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
     public Occupancy occupancy;
+
+
     [Header("Controls Outline Visuals")]
+
   //  private OutlineController characterOutline;
     private bool isHovered = false;
     private bool isSelected = false;
@@ -53,22 +82,142 @@ public class UnitController : MonoBehaviour
     [Header("Selection Circle")]
     [SerializeField] private LineRenderer selectionCircle;
 
-    [SerializeField] private SocketMapping[] socketMappings;
-    [SerializeField] private Transform[] playerSockets;
-    [SerializeField] private Transform weaponRSocket;
-    [SerializeField] private Transform weaponLSocket;
-    [SerializeField] private Transform armorHelmSocket;
-    [SerializeField] private Transform armorBodySocket;
-    [SerializeField] private Transform armorArmsSocket;
-    [SerializeField] private Transform armorLegsSocket;
-    [SerializeField] private Transform armorBootsSocket;
-    private GameObject[] activeEquipmentModels;
+    [SerializeField] private Transform weaponSocket;
+    private GameObject activeWeapon;
+    private GameObject activeRaceModel;
 
-    public void InitializeUnitData() 
+
+    public void InitializeUnitData()
     {
+        TryInitializeUnitData();
+
+    }
+
+    // GridManager calls this before registering the scene wrapper on the grid.
+    // Failing closed prevents an unbound player placeholder from rolling new gear.
+    public bool TryInitializeUnitData()
+    {
+        if (initializationMode == UnitInitializationMode.LegacyScene)
+        {
+            InitializeLegacyUnitData();
+
+            return data != null;
+
+        }
+
+        UnitRoster roster = UnitRoster.Instance;
+        if (!string.IsNullOrEmpty(boundRosterUnitId))
+        {
+            return roster != null &&
+                roster.TryGetDeploymentUnit(rosterDeploymentSlot, out UnitData assigned) &&
+                ReferenceEquals(data, assigned);
+
+        }
+
+        if (roster == null || rosterDeploymentSlot < 0)
+        {
+            Debug.LogError($"Roster mode requires a UnitRoster and valid deployment slot on '{name}'.", this);
+
+            return false;
+
+        }
+
+        if (roster.TryGetDeploymentUnit(rosterDeploymentSlot, out UnitData existing))
+        {
+            if (!roster.TryBindDeploymentUnit(rosterDeploymentSlot, this, out UnitData bound))
+            {
+                Debug.LogError($"Roster unit in slot {rosterDeploymentSlot} is already bound to another scene object.", this);
+
+                return false;
+
+            }
+
+            BindExistingUnitData(existing);
+            boundRosterUnitId = bound.UnitId;
+            Debug.Log($"[UnitRoster] Rebound '{data.characterName}' [{data.UnitId}] " +
+                $"to deployment slot {rosterDeploymentSlot} without generating new gear.", this);
+
+            return true;
+
+        }
+
+        if (initializationMode != UnitInitializationMode.RosterCreateOnceForTesting)
+        {
+            Debug.LogError($"No roster unit assigned to deployment slot {rosterDeploymentSlot} for '{name}'.", this);
+
+            return false;
+
+        }
+
+        // TEMPORARY opt-in bootstrap: retain the exact existing starter logic,
+        // but run it only the first time this deployment slot is empty.
+        InitializeLegacyUnitData();
+        if (data == null || !roster.TryRegisterAndBindNewUnit(data, rosterDeploymentSlot, this))
+        {
+            Debug.LogError($"Could not enroll generated test unit '{name}' in roster slot {rosterDeploymentSlot}.", this);
+
+            return false;
+
+        }
+
+        boundRosterUnitId = data.UnitId;
+        Debug.Log($"[UnitRoster] Created test recruit '{data.characterName}' [{data.UnitId}] " +
+            $"in deployment slot {rosterDeploymentSlot}.", this);
+
+        return true;
+
+    }
+
+    // No CreateNewUnit, starter rolls, mutation OnEquipped or refill here.
+    private void BindExistingUnitData(UnitData persistentData)
+    {
+        if (data != null)
+        {
+            data.LoadoutChanged -= RefreshEquipmentAndMutationGrants;
+
+        }
+
+        data = persistentData;
+        race = data.RaceDefinition;
+        unitName = data.characterName;
+        gameObject.name = unitName;
+        if (Enum.TryParse(data.raceName, true, out RaceNames boundRace))
+        {
+            raceName = boundRace;
+
+        }
+
+        InitializeRaceModel();
+        data.LoadoutChanged += RefreshEquipmentAndMutationGrants;
+        RefreshEquipmentAndMutationGrants();
+
+        // The weapon model is a scene visual, not a second inventory instance.
+        foreach (EquipmentInstance equipment in data.equippedItems)
+        {
+            if (equipment.template != null && equipment.template.weaponModelPrefab != null)
+            {
+                AttachWeapon(equipment.template.weaponModelPrefab);
+
+            }
+
+        }
+
+    }
+
+    private void InitializeLegacyUnitData()
+    {
+        if (data != null)
+        {
+            data.LoadoutChanged -= RefreshEquipmentAndMutationGrants;
+
+        }
+
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName.ToString());
         data = UnitData.CreateNewUnit(unitName, race);
+        gameObject.name = unitName; 
+        InitializeRaceModel();
 
+        
         bool hasFixedStartingMutations = false;
         if (startingMutations != null)
         {
@@ -107,20 +256,17 @@ public class UnitController : MonoBehaviour
                 }
 
                 hasStartingEquipment = true;
-                data.EquipItem(equipment);
+                if (!data.TryEquipStartingItem(equipment))
+                {
+                    Debug.LogWarning($"Starting equipment '{equipment.name}' has no compatible free slot on {unitName}.", this);
+
+                    continue;
+
+                }
 
                 if (equipment.weaponModelPrefab != null)
                 {
-                    int socketIndex = GetSocketIndex(equipment.slot);
-
-                    if (socketIndex >= 0)
-                    {
-                        AttachWeapon(equipment.weaponModelPrefab, socketIndex);
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"No socket mapping for {equipment.name}");
-                    }
+                    AttachWeapon(equipment.weaponModelPrefab);
                 }
 
                 Debug.Log($"Equipped starting item: {equipment.name}");
@@ -132,8 +278,12 @@ public class UnitController : MonoBehaviour
         // Preserve equipment already assigned in existing scenes and prefabs.
         if (!hasStartingEquipment && currentEquipment != null)
         {
-            data.EquipItem(currentEquipment);
-            Debug.Log($"Equipped existing starting item: {currentEquipment.name}");
+            if (currentEquipment is EquipmentData legacyEquipment &&
+                data.TryEquipStartingItem(legacyEquipment))
+            {
+                Debug.Log($"Equipped existing starting item: {currentEquipment.name}");
+
+            }
 
         }
 
@@ -151,7 +301,7 @@ public class UnitController : MonoBehaviour
 
                 if (!data.TryAddConsumable(consumable))
                 {
-                    Debug.LogWarning($"Consumable limit ({UnitData.ConsumableCapacity}) reached for {unitName}. " +
+                    Debug.LogWarning($"No unlocked consumable slot available on {unitName}. " +
                         $"Skipping '{consumable.itemName}'.", this);
 
                 }
@@ -160,10 +310,12 @@ public class UnitController : MonoBehaviour
 
         }
 
+        data.LoadoutChanged += RefreshEquipmentAndMutationGrants;
         RefreshEquipmentAndMutationGrants();
 
         // Starting passive stat grants can change maximum resources.
         data.RefillResourcesToMax();
+
     }
     private void InitializeStartingMutation(MutationID id)
     {
@@ -531,6 +683,29 @@ public class UnitController : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+        if (data != null)
+        {
+            data.LoadoutChanged -= RefreshEquipmentAndMutationGrants;
+
+            if (!string.IsNullOrEmpty(boundRosterUnitId))
+            {
+                // Remove scene-owned status grants, without refilling HP/AP/charges
+                // or modifying any actual equipment or consumable instances.
+                data.ClearSceneRuntimeStatModifiers();
+                if (UnitRoster.Instance != null)
+                {
+                    UnitRoster.Instance.ReleaseSceneBinding(boundRosterUnitId, this);
+
+                }
+
+            }
+
+        }
+
+    }
+
     private void RefreshEquipmentAndMutationGrants()
     {
         if (data == null)
@@ -598,10 +773,13 @@ public class UnitController : MonoBehaviour
     public void SetSelected(bool selected)
     {
         isSelected = selected;
+        UnitFaction factionController = GetComponent<UnitFaction>();
 
         if (selectionCircle != null)
         {
             selectionCircle.enabled = selected;
+
+          
         }
     }
 
@@ -615,21 +793,152 @@ public class UnitController : MonoBehaviour
         return data.currentActionPoints;
     }
 
+    // The model is a VISUAL child of this combat wrapper, not another UnitData.
+    // Safe to call again when binding an existing roster unit: it keeps the same
+    // race model if present and only replaces a mismatched playermodel child.
+    public bool InitializeRaceModel()
+    {
+        if (data == null || data.RaceDefinition == null)
+        {
+            return false;
+
+        }
+
+        GameObject prefab = data.RaceDefinition.RaceModelPrefab;
+        if (prefab == null)
+        {
+            Debug.LogWarning($"[UnitVisual] No model prefab assigned for {data.raceName}.", this);
+
+            return false;
+
+        }
+
+        GameObject oldModel = activeRaceModel;
+        if (oldModel == null)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.name.StartsWith("playermodel_", StringComparison.OrdinalIgnoreCase))
+                {
+                    oldModel = child.gameObject;
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+        if (oldModel != null && string.Equals(
+            oldModel.name.Replace("(Clone)", "").Trim(), prefab.name, StringComparison.OrdinalIgnoreCase))
+        {
+            activeRaceModel = oldModel;
+            ReconnectRaceVisualComponents(null, oldModel);
+
+            return true;
+
+        }
+
+        GameObject model = Instantiate(prefab, transform, false);
+        model.name = prefab.name;
+        model.transform.localPosition = Vector3.zero;
+        model.transform.localRotation = Quaternion.identity;
+        // Leave the prefab's authored scale intact (Orcs and other races differ).
+        activeRaceModel = model;
+        ReconnectRaceVisualComponents(oldModel, model);
+
+        if (oldModel != null)
+        {
+            oldModel.SetActive(false);
+            Destroy(oldModel);
+
+        }
+
+        return true;
+
+    }
+
+    private void ReconnectRaceVisualComponents(GameObject oldModel, GameObject newModel)
+    {
+        Transform oldRoot = oldModel != null ? oldModel.transform : null;
+        Animator newAnimator = newModel.GetComponentInChildren<Animator>(true);
+        UnitMovements movement = GetComponent<UnitMovements>();
+        if (movement != null)
+        {
+            movement.RefreshRaceAnimator(newAnimator);
+
+        }
+
+        UnitFacing facing = GetComponent<UnitFacing>();
+        if (facing != null)
+        {
+            facing.RebindRaceModel(oldRoot, newModel.transform);
+
+        }
+
+        // Scene-prefab sockets can refer to a previous race model.
+        if (activeWeapon != null)
+        {
+            Destroy(activeWeapon);
+            activeWeapon = null;
+
+        }
+
+        weaponSocket = FindVisualChild(newModel.transform, "wpnSkt_R");
+        if (weaponSocket == null)
+        {
+            weaponSocket = FindVisualChild(newModel.transform, "wpnSkt_L");
+
+        }
+
+        if (weaponSocket == null)
+        {
+            Debug.LogWarning($"[UnitVisual] {data.characterName}: missing weapon socket on {newModel.name}.", this);
+
+        }
+
+        if (selectionCircle == null || (oldRoot != null && selectionCircle.transform.IsChildOf(oldRoot)))
+        {
+            selectionCircle = newModel.GetComponentInChildren<LineRenderer>(true);
+            InitializeSelectionCircle();
+
+        }
+
+        OutlineController outline = GetComponent<OutlineController>();
+        if (outline != null)
+        {
+            outline.RebindRaceModel(oldRoot, newModel.transform);
+
+        }
+
+    }
+
+    private static Transform FindVisualChild(Transform root, string childName)
+    {
+        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        {
+            if (string.Equals(child.name, childName, StringComparison.OrdinalIgnoreCase))
+            {
+                return child;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
     private void Awake()
     {
-        playerSockets = new Transform[]
-        {
-            weaponRSocket,
-            weaponLSocket,
-            armorHelmSocket,
-            armorBodySocket,
-            armorArmsSocket,
-            armorLegsSocket,
-            armorBootsSocket
-        };
+        InitializeSelectionCircle();
 
-        activeEquipmentModels = new GameObject[playerSockets.Length];
+    }
 
+    private void InitializeSelectionCircle()
+    {
+        UnitFaction factionController = GetComponent<UnitFaction>();
         if (selectionCircle == null)
         {
             return;
@@ -652,41 +961,80 @@ public class UnitController : MonoBehaviour
             selectionCircle.SetPosition(i, new Vector3(x, 0f, z));
         }
 
+        if (factionController.GetFactionID() != "playerFaction") 
+        {
+            if(factionController.GetFactionID() == "raiderFaction") 
+            {
+                selectionCircle.material = GameDataBaseLoader.Instance.selectionCircle[2];
+            }
+            else if(factionController.GetFactionID() == "civilians") 
+            {
+                selectionCircle.material = GameDataBaseLoader.Instance.selectionCircle[1];
+
+            }
+        }
+        
+
         selectionCircle.enabled = false;
     }
-    public bool AttachWeapon(GameObject weaponPrefab, int socketIndex = 0)
+    public bool AttachWeapon(GameObject weaponPrefab)
     {
-        if (weaponPrefab == null || playerSockets == null || activeEquipmentModels == null || socketIndex < 0 || socketIndex >= playerSockets.Length ||     playerSockets[socketIndex] == null)
+        if (weaponPrefab == null || weaponSocket == null)
         {
             return false;
         }
 
-        if (activeEquipmentModels[socketIndex] != null)
+        if (activeWeapon != null)
         {
-            Destroy(activeEquipmentModels[socketIndex]);
+            Destroy(activeWeapon);
         }
 
-        activeEquipmentModels[socketIndex] = Instantiate(weaponPrefab, playerSockets[socketIndex], false);
+        activeWeapon = Instantiate(weaponPrefab, weaponSocket, false);
 
-        activeEquipmentModels[socketIndex].transform.localPosition = Vector3.zero;
-        activeEquipmentModels[socketIndex].transform.localRotation = Quaternion.identity;
+        activeWeapon.transform.localPosition = Vector3.zero;
+        activeWeapon.transform.localRotation = Quaternion.identity;
 
         return true;
     }
 
-    private int GetSocketIndex(EquipmentSlots slot)
+    public void SetFogState(FogState state) 
     {
-        foreach (SocketMapping mapping in socketMappings)
-        {
-            if (mapping.equipmentSlot == slot)
-            {
-                return mapping.socketIndex;
-            }
-        }
+        
+        
+        Transform child = transform.Find("Floating Health Bar/Background");
+        GameObject canvas = child.gameObject;
+        Renderer[] character = activeRaceModel.GetComponentsInChildren<Renderer>();
 
-        return -1;
+
+      
+        switch (state)
+        {
+            case FogState.CLEAR:
+                {
+
+                    foreach (Renderer bodypart in character) 
+                    {
+                        bodypart.enabled = true;
+                    }
+
+                    canvas.SetActive(true);
+
+                }
+                break;
+            case FogState.DARK:
+                {
+
+                    foreach (Renderer bodypart in character)
+                    {
+                        bodypart.enabled = false;
+                    }
+
+                    canvas.SetActive(false);
+
+                }
+                break;
+        }
     }
 }
-
 
 

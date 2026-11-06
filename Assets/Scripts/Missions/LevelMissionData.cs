@@ -14,6 +14,11 @@ public sealed class LevelObjectiveSetup
 
     [Header("Level-specific State")]
     [SerializeField] private bool optional;
+    [Header("Objective World Marker")]
+    [Tooltip("Higher number wins when several objectives mark the same unit/object. " +
+             "At equal values, specific Target ID objectives beat broad elimination objectives.")]
+    [SerializeField] private int worldMarkerPriority;
+
     [SerializeField] private bool initiallyVisible = true;
     [SerializeField] private bool initiallyActive = true;
     [Tooltip("If true, eliminations occurring before activation still count.")]
@@ -23,6 +28,7 @@ public sealed class LevelObjectiveSetup
     public ObjectiveDefinition Template => template;
     public string ObjectiveId => objectiveId;
     public bool Optional => optional;
+    public int WorldMarkerPriority => worldMarkerPriority;
     public bool InitiallyVisible => initiallyVisible;
     public bool InitiallyActive => initiallyActive;
     public bool CountWhileLocked => countWhileLocked;

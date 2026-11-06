@@ -42,7 +42,11 @@ public class OutlineController : MonoBehaviour
     public void SetupRenderer() 
     {
         properties = new MaterialPropertyBlock();
-        outlineRenderer.enabled = false;
+        if (outlineRenderer != null)
+        {
+            outlineRenderer.enabled = false;
+
+        }
 
         if (selectionCircle != null)
         {
@@ -64,6 +68,43 @@ public class OutlineController : MonoBehaviour
         }
     }
 
+    // The preplaced model may be replaced by the race-defined model.
+    public void RebindRaceModel(Transform oldVisualRoot, Transform newVisualRoot)
+    {
+        if (selectionCircle == null ||
+            (oldVisualRoot != null && selectionCircle.transform.IsChildOf(oldVisualRoot)))
+        {
+            selectionCircle = newVisualRoot.GetComponentInChildren<LineRenderer>(true);
+
+        }
+
+        if (outlineRenderer != null && oldVisualRoot != null &&
+            outlineRenderer.transform.IsChildOf(oldVisualRoot))
+        {
+            string oldRendererName = outlineRenderer.gameObject.name;
+            outlineRenderer = null;
+            foreach (Renderer candidate in newVisualRoot.GetComponentsInChildren<Renderer>(true))
+            {
+                if (candidate.gameObject.name == oldRendererName)
+                {
+                    outlineRenderer = candidate;
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+        if (outlineRenderer != null)
+        {
+            SetupRenderer();
+
+        }
+
+    }
+
     public void SetHovered(bool hovered) 
     {
         isHovered = hovered;
@@ -80,6 +121,18 @@ public class OutlineController : MonoBehaviour
 
     public void UpdateColors() 
     {
+        if (outlineRenderer == null)
+        {
+            return;
+
+        }
+
+        if (properties == null)
+        {
+            properties = new MaterialPropertyBlock();
+
+        }
+
         outlineRenderer.GetPropertyBlock(properties);
         Color color;
         if (isSelected)
