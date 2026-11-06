@@ -36,6 +36,13 @@ public class UnitMovements : MonoBehaviour
 
     }
     
+    // Called after UnitController replaces the race-specific model.
+    public void RefreshRaceAnimator(Animator animator)
+    {
+        animBaseChar = animator;
+
+    }
+
     public void Update() 
     {
 

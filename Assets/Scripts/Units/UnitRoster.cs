@@ -58,6 +58,13 @@ public sealed class UnitRoster : MonoBehaviour
     private readonly Dictionary<string, UnitController> activeBindings =
         new Dictionary<string, UnitController>(StringComparer.Ordinal);
 
+    public const int MaximumCrewSlots = 9;
+    public const int StartingCrewSlots = 4;
+
+    [Header("Crew selection (remaining five slots are research gated)")]
+    [SerializeField, Range(StartingCrewSlots, MaximumCrewSlots)] private int unlockedCrewSlots = StartingCrewSlots;
+    public int UnlockedCrewSlots => Mathf.Clamp(unlockedCrewSlots, StartingCrewSlots, MaximumCrewSlots);
+
     public IReadOnlyList<UnitData> Units => units;
     public IReadOnlyList<UnitRosterDeployment> Deployments => deployments;
     public event Action RosterChanged;
@@ -197,7 +204,11 @@ public sealed class UnitRoster : MonoBehaviour
             // Legacy mutation bonuses are applied exactly once here. Binding a
             // scene wrapper must never invoke OnEquipped or add the bonuses again.
             unit.RefillResourcesToMax();
-            if (!TryRegisterUnit(unit) || !TryAssignDeploymentSlot(starter.deploymentSlot, unit.UnitId))
+            // All starter units belong to the roster. Only the first four are
+            // selected for a mission until research unlocks additional slots.
+            if (!TryRegisterUnit(unit) ||
+                (starter.deploymentSlot < UnlockedCrewSlots &&
+                 !TryAssignDeploymentSlot(starter.deploymentSlot, unit.UnitId)))
             {
                 Debug.LogError($"[UnitRoster] Could not register starter '{starter.characterName}'.", this);
 
@@ -411,7 +422,8 @@ public sealed class UnitRoster : MonoBehaviour
 
     public bool TryAssignDeploymentSlot(int slotIndex, string unitId)
     {
-        if (slotIndex < 0 || !TryGetUnit(unitId, out UnitData unit))
+        if (slotIndex < 0 || slotIndex >= UnlockedCrewSlots ||
+            !TryGetUnit(unitId, out UnitData unit))
         {
             return false;
 
@@ -454,6 +466,99 @@ public sealed class UnitRoster : MonoBehaviour
         }
 
         deployments.Add(new UnitRosterDeployment(slotIndex, unitId));
+        RosterChanged?.Invoke();
+
+        return true;
+
+    }
+
+    // The research system may call this after verifying its actual requirements.
+    // The crew UI deliberately has no button to bypass those requirements.
+    public bool TryUnlockNextCrewSlotFromResearch()
+    {
+        if (UnlockedCrewSlots >= MaximumCrewSlots)
+        {
+            return false;
+
+        }
+
+        unlockedCrewSlots = UnlockedCrewSlots + 1;
+        RosterChanged?.Invoke();
+
+        return true;
+
+    }
+
+    // Select a permanent roster unit for the given unlocked mission slot.
+    // If that unit is already in another slot, swap their assignments.
+    // No UnitData or item instances are copied, recreated or lost.
+    public bool TryChooseCrewMember(int slotIndex, string unitId)
+    {
+        if (slotIndex < 0 || slotIndex >= UnlockedCrewSlots ||
+            !TryGetUnit(unitId, out UnitData unit) || IsUnitBound(unitId))
+        {
+            return false;
+
+        }
+
+        UnitRosterDeployment target = null;
+        UnitRosterDeployment source = null;
+        foreach (UnitRosterDeployment assignment in deployments)
+        {
+            if (assignment.SlotIndex == slotIndex)
+            {
+                target = assignment;
+
+            }
+
+            if (string.Equals(assignment.UnitId, unitId, StringComparison.Ordinal))
+            {
+                source = assignment;
+
+            }
+
+        }
+
+        if (target == source && target != null)
+        {
+            return true;
+
+        }
+
+        if (target != null && IsUnitBound(target.UnitId))
+        {
+            return false;
+
+        }
+
+        if (source != null)
+        {
+            if (target != null)
+            {
+                string replacedId = target.UnitId;
+                target.SetUnit(unitId);
+                source.SetUnit(replacedId);
+
+            }
+            else
+            {
+                deployments.Remove(source);
+                deployments.Add(new UnitRosterDeployment(slotIndex, unitId));
+
+            }
+
+        }
+        else if (target != null)
+        {
+            target.SetUnit(unitId);
+
+        }
+        else
+        {
+            deployments.Add(new UnitRosterDeployment(slotIndex, unitId));
+
+        }
+
         RosterChanged?.Invoke();
 
         return true;
@@ -583,6 +688,7 @@ public sealed class UnitRoster : MonoBehaviour
         }
 
         units.Clear();
+        unlockedCrewSlots = StartingCrewSlots;
         deployments.Clear();
         activeBindings.Clear();
         RosterChanged?.Invoke();
