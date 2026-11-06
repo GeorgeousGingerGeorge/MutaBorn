@@ -15,6 +15,7 @@ public class GridNode
     [Header("Node Inforamtion")]
     public float movementCost = 2f;
     public TerrainType currentTerrain { get; private set; }
+   
 
     
   
@@ -37,7 +38,7 @@ public class GridNode
     {
         currentTerrain = type;
     }
-
+  
     //Getters;
 
     

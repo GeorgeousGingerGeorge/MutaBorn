@@ -102,8 +102,11 @@ public sealed class MissionFactionSpawnArea : MonoBehaviour
                     if (!MissionSpawnAreaTiles.FitsEntirelyInsideArea(node, group.unitPrefab.footPrint,
                         start.coords, width, depth, floor) ||
                         !MissionSpawnAreaTiles.IsFootprintFree(node, group.unitPrefab.footPrint, reserved) ||
-                        !occupancy.IsFootPrintMovable(node, group.unitPrefab))
+                        !occupancy.IsFootPrintMovable(node, group.unitPrefab) ||
+                         occupancy.NodeOwnedBySolidObstacle(node))
                     {
+                        
+                      
                         continue;
 
                     }

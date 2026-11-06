@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using UnityEngine;
 using MutaBorn.Gameplay;
+using UnityEngine.UI;
 
 // Legacy units stay scene-local. Only explicitly configured player units
 // participate in the permanent roster.
@@ -20,6 +21,12 @@ public class UnitController : MonoBehaviour
     public Vector2Int footPrint => footPrintSize;
     [Header("Unit's Direction")]
     public UnitFacing unitDirection { get; private set; }
+
+    [Header("Unit's Vision")]
+    [SerializeField] private Transform VisionOrigin;
+    public Transform visionOrigin => VisionOrigin;
+
+    public FogState fogstate { get; private set; } = FogState.CLEAR;
    
 
     [Header("Units Data- Status, Inventory, Equipment, Mutations")]
@@ -64,7 +71,10 @@ public class UnitController : MonoBehaviour
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
     public Occupancy occupancy;
+
+
     [Header("Controls Outline Visuals")]
+
   //  private OutlineController characterOutline;
     private bool isHovered = false;
     private bool isSelected = false;
@@ -170,6 +180,7 @@ public class UnitController : MonoBehaviour
         data = persistentData;
         race = data.RaceDefinition;
         unitName = data.characterName;
+        gameObject.name = unitName;
         if (Enum.TryParse(data.raceName, true, out RaceNames boundRace))
         {
             raceName = boundRace;
@@ -203,6 +214,7 @@ public class UnitController : MonoBehaviour
 
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName.ToString());
         data = UnitData.CreateNewUnit(unitName, race);
+        gameObject.name = unitName; 
         InitializeRaceModel();
 
         
@@ -761,10 +773,13 @@ public class UnitController : MonoBehaviour
     public void SetSelected(bool selected)
     {
         isSelected = selected;
+        UnitFaction factionController = GetComponent<UnitFaction>();
 
         if (selectionCircle != null)
         {
             selectionCircle.enabled = selected;
+
+          
         }
     }
 
@@ -923,6 +938,7 @@ public class UnitController : MonoBehaviour
 
     private void InitializeSelectionCircle()
     {
+        UnitFaction factionController = GetComponent<UnitFaction>();
         if (selectionCircle == null)
         {
             return;
@@ -945,6 +961,20 @@ public class UnitController : MonoBehaviour
             selectionCircle.SetPosition(i, new Vector3(x, 0f, z));
         }
 
+        if (factionController.GetFactionID() != "playerFaction") 
+        {
+            if(factionController.GetFactionID() == "raiderFaction") 
+            {
+                selectionCircle.material = GameDataBaseLoader.Instance.selectionCircle[2];
+            }
+            else if(factionController.GetFactionID() == "civilians") 
+            {
+                selectionCircle.material = GameDataBaseLoader.Instance.selectionCircle[1];
+
+            }
+        }
+        
+
         selectionCircle.enabled = false;
     }
     public bool AttachWeapon(GameObject weaponPrefab)
@@ -965,6 +995,45 @@ public class UnitController : MonoBehaviour
         activeWeapon.transform.localRotation = Quaternion.identity;
 
         return true;
+    }
+
+    public void SetFogState(FogState state) 
+    {
+        
+        
+        Transform child = transform.Find("Floating Health Bar/Background");
+        GameObject canvas = child.gameObject;
+        Renderer[] character = activeRaceModel.GetComponentsInChildren<Renderer>();
+
+
+      
+        switch (state)
+        {
+            case FogState.CLEAR:
+                {
+
+                    foreach (Renderer bodypart in character) 
+                    {
+                        bodypart.enabled = true;
+                    }
+
+                    canvas.SetActive(true);
+
+                }
+                break;
+            case FogState.DARK:
+                {
+
+                    foreach (Renderer bodypart in character)
+                    {
+                        bodypart.enabled = false;
+                    }
+
+                    canvas.SetActive(false);
+
+                }
+                break;
+        }
     }
 }
 

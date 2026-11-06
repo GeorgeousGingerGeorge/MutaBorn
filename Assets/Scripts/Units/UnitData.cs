@@ -150,6 +150,10 @@ public class UnitData
     public int rangeDamage { get; private set; }
     public int magicDamage { get; private set; }
     public int armor { get; private set; }
+    public int maxLineOfSight { get; private set; }
+    public int currentLineOfSight { get; private set; }
+    public int maxFieldOfView { get; private set; }
+    public int currentFieldOfView { get; private set; }
 
     // Ward and damage resistances are derived from equipped gear, not cached
     // separately. Future stat modifiers can extend these accessors.
@@ -478,6 +482,16 @@ public class UnitData
             CombatFloatingFeedback.ReportResourceGain(this, ResourceIdentifier.ActionPoints, currentActionPoints - before);
 
         }
+
+    }
+    public void ModifyFieldOfView(int amount) 
+    {
+        currentFieldOfView = Mathf.Clamp(currentFieldOfView + amount, 45, maxFieldOfView);
+
+    }
+    public void ModifyLineOfSight(int amount) 
+    {
+        currentLineOfSight = Mathf.Clamp(currentLineOfSight + amount, 2, maxLineOfSight);
 
     }
 
@@ -1365,13 +1379,16 @@ public class UnitData
         newUnit.CalcMagicDamage(race);
         newUnit.CalcArmor(race);
         newUnit.CalcWill(race);
-
+        newUnit.maxLineOfSight = race.lineOfSight;
+        newUnit.maxFieldOfView = race.fieldOfView;
         newUnit.InitializeTrackers();
         newUnit.EnsureLoadoutSlots();
 
         newUnit.currentHealth = newUnit.maxHealth;
         newUnit.currentMana = newUnit.maxMana;
         newUnit.currentActionPoints = newUnit.maxActionPoints;
+        newUnit.currentLineOfSight = newUnit.maxLineOfSight;
+        newUnit.currentFieldOfView = newUnit.maxFieldOfView;
         return newUnit; 
         
     }

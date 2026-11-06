@@ -83,7 +83,7 @@ internal static class MissionSpawnAreaTiles
         return true;
 
     }
-
+   
     internal static bool IsFootprintFree(GridNode anchor, Vector2Int footprint, HashSet<Vector2Int> reserved)
     {
         for (int x = 0; x < footprint.x; x++)
