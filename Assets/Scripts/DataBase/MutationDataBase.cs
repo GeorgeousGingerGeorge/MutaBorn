@@ -37,6 +37,9 @@ public sealed class MutationNodeDefinition
     [Header("Optional Shared Collections (For Existing Assets)")]
     [SerializeField] private ActionSet actionSet;
     [SerializeField] private EffectCollection effectCollection;
+    [Header("Loadout Slots Occupied By This Mutation")]
+    [Tooltip("Optional: these slots cannot hold normal items while the mutation is active.")]
+    [SerializeField] private UnitSlotId[] occupiedEquipmentSlots = Array.Empty<UnitSlotId>();
     [Header("Next Evolution Choices")]
     [SerializeField] private MutationID[] nextEvolutions = Array.Empty<MutationID>();
 
@@ -51,6 +54,8 @@ public sealed class MutationNodeDefinition
     public ActionSet ActionSet => actionSet;
     public EffectCollection EffectCollection => effectCollection;
     public IReadOnlyList<MutationID> NextEvolutions => nextEvolutions ?? Array.Empty<MutationID>();
+    public IReadOnlyList<UnitSlotId> OccupiedEquipmentSlots =>
+        occupiedEquipmentSlots ?? Array.Empty<UnitSlotId>();
 
     public bool CanEvolveTo(MutationID next)
     {

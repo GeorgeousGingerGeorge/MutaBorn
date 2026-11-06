@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400000}
+  - component: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: UnitRoster
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f2064dd87a5460fb2efc3a72a16e1ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitRoster
+  createStarterUnitsOnAwake: 1
+  starterUnits:
+  - deploymentSlot: 0
+    characterName: Goblino
+    raceDefinition: {fileID: 11400000, guid: 711db5ce45cfe224d878a4892d56cc39, type: 2}
+    currentMutation: 8
+    startingMutations: []
+    startingEquipment:
+    - {fileID: 11400000, guid: b5a887e4ff7ff584ba9eab30d1a6eb2f, type: 2}
+    - {fileID: 11400000, guid: a5dae2b85e394f00a81191d35ec9fc1f, type: 2}
+    - {fileID: 0}
+    - {fileID: 11400000, guid: 8680ad92ae581ab49872c622b25075d8, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    startingConsumables:
+    - {fileID: 11400000, guid: 5524524084ab43099628b41770acdf97, type: 2}
+    - {fileID: 11400000, guid: 41fe9655690e4985b3c9a443adafb52b, type: 2}
+    legacyEquipment: {fileID: 0}
+  - deploymentSlot: 1
+    characterName: Tristram
+    raceDefinition: {fileID: 11400000, guid: f65f9be1cd6a5964fb2d4608f78a3a2f, type: 2}
+    currentMutation: 2
+    startingMutations: []
+    startingEquipment:
+    - {fileID: 11400000, guid: 083813b8b10ac7340aa72c5ba283692f, type: 2}
+    - {fileID: 11400000, guid: 8680ad92ae581ab49872c622b25075d8, type: 2}
+    - {fileID: 11400000, guid: 8680ad92ae581ab49872c622b25075d8, type: 2}
+    - {fileID: 11400000, guid: 18e88434cf014e17b5c57265f09fb018, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    startingConsumables:
+    - {fileID: 11400000, guid: abbfbb7c51134a6ab3cc0b4baadc19e0, type: 2}
+    - {fileID: 11400000, guid: 2cd8a6e5bddd4514946238aadcd20a6b, type: 2}
+    legacyEquipment: {fileID: 11400000, guid: e96c41b3e172ea1418a16876e593f4d8, type: 2}
+  - deploymentSlot: 2
+    characterName: Fle
+    raceDefinition: {fileID: 11400000, guid: bfc8285b8a5a6df418f780d27117142d, type: 2}
+    currentMutation: 1
+    startingMutations: []
+    startingEquipment:
+    - {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
+    - {fileID: 11400000, guid: ef9a37e997aa8d645a5d334d57fd4bf2, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    startingConsumables:
+    - {fileID: 11400000, guid: 6e281e7d08fc44ecb44b5d04479fa821, type: 2}
+    - {fileID: 11400000, guid: acabf9cb1088424680785942017fe100, type: 2}
+    legacyEquipment: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
+  - deploymentSlot: 3
+    characterName: Gibbinz
+    raceDefinition: {fileID: 11400000, guid: 711db5ce45cfe224d878a4892d56cc39, type: 2}
+    currentMutation: 4
+    startingMutations: []
+    startingEquipment:
+    - {fileID: 11400000, guid: 90b92e6c18084671a735f677ded55c88, type: 2}
+    - {fileID: 11400000, guid: 18e88434cf014e17b5c57265f09fb018, type: 2}
+    - {fileID: 11400000, guid: 1297319a33b238b4f83428898f2fe0cc, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    startingConsumables:
+    - {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
+    - {fileID: 11400000, guid: e5e82b61b43b48e8b80377853620cbc5, type: 2}
+    legacyEquipment: {fileID: 0}
+  - deploymentSlot: 4
+    characterName: Digy
+    raceDefinition: {fileID: 11400000, guid: f65f9be1cd6a5964fb2d4608f78a3a2f, type: 2}
+    currentMutation: 9
+    startingMutations: []
+    startingEquipment:
+    - {fileID: 11400000, guid: a22375e97d5554140b345f8f44dc9b96, type: 2}
+    - {fileID: 11400000, guid: ef9a37e997aa8d645a5d334d57fd4bf2, type: 2}
+    - {fileID: 11400000, guid: 11c18a88c7d64b4a943844df2f7b83db, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    startingConsumables:
+    - {fileID: 11400000, guid: e9971da9db65451b858e6f6686a9c6d8, type: 2}
+    - {fileID: 11400000, guid: f5e6620fc6ca4deba360e31228adafc6, type: 2}
+    legacyEquipment: {fileID: 11400000, guid: e96c41b3e172ea1418a16876e593f4d8, type: 2}
+  - deploymentSlot: 5
+    characterName: Elfinstien
+    raceDefinition: {fileID: 11400000, guid: bfc8285b8a5a6df418f780d27117142d, type: 2}
+    currentMutation: 10
+    startingMutations: []
+    startingEquipment:
+    - {fileID: 11400000, guid: c70bd34fa9736a04c9ca10ea7fa93534, type: 2}
+    - {fileID: 11400000, guid: 9841b40498097f54b95324da0ed2b3c1, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    startingConsumables:
+    - {fileID: 11400000, guid: 2cd8a6e5bddd4514946238aadcd20a6b, type: 2}
+    - {fileID: 11400000, guid: 49effcffaced4aa3a0155eff5c42b03b, type: 2}
+    legacyEquipment: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}

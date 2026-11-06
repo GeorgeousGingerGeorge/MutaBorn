@@ -2,6 +2,16 @@ using System.Text;
 using UnityEngine;
 using MutaBorn.Gameplay;
 
+// Legacy units stay scene-local. Only explicitly configured player units
+// participate in the permanent roster.
+public enum UnitInitializationMode
+{
+    LegacyScene = 0,
+    RosterOnly = 1,
+    RosterCreateOnceForTesting = 2
+
+}
+
 public class UnitController : MonoBehaviour
 {
     [Header("Unit's Size")]
@@ -21,14 +31,22 @@ public class UnitController : MonoBehaviour
     [Header("Evolution Testing (Play Mode)")]
     [SerializeField] private MutationID testEvolutionCurrent = MutationID.none;
     [SerializeField] private MutationID testEvolutionNext = MutationID.none;
-    [Header("Starting Equipment - 6 Test Slots (Duplicates Allowed)")]
+    [Header("Legacy Scene Starting Equipment (Temporary)")]
     [SerializeField] private EquipmentData[] startingEquipment = new EquipmentData[6];
 
-    [Header("Starting Consumables - 2 Mission Slots")]
+    [Header("Legacy Scene Starting Consumables (Temporary)")]
     [SerializeField] private ConsumableData[] startingConsumables = new ConsumableData[2];
 
     // Retained for pre-existing scenes/prefabs. Used only if the new array is empty.
     [SerializeField, HideInInspector] public ItemData currentEquipment;
+    [Header("Optional Permanent Player Roster")]
+    [SerializeField] private UnitInitializationMode initializationMode = UnitInitializationMode.LegacyScene;
+    [SerializeField, Min(0)] private int rosterDeploymentSlot;
+    private string boundRosterUnitId;
+
+    public UnitInitializationMode InitializationMode => initializationMode;
+    public int RosterDeploymentSlot => rosterDeploymentSlot;
+
     DynamicStats race = null;
 
     public UnitData data { get; private set; } 
@@ -48,8 +66,123 @@ public class UnitController : MonoBehaviour
     private GameObject activeWeapon;
 
 
-    public void InitializeUnitData() 
+    public void InitializeUnitData()
     {
+        TryInitializeUnitData();
+
+    }
+
+    // GridManager calls this before registering the scene wrapper on the grid.
+    // Failing closed prevents an unbound player placeholder from rolling new gear.
+    public bool TryInitializeUnitData()
+    {
+        if (initializationMode == UnitInitializationMode.LegacyScene)
+        {
+            InitializeLegacyUnitData();
+
+            return data != null;
+
+        }
+
+        UnitRoster roster = UnitRoster.Instance;
+        if (!string.IsNullOrEmpty(boundRosterUnitId))
+        {
+            return roster != null &&
+                roster.TryGetDeploymentUnit(rosterDeploymentSlot, out UnitData assigned) &&
+                ReferenceEquals(data, assigned);
+
+        }
+
+        if (roster == null || rosterDeploymentSlot < 0)
+        {
+            Debug.LogError($"Roster mode requires a UnitRoster and valid deployment slot on '{name}'.", this);
+
+            return false;
+
+        }
+
+        if (roster.TryGetDeploymentUnit(rosterDeploymentSlot, out UnitData existing))
+        {
+            if (!roster.TryBindDeploymentUnit(rosterDeploymentSlot, this, out UnitData bound))
+            {
+                Debug.LogError($"Roster unit in slot {rosterDeploymentSlot} is already bound to another scene object.", this);
+
+                return false;
+
+            }
+
+            BindExistingUnitData(existing);
+            boundRosterUnitId = bound.UnitId;
+            Debug.Log($"[UnitRoster] Rebound '{data.characterName}' [{data.UnitId}] " +
+                $"to deployment slot {rosterDeploymentSlot} without generating new gear.", this);
+
+            return true;
+
+        }
+
+        if (initializationMode != UnitInitializationMode.RosterCreateOnceForTesting)
+        {
+            Debug.LogError($"No roster unit assigned to deployment slot {rosterDeploymentSlot} for '{name}'.", this);
+
+            return false;
+
+        }
+
+        // TEMPORARY opt-in bootstrap: retain the exact existing starter logic,
+        // but run it only the first time this deployment slot is empty.
+        InitializeLegacyUnitData();
+        if (data == null || !roster.TryRegisterAndBindNewUnit(data, rosterDeploymentSlot, this))
+        {
+            Debug.LogError($"Could not enroll generated test unit '{name}' in roster slot {rosterDeploymentSlot}.", this);
+
+            return false;
+
+        }
+
+        boundRosterUnitId = data.UnitId;
+        Debug.Log($"[UnitRoster] Created test recruit '{data.characterName}' [{data.UnitId}] " +
+            $"in deployment slot {rosterDeploymentSlot}.", this);
+
+        return true;
+
+    }
+
+    // No CreateNewUnit, starter rolls, mutation OnEquipped or refill here.
+    private void BindExistingUnitData(UnitData persistentData)
+    {
+        if (data != null)
+        {
+            data.LoadoutChanged -= RefreshEquipmentAndMutationGrants;
+
+        }
+
+        data = persistentData;
+        race = data.RaceDefinition;
+        unitName = data.characterName;
+        data.LoadoutChanged += RefreshEquipmentAndMutationGrants;
+        RefreshEquipmentAndMutationGrants();
+
+        // The weapon model is a scene visual, not a second inventory instance.
+        foreach (EquipmentInstance equipment in data.equippedItems)
+        {
+            if (equipment.template != null && equipment.template.weaponModelPrefab != null)
+            {
+                AttachWeapon(equipment.template.weaponModelPrefab);
+
+            }
+
+        }
+
+    }
+
+    private void InitializeLegacyUnitData()
+    {
+        if (data != null)
+        {
+            data.LoadoutChanged -= RefreshEquipmentAndMutationGrants;
+
+        }
+
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName.ToString());
         data = UnitData.CreateNewUnit(unitName, race);
 
@@ -92,8 +225,14 @@ public class UnitController : MonoBehaviour
                 }
 
                 hasStartingEquipment = true;
-                data.EquipItem(equipment);
-                
+                if (!data.TryEquipStartingItem(equipment))
+                {
+                    Debug.LogWarning($"Starting equipment '{equipment.name}' has no compatible free slot on {unitName}.", this);
+
+                    continue;
+
+                }
+
                 if (equipment.weaponModelPrefab != null)
                 {
                     AttachWeapon(equipment.weaponModelPrefab);
@@ -108,8 +247,12 @@ public class UnitController : MonoBehaviour
         // Preserve equipment already assigned in existing scenes and prefabs.
         if (!hasStartingEquipment && currentEquipment != null)
         {
-            data.EquipItem(currentEquipment);
-            Debug.Log($"Equipped existing starting item: {currentEquipment.name}");
+            if (currentEquipment is EquipmentData legacyEquipment &&
+                data.TryEquipStartingItem(legacyEquipment))
+            {
+                Debug.Log($"Equipped existing starting item: {currentEquipment.name}");
+
+            }
 
         }
 
@@ -127,7 +270,7 @@ public class UnitController : MonoBehaviour
 
                 if (!data.TryAddConsumable(consumable))
                 {
-                    Debug.LogWarning($"Consumable limit ({UnitData.ConsumableCapacity}) reached for {unitName}. " +
+                    Debug.LogWarning($"No unlocked consumable slot available on {unitName}. " +
                         $"Skipping '{consumable.itemName}'.", this);
 
                 }
@@ -136,6 +279,7 @@ public class UnitController : MonoBehaviour
 
         }
 
+        data.LoadoutChanged += RefreshEquipmentAndMutationGrants;
         RefreshEquipmentAndMutationGrants();
 
         // Starting passive stat grants can change maximum resources.
@@ -503,6 +647,29 @@ public class UnitController : MonoBehaviour
             }
 
             Debug.Log(message.ToString(), this);
+
+        }
+
+    }
+
+    private void OnDestroy()
+    {
+        if (data != null)
+        {
+            data.LoadoutChanged -= RefreshEquipmentAndMutationGrants;
+
+            if (!string.IsNullOrEmpty(boundRosterUnitId))
+            {
+                // Remove scene-owned status grants, without refilling HP/AP/charges
+                // or modifying any actual equipment or consumable instances.
+                data.ClearSceneRuntimeStatModifiers();
+                if (UnitRoster.Instance != null)
+                {
+                    UnitRoster.Instance.ReleaseSceneBinding(boundRosterUnitId, this);
+
+                }
+
+            }
 
         }
 

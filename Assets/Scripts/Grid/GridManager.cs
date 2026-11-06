@@ -297,10 +297,20 @@ public class GridManager : MonoBehaviour
     {
         UnitController[] units = FindObjectsByType<UnitController>();
 
-        foreach (UnitController unit in units) 
+        foreach (UnitController unit in units)
         {
-            unit.InitializeUnitData();
+            if (!unit.TryInitializeUnitData())
+            {
+                // Never initialize or register an unbound roster placeholder.
+                Debug.LogError($"Unable to initialize unit '{unit.name}'. Disabling scene unit.", unit);
+                unit.gameObject.SetActive(false);
+
+                continue;
+
+            }
+
             unit.InitializeNode();
+
         }
     }
     public void InitializeObstacles() 
