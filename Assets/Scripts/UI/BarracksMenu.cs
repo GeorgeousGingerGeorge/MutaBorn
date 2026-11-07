@@ -80,6 +80,8 @@ public sealed class BarracksMenu : MonoBehaviour
     [SerializeField] private BarracksAbilityEntryUI grantedActionPrefab;
     [SerializeField] private Button changeButton;
     [SerializeField] private Button unequipButton;
+    [Tooltip("Optional shortcut to Workshop Upgrades; add this button using the Workshop Editor tool.")]
+    [SerializeField] private Button upgradeButton;
     [SerializeField] private TMP_Text statusText;
 
     [Header("Optional Storage Picker - For Change Button")]
@@ -138,6 +140,12 @@ public sealed class BarracksMenu : MonoBehaviour
         if (unequipButton != null)
         {
             unequipButton.onClick.AddListener(ReturnSelectedItem);
+
+        }
+
+        if (upgradeButton != null)
+        {
+            upgradeButton.onClick.AddListener(OpenSelectedUpgrade);
 
         }
 
@@ -813,6 +821,27 @@ public sealed class BarracksMenu : MonoBehaviour
 
     }
 
+    public void OpenSelectedUpgrade()
+    {
+        UnitData unit = SelectedUnit();
+        if (!CanEdit(unit) || !unit.TryGetEquipmentAtSlot(selectedSlot, out EquipmentInstance gear))
+        {
+            SetStatus("Select an owned piece of equipment in Barracks first.");
+            return;
+        }
+
+        WorkshopUpgradeMenu workshop = FindAnyObjectByType<WorkshopUpgradeMenu>(FindObjectsInactive.Include);
+        if (workshop == null)
+        {
+            SetStatus("Workshop Upgrades not installed. Run the Workshop Upgrade UI builder.");
+            return;
+        }
+
+        Close();
+        workshop.OpenForEquipped(unit.UnitId, gear.instanceId);
+
+    }
+
     private void SetEditButtons(bool canChange, bool canRemove)
     {
         if (changeButton != null)
@@ -826,6 +855,16 @@ public sealed class BarracksMenu : MonoBehaviour
         {
             unequipButton.gameObject.SetActive(allowEditing);
             unequipButton.interactable = canRemove;
+
+        }
+
+        if (upgradeButton != null)
+        {
+            upgradeButton.gameObject.SetActive(allowEditing);
+            UnitData unit = SelectedUnit();
+            upgradeButton.interactable = allowEditing && unit != null && CanEdit(unit) &&
+                unit.TryGetEquipmentAtSlot(selectedSlot, out EquipmentInstance gear) &&
+                gear.rarity < EquipmentGrade.FiveStar;
 
         }
 
@@ -854,7 +893,7 @@ public sealed class BarracksMenu : MonoBehaviour
 
         if (itemStatsText != null)
         {
-            itemStatsText.text = EquipmentStats(gear);
+            itemStatsText.text = EquipmentStats(gear, SelectedUnit());
 
         }
 
@@ -1004,28 +1043,17 @@ public sealed class BarracksMenu : MonoBehaviour
 
     }
 
-    private static string EquipmentStats(EquipmentInstance gear)
+    private static string EquipmentStats(EquipmentInstance gear, UnitData owner)
     {
         StringBuilder info = new StringBuilder();
         info.AppendLine("Generation: " + gear.type);
-        if (gear.template != null && gear.template.GenerateStarRewards)
-        {
-            info.AppendLine("Progression: star reward rolls (no legacy base scaling)");
-
-        }
-        else
-        {
-            info.AppendLine("Base scaling: " + (gear.scalingCoefficient * 100f).ToString("+0.##;-0.##;0") + "%");
-
-        }
-
-        // These tags are defined in EquipmentData but are NOT currently
-        // consumed by the damage formula. Don't mislabel them as live scaling.
-        if (gear.statModifier != EquipmentStatBonus.None)
-        {
-            info.AppendLine("Attribute tags (metadata): " + gear.statModifier);
-
-        }
+        EquipmentAttributeScaling grades = gear.attributeScaling;
+        info.AppendLine("Attribute scaling: " + (owner != null ?
+            "+" + grades.TotalPercent(owner) + "% for this unit" : "no wielder"));
+        for (int i = 0; i < 6; i++)
+            info.Append(EquipmentAttributeScaling.Name(i)).Append(' ').Append(grades.Get(i))
+                .Append(i == 2 ? "\n" : "   ");
+        info.AppendLine();
 
         if (gear.primaryDamageType != DamageType.Unspecified)
         {
@@ -1033,14 +1061,15 @@ public sealed class BarracksMenu : MonoBehaviour
 
         }
 
-        info.AppendLine("--- Base / Roll / Final ---");
-        AppendStatBreakdown(info, "Armor", gear.baseStats.armor, gear.rolledStats.armor, gear.armorRating);
-        AppendStatBreakdown(info, "Ward", gear.baseStats.ward, gear.rolledStats.ward, gear.wardRating);
-        AppendStatBreakdown(info, "Melee Damage", gear.baseStats.meleeDamage, gear.rolledStats.meleeDamage, gear.meleeDamage);
-        AppendStatBreakdown(info, "Ranged Damage", gear.baseStats.rangeDamage, gear.rolledStats.rangeDamage, gear.rangeDamage);
-        AppendStatBreakdown(info, "Magic Damage", gear.baseStats.magicDamage, gear.rolledStats.magicDamage, gear.magicDamage);
-        AppendStatBreakdown(info, "Accuracy", gear.baseStats.accuracy, gear.rolledStats.accuracy, gear.accuracyBonus);
-        AppendStatBreakdown(info, "Movement Penalty", gear.baseStats.movementPenalty, gear.rolledStats.movementPenalty, gear.movementPenalty);
+        EquipmentStatValues effective = EquipmentGenerator.GetEffectiveStats(gear, owner);
+        info.AppendLine("--- Permanent / Unscaled Bonus / Equipped ---");
+        AppendStatBreakdown(info, "Armor", gear.baseStats.armor, gear.rolledStats.armor, effective.armor);
+        AppendStatBreakdown(info, "Ward", gear.baseStats.ward, gear.rolledStats.ward, effective.ward);
+        AppendStatBreakdown(info, "Melee Damage", gear.baseStats.meleeDamage, gear.rolledStats.meleeDamage, effective.meleeDamage);
+        AppendStatBreakdown(info, "Ranged Damage", gear.baseStats.rangeDamage, gear.rolledStats.rangeDamage, effective.rangeDamage);
+        AppendStatBreakdown(info, "Magic Damage", gear.baseStats.magicDamage, gear.rolledStats.magicDamage, effective.magicDamage);
+        AppendStatBreakdown(info, "Accuracy", gear.baseStats.accuracy, gear.rolledStats.accuracy, effective.accuracy);
+        AppendStatBreakdown(info, "Movement Penalty", gear.baseStats.movementPenalty, gear.rolledStats.movementPenalty, effective.movementPenalty);
 
         if (gear.resistances != null)
         {
@@ -1107,8 +1136,7 @@ public sealed class BarracksMenu : MonoBehaviour
     private static void AppendStatBreakdown(StringBuilder text, string name,
         int baseValue, int rolledValue, int finalValue)
     {
-        // The item generator applies Ceil(base * (1 + scalingCoefficient)) + rolled.
-        // Display the actual stored values rather than deriving or rerolling them.
+        // The final column comes from the wielder's live attribute scaling and unscaled bonuses.
         text.Append(name).Append(": ").Append(finalValue);
         text.Append("   (base ").Append(baseValue);
         if (rolledValue != 0)

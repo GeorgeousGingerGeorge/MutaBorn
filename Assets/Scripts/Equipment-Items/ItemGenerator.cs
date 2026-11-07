@@ -19,6 +19,15 @@ public struct EquipmentStatValues
 
 }
 
+public enum EquipmentFlatStat { Armor, Ward, MeleeDamage, RangedDamage, MagicDamage, Accuracy }
+
+[Serializable]
+public struct EquipmentStatUpgradeRoll
+{
+    public EquipmentFlatStat stat;
+    public int amount;
+}
+
 [Serializable]
 public struct EquipmentInstance
 {
@@ -39,7 +48,10 @@ public struct EquipmentInstance
     public ActionSet grantedActionSet;
     public EffectCollection grantedEffectCollection;
     public DamageType primaryDamageType;
-    public float scalingCoefficient;
+    public float scalingCoefficient; // Legacy serialized value; no longer drives star upgrades.
+    public EquipmentAttributeScaling attributeScaling;
+    public EquipmentStatUpgradeRoll lastStatRoll1;
+    public EquipmentStatUpgradeRoll lastStatRoll2;
 
     [Header("Generated Values")]
     public EquipmentStatValues baseStats;
@@ -106,7 +118,6 @@ public static class ItemGenerator
 
 public static class EquipmentGenerator
 {
-    private static readonly float[] LegacyScaling = { 0.20f, 0.40f, 0.60f, 0.80f, 1.00f, 1.20f };
 
     public static EquipmentInstance CreateEquipment(EquipmentData equipmentInfo)
     {
@@ -128,6 +139,7 @@ public static class EquipmentGenerator
             slot = equipmentInfo.slot,
             type = equipmentInfo.genType,
             statModifier = equipmentInfo.statMod,
+            attributeScaling = equipmentInfo.StartingScaling,
             grantedActionSet = equipmentInfo.GrantedActionSet,
             grantedEffectCollection = equipmentInfo.GrantedEffectCollection,
             primaryDamageType = equipmentInfo.PrimaryDamageType,
@@ -172,8 +184,8 @@ public static class EquipmentGenerator
             {
                 if (!TryUpgrade(ref item))
                 {
-                    Debug.LogWarning($"'{equipmentInfo.name}' has no eligible reward for star {star}. " +
-                        "Add more valid options to guarantee every star.", equipmentInfo);
+                    Debug.LogWarning($"'{equipmentInfo.name}' cannot improve star {star}: " +
+                        "the item has no nonzero eligible flat stats.", equipmentInfo);
 
                     break;
 
@@ -189,36 +201,93 @@ public static class EquipmentGenerator
 
     }
 
-    // Reward is rolled first and committed only after the roll succeeds.
-    // Upgrading never rerolls or removes previously acquired bonuses.
+    // Each upgrade rolls two independent existing flat stats, then its star reward.
+    // Roll information stays on the individual item so UI can report duplicate rolls.
     public static bool TryUpgrade(ref EquipmentInstance item)
     {
         if (item.template == null || item.rarity >= EquipmentGrade.FiveStar)
-        {
             return false;
 
-        }
+        EquipmentInstance upgraded = item;
+        if (!TryRollFlatStat(ref upgraded, out EquipmentStatUpgradeRoll roll1) ||
+            !TryRollFlatStat(ref upgraded, out EquipmentStatUpgradeRoll roll2))
+            return false;
+        upgraded.lastStatRoll1 = roll1;
+        upgraded.lastStatRoll2 = roll2;
 
         int nextStar = (int)item.rarity + 1;
-        if (item.template.GenerateStarRewards)
+        if (nextStar % 2 == 1)
         {
-            bool rolled = nextStar % 2 == 1
-                ? TryRollAbility(ref item)
-                : TryRollBonus(ref item);
-
-            if (!rolled)
-            {
-                return false;
-
-            }
-
+            TryImproveScaling(ref upgraded);
+            if (item.template.GenerateStarRewards)
+                TryRollAbility(ref upgraded);
+        }
+        else if (item.template.GenerateStarRewards)
+        {
+            TryRollBonus(ref upgraded);
         }
 
-        item.rarity = (EquipmentGrade)nextStar;
-        RecalculateItemStats(ref item);
-
+        upgraded.rarity = (EquipmentGrade)nextStar;
+        RecalculateItemStats(ref upgraded);
+        item = upgraded;
         return true;
+    }
 
+    private static bool TryRollFlatStat(ref EquipmentInstance item, out EquipmentStatUpgradeRoll roll)
+    {
+        roll = default(EquipmentStatUpgradeRoll);
+        List<EquipmentFlatStat> eligible = new List<EquipmentFlatStat>();
+        EquipmentStatValues stats = item.baseStats;
+        if (stats.armor != 0) eligible.Add(EquipmentFlatStat.Armor);
+        if (stats.ward != 0) eligible.Add(EquipmentFlatStat.Ward);
+        if (stats.meleeDamage != 0) eligible.Add(EquipmentFlatStat.MeleeDamage);
+        if (stats.rangeDamage != 0) eligible.Add(EquipmentFlatStat.RangedDamage);
+        if (stats.magicDamage != 0) eligible.Add(EquipmentFlatStat.MagicDamage);
+        if (stats.accuracy != 0) eligible.Add(EquipmentFlatStat.Accuracy);
+        if (eligible.Count == 0) return false;
+
+        roll.stat = eligible[UnityEngine.Random.Range(0, eligible.Count)];
+        roll.amount = UnityEngine.Random.Range(2, 6);
+        switch (roll.stat)
+        {
+            case EquipmentFlatStat.Armor: stats.armor += roll.amount; break;
+            case EquipmentFlatStat.Ward: stats.ward += roll.amount; break;
+            case EquipmentFlatStat.MeleeDamage: stats.meleeDamage += roll.amount; break;
+            case EquipmentFlatStat.RangedDamage: stats.rangeDamage += roll.amount; break;
+            case EquipmentFlatStat.MagicDamage: stats.magicDamage += roll.amount; break;
+            case EquipmentFlatStat.Accuracy: stats.accuracy += roll.amount; break;
+        }
+        item.baseStats = stats;
+        return true;
+    }
+
+    private static void TryImproveScaling(ref EquipmentInstance item)
+    {
+        EquipmentAttributeScaling grades = item.attributeScaling;
+        float[] chances = grades.UpgradeChances();
+        float roll = UnityEngine.Random.value;
+        int selected = -1;
+        int lastEligible = -1;
+        for (int i = 0; i < chances.Length; i++)
+        {
+            if (chances[i] <= 0f) continue;
+            lastEligible = i;
+            roll -= chances[i];
+            if (roll > 0f) continue;
+            selected = i;
+            break;
+        }
+        if (selected < 0) selected = lastEligible;
+        if (selected < 0) return; // All S.
+        grades.Set(selected, (EquipmentScalingGrade)((int)grades.Get(selected) + 1));
+        item.attributeScaling = grades;
+    }
+
+    public static bool HasEligibleFlatStat(EquipmentInstance item)
+    {
+        EquipmentStatValues stats = item.baseStats;
+        return stats.armor != 0 || stats.ward != 0 || stats.meleeDamage != 0 ||
+            stats.rangeDamage != 0 || stats.magicDamage != 0 || stats.accuracy != 0;
     }
 
     private static bool TryRollAbility(ref EquipmentInstance item)
@@ -343,8 +412,9 @@ public static class EquipmentGenerator
         for (int i = 0; i < pool.Length; i++)
         {
             EquipmentBonusOption option = pool[i];
-            if (option == null || option.weight <= 0f ||
-                float.IsNaN(option.weight) || float.IsInfinity(option.weight))
+            if (option == null ||
+                (option.kind != EquipmentBonusKind.Effect && option.kind != EquipmentBonusKind.Resistance) ||
+                option.weight <= 0f || float.IsNaN(option.weight) || float.IsInfinity(option.weight))
             {
                 continue;
 
@@ -550,29 +620,44 @@ public static class EquipmentGenerator
 
     }
 
+    // A stored item has no wielder: it shows permanent base stats plus unscaled bonuses.
+    // Equipped stats must always be requested with the owner, never cached on the item.
+    public static EquipmentStatValues GetEffectiveStats(EquipmentInstance item, UnitData wielder)
+    {
+        long bonusPercent = item.attributeScaling.TotalPercent(wielder);
+        EquipmentStatValues baseStats = item.baseStats;
+        EquipmentStatValues bonus = item.rolledStats;
+        return new EquipmentStatValues
+        {
+            armor = Scale(baseStats.armor, bonusPercent) + bonus.armor,
+            ward = Scale(baseStats.ward, bonusPercent) + bonus.ward,
+            meleeDamage = Scale(baseStats.meleeDamage, bonusPercent) + bonus.meleeDamage,
+            rangeDamage = Scale(baseStats.rangeDamage, bonusPercent) + bonus.rangeDamage,
+            magicDamage = Scale(baseStats.magicDamage, bonusPercent) + bonus.magicDamage,
+            accuracy = Scale(baseStats.accuracy, bonusPercent) + bonus.accuracy,
+            movementPenalty = baseStats.movementPenalty + bonus.movementPenalty
+        };
+    }
+
+    private static int Scale(int flatStat, long bonusPercent)
+    {
+        if (flatStat == 0) return 0;
+        decimal scaled = decimal.Ceiling((decimal)flatStat * (100m + bonusPercent) / 100m);
+        return scaled >= int.MaxValue ? int.MaxValue :
+            scaled <= int.MinValue ? int.MinValue : (int)scaled;
+    }
+
     private static void RecalculateItemStats(ref EquipmentInstance item)
     {
-        float coefficient = 0f;
-        // Old templates retain the original rarity scaling. Templates using
-        // star reward pools gain their stats only through configured rolls.
-        if (item.template != null && !item.template.GenerateStarRewards)
-        {
-            float baseCoefficient = item.type == EquipmentGenerationType.Unique ? 0.35f : LegacyScaling[0];
-            coefficient = item.rarity == EquipmentGrade.None
-                ? baseCoefficient : baseCoefficient * (1f + LegacyScaling[(int)item.rarity]);
-
-        }
-
-        item.scalingCoefficient = coefficient;
-        float scale = 1f + coefficient;
-        item.armorRating = Mathf.CeilToInt(item.baseStats.armor * scale) + item.rolledStats.armor;
-        item.wardRating = Mathf.CeilToInt(item.baseStats.ward * scale) + item.rolledStats.ward;
-        item.movementPenalty = Mathf.CeilToInt(item.baseStats.movementPenalty * scale) + item.rolledStats.movementPenalty;
-        item.accuracyBonus = Mathf.CeilToInt(item.baseStats.accuracy * scale) + item.rolledStats.accuracy;
-        item.meleeDamage = Mathf.CeilToInt(item.baseStats.meleeDamage * scale) + item.rolledStats.meleeDamage;
-        item.rangeDamage = Mathf.CeilToInt(item.baseStats.rangeDamage * scale) + item.rolledStats.rangeDamage;
-        item.magicDamage = Mathf.CeilToInt(item.baseStats.magicDamage * scale) + item.rolledStats.magicDamage;
-
+        item.scalingCoefficient = 0f;
+        EquipmentStatValues values = GetEffectiveStats(item, null);
+        item.armorRating = values.armor;
+        item.wardRating = values.ward;
+        item.movementPenalty = values.movementPenalty;
+        item.accuracyBonus = values.accuracy;
+        item.meleeDamage = values.meleeDamage;
+        item.rangeDamage = values.rangeDamage;
+        item.magicDamage = values.magicDamage;
     }
 
     private static T[] CopyArray<T>(T[] source)
