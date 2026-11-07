@@ -13,7 +13,11 @@ public enum UnitInitializationMode
     RosterCreateOnceForTesting = 2
 
 }
-
+public enum UnitStance 
+{
+    Standing,
+    Crouching
+}
 public class UnitController : MonoBehaviour
 {
     [Header("Unit's Size")]
@@ -21,6 +25,7 @@ public class UnitController : MonoBehaviour
     public Vector2Int footPrint => footPrintSize;
     [Header("Unit's Direction")]
     public UnitFacing unitDirection { get; private set; }
+    public UnitStance currentStance { get; private set; } = UnitStance.Standing;
 
     [Header("Unit's Vision")]
     [SerializeField] private Transform VisionOrigin;
@@ -1097,6 +1102,20 @@ public class UnitController : MonoBehaviour
                     canvas.SetActive(false);
 
                 }
+                break;
+        }
+    }
+
+    public void SetStance(UnitStance state) 
+    {
+
+        switch (state) 
+        {
+            case UnitStance.Standing:
+                currentStance = UnitStance.Standing;
+                break;
+            case UnitStance.Crouching:
+                currentStance = UnitStance.Crouching;
                 break;
         }
     }
