@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public sealed class TargetingModeController : MonoBehaviour
 {
     public static TargetingModeController Instance { get; private set; }
+    
     public static bool IsTargeting => Instance != null && Instance.isTargeting;
     public static bool BlocksSelection => Instance != null &&
         (Instance.isTargeting || Instance.lastTargetingEndFrame == Time.frameCount);
@@ -38,6 +39,7 @@ public sealed class TargetingModeController : MonoBehaviour
     private Action<RaycastHit> targetSelected;
     private Action<Vector3, int> groundPointSelected;
     private Func<RaycastHit, bool> acceptsHit;
+    private Func<Vector3, int, bool> groundTargetFilter;
     private Action targetingCancelled;
     private Func<bool> canContinue;
     private SelectionManager selectionManager;
@@ -95,7 +97,8 @@ public sealed class TargetingModeController : MonoBehaviour
         bool allowGroundTargeting = false,
         float explosionPreviewRadiusWorld = 0f,
         int landingFloorId = -1,
-        Action<Vector3, int> onGroundPointSelected = null)
+        Action<Vector3, int> onGroundPointSelected = null,
+        Func<Vector3,int, bool> groundTargetFilter = null)
     {
         if (!isActiveAndEnabled || requester == null || source == null ||
             source.data == null || (onTargetSelected == null && onGroundPointSelected == null))
@@ -125,6 +128,7 @@ public sealed class TargetingModeController : MonoBehaviour
         canContinue = stillAllowed;
         startedOnFrame = Time.frameCount;
         isTargeting = true;
+        this.groundTargetFilter = groundTargetFilter;
 
         if (selectionManager == null)
         {
@@ -201,7 +205,8 @@ public sealed class TargetingModeController : MonoBehaviour
         if (groundTargeting && groundPointSelected != null)
         {
             if (TryGetGroundPoint(out Vector3 impactPoint, out int floorId) &&
-                IsWithinThrowRange(impactPoint))
+                (groundTargetFilter == null || groundTargetFilter(impactPoint,floorId))
+                /*&& IsWithinThrowRange(impactPoint)*/)
             {
                 groundPointSelected.Invoke(impactPoint, floorId);
 
@@ -308,6 +313,7 @@ public sealed class TargetingModeController : MonoBehaviour
         groundPointSelected = null;
         hasHoverTile = false;
         SetVisuals(false);
+        groundTargetFilter = null;
 
         if (restoreMovement && previousSource != null && previousSource.isActiveAndEnabled &&
             previousSource.data != null && previousSource.data.currentHealth > 0 &&
@@ -421,9 +427,16 @@ public sealed class TargetingModeController : MonoBehaviour
 
         }
 
-        hasHoverTile = TryGetGroundPoint(out hoveredGroundPoint, out int floorId) &&
-            IsWithinThrowRange(hoveredGroundPoint);
+        hasHoverTile = TryGetGroundPoint(out hoveredGroundPoint, out int floorId) /*&&
+            IsWithinThrowRange(hoveredGroundPoint)*/;
         explosionRing.enabled = hasHoverTile;
+
+        if (hasHoverTile && groundTargetFilter != null) 
+        {
+            hasHoverTile = groundTargetFilter(hoveredGroundPoint, floorId);
+        }
+        explosionRing.enabled = hasHoverTile;
+
         if (!hasHoverTile)
         {
             return;
@@ -459,7 +472,7 @@ public sealed class TargetingModeController : MonoBehaviour
         RaycastHit[] hits = Physics.RaycastAll(ray, 1000f,
             Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
         Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
-
+        Debug.Log($"Required floor: {requiredFloor}");
         foreach (RaycastHit hit in hits)
         {
             TileController tile = hit.collider != null ?
@@ -467,6 +480,9 @@ public sealed class TargetingModeController : MonoBehaviour
             if (tile != null && tile.node != null &&
                 (requiredFloor < 0 || tile.node.floorID == requiredFloor))
             {
+                    Debug.Log(
+         $"Ray hit tile on floor {tile.node.floorID} at {hit.point}"
+     );
                 position = hit.point;
                 floorId = tile.node.floorID;
 

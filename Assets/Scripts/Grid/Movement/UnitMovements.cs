@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 public class UnitMovements : MonoBehaviour
 {
     private MovementManager movementController;
-    private FogOfWarManager fogController;
+    private VisibilityManager visibileController;
     public MovementManager movementManager => movementController;
     private SelectionManager selectionController;
     private TurnManager turnController;
@@ -33,7 +33,7 @@ public class UnitMovements : MonoBehaviour
         selectionController = FindAnyObjectByType<SelectionManager>();
         turnController = FindAnyObjectByType<TurnManager>();
         factionController = GetComponent<UnitFaction>();
-        fogController = FindAnyObjectByType<FogOfWarManager>();
+        visibileController = FindAnyObjectByType<VisibilityManager>();
         unit = GetComponent<UnitController>();
         
         //CDGoblin = GetComponentInChildren<Animator>();
@@ -205,7 +205,7 @@ public class UnitMovements : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed * Time.deltaTime);
             if (factionController.GetFactionID() == "playerFaction")
             {
-                fogController.UpdateFriendlyUnitVisibility();
+                visibileController.UpdateVisibility();
             }
             if (Vector3.Distance(transform.position, target) < 0.01f)
             {
@@ -229,8 +229,7 @@ public class UnitMovements : MonoBehaviour
     }
     private void CompleteMovement() 
     {
-
-        fogController.UpdateFriendlyUnitVisibility();
+        visibileController.UpdateVisibility(); 
         unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
 
         isMoving = false;

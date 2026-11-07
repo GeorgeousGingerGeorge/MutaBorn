@@ -72,6 +72,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
     private UnitController attacker;
     private ActionDefinition pendingAction;
     private TargetingModeController targetingController;
+    private TargetingSystem targetSystem; 
     private FactionManager factionManager;
     private int pendingConsumableIndex = -1;
     private bool lastAreaKilledTarget;
@@ -88,7 +89,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         Instance = this;
         factionManager = FindAnyObjectByType<FactionManager>();
-
+        targetSystem = FindAnyObjectByType<TargetingSystem>();
     }
 
     public bool TryBeginAction(UnitController source, ActionDefinition action)
@@ -262,17 +263,24 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         float cellSize = grid != null ? grid.GridCellSize : 1f;
+        float targetRange = action.AreaThrowRangeInTiles * cellSize;
+
+        int targetFloorID = action.AreaSameFloorOnly ? source.currentNode.floorID : -1;
         Func<RaycastHit, bool> targetFilter;
         if (isArea)
         {
+
+
             targetFilter = hit => hit.collider != null &&
                 hit.collider.GetComponentInParent<TileController>() != null;
 
         }
         else
         {
-            targetFilter = hit => hit.collider != null &&
-                hit.collider.GetComponentInParent<UnitController>() != null;
+
+            targetFilter = hit => IsValidUnitTarget(hit, source, action);
+            //targetFilter = hit => hit.collider != null &&
+            //    hit.collider.GetComponentInParent<UnitController>() != null;
 
         }
 
@@ -355,9 +363,12 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         float cellSize = grid != null ? grid.GridCellSize : 1f;
+        float targetRange = action.AreaThrowRangeInTiles * cellSize;
+        int targetFloorId = action.AreaSameFloorOnly ? source.currentNode.floorID : -1; 
         Func<RaycastHit, bool> filter = isArea
             ? hit => hit.collider != null && hit.collider.GetComponentInParent<TileController>() != null
-            : hit => hit.collider != null && hit.collider.GetComponentInParent<UnitController>() != null;
+            : hit => IsValidUnitTarget(hit, source, action);
+                                                                                                /* hit => hit.collider != null && hit.collider.GetComponentInParent<UnitController>() != null;*/
 
         if (!targetingController.TryBeginTargeting(
                 this, source, action.DisplayName,
@@ -365,7 +376,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 OnTargetPicked, filter, OnTargetingCancelled, () => CanCommand(source),
                 true, isArea, isArea ? action.AreaRadiusInTiles * cellSize : 0f,
                 isArea && action.AreaSameFloorOnly ? source.currentNode.floorID : -1,
-                isArea ? OnAreaPointPicked : null))
+                isArea ? OnAreaPointPicked : null,
+                isArea ? (Vector3 point, int floorId) => IsValidGroundTarget(point,floorId,source,action) : null))
         {
             return false;
 
@@ -512,6 +524,31 @@ public sealed class CombatActionExecutor : MonoBehaviour
         UnitController source = attacker;
         ActionDefinition action = pendingAction;
         int index = pendingConsumableIndex;
+
+        if (targetSystem == null) 
+        {
+            return;
+        }
+
+        GridManager grid = FindAnyObjectByType<GridManager>();
+
+        if (grid == null) 
+        {
+            return;
+        }
+
+        float targetRange = action.AreaThrowRangeInTiles * grid.GridCellSize;
+
+        if (action.AreaSameFloorOnly && impactFloor != source.currentNode.floorID) 
+        {
+            return;
+        }
+
+        if (!targetSystem.CanTargetGround(source, impactPoint, impactFloor, targetRange, false)) 
+        {
+            return;
+        }
+
         if (ResolveAreaAction(source, action, impactPoint, impactFloor))
         {
             // The callback is only reached on successful targeting; area kill-refills
@@ -1208,7 +1245,44 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
     }
+    private bool IsValidUnitTarget(RaycastHit hit, UnitController source, ActionDefinition action) 
+    {
+        if (hit.collider == null || targetSystem == null) 
+        {
+            return false;
+        }
+        UnitController target = hit.collider.GetComponentInParent<UnitController>();
 
+        if (target == null) 
+        {
+            return false;
+        }
+
+        return targetSystem.CanTargetUnit(source, target, action.CombatRange);
+
+    }
+    private bool IsValidGroundTarget(Vector3 point,int floorId,UnitController source,ActionDefinition action)
+    {
+        if (source == null || action == null || targetSystem == null)
+        {
+            return false;
+        }
+        if (action.AreaSameFloorOnly && (source.currentNode == null || floorId != source.currentNode.floorID))
+        {
+            return false;
+        }
+
+        GridManager grid = FindAnyObjectByType<GridManager>();
+
+        if (grid == null)
+        { 
+            return false; 
+        }
+
+        float range = action.AreaThrowRangeInTiles * grid.GridCellSize;
+
+        return targetSystem.CanTargetGround(source,point,floorId,range,false);
+    }
     private void OnTargetingCancelled()
     {
         attacker = null;

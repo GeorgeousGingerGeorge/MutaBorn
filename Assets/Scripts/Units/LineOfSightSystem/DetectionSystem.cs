@@ -70,10 +70,18 @@ public class DetectionSystem : MonoBehaviour
         }
     }
 
+    public void TryDetectUnit(UnitController target, float detectionChance) 
+    {
+        if (target == null || detectedUnits.Contains(target))
+        {
+            return;
+        }
 
-
-
-
+        if (Random.Range(0f, 100f) < detectionChance) 
+        {
+            detectedUnits.Add(target);
+        }
+    }
 
 
 
@@ -81,7 +89,26 @@ public class DetectionSystem : MonoBehaviour
 
     //======================================
     //
-    //  Unit Removal- if unit enters fog or stealth
+    // Unit Removal- If unit becomes invisible
+    //
+    //======================================
+
+    public void RemoveDetectedUnit(UnitController unit) 
+    {
+        if (unit == null) 
+        {
+            return;
+        }
+
+        if (detectedUnits.Contains(unit)) 
+        {
+            detectedUnits.Remove(unit);
+        }
+    }
+
+    //======================================
+    //
+    //  Unit Removal- if unit enters fog
     //
     //======================================
 
@@ -98,7 +125,7 @@ public class DetectionSystem : MonoBehaviour
     //======================================
 
 
-    public bool isDetetected(UnitController unit) 
+    public bool isDetected(UnitController unit) 
     {
         if (unit == null) 
         {

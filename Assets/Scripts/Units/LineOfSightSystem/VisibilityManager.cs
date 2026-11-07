@@ -2,15 +2,41 @@ using UnityEngine;
 
 public class VisibilityManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private FogOfWarManager fogController;
+    [SerializeField] private DetectionSystem detection;
+    [SerializeField] private StealthSystem stealth;
+
+
+    public void UpdateVisibility() 
     {
+        if (fogController == null || detection == null) 
+        {
+            Debug.LogWarning("Visibility Manager: Missing Dependencies");
+            return; 
+        }
+
+        fogController.UpdateFriendlyUnitVisibility();
+        detection.UpdateDetection();
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnInvisibiltyStarted(UnitController unit) 
     {
+        if (unit == null || stealth == null || detection == null) 
+        {
+            return;
+        }
+
+        if (stealth.IsUnitInvisible(unit)) 
+        {
+            detection.RemoveDetectedUnit(unit);
+        }
         
+    }
+
+    public void OnInvisibilityEnded() 
+    {
+
+        UpdateVisibility();
     }
 }
