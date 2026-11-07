@@ -28,7 +28,9 @@ public class EquipmentData : ItemData
 
     [SerializeField] private EquipmentGrade currentRarity;
     [SerializeField] private EquipmentGenerationType type;
-    [SerializeField] private EquipmentStatBonus statModifier; //StatModifier
+    [SerializeField] private EquipmentStatBonus statModifier; // Legacy attribute tags.
+    [Header("Starting Attribute Scaling (E = 0%, S = 10% per point)")]
+    [SerializeField] private EquipmentAttributeScaling startingScaling;
 
     [Header("Guaranteed Actions")]
     [SerializeField] private ActionDefinition[] guaranteedActions = new ActionDefinition[0];
@@ -139,6 +141,7 @@ public class EquipmentData : ItemData
     public EquipmentGrade rarity => currentRarity;
     public EquipmentGenerationType genType => type;
     public EquipmentStatBonus statMod => statModifier;
+    public EquipmentAttributeScaling StartingScaling => startingScaling;
     public int armorRating => _armorRating;
     public int wardRating => _wardRating;
     public DamageResistance[] Resistances => resistances;

@@ -1014,6 +1014,15 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 source.GetComponent<UnitStatusController>()?.Remove("invisible");
                 landed = true;
 
+                if (action.DamageStat == CombatDamageStat.Melee) // TRIGGER FOR ATTACK ANIMATION in baseCharAnimator
+                {
+                    Animator animator = source.GetComponentInChildren<Animator>();
+
+                    if (animator != null)
+                    {
+                        animator.SetTrigger("Attack");
+                    }
+                }
             }
 
             string critical = damageResult.IsCritical && !damageResult.Evaded ? " CRITICAL!" : "";
