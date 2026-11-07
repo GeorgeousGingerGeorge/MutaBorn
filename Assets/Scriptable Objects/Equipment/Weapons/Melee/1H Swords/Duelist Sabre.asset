@@ -10,22 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26a55a7212599a0419e986f77eb48d6c, type: 3}
-  m_Name: "Duelist Sabre"
+  m_Name: Duelist Sabre
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
-  _itemName: "Duelist Sabre"
-  _itemID: "sword-duelist-sabre"
-  _description: "A nimble dueling blade. Opens with a three-hit Combo and rewards precision."
+  _itemName: Duelist Sabre
+  _itemID: sword-duelist-sabre
+  _description: A nimble dueling blade. Opens with a three-hit Combo and rewards precision.
   _sprite: {fileID: 21300000, guid: 26f8f6429eac5bb4ba06c64df542975e, type: 3}
-  displayTypeLabel: Sword
+  _equippedModelPrefab: {fileID: 7754776579416677092, guid: 357da59c7de11b945893330f6404c58f, type: 3}
   armor: 0
   weapon: 1
+  _weaponModelPrefab: {fileID: 7754776579416677092, guid: 357da59c7de11b945893330f6404c58f, type: 3}
   accessory: 0
   targetSlot: 1
   equipmentFit: 1
   requiresBothHands: 0
+  displayTypeLabel: Sword
   currentRarity: 2
   type: 1
   statModifier: 0
+  startingScaling:
+    strength: 0
+    dexterity: 0
+    vitality: 0
+    constitution: 0
+    perception: 0
+    intelligence: 0
   guaranteedActions:
   - {fileID: 11400000, guid: 4cd1a0977d726aa42943ca0cfe4696f3, type: 2}
   guaranteedEffects: []
@@ -47,12 +56,15 @@ MonoBehaviour:
     amountRange: {x: 2, y: 5}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -67,10 +79,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -83,12 +97,15 @@ MonoBehaviour:
     amountRange: {x: 2, y: 4}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -103,10 +120,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -119,12 +138,15 @@ MonoBehaviour:
     amountRange: {x: 2, y: 5}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -139,10 +161,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -155,12 +179,15 @@ MonoBehaviour:
     amountRange: {x: 1, y: 3}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -175,10 +202,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -191,12 +220,15 @@ MonoBehaviour:
     amountRange: {x: 5, y: 10}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -211,10 +243,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -227,12 +261,15 @@ MonoBehaviour:
     amountRange: {x: 0, y: 0}
     effect:
       definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 2
         phase: 3
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 1
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -247,10 +284,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms:
