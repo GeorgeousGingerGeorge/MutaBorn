@@ -27,6 +27,7 @@ using UnityEngine;
     public Quaternion rotation;
 
     public int floorId;
+    public Vector2Int nodeCoords;
 
     public int currentHealth;
     public int currentMana;

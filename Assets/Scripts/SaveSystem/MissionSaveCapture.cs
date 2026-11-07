@@ -29,6 +29,7 @@ public static class MissionSaveCapture
                 rotation = unit.transform.rotation,
 
                 floorId = unit.currentNode != null ? unit.currentNode.floorID : -1,
+                nodeCoords = unit.currentNode != null ? unit.currentNode.coords : Vector2Int.zero,
 
                 currentHealth = unit.data.currentHealth,
                 currentMana = unit.data.currentMana,
