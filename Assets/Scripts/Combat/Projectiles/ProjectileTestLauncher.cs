@@ -37,7 +37,17 @@ public class ProjectileTestLauncher : MonoBehaviour
 
         Vector3 destination = transform.position + transform.forward * testDistance;
 
-        controller.Launch(projectileDefinition, destination);
+        controller.Launch(projectileDefinition, destination, (hitCollider, impactPoint) =>
+        {
+            if (hitCollider != null)
+            {
+                Debug.Log($"[Projectile Test] Hit {hitCollider.name} at {impactPoint}");
+            }
+            else
+            {
+                Debug.Log($"[Projectile Test] Reached destination at {impactPoint}");
+            }
+        });
 
         Debug.Log("Projectile launched!");
     }

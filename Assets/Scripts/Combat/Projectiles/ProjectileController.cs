@@ -11,8 +11,9 @@ public class ProjectileController : MonoBehaviour
     private float progress;
 
     private bool isMoving;
+    private System.Action<Collider, Vector3> onImpact;
 
-    public void Launch(ProjectileDefinition projectile, Vector3 destination)
+    public void Launch(ProjectileDefinition projectile, Vector3 destination, System.Action<Collider, Vector3> impactCallback = null)
     {
         if (projectile == null)
         {
@@ -21,6 +22,7 @@ public class ProjectileController : MonoBehaviour
         }
 
         definition = projectile;
+        onImpact = impactCallback;
 
         startPosition = transform.position;
         targetPosition = destination;
@@ -54,6 +56,30 @@ public class ProjectileController : MonoBehaviour
 
         if (direction.sqrMagnitude > 0.0001f)
         {
+            float distance = direction.magnitude;
+
+            // Check for collisions along the projectile's movement path.
+            if (Physics.Raycast(
+                transform.position,
+                direction.normalized,
+                out RaycastHit hit,
+                distance,
+                definition.CollisionLayers,
+                QueryTriggerInteraction.Ignore))
+            {
+                transform.position = hit.point;
+
+                Debug.Log($"Projectile hit {hit.collider.name}!");
+
+                isMoving = false;
+
+                onImpact?.Invoke(hit.collider, hit.point);
+
+                Destroy(gameObject);
+
+                return;
+            }
+
             transform.rotation = Quaternion.LookRotation(direction);
         }
 
@@ -62,6 +88,9 @@ public class ProjectileController : MonoBehaviour
         if (progress >= 1f)
         {
             isMoving = false;
+
+            onImpact?.Invoke(null, targetPosition);
+
             Destroy(gameObject);
         }
     }
