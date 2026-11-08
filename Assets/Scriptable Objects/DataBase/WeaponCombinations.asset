@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38baec7d2d194732be4348ab9d4c48e8, type: 3}
+  m_Name: WeaponCombinations
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponCombinationCatalog
+  combinations:
+  - name: "Twin Swords"
+    first: 1
+    second: 1
+    grantedAction: {fileID: 11400000, guid: ea01ffe499c243029b1c640170a00c76, type: 2}
+    plannedPassive: "+5% physical damage reduction while paired (not implemented yet)."
+  - name: "Twin Daggers"
+    first: 5
+    second: 5
+    grantedAction: {fileID: 11400000, guid: c9bc6c72afb34a4b8778d31d48722d3d, type: 2}
+    plannedPassive: "Riposte after dodging an adjacent direct attack, once per round (not implemented yet)."
+  - name: "Twin Axes"
+    first: 2
+    second: 2
+    grantedAction: {fileID: 11400000, guid: d88760ebd15a4ad9894ef1843e1f4d46, type: 2}
+    plannedPassive: "Consecutive landed hits on the same target grow damage by 5%, 10%, then 15% maximum; resets on miss, target switch, or turn end (not implemented yet)."
+  - name: "Twin Blunt"
+    first: 3
+    second: 3
+    grantedAction: {fileID: 11400000, guid: a7078b44c7b54ebbaf3615d7bb6374e0, type: 2}
+    plannedPassive: "+5% armor penetration for paired blunt weapon attacks (not implemented yet)."
+  - name: "Twin Gauntlets"
+    first: 6
+    second: 6
+    grantedAction: {fileID: 11400000, guid: ca24309a66e54551bdfae537659286a0, type: 2}
+    plannedPassive: "+5% critical chance for fist weapon attacks (not implemented yet)."
+  - name: "Twin Pistols"
+    first: 8
+    second: 8
+    grantedAction: {fileID: 11400000, guid: c411ba37d02f4556a857493c11e5f62d, type: 2}
+    plannedPassive: "The first pistol attack each turn costs 1 less AP (not implemented yet)."
+  - name: "Twin Crossbows"
+    first: 9
+    second: 9
+    grantedAction: {fileID: 11400000, guid: 4f820577d94d4b4e936a28553ace77c2, type: 2}
+    plannedPassive: "+5% critical chance for crossbow attacks (not implemented yet)."
+  - name: "Wand and Book"
+    first: 14
+    second: 12
+    grantedAction: {fileID: 11400000, guid: 1e64cbf63855487b8d46f66956591b39, type: 2}
+    plannedPassive: "+5% magic damage while this pairing is equipped (not implemented yet)."
+  - name: "Wand and Charm"
+    first: 14
+    second: 15
+    grantedAction: {fileID: 11400000, guid: b6e987c106c54550ba27c77bdbaec8de, type: 2}
+    plannedPassive: "+5% Ward while this pairing is equipped (not implemented yet)."
+  - name: "Book and Charm"
+    first: 12
+    second: 15
+    grantedAction: {fileID: 11400000, guid: 7134580005a84f9da567167a49302ec9, type: 2}
+    plannedPassive: "Magical attack AP costs are reduced by 2, minimum 1 AP; MP costs remain unchanged (not implemented yet). Replenish is excluded."

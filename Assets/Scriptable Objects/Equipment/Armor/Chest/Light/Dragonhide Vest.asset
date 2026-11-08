@@ -16,19 +16,47 @@ MonoBehaviour:
   _itemID: Armor_Dragonhide_Vest
   _description: A leather chestpiece created with heat-resistant dragon skin, providing additional protection against fire at the cost of some physical protection.
   _sprite: {fileID: 21300000, guid: d68706ff51261924a9adaed32eadd5f9, type: 3}
-  displayTypeLabel: Chest Armor
+  displayTypeLabel: "Chest Armor"
   armor: 1
   weapon: 0
   accessory: 0
   targetSlot: 8
   equipmentFit: 3
   requiresBothHands: 0
-  currentRarity: 0
+  currentRarity: 2
   type: 1
   statModifier: 0
   grantedActionSet: {fileID: 0}
-  _armorRating: 2
-  _wardRating: 2
+  weaponSubtype: 0
+  startingScaling: 
+    strength: 0
+    dexterity: 1
+    vitality: 1
+    constitution: 1
+    perception: 0
+    intelligence: 1
+  guaranteedActions: []
+  guaranteedEffects: []
+  primaryDamageType: 0
+  guaranteedBonusDamage: []
+  generateStarRewards: 1
+  possibleAbilities: []
+  possibleBonuses: 
+  - kind: 0
+    weight: 65
+    stat: 0
+    damageType: 0
+    amountRange: {x: 1, y: 2}
+    effect: {}
+  - kind: 0
+    weight: 35
+    stat: 1
+    damageType: 0
+    amountRange: {x: 1, y: 2}
+    effect: {}
+  grantedEffectCollection: {fileID: 0}
+  _armorRating: 4
+  _wardRating: 3
   resistances:
   - damageType: 11
     percent: 20

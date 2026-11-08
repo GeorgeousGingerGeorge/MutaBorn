@@ -823,6 +823,15 @@ public sealed class BarracksMenu : MonoBehaviour
 
     public void OpenSelectedUpgrade()
     {
+        if (ResearchManager.Instance != null &&
+            !ResearchManager.Instance.HasBenefit(ResearchBenefitType.EquipmentUpgrades))
+        {
+            SetStatus("Unlock Equipment Upgrades through research first.");
+
+            return;
+
+        }
+
         UnitData unit = SelectedUnit();
         if (!CanEdit(unit) || !unit.TryGetEquipmentAtSlot(selectedSlot, out EquipmentInstance gear))
         {
@@ -860,7 +869,9 @@ public sealed class BarracksMenu : MonoBehaviour
 
         if (upgradeButton != null)
         {
-            upgradeButton.gameObject.SetActive(allowEditing);
+            bool upgradeUnlocked = ResearchManager.Instance == null ||
+                ResearchManager.Instance.HasBenefit(ResearchBenefitType.EquipmentUpgrades);
+            upgradeButton.gameObject.SetActive(allowEditing && upgradeUnlocked);
             UnitData unit = SelectedUnit();
             upgradeButton.interactable = allowEditing && unit != null && CanEdit(unit) &&
                 unit.TryGetEquipmentAtSlot(selectedSlot, out EquipmentInstance gear) &&

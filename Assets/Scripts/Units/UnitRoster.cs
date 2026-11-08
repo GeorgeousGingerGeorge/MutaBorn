@@ -321,6 +321,7 @@ public sealed class UnitRoster : MonoBehaviour
         }
 
         units.Add(unit);
+        ResearchManager.Instance?.ApplyToUnit(unit);
         RosterChanged?.Invoke();
 
         return true;
@@ -423,7 +424,7 @@ public sealed class UnitRoster : MonoBehaviour
     public bool TryAssignDeploymentSlot(int slotIndex, string unitId)
     {
         if (slotIndex < 0 || slotIndex >= UnlockedCrewSlots ||
-            !TryGetUnit(unitId, out UnitData unit))
+            !TryGetUnit(unitId, out UnitData unit) || unit.currentHealth <= 0)
         {
             return false;
 
@@ -495,7 +496,7 @@ public sealed class UnitRoster : MonoBehaviour
     public bool TryChooseCrewMember(int slotIndex, string unitId)
     {
         if (slotIndex < 0 || slotIndex >= UnlockedCrewSlots ||
-            !TryGetUnit(unitId, out UnitData unit) || IsUnitBound(unitId))
+            !TryGetUnit(unitId, out UnitData unit) || unit.currentHealth <= 0 || IsUnitBound(unitId))
         {
             return false;
 
@@ -670,6 +671,49 @@ public sealed class UnitRoster : MonoBehaviour
             activeBindings.Remove(unitId);
 
         }
+
+    }
+
+    // Permanent battle casualties leave both the roster and crew deployment.
+    // This is called only after the mission has resolved equipment loss/recovery.
+    public bool TryRemoveFallenUnit(string unitId)
+    {
+        if (!TryGetUnit(unitId, out UnitData unit) || unit.currentHealth > 0)
+        {
+
+            return false;
+
+        }
+
+        units.Remove(unit);
+        deployments.RemoveAll(deployment =>
+            string.Equals(deployment.UnitId, unitId, StringComparison.Ordinal));
+        activeBindings.Remove(unitId);
+        RosterChanged?.Invoke();
+
+        return true;
+
+    }
+
+    public void RefreshAfterMission()
+    {
+        foreach (UnitData unit in units)
+        {
+            if (unit == null || unit.currentHealth <= 0)
+            {
+                continue;
+
+            }
+
+            for (int i = 0; i < unit.carriedConsumables.Count; i++)
+            {
+                unit.TryRefillConsumableUses(i);
+
+            }
+
+        }
+
+        RosterChanged?.Invoke();
 
     }
 

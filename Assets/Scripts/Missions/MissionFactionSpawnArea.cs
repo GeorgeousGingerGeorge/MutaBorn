@@ -17,6 +17,8 @@ public sealed class MissionFactionSpawnArea : MonoBehaviour
 {
     [Header("Mission faction (not a roster source)")]
     [SerializeField] private FactionData faction;
+    [Header("Save System Identity")] // for save system check MissionUnitIdentity for logic
+    [SerializeField] private string spawnAreaId; // for save system
     [Header("Spawn rectangle")]
     [SerializeField] private int floorId = 1;
     [SerializeField] private Vector2Int areaSizeInTiles = new Vector2Int(4, 4);
@@ -69,12 +71,15 @@ public sealed class MissionFactionSpawnArea : MonoBehaviour
         MissionSpawnAreaTiles.ReserveSceneUnits(floor, gridManager, reserved);
 
         int placed = 0;
+        int groupIndex = -1;
+
         foreach (MissionFactionSpawnGroup group in groups)
         {
+            groupIndex++;
+
             if (group == null || group.count <= 0)
             {
                 continue;
-
             }
 
             if (group.unitPrefab == null)
@@ -130,6 +135,26 @@ public sealed class MissionFactionSpawnArea : MonoBehaviour
                 // and race-model creation AFTER all spawn areas are prepared.
                 UnitController unit = Instantiate(group.unitPrefab, chosen.cellWorldPosition,
                     group.unitPrefab.transform.rotation, transform.parent);
+                
+                if (!string.IsNullOrWhiteSpace(spawnAreaId)) // Save System
+                {
+                    MissionUnitIdentity identity = unit.GetComponent<MissionUnitIdentity>();
+
+                    if (identity == null)
+                    {
+                        identity = unit.gameObject.AddComponent<MissionUnitIdentity>();
+                    }
+
+                    identity.SetPersistentId($"{spawnAreaId}:group{groupIndex}:unit{i}");
+                }
+                else
+                {
+                    Debug.LogWarning(
+                        $"[FactionSpawn] {name} has no Spawn Area ID. Spawned units cannot be reliably restored.",
+                        this
+                    );
+                } // Save system --end--
+
                 unit.GetComponent<UnitFaction>().SetFaction(faction);
                 if (group.count > 1)
                 {

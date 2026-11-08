@@ -31,11 +31,25 @@ MonoBehaviour:
   guaranteedEffects: []
   primaryDamageType: 0
   guaranteedBonusDamage: []
-  generateStarRewards: 0
+  generateStarRewards: 1
   possibleAbilities: []
-  possibleBonuses: []
+  possibleBonuses: 
+  - kind: 0
+    weight: 100
+    stat: 1
+    damageType: 0
+    amountRange: {x: 1, y: 2}
+    effect: {}
   grantedActionSet: {fileID: 0}
   grantedEffectCollection: {fileID: 0}
+  startingScaling: 
+    strength: 0
+    dexterity: 0
+    vitality: 1
+    constitution: 1
+    perception: 0
+    intelligence: 1
+  weaponSubtype: 0
   _armorRating: 0
   _wardRating: 1
   resistances: []

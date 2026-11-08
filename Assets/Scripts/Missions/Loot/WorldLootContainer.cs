@@ -32,6 +32,7 @@ public sealed class WorldLootContainer : WorldInteractable
     [SerializeField] private List<WorldLootStack> contents = new();
     [SerializeField] private bool generated;
     [SerializeField] private bool inspected;
+    [SerializeField] private bool collected;
 
     public IReadOnlyList<WorldLootStack> Contents => contents;
     public override string InteractionMenuLabel => kind switch
@@ -131,6 +132,13 @@ public sealed class WorldLootContainer : WorldInteractable
         }
 
         Debug.Log(result.ToString(), this);
+        if (!collected && MissionSpoils.Instance != null)
+        {
+            MissionSpoils.Instance.Collect(contents);
+            collected = true;
+
+        }
+
         if (!inspected)
         {
             inspected = true;

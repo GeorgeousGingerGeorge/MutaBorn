@@ -105,7 +105,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
             action.CombatBehavior != CombatActionBehavior.ApplyGuard &&
             action.CombatBehavior != CombatActionBehavior.DamageArea &&
             action.CombatBehavior != CombatActionBehavior.HealArea &&
-            action.CombatBehavior != CombatActionBehavior.ApplySelfStatus)
+            action.CombatBehavior != CombatActionBehavior.ApplySelfStatus &&
+            action.CombatBehavior != CombatActionBehavior.RestoreMana)
         {
             Debug.LogWarning($"'{action.DisplayName}' does not have an executable combat behavior yet.", this);
 
@@ -158,6 +159,33 @@ public sealed class CombatActionExecutor : MonoBehaviour
             Debug.Log($"Not enough AP to use {action.DisplayName}.", source);
 
             return false;
+
+        }
+
+        if (action.MaxUsesPerTurn > 0 && loadout.GetUsesThisTurn(action) >= action.MaxUsesPerTurn)
+        {
+            Debug.Log($"{action.DisplayName} has reached its per-turn use limit.", source);
+
+            return false;
+
+        }
+
+        if (action.CombatBehavior == CombatActionBehavior.RestoreMana)
+        {
+            if (IsTargeting || action.ManaRestoreAmount <= 0 ||
+                source.data.currentMana >= source.data.maxMana)
+            {
+                return false;
+
+            }
+
+            source.data.ModifyActionPoints(-Mathf.CeilToInt(action.ApCost));
+            source.data.ModifyMana(action.ManaRestoreAmount);
+            loadout.RecordSuccessfulUse(action);
+            Debug.Log($"{source.data.characterName} used {action.DisplayName}: " +
+                $"MP {source.data.currentMana}/{source.data.maxMana}.", source);
+
+            return true;
 
         }
 

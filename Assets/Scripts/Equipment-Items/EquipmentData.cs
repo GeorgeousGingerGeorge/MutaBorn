@@ -10,6 +10,8 @@ public class EquipmentData : ItemData
     [Header("ItemInforamtion- equipmentType/Grade/Scalers")]
     [SerializeField] private ArmorCategory armor = ArmorCategory.None;
     [SerializeField] private WeaponCategory weapon = WeaponCategory.None;
+    [Header("Weapon Subtype")]
+    [SerializeField] private WeaponSubtype weaponSubtype = WeaponSubtype.None;
     [Header("Weapon Visuals")]
     [SerializeField] private GameObject _weaponModelPrefab;
     [SerializeField] private AccessoryCategory accessory = AccessoryCategory.None; 
@@ -90,6 +92,7 @@ public class EquipmentData : ItemData
 
     public ArmorCategory armorGear => armor; 
     public WeaponCategory weaponGear => weapon;
+    public WeaponSubtype WeaponSubtypeId => weaponSubtype;
     public AccessoryCategory accessoryGear => accessory;
     public EquipmentSlots slot => targetSlot;
     public EquipmentFitType EquipmentFit
