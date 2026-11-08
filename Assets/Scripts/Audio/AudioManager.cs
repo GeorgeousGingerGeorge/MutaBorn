@@ -1,5 +1,12 @@
 using UnityEngine;
 
+[System.Serializable]
+public class SoundEffect
+{
+    public string SoundName;
+    public AudioClip audioClip;
+}
+
 public class AudioManager : MonoBehaviour
 {
     private AudioSource audioSource;
@@ -7,6 +14,7 @@ public class AudioManager : MonoBehaviour
 
     [Range(0.0f, 1.0f)]
     public float volume = 1.0f;
+    public SoundEffect[] soundEffects;
 
     private void Awake()
     {
@@ -22,9 +30,22 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySound(AudioClip clip)
     {
-        if (clip != null)
+        if (clip != null && audioSource != null)
         {
             audioSource.PlayOneShot(clip, volume);
+        }
+    }
+    public void PlaySound(string soundName)
+    {
+        SoundEffect sound = System.Array.Find(soundEffects, s => s.SoundName == soundName);
+
+        if (sound != null)
+        {
+            PlaySound(sound.audioClip);
+        }
+        else
+        {
+            Debug.LogWarning("Sound not found: " + soundName);
         }
     }
 }
