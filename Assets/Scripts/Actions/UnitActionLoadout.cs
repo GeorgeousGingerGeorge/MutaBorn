@@ -91,6 +91,12 @@ public class UnitActionLoadout : MonoBehaviour
 
         }
 
+        foreach (ActionDefinition learned in unit.data.learnedActions)
+        {
+            AddAction(learned, "Learned", ids, definitions);
+
+        }
+
         // Equipment actions come from the items the unit actually brought into combat.
         if (unit.data.equippedItems != null)
         {
