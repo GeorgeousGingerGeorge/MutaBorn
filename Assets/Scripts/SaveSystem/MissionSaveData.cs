@@ -20,6 +20,7 @@ using UnityEngine;
 [Serializable] public class UnitSaveData
 {
     public string unitId;
+    public string persistentId; // Save system Identity
     public string unitName;
     public string raceName;
 

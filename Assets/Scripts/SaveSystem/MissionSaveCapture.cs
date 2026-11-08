@@ -19,9 +19,19 @@ public static class MissionSaveCapture
             if (unit.data == null)
                 continue;
 
+            MissionUnitIdentity identity = unit.GetComponent<MissionUnitIdentity>();
+
+            string persistentId = identity != null ? identity.PersistentId : "";
+
+            if (string.IsNullOrEmpty(persistentId) && unit.InitializationMode != UnitInitializationMode.LegacyScene)
+            {
+                persistentId = $"CrewSlot_{unit.RosterDeploymentSlot}"; // 	EnemySpawn_01:group0:unit0 for enemies (& civ) - CrewSlot_0 for our players chars
+            }
+
             UnitSaveData savedUnit = new UnitSaveData
             {
                 unitId = unit.data.UnitId,
+                persistentId = persistentId,
                 unitName = unit.data.characterName,
                 raceName = unit.data.raceName,
 
