@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngineInternal;
 
 // Faction AI: recover from initialization races, prioritize usable attacks, and spend remaining AP.
@@ -12,11 +13,16 @@ public sealed class SimpleFactionAI : MonoBehaviour
     //[SerializeField] private MovementManager movementManager;
     [SerializeField] private CombatActionExecutor combatExecutor;
     [SerializeField] private MissionObjectiveManager missionManager;
+    private LineOfSight lineOfSight;
+    private DetectionSystem detectionSystem;
 
     [Header("Pacing")]
     [SerializeField, Min(0.1f)] private float movementSpeed = 6f;
     [SerializeField, Min(0f)] private float delayBetweenUnits = 0.3f;
     [SerializeField] private bool logDecisions = true;
+
+    private Dictionary<UnitController, GridNode> lastPatrolDestination = new Dictionary<UnitController, GridNode>();
+    private Dictionary<UnitController, GridNode> investigationTargets = new Dictionary<UnitController, GridNode>();
 
     [Header("AI Decision Limits")]
     [SerializeField, Range(1, 20)] private int maxDecisionsPerUnit = 8;
@@ -42,6 +48,14 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
         //}
 
+        if(detectionSystem == null) 
+        {
+            detectionSystem = FindAnyObjectByType<DetectionSystem>();
+        }
+        if (lineOfSight == null) 
+        {
+            lineOfSight = FindAnyObjectByType<LineOfSight>();
+        }
         if (combatExecutor == null)
         {
             combatExecutor = FindAnyObjectByType<CombatActionExecutor>();
@@ -64,6 +78,14 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
         }
 
+        if (lineOfSight == null) 
+        {
+            lineOfSight = FindAnyObjectByType<LineOfSight>();
+        }
+        if (detectionSystem == null)
+        {
+            detectionSystem = FindAnyObjectByType<DetectionSystem>();
+        }
         //if (movementManager == null)
         //{
         //    movementManager = FindAnyObjectByType<MovementManager>();
@@ -220,6 +242,8 @@ public sealed class SimpleFactionAI : MonoBehaviour
         bool moved = false;
         int failures = 0;
 
+        detectionSystem.UpdateAIDetection(faction.Id);
+
         for (int decision = 0; decision < maxDecisionsPerUnit && CanContinue(faction) && IsLiving(actor); decision++)
         {
             MutaBorn.Gameplay.UnitStatusController statuses = actor.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
@@ -250,142 +274,182 @@ public sealed class SimpleFactionAI : MonoBehaviour
                 continue;
 
             }
-
+            GridNode destination = null;
+            detectionSystem.UpdateAIDetection(faction.Id);
             UnitController enemy = FindBestHostile(actor, faction, loadout, out Dictionary<GridNode, int> stepsToEnemy);
+            UnitController investigateEnemy = null;
             if (enemy == null)
             {
+                investigateEnemy = GetEnemyToInvestigate(faction);
+
+
+                if (investigateEnemy != null)
+                {
+                    destination = GetInvestigationDestination(investigateEnemy, faction);
+                    if (destination != null)
+                    {
+                        investigationTargets[investigateEnemy] = destination;
+                    }
+                }
+
+                if (destination == null)
+                {
+                    destination = PickPatrolDestination(actor);
+                }
+
                 if (logDecisions)
                 {
                     Debug.Log($"AI: {actor.data.characterName} found no reachable visible hostile.", actor);
 
                 }
 
-                break;
+               
 
             }
-
-            ActionDefinition best = null;
-            float bestScore = float.NegativeInfinity;
-            foreach (ActionDefinition action in loadout.Actions)
+            else
             {
-                if (action == null || action.IsPassive || rejected.Contains(action) ||
-                    actor.data.currentActionPoints < Mathf.CeilToInt(action.ApCost) ||
-                    (statuses != null && !statuses.CanUseAction(action)))
+                ActionDefinition best = null;
+                float bestScore = float.NegativeInfinity;
+                foreach (ActionDefinition action in loadout.Actions)
                 {
-                    continue;
-
-                }
-
-                bool direct = action.CombatBehavior == CombatActionBehavior.DamageUnit &&
-                    GetUsableAttacks(actor, enemy, new List<ActionDefinition> { action }).Count > 0;
-                bool area = action.CombatBehavior == CombatActionBehavior.DamageArea &&
-                    actor.currentNode != null && enemy.currentNode != null &&
-                    actor.currentNode.floorID == enemy.currentNode.floorID &&
-                    Vector3.Distance(actor.transform.position, enemy.transform.position) <=
-                    action.AreaThrowRangeInTiles * GetGridCellSize();
-
-                if (!direct && !area)
-                {
-                    continue;
-
-                }
-
-                // Prefer stronger, cheaper attacks; favor finishing injured targets.
-                float score = action.DamageMultiplier * 10f + action.FlatDamageBonus +
-                    action.HitCount * 2f - action.ApCost * 0.3f + Random.Range(0f, 2f);
-                if (area)
-                {
-                    score += 3f;
-
-                }
-
-                if (score > bestScore)
-                {
-                    best = action;
-                    bestScore = score;
-
-                }
-
-            }
-
-            if (best != null)
-            {
-                FocusCameraOnActor(actor);
-
-                bool success = best.CombatBehavior == CombatActionBehavior.DamageArea
-                    ? combatExecutor.TryExecuteAiArea(actor, enemy, best)
-                    : combatExecutor.TryExecuteAiAttack(actor, enemy, best);
-                if (success)
-                {
-                    failures = 0;
-                    if (logDecisions)
+                    if (action == null || action.IsPassive || rejected.Contains(action) ||
+                        actor.data.currentActionPoints < Mathf.CeilToInt(action.ApCost) ||
+                        (statuses != null && !statuses.CanUseAction(action)))
                     {
-                        Debug.Log($"AI: {actor.data.characterName} used {best.DisplayName} on {enemy.data.characterName}.", actor);
+                        continue;
 
                     }
 
-                    if (actor.data.currentActionPoints >= apBefore)
+                    bool direct = action.CombatBehavior == CombatActionBehavior.DamageUnit &&
+                        GetUsableAttacks(actor, enemy, new List<ActionDefinition> { action }).Count > 0;
+                    bool area = action.CombatBehavior == CombatActionBehavior.DamageArea &&
+                        actor.currentNode != null && enemy.currentNode != null &&
+                        actor.currentNode.floorID == enemy.currentNode.floorID &&
+                        Vector3.Distance(actor.transform.position, enemy.transform.position) <=
+                        action.AreaThrowRangeInTiles * GetGridCellSize();
+
+                    if (!direct && !area)
                     {
-                        // Zero-cost or unusual actions must not loop indefinitely.
+                        continue;
+
+                    }
+
+                    // Prefer stronger, cheaper attacks; favor finishing injured targets.
+                    float score = action.DamageMultiplier * 10f + action.FlatDamageBonus +
+                        action.HitCount * 2f - action.ApCost * 0.3f + Random.Range(0f, 2f);
+                    if (area)
+                    {
+                        score += 3f;
+
+                    }
+
+                    if (score > bestScore)
+                    {
+                        best = action;
+                        bestScore = score;
+
+                    }
+
+                }
+
+                if (best != null)
+                {
+                    FocusCameraOnActor(actor);
+                    bool hasLos = lineOfSight.HasPhysicalLineOfSight(actor, enemy);
+                    if (!hasLos)
+                    {
                         rejected.Add(best);
 
+                        if (logDecisions)
+                        {
+                            Debug.Log($"AI: {actor.data.characterName} cannot attack {enemy.data.characterName} due to blocked LOS. Moving toward target", actor);
+                        }
                     }
-
-                    if (delayBetweenActions > 0f)
+                    else
                     {
-                        yield return new WaitForSeconds(delayBetweenActions);
+                        bool success = best.CombatBehavior == CombatActionBehavior.DamageArea
+                        ? combatExecutor.TryExecuteAiArea(actor, enemy, best)
+                        : combatExecutor.TryExecuteAiAttack(actor, enemy, best);
+                        if (success)
+                        {
+                            failures = 0;
+                            if (logDecisions)
+                            {
+                                Debug.Log($"AI: {actor.data.characterName} used {best.DisplayName} on {enemy.data.characterName}.", actor);
 
+                            }
+
+                            if (actor.data.currentActionPoints >= apBefore)
+                            {
+                                // Zero-cost or unusual actions must not loop indefinitely.
+                                rejected.Add(best);
+
+                            }
+
+                            if (delayBetweenActions > 0f)
+                            {
+                                yield return new WaitForSeconds(delayBetweenActions);
+
+                            }
+
+                            continue;
+
+                        }
+                        else
+                        {
+                            rejected.Add(best);
+                            failures++;
+                            if (logDecisions)
+                            {
+                                Debug.LogWarning($"AI: {actor.data.characterName} had {best.DisplayName} rejected by combat executor.", actor);
+
+                            }
+
+                            //if (failures >= maximumRejectedActions)
+                            //{
+                            //    break;
+
+                            //}
+
+                            continue;
+                        }
                     }
 
-                    continue;
+
+
+
 
                 }
 
-                rejected.Add(best);
-                failures++;
-                if (logDecisions)
-                {
-                    Debug.LogWarning($"AI: {actor.data.characterName} had {best.DisplayName} rejected by combat executor.", actor);
-
-                }
-
-                if (failures >= maximumRejectedActions)
+                // Move once, then reassess attacks with remaining AP. This avoids
+                // oscillating between destinations in the same unit turn.
+                if (moved || (statuses != null && !statuses.CanMoveVoluntarily))
                 {
                     break;
 
                 }
 
-                continue;
-
-            }
-
-            // Move once, then reassess attacks with remaining AP. This avoids
-            // oscillating between destinations in the same unit turn.
-            if (moved || (statuses != null && !statuses.CanMoveVoluntarily))
-            {
-                break;
-
-            }
-
-            List<ActionDefinition> attacks = new List<ActionDefinition>();
-            foreach (ActionDefinition action in loadout.Actions)
-            {
-                if (action != null && !action.IsPassive &&
-                    action.CombatBehavior == CombatActionBehavior.DamageUnit)
+                List<ActionDefinition> attacks = new List<ActionDefinition>();
+                foreach (ActionDefinition action in loadout.Actions)
                 {
-                    attacks.Add(action);
+                    if (action != null && !action.IsPassive &&
+                        action.CombatBehavior == CombatActionBehavior.DamageUnit)
+                    {
+                        attacks.Add(action);
+
+                    }
 
                 }
 
+                if (attacks.Count == 0)
+                {
+
+                    break;
+
+                }
+                destination = PickDestination(actor, enemy, attacks, stepsToEnemy);
             }
-
-            if (attacks.Count == 0)
-            {
-                break;
-
-            }
-
-            GridNode destination = PickDestination(actor, enemy, attacks, stepsToEnemy);
+           
             if (destination == null || destination == actor.currentNode)
             {
                 break;
@@ -395,6 +459,11 @@ public sealed class SimpleFactionAI : MonoBehaviour
             GridNode origin = actor.currentNode;
             moved = true;
             yield return MoveTo(actor, destination, faction);
+            if (actor.currentNode == destination && investigateEnemy != null) 
+            {
+                investigationTargets.Remove(investigateEnemy);
+            }
+
             if (actor.currentNode == origin)
             {
                 if (logDecisions)
@@ -406,6 +475,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
                 break;
 
             }
+            
 
         }
 
@@ -446,11 +516,16 @@ public sealed class SimpleFactionAI : MonoBehaviour
             }
 
             UnitController candidate = member.GetComponent<UnitController>();
+
             if (!IsLiving(candidate) || candidate.currentNode == null ||
                 candidate.currentNode.floorID != actor.currentNode.floorID)
             {
                 continue;
 
+            }
+            if (!detectionSystem.IsCurrentlyVisible(candidate, faction.Id)) 
+            {
+                continue;
             }
 
             MutaBorn.Gameplay.UnitStatusController status = candidate.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
@@ -686,6 +761,137 @@ public sealed class SimpleFactionAI : MonoBehaviour
         return bestAttackTile != null ? bestAttackTile : bestApproachTile;
 
     }
+    private GridNode PickPatrolDestination(UnitController actor) //Added by Michael, unit Patrols now
+    {
+        if (actor == null || actor.currentNode == null)
+        {
+
+            return null;
+        }
+
+        UnitMovements movement = actor.GetComponent<UnitMovements>();
+
+        if (movement == null) 
+        {
+            return null;
+        }
+
+        // Calculate all nodes this unit can currently reach
+        movement.AIMovement();
+
+        if (movement.reachableNodes == null || movement.reachableNodes.Count == 0) 
+        {
+            return null;
+        }
+
+        List<GridNode> candidates = new List<GridNode>();
+
+        lastPatrolDestination.TryGetValue(actor, out GridNode previousDestination);
+
+        foreach (GridNode node in movement.reachableNodes.Keys) 
+        {
+            if (node == null || node == actor.currentNode) 
+            {
+                continue;
+            }
+
+            if (node == previousDestination) 
+            {
+                continue;
+            }
+
+            candidates.Add(node);
+        }
+
+        //avoiding the previous destination and has no other option
+        //allow it again.
+
+        if (candidates.Count == 0) 
+        {
+            foreach (GridNode node in movement.reachableNodes.Keys) 
+            {
+                if (node != null && node != actor.currentNode) 
+                {
+                    candidates.Add(node);
+                }
+            }
+        }
+
+        if (candidates.Count == 0) 
+        {
+            return null;
+        }
+
+        GridNode destination = candidates[Random.Range(0, candidates.Count)];
+
+        lastPatrolDestination[actor] = destination;
+
+        return destination;
+    }
+    private GridNode GetInvestigationDestination(UnitController actor, FactionData faction) 
+    {
+        if (actor == null || faction == null) 
+        {
+            return null;
+        }
+
+        //Continue an existing investigation if one is active 
+        if(investigationTargets.TryGetValue(actor, out GridNode existingTarget)) 
+        {
+            return existingTarget;
+        }
+
+        if (!detectionSystem.DetectedUnits.TryGetValue(faction.Id, out HashSet<UnitController> detectedUnits)) 
+        {
+            return null;
+        }
+
+        foreach (UnitController enemy in detectedUnits) 
+        {
+            if (enemy == null || !IsLiving(enemy)) 
+            {
+                continue;
+            }
+
+            if (detectionSystem.IsCurrentlyVisible(enemy, faction.Id)) 
+            {
+                continue;
+            }
+
+            GridNode lastKnownLocation = detectionSystem.GetLastKnownLocation(enemy, faction.Id);
+
+            if (lastKnownLocation == null) 
+            {
+                continue;
+            }
+            investigationTargets[actor] = lastKnownLocation;
+            return lastKnownLocation;
+        }
+        return null;
+    }
+    private UnitController GetEnemyToInvestigate(FactionData faction) 
+    {
+        if (!detectionSystem.DetectedUnits.TryGetValue(faction.Id, out HashSet<UnitController> detectedUnits)) 
+        {
+            return null;
+        }
+
+        foreach(UnitController enemy in detectedUnits) 
+        {
+            if (enemy == null || !IsLiving(enemy)) 
+            {
+                continue;
+            }
+
+            if (detectionSystem.IsCurrentlyVisible(enemy, faction.Id)) 
+            {
+                continue;
+            }
+
+            return enemy;
+        }
+        return null;
+    }
 
     private IEnumerator MoveTo(UnitController actor, GridNode destination, FactionData faction)
     {
@@ -726,6 +932,11 @@ public sealed class SimpleFactionAI : MonoBehaviour
         if (!CanContinue(faction) || !IsLiving(actor)) 
         {
             yield break;
+        }
+
+        if (investigationTargets.TryGetValue(actor, out GridNode investigationTarget) && actor.currentNode == investigationTarget)
+        {
+            investigationTargets.Remove(actor);
         }
        
      
@@ -786,10 +997,15 @@ public sealed class SimpleFactionAI : MonoBehaviour
             }
 
             UnitController other = member.GetComponent<UnitController>();
+          
             if (!IsLiving(other) || other == actor || other.currentNode == null)
             {
                 continue;
 
+            }
+            if (!detectionSystem.IsCurrentlyVisible(other, faction.Id))
+            {
+                continue;
             }
 
             MutaBorn.Gameplay.UnitStatusController enemyStatuses =

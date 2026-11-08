@@ -163,7 +163,7 @@ public class LineOfSight : MonoBehaviour
                 continue;
             }
 
-            if (obstacle.currentData.blocksLineOfSight) 
+            if (obstacle.blockLineOfSight) 
             {
                 return false;
             }
@@ -190,7 +190,7 @@ public class LineOfSight : MonoBehaviour
         foreach (RaycastHit hit in hits) 
         {
 
-            ObstacleController obstacle = hit.collider.GetComponent<ObstacleController>();
+            ObstacleController obstacle = hit.collider.GetComponentInParent<ObstacleController>();
             
 
             if (obstacle == null) 
@@ -203,7 +203,7 @@ public class LineOfSight : MonoBehaviour
                 continue;
             }
 
-            if (obstacle.currentData.blocksLineOfSight) 
+            if (obstacle.blockLineOfSight) 
             {
                 return false;
             }

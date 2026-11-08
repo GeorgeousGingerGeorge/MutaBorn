@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class ObstacleController : MonoBehaviour
@@ -7,83 +8,153 @@ public class ObstacleController : MonoBehaviour
     public GridNode firstnode { get; private set; } = null;
     public GridNode secondnode { get; private set; } = null;
     private Occupancy occupancy;
+    private FloorConnector connector;
 
     [Header("Obstacle Information")]
     [SerializeField] private ObstacleData data;
 
+    [Header("Obstacle Information- Accessor")]
     public ObstacleData currentData { get; private set; }
-    private int currentHealth;
-    private CoverState currentState;
+
+    [Header("Obstacle Information- Name of Obstacle/TypeOfObstacle")]
+    public string obstacleName { get; private set; }
+    public ObstacleType typeOfObstacle{ get; private set;  }
+
+    [Header("ObstacleInformation- MaxDurability/CurrentDurability")]
+    public int maxHealth { get; private set; }
+    public int currentHealth { get; private set; }
+
+    [Header("Obstacle Information- States/Height/Directions")]
+    public CoverState stateOfCover { get; private set; }
+    public float coverHeight { get; private set; }
+
+    [Header("Obstacle Information- GamePlay Checks (Movements/targeting/shooting")]
+    public bool blocksMovement { get; private set; }
     public bool blockLineOfSight { get; private set; }
+    public bool blockProjectile { get; private set; }
+
+    [Header("Obstacle Information- Traversal Check")]
+    public bool canBeVaulted { get; private set; }
+    public bool canBeClimbed { get; private set; }
+
+    [Header("Obstacle Infomration- Visual Changes to objects")]
+    public ObstacleDestructionStages currentStage { get; private set; }
+    public int currentStageIndex { get; private set; } = -1;
+
+    public bool isDestructible { get; private set; }
+
+    private bool occupancyRegistered;
 
     public void Awake()
     {
-        currentData = data;
-        if (currentData != null)
-        {
-            currentHealth = currentData.maxHealth;
-            currentState = currentData.coverState;
-            blockLineOfSight = currentData.blocksLineOfSight;
-        }
+        InitializeObstacleData();
        
     }
 
+
+    //Initialization
+    public void InitializeObstacleData() 
+    {
+        if (data == null)
+        {
+            Debug.LogWarning("An obstacle is missing its ObstacleData");
+            return;
+        }
+
+        currentData = data;
+
+        obstacleName = currentData.obstacleName;
+        typeOfObstacle = currentData.typeOfObstacle;
+        maxHealth = currentData.maxHealth;
+        currentHealth = maxHealth;
+        isDestructible = currentData.isDestructible;
+
+        //Gives Current Default Values of the obstacle
+        ApplyDefaultObstacleInformation();
+
+        //Determine the Initial Destruction Stage
+        UpdateDestructionStage();
+    }
+
+    //ApplyDefault
+    private void ApplyDefaultObstacleInformation() 
+    {
+        blocksMovement = currentData.blocksMovement;
+        blockLineOfSight = currentData.blocksLineOfSight;
+        blockProjectile = currentData.blocksProjectile;
+
+        stateOfCover = currentData.coverState;
+        coverHeight = currentData.coverHeight;
+
+        canBeVaulted = currentData.canBeVaulted;
+        canBeClimbed = currentData.canBeClimbed;
+
+
+
+    }
     public void InitializeNodes() 
     {
+        if (currentData == null) 
+        {
+            Debug.LogWarning("Obstacle data needs to be initialized before nodes");
+            return;
+        }
+
         GridManager gridManager = FindAnyObjectByType<GridManager>();
         occupancy = FindAnyObjectByType<Occupancy>();
+
+        if (gridManager == null || occupancy == null) 
+        {
+            Debug.LogWarning("Obstacle Dependencies could not be found: GridManager and Occupancy");
+            return;
+        }
+
         switch (currentData.typeOfObstacle)
         {
 
             case ObstacleType.Solid:
                 {
                     firstnode = gridManager.GetNodeFromClosestWorldPosition(transform.position);
-                    occupancy.RegisterSolidObstacles(firstnode, this);
+                  
 
                 }
                 break;
             case ObstacleType.Edges:
                 {
 
-
+                    //Gets the perpendicular Direction of the current Transform
                     Vector3 perpendicular = transform.right;
                     perpendicular.y = 0f;
                     perpendicular.Normalize();
 
+                    //Calculates the center of the object
                     float cellsizeCenter = gridManager.GridCellSize / 2f;
 
+                    //Acquires the position of the potential nodes on either side of the object
                     Vector3 positionA = transform.position + perpendicular * cellsizeCenter;
                     Vector3 positionB = transform.position - perpendicular * cellsizeCenter;
 
-
+                    //Gets The node by their world position
                     firstnode = gridManager.GetNodeFromClosestWorldPosition(positionA);
                     secondnode = gridManager.GetNodeFromClosestWorldPosition(positionB);
 
                     if (firstnode == null || secondnode == null || firstnode == secondnode)
                     {
-
+                        Debug.LogWarning("Invalid Edge Obstacle node Reference.", this);
                         return;
                     }
 
-                    occupancy.RegisterEdgeObstacles(firstnode, secondnode, this);
+                    
                 }
                 break;
             case ObstacleType.FloorConnectors:
                 {
-                    FloorConnector connector = GetComponent<FloorConnector>();
-                    switch (connector.connectorType) 
+                    connector = GetComponent<FloorConnector>();
+
+                    if (connector == null) 
                     {
-                        case ConnectorType.Stairs:
-                            {
-                                foreach (GridNode node in connector.nodes) 
-                                {
-                                    Debug.Log($"FloorID ->{node.floorID}, GridPosition -> {node.coords} ");
-                                    occupancy.RegisterSolidObstacles(node, this);
-                                }
-                            }
-                            break;
-                        default:
-                            break;
+                        Debug.LogWarning("Floor Connector Obstacle is missing FloorConnector Component");
+                        return;
                     }
                 }
                 break;
@@ -91,93 +162,291 @@ public class ObstacleController : MonoBehaviour
                 break;
 
         }
-    }
-    
-    public void SetValue_Health(int currentHealth) 
-    {
-        this.currentHealth = currentHealth;
-    }
-   
-    public int GetValue_Health() 
-    {
-        return currentHealth;
-    }
-    
 
-    //Will be moved into the obstacle logic script later
-    public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        if (currentHealth <= (currentData.maxHealth / 2) && currentHealth > (currentData.maxHealth / 4))
-        {
-            ChangeState(CoverState.LOW);
-        }
-        else if (currentHealth <= ((currentData.maxHealth / 4)))
-        {
-            ChangeState(CoverState.NONE);
-        }
-        else if (currentHealth <= 0) 
-        {
-            Destroy(this);
-        }
+        UpdateOccupancyRegistration();
     }
 
-    public void RepairObstacle(int repair)
-    {
-        currentHealth += repair;
+    //Destruction Stages
 
-        if (currentHealth > (currentData.maxHealth / 2))
+    private void UpdateDestructionStage() 
+    {
+        if (currentData == null) 
         {
-            ChangeState(CoverState.HIGH);
+            Debug.LogWarning("This was called before CurrentData was set");
+            return;
         }
-        else if (currentHealth < (currentData.maxHealth / 2) && currentHealth > (currentData.maxHealth / 4)) 
+
+        ObstacleDestructionStages[] stages = currentData.destructionStages;
+
+        //No Configured Stages: Use Default
+
+        if (stages == null || stages.Length == 0) 
         {
-            ChangeState(CoverState.LOW);
+            currentStage = null;
+            currentStageIndex = -1;
+
+            ApplyDefaultObstacleInformation();
+            return;
+        }
+
+        ObstacleDestructionStages selectedStage = null;
+        int selectedIndex = -1;
+
+        //Get's the Final entry in the array
+        int lastStageIndex = stages.Length - 1;
+
+        if (currentHealth <= 0) 
+        {
+            selectedIndex = lastStageIndex;
+            selectedStage = stages[selectedIndex];
+        }
+        else 
+        {
+            float healthPercentage = (float)currentHealth / maxHealth;
+
+            //Find threshold that the current health meets
+
+            for(int stageThreshold = 0; stageThreshold < lastStageIndex; stageThreshold++) 
+            {
+                ObstacleDestructionStages stage = stages[stageThreshold];
+
+                if(stage == null) 
+                {
+                    continue;
+                }
+
+                if (healthPercentage >= stage.healthThreshold) 
+                {
+                    selectedStage = stage;
+                    selectedIndex = stageThreshold;
+                    break;
+                }
+            }
         }
         
-    }
+        //If No stage threshold matches, use default
 
-    public void ChangeState(CoverState state) //Needed later for when we change state 
-    {
-        if (currentState == state) 
+        if(selectedStage == null) 
+        {
+            currentStage = null;
+            currentStageIndex = -1;
+
+            ApplyDefaultObstacleInformation();
+            UpdateOccupancyRegistration();
+
+            return;
+        }
+
+        //Don't reapply an unchanged stage
+        if(selectedIndex == currentStageIndex) 
         {
             return;
         }
 
-        switch (state) 
+        currentStage = selectedStage;
+        currentStageIndex = selectedIndex;
+
+        ApplyStageProperties(selectedStage);
+        UpdateStageVisuals();
+
+        UpdateOccupancyRegistration();
+
+    }
+    private void ApplyStageProperties(ObstacleDestructionStages stage) 
+    {
+        blocksMovement = stage.blockMovement;
+        blockLineOfSight = stage.blockLineofSight;
+        blockProjectile = stage.blockProjectile;
+
+        stateOfCover = stage.coverState;
+        coverHeight = stage.obstacleHeight;
+   
+    }
+
+    private void UpdateStageVisuals() 
+    {
+        ObstacleDestructionStages[] stages = currentData.destructionStages;
+
+        foreach(ObstacleDestructionStages stage in stages) 
         {
-            case CoverState.HIGH:
-                {
-                    currentState = state;
-                }
-                break;
-            case CoverState.LOW:
-                {
-                    currentState = state;
-                }
-                break;
-            case CoverState.NONE:
-                {
-                    currentState = state;
-                }
-                break;
-            default:
-                break; 
+            if (stage == null || stage.stageVisual == null) 
+            {
+                continue;
+            }
+
+            stage.stageVisual.SetActive(false);
+        }
+
+        if (currentStage != null && currentStage.stageVisual != null) 
+        {
+            currentStage.stageVisual.SetActive(true);
         }
     }
-    public void DestroyObstacle() 
+    //Occupancy Information
+
+    private void UpdateOccupancyRegistration() 
     {
-        switch (currentData.typeOfObstacle) 
+        if (occupancy == null || occupancyRegistered) 
+        {
+            return;
+        }
+
+        RegisterObstacle();
+        occupancyRegistered = true;
+    }
+
+    //Registering the obstacle to occupancy
+    private void RegisterObstacle() 
+    {
+        
+        switch (typeOfObstacle) 
         {
             case ObstacleType.Solid:
-                occupancy.UnregisterSolidObstacles(firstnode, this);
+                {
+                    if (firstnode != null)
+                    { 
+                        occupancy.RegisterSolidObstacles(firstnode, this); 
+                    }
+                }
                 break;
             case ObstacleType.Edges:
-                occupancy.UnregisterEdgeObstacles(firstnode, secondnode, this);
+                {
+                    if (firstnode != null && secondnode != null) 
+                    {
+                        occupancy.RegisterEdgeObstacles(firstnode, secondnode, this);
+                    }
+                    
+                }
+                break;
+            case ObstacleType.FloorConnectors:
+                {
+                    
+                    switch (connector.connectorType) 
+                    {
+                        case ConnectorType.Stairs:
+                            {
+                                foreach(GridNode node in connector.nodes) 
+                                {
+                                    if (node != null) 
+                                    {
+                                        occupancy.RegisterSolidObstacles(node, this);
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
                 break;
             default:
+                {
+                    Debug.LogWarning($"Obstacle Controller -> RegisterObstacles Method: This case ({obstacleName} , {typeOfObstacle} was not added");
+
+                }
                 break;
         }
-        Destroy(this);
+    }
+    public void UnregisterObstacle() 
+    {
+        switch (typeOfObstacle)
+        {
+            case ObstacleType.Solid:
+                {
+                    if (firstnode != null)
+                    {
+                        occupancy.UnregisterSolidObstacles(firstnode, this);
+                    }
+                }
+                break;
+            case ObstacleType.Edges:
+                {
+                    if (firstnode != null && secondnode != null)
+                    {
+                        occupancy.UnregisterEdgeObstacles(firstnode, secondnode, this);
+                    }
+
+                }
+                break;
+            case ObstacleType.FloorConnectors:
+                {
+
+                    switch (connector.connectorType)
+                    {
+                        case ConnectorType.Stairs:
+                            {
+                                foreach (GridNode node in connector.nodes)
+                                {
+                                    if (node != null)
+                                    {
+                                        occupancy.UnregisterSolidObstacles(node, this);
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
+                break;
+            default:
+                {
+                    Debug.LogWarning("Obstacle Controller -> RegisterObstacles Method: This case was not added");
+
+                }
+                break;
+        }
+    }
+    public void SetValue_Durability(int health) 
+    {
+        if(maxHealth <= 0) 
+        {
+            return;
+        }
+
+        currentHealth = Mathf.Clamp(health, 0, maxHealth);
+        UpdateDestructionStage();
+    }
+   
+    public int GetValue_Durability() 
+    {
+        return currentHealth;
+    }
+    public void DestroyObstacle()
+    {
+        if (!isDestructible)
+        {
+            return;
+        }
+
+        currentHealth = 0;
+
+        UpdateDestructionStage();
+
+    }
+
+    //Will be moved into the obstacle logic script later
+    public void ModifyDurability(int damage, int multiplier)
+    {
+        if(!isDestructible || damage <= 0) 
+        {
+            return;
+        }
+        damage = damage * multiplier;
+        currentHealth = Mathf.Max(damage, 0, maxHealth);
+
+        UpdateDestructionStage();
+    }
+       
+
+    public void ChangeState(CoverState state) //Needed later for when we change state 
+    {
+        stateOfCover = state;
+    }
+
+    //CleanUp
+    private void OnDestroy() 
+    {
+        if (occupancyRegistered && occupancy != null) 
+        {
+            UnregisterObstacle();
+            occupancyRegistered = false;
+        }
     }
 }

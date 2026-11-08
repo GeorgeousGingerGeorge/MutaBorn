@@ -12,6 +12,7 @@ public class UnitMovements : MonoBehaviour
     private SelectionManager selectionController;
     private TurnManager turnController;
     private UnitFaction factionController;
+    
    
    
     private UnitController unit;
@@ -229,7 +230,8 @@ public class UnitMovements : MonoBehaviour
     }
     private void CompleteMovement() 
     {
-        visibileController.UpdateVisibility(); 
+        visibileController.UpdateVisibility();
+        visibileController.UpdateAICurrentDetection();
         unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
 
         isMoving = false;

@@ -74,6 +74,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
     private TargetingModeController targetingController;
     private TargetingSystem targetSystem; 
     private FactionManager factionManager;
+    private CoverSystem coverSystem;
+    private LineOfSight lineOfSight;
     private int pendingConsumableIndex = -1;
     private bool lastAreaKilledTarget;
 
@@ -90,6 +92,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
         Instance = this;
         factionManager = FindAnyObjectByType<FactionManager>();
         targetSystem = FindAnyObjectByType<TargetingSystem>();
+        coverSystem = FindAnyObjectByType<CoverSystem>();
+        lineOfSight = FindAnyObjectByType<LineOfSight>();
     }
 
     public bool TryBeginAction(UnitController source, ActionDefinition action)
@@ -924,6 +928,11 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+        if (lineOfSight == null || !lineOfSight.HasPhysicalLineOfSight(source, target)) 
+        {
+            return false;
+        }
+
         UnitActionLoadout loadout = source.GetComponent<UnitActionLoadout>();
         bool ownsAction = false;
         if (loadout != null)
@@ -964,6 +973,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+
+
         return ApplyDamage(source, target, action, false);
 
     }
@@ -999,6 +1010,14 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 break;
 
             }
+
+            CoverResult coverResult = coverSystem.CalculateCover(source, target);
+
+
+            Debug.Log($"[Cover Test] {target.data.characterName} has " +
+                $"{coverResult.coverState} cover. " +
+                $"Vertical Coverage: {coverResult.verticalCoverage: P0}.", target);
+
 
             if (!DamageResolver.TryResolveAction(source, target, action,
                 out DamageResult damageResult, sourceIndex))

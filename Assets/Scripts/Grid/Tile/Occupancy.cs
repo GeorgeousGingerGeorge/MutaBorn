@@ -86,9 +86,9 @@ public class Occupancy : MonoBehaviour
     }
     public bool IsBlockedBySolidObstacle(GridNode destination) 
     {
-        if (solidObstacles.ContainsKey(destination)) 
+        if (solidObstacles.TryGetValue(destination, out ObstacleController obstacle) ) 
         {
-            return true;
+            return obstacle != null && obstacle.blocksMovement;
         }
 
         return false; 
@@ -105,9 +105,19 @@ public class Occupancy : MonoBehaviour
 
     public bool IsBlockedByEdgeObstacle(GridNode current, GridNode destination) 
     {
-        bool isEdgeObstacle = edgeObstacles.ContainsKey((current, destination)) || edgeObstacles.ContainsKey((destination, current));
-    
-        return isEdgeObstacle;
+        bool movementBlocked = false;
+        if (edgeObstacles.TryGetValue((current, destination), out ObstacleController obstacleFirstEntry) && 
+            edgeObstacles.TryGetValue((destination, current), out ObstacleController obstacleSecondEntry)) 
+        {
+            if (obstacleFirstEntry == obstacleSecondEntry) 
+            {
+                movementBlocked = obstacleFirstEntry.blocksMovement || obstacleSecondEntry.blocksMovement;
+               
+            }
+           
+        }
+
+        return movementBlocked;
     }
     public bool IsDiagonalBlockedByEdgeObstacle(GridNode current, GridNode destination)
     {

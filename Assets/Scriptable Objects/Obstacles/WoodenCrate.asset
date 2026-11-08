@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1b6e62613c4344e9f054b8caec61da, type: 3}
   m_Name: WoodenCrate
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleData
-  obstacleName: Wood Crate
-  typeOfObstacle: 1
-  blocksMovement: 1
-  blocksLineOfSight: 1
-  coverState: 1
-  directions: -1
-  isDestructible: 1
-  maxHealth: 25
+  ObstacleName: Crate
+  TypeOfObstacle: 1
+  BlocksMovement: 1
+  BlocksLineOfSight: 1
+  BlocksProjectile: 1
+  CanBeVaulted: 0
+  CanBeClimbed: 0
+  coverstate: 0
+  Directions: 0
+  heightOfCover: 0
+  DestructionStages: []
+  IsDestructible: 0
+  MaxHealth: 100

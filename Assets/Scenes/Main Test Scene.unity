@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 1255480504}
   - component: {fileID: 1255480503}
   - component: {fileID: 1255480506}
+  - component: {fileID: 1255480507}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -641,6 +642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FogOfWarManager
   lineOfSight: {fileID: 1255480501}
   gridManager: {fileID: 1255480499}
+  SeeTiles: 0
 --- !u!114 &1255480503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,6 +703,22 @@ MonoBehaviour:
   stealthSystem: {fileID: 1255480504}
   gridManager: {fileID: 1255480499}
   groundTargetTolerance: 0.1
+--- !u!114 &1255480507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255480485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd11a2ed720e774fa88d290d7841147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoverSystem
+  occupancy: {fileID: 1255480492}
+  gridManager: {fileID: 1255480499}
+  showCoverDebug: 1
+  showRejectedObstacles: 1
 --- !u!1 &1408638570
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,7 +1078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484303073276043739, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00060560345
+      value: 0.00094803504
       objectReference: {fileID: 0}
     - target: {fileID: 7388750729601912177, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_Pivot.x
@@ -1153,6 +1171,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 1668695686}
   - {fileID: 1520054172}
-  - {fileID: 1255480500}
   - {fileID: 1408638572}
   - {fileID: 8131094225794094987}
+  - {fileID: 1255480500}

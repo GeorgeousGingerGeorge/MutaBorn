@@ -25,7 +25,7 @@ public class UnitController : MonoBehaviour
     public Vector2Int footPrint => footPrintSize;
     [Header("Unit's Direction")]
     public UnitFacing unitDirection { get; private set; }
-    public UnitStance currentStance { get; private set; } = UnitStance.Standing;
+    public UnitStance currentStance { get; private set; } = UnitStance.Crouching;
 
     [Header("Unit's Vision")]
     [SerializeField] private Transform VisionOrigin;
