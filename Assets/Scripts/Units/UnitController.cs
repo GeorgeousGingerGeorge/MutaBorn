@@ -13,7 +13,11 @@ public enum UnitInitializationMode
     RosterCreateOnceForTesting = 2
 
 }
-
+public enum UnitStance 
+{
+    Standing,
+    Crouching
+}
 public class UnitController : MonoBehaviour
 {
     [Header("Unit's Size")]
@@ -21,6 +25,7 @@ public class UnitController : MonoBehaviour
     public Vector2Int footPrint => footPrintSize;
     [Header("Unit's Direction")]
     public UnitFacing unitDirection { get; private set; }
+    public UnitStance currentStance { get; private set; } = UnitStance.Standing;
 
     [Header("Unit's Vision")]
     [SerializeField] private Transform VisionOrigin;
@@ -84,6 +89,8 @@ public class UnitController : MonoBehaviour
     [SerializeField] private LineRenderer selectionCircle;
 
     [SerializeField] private Transform weaponSocket;
+    private readonly Transform[] playerSockets = new Transform[7];
+    private readonly GameObject[] activeEquipmentModels = new GameObject[7];
     private GameObject activeWeapon;
     private GameObject activeRaceModel;
 
@@ -193,14 +200,20 @@ public class UnitController : MonoBehaviour
         RefreshEquipmentAndMutationGrants();
 
         // The weapon model is a scene visual, not a second inventory instance.
-        foreach (EquipmentInstance equipment in data.equippedItems)
+        foreach (UnitSlotId slot in UnitLoadoutSlots.All)
         {
-            if (equipment.template != null && equipment.template.weaponModelPrefab != null)
-            {
-                AttachWeapon(equipment.template.weaponModelPrefab);
+            int socketIndex = GetSocketIndex(slot);
 
-            }
+            if (socketIndex < 0)
+                continue;
 
+            if (!data.TryGetEquipmentAtSlot(slot, out EquipmentInstance equipment))
+                continue;
+
+            if (equipment.template == null || equipment.template.weaponModelPrefab == null)
+                continue;
+
+            AttachWeapon(equipment.template.weaponModelPrefab, socketIndex);
         }
 
     }
@@ -257,7 +270,7 @@ public class UnitController : MonoBehaviour
                 }
 
                 hasStartingEquipment = true;
-                if (!data.TryEquipStartingItem(equipment))
+                if (!data.TryEquipStartingItem(equipment, out UnitSlotId equippedSlot))
                 {
                     Debug.LogWarning($"Starting equipment '{equipment.name}' has no compatible free slot on {unitName}.", this);
 
@@ -267,7 +280,12 @@ public class UnitController : MonoBehaviour
 
                 if (equipment.weaponModelPrefab != null)
                 {
-                    AttachWeapon(equipment.weaponModelPrefab);
+                    int socketIndex = GetSocketIndex(equippedSlot);
+
+                    if (socketIndex >= 0)   
+                    {
+                        AttachWeapon(equipment.weaponModelPrefab, socketIndex);
+                    }
                 }
 
                 Debug.Log($"Equipped starting item: {equipment.name}");
@@ -913,20 +931,25 @@ public class UnitController : MonoBehaviour
 
         }
 
-        // Scene-prefab sockets can refer to a previous race model.
-        if (activeWeapon != null)
+        for (int i = 0; i < activeEquipmentModels.Length; i++)
         {
-            Destroy(activeWeapon);
-            activeWeapon = null;
-
+            if (activeEquipmentModels[i] != null)
+            {
+                Destroy(activeEquipmentModels[i]);
+                activeEquipmentModels[i] = null;
+            }
         }
 
-        weaponSocket = FindVisualChild(newModel.transform, "wpnSkt_R");
-        if (weaponSocket == null)
-        {
-            weaponSocket = FindVisualChild(newModel.transform, "wpnSkt_L");
+        playerSockets[0] = FindVisualChild(newModel.transform, "wpnSkt_R");
+        playerSockets[1] = FindVisualChild(newModel.transform, "wpnSkt_L");
+        playerSockets[2] = FindVisualChild(newModel.transform, "armorSkt_Head");
+        playerSockets[3] = FindVisualChild(newModel.transform, "armorSkt_Body");
+        playerSockets[4] = FindVisualChild(newModel.transform, "armorSkt_Arms");
+        playerSockets[5] = FindVisualChild(newModel.transform, "armorSkt_Legs");
+        playerSockets[6] = FindVisualChild(newModel.transform, "armorSkt_Boots");
 
-        }
+        // Preserve compatibility with the existing AttachWeapon().
+        weaponSocket = playerSockets[0] != null ? playerSockets[0] : playerSockets[1];
 
         if (weaponSocket == null)
         {
@@ -1013,22 +1036,69 @@ public class UnitController : MonoBehaviour
 
         selectionCircle.enabled = false;
     }
-    public bool AttachWeapon(GameObject weaponPrefab)
+
+    private int GetSocketIndex(EquipmentSlots slot)
     {
-        if (weaponPrefab == null || weaponSocket == null)
+        switch (slot)
+        {
+            case EquipmentSlots.MainHand:
+            case EquipmentSlots.TwoHanded:
+                return 0;
+
+            case EquipmentSlots.OffHand:
+                return 1;
+
+            case EquipmentSlots.ArmorHelmet:
+                return 2;
+
+            case EquipmentSlots.ArmorChest:
+                return 3;
+
+            case EquipmentSlots.ArmorLeftArm:
+            case EquipmentSlots.ArmorRightArm:
+            case EquipmentSlots.ArmorArms:
+                return 4;
+
+            case EquipmentSlots.ArmorLeftLeg:
+            case EquipmentSlots.ArmorRightLeg:
+            case EquipmentSlots.ArmorLegs:
+                return 5;
+
+            default:
+                return -1;
+        }
+    }
+    private int GetSocketIndex(UnitSlotId slot)
+    {
+        int index = (int)slot - 1;
+
+        return index >= 0 && index < playerSockets.Length
+            ? index
+            : -1;
+    }
+    public bool AttachWeapon(GameObject weaponPrefab, int socketIndex = 0)
+    {
+        if (weaponPrefab == null || socketIndex < 0 || socketIndex >= playerSockets.Length)
         {
             return false;
         }
 
-        if (activeWeapon != null)
+        Transform socket = playerSockets[socketIndex];
+
+        if (socket == null)
         {
-            Destroy(activeWeapon);
+            return false;
         }
 
-        activeWeapon = Instantiate(weaponPrefab, weaponSocket, false);
+        if (activeEquipmentModels[socketIndex] != null)
+        {
+            Destroy(activeEquipmentModels[socketIndex]);
+        }
 
-        activeWeapon.transform.localPosition = Vector3.zero;
-        activeWeapon.transform.localRotation = Quaternion.identity;
+        activeEquipmentModels[socketIndex] = Instantiate(weaponPrefab, socket, false);
+
+        activeEquipmentModels[socketIndex].transform.localPosition = Vector3.zero;
+        activeEquipmentModels[socketIndex].transform.localRotation = Quaternion.identity;
 
         return true;
     }
@@ -1053,7 +1123,7 @@ public class UnitController : MonoBehaviour
                         bodypart.enabled = true;
                     }
 
-                    canvas.SetActive(true);
+                    canvas.SetActive(true);   
 
                 }
                 break;
@@ -1068,6 +1138,20 @@ public class UnitController : MonoBehaviour
                     canvas.SetActive(false);
 
                 }
+                break;
+        }
+    }
+
+    public void SetStance(UnitStance state) 
+    {
+
+        switch (state) 
+        {
+            case UnitStance.Standing:
+                currentStance = UnitStance.Standing;
+                break;
+            case UnitStance.Crouching:
+                currentStance = UnitStance.Crouching;
                 break;
         }
     }

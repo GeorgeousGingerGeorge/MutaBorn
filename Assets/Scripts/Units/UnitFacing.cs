@@ -1,7 +1,11 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitFacing : MonoBehaviour
 {
+
+   
+   
     [Header("Direction A UnitFaces")]
     [SerializeField]
     private FacingDirection currentFacing = FacingDirection.North;
@@ -22,8 +26,8 @@ public class UnitFacing : MonoBehaviour
         {
             targetToRotate = transform;
         }
-        ApplyFacing(true);    
-    
+        ApplyFacing(true);
+       
     }
 
     // Only redirect facing if its previous target belonged to the old model.
@@ -36,7 +40,7 @@ public class UnitFacing : MonoBehaviour
             ApplyFacing(true);
 
         }
-
+       
     }
 
     public void SetFacing(FacingDirection direction) 
@@ -73,16 +77,18 @@ public class UnitFacing : MonoBehaviour
         }
        
     }
+ 
 
     private void Update() 
     {
+        
         if (targetToRotate == null) 
         {
-          
+            
             return;
         }
         targetToRotate.rotation = Quaternion.RotateTowards(targetToRotate.rotation, targetRotation, turnSpeed * Time.deltaTime);
-
+    
        
     }
 }

@@ -910,25 +910,36 @@ public class UnitData
     // Legacy test-scene helper: generate fresh starting equipment only, not storage transfers.
     public bool TryEquipStartingItem(EquipmentData template)
     {
+        return TryEquipStartingItem(template, out _);
+    }
+
+    public bool TryEquipStartingItem(EquipmentData template, out UnitSlotId equippedSlot)
+    {
+        equippedSlot = UnitSlotId.None;
+
         if (template == null)
         {
             return false;
-
         }
 
         EquipmentInstance item = EquipmentGenerator.CreateEquipment(template);
+
         foreach (UnitSlotId slot in UnitLoadoutSlots.All)
         {
             if (CanEquipInstance(item, slot))
             {
-                return TryEquipInstance(item, slot);
+                bool success = TryEquipInstance(item, slot);
 
+                if (success)
+                {
+                    equippedSlot = slot;
+                }
+
+                return success;
             }
-
         }
 
         return false;
-
     }
 
     public bool CanEquipItem(EquipmentInstance item)
