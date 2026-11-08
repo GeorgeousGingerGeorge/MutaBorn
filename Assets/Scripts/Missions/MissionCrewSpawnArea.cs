@@ -108,7 +108,7 @@ public sealed class MissionCrewSpawnArea : MonoBehaviour
         int placed = 0;
         for (int slot = 0; slot < roster.UnlockedCrewSlots; slot++)
         {
-            if (!roster.TryGetDeploymentUnit(slot, out UnitData data))
+            if (!roster.TryGetDeploymentUnit(slot, out UnitData data) || data.currentHealth <= 0)
             {
                 continue;
 

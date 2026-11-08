@@ -26,6 +26,7 @@ public sealed class MissionObjectiveEntry
 {
     private readonly HashSet<Component> targets = new();
     private readonly HashSet<Component> completedTargets = new();
+    private readonly HashSet<string> completedTargetIds = new(StringComparer.Ordinal);
     private int extractionProgress;
 
     public string Id { get; }
@@ -43,6 +44,7 @@ public sealed class MissionObjectiveEntry
     public bool HasExtractionZone { get; private set; } = true;
     public int Total { get; private set; }
     public int TargetCount => targets.Count;
+    public IReadOnlyCollection<string> CompletedTargetIds => completedTargetIds;
 
     // Read-only, live targets for presentation systems such as world-space objective markers.
     // Targets already completed by this objective are excluded.
@@ -122,13 +124,110 @@ public sealed class MissionObjectiveEntry
             Status == MissionObjectiveStatus.Locked && !CountWhileLocked)
         {
             return false;
-
         }
 
-        return completedTargets.Add(target);
+        if (!completedTargets.Add(target))
+        {
+            return false;
+        }
 
+        MissionUnitIdentity identity = target.GetComponentInParent<MissionUnitIdentity>(true);
+
+        if (identity != null && !string.IsNullOrWhiteSpace(identity.PersistentId))
+        {
+            completedTargetIds.Add(identity.PersistentId);
+        }
+        else
+        {
+            Debug.LogWarning($"Objective '{Id}' completed target '{target.name}' without a persistent identity.");
+        }
+
+        return true;
     }
+    internal bool TryRestoreCompletedTargets(IReadOnlyList<string> savedIds, bool apply = true)
+    {
+        if (savedIds == null)
+        {
+            return false;
+        }
 
+        HashSet<Component> restoredTargets = new();
+        HashSet<string> restoredIds = new(StringComparer.Ordinal);
+
+        foreach (string savedId in savedIds)
+        {
+            if (string.IsNullOrWhiteSpace(savedId) || !restoredIds.Add(savedId))
+            {
+                Debug.LogError($"Invalid completed target ID for objective '{Id}'.");
+                return false;
+            }
+
+            Component matchingTarget = null;
+
+            foreach (Component target in targets)
+            {
+                if (target == null)
+                {
+                    continue;
+                }
+
+                MissionUnitIdentity identity = target.GetComponentInParent<MissionUnitIdentity>(true);
+
+                if (identity != null && identity.PersistentId == savedId)
+                {
+                    if (matchingTarget != null)
+                    {
+                        Debug.LogError($"Duplicate objective target identity: {savedId}");
+                        return false;
+                    }
+
+                    matchingTarget = target;
+                }
+            }
+
+            if (matchingTarget == null)
+            {
+                Debug.LogError($"Could not restore target '{savedId}' for objective '{Id}'.");
+                return false;
+            }
+
+            restoredTargets.Add(matchingTarget);
+        }
+
+        if (!apply)
+        {
+            return true;
+        }
+
+        completedTargets.Clear();
+        completedTargetIds.Clear();
+
+        foreach (Component target in restoredTargets)
+        {
+            completedTargets.Add(target);
+        }
+
+        foreach (string id in restoredIds)
+        {
+            completedTargetIds.Add(id);
+        }
+
+        // Restore interaction usage for objective targets.
+        if (Type == MissionObjectiveType.InteractWithTargets)
+        {
+            foreach (Component target in targets)
+            {
+                if (target is ObjectiveInteractable interactable)
+                {
+                    bool wasCompleted = completedTargets.Contains(target);
+
+                    interactable.RestoreUsedState(wasCompleted);
+                }
+            }
+        }
+
+        return true;
+    }
     internal void SetVisible(bool visible)
     {
         Visible = visible;
@@ -184,6 +283,12 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         }
 
         Instance = this;
+
+        if (GetComponent<MissionSpoils>() == null)
+        {
+            gameObject.AddComponent<MissionSpoils>();
+
+        }
 
         if (factionManager == null)
         {
@@ -739,7 +844,89 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         return true;
 
     }
+    public MissionObjectivesSaveData CaptureObjectiveState()
+    {
+        if (Status == MissionStatus.NotStarted)
+        {
+            Debug.LogWarning("Cannot capture objectives before mission initialization.");
+            return null;
+        }
 
+        MissionObjectivesSaveData saved = new MissionObjectivesSaveData();
+
+        saved.missionStatus = Status;
+
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            ObjectiveSaveData entry = new ObjectiveSaveData
+            {
+                objectiveId = objective.Id,
+                status = objective.Status,
+                visible = objective.Visible,
+                completedTargetIds = new List<string>(objective.CompletedTargetIds)
+            };
+
+            saved.objectives.Add(entry);
+        }
+
+        return saved;
+    }
+    public bool TryRestoreObjectiveState(MissionObjectivesSaveData saved)
+    {
+        if (saved == null || saved.objectives == null ||
+            Status == MissionStatus.NotStarted ||
+            saved.objectives.Count != objectives.Count)
+        {
+            Debug.LogError("Cannot restore objectives: Invalid mission objective data.");
+            return false;
+        }
+
+        HashSet<string> processedIds = new(StringComparer.OrdinalIgnoreCase);
+
+        // Validate every objective before changing existing state.
+        foreach (ObjectiveSaveData savedObjective in saved.objectives)
+        {
+            if (savedObjective == null ||
+                string.IsNullOrWhiteSpace(savedObjective.objectiveId) ||
+                !processedIds.Add(savedObjective.objectiveId.Trim()))
+            {
+                Debug.LogError("Missing or duplicate saved objective ID.");
+                return false;
+            }
+
+            MissionObjectiveEntry objective = FindObjective(savedObjective.objectiveId);
+
+            if (objective == null ||
+                !objective.TryRestoreCompletedTargets(savedObjective.completedTargetIds, false))
+            {
+                Debug.LogError($"Objective restoration validation failed: {savedObjective.objectiveId}");
+                return false;
+            }
+        }
+
+        // Apply validated objective states.
+        foreach (ObjectiveSaveData savedObjective in saved.objectives)
+        {
+            MissionObjectiveEntry objective = FindObjective(savedObjective.objectiveId);
+
+            if (!objective.TryRestoreCompletedTargets(savedObjective.completedTargetIds))
+            {
+                Debug.LogError($"Failed to restore objective: {savedObjective.objectiveId}");
+                return false;
+            }
+
+            objective.SetStatus(savedObjective.status);
+            objective.SetVisible(savedObjective.visible);
+        }
+
+        Status = saved.missionStatus;
+
+        PublishChange();
+
+        Debug.Log($"Successfully restored {objectives.Count} mission objectives!");
+
+        return true;
+    }
     public MissionObjectiveEntry FindObjective(string id)
     {
         if (string.IsNullOrWhiteSpace(id))

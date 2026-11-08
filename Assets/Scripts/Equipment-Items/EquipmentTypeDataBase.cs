@@ -14,6 +14,28 @@ public enum WeaponCategory
     Range,
     Magic
 }
+public enum WeaponSubtype
+{
+    None = 0,
+    Sword = 1,
+    Axe = 2,
+    Blunt = 3,
+    Polearm = 4,
+    Dagger = 5,
+    Fist = 6,
+    Bow = 7,
+    Firearm = 8,
+    Crossbow = 9,
+    Sling = 10,
+    DartGun = 11,
+    Spellbook = 12,
+    Staff = 13,
+    Wand = 14,
+    Charm = 15,
+    Shield = 16,
+
+}
+
 public enum AccessoryCategory 
 {
     None, 

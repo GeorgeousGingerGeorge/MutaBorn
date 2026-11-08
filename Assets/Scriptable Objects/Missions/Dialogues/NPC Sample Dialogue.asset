@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50989dad710c4bfaa06b64670676d309, type: 3}
+  m_Name: NPC Sample Dialogue
+  m_EditorClassIdentifier: Assembly-CSharp::NpcDialogueData
+  startNodeId: start
+  nodes:
+  - id: start
+    text: 'What happens to me now?'
+    choices:
+    - label: 'Tell me more.'
+      nextNodeId: question
+      outcome: 0
+    - label: 'Join our crew.'
+      nextNodeId: ''
+      outcome: 1
+    - label: 'You are free to go.'
+      nextNodeId: ''
+      outcome: 2
+    - label: 'You are our enemy.'
+      nextNodeId: ''
+      outcome: 3
+    - label: 'Stay neutral. Teach me what you know.'
+      nextNodeId: ''
+      outcome: 4
+  - id: question
+    text: 'I can help your team, but I would rather avoid fighting.'
+    choices:
+    - label: 'Go back.'
+      nextNodeId: start
+      outcome: 0

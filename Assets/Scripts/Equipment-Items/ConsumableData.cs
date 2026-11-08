@@ -29,7 +29,9 @@ public class ConsumableData : ItemData
     [Header("Combat Use")]
     [SerializeField, Min(1)] private int maxUses = 1;
     // Retained for existing assets. Consumables no longer cost AP.
+    #pragma warning disable CS0414
     [SerializeField, HideInInspector] private int apCost = 5;
+    #pragma warning restore CS0414
     [SerializeField] private EffectGrant onUseEffect = new EffectGrant();
     [Header("New Consumable Behavior")]
     [SerializeField] private ConsumableUseKind useKind = ConsumableUseKind.LegacyEffect;

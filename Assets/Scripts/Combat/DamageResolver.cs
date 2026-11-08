@@ -187,7 +187,8 @@ namespace MutaBorn.Gameplay
                 (action.CriticalChancePercent > 0f &&
                  UnityEngine.Random.value * 100f < action.CriticalChancePercent);
             float multiplier = action.DamageMultiplier *
-                (critical ? action.CriticalDamageMultiplier : 1f);
+                (critical ? action.CriticalDamageMultiplier : 1f) *
+                GetRacialDamageMultiplier(attacker);
 
             DamageRequest request = new DamageRequest(attacker, target, baseDamage,
                 multiplier, action.FlatDamageBonus, action.MinimumDamage,
@@ -490,6 +491,66 @@ namespace MutaBorn.Gameplay
             // Unspecified direct requests retain the legacy physical default.
             return type == DamageType.Unspecified || type == DamageType.Slash ||
                 type == DamageType.Pierce || type == DamageType.Blunt;
+
+        }
+
+        // Calculated per attack, so deaths and reinforcements update the bonus.
+        private static float GetRacialDamageMultiplier(UnitController attacker)
+        {
+            DynamicStats race = attacker.data.RaceDefinition;
+            if (race == null)
+            {
+
+                return 1f;
+
+            }
+
+            if (race.RacialPassive == RacialPassiveKind.BattleFury)
+            {
+                float missingPercent = attacker.data.maxHealth > 0
+                    ? 100f * (1f - (float)attacker.data.currentHealth / attacker.data.maxHealth) : 0f;
+
+                return 1f + Mathf.Max(0f, missingPercent * race.MissingHealthDamageFactor) / 100f;
+
+            }
+
+            if (race.RacialPassive != RacialPassiveKind.StrengthInNumbers)
+            {
+
+                return 1f;
+
+            }
+
+            UnitFaction team = attacker.GetComponent<UnitFaction>();
+            if (team == null || team.Faction == null)
+            {
+
+                return 1f;
+
+            }
+
+            float percent = 0f;
+            foreach (UnitController teammate in UnityEngine.Object.FindObjectsByType<UnitController>(FindObjectsInactive.Exclude))
+            {
+                if (teammate == attacker || teammate.data == null || teammate.data.currentHealth <= 0)
+                {
+
+                    continue;
+
+                }
+
+                UnitFaction member = teammate.GetComponent<UnitFaction>();
+                if (member != null && member.Faction == team.Faction)
+                {
+                    percent += teammate.data.RaceDefinition != null &&
+                        teammate.data.RaceDefinition.RacialPassive == RacialPassiveKind.StrengthInNumbers
+                        ? race.HumanTeammateDamagePercent : race.TeammateDamagePercent;
+
+                }
+
+            }
+
+            return 1f + percent / 100f;
 
         }
 

@@ -228,6 +228,14 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
     private IEnumerator PlayUnit(UnitController actor, FactionData faction)
     {
+        if (actor.TryGetComponent(out MissionNpcCharacter npc))
+        {
+            npc.TakeDefensiveTurn(combatExecutor);
+
+            yield break;
+
+        }
+
         FocusCameraOnActor(actor);
 
         UnitActionLoadout loadout = actor.GetComponent<UnitActionLoadout>();

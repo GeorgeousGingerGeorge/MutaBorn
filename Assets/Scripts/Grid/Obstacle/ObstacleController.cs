@@ -4,12 +4,13 @@ using System.Collections;
 
 public class ObstacleController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    [Header("Node References- FirstNode, SecondNode (Solid || Edge) ")]
+    [Header("Node References - FirstNode, SecondNode (Solid || Edge)")]
     public GridNode firstnode { get; private set; } = null;
     public GridNode secondnode { get; private set; } = null;
+
     private Occupancy occupancy;
     private FloorConnector connector;
+    private bool registered;
 
     [Header("Obstacle Information")]
     [SerializeField] private ObstacleData data;
@@ -51,6 +52,9 @@ public class ObstacleController : MonoBehaviour
     [SerializeField] private ParticleSystem destructionEffectPrefab;
     
     private bool occupancyRegistered;
+
+    public bool IsBlocking => registered;
+    public Occupancy CurrentOccupancy => occupancy;
 
     public void Awake()
     {
@@ -102,31 +106,115 @@ public class ObstacleController : MonoBehaviour
     }
     public void InitializeNodes() 
     {
-        if (currentData == null) 
+        if (!InitializeData())
         {
-            Debug.LogWarning("Obstacle data needs to be initialized before nodes");
             return;
+
         }
 
         GridManager gridManager = FindAnyObjectByType<GridManager>();
         occupancy = FindAnyObjectByType<Occupancy>();
 
-        if (gridManager == null || occupancy == null) 
+        if (gridManager == null || occupancy == null)
         {
-            Debug.LogWarning("Obstacle Dependencies could not be found: GridManager and Occupancy");
+            Debug.LogError($"Obstacle '{name}' requires GridManager and Occupancy.", this);
+
             return;
+
         }
 
         switch (currentData.typeOfObstacle)
         {
-
             case ObstacleType.Solid:
+                firstnode = gridManager.GetNodeFromClosestWorldPosition(transform.position);
+
+                break;
+
+            case ObstacleType.Edges:
+                Vector3 perpendicular = transform.right;
+                perpendicular.y = 0f;
+                perpendicular.Normalize();
+
+                float offset = gridManager.GridCellSize / 2f;
+
+                firstnode = gridManager.GetNodeFromClosestWorldPosition(
+                    transform.position + perpendicular * offset);
+
+                secondnode = gridManager.GetNodeFromClosestWorldPosition(
+                    transform.position - perpendicular * offset);
+
+                break;
+
+            case ObstacleType.FloorConnectors:
+                FloorConnector connector = GetComponent<FloorConnector>();
+
+                if (connector != null && connector.connectorType == ConnectorType.Stairs)
                 {
-                    firstnode = gridManager.GetNodeFromClosestWorldPosition(transform.position);
+                    foreach (GridNode node in connector.nodes)
+                    {
+                        Debug.Log($"FloorID ->{node.floorID}, GridPosition -> {node.coords}");
+
+                        occupancy.RegisterSolidObstacles(node, this);
+
+                    }
+
+                    registered = true;
+
+                }
+
+                return;
+
+        }
+
+        if (!TrySetBlocking(true))
+        {
+            Debug.LogWarning(
+                $"Obstacle '{name}' could not register its grid nodes. Check placement or overlaps.",
+                this);
+
+        }
+
+    }
+
+    // Allows doors and gates to change blocking without destroying the obstacle.
+    public bool TrySetBlocking(bool blocked)
+    {
+        if (!InitializeData() || occupancy == null || firstnode == null)
+        {
+            return false;
+
+        }
+
+        if (blocked == registered)
+        {
+            return true;
+
+        }
+
+        switch (currentData.typeOfObstacle)
+        {
+            case ObstacleType.Solid:
+
+                if (blocked)
+                {
+                    if (occupancy.IsUnitInNode(firstnode) ||
+                        occupancy.FindSolidObstacle(firstnode) != null)
+                    {
+                        return false;
+
+                    }
+
                   
 
                 }
+                else
+                {
+                    occupancy.UnregisterSolidObstacles(firstnode, this);
+
+                }
+
                 break;
+
             case ObstacleType.Edges:
                 {
 
@@ -166,8 +254,9 @@ public class ObstacleController : MonoBehaviour
                     }
                 }
                 break;
+
             default:
-                break;
+                return false;
 
         }
 
@@ -315,6 +404,7 @@ public class ObstacleController : MonoBehaviour
         if (occupancy == null) 
         {
             return;
+
         }
 
         if (unregister)
@@ -390,6 +480,7 @@ public class ObstacleController : MonoBehaviour
                 }
                 break;
         }
+
     }
     public void UnregisterObstacle() 
     {

@@ -223,7 +223,7 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (boundAction != null && buttonText != null && !string.IsNullOrWhiteSpace(targetName))
         {
-            buttonText.text = $"{boundAction.DisplayName} - {targetName}";
+            buttonText.text = targetName;
 
         }
 

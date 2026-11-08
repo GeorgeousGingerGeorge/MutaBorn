@@ -1,0 +1,1395 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6bf38760fb54ac383457d3f6d4d2467, type: 3}
+  m_Name: MutaBornResearchDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::ResearchDatabase
+  nodes:
+  - id: p.foundations
+    displayName: Research Foundations
+    description: Unlock the first tier of research.
+    category: 1
+    requiredTier: 0
+    prerequisiteIds: []
+    costs:
+    - resourceId: gold
+      amount: 30
+    - resourceId: wood
+      amount: 10
+    battlesRequired: 1
+    benefits:
+    - type: 11
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: p.crew5
+    displayName: Fifth Crew Slot
+    description: Deploy one additional crew member.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 50
+    - resourceId: iron
+      amount: 10
+    battlesRequired: 2
+    benefits:
+    - type: 1
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: p.speed
+    displayName: Streamlined Research
+    description: Future projects require one fewer victory.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 65
+    - resourceId: maana_crystals
+      amount: 5
+    battlesRequired: 2
+    benefits:
+    - type: 10
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: p.upgrades
+    displayName: Equipment Upgrades
+    description: Unlock the Workshop upgrade screen.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 65
+    - resourceId: steel
+      amount: 3
+    battlesRequired: 2
+    benefits:
+    - type: 8
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: p.slots
+    displayName: Expanded Loadouts
+    description: Unlock a research-gated accessory and consumable slot on every unit.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 70
+    - resourceId: textiles
+      amount: 10
+    battlesRequired: 2
+    benefits:
+    - type: 2
+      recipeId: 
+      slot: 10
+      amount: 1
+    - type: 2
+      recipeId: 
+      slot: 13
+      amount: 1
+  - id: p.crafting
+    displayName: Efficient Crafting
+    description: Reduce the resource cost of Workshop recipes by 10%.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 80
+    - resourceId: iron
+      amount: 10
+    battlesRequired: 2
+    benefits:
+    - type: 9
+      recipeId: 
+      slot: 0
+      amount: 10
+  - id: p.mutationlab
+    displayName: Mutation Research
+    description: Reveal the Mutations research tab.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 70
+    - resourceId: corrupt_nodule
+      amount: 2
+    battlesRequired: 3
+    benefits:
+    - type: 3
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: p.tier2
+    displayName: Advanced Research
+    description: Unlock tier-two projects.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 100
+    - resourceId: runes
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 11
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: p.crew6
+    displayName: Sixth Crew Slot
+    description: Expand the maximum active crew again.
+    category: 1
+    requiredTier: 2
+    prerequisiteIds:
+    - p.crew5
+    costs:
+    - resourceId: gold
+      amount: 90
+    - resourceId: steel
+      amount: 8
+    battlesRequired: 3
+    benefits:
+    - type: 1
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: e.resource-tier
+    displayName: Advanced Resource Processing
+    description: Unlock resource recipes marked crafting tier 1.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 60
+    - resourceId: iron
+      amount: 10
+    battlesRequired: 2
+    benefits:
+    - type: 12
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: e.equipment-tier
+    displayName: Advanced Equipment Fabrication
+    description: Unlock equipment recipes marked crafting tier 1.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 60
+    - resourceId: steel
+      amount: 5
+    battlesRequired: 2
+    benefits:
+    - type: 13
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: e.steel
+    displayName: Steelworking
+    description: Learn to craft Steel resources.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 35
+    - resourceId: iron
+      amount: 8
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.resource.steel
+      slot: 0
+      amount: 1
+  - id: e.armor
+    displayName: Steel Armor
+    description: Unlock the complete five-piece Steel armor family.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.steel
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 55
+    - resourceId: steel
+      amount: 4
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.armor-steel-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-steel-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-steel-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-steel-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-steel-boots
+      slot: 0
+      amount: 1
+  - id: e.potions
+    displayName: Field Medicine
+    description: Unlock the Field Mending Potion recipe.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 35
+    - resourceId: maana_crystals
+      amount: 5
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.consumable-field-mending-potion
+      slot: 0
+      amount: 1
+  - id: e.dvergrium
+    displayName: Dvergrium Smithing
+    description: Learn to craft Dvergrium weapons, wards, shields and the full armor family.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds:
+    - p.tier2
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 130
+    - resourceId: dvergrium
+      amount: 5
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: craft.item.dvergrium-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.dvergrium-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.dvergrium-cuirass
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-dvergrium-arbalest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-dvergrium-cleaver
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-dvergrium-gauntlets
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-dvergrium-greaves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-dvergrium-helm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-dvergrium-sabatons
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-dvergrium-skullmaul
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-dvergrium-thunder-rifle
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-dvergrium-wardplate
+      slot: 0
+      amount: 1
+  - id: m.experience
+    displayName: Mutation Adaptation
+    description: Increase mutation XP earned by 25% when mutation XP is connected.
+    category: 2
+    requiredTier: 1
+    prerequisiteIds:
+    - p.mutationlab
+    costs:
+    - resourceId: gold
+      amount: 60
+    - resourceId: corrupt_nodule
+      amount: 2
+    battlesRequired: 2
+    benefits:
+    - type: 4
+      recipeId: 
+      slot: 0
+      amount: 25
+  - id: m.injections
+    displayName: Mutation Injections
+    description: Unlock the future starter-mutation injection service in the Lab.
+    category: 2
+    requiredTier: 1
+    prerequisiteIds:
+    - p.mutationlab
+    costs:
+    - resourceId: gold
+      amount: 75
+    - resourceId: unstable_compound
+      amount: 2
+    battlesRequired: 2
+    benefits:
+    - type: 5
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: m.storage
+    displayName: Mutation Vault
+    description: Unlock separate storage for mutation records.
+    category: 2
+    requiredTier: 1
+    prerequisiteIds:
+    - p.mutationlab
+    costs:
+    - resourceId: gold
+      amount: 50
+    - resourceId: corrupt_nodule
+      amount: 2
+    battlesRequired: 2
+    benefits:
+    - type: 7
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: m.surgeries
+    displayName: Mutation Surgery
+    description: 'Unlock Lab surgeries: kill, remove, strengthen and add mutations.'
+    category: 2
+    requiredTier: 2
+    prerequisiteIds:
+    - m.injections
+    costs:
+    - resourceId: gold
+      amount: 110
+    - resourceId: mutantium
+      amount: 1
+    battlesRequired: 3
+    benefits:
+    - type: 6
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: e.prototype-patterns
+    displayName: "Experimental Weapon Patterns"
+    description: "Workshop test and prototype equipment blueprints. Includes internal test swords."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 40
+    - resourceId: iron
+      amount: 5
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.item.testsword-test
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.test-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-compact-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-dart-gun
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-fist-gauntlet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-flintlock-pistol
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-flintlock-rifle
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-greataxe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-hand-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-hand-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-heavy-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-longbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-mace
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-spear
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-spellbook
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-staff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-wand
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-war-maul
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-template-warding-charm
+      slot: 0
+      amount: 1
+  - id: e.melee-starters
+    displayName: "Basic Melee Weaponcraft"
+    description: "Learn the simple edged, blunt and improvised melee patterns."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 35
+    - resourceId: wood
+      amount: 6
+    - resourceId: iron
+      amount: 4
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon-ashwood-spear
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-bone-shiv
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.sword-wooden
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-stone-cudgel
+      slot: 0
+      amount: 1
+  - id: e.ranged-starters
+    displayName: "Basic Ranged Weaponcraft"
+    description: "Learn low-tech bows, slings, dart launchers and other ranged patterns."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 40
+    - resourceId: wood
+      amount: 8
+    - resourceId: textiles
+      amount: 5
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon-pebble-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-wooden-blowpipe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-wooden-compact-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-wooden-hand-crossbow
+      slot: 0
+      amount: 1
+  - id: e.arcane-starters
+    displayName: "Introductory Arcane Equipment"
+    description: "Craft simple books, staves, charms and wands."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 40
+    - resourceId: maana_crystals
+      amount: 5
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon-apprentice-notes
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-carved-wooden-wand
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-stone-ward-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-wooden-channeling-staff
+      slot: 0
+      amount: 1
+  - id: e.shieldcraft
+    displayName: "Shieldcraft"
+    description: "Craft simple shields, from bucklers to heavy field shields."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 35
+    - resourceId: wood
+      amount: 8
+    - resourceId: iron
+      amount: 3
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.item.shield-buckler
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.shield-kite
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.shield-tower
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-wooden-roundshield
+      slot: 0
+      amount: 1
+  - id: e.field-accessories
+    displayName: "Field Accessories"
+    description: "Craft basic field trinkets, survival tools and utility accessories."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 30
+    - resourceId: textiles
+      amount: 5
+    - resourceId: wood
+      amount: 5
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.item.accessory-bone-pathfinder-totem
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-woodland-survey-compass
+      slot: 0
+      amount: 1
+  - id: e.leatherwork
+    displayName: "Leather Armor Patterns"
+    description: "Unlock the full five-piece leather armor family and other leather equipment."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 35
+    - resourceId: textiles
+      amount: 8
+    - resourceId: bones
+      amount: 2
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.item.armor-leather-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-leather-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-leather-handwraps
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-leather-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-leather-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-leather-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-woven-leather-sling
+      slot: 0
+      amount: 1
+  - id: e.ironwork
+    displayName: "Iron Smithing"
+    description: "Forge the five-piece iron armor family and iron armaments."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 45
+    - resourceId: iron
+      amount: 12
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon-iron-arming-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-iron-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-iron-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-iron-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-iron-halberd
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-iron-hand-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-iron-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-iron-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-iron-stiletto
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-iron-woodcutter-hatchet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-ironstrung-recurve
+      slot: 0
+      amount: 1
+  - id: e.copperwork
+    displayName: "Copper Forging"
+    description: "Craft the five-piece copper armor family and copper weapons and tools."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 40
+    - resourceId: copper
+      amount: 10
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.armor-copper-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-copper-cuirass
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-copper-dart-launcher
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-copper-focus-wand
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-copper-fork-slingshot
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-copper-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-copper-helm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-copper-kite-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-copper-knuckles
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-copper-legguards
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-copper-mechanics-loop
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-copper-shortsword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-copper-warhammer
+      slot: 0
+      amount: 1
+  - id: e.firearms
+    displayName: "Blackpowder Weapons"
+    description: "Unlock the flintlock and other early firearm blueprints."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 65
+    - resourceId: iron
+      amount: 6
+    - resourceId: gunpowder
+      amount: 3
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon-copper-flintlock
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-iron-cavalry-pistol
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-steel-long-rifle
+      slot: 0
+      amount: 1
+  - id: e.steel-arsenal
+    displayName: "Steel Armaments"
+    description: "Unlock steel blades, firearms, crossbows and heavier steel weapons."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.steel
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 75
+    - resourceId: steel
+      amount: 6
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon-steel-boarding-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-steel-guard-link
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-steel-morningstar
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-steel-punch-gauntlets
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-steel-siege-crossbow
+      slot: 0
+      amount: 1
+  - id: e.silverwork
+    displayName: "Silver Smithing"
+    description: "Unlock silver armor, weapons and warding trinkets."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 65
+    - resourceId: silver
+      amount: 8
+    - resourceId: gems
+      amount: 1
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.armor-silver-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-silver-cuirass
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-silver-duelblade
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-silver-fang
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-silver-glaive
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-silver-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-silver-helm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-silver-legguards
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-silver-night-sigil
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-silver-warden-shield
+      slot: 0
+      amount: 1
+  - id: e.precision-crafting
+    displayName: "Glasswork and Gemcraft"
+    description: "Create crystal focuses, glass instruments, specialized weapons and precision accessories."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 70
+    - resourceId: glass
+      amount: 3
+    - resourceId: gems
+      amount: 2
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.accessory-crystal-mana-vial
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-crystal-primer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-crystal-tipped-staff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-surveyors-lens
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-gemcut-focus-prism
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-gemstone-wand
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-glass-aegis-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-glass-needle-gun
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-glassheart-locket
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-hearthglass-charm
+      slot: 0
+      amount: 1
+  - id: e.runecraft
+    displayName: "Runic Equipment Inscription"
+    description: "Unlock weapons, charms, shields and accessories built around runic effects."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 85
+    - resourceId: runes
+      amount: 4
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.accessory-apprentice-wardstone
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-enchanted-sash
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-rune-spun-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-runebound-greatbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-runebound-talisman
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-runic-battlestaff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-runic-field-token
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-runic-spell-ledger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.shield-runic-tome
+      slot: 0
+      amount: 1
+  - id: e.runewoven
+    displayName: "Runewoven Armor"
+    description: "Unlock all five pieces of magically warded runewoven armor."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.runecraft
+    costs:
+    - resourceId: gold
+      amount: 90
+    - resourceId: runes
+      amount: 3
+    - resourceId: enchanted_textiles
+      amount: 4
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.armor-runewoven-cap
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-runewoven-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-runewoven-leggings
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-runewoven-treads
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-runewoven-vest
+      slot: 0
+      amount: 1
+  - id: e.dragonhide
+    displayName: "Dragonhide Tailoring"
+    description: "Unlock the five-piece Dragonhide armor family."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 90
+    - resourceId: bones
+      amount: 5
+    - resourceId: enchanted_textiles
+      amount: 5
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.armor-dragonhide-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-dragonhide-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-dragonhide-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-dragonhide-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor_dragonhide_vest
+      slot: 0
+      amount: 1
+  - id: e.mythicwood
+    displayName: "Mythical Lumber Construction"
+    description: "Unlock enchanted bows, staves and polearms shaped from mythical lumber."
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.runecraft
+    costs:
+    - resourceId: gold
+      amount: 100
+    - resourceId: mythical_lumber
+      amount: 4
+    - resourceId: runes
+      amount: 2
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon-mythical-lumber-pike
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-mythical-lumber-warbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-mythicwood-conduit
+      slot: 0
+      amount: 1
+  - id: e.advanced-ranged
+    displayName: "Advanced Ranged Arsenal"
+    description: "Unlock specialized bows and additional long-range equipment."
+    category: 0
+    requiredTier: 2
+    prerequisiteIds:
+    - p.tier2
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 95
+    - resourceId: steel
+      amount: 4
+    - resourceId: gems
+      amount: 2
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon_alchemist_greatbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon_scout_recurve
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon_war_longbow
+      slot: 0
+      amount: 1
+  - id: e.advanced-arcana
+    displayName: "Advanced Arcane Tomes"
+    description: "Unlock powerful specialized spellbooks and arcane focuses."
+    category: 0
+    requiredTier: 2
+    prerequisiteIds:
+    - p.tier2
+    - e.runecraft
+    costs:
+    - resourceId: gold
+      amount: 115
+    - resourceId: runes
+      amount: 4
+    - resourceId: maana_crystals
+      amount: 8
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon_cinder_codex
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon_tempest_grimoire
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-magic-umbral-codex
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon_verdant_lexicon
+      slot: 0
+      amount: 1
+  - id: e.master-blades
+    displayName: "Master Bladecraft"
+    description: "Unlock expert-made sabres, reinforced longblades and heavy reavers."
+    category: 0
+    requiredTier: 2
+    prerequisiteIds:
+    - p.tier2
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 115
+    - resourceId: steel
+      amount: 6
+    - resourceId: silver
+      amount: 4
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: craft.item.sword-duelist-sabre
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.sword-guardian-longsword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.sword-war-reaver
+      slot: 0
+      amount: 1
+  - id: e.master-fabrication
+    displayName: "Master Equipment Fabrication"
+    description: "Unlock equipment crafting tier two for corrupted metals and high-risk artifacts."
+    category: 0
+    requiredTier: 2
+    prerequisiteIds:
+    - p.tier2
+    - e.equipment-tier
+    costs:
+    - resourceId: gold
+      amount: 145
+    - resourceId: steel
+      amount: 8
+    - resourceId: runes
+      amount: 4
+    battlesRequired: 3
+    benefits:
+    - type: 13
+      recipeId: 
+      slot: 0
+      amount: 1
+  - id: e.mutantium
+    displayName: "Mutantium Forging"
+    description: "Unlock the five-piece Mutantium armor set, weapons and accessories."
+    category: 0
+    requiredTier: 2
+    prerequisiteIds:
+    - e.master-fabrication
+    - p.mutationlab
+    costs:
+    - resourceId: gold
+      amount: 175
+    - resourceId: mutantium
+      amount: 3
+    - resourceId: corrupt_nodule
+      amount: 2
+    battlesRequired: 4
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon-mutantium-bulwark
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-mutantium-conduit
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-mutantium-cuirass
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-mutantium-edge
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-mutantium-gauntlets
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-mutantium-greaves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-mutantium-helm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-mutantium-kris
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-mutantium-reaver
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.armor-mutantium-sabatons
+      slot: 0
+      amount: 1
+  - id: e.corruption
+    displayName: "Corrupted Equipment Research"
+    description: "Unlock corrupted, nodule-grown and blood-drinking equipment."
+    category: 0
+    requiredTier: 2
+    prerequisiteIds:
+    - e.master-fabrication
+    - p.mutationlab
+    costs:
+    - resourceId: gold
+      amount: 145
+    - resourceId: unstable_compound
+      amount: 5
+    - resourceId: corrupt_nodule
+      amount: 2
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: craft.item.sword-blood-thirster
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-corrupted-crystal-wand
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.accessory-nodule-brooch
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-nodule-clawguards
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.item.weapon-nodule-injector
+      slot: 0
+      amount: 1
+  - id: e.heart-artifacts
+    displayName: "Mutated Heart Artifacts"
+    description: "Use the rare beating hearts of late-stage mutants in arcane gear."
+    category: 0
+    requiredTier: 2
+    prerequisiteIds:
+    - e.corruption
+    costs:
+    - resourceId: gold
+      amount: 200
+    - resourceId: mutated_heart
+      amount: 1
+    - resourceId: runes
+      amount: 4
+    battlesRequired: 4
+    benefits:
+    - type: 0
+      recipeId: craft.item.weapon-mutated-heart-codex
+      slot: 0
+      amount: 1

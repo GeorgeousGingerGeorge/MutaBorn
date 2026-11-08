@@ -204,6 +204,13 @@ public class Occupancy : MonoBehaviour
             return; 
         }
 
+        if (IsBlockedByEdgeObstacle(firstNode, secondNode))
+        {
+
+            return;
+
+        }
+
         edgeObstacles.Add((firstNode, secondNode), edgeObstacle);
         edgeObstacles.Add((secondNode, firstNode), edgeObstacle);
         
@@ -253,9 +260,16 @@ public class Occupancy : MonoBehaviour
             return;
         }
 
-        if (edgeObstacles.TryGetValue((firstNode,secondNode), out ObstacleController exists) &&  exists == edgeObstacle)
+        if (edgeObstacles.TryGetValue((firstNode, secondNode), out ObstacleController exists) && exists == edgeObstacle)
         {
             edgeObstacles.Remove((firstNode, secondNode));
+
+        }
+
+        if (edgeObstacles.TryGetValue((secondNode, firstNode), out exists) && exists == edgeObstacle)
+        {
+            edgeObstacles.Remove((secondNode, firstNode));
+
         }
     }
     private bool TryGetFootprintNodes(GridNode anchorNode, UnitController unit, out List<GridNode> footprintNodes)
