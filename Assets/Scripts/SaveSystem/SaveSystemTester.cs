@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class SaveSystemTester : MonoBehaviour
 {
@@ -24,5 +26,157 @@ public class SaveSystemTester : MonoBehaviour
         {
             Debug.LogError("Mission load test failed! Maybe... Try that again.");
         }
+    }
+
+    [ContextMenu("Test / Match Saved Units")]
+    private void TestMatchSavedUnits()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved))
+        {
+            Debug.LogError("No mission save found!");
+            return;
+        }
+
+        MissionSaveData current = MissionSaveCapture.Capture();
+
+        if (saved.sceneName != current.sceneName)
+        {
+            Debug.LogError("Saved scene does not match current scene!");
+            return;
+        }
+
+        HashSet<string> currentIds = new HashSet<string>();
+
+        foreach (UnitSaveData unit in current.units)
+        {
+            if (!string.IsNullOrEmpty(unit.persistentId))
+                currentIds.Add(unit.persistentId);
+        }
+
+        int matched = 0;
+
+        foreach (UnitSaveData unit in saved.units)
+        {
+            if (currentIds.Contains(unit.persistentId))
+            {
+                matched++;
+            }
+            else
+            {
+                Debug.LogWarning($"Missing unit: {unit.unitName} ({unit.persistentId})");
+            }
+        }
+
+        Debug.Log($"Identity Match Test: {matched}/{saved.units.Count} units matched!");
+    }
+
+    [ContextMenu("Test / Restore Goblino Position")]
+    private void TestRestoreGoblino()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved))
+        {
+            Debug.LogError("No mission save found!");
+            return;
+        }
+
+        if (saved.sceneName != SceneManager.GetActiveScene().name)
+        {
+            Debug.LogError("Save belongs to a different scene!");
+            return;
+        }
+
+        UnitSaveData savedUnit = saved.units.Find(
+            unit => unit.persistentId == "CrewSlot_0"
+        );
+
+        if (savedUnit == null)
+        {
+            Debug.LogError("Goblino not found in save data!");
+            return;
+        }
+
+        UnitController[] units = FindObjectsByType<UnitController>(
+            FindObjectsInactive.Include,
+            FindObjectsSortMode.None
+        );
+
+        foreach (UnitController unit in units)
+        {
+            if (unit.data != null &&
+                unit.InitializationMode != UnitInitializationMode.LegacyScene &&
+                unit.RosterDeploymentSlot == 0)
+            {
+                GridManager gridManager = FindAnyObjectByType<GridManager>();
+
+                bool restored = MissionSaveRestore.TryRestorePosition(unit, savedUnit, gridManager);
+
+                //if (restored)
+                //{
+                //    int apDifference = savedUnit.currentActionPoints - unit.data.currentActionPoints;
+
+                //    unit.data.ModifyActionPoints(apDifference);
+
+                //    Debug.Log($"Restored AP: {unit.data.currentActionPoints}");
+                //}
+
+                Debug.Log($"Goblino restoration successful: {restored}");
+                return;
+            }
+        }
+
+        Debug.LogError("Could not find Goblino in the current mission!");
+    }
+
+    [ContextMenu("Test / Current Unit Lookup")]
+    private void TestCurrentUnitLookup()
+    {
+        Dictionary<string, UnitController> units =
+            MissionSaveRestore.GetCurrentUnits();
+
+        if (units == null)
+        {
+            Debug.LogError("Unit lookup failed! Duplicate IDs detected.");
+            return;
+        }
+
+        Debug.Log($"Unit Lookup Successful! Found {units.Count} units.");
+    }
+
+    [ContextMenu("Test / Validate Saved Positions")]
+    private void TestValidateSavedPositions()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved))
+        {
+            Debug.LogError("No save file found!");
+            return;
+        }
+
+        GridManager gridManager = FindAnyObjectByType<GridManager>();
+
+        bool valid = MissionSaveRestore.ValidateSavedPositions(
+            saved,
+            gridManager
+        );
+
+        Debug.Log($"Saved Position Validation: {valid}");
+    }
+
+    [ContextMenu("Test / Restore All Unit Positions")]
+    private void TestRestoreAllUnitPositions()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved))
+        {
+            Debug.LogError("No mission save found!");
+            return;
+        }
+
+        GridManager gridManager = FindAnyObjectByType<GridManager>();
+
+        bool restored = MissionSaveRestore.TryRestoreAllPositions(
+            saved,
+            gridManager
+        );
+
+        Debug.Log($"Full Mission Position Restoration: {restored}");
     }
 }
