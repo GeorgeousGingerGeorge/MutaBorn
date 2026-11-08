@@ -15,6 +15,8 @@ using UnityEngine;
         new List<WorldObjectSaveData>();
 
     public TurnSaveData turnState = new TurnSaveData();
+
+    public MissionObjectivesSaveData objectiveState = new MissionObjectivesSaveData();
 }
 
 [Serializable] public class UnitSaveData
@@ -63,4 +65,20 @@ public class FactionInitiativeSaveData
 {
     public string factionId;
     public int initiativeRoll;
+}
+
+[Serializable]
+public class MissionObjectivesSaveData
+{
+    public MissionStatus missionStatus;
+    public List<ObjectiveSaveData> objectives = new List<ObjectiveSaveData>();
+}
+
+[Serializable]
+public class ObjectiveSaveData
+{
+    public string objectiveId;
+    public MissionObjectiveStatus status;
+    public bool visible;
+    public List<string> completedTargetIds = new List<string>();
 }

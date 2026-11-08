@@ -36,6 +36,13 @@ public sealed class ObjectiveInteractable : SimpleInteractable
     public string InteractionId => interactionAction != null ? interactionAction.Id : interactionId;
     public bool Used => used;
 
+    public InteractionCompletionOutcome CompletionOutcome => completionOutcome;
+
+    public void RestoreUsedState(bool savedUsed)
+    {
+        used = savedUsed;
+    }
+
     public string InteractionTargetName
     {
         get

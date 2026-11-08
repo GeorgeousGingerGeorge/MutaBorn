@@ -226,6 +226,14 @@ public class SaveSystemTester : MonoBehaviour
         TurnManager turnManager = TurnManager.Instance;
         GridManager gridManager = FindAnyObjectByType<GridManager>();
 
+        MissionObjectiveManager objectiveManager = MissionObjectiveManager.Instance;
+
+        if (objectiveManager == null || saved.objectiveState == null)
+        {
+            Debug.LogError("Cannot restore mission: Objective state or manager missing.");
+            return;
+        }
+
         if (turnManager == null || gridManager == null || saved.turnState == null || turnManager.PlayerFaction == null)
         {
             Debug.LogError("Missing required mission restoration components!");
@@ -249,6 +257,12 @@ public class SaveSystemTester : MonoBehaviour
         if (!turnManager.TryRestoreTurnState(saved.turnState))
         {
             Debug.LogError("Turn restoration failed! Unit states were restored, but the mission is only partially restored.");
+            return;
+        }
+        // Restore objective progression
+        if (!objectiveManager.TryRestoreObjectiveState(saved.objectiveState))
+        {
+            Debug.LogError("Objective restoration failed! Unit and turn states were restored, but the mission is only partially restored.");
             return;
         }
 

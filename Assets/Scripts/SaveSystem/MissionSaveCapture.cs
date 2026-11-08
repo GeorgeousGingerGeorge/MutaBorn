@@ -54,9 +54,35 @@ public static class MissionSaveCapture
         // Capture complete turn state
         TurnManager turnManager = TurnManager.Instance;
 
-        if (turnManager != null)
+        if (turnManager == null)
         {
-            snapshot.turnState = turnManager.CaptureTurnState();
+            Debug.LogError("Cannot save mission: Turn Manager not found.");
+            return null;
+        }
+
+        snapshot.turnState = turnManager.CaptureTurnState();
+
+        if (snapshot.turnState == null)
+        {
+            Debug.LogError("Cannot save mission: Turn capture failed.");
+            return null;
+        }
+
+        // Capture complete objective state
+        MissionObjectiveManager objectiveManager = MissionObjectiveManager.Instance;
+
+        if (objectiveManager == null)
+        {
+            Debug.LogError("Cannot save mission: Objective Manager not found.");
+            return null;
+        }
+
+        snapshot.objectiveState = objectiveManager.CaptureObjectiveState();
+
+        if (snapshot.objectiveState == null)
+        {
+            Debug.LogError("Cannot save mission: Objective capture failed.");
+            return null;
         }
 
         return snapshot;
