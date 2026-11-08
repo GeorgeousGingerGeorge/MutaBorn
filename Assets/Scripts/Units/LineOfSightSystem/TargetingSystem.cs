@@ -36,11 +36,18 @@ public class TargetingSystem : MonoBehaviour
         //Player Attacks Require the target to have been discovered by DetectionSystem
         if (attackerFaction.GetFactionID() == "playerFaction") 
         {
-            if (!detectionSystem.isDetected(target)) 
+            if (!detectionSystem.isDetected(target, "playerFaction")) 
             {
                 return false;
             }
             
+        }
+        else 
+        {
+            if (!detectionSystem.isDetected(target, attackerFaction.GetFactionID())) 
+            {
+                return false;
+            }
         }
 
         //Invisible units cannot be directly targeted
@@ -50,7 +57,7 @@ public class TargetingSystem : MonoBehaviour
             return false;
         }
 
-        if (!lineOfSight.CanSee(attacker, target)) 
+        if (!lineOfSight.HasPhysicalLineOfSight(attacker, target)) 
         {
             return false;
         }
@@ -86,7 +93,7 @@ public class TargetingSystem : MonoBehaviour
                 }
             case "raiderFaction":
                 { 
-                    return targetFaction.GetFactionID() == "playeFaction" || targetFaction.GetFactionID() == "civilians";
+                    return targetFaction.GetFactionID() == "playerFaction" || targetFaction.GetFactionID() == "civilians";
 
                 }
             case "civilians":

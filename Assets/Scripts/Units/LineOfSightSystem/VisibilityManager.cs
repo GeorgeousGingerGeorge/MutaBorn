@@ -5,6 +5,7 @@ public class VisibilityManager : MonoBehaviour
     [SerializeField] private FogOfWarManager fogController;
     [SerializeField] private DetectionSystem detection;
     [SerializeField] private StealthSystem stealth;
+    
 
 
     public void UpdateVisibility() 
@@ -18,9 +19,15 @@ public class VisibilityManager : MonoBehaviour
         fogController.UpdateFriendlyUnitVisibility();
         detection.UpdateDetection();
         
+        
+    }
+    public void UpdateAICurrentDetection() 
+    {
+        detection.UpdateAIDetection("raiderFaction");
+        detection.UpdateAIDetection("civilians");
     }
 
-    public void OnInvisibiltyStarted(UnitController unit) 
+    public void OnInvisibiltyStarted(UnitController unit, string observerFactionID) 
     {
         if (unit == null || stealth == null || detection == null) 
         {
@@ -29,7 +36,7 @@ public class VisibilityManager : MonoBehaviour
 
         if (stealth.IsUnitInvisible(unit)) 
         {
-            detection.RemoveDetectedUnit(unit);
+            detection.RemoveDetectedUnit(unit, observerFactionID);
         }
         
     }

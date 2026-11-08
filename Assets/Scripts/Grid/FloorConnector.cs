@@ -29,10 +29,6 @@ public class FloorConnector : MonoBehaviour
     private GridNode lowerNode;
     private GridNode upperNode;
 
-    [Header("FootPrint")]
-    private Vector2Int footPrintSize = Vector2Int.one;
-
-
     [Header("OccupiedNodes- Holds all the nodes this object covers")]
     private List<GridNode> occupiedNodes = new List<GridNode>();
 
@@ -59,7 +55,7 @@ public class FloorConnector : MonoBehaviour
     {
         occupiedNodes.Clear();
 
-        float heightDifference = Mathf.Abs(upperConnection.position.y - lowerConnection.position.x);
+        float heightDifference = Mathf.Abs(upperConnection.position.y - lowerConnection.position.y);
 
         float horizontalDifference = Vector2.Distance(new Vector2(lowerConnection.position.x, lowerConnection.position.z),
             new Vector2(upperConnection.position.x, upperConnection.position.z));

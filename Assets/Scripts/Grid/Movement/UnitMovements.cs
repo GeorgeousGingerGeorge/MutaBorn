@@ -12,12 +12,13 @@ public class UnitMovements : MonoBehaviour
     private SelectionManager selectionController;
     private TurnManager turnController;
     private UnitFaction factionController;
+    private SoundDetectionSystem soundController;
+    
    
    
     private UnitController unit;
 
     private float moveSpeed = 10f;
-    [SerializeField] private float turnSpeed = 540f;
     public bool isMoving { get; private set; } = false;
     private int pathIndex = 0;
     private float movementEfficiencyAtStart = 1f;
@@ -34,6 +35,7 @@ public class UnitMovements : MonoBehaviour
         turnController = FindAnyObjectByType<TurnManager>();
         factionController = GetComponent<UnitFaction>();
         visibileController = FindAnyObjectByType<VisibilityManager>();
+        soundController = FindAnyObjectByType<SoundDetectionSystem>();
         unit = GetComponent<UnitController>();
         
         //CDGoblin = GetComponentInChildren<Animator>();
@@ -92,7 +94,7 @@ public class UnitMovements : MonoBehaviour
 
 
     }
-    public bool AIMovement(GridNode destination = null, float aiMoveSpeed = 20f) 
+    public bool AIMovement(GridNode destination = null, float aiMoveSpeed = 10f) 
     {
         if (unit == null) 
         {
@@ -215,7 +217,7 @@ public class UnitMovements : MonoBehaviour
                 movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
 
                 unit.SetNode(nextnode);
-
+               
                 movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
 
                 pathIndex++;
@@ -229,7 +231,9 @@ public class UnitMovements : MonoBehaviour
     }
     private void CompleteMovement() 
     {
-        visibileController.UpdateVisibility(); 
+        soundController?.RegisterSound(unit.currentNode, SoundType.Footsteps, 8, unit);
+        visibileController.UpdateVisibility();
+        visibileController.UpdateAICurrentDetection();
         unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
 
         isMoving = false;

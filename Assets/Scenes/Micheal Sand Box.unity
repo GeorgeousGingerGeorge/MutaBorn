@@ -3319,6 +3319,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396291378}
   m_CullTransparentMesh: 1
+--- !u!1001 &431421118
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678976994913768172, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
+      propertyPath: m_Name
+      value: EnemyUnit
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
 --- !u!1 &503033663
 GameObject:
   m_ObjectHideFlags: 0
@@ -8210,7 +8267,10 @@ GameObject:
   - component: {fileID: 1714028919}
   - component: {fileID: 1714028922}
   - component: {fileID: 1714028920}
+  - component: {fileID: 1714028924}
   - component: {fileID: 1714028921}
+  - component: {fileID: 1714028923}
+  - component: {fileID: 1714028925}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -8246,8 +8306,8 @@ MonoBehaviour:
   currentLevel: {fileID: 0}
   gridCellSize: 2
   maxStepHeight: 0.5
-  gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
-  obstaclePrefab: {fileID: 8213480166955949838, guid: cbd10e59348d05042bdb99e6453865b1, type: 3}
+  gridCellPrefab: {fileID: 6494207454436567325, guid: c3e1fa342c968ad47bc46463525d6aa6, type: 3}
+  obstaclePrefab: {fileID: 5783946095117314508, guid: e531c1b203b0ed74b9f03903d03fcef6, type: 3}
   wallPrefab: {fileID: 3797262535275334675, guid: ce59f07f03801d5438613c644db36b60, type: 3}
   floorGenerator:
   - floorID: 1
@@ -8384,6 +8444,13 @@ MonoBehaviour:
   resultPanel: {fileID: 638883753}
   resultTitle: {fileID: 2013814623}
   resultOutcome: {fileID: 1651385393}
+  resourcesText: {fileID: 0}
+  equipmentText: {fileID: 0}
+  experienceText: {fileID: 0}
+  casualtiesText: {fileID: 0}
+  researchText: {fileID: 0}
+  claimAndReturnButton: {fileID: 0}
+  hubSceneName: TEST Hub
   victoryColor: {r: 0.35, g: 0.9, b: 0.5, a: 1}
   defeatColor: {r: 1, g: 0.4, b: 0.4, a: 1}
   pauseGameOnResult: 1
@@ -8518,7 +8585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VisibilityManager
   fogController: {fileID: 1714028920}
   detection: {fileID: 1714028922}
-  stealth: {fileID: 0}
+  stealth: {fileID: 1714028925}
 --- !u!114 &1714028922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8534,6 +8601,50 @@ MonoBehaviour:
   lineOfSight: {fileID: 1714028919}
   fogController: {fileID: 1714028920}
   occupancy: {fileID: 1714028904}
+  factionController: {fileID: 1714028907}
+--- !u!114 &1714028923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714028903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd11a2ed720e774fa88d290d7841147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoverSystem
+  occupancy: {fileID: 1714028904}
+  gridManager: {fileID: 1714028905}
+  showCoverDebug: 1
+  showRejectedObstacles: 1
+--- !u!114 &1714028924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714028903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6af41c50419d12499827dc812232f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundDetectionSystem
+  gridManager: {fileID: 1714028905}
+  occupancy: {fileID: 1714028904}
+--- !u!114 &1714028925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714028903}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6380be42c36d2f94d824fefe5997b6f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StealthSystem
+  lineOfSight: {fileID: 1714028919}
 --- !u!1 &1740969902
 GameObject:
   m_ObjectHideFlags: 0
@@ -9427,7 +9538,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000035520603}
+  m_AnchoredPosition: {x: 0, y: -0.00004971407}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1935075004
@@ -10941,3 +11052,4 @@ SceneRoots:
   - {fileID: 1460402888}
   - {fileID: 118081633}
   - {fileID: 97625609}
+  - {fileID: 431421118}
