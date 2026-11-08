@@ -412,6 +412,13 @@ MonoBehaviour:
   resultPanel: {fileID: 1859077846}
   resultTitle: {fileID: 1402592259}
   resultOutcome: {fileID: 1462547595}
+  resourcesText: {fileID: 0}
+  equipmentText: {fileID: 0}
+  experienceText: {fileID: 0}
+  casualtiesText: {fileID: 0}
+  researchText: {fileID: 0}
+  claimAndReturnButton: {fileID: 0}
+  hubSceneName: TEST Hub
   victoryColor: {r: 0.35, g: 0.9, b: 0.5, a: 1}
   defeatColor: {r: 1, g: 0.4, b: 0.4, a: 1}
   pauseGameOnResult: 1
@@ -1272,6 +1279,7 @@ GameObject:
   - component: {fileID: 92184232}
   - component: {fileID: 92184231}
   - component: {fileID: 92184230}
+  - component: {fileID: 92184233}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -1501,6 +1509,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &92184233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92184229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 509a1e50fb061d7478e2b9c45271df68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioTest
 --- !u!1 &93545536
 GameObject:
   m_ObjectHideFlags: 0
@@ -12654,6 +12674,9 @@ MonoBehaviour:
   interactionId: help
   rangeInTiles: 1
   singleUse: 1
+  onInteracted:
+    m_PersistentCalls:
+      m_Calls: []
   requiresActiveObjective: 1
   completionOutcome: 0
 --- !u!114 &1279446978
@@ -21069,6 +21092,9 @@ MonoBehaviour:
   interactionId: help
   rangeInTiles: 1
   singleUse: 1
+  onInteracted:
+    m_PersistentCalls:
+      m_Calls: []
   requiresActiveObjective: 1
   completionOutcome: 0
 --- !u!114 &1876005492
