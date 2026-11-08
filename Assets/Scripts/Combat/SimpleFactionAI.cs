@@ -350,7 +350,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
                        
                     }
                     //No active search: continue or start an investigation
-                    if (destination != null && !searchingActors.Contains(actor))
+                    if (destination == null && !searchingActors.Contains(actor))
                     {
                         destination = GetInvestigationDestination(actor, faction, out investigatedEnemy);
                           if(destination == actor.currentNode) 

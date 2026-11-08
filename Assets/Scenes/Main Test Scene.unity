@@ -643,7 +643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FogOfWarManager
   lineOfSight: {fileID: 1255480501}
   gridManager: {fileID: 1255480499}
-  SeeTiles: 0
+  SeeTiles: 1
 --- !u!114 &1255480503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,6 +659,7 @@ MonoBehaviour:
   lineOfSight: {fileID: 1255480501}
   fogController: {fileID: 1255480502}
   occupancy: {fileID: 1255480492}
+  factionController: {fileID: 1255480493}
 --- !u!114 &1255480504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1093,7 +1094,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484303073276043739, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00091948337
+      value: 0.0007523192
       objectReference: {fileID: 0}
     - target: {fileID: 7388750729601912177, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_Pivot.x

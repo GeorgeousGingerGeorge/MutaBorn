@@ -10,7 +10,7 @@ public class TerrainLogic : MonoBehaviour
         switch (type) 
         {
             case TerrainType.OpenGround:
-                movementCost = 20f; 
+                movementCost = 0f; 
                 break;
             case TerrainType.HighGrass:
                 movementCost = 1f;

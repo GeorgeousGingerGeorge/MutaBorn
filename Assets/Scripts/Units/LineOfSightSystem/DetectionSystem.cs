@@ -19,6 +19,25 @@ public class DetectionSystem : MonoBehaviour
     public IReadOnlyDictionary <string, HashSet<UnitController>> DetectedUnits => detectedByFaction;
 
 
+    private void Awake() 
+    {
+        if (lineOfSight == null) 
+        {
+            lineOfSight = FindAnyObjectByType<LineOfSight>();
+        }
+        if (fogController == null) 
+        {
+            fogController = FindAnyObjectByType<FogOfWarManager>();
+        }
+        if (occupancy == null) 
+        {
+            occupancy = FindAnyObjectByType<Occupancy>();
+        }
+        if (lineOfSight == null) 
+        {
+            factionController = FindAnyObjectByType<FactionManager>();
+        }
+    }
 
     //=====================================
     //
@@ -84,7 +103,7 @@ public class DetectionSystem : MonoBehaviour
     }
     public void UpdateAIDetection(string observerFactionID, FactionData observerFaction = null) //AI Detection
     {
-        if (lineOfSight == null || occupancy == null) 
+        if (lineOfSight == null || occupancy == null || factionController == null ) 
         {
             Debug.LogWarning("DetectionSystem: Either LineOfSight, FogOfWarManager or Occupancy is Null-Referenced");
             return;
