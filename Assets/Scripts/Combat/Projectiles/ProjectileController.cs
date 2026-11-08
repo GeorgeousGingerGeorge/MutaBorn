@@ -12,8 +12,9 @@ public class ProjectileController : MonoBehaviour
 
     private bool isMoving;
     private System.Action<Collider, Vector3> onImpact;
+    private Transform ignoredRoot;
 
-    public void Launch(ProjectileDefinition projectile, Vector3 destination, System.Action<Collider, Vector3> impactCallback = null)
+    public void Launch(ProjectileDefinition projectile, Vector3 destination, System.Action<Collider, Vector3> impactCallback = null, Transform ignoreRoot = null)
     {
         if (projectile == null)
         {
@@ -23,6 +24,7 @@ public class ProjectileController : MonoBehaviour
 
         definition = projectile;
         onImpact = impactCallback;
+        ignoredRoot = ignoreRoot;
 
         startPosition = transform.position;
         targetPosition = destination;
@@ -59,21 +61,38 @@ public class ProjectileController : MonoBehaviour
             float distance = direction.magnitude;
 
             // Check for collisions along the projectile's movement path.
-            if (Physics.Raycast(
-                transform.position,
-                direction.normalized,
-                out RaycastHit hit,
-                distance,
-                definition.CollisionLayers,
-                QueryTriggerInteraction.Ignore))
-            {
-                transform.position = hit.point;
+            RaycastHit[] hits = Physics.RaycastAll(transform.position, direction.normalized, distance, definition.CollisionLayers, QueryTriggerInteraction.Ignore);
 
-                Debug.Log($"Projectile hit {hit.collider.name}!");
+            Collider closestCollider = null;
+            Vector3 closestPoint = Vector3.zero;
+            float closestDistance = float.PositiveInfinity;
+
+            foreach (RaycastHit hit in hits)
+            {
+                // Ignore the attacking unit and its children.
+                if (ignoredRoot != null && (hit.collider.transform == ignoredRoot || hit.collider.transform.IsChildOf(ignoredRoot)))
+                {
+                    continue;
+                }
+
+                // Find the closest valid collision.
+                if (hit.distance < closestDistance)
+                {
+                    closestDistance = hit.distance;
+                    closestCollider = hit.collider;
+                    closestPoint = hit.point;
+                }
+            }
+
+            if (closestCollider != null)
+            {
+                transform.position = closestPoint;
+
+                Debug.Log($"Projectile hit {closestCollider.name}!");
 
                 isMoving = false;
 
-                onImpact?.Invoke(hit.collider, hit.point);
+                onImpact?.Invoke(closestCollider, closestPoint);
 
                 Destroy(gameObject);
 
