@@ -783,6 +783,15 @@ public class UnitController : MonoBehaviour
         currentNode = node;
         occupancy.RegisterUnit(currentNode, this);
     }
+    public void SetNodeWithoutOccupancy(GridNode node)
+    {
+        if (occupancy != null && currentNode != null)
+        {
+            occupancy.UnregisterUnit(currentNode, this);
+        }
+
+        currentNode = node;
+    }
     public void SetHover(bool hover) 
     {
         isHovered = hover;

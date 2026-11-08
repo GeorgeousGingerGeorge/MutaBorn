@@ -486,6 +486,22 @@ public class UnitData
         }
 
     }
+    public bool TryRestoreSavedResources(int health, int mana, int actionPoints)
+    {
+        // Validate saved values against current maximums.
+        if (health < 0 || health > maxHealth || mana < 0 || mana > maxMana || actionPoints < 0 || actionPoints > maxActionPoints)
+        {
+            Debug.LogWarning("Saved resources exceed valid unit limits.");
+            return false;
+        }
+
+        // Direct restoration avoids combat feedback.
+        currentHealth = health;
+        currentMana = mana;
+        currentActionPoints = actionPoints;
+
+        return true;
+    }
     public void ModifyFieldOfView(int amount) 
     {
         currentFieldOfView = Mathf.Clamp(currentFieldOfView + amount, 45, maxFieldOfView);

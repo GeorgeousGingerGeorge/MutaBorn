@@ -31,7 +31,7 @@ public static class MissionSaveRestore
         }
 
         unit.SetNode(targetNode);
-        
+
         int apDifference = savedUnit.currentActionPoints - unit.data.currentActionPoints;
         int healthDifference = savedUnit.currentHealth - unit.data.currentHealth;
         int manaDifference = savedUnit.currentMana - unit.data.currentMana;
@@ -123,6 +123,19 @@ public static class MissionSaveRestore
                 return false;
             }
 
+            // Active units must have health remaining.
+            if (savedUnit.isActive && savedUnit.currentHealth <= 0)
+            {
+                Debug.LogError($"Invalid saved health state: {savedUnit.unitName}");
+                return false;
+            }
+
+            // Inactive units do not reserve grid occupancy.
+            if (!savedUnit.isActive)
+            {
+                continue;
+            }
+
             UnitController currentUnit = currentUnits[savedUnit.persistentId];
 
             for (int x = 0; x < currentUnit.footPrint.x; x++)
@@ -164,17 +177,28 @@ public static class MissionSaveRestore
     private class PositionRestoreEntry
     {
         public UnitController unit;
+
+        // Original state for rollback
         public GridNode originalNode;
-        public GridNode savedNode;
         public Vector3 originalPosition;
         public Quaternion originalRotation;
+        public bool originalActive;
+        public bool originalOccupied;
+        public int originalHealth;
+        public int originalMana;
+        public int originalActionPoints;
+
+        // Saved state to restore
+        public GridNode savedNode;
         public Vector3 savedPosition;
         public Quaternion savedRotation;
+        public bool savedActive;
+        public int savedHealth;
+        public int savedMana;
+        public int savedActionPoints;
     }
 
-    public static bool TryRestoreAllPositions(
-        MissionSaveData saved,
-        GridManager gridManager)
+    public static bool TryRestoreAllPositions(MissionSaveData saved, GridManager gridManager)
     {
         if (saved == null || gridManager == null ||
             saved.sceneName != SceneManager.GetActiveScene().name)
@@ -194,91 +218,152 @@ public static class MissionSaveRestore
             return false;
         }
 
-        List<PositionRestoreEntry> restoreEntries =
-            new List<PositionRestoreEntry>();
+        List<PositionRestoreEntry> restoreEntries = new List<PositionRestoreEntry>();
 
         foreach (UnitSaveData savedUnit in saved.units)
         {
             UnitController unit = currentUnits[savedUnit.persistentId];
 
-            if (unit.currentNode == null || unit.occupancy == null ||
-                !unit.isActiveAndEnabled || !savedUnit.isActive ||
-                savedUnit.currentHealth <= 0)
+            if (unit == null || unit.data == null || unit.currentNode == null || unit.occupancy == null)
             {
-                Debug.LogError($"Unit is not ready for position restoration: {savedUnit.unitName}");
+                Debug.LogError($"Unit is not ready for restoration: {savedUnit.unitName}");
                 return false;
+            }
+
+            if (savedUnit.currentHealth < 0 || savedUnit.currentHealth > unit.data.maxHealth || savedUnit.currentMana < 0 || savedUnit.currentMana > unit.data.maxMana || savedUnit.currentActionPoints < 0 || savedUnit.currentActionPoints > unit.data.maxActionPoints)
+            {
+                Debug.LogError($"Invalid saved resources for {savedUnit.unitName}");
+                return false;
+            }
+
+            GridNode savedNode = gridManager.GetNodeFromGridPosition(savedUnit.floorId, savedUnit.nodeCoords);
+
+            bool originalOccupied = false;
+
+            foreach (UnitController occupant in unit.occupancy.GetUnits())
+            {
+                if (occupant == unit)
+                {
+                    originalOccupied = true;
+                    break;
+                }
             }
 
             restoreEntries.Add(new PositionRestoreEntry
             {
                 unit = unit,
+
                 originalNode = unit.currentNode,
-                savedNode = gridManager.GetNodeFromGridPosition(
-                    savedUnit.floorId, savedUnit.nodeCoords),
                 originalPosition = unit.transform.position,
                 originalRotation = unit.transform.rotation,
+                originalActive = unit.gameObject.activeSelf,
+                originalOccupied = originalOccupied,
+                originalHealth = unit.data.currentHealth,
+                originalMana = unit.data.currentMana,
+                originalActionPoints = unit.data.currentActionPoints,
+
+                savedNode = savedNode,
                 savedPosition = savedUnit.position,
-                savedRotation = savedUnit.rotation
+                savedRotation = savedUnit.rotation,
+                savedActive = savedUnit.isActive,
+                savedHealth = savedUnit.currentHealth,
+                savedMana = savedUnit.currentMana,
+                savedActionPoints = savedUnit.currentActionPoints
             });
         }
 
-        // Clear everyone's existing occupancy before moving anyone.
+        // Clear all original occupancy before moving any units.
         foreach (PositionRestoreEntry entry in restoreEntries)
         {
-            entry.unit.occupancy.UnregisterUnit(
-                entry.originalNode, entry.unit);
+            entry.unit.occupancy.UnregisterUnit(entry.originalNode, entry.unit);
         }
 
-        // Restore saved positions and register the new grid occupancy.
+        // Restore saved nodes and positions without registering occupancy yet.
         foreach (PositionRestoreEntry entry in restoreEntries)
         {
-            entry.unit.SetNode(entry.savedNode);
-
-            entry.unit.transform.SetPositionAndRotation(
-                entry.savedPosition, entry.savedRotation);
+            entry.unit.SetNodeWithoutOccupancy(entry.savedNode);
+            entry.unit.transform.SetPositionAndRotation(entry.savedPosition, entry.savedRotation);
         }
 
-        // Verify that every unit registered successfully.
+        // Restore activation states and resources.
+        bool restoreSucceeded = true;
+
         foreach (PositionRestoreEntry entry in restoreEntries)
         {
-            if (entry.unit.occupancy.FindUnit(entry.savedNode) != entry.unit)
+            if (!entry.unit.data.TryRestoreSavedResources(entry.savedHealth, entry.savedMana, entry.savedActionPoints))
             {
-                Debug.LogError(
-                    $"Occupancy registration failed for {entry.unit.name}. Rolling back.");
+                Debug.LogError($"Resource restoration failed for {entry.unit.name}");
+                restoreSucceeded = false;
+                break;
+            }
 
-                // Remove the attempted registrations.
-                foreach (PositionRestoreEntry rollback in restoreEntries)
+            entry.unit.gameObject.SetActive(entry.savedActive);
+        }
+
+        // Register occupancy only for saved active units.
+        if (restoreSucceeded)
+        {
+            foreach (PositionRestoreEntry entry in restoreEntries)
+            {
+                if (!entry.savedActive)
                 {
-                    rollback.unit.occupancy.UnregisterUnit(rollback.unit.currentNode, rollback.unit);
+                    continue;
                 }
 
-                // Restore the original positions and occupancy.
-                foreach (PositionRestoreEntry rollback in restoreEntries)
+                entry.unit.occupancy.RegisterUnit(entry.savedNode, entry.unit);
+
+                if (entry.unit.occupancy.FindUnit(entry.savedNode) != entry.unit)
                 {
-                    rollback.unit.SetNode(rollback.originalNode);
-
-                    rollback.unit.transform.SetPositionAndRotation(rollback.originalPosition, rollback.originalRotation);
+                    Debug.LogError($"Occupancy registration failed for {entry.unit.name}");
+                    restoreSucceeded = false;
+                    break;
                 }
-
-                return false;
             }
         }
 
-        // Restore unit resources after successful position restoration.
-        foreach (UnitSaveData savedUnit in saved.units)
+        // Roll back if restoration failed.
+        if (!restoreSucceeded)
         {
-            UnitController unit = currentUnits[savedUnit.persistentId];
+            // Remove any occupancy created during restoration.
+            foreach (PositionRestoreEntry entry in restoreEntries)
+            {
+                entry.unit.occupancy.UnregisterUnit(entry.unit.currentNode, entry.unit);
+            }
 
-            int apDifference = savedUnit.currentActionPoints - unit.data.currentActionPoints;
-            int healthDifference = savedUnit.currentHealth - unit.data.currentHealth;
-            int manaDifference = savedUnit.currentMana - unit.data.currentMana;
+            // Restore the original unit states.
+            foreach (PositionRestoreEntry entry in restoreEntries)
+            {
+                entry.unit.SetNodeWithoutOccupancy(entry.originalNode);
+                entry.unit.transform.SetPositionAndRotation(entry.originalPosition, entry.originalRotation);
+                entry.unit.gameObject.SetActive(entry.originalActive);
 
-            unit.data.ModifyActionPoints(apDifference);
-            unit.data.ModifyHealth(healthDifference);
-            unit.data.ModifyMana(manaDifference);
+                if (!entry.unit.data.TryRestoreSavedResources(entry.originalHealth, entry.originalMana, entry.originalActionPoints))
+                {
+                    Debug.LogError($"Resource rollback failed for {entry.unit.name}");
+                }
+            }
+
+            // Restore only the original occupancy registrations.
+            foreach (PositionRestoreEntry entry in restoreEntries)
+            {
+                if (!entry.originalOccupied)
+                {
+                    continue;
+                }
+
+                entry.unit.occupancy.RegisterUnit(entry.originalNode, entry.unit);
+
+                if (entry.unit.occupancy.FindUnit(entry.originalNode) != entry.unit)
+                {
+                    Debug.LogError($"Occupancy rollback failed for {entry.unit.name}");
+                }
+            }
+
+            Debug.LogError("Mission unit restoration failed. Rollback attempted.");
+            return false;
         }
 
-        Debug.Log($"Successfully restored {restoreEntries.Count} unit positions!");
+        Debug.Log($"Successfully restored {restoreEntries.Count} unit states!");
         return true;
     }
 }
