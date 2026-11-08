@@ -16,6 +16,29 @@ public static class WorkshopCraftingService
 
         }
 
+        ResearchManager research = ResearchManager.Instance;
+        if (research != null)
+        {
+            if (!research.IsRecipeAvailable(recipe.recipeId))
+            {
+                reason = "Recipe must be unlocked by research.";
+
+                return false;
+
+            }
+
+            ResearchBenefitType tierType = recipe.outputKind == CraftingOutputKind.Resource
+                ? ResearchBenefitType.ResourceCraftTier : ResearchBenefitType.EquipmentCraftTier;
+            if (recipe.requiredCraftTier > research.BenefitTotal(tierType))
+            {
+                reason = $"Requires crafting tier {recipe.requiredCraftTier}.";
+
+                return false;
+
+            }
+
+        }
+
         if (!TryGetCosts(recipe, stockpile, out Dictionary<string, int> costs, out reason))
         {
             return false;
@@ -174,7 +197,9 @@ public static class WorkshopCraftingService
             }
 
             costs.TryGetValue(ingredient.resourceId, out int current);
-            long combined = (long)current + ingredient.amount;
+            int amount = ResearchManager.Instance != null
+                ? ResearchManager.Instance.DiscountedCraftingCost(ingredient.amount) : ingredient.amount;
+            long combined = (long)current + amount;
             if (combined > int.MaxValue)
             {
                 error = "Ingredient quantity exceeds the supported limit.";

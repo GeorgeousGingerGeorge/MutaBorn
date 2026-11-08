@@ -232,9 +232,11 @@ public sealed class WorkshopMenu : MonoBehaviour
                 ResourceData data = stockpile != null ? stockpile.GetResourceData(ingredient.resourceId) : null;
                 string name = data != null ? data.ResourceName : ingredient.resourceId;
                 int owned = stockpile != null ? stockpile.GetQuantity(ingredient.resourceId) : 0;
-                builder.Append(owned >= ingredient.amount ? "<color=#98E3AE>" : "<color=#FFAD99>")
+                int amount = ResearchManager.Instance != null
+                    ? ResearchManager.Instance.DiscountedCraftingCost(ingredient.amount) : ingredient.amount;
+                builder.Append(owned >= amount ? "<color=#98E3AE>" : "<color=#FFAD99>")
                     .Append(name).Append(": ").Append(owned).Append(" / ")
-                    .Append(ingredient.amount).AppendLine("</color>");
+                    .Append(amount).AppendLine("</color>");
 
             }
 

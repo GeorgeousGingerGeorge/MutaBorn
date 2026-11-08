@@ -284,6 +284,12 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         Instance = this;
 
+        if (GetComponent<MissionSpoils>() == null)
+        {
+            gameObject.AddComponent<MissionSpoils>();
+
+        }
+
         if (factionManager == null)
         {
             factionManager = FindAnyObjectByType<FactionManager>();

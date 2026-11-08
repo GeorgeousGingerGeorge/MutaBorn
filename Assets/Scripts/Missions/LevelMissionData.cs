@@ -24,6 +24,8 @@ public sealed class LevelObjectiveSetup
     [Tooltip("If true, eliminations occurring before activation still count.")]
     [SerializeField] private bool countWhileLocked = true;
     [SerializeField] private List<string> prerequisiteObjectiveIds = new();
+    [Header("Rewards on completion (optional/bonus objectives)")]
+    [SerializeField] private List<WorldLootEntry> rewards = new();
 
     public ObjectiveDefinition Template => template;
     public string ObjectiveId => objectiveId;
@@ -33,6 +35,7 @@ public sealed class LevelObjectiveSetup
     public bool InitiallyActive => initiallyActive;
     public bool CountWhileLocked => countWhileLocked;
     public IReadOnlyList<string> PrerequisiteObjectiveIds => prerequisiteObjectiveIds;
+    public IReadOnlyList<WorldLootEntry> Rewards => rewards;
 
 }
 

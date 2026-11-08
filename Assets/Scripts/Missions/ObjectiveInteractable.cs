@@ -23,7 +23,7 @@ public sealed class ObjectiveInteractable : WorldInteractable
     [SerializeField] private InteractionCompletionOutcome completionOutcome = InteractionCompletionOutcome.DestroyTarget;
 
     private bool used;
-    public bool Used => used;
+    public new bool Used => used;
 
     public InteractionCompletionOutcome CompletionOutcome => completionOutcome;
 
@@ -32,7 +32,7 @@ public sealed class ObjectiveInteractable : WorldInteractable
         used = savedUsed;
     }
 
-    public string InteractionTargetName
+    public new string InteractionTargetName
     {
         get
         {

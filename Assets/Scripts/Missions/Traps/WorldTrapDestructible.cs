@@ -45,6 +45,12 @@ public class WorldTrapDestructible : MonoBehaviour
 
         health = -1;
         trap.Fire();
+        WorldSpoilsDrop spoils = GetComponent<WorldSpoilsDrop>();
+        if (spoils != null)
+        {
+            spoils.Break();
+
+        }
 
     }
 
