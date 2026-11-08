@@ -119,28 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &649268757 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114000002, guid: fd20885c36cf4556accd45d8e2ee9f77, type: 3}
-  m_PrefabInstance: {fileID: 649268756}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79d2ca25730444848b371c097fc483a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DoorController
---- !u!114 &709072137 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114000002, guid: fd20885c36cf4556accd45d8e2ee9f77, type: 3}
-  m_PrefabInstance: {fileID: 709072136}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79d2ca25730444848b371c097fc483a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DoorController
 --- !u!1 &744976430 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5708736532372914846, guid: b3d437b03174ad047b8398564a555089, type: 3}
@@ -364,6 +342,13 @@ MonoBehaviour:
   resultPanel: {fileID: 744976430}
   resultTitle: {fileID: 1593794714}
   resultOutcome: {fileID: 1793981293}
+  resourcesText: {fileID: 0}
+  equipmentText: {fileID: 0}
+  experienceText: {fileID: 0}
+  casualtiesText: {fileID: 0}
+  researchText: {fileID: 0}
+  claimAndReturnButton: {fileID: 0}
+  hubSceneName: TEST Hub
   victoryColor: {r: 0.35, g: 0.9, b: 0.5, a: 1}
   defeatColor: {r: 1, g: 0.4, b: 0.4, a: 1}
   pauseGameOnResult: 1
@@ -631,6 +616,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FogOfWarManager
   lineOfSight: {fileID: 1255480501}
   gridManager: {fileID: 1255480499}
+  SeeTiles: 0
 --- !u!1 &1408638570
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,15 +679,28 @@ Transform:
   - {fileID: 867237010}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 9.584, y: 0, z: 0}
---- !u!1 &1466652234 stripped
+--- !u!1 &1466652234
 GameObject:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 100000000, guid: dcacb36789904ccfa2bd34e99b9d4b9a, type: 3}
-  m_PrefabInstance: {fileID: 1466652233}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1466652235 stripped
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1466652236}
+  - component: {fileID: 1466652235}
+  m_Layer: 0
+  m_Name: 
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &1466652235
 MonoBehaviour:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 114000001, guid: dcacb36789904ccfa2bd34e99b9d4b9a, type: 3}
-  m_PrefabInstance: {fileID: 1466652233}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1466652234}
   m_Enabled: 1
@@ -709,6 +708,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ac5a44000e416baeacfd0cd46b562f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GateController
+  sections: []
+  panel: {fileID: 0}
+  panelCollider: {fileID: 0}
+  openOffset: {x: 0, y: 2.25, z: 0}
+  startsLocked: 0
+  onOpened:
+    m_PersistentCalls:
+      m_Calls: []
+  onClosed:
+    m_PersistentCalls:
+      m_Calls: []
+  onLocked:
+    m_PersistentCalls:
+      m_Calls: []
+  onUnlocked:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &1466652236
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466652234}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1520054169
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,6 +1027,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3371025737045851186, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4038987227588010574, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1006,7 +1041,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484303073276043739, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0009852463
+      value: 0.0009732673
       objectReference: {fileID: 0}
     - target: {fileID: 7388750729601912177, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_Pivot.x
@@ -1097,6 +1132,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1466652236}
   - {fileID: 1668695686}
   - {fileID: 1520054172}
   - {fileID: 1255480500}
