@@ -212,6 +212,20 @@ public sealed class MissionObjectiveEntry
             completedTargetIds.Add(id);
         }
 
+        // Restore interaction usage for objective targets.
+        if (Type == MissionObjectiveType.InteractWithTargets)
+        {
+            foreach (Component target in targets)
+            {
+                if (target is ObjectiveInteractable interactable)
+                {
+                    bool wasCompleted = completedTargets.Contains(target);
+
+                    interactable.RestoreUsedState(wasCompleted);
+                }
+            }
+        }
+
         return true;
     }
     internal void SetVisible(bool visible)
