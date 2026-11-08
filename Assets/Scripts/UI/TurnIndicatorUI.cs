@@ -99,7 +99,7 @@ public class TurnIndicatorUI : MonoBehaviour
         subscribedManager.TurnStarted += OnTurnStarted;
         subscribedManager.RoundStarted += OnRoundStarted;
         subscribedManager.TurnEnded += OnTurnEnded;
-
+        subscribedManager.TurnStateRestored += OnTurnStateRestored;
     }
 
     private void Unsubscribe()
@@ -113,12 +113,15 @@ public class TurnIndicatorUI : MonoBehaviour
         subscribedManager.TurnStarted -= OnTurnStarted;
         subscribedManager.RoundStarted -= OnRoundStarted;
         subscribedManager.TurnEnded -= OnTurnEnded;
+        subscribedManager.TurnStateRestored -= OnTurnStateRestored;
         subscribedManager = null;
-
     }
 
     private void OnRoundStarted(int round) => RefreshHUD();
-
+    private void OnTurnStateRestored()
+    {
+        RefreshHUD();
+    }
     private void OnTurnStarted(FactionData faction)
     {
         RefreshHUD();

@@ -49,4 +49,18 @@ using UnityEngine;
 {
     public int currentRound;
     public string activeFactionId;
+
+    public int activeTurnIndex;
+
+    public List<string> factionTurnOrder = new List<string>();
+
+    public List<FactionInitiativeSaveData> initiativeRolls =
+        new List<FactionInitiativeSaveData>();
+}
+
+[Serializable]
+public class FactionInitiativeSaveData
+{
+    public string factionId;
+    public int initiativeRoll;
 }

@@ -179,4 +179,38 @@ public class SaveSystemTester : MonoBehaviour
 
         Debug.Log($"Full Mission Position Restoration: {restored}");
     }
+
+    [ContextMenu("Test / Restore Turn State")]
+    private void TestRestoreTurnState()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved))
+        {
+            Debug.LogError("No mission save found!");
+            return;
+        }
+
+        if (saved.sceneName != UnityEngine.SceneManagement.SceneManager.GetActiveScene().name)
+        {
+            Debug.LogError("Save belongs to a different scene!");
+            return;
+        }
+
+        TurnManager turnManager = TurnManager.Instance;
+
+        if (turnManager == null)
+        {
+            Debug.LogError("TurnManager not found!");
+            return;
+        }
+
+        bool restored = turnManager.TryRestoreTurnState(saved.turnState);
+
+        Debug.Log($"Turn Restoration Successful: {restored}");
+
+        if (restored)
+        {
+            Debug.Log($"Current Round: {turnManager.Round}");
+            Debug.Log($"Active Faction: {turnManager.ActiveFaction.Id}");
+        }
+    }
 }

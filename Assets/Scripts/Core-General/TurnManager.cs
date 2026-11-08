@@ -41,6 +41,7 @@ public class TurnManager : MonoBehaviour
     public event Action<int> RoundStarted;
     public event Action<FactionData> TurnStarted;
     public event Action<FactionData> TurnEnded;
+    public event Action TurnStateRestored;
 
 
     private void Awake()
@@ -156,7 +157,114 @@ public class TurnManager : MonoBehaviour
 
     }
 
+    public TurnSaveData CaptureTurnState()
+    {
+        TurnSaveData saved = new TurnSaveData
+        {
+            currentRound = Round, activeFactionId = ActiveFaction != null ? ActiveFaction.Id : "", activeTurnIndex = turnIndex
+        };
 
+        // Save faction turn order
+        foreach (FactionData faction in turnOrder)
+        {
+            if (faction != null)
+            {
+                saved.factionTurnOrder.Add(faction.Id);
+            }
+        }
+
+        // Save initiative rolls
+        foreach (KeyValuePair<FactionData, int> entry in aiInitiativeRolls)
+        {
+            if (entry.Key == null)
+                continue;
+
+            saved.initiativeRolls.Add(new FactionInitiativeSaveData
+            { factionId = entry.Key.Id, initiativeRoll = entry.Value 
+            });
+        }
+
+        return saved;
+    }
+
+    public bool TryRestoreTurnState(TurnSaveData saved)
+    {
+        if (saved == null || factionManager == null || saved.factionTurnOrder == null || saved.initiativeRolls == null || saved.currentRound < 1)
+        {
+            Debug.LogError("Invalid turn save data.");
+            return false;
+        }
+
+        // Initially support restoring during the player's turn.
+        if (!IsPlayerTurn || !string.Equals(saved.activeFactionId, playerFaction.Id, StringComparison.OrdinalIgnoreCase))
+        {
+            Debug.LogError("Turn restoration currently supports player turns only.");
+            return false;
+        }
+
+        List<FactionData> restoredOrder = new List<FactionData>();
+        Dictionary<FactionData, int> restoredRolls = new Dictionary<FactionData, int>();
+
+        HashSet<FactionData> seenFactions = new HashSet<FactionData>();
+
+        // Rebuild the saved turn order.
+        foreach (string factionId in saved.factionTurnOrder)
+        {
+            if (!factionManager.TryGetFaction(factionId, out FactionData faction) || !seenFactions.Add(faction))
+            {
+                Debug.LogError($"Invalid or duplicate faction: {factionId}");
+                return false;
+            }
+
+            restoredOrder.Add(faction);
+        }
+
+        // Validate the saved turn index.
+        if (saved.activeTurnIndex < 0 || saved.activeTurnIndex >= restoredOrder.Count || restoredOrder[saved.activeTurnIndex] != playerFaction)
+        {
+            Debug.LogError("Saved turn index does not match the active faction.");
+            return false;
+        }
+
+        // Restore initiative rolls.
+        foreach (FactionInitiativeSaveData roll in saved.initiativeRolls)
+        {
+            if (roll == null || !factionManager.TryGetFaction(roll.factionId, out FactionData faction) || faction == playerFaction || roll.initiativeRoll < 1 || restoredRolls.ContainsKey(faction))
+            {
+                Debug.LogError("Invalid saved initiative roll.");
+                return false;
+            }
+
+            restoredRolls.Add(faction, roll.initiativeRoll);
+        }
+
+        // All validation passed. Apply the saved state.
+        if (aiAutoSkipCoroutine != null)
+        {
+            StopCoroutine(aiAutoSkipCoroutine);
+            aiAutoSkipCoroutine = null;
+        }
+
+        turnOrder.Clear();
+        turnOrder.AddRange(restoredOrder);
+
+        aiInitiativeRolls.Clear();
+
+        foreach (KeyValuePair<FactionData, int> roll in restoredRolls)
+        {
+            aiInitiativeRolls.Add(roll.Key, roll.Value);
+        }
+
+        Round = saved.currentRound;
+        turnIndex = saved.activeTurnIndex;
+        ActiveFaction = playerFaction;
+
+        Debug.Log($"Restored Round {Round} - {ActiveFaction.DisplayName}'s turn.");
+
+        TurnStateRestored?.Invoke();
+
+        return true;
+    }
 
     public bool HasActiveUnits(FactionData faction)
     {

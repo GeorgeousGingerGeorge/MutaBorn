@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public static class MissionSaveCapture
 {
     public static MissionSaveData Capture()
-    {
+    { 
         MissionSaveData snapshot = new MissionSaveData
         {
             sceneName = SceneManager.GetActiveScene().name,
@@ -51,14 +51,12 @@ public static class MissionSaveCapture
             snapshot.units.Add(savedUnit);
         } // END of the unit foreach loop
 
-        // Capture current turn state
+        // Capture complete turn state
         TurnManager turnManager = TurnManager.Instance;
 
         if (turnManager != null)
         {
-            snapshot.turnState.currentRound = turnManager.Round;
-
-            snapshot.turnState.activeFactionId = turnManager.ActiveFaction != null ? turnManager.ActiveFaction.Id : "";
+            snapshot.turnState = turnManager.CaptureTurnState();
         }
 
         return snapshot;
