@@ -49,6 +49,22 @@ public class UnitData
     DynamicStats race;
     public DynamicStats RaceDefinition => race;
 
+    public readonly List<ActionDefinition> learnedActions = new List<ActionDefinition>();
+
+    public bool TryLearnAction(ActionDefinition action)
+    {
+        if (action == null || learnedActions.Contains(action))
+        {
+            return false;
+
+        }
+
+        learnedActions.Add(action);
+
+        return true;
+
+    }
+
     [Header("Character Information- startingStats")]
     private int startingStrength;
     private int startingDexterity;
@@ -150,6 +166,8 @@ public class UnitData
     public int rangeDamage { get; private set; }
     public int magicDamage { get; private set; }
     public int armor { get; private set; }
+    public int accuracyBonus { get; private set; }
+    public int movementPenalty { get; private set; }
     public int maxLineOfSight { get; private set; }
     public int currentLineOfSight { get; private set; }
     public int maxFieldOfView { get; private set; }
@@ -165,7 +183,7 @@ public class UnitData
 
             foreach (EquipmentInstance equipment in equippedItems)
             {
-                total += Math.Max(0, equipment.wardRating);
+                total += Math.Max(0, EquipmentGenerator.GetEffectiveStats(equipment, this).ward);
 
             }
 
@@ -526,23 +544,36 @@ public class UnitData
         }
 
     }
+    public EquipmentStatValues GetEffectiveEquipmentStats(EquipmentInstance item)
+    {
+        return EquipmentGenerator.GetEffectiveStats(item, this);
+    }
+
+    // Preserves the existing call-site API; equippedItems is the single source of truth.
     public void ApplyEquipmentBonuses(EquipmentInstance item, int multiplier)
     {
-        if (item.Equals(default(EquipmentInstance)))
-            return;
-       
-        equipmentMeleeDamage += item.meleeDamage * multiplier;
-        equipmentRangeDamage += item.rangeDamage * multiplier;
-        equipmentMagicDamage += item.magicDamage * multiplier;
-        equipmentArmor += item.armorRating * multiplier;
-       
-
-
         RecalculateStats();
-
     }
-    public void RecalculateStats() 
+
+    public void RecalculateStats()
     {
+        equipmentMeleeDamage = 0;
+        equipmentRangeDamage = 0;
+        equipmentMagicDamage = 0;
+        equipmentArmor = 0;
+        accuracyBonus = 0;
+        movementPenalty = 0;
+        foreach (EquipmentInstance item in equippedItems)
+        {
+            EquipmentStatValues effective = GetEffectiveEquipmentStats(item);
+            equipmentMeleeDamage += effective.meleeDamage;
+            equipmentRangeDamage += effective.rangeDamage;
+            equipmentMagicDamage += effective.magicDamage;
+            equipmentArmor += effective.armor;
+            accuracyBonus += effective.accuracy;
+            movementPenalty += effective.movementPenalty;
+        }
+
         CalcMaxHealth(race);
         CalcMaxMana(race);
         CalcMaxActionPoints(race);
@@ -551,13 +582,10 @@ public class UnitData
         CalcMagicDamage(race);
         CalcArmor(race);
         CalcWill(race);
-
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         currentMana = Mathf.Clamp(currentMana, 0, maxMana);
         currentActionPoints = Mathf.Clamp(currentActionPoints, 0, maxActionPoints);
     }
-
-
 
     private void EnsureLoadoutSlots()
     {
@@ -882,25 +910,36 @@ public class UnitData
     // Legacy test-scene helper: generate fresh starting equipment only, not storage transfers.
     public bool TryEquipStartingItem(EquipmentData template)
     {
+        return TryEquipStartingItem(template, out _);
+    }
+
+    public bool TryEquipStartingItem(EquipmentData template, out UnitSlotId equippedSlot)
+    {
+        equippedSlot = UnitSlotId.None;
+
         if (template == null)
         {
             return false;
-
         }
 
         EquipmentInstance item = EquipmentGenerator.CreateEquipment(template);
+
         foreach (UnitSlotId slot in UnitLoadoutSlots.All)
         {
             if (CanEquipInstance(item, slot))
             {
-                return TryEquipInstance(item, slot);
+                bool success = TryEquipInstance(item, slot);
 
+                if (success)
+                {
+                    equippedSlot = slot;
+                }
+
+                return success;
             }
-
         }
 
         return false;
-
     }
 
     public bool CanEquipItem(EquipmentInstance item)
@@ -937,8 +976,7 @@ public class UnitData
 
         }
 
-        EquipmentInstance previous = equippedItems[index];
-        EquipmentInstance upgraded = previous;
+        EquipmentInstance upgraded = equippedItems[index];
         if (!EquipmentGenerator.TryUpgrade(ref upgraded))
         {
             return false;
@@ -946,11 +984,8 @@ public class UnitData
         }
 
         equippedItems[index] = upgraded;
-        equipmentMeleeDamage += upgraded.meleeDamage - previous.meleeDamage;
-        equipmentRangeDamage += upgraded.rangeDamage - previous.rangeDamage;
-        equipmentMagicDamage += upgraded.magicDamage - previous.magicDamage;
-        equipmentArmor += upgraded.armorRating - previous.armorRating;
         RecalculateStats();
+        LoadoutChanged?.Invoke();
 
         return true;
 

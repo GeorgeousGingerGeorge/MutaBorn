@@ -22,8 +22,8 @@ public class FogOfWarManager : MonoBehaviour
     private HashSet<GridNode> visitedNodes = new HashSet<GridNode>();
     private HashSet<GridNode> exploredNodes = new HashSet<GridNode>();
 
-  
-    
+
+    [SerializeField] private bool SeeTiles; 
  
 
 
@@ -65,78 +65,89 @@ public class FogOfWarManager : MonoBehaviour
     }
     private void UpdateVisibility(IEnumerable<UnitController> friendlyUnits = null, IEnumerable<UnitController> otherUnits = null) 
     {
-        visitedNodes.Clear();
-
-        foreach (UnitController unit in friendlyUnits) 
+        if (!SeeTiles)
         {
-            HashSet<GridNode> visibleNodes = lineOfSight.GetVisibleNodes(unit);
+            visitedNodes.Clear();
 
-            foreach (GridNode node in visibleNodes) 
+
+            foreach (UnitController unit in friendlyUnits)
             {
-                visitedNodes.Add(node);
-                exploredNodes.Add(node);
-            }
-        }
-        foreach (UnitController unit in otherUnits) 
-        {
-            unit.SetFogState(GetFogState(unit.currentNode));
-        }
+                HashSet<GridNode> visibleNodes = lineOfSight.GetVisibleNodes(unit);
 
-
-        //TileChanges
-        foreach (ObstacleController obstacle in occupancy.GetSolidObstacles()) 
-        {
-            FloorConnector connector = null;
-            if (obstacle.GetComponentInParent<FloorConnector>())
-            {
-                connector = obstacle.GetComponentInParent<FloorConnector>();
-                foreach (GridNode node in visitedNodes)
+                foreach (GridNode node in visibleNodes)
                 {
-                    List<GridNode> neighbors = node.GetNeighbors();
+                    visitedNodes.Add(node);
+                    exploredNodes.Add(node);
+                }
+            }
+            foreach (UnitController unit in otherUnits)
+            {
+                unit.SetFogState(GetFogState(unit.currentNode));
+            }
 
-                    foreach (GridNode neighbor in neighbors)
+
+            //TileChanges
+            foreach (ObstacleController obstacle in occupancy.GetSolidObstacles())
+            {
+                FloorConnector connector = null;
+                if (obstacle.GetComponentInParent<FloorConnector>())
+                {
+                    connector = obstacle.GetComponentInParent<FloorConnector>();
+                    foreach (GridNode node in visitedNodes)
                     {
+                        List<GridNode> neighbors = node.GetNeighbors();
 
-                        foreach (GridNode connectorNode in connector.nodes)
+                        foreach (GridNode neighbor in neighbors)
                         {
-                            if (connectorNode == neighbor)
+
+                            foreach (GridNode connectorNode in connector.nodes)
                             {
-                                TileController tile = gridManager.FindTile(connectorNode);
-                                tile.SetFogState(GetFogState(node));
+                                if (connectorNode == neighbor)
+                                {
+                                    TileController tile = gridManager.FindTile(connectorNode);
+                                    tile.SetFogState(GetFogState(node));
+                                }
                             }
+
                         }
 
                     }
-
                 }
-            }
-            else 
-            {
-
-                TileController tile = gridManager.FindTile(obstacle.firstnode);
-
-                foreach (GridNode node in visitedNodes) 
+                else
                 {
-                    foreach(GridNode neighbor in node.GetNeighbors())
+
+                    TileController tile = gridManager.FindTile(obstacle.firstnode);
+
+                    foreach (GridNode node in visitedNodes)
                     {
-                        if(tile.node == neighbor)
-                            tile.SetFogState(GetFogState(neighbor));
+                        foreach (GridNode neighbor in node.GetNeighbors())
+                        {
+                            if (tile.node == neighbor)
+                                tile.SetFogState(GetFogState(neighbor));
 
+                        }
                     }
+
                 }
-               
+
             }
-            
-        }
 
-        foreach (GridNode node in visitedNodes) 
+            foreach (GridNode node in visitedNodes)
+            {
+                TileController tile = gridManager.FindTile(node);
+
+                tile.SetFogState(GetFogState(node));
+            }
+        }
+        else 
         {
-            TileController tile = gridManager.FindTile(node);
+            TileController[] allTiles = FindObjectsByType<TileController>();
 
-            tile.SetFogState(GetFogState(node));
+            foreach(TileController tile in allTiles) 
+            {
+                tile.SetFogState(FogState.CLEAR);
+            }
         }
-        
-        
 
     }
     
