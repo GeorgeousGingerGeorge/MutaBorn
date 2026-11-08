@@ -1742,7 +1742,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1267758192}
   m_Direction: 2
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8267,6 +8267,7 @@ GameObject:
   - component: {fileID: 1714028919}
   - component: {fileID: 1714028922}
   - component: {fileID: 1714028920}
+  - component: {fileID: 1714028924}
   - component: {fileID: 1714028921}
   - component: {fileID: 1714028923}
   m_Layer: 0
@@ -8304,8 +8305,8 @@ MonoBehaviour:
   currentLevel: {fileID: 0}
   gridCellSize: 2
   maxStepHeight: 0.5
-  gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
-  obstaclePrefab: {fileID: 8213480166955949838, guid: cbd10e59348d05042bdb99e6453865b1, type: 3}
+  gridCellPrefab: {fileID: 6494207454436567325, guid: c3e1fa342c968ad47bc46463525d6aa6, type: 3}
+  obstaclePrefab: {fileID: 5783946095117314508, guid: e531c1b203b0ed74b9f03903d03fcef6, type: 3}
   wallPrefab: {fileID: 3797262535275334675, guid: ce59f07f03801d5438613c644db36b60, type: 3}
   floorGenerator:
   - floorID: 1
@@ -8608,6 +8609,20 @@ MonoBehaviour:
   gridManager: {fileID: 1714028905}
   showCoverDebug: 1
   showRejectedObstacles: 1
+--- !u!114 &1714028924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714028903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6af41c50419d12499827dc812232f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundDetectionSystem
+  gridManager: {fileID: 1714028905}
+  occupancy: {fileID: 1714028904}
 --- !u!1 &1740969902
 GameObject:
   m_ObjectHideFlags: 0

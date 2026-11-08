@@ -19,6 +19,8 @@ public class ObstacleData : ScriptableObject
     [Header("Projectile Collision")]
     [SerializeField] private bool BlocksProjectile = true;
 
+    [Header("Sound")]
+    [SerializeField] private bool BlocksSound = true;
     [Header("Traversal")]
     [SerializeField] private bool CanBeVaulted;
     [SerializeField] private bool CanBeClimbed;
@@ -43,6 +45,7 @@ public class ObstacleData : ScriptableObject
     public bool blocksMovement => BlocksMovement;
     public bool blocksLineOfSight => BlocksLineOfSight;
     public bool blocksProjectile => BlocksProjectile;
+    public bool blocksSound => BlocksSound;
     public bool canBeVaulted => CanBeVaulted;
     public bool canBeClimbed => CanBeClimbed;
     public CoverState coverState => coverstate;

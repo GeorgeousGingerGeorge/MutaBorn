@@ -1,3 +1,4 @@
+using Unity.Collections.Tests.CoreCLR.TestJobs;
 using UnityEngine;
 
 [System.Serializable]
@@ -21,8 +22,13 @@ public class ObstacleDestructionStages : MonoBehaviour
     public bool blockLineofSight;
     [Header("ProjectileCollision")]
     public bool blockProjectile;
+    [Header("Sound Detection")]
+    public bool blockSound;
 
     [Header("Cover")]
     public CoverState coverState;
     [Min(0f)] public float obstacleHeight;
+
+    [Header("Visual Effects")]
+    public ParticleSystem stageParticleEffect;
 }

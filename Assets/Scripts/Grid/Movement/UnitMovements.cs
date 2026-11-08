@@ -12,6 +12,7 @@ public class UnitMovements : MonoBehaviour
     private SelectionManager selectionController;
     private TurnManager turnController;
     private UnitFaction factionController;
+    private SoundDetectionSystem soundController;
     
    
    
@@ -35,6 +36,7 @@ public class UnitMovements : MonoBehaviour
         turnController = FindAnyObjectByType<TurnManager>();
         factionController = GetComponent<UnitFaction>();
         visibileController = FindAnyObjectByType<VisibilityManager>();
+        soundController = FindAnyObjectByType<SoundDetectionSystem>();
         unit = GetComponent<UnitController>();
         
         //CDGoblin = GetComponentInChildren<Animator>();
@@ -216,7 +218,7 @@ public class UnitMovements : MonoBehaviour
                 movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
 
                 unit.SetNode(nextnode);
-
+               
                 movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
 
                 pathIndex++;
@@ -230,6 +232,7 @@ public class UnitMovements : MonoBehaviour
     }
     private void CompleteMovement() 
     {
+        soundController?.RegisterSound(unit.currentNode, SoundType.Footsteps, 8, unit);
         visibileController.UpdateVisibility();
         visibileController.UpdateAICurrentDetection();
         unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));

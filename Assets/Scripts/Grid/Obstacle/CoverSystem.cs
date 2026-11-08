@@ -84,11 +84,11 @@ public class CoverSystem: MonoBehaviour
 
             ObstacleController solidObstacle = occupancy.FindSolidObstacle(neighbor);
 
-            EvaluateObstacle(solidObstacle, obstacleOffset, attacker.transform.position, defender.transform.position, isDiagonal, unitHeight, ref bestResult, "Solid");
+            EvaluateObstacle(solidObstacle, obstacleOffset, isDiagonal, unitHeight, ref bestResult, "Solid");
 
             ObstacleController edgeObstacle = occupancy.FindEdgeObstacle(defenderNode, neighbor);
 
-            EvaluateObstacle(edgeObstacle, obstacleOffset, attacker.transform.position, defender.transform.position, isDiagonal, unitHeight, ref bestResult, "Edge");
+            EvaluateObstacle(edgeObstacle, obstacleOffset, isDiagonal, unitHeight, ref bestResult, "Edge");
         }
 
         if (bestResult.protectingObstacle != null)
@@ -106,7 +106,7 @@ public class CoverSystem: MonoBehaviour
         return bestResult;
     }
 
-    private void EvaluateObstacle(ObstacleController obstacle, Vector2Int obstacleOffset, Vector3 attackerPosition, Vector3 defenderPosition, bool isDiagonal,float unitHeight, ref CoverResult bestResult, string source) 
+    private void EvaluateObstacle(ObstacleController obstacle, Vector2Int obstacleOffset,  bool isDiagonal,float unitHeight, ref CoverResult bestResult, string source) 
     {
 
         if (obstacle == null) 
@@ -127,24 +127,7 @@ public class CoverSystem: MonoBehaviour
             }
             return;
         }
-        BoxCollider obstacleCollider = GetObstacleCollider(obstacle);
-
-        if (obstacleCollider == null) 
-        {
-            LogCover($"{source}: {obstacle.obstacleName} has no BoxCollider");
-            return;
-        }
-
-        if (!IsObstacleBetween(obstacleCollider, attackerPosition, defenderPosition))
-        {
-            LogCover($"{source}: {obstacle.obstacleName} is not between attacker and defender");
-
-            return;
-        }
-
-        ObstacleHitSide hitSide = GetObstacleHitSide(obstacleCollider, attackerPosition, defenderPosition);
-     
-
+    
         CoverState effectiveCover = GetEffectiveCoverState(obstacle.stateOfCover, isDiagonal);
         
         if (effectiveCover == CoverState.NONE)
@@ -224,14 +207,24 @@ public class CoverSystem: MonoBehaviour
 
         return Mathf.Clamp01(obstacleHeight / unitHeight);
     }
-    private bool IsInAttackDirection(Vector2Int obstacleOffset, Vector2Int attackOffset)  
+    private bool IsInAttackDirection(Vector2Int obstacleOffset, Vector2Int attackOffset)
     {
-        Vector2 obstacleDirection = new Vector2(obstacleOffset.x, obstacleOffset.y).normalized;
-        Vector2 attackerDirection = new Vector2(attackOffset.x, attackOffset.y).normalized;
+        if (obstacleOffset == Vector2Int.zero ||
+            attackOffset == Vector2Int.zero)
+        {
+            return false;
+        }
 
-        return Vector2.Dot(obstacleDirection, attackerDirection) >= 0.7071f;
+        Vector2 obstacleDirection =
+            new Vector2(obstacleOffset.x, obstacleOffset.y).normalized;
+
+        Vector2 attackerDirection =
+            new Vector2(attackOffset.x, attackOffset.y).normalized;
+
+        float dot = Vector2.Dot(obstacleDirection, attackerDirection);
+
+        return dot >= 0.5f;
     }
-
     private void LogCover(string message) 
     {
         if (!showCoverDebug) 

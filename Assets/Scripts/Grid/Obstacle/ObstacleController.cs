@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using System.Collections;
 
 public class ObstacleController : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class ObstacleController : MonoBehaviour
     public bool blocksMovement { get; private set; }
     public bool blockLineOfSight { get; private set; }
     public bool blockProjectile { get; private set; }
+    public bool blockSound { get; private set; }
 
     [Header("Obstacle Information- Traversal Check")]
     public bool canBeVaulted { get; private set; }
@@ -42,7 +44,12 @@ public class ObstacleController : MonoBehaviour
     public int currentStageIndex { get; private set; } = -1;
 
     public bool isDestructible { get; private set; }
+    public bool IsDestroyed { get; private set; } = false;
 
+    [Header("Particlee System")]
+   
+    [SerializeField] private ParticleSystem destructionEffectPrefab;
+    
     private bool occupancyRegistered;
 
     public void Awake()
@@ -82,6 +89,7 @@ public class ObstacleController : MonoBehaviour
         blocksMovement = currentData.blocksMovement;
         blockLineOfSight = currentData.blocksLineOfSight;
         blockProjectile = currentData.blocksProjectile;
+        blockSound = currentData.blocksSound;
 
         stateOfCover = currentData.coverState;
         coverHeight = currentData.coverHeight;
@@ -163,7 +171,7 @@ public class ObstacleController : MonoBehaviour
 
         }
 
-        UpdateOccupancyRegistration();
+        UpdateOccupancyRegistration(false);
     }
 
     //Destruction Stages
@@ -232,7 +240,7 @@ public class ObstacleController : MonoBehaviour
             currentStageIndex = -1;
 
             ApplyDefaultObstacleInformation();
-            UpdateOccupancyRegistration();
+       
 
             return;
         }
@@ -248,8 +256,9 @@ public class ObstacleController : MonoBehaviour
 
         ApplyStageProperties(selectedStage);
         UpdateStageVisuals();
+        PlayStageParticleEffect(selectedStage);
 
-        UpdateOccupancyRegistration();
+    
 
     }
     private void ApplyStageProperties(ObstacleDestructionStages stage) 
@@ -257,6 +266,7 @@ public class ObstacleController : MonoBehaviour
         blocksMovement = stage.blockMovement;
         blockLineOfSight = stage.blockLineofSight;
         blockProjectile = stage.blockProjectile;
+        blockSound = stage.blockSound;
 
         stateOfCover = stage.coverState;
         coverHeight = stage.obstacleHeight;
@@ -282,17 +292,53 @@ public class ObstacleController : MonoBehaviour
             currentStage.stageVisual.SetActive(true);
         }
     }
-    //Occupancy Information
-
-    private void UpdateOccupancyRegistration() 
+    private void PlayStageParticleEffect(ObstacleDestructionStages stage)
     {
-        if (occupancy == null || occupancyRegistered) 
+        if (stage == null || stage.stageParticleEffect == null)
         {
             return;
         }
 
-        RegisterObstacle();
-        occupancyRegistered = true;
+        ParticleSystem effect = Instantiate(
+            stage.stageParticleEffect,
+            transform.position,
+            transform.rotation
+        );
+
+        effect.Play();
+    }
+
+    //Occupancy Information
+
+    private void UpdateOccupancyRegistration(bool unregister) 
+    {
+        if (occupancy == null) 
+        {
+            return;
+        }
+
+        if (unregister)
+        {
+            if (!occupancyRegistered)
+            {
+                return;
+            }
+
+            UnregisterObstacle();
+            occupancyRegistered = false;
+        }
+        else 
+        {
+            if (occupancyRegistered) 
+            {
+                return;
+            }
+           
+            RegisterObstacle();
+            occupancyRegistered = IsValidForRegistration();
+
+        }
+        
     }
 
     //Registering the obstacle to occupancy
@@ -393,9 +439,27 @@ public class ObstacleController : MonoBehaviour
                 break;
         }
     }
+    private bool IsValidForRegistration()
+    {
+        switch (typeOfObstacle)
+        {
+            case ObstacleType.Solid:
+                return firstnode != null;
+
+            case ObstacleType.Edges:
+                return firstnode != null && secondnode != null;
+
+            case ObstacleType.FloorConnectors:
+                return connector != null && connector.nodes != null &&
+                       connector.nodes.Count > 0;
+
+            default:
+                return false;
+        }
+    }
     public void SetValue_Durability(int health) 
     {
-        if(maxHealth <= 0) 
+        if(maxHealth <= 0 || IsDestroyed) 
         {
             return;
         }
@@ -410,29 +474,40 @@ public class ObstacleController : MonoBehaviour
     }
     public void DestroyObstacle()
     {
-        if (!isDestructible)
+        if (!isDestructible || IsDestroyed)
         {
             return;
         }
+
+        IsDestroyed = true;
 
         currentHealth = 0;
 
         UpdateDestructionStage();
+        UpdateOccupancyRegistration(true);
 
+        //Particle Effects and Delayed GameObject Cleanup
+        StartCoroutine(CleanupAfterDestruction());
     }
 
     //Will be moved into the obstacle logic script later
-    public void ModifyDurability(int damage, int multiplier)
+    public void ModifyDurability(int amount)
     {
-        if(!isDestructible || damage <= 0) 
+        if(!isDestructible|| IsDestroyed || amount == 0 || maxHealth <= 0) 
         {
             return;
         }
-        damage = damage * multiplier;
-        currentHealth = Mathf.Max(damage, 0, maxHealth);
+       
+        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
 
         UpdateDestructionStage();
+
+        if (currentHealth <= 0) 
+        {
+            DestroyObstacle();
+        }
     }
+
        
 
     public void ChangeState(CoverState state) //Needed later for when we change state 
@@ -443,10 +518,43 @@ public class ObstacleController : MonoBehaviour
     //CleanUp
     private void OnDestroy() 
     {
-        if (occupancyRegistered && occupancy != null) 
+        UpdateOccupancyRegistration(true);
+    }
+
+    private IEnumerator CleanupAfterDestruction() 
+    {
+        if (destructionEffectPrefab == null) 
         {
-            UnregisterObstacle();
-            occupancyRegistered = false;
+            Destroy(gameObject);
+            yield break;
         }
+
+        ParticleSystem effect = Instantiate(destructionEffectPrefab, transform.position, transform.rotation);
+
+        effect.Play(true);
+
+        //Determine how long is the effect
+        float effectDuration = 0f;
+
+        ParticleSystem[] systems = effect.GetComponentsInChildren<ParticleSystem>(true);
+
+        foreach (ParticleSystem system in systems) 
+        {
+            ParticleSystem.MainModule main = system.main;
+            float totalDuration = main.startDelay.constantMax + main.duration + main.startLifetime.constantMax;
+
+            effectDuration = Mathf.Max(effectDuration, totalDuration);
+        }
+
+        //Disable Physical colliders
+        Collider obstacleCollider = GetComponentInChildren<Collider>();
+
+        if (obstacleCollider != null) 
+        {
+            obstacleCollider.enabled = false;
+        }
+
+        yield return new WaitForSeconds(effectDuration);
+        Destroy(gameObject);
     }
 }

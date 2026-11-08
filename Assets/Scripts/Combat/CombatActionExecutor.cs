@@ -76,6 +76,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
     private FactionManager factionManager;
     private CoverSystem coverSystem;
     private LineOfSight lineOfSight;
+    private SoundDetectionSystem soundDetectionSystem;
     private int pendingConsumableIndex = -1;
     private bool lastAreaKilledTarget;
 
@@ -94,6 +95,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         targetSystem = FindAnyObjectByType<TargetingSystem>();
         coverSystem = FindAnyObjectByType<CoverSystem>();
         lineOfSight = FindAnyObjectByType<LineOfSight>();
+        soundDetectionSystem = FindAnyObjectByType<SoundDetectionSystem>();
     }
 
     public bool TryBeginAction(UnitController source, ActionDefinition action)
@@ -1028,6 +1030,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
             if (!landed)
             {
+                soundDetectionSystem?.RegisterSound(source.currentNode, SoundType.Scuffle, 12, source);
                 source.data.ModifyActionPoints(-apCost);
                 source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
                 source.GetComponent<UnitStatusController>()?.Remove("invisible");

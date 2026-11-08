@@ -10,6 +10,7 @@ public class DetectionSystem : MonoBehaviour
     [SerializeField] private LineOfSight lineOfSight;
     [SerializeField] private FogOfWarManager fogController;
     [SerializeField] private Occupancy occupancy;
+    [SerializeField] private FactionManager factionController;
     private Dictionary<string, HashSet<UnitController>> detectedByFaction = new Dictionary<string, HashSet<UnitController>>();
     private Dictionary<string, Dictionary<UnitController, GridNode>> lastKnownLocations = new Dictionary<string, Dictionary<UnitController, GridNode>>();
 
@@ -81,7 +82,7 @@ public class DetectionSystem : MonoBehaviour
 
         }
     }
-    public void UpdateAIDetection(string observerFactionID) //AI Detection
+    public void UpdateAIDetection(string observerFactionID, FactionData observerFaction = null) //AI Detection
     {
         if (lineOfSight == null || occupancy == null) 
         {
@@ -111,7 +112,7 @@ public class DetectionSystem : MonoBehaviour
 
         foreach (UnitController unit in occupancy.GetUnits()) 
         {
-
+            
             UnitFaction faction = unit.GetComponent<UnitFaction>();
             if (faction == null) 
             {
@@ -122,8 +123,8 @@ public class DetectionSystem : MonoBehaviour
             {
                 friendlyUnits.Add(unit);
             }
-            else 
-            {
+            else if (factionController.AreHostile(observerFaction, faction.Faction) && faction.GetFactionID() != observerFactionID) 
+            { 
                 otherUnits.Add(unit);
             }
         }

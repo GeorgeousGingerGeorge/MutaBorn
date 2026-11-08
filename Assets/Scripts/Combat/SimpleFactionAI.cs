@@ -15,6 +15,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
     [SerializeField] private MissionObjectiveManager missionManager;
     private LineOfSight lineOfSight;
     private DetectionSystem detectionSystem;
+    private SoundDetectionSystem soundDetectionSystem; 
 
     [Header("Pacing")]
     [SerializeField, Min(0.1f)] private float movementSpeed = 6f;
@@ -23,6 +24,11 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
     private Dictionary<UnitController, GridNode> lastPatrolDestination = new Dictionary<UnitController, GridNode>();
     private Dictionary<UnitController, GridNode> investigationTargets = new Dictionary<UnitController, GridNode>();
+    private Dictionary<UnitController, UnitController> investigationEnemies = new Dictionary<UnitController, UnitController>();
+    private HashSet<UnitController> searchingActors = new HashSet<UnitController>();
+    private Dictionary<UnitController, GridNode> searchDestinations = new Dictionary<UnitController, GridNode>();
+    private Dictionary<UnitController, Dictionary<UnitController, GridNode>> resolvedInvestigationLocations = new Dictionary<UnitController, Dictionary<UnitController, GridNode>>();
+
 
     [Header("AI Decision Limits")]
     [SerializeField, Range(1, 20)] private int maxDecisionsPerUnit = 8;
@@ -51,6 +57,11 @@ public sealed class SimpleFactionAI : MonoBehaviour
         if(detectionSystem == null) 
         {
             detectionSystem = FindAnyObjectByType<DetectionSystem>();
+        }
+
+        if(soundDetectionSystem == null) 
+        {
+            soundDetectionSystem = FindAnyObjectByType<SoundDetectionSystem>();
         }
         if (lineOfSight == null) 
         {
@@ -85,6 +96,10 @@ public sealed class SimpleFactionAI : MonoBehaviour
         if (detectionSystem == null)
         {
             detectionSystem = FindAnyObjectByType<DetectionSystem>();
+        }
+        if (soundDetectionSystem == null)
+        {
+            soundDetectionSystem = FindAnyObjectByType<SoundDetectionSystem>();
         }
         //if (movementManager == null)
         //{
@@ -242,7 +257,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
         bool moved = false;
         int failures = 0;
 
-        detectionSystem.UpdateAIDetection(faction.Id);
+        detectionSystem.UpdateAIDetection(faction.Id, faction);
 
         for (int decision = 0; decision < maxDecisionsPerUnit && CanContinue(faction) && IsLiving(actor); decision++)
         {
@@ -275,26 +290,106 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
             }
             GridNode destination = null;
-            detectionSystem.UpdateAIDetection(faction.Id);
+            string destinationSource = "";
+            detectionSystem.UpdateAIDetection(faction.Id, faction);
             UnitController enemy = FindBestHostile(actor, faction, loadout, out Dictionary<GridNode, int> stepsToEnemy);
-            UnitController investigateEnemy = null;
+
+            UnitController investigatedEnemy = null;
+            bool investigatingSound = false;
             if (enemy == null)
             {
-                investigateEnemy = GetEnemyToInvestigate(faction);
+                //Priority 1: Investigate the closest sound Ai heard
 
-
-                if (investigateEnemy != null)
+                SoundAwareness heardSound = soundDetectionSystem.GetSoundAwareness(actor);
+                if (heardSound != null && heardSound.soundOrigin != null) 
                 {
-                    destination = GetInvestigationDestination(investigateEnemy, faction);
-                    if (destination != null)
+                    if (heardSound.soundOrigin != actor.currentNode) 
                     {
-                        investigationTargets[investigateEnemy] = destination;
+                        destination = heardSound.soundOrigin;
+                        investigatingSound = true;
+                        destinationSource = "Sound";
+                        if (logDecisions) 
+                        {
+                            Debug.Log($"AI: {actor.data.characterName} is investigating sound", actor);
+                        }
+                    }
+                    else
+                    {
+                        //Ai hit the soundOrigin
+                        soundDetectionSystem.ClearSoundAwareness(actor);
                     }
                 }
 
+                //Priority 2: Investigate Last-Known visual position
+
+                if (destination == null ) 
+                {
+                    if (searchingActors.Contains(actor)) 
+                    {
+                        //Continue the nearby search
+                        if (searchDestinations.TryGetValue(actor, out GridNode searchTarget)) 
+                        {
+                            investigationEnemies.TryGetValue(actor, out investigatedEnemy);
+
+                            if (actor.currentNode != searchTarget)
+                            {
+                                destination = searchTarget;
+
+                            }
+                            else 
+                            {
+                                ResolveInvestigation(actor);
+                            }
+                        }
+                        if (destination == null) 
+                        {
+                            searchingActors.Remove(actor);
+                            searchDestinations.Remove(actor);
+                        }
+
+                       
+                    }
+                    //No active search: continue or start an investigation
+                    if (destination != null && !searchingActors.Contains(actor))
+                    {
+                        destination = GetInvestigationDestination(actor, faction, out investigatedEnemy);
+                          if(destination == actor.currentNode) 
+                          {
+                                GridNode searchTarget = PickSearchDestination(actor, actor.currentNode);
+                            
+                                if (searchTarget != null)
+                                {
+                                    searchingActors.Add(actor);
+                                    searchDestinations[actor] = searchTarget;
+                                    destination = searchTarget;
+                                    destinationSource = "Search";
+                                }
+                                else 
+                                {
+                                    ResolveInvestigation(actor);
+                                    destination = null;
+                                }
+
+                          }
+                          else if(destination != null)
+                          {
+
+                            destinationSource = "Last Known Location";
+                          }
+
+
+                    }
+                    
+                    
+
+                 
+                }
+                
+                //Priority 3: Patrol
                 if (destination == null)
                 {
                     destination = PickPatrolDestination(actor);
+                    destinationSource = "Patrol";
                 }
 
                 if (logDecisions)
@@ -447,6 +542,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
                     break;
 
                 }
+                Debug.Log("[AI DEBUG] About to call PickDestination!");
                 destination = PickDestination(actor, enemy, attacks, stepsToEnemy);
             }
            
@@ -458,18 +554,66 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
             GridNode origin = actor.currentNode;
             moved = true;
+
+            Debug.Log(
+                    $"AI: {actor.data.characterName} selected {destinationSource}. " +
+                    $"Current: {actor.currentNode.coords}, " +
+                    $"Destination: {destination.coords}",
+                    actor
+                );
             yield return MoveTo(actor, destination, faction);
-            if (actor.currentNode == destination && investigateEnemy != null) 
+
+            if (investigatingSound)
             {
-                investigationTargets.Remove(investigateEnemy);
+                if (actor.currentNode == destination || actor.currentNode == origin)
+                {
+                    soundDetectionSystem.ClearSoundAwareness(actor);
+                }
+
+            }
+            else if (investigatedEnemy != null)
+            {
+                if (searchingActors.Contains(actor))
+                {
+                    //Ai completed its nearby search
+                    if (actor.currentNode == destination)
+                    {
+                        ResolveInvestigation(actor);
+                    }
+                    else if (actor.currentNode == origin) //couldn't reach search destination
+                    {
+                        ResolveInvestigation(actor);
+                    }
+                }
+
+            }
+            else 
+            {
+                if (actor.currentNode == origin) //couldn't make any progress toward the last-known position
+                {
+                    ResolveInvestigation(actor);
+                }
             }
 
             if (actor.currentNode == origin)
             {
                 if (logDecisions)
                 {
-                    Debug.LogWarning($"AI: {actor.data.characterName} could not complete movement.", actor);
+                    Debug.LogWarning(
+                            $"AI: {actor.data.characterName} failed to move. " +
+                            $"Destination source: {destinationSource}. " +
+                            $"Origin: {origin.coords}, " +
+                            $"Destination: {destination.coords}",
+                            actor
+                        );
+                    //Debug.LogWarning($"AI: {actor.data.characterName} could not complete movement.", actor);
 
+                }
+
+
+                if(investigatedEnemy != null) 
+                {
+                    continue;
                 }
 
                 break;
@@ -672,6 +816,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
     private GridNode PickDestination(UnitController actor, UnitController enemy,
         List<ActionDefinition> attacks, Dictionary<GridNode, int> stepsToEnemy)
     {
+        Debug.Log("[AI DEBUG] PickDestination was called!");
         if (actor.currentNode == null || enemy.currentNode == null || stepsToEnemy == null)
         {
             return null;
@@ -697,12 +842,28 @@ public sealed class SimpleFactionAI : MonoBehaviour
             ? currentDistance : int.MaxValue;
         int bestApproachSteps = currentSteps;
         float bestApproachCost = float.PositiveInfinity;
-
+        Debug.Log(
+            $"[AI Path Debug] {actor.name} | Current: {actor.currentNode.coords} | " +
+            $"Enemy: {enemy.currentNode.coords} | " +
+            $"Current Steps: {currentSteps} | " +
+            $"Reachable Tiles: {reachable.Count}"
+        );
         foreach (KeyValuePair<GridNode, float> entry in reachable)
         {
             GridNode node = entry.Key;
-            if (node == null || node == actor.currentNode ||
-                !stepsToEnemy.TryGetValue(node, out int steps))
+            if (node == null)
+                continue;
+
+            bool hasPath = stepsToEnemy.TryGetValue(node, out int steps);
+
+            Debug.Log(
+                $"[AI Path Debug] Candidate: {node.coords} | " +
+                $"Floor: {node.floorID} | " +
+                $"Movement Cost: {entry.Value} | " +
+                $"Has Path: {hasPath} | " +
+                $"Steps To Enemy: {(hasPath ? steps.ToString() : "NO PATH")}");
+            if (node == null || node == actor.currentNode /*||*/
+               /* !stepsToEnemy.TryGetValue(node, out int steps)*/)
             {
                 continue;
 
@@ -717,7 +878,9 @@ public sealed class SimpleFactionAI : MonoBehaviour
             }
 
             Vector3 potentialPosition = node.cellWorldPosition + Vector3.up * 0.26f;
+            Vector3 enemyPosition = enemy.visionOrigin.position;
             float distance = Vector3.Distance(potentialPosition, enemy.transform.position);
+            bool hasLineOfSight = lineOfSight.HasPhysicalLineOfSight(potentialPosition, enemyPosition);
             bool couldAttack = false;
 
             if (node.floorID == enemy.currentNode.floorID)
@@ -725,7 +888,7 @@ public sealed class SimpleFactionAI : MonoBehaviour
                 foreach (ActionDefinition action in attacks)
                 {
                     if (remainingAP >= Mathf.CeilToInt(action.ApCost) &&
-                        distance <= action.CombatRange)
+                        distance <= action.CombatRange && hasLineOfSight)
                     {
                         couldAttack = true;
 
@@ -747,14 +910,24 @@ public sealed class SimpleFactionAI : MonoBehaviour
             // BFS distance follows actual grid connections, including stairs.
             // This lets a unit approach a staircase even when walking away from
             // the target's world position is necessary to reach the next floor.
-            if (steps < bestApproachSteps ||
-                (steps == bestApproachSteps && entry.Value < bestApproachCost))
+            if (steps < currentSteps || (steps == currentSteps && entry.Value < bestApproachCost)) 
             {
-                bestApproachTile = node;
-                bestApproachSteps = steps;
-                bestApproachCost = entry.Value;
-
+                if (bestApproachTile == null || steps < bestApproachSteps || (steps == bestApproachSteps && entry.Value < bestApproachCost)) 
+                {
+                    bestApproachTile = node;
+                    bestApproachSteps = steps;
+                    bestApproachCost = entry.Value;
+                }
             }
+
+            //if (steps < bestApproachSteps ||
+            //    (steps == bestApproachSteps && entry.Value < bestApproachCost))
+            //{
+            //    bestApproachTile = node;
+            //    bestApproachSteps = steps;
+            //    bestApproachCost = entry.Value;
+
+            //}
 
         }
 
@@ -828,8 +1001,9 @@ public sealed class SimpleFactionAI : MonoBehaviour
 
         return destination;
     }
-    private GridNode GetInvestigationDestination(UnitController actor, FactionData faction) 
+    private GridNode GetInvestigationDestination(UnitController actor, FactionData faction, out UnitController investigateEnemy) 
     {
+        investigateEnemy = null;
         if (actor == null || faction == null) 
         {
             return null;
@@ -838,7 +1012,19 @@ public sealed class SimpleFactionAI : MonoBehaviour
         //Continue an existing investigation if one is active 
         if(investigationTargets.TryGetValue(actor, out GridNode existingTarget)) 
         {
-            return existingTarget;
+            if (investigationEnemies.TryGetValue(actor, out UnitController enemyInvestigate)) 
+            {
+                if (enemyInvestigate != null && IsLiving(enemyInvestigate)) 
+                {
+                    return existingTarget;
+                }
+            }
+
+
+            //Invalid Investigation
+            investigationTargets.Remove(actor);
+            investigationEnemies.Remove(actor);
+            investigateEnemy = null;
         }
 
         if (!detectionSystem.DetectedUnits.TryGetValue(faction.Id, out HashSet<UnitController> detectedUnits)) 
@@ -859,38 +1045,90 @@ public sealed class SimpleFactionAI : MonoBehaviour
             }
 
             GridNode lastKnownLocation = detectionSystem.GetLastKnownLocation(enemy, faction.Id);
+            
+
 
             if (lastKnownLocation == null) 
             {
                 continue;
             }
+            if (resolvedInvestigationLocations.TryGetValue(actor, out Dictionary<UnitController, GridNode> resolved)) 
+            {
+                if (resolved.TryGetValue(enemy, out GridNode resolvedLocation) && resolvedLocation == lastKnownLocation) 
+                {
+                    continue;
+                }
+            }
+
+            investigateEnemy = enemy;
             investigationTargets[actor] = lastKnownLocation;
+            investigationEnemies[actor] = enemy;
+
             return lastKnownLocation;
         }
         return null;
     }
-    private UnitController GetEnemyToInvestigate(FactionData faction) 
+    private void ResolveInvestigation(UnitController actor) 
     {
-        if (!detectionSystem.DetectedUnits.TryGetValue(faction.Id, out HashSet<UnitController> detectedUnits)) 
+        if (actor == null) 
+        {
+            return;
+        }
+
+        if (investigationTargets.TryGetValue(actor, out GridNode location) && investigationEnemies.TryGetValue(actor, out UnitController enemy) && enemy != null) 
+        {
+            if (!resolvedInvestigationLocations.ContainsKey(actor)) 
+            {
+                resolvedInvestigationLocations[actor] = new Dictionary<UnitController, GridNode>();
+            }
+            resolvedInvestigationLocations[actor][enemy] = location;
+        }
+
+        investigationTargets.Remove(actor);
+        investigationEnemies.Remove(actor);
+        searchDestinations.Remove(actor);
+        searchingActors.Remove(actor);
+    }
+    private GridNode PickSearchDestination(UnitController actor, GridNode searchOrigin)
+    {
+        if (actor == null || searchOrigin == null)
+            return null;
+
+        UnitMovements movements = actor.GetComponent<UnitMovements>();
+
+        if (movements == null)
         {
             return null;
+
         }
 
-        foreach(UnitController enemy in detectedUnits) 
+        // Calculate tiles the AI can currently reach.
+        movements.AIMovement();
+
+        List<GridNode> candidates = new List<GridNode>();
+
+        foreach (GridNode node in movements.reachableNodes.Keys)
         {
-            if (enemy == null || !IsLiving(enemy)) 
-            {
+            if (node == null || node == actor.currentNode)
                 continue;
-            }
 
-            if (detectionSystem.IsCurrentlyVisible(enemy, faction.Id)) 
-            {
+            if (node.floorID != searchOrigin.floorID)
                 continue;
-            }
 
-            return enemy;
+            int dx = Mathf.Abs(node.coords.x - searchOrigin.coords.x);
+            int dy = Mathf.Abs(node.coords.y - searchOrigin.coords.y);
+
+            // Search within one tile of the last-known position.
+            if (dx <= 1 && dy <= 1)
+            {
+                candidates.Add(node);
+            }
         }
-        return null;
+
+        if (candidates.Count == 0)
+            return null;
+
+        return candidates[Random.Range(0, candidates.Count)];
     }
 
     private IEnumerator MoveTo(UnitController actor, GridNode destination, FactionData faction)
@@ -1003,6 +1241,10 @@ public sealed class SimpleFactionAI : MonoBehaviour
                 continue;
 
             }
+            Debug.Log(
+    $"[AI Detection] {actor.name} checking {other.name} | " +
+    $"Visible: {detectionSystem.IsCurrentlyVisible(other, faction.Id)}"
+);
             if (!detectionSystem.IsCurrentlyVisible(other, faction.Id))
             {
                 continue;
