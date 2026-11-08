@@ -213,4 +213,45 @@ public class SaveSystemTester : MonoBehaviour
             Debug.Log($"Active Faction: {turnManager.ActiveFaction.Id}");
         }
     }
+
+    [ContextMenu("Test / Restore Mission Snapshot")]
+    private void TestRestoreMissionSnapshot()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved))
+        {
+            Debug.LogError("No valid mission save found!");
+            return;
+        }
+
+        TurnManager turnManager = TurnManager.Instance;
+        GridManager gridManager = FindAnyObjectByType<GridManager>();
+
+        if (turnManager == null || gridManager == null || saved.turnState == null || turnManager.PlayerFaction == null)
+        {
+            Debug.LogError("Missing required mission restoration components!");
+            return;
+        }
+
+        if (!turnManager.IsPlayerTurn || !string.Equals(saved.turnState.activeFactionId, turnManager.PlayerFaction.Id, System.StringComparison.OrdinalIgnoreCase))
+        {
+            Debug.LogError("Mission restoration currently supports player turns only.");
+            return;
+        }
+
+        // Restore all saved unit states.
+        if (!MissionSaveRestore.TryRestoreAllPositions(saved, gridManager))
+        {
+            Debug.LogError("Mission restoration failed during unit restoration!");
+            return;
+        }
+
+        // Restore saved turn progression.
+        if (!turnManager.TryRestoreTurnState(saved.turnState))
+        {
+            Debug.LogError("Turn restoration failed! Unit states were restored, but the mission is only partially restored.");
+            return;
+        }
+
+        Debug.Log($"Mission Snapshot Restored Successfully! Round: {turnManager.Round} | Active Faction: {turnManager.ActiveFaction.Id}");
+    }
 }
