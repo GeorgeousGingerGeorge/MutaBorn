@@ -44,10 +44,12 @@ public sealed class LevelMissionData : ScriptableObject
     [SerializeField] private string missionName = "Test Mission";
     [SerializeField] private FactionData playerFaction;
     [SerializeField] private List<LevelObjectiveSetup> objectives = new();
+    [SerializeField] private MissionLootTable lootTable;
 
     public string MissionId => missionId;
     public string MissionName => missionName;
     public FactionData PlayerFaction => playerFaction;
     public IReadOnlyList<LevelObjectiveSetup> Objectives => objectives;
+    public MissionLootTable LootTable => lootTable;
 
 }

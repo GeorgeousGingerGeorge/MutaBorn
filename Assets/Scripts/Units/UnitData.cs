@@ -49,6 +49,22 @@ public class UnitData
     DynamicStats race;
     public DynamicStats RaceDefinition => race;
 
+    public readonly List<ActionDefinition> learnedActions = new List<ActionDefinition>();
+
+    public bool TryLearnAction(ActionDefinition action)
+    {
+        if (action == null || learnedActions.Contains(action))
+        {
+            return false;
+
+        }
+
+        learnedActions.Add(action);
+
+        return true;
+
+    }
+
     [Header("Character Information- startingStats")]
     private int startingStrength;
     private int startingDexterity;

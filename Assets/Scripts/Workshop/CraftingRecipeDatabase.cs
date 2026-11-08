@@ -81,6 +81,7 @@ public sealed class CraftingRecipeDatabase : ScriptableObject
             {
                 Debug.LogWarning($"Duplicate crafting recipe ID: {recipe.recipeId}", this);
 
+
             }
 
         }

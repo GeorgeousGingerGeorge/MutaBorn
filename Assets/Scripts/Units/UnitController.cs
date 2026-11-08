@@ -75,6 +75,7 @@ public class UnitController : MonoBehaviour
 
     [Header("Reference Node to the Grid ")]
     public GridNode currentNode { get; private set; }
+    public static event Action<UnitController, GridNode, GridNode> GridNodeChanged;
     public Occupancy occupancy;
 
 
@@ -701,6 +702,26 @@ public class UnitController : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        if (currentNode != null)
+        {
+            GridNodeChanged?.Invoke(this, null, currentNode);
+
+        }
+
+    }
+
+    private void OnDisable()
+    {
+        if (currentNode != null)
+        {
+            GridNodeChanged?.Invoke(this, currentNode, null);
+
+        }
+
+    }
+
     private void OnDestroy()
     {
         if (data != null)
@@ -771,17 +792,32 @@ public class UnitController : MonoBehaviour
     //Sets the Node of the unit,
     public void InitializeNode() 
     {
+        GridNode previousNode = currentNode;
         currentNode = FindAnyObjectByType<GridManager>().GetNodeFromClosestWorldPosition(transform.position);
         occupancy = FindAnyObjectByType<Occupancy>();
         occupancy.RegisterUnit(currentNode, this);
         unitDirection = GetComponent<UnitFacing>();
-        
+
+        if (previousNode != currentNode)
+        {
+            GridNodeChanged?.Invoke(this, previousNode, currentNode);
+
+        }
+
     }
     public void SetNode(GridNode node) 
     {
+        GridNode previousNode = currentNode;
         occupancy.UnregisterUnit(currentNode, this);
         currentNode = node;
         occupancy.RegisterUnit(currentNode, this);
+
+        if (previousNode != currentNode)
+        {
+            GridNodeChanged?.Invoke(this, previousNode, currentNode);
+
+        }
+
     }
     public void SetNodeWithoutOccupancy(GridNode node)
     {
