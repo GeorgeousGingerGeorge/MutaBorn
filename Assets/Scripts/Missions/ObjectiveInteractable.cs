@@ -22,6 +22,33 @@ public sealed class ObjectiveInteractable : WorldInteractable
     [Tooltip("Destroy removes a rescued unit from the scene and grid.")]
     [SerializeField] private InteractionCompletionOutcome completionOutcome = InteractionCompletionOutcome.DestroyTarget;
 
+    private bool used;
+    public bool Used => used;
+
+    public InteractionCompletionOutcome CompletionOutcome => completionOutcome;
+
+    public void RestoreUsedState(bool savedUsed)
+    {
+        used = savedUsed;
+    }
+
+    public string InteractionTargetName
+    {
+        get
+        {
+            UnitController targetUnit = GetComponentInParent<UnitController>();
+            if (targetUnit != null && targetUnit.data != null &&
+                !string.IsNullOrWhiteSpace(targetUnit.data.characterName))
+            {
+                return targetUnit.data.characterName;
+
+            }
+
+            return targetUnit != null ? targetUnit.name : name;
+
+        }
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetEvents()
     {
