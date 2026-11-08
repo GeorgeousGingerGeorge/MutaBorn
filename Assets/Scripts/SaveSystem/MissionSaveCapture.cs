@@ -49,8 +49,18 @@ public static class MissionSaveCapture
             };
 
             snapshot.units.Add(savedUnit);
+        } // END of the unit foreach loop
+
+        // Capture current turn state
+        TurnManager turnManager = TurnManager.Instance;
+
+        if (turnManager != null)
+        {
+            snapshot.turnState.currentRound = turnManager.Round;
+
+            snapshot.turnState.activeFactionId = turnManager.ActiveFaction != null ? turnManager.ActiveFaction.Id : "";
         }
 
         return snapshot;
-    }
-}
+    } // END of Capture()
+} // END of MissionSaveCapture class

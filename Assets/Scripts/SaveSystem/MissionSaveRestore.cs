@@ -264,6 +264,20 @@ public static class MissionSaveRestore
             }
         }
 
+        // Restore unit resources after successful position restoration.
+        foreach (UnitSaveData savedUnit in saved.units)
+        {
+            UnitController unit = currentUnits[savedUnit.persistentId];
+
+            int apDifference = savedUnit.currentActionPoints - unit.data.currentActionPoints;
+            int healthDifference = savedUnit.currentHealth - unit.data.currentHealth;
+            int manaDifference = savedUnit.currentMana - unit.data.currentMana;
+
+            unit.data.ModifyActionPoints(apDifference);
+            unit.data.ModifyHealth(healthDifference);
+            unit.data.ModifyMana(manaDifference);
+        }
+
         Debug.Log($"Successfully restored {restoreEntries.Count} unit positions!");
         return true;
     }
