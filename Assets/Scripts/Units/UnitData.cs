@@ -100,10 +100,10 @@ public class UnitData
 
     [Header("Character Information- Total Core Stats")]
     public int totalStrength => CalculateModifiedStat(StatIdentifier.Strength, leveledStrength + startingStrength + mutationStrength + equipmentStrength);
-    public int totalDexterity => CalculateModifiedStat(StatIdentifier.Dexterity, leveledDexterity + startingDexterity + mutationDexterity + equipmentDexterity);
+    public int totalDexterity => CalculateModifiedStat(StatIdentifier.Dexterity, leveledDexterity + startingDexterity + mutationDexterity + equipmentDexterity + (race != null ? race.RacialDexterityBonus : 0));
     public int totalVitality => CalculateModifiedStat(StatIdentifier.Vitality, leveledVitality + startingVitality + mutationVitality + equipmentVitality);
     public int totalConstitution => CalculateModifiedStat(StatIdentifier.Constitution, leveledConstitution + startingConstitution + mutationConstitution + equipmentConstitution);
-    public int totalPerception => CalculateModifiedStat(StatIdentifier.Perception, leveledPerception + startingPerception + mutationPerception + equipmentPerception);
+    public int totalPerception => CalculateModifiedStat(StatIdentifier.Perception, leveledPerception + startingPerception + mutationPerception + equipmentPerception + (race != null ? race.RacialPerceptionBonus : 0));
     public int totalIntelligence => CalculateModifiedStat(StatIdentifier.Intelligence, leveledIntelligence + startingIntelligence + mutationIntelligence + equipmentIntelligence);
 
     [Header("Character Information- Equipped Mutations/Gear Plus Tracker")]
@@ -916,6 +916,60 @@ public class UnitData
             LoadoutChanged?.Invoke();
 
             return true;
+
+        }
+
+        return false;
+
+    }
+
+    // Permanent loss after a casualty roll bypasses player slot locks but preserves slot identity.
+    public bool TryLoseItemAfterBattle(UnitSlotId slot)
+    {
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state == null || string.IsNullOrWhiteSpace(state.ItemInstanceId))
+        {
+            return false;
+
+        }
+
+        if (UnitLoadoutSlots.IsConsumable(slot))
+        {
+            for (int i = 0; i < carriedConsumables.Count; i++)
+            {
+                if (carriedConsumables[i].instanceId != state.ItemInstanceId)
+                {
+                    continue;
+
+                }
+
+                carriedConsumables.RemoveAt(i);
+                state.SetItem(string.Empty);
+                LoadoutChanged?.Invoke();
+
+                return true;
+
+            }
+
+        }
+        else
+        {
+            for (int i = 0; i < equippedItems.Count; i++)
+            {
+                if (equippedItems[i].instanceId != state.ItemInstanceId)
+                {
+                    continue;
+
+                }
+
+                equippedItems.RemoveAt(i);
+                state.SetItem(string.Empty);
+                RecalculateStats();
+                LoadoutChanged?.Invoke();
+
+                return true;
+
+            }
 
         }
 

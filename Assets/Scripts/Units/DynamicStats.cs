@@ -1,4 +1,5 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum RaceNames 
@@ -11,6 +12,17 @@ public enum RaceNames
 
 }
 
+
+public enum RacialPassiveKind
+{
+    None,
+    StrengthInNumbers,
+    BattleFury,
+    Opportunist,
+    KeenSenses,
+    MasterCraftsman
+
+}
 
 [CreateAssetMenu(fileName = "DynamicStats", menuName = "Scriptable Objects/DynamicStats")]
 public class DynamicStats : ScriptableObject
@@ -117,6 +129,46 @@ public class DynamicStats : ScriptableObject
     [SerializeField] private ActionSet racialActionSet;
 
     public ActionSet RacialActions => racialActionSet;
+
+    [Header("Racial Passive")]
+    [SerializeField] private RacialPassiveKind racialPassive;
+    [Tooltip("Human: percent outgoing damage per living same-faction teammate.")]
+    [SerializeField, Min(0f)] private float teammateDamagePercent = 2f;
+    [Tooltip("Human: use this instead for living Human teammates.")]
+    [SerializeField, Min(0f)] private float humanTeammateDamagePercent = 3f;
+    [Tooltip("Orc: damage bonus percentage per 1% of missing HP.")]
+    [SerializeField, Min(0f)] private float missingHealthDamageFactor = 0.5f;
+    [Tooltip("Goblin placeholder until Opportunist combat conditions are implemented.")]
+    [SerializeField, Min(0)] private int goblinDexterityBonus = 2;
+    [Tooltip("Elf placeholder until an accuracy system is integrated.")]
+    [SerializeField, Min(0)] private int elfPerceptionBonus = 2;
+
+    [Header("Dwarf Master Craftsman")]
+    [SerializeField, Range(0, 100)] private int equipmentBonusPercent = 15;
+    [SerializeField, Range(0, 100)] private int specialEquipmentBonusPercent = 25;
+    [Tooltip("Dwarf equipment that receives the special bonus instead of the regular bonus.")]
+    [SerializeField] private List<EquipmentData> specialEquipment = new List<EquipmentData>();
+
+    public RacialPassiveKind RacialPassive => racialPassive;
+    public float TeammateDamagePercent => teammateDamagePercent;
+    public float HumanTeammateDamagePercent => humanTeammateDamagePercent;
+    public float MissingHealthDamageFactor => missingHealthDamageFactor;
+    public int RacialDexterityBonus => racialPassive == RacialPassiveKind.Opportunist ? goblinDexterityBonus : 0;
+    public int RacialPerceptionBonus => racialPassive == RacialPassiveKind.KeenSenses ? elfPerceptionBonus : 0;
+
+    public int GetEquipmentBonusPercent(EquipmentData template)
+    {
+        if (racialPassive != RacialPassiveKind.MasterCraftsman)
+        {
+
+            return 0;
+
+        }
+
+        return template != null && specialEquipment != null && specialEquipment.Contains(template)
+            ? specialEquipmentBonusPercent : equipmentBonusPercent;
+
+    }
 
     
     [Header("BaseCharater- Modifiers")]

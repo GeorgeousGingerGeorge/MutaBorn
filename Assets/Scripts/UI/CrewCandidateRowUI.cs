@@ -13,7 +13,8 @@ public sealed class CrewCandidateRowUI : MonoBehaviour
     {
         if (nameText != null)
         {
-            nameText.text = unit.characterName + (assigned ? "  [Crew]" : "");
+            nameText.text = unit.characterName +
+                (unit.currentHealth <= 0 ? "  [Fallen]" : assigned ? "  [Crew]" : "");
 
         }
 
@@ -30,6 +31,7 @@ public sealed class CrewCandidateRowUI : MonoBehaviour
         {
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => clicked?.Invoke());
+            button.interactable = unit.currentHealth > 0;
 
         }
 

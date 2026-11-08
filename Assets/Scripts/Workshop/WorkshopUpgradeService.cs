@@ -22,6 +22,15 @@ public static class WorkshopUpgradeService
         WorkshopUpgradeCosts rules, out string reason)
     {
         reason = string.Empty;
+        if (ResearchManager.Instance != null &&
+            !ResearchManager.Instance.HasBenefit(ResearchBenefitType.EquipmentUpgrades))
+        {
+            reason = "Unlock Equipment Upgrades through research first.";
+
+            return false;
+
+        }
+
         if (item.template == null || string.IsNullOrWhiteSpace(item.instanceId))
         {
             reason = "This equipment instance is not valid.";

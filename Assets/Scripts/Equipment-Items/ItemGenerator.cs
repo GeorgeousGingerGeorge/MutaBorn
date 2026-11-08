@@ -627,7 +627,7 @@ public static class EquipmentGenerator
         long bonusPercent = item.attributeScaling.TotalPercent(wielder);
         EquipmentStatValues baseStats = item.baseStats;
         EquipmentStatValues bonus = item.rolledStats;
-        return new EquipmentStatValues
+        EquipmentStatValues result = new EquipmentStatValues
         {
             armor = Scale(baseStats.armor, bonusPercent) + bonus.armor,
             ward = Scale(baseStats.ward, bonusPercent) + bonus.ward,
@@ -636,7 +636,24 @@ public static class EquipmentGenerator
             magicDamage = Scale(baseStats.magicDamage, bonusPercent) + bonus.magicDamage,
             accuracy = Scale(baseStats.accuracy, bonusPercent) + bonus.accuracy,
             movementPenalty = baseStats.movementPenalty + bonus.movementPenalty
+
         };
+
+        int dwarfPercent = wielder != null && wielder.RaceDefinition != null
+            ? wielder.RaceDefinition.GetEquipmentBonusPercent(item.template) : 0;
+        if (dwarfPercent > 0)
+        {
+            result.armor = Scale(result.armor, dwarfPercent);
+            result.ward = Scale(result.ward, dwarfPercent);
+            result.meleeDamage = Scale(result.meleeDamage, dwarfPercent);
+            result.rangeDamage = Scale(result.rangeDamage, dwarfPercent);
+            result.magicDamage = Scale(result.magicDamage, dwarfPercent);
+            result.accuracy = Scale(result.accuracy, dwarfPercent);
+
+        }
+
+        return result;
+
     }
 
     private static int Scale(int flatStat, long bonusPercent)
