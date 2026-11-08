@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 
-// Generic interaction target: place on a civilian, terminal, door, or any other object.
-// The existing ActionMenuUI discovers it through SimpleInteractable automatically.
 public enum InteractionCompletionOutcome
 {
     DestroyTarget,
@@ -11,47 +9,18 @@ public enum InteractionCompletionOutcome
 
 }
 
-public sealed class ObjectiveInteractable : SimpleInteractable
+// Existing mission/civilian interaction; uses the same interaction flow as world objects.
+public sealed class ObjectiveInteractable : WorldInteractable
 {
     public static event Action<UnitController, ObjectiveInteractable> InteractionCompleted;
 
-    [Header("Interaction Identity")]
-    [Tooltip("Reusable ActionDefinition shown as a contextual INTERACT button. Set its Category to Interact and its Action ID to help for the rescue objective.")]
-    [SerializeField] private ActionDefinition interactionAction;
-
-    [Tooltip("Compatibility with existing mission definitions. If an Action SO is assigned, its Action ID is used instead.")]
-    [SerializeField] private string interactionId = "help";
-    [SerializeField, Min(1)] private int rangeInTiles = 1;
-    [SerializeField] private bool singleUse = true;
+    [Header("Mission Objective Requirement")]
     [Tooltip("Require at least one active mission objective that needs this interaction.")]
     [SerializeField] private bool requiresActiveObjective = true;
 
     [Header("After Successful Interaction")]
-    [Tooltip("For rescuing a unit, Destroy Target removes it from the scene and the grid. Join Faction can be added as another outcome later.")]
+    [Tooltip("Destroy removes a rescued unit from the scene and grid.")]
     [SerializeField] private InteractionCompletionOutcome completionOutcome = InteractionCompletionOutcome.DestroyTarget;
-
-    private bool used;
-
-    public ActionDefinition InteractionAction => interactionAction;
-    public string InteractionId => interactionAction != null ? interactionAction.Id : interactionId;
-    public bool Used => used;
-
-    public string InteractionTargetName
-    {
-        get
-        {
-            UnitController targetUnit = GetComponentInParent<UnitController>();
-            if (targetUnit != null && targetUnit.data != null &&
-                !string.IsNullOrWhiteSpace(targetUnit.data.characterName))
-            {
-                return targetUnit.data.characterName;
-
-            }
-
-            return targetUnit != null ? targetUnit.name : name;
-
-        }
-    }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetEvents()
@@ -62,18 +31,7 @@ public sealed class ObjectiveInteractable : SimpleInteractable
 
     public override bool CanInteract(UnitController actor)
     {
-        if (!base.CanInteract(actor) || used && singleUse ||
-            actor.data == null || actor.data.currentHealth <= 0 ||
-            !IsInRange(actor))
-        {
-            return false;
-
-        }
-
-        UnitController targetUnit = GetComponentInParent<UnitController>();
-
-        if (targetUnit == actor ||
-            targetUnit != null && (targetUnit.data == null || targetUnit.data.currentHealth <= 0))
+        if (!base.CanInteract(actor))
         {
             return false;
 
@@ -94,34 +52,16 @@ public sealed class ObjectiveInteractable : SimpleInteractable
 
     }
 
-    public override void Interact(UnitController actor)
+    protected override void OnInteractionSucceeded(UnitController actor)
     {
-        TryInteract(actor);
+        // Report progress before disabling or destroying the target.
+        InteractionCompleted?.Invoke(actor, this);
 
     }
 
-    public bool TryInteract(UnitController actor)
+    protected override void OnInteractionFinished(UnitController actor)
     {
-        if (!CanInteract(actor))
-        {
-            return false;
-
-        }
-
-        if (singleUse)
-        {
-            used = true;
-
-        }
-
-        // Objective progress is reported before disabling or destroying the target.
-        InteractionCompleted?.Invoke(actor, this);
-
-        Debug.Log($"{actor.name} used {InteractionId} on {InteractionTargetName}.", this);
-
         ApplyCompletionOutcome();
-
-        return true;
 
     }
 
@@ -136,7 +76,7 @@ public sealed class ObjectiveInteractable : SimpleInteractable
         UnitController targetUnit = GetComponentInParent<UnitController>();
         GameObject targetObject = targetUnit != null ? targetUnit.gameObject : gameObject;
 
-        // The teammate-owned Occupancy class does not unregister destroyed units automatically.
+        // Occupancy does not unregister destroyed units automatically.
         if (targetUnit != null && targetUnit.occupancy != null && targetUnit.currentNode != null)
         {
             targetUnit.occupancy.UnregisterUnit(targetUnit.currentNode, targetUnit);
@@ -156,43 +96,6 @@ public sealed class ObjectiveInteractable : SimpleInteractable
             Destroy(targetObject);
 
         }
-
-    }
-
-    private bool IsInRange(UnitController actor)
-    {
-        if (actor.currentNode == null)
-        {
-            return false;
-
-        }
-
-        UnitController targetUnit = GetComponentInParent<UnitController>();
-        GridNode targetNode = targetUnit != null ? targetUnit.currentNode : null;
-
-        if (targetNode == null)
-        {
-            GridManager grid = FindAnyObjectByType<GridManager>();
-            if (grid == null)
-            {
-                return false;
-
-            }
-
-            targetNode = grid.GetNodeFromClosestWorldPosition(transform.position);
-
-        }
-
-        if (targetNode == null || actor.currentNode.floorID != targetNode.floorID)
-        {
-            return false;
-
-        }
-
-        Vector2Int delta = actor.currentNode.coords - targetNode.coords;
-        int distance = Mathf.Max(Mathf.Abs(delta.x), Mathf.Abs(delta.y));
-
-        return distance > 0 && distance <= rangeInTiles;
 
     }
 

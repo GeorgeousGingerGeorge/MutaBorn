@@ -52,12 +52,12 @@ public class ActionMenuUI : MonoBehaviour
     [SerializeField] private TMP_Text actionDescriptionText;
 
     [Header("Contextual Interactions")]
-    [Tooltip("How often to refresh actions from nearby targets (seconds). Uses grid-range checks from ObjectiveInteractable.")]
+    [Tooltip("How often to refresh actions from nearby targets (seconds). Uses grid-range checks from WorldInteractable.")]
     [SerializeField, Min(0.05f)] private float interactionScanInterval = 0.2f;
 
     private UnitController displayedUnit;
     private UnitActionLoadout displayedLoadout;
-    private readonly List<ObjectiveInteractable> nearbyInteractions = new();
+    private readonly List<WorldInteractable> nearbyInteractions = new();
     private ActionMenuCategory openCategory;
     private bool categoryIsOpen;
     private int lastLoadoutVersion = -1;
@@ -407,7 +407,7 @@ public class ActionMenuUI : MonoBehaviour
         int count = 0;
         if (openCategory == ActionMenuCategory.Interact)
         {
-            foreach (ObjectiveInteractable target in nearbyInteractions)
+            foreach (WorldInteractable target in nearbyInteractions)
             {
                 if (target == null || !target.CanInteract(displayedUnit) || target.InteractionAction == null)
                 {
@@ -417,10 +417,10 @@ public class ActionMenuUI : MonoBehaviour
 
                 ActionDefinition action = target.InteractionAction;
                 ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
-                ObjectiveInteractable selectedTarget = target;
+                WorldInteractable selectedTarget = target;
                 item.Bind(action, displayedUnit.data.currentActionPoints,
                     _ => RequestInteraction(selectedTarget), PreviewAction, EndActionPreview);
-                item.SetContextLabel(target.InteractionTargetName);
+                item.SetContextLabel(target.InteractionMenuLabel);
                 count++;
 
             }
@@ -548,11 +548,11 @@ public class ActionMenuUI : MonoBehaviour
 
     private void RefreshNearbyInteractions()
     {
-        List<ObjectiveInteractable> available = new();
+        List<WorldInteractable> available = new();
 
         if (displayedUnit != null)
         {
-            foreach (ObjectiveInteractable target in FindObjectsByType<ObjectiveInteractable>())
+            foreach (WorldInteractable target in FindObjectsByType<WorldInteractable>())
             {
                 if (target != null && target.InteractionAction != null &&
                     target.InteractionAction.Category == ActionMenuCategory.Interact &&
@@ -776,7 +776,7 @@ public class ActionMenuUI : MonoBehaviour
 
     }
 
-    private void RequestInteraction(ObjectiveInteractable target)
+    private void RequestInteraction(WorldInteractable target)
     {
         if (target == null || displayedUnit == null || displayedUnit.data == null ||
             !CanCommand(displayedUnit) || !target.CanInteract(displayedUnit))
