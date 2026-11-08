@@ -16,7 +16,40 @@ public class ObstacleController : MonoBehaviour
     private CoverState currentState;
     public bool blockLineOfSight { get; private set; }
 
-    public void Awake()
+    public bool IsBlocking => occupancy != null && firstnode != null && secondnode != null &&
+    occupancy.FindEdgeObstacle(firstnode, secondnode) == this;
+    public Occupancy CurrentOccupancy => occupancy;
+
+    public bool TrySetBlocking(bool blocked)
+    {
+        if (occupancy == null || firstnode == null || secondnode == null)
+        {
+            return false;
+        }
+
+        if (IsBlocking == blocked)
+        {
+            return true;
+        }
+
+        if (blocked)
+        {
+            if (occupancy.IsBlockedByEdgeObstacle(firstnode, secondnode))
+            {
+                return false;
+            }
+
+            occupancy.RegisterEdgeObstacles(firstnode, secondnode, this);
+        }
+        else
+        {
+            occupancy.UnregisterEdgeObstacles(firstnode, secondnode, this);
+        }
+
+        return true;
+    }
+
+public void Awake()
     {
         currentData = data;
         if (currentData != null)
@@ -32,7 +65,7 @@ public class ObstacleController : MonoBehaviour
     {
         GridManager gridManager = FindAnyObjectByType<GridManager>();
         occupancy = FindAnyObjectByType<Occupancy>();
-        switch (currentData.typeOfObstacle)
+            switch (currentData.typeOfObstacle)
         {
 
             case ObstacleType.Solid:
