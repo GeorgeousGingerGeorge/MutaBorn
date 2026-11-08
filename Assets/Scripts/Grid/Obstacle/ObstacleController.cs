@@ -9,6 +9,7 @@ public class ObstacleController : MonoBehaviour
     public GridNode secondnode { get; private set; } = null;
 
     private Occupancy occupancy;
+    private GridManager gridManager;
     private FloorConnector connector;
     private bool registered;
 
@@ -64,12 +65,12 @@ public class ObstacleController : MonoBehaviour
 
 
     //Initialization
-    public void InitializeObstacleData() 
+    public bool InitializeObstacleData() 
     {
         if (data == null)
         {
             Debug.LogWarning("An obstacle is missing its ObstacleData");
-            return;
+            return false;
         }
 
         currentData = data;
@@ -85,6 +86,8 @@ public class ObstacleController : MonoBehaviour
 
         //Determine the Initial Destruction Stage
         UpdateDestructionStage();
+
+        return true;
     }
 
     //ApplyDefault
@@ -106,13 +109,13 @@ public class ObstacleController : MonoBehaviour
     }
     public void InitializeNodes() 
     {
-        if (!InitializeData())
+        if (!InitializeObstacleData())
         {
             return;
 
         }
 
-        GridManager gridManager = FindAnyObjectByType<GridManager>();
+        gridManager = FindAnyObjectByType<GridManager>();
         occupancy = FindAnyObjectByType<Occupancy>();
 
         if (gridManager == null || occupancy == null)
@@ -179,7 +182,7 @@ public class ObstacleController : MonoBehaviour
     // Allows doors and gates to change blocking without destroying the obstacle.
     public bool TrySetBlocking(bool blocked)
     {
-        if (!InitializeData() || occupancy == null || firstnode == null)
+        if (!InitializeObstacleData() || occupancy == null || firstnode == null)
         {
             return false;
 
@@ -237,7 +240,7 @@ public class ObstacleController : MonoBehaviour
                     if (firstnode == null || secondnode == null || firstnode == secondnode)
                     {
                         Debug.LogWarning("Invalid Edge Obstacle node Reference.", this);
-                        return;
+                        return false;
                     }
 
                     
@@ -250,7 +253,7 @@ public class ObstacleController : MonoBehaviour
                     if (connector == null) 
                     {
                         Debug.LogWarning("Floor Connector Obstacle is missing FloorConnector Component");
-                        return;
+                        return false;
                     }
                 }
                 break;
@@ -259,8 +262,10 @@ public class ObstacleController : MonoBehaviour
                 return false;
 
         }
-
         UpdateOccupancyRegistration(false);
+
+        return true;
+        
     }
 
     //Destruction Stages

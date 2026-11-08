@@ -19,7 +19,6 @@ public class UnitMovements : MonoBehaviour
     private UnitController unit;
 
     private float moveSpeed = 10f;
-    [SerializeField] private float turnSpeed = 540f;
     public bool isMoving { get; private set; } = false;
     private int pathIndex = 0;
     private float movementEfficiencyAtStart = 1f;
@@ -95,7 +94,7 @@ public class UnitMovements : MonoBehaviour
 
 
     }
-    public bool AIMovement(GridNode destination = null, float aiMoveSpeed = 20f) 
+    public bool AIMovement(GridNode destination = null, float aiMoveSpeed = 10f) 
     {
         if (unit == null) 
         {

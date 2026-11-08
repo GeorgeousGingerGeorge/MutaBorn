@@ -10,7 +10,7 @@ public enum SoundType
     Impact, 
     Interaction
 }
-[Serializable] //For future ScriptableObject Data
+[System.Serializable] //For future ScriptableObject Data
 public class SoundAwareness 
 {
     public GridNode soundOrigin;
