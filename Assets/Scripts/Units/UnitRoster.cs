@@ -695,6 +695,34 @@ public sealed class UnitRoster : MonoBehaviour
 
     }
 
+    // Award only units actually bound to living mission wrappers. Merely assigning
+    // a crew slot does not mean that unit successfully spawned or participated.
+    public int GrantVictoryProgress(int experience, int mutationPoints)
+    {
+        int rewarded = 0;
+        foreach (KeyValuePair<string, UnitController> binding in activeBindings)
+        {
+            UnitController wrapper = binding.Value;
+            if (wrapper == null || !wrapper.isActiveAndEnabled ||
+                !TryGetUnit(binding.Key, out UnitData unit) ||
+                !ReferenceEquals(wrapper.data, unit) || unit.currentHealth <= 0)
+            {
+                continue;
+
+            }
+
+            unit.GainExperience(experience);
+            unit.GainMutationPoints(mutationPoints);
+            rewarded++;
+
+        }
+
+        RosterChanged?.Invoke();
+
+        return rewarded;
+
+    }
+
     public void RefreshAfterMission()
     {
         foreach (UnitData unit in units)

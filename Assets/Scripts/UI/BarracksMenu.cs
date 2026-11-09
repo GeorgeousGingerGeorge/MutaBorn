@@ -58,6 +58,16 @@ public sealed class BarracksMenu : MonoBehaviour
     [SerializeField] private GameObject mutationsPanel;
     [SerializeField] private Button closeMutationsButton;
 
+    [Header("Optional Leveling Controls - Author in Unity")]
+    [SerializeField] private TMP_Dropdown attributeChoiceDropdown;
+    [SerializeField] private Button spendAttributePointButton;
+
+    [Header("Optional Mutation Controls - Author in Unity")]
+    [SerializeField] private TMP_Dropdown mutationChoiceDropdown;
+    [SerializeField] private Button applyMutationButton;
+    private readonly List<(MutationID current, MutationID next)> mutationChoices =
+        new List<(MutationID current, MutationID next)>();
+
     [Header("Fourteen Existing Equipment Slot Buttons")]
     [SerializeField] private List<SlotUI> slotButtons = new List<SlotUI>();
     [SerializeField] private Button lockSlotButton;
@@ -182,6 +192,28 @@ public sealed class BarracksMenu : MonoBehaviour
         if (closeMutationsButton != null)
         {
             closeMutationsButton.onClick.AddListener(CloseMutationsPanel);
+
+        }
+
+        if (attributeChoiceDropdown != null)
+        {
+            attributeChoiceDropdown.ClearOptions();
+            attributeChoiceDropdown.AddOptions(new List<string>
+            {
+                "Strength", "Dexterity", "Vitality", "Constitution", "Perception", "Intelligence"
+            });
+
+        }
+
+        if (spendAttributePointButton != null)
+        {
+            spendAttributePointButton.onClick.AddListener(SpendSelectedAttributePoint);
+
+        }
+
+        if (applyMutationButton != null)
+        {
+            applyMutationButton.onClick.AddListener(ApplySelectedMutation);
 
         }
 
@@ -615,6 +647,131 @@ public sealed class BarracksMenu : MonoBehaviour
 
     }
 
+    private void SpendSelectedAttributePoint()
+    {
+        UnitData unit = SelectedUnit();
+        if (!CanEdit(unit) || attributeChoiceDropdown == null ||
+            !unit.TrySpendAttributePoint((StatIdentifier)(attributeChoiceDropdown.value + 1)))
+        {
+            SetStatus("Cannot spend a level-up point.");
+
+            return;
+
+        }
+
+        SetStatus("Attribute upgraded.");
+        RefreshAll();
+
+    }
+
+    private void RefreshProgressionOptions(UnitData unit)
+    {
+        if (spendAttributePointButton != null)
+        {
+            spendAttributePointButton.interactable = CanEdit(unit) && unit.UnspentAttributePoints > 0;
+
+        }
+
+        if (mutationChoiceDropdown == null)
+        {
+            if (applyMutationButton != null)
+            {
+                applyMutationButton.interactable = false;
+
+            }
+
+            return;
+
+        }
+
+        mutationChoices.Clear();
+        List<string> labels = new List<string>();
+        MutationDataBase database = GameDataBaseLoader.Instance != null
+            ? GameDataBaseLoader.Instance.mutationData : null;
+        bool researchUnlocked = ResearchManager.Instance == null ||
+            ResearchManager.Instance.HasBenefit(ResearchBenefitType.MutationResearch);
+        if (unit != null && database != null && researchUnlocked)
+        {
+            foreach (MutationNodeDefinition node in database.MutationNodes)
+            {
+                if (node != null && node.Level == 1 && unit.CanEquipMutation(node.Id))
+                {
+                    mutationChoices.Add((MutationID.none, node.Id));
+                    labels.Add($"Acquire {node.DisplayName} (50 points)");
+
+                }
+
+            }
+
+            foreach (ActiveMutationRecord owned in unit.activeMutationNodes)
+            {
+                MutationNodeDefinition current = database.GetNode(owned.MutationId);
+                if (current == null)
+                {
+                    continue;
+
+                }
+
+                foreach (MutationID nextId in current.NextEvolutions)
+                {
+                    MutationNodeDefinition next = database.GetNode(nextId);
+                    if (next != null)
+                    {
+                        mutationChoices.Add((current.Id, nextId));
+                        labels.Add($"Evolve to {next.DisplayName} ({next.Level * 50} points)");
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        int previous = mutationChoiceDropdown.value;
+        mutationChoiceDropdown.ClearOptions();
+        mutationChoiceDropdown.AddOptions(labels.Count == 0 ?
+            new List<string> { researchUnlocked ? "No mutations available" : "Unlock Mutation Research in the Lab" } : labels);
+        mutationChoiceDropdown.SetValueWithoutNotify(Mathf.Clamp(previous, 0, Mathf.Max(0, labels.Count - 1)));
+        mutationChoiceDropdown.RefreshShownValue();
+        if (applyMutationButton != null)
+        {
+            applyMutationButton.interactable = CanEdit(unit) && mutationChoices.Count > 0;
+
+        }
+
+    }
+
+    private void ApplySelectedMutation()
+    {
+        if (ResearchManager.Instance != null &&
+            !ResearchManager.Instance.HasBenefit(ResearchBenefitType.MutationResearch))
+        {
+            SetStatus("Unlock Mutation Research in the Lab first.");
+
+            return;
+
+        }
+
+        UnitData unit = SelectedUnit();
+        if (!CanEdit(unit) || mutationChoiceDropdown == null ||
+            mutationChoiceDropdown.value < 0 || mutationChoiceDropdown.value >= mutationChoices.Count)
+        {
+            return;
+
+        }
+
+        (MutationID current, MutationID next) choice = mutationChoices[mutationChoiceDropdown.value];
+        MutationDataBase database = GameDataBaseLoader.Instance != null
+            ? GameDataBaseLoader.Instance.mutationData : null;
+        bool succeeded = choice.current == MutationID.none
+            ? unit.TryPurchaseMutation(choice.next, database)
+            : unit.TryEvolveMutation(choice.current, choice.next);
+        SetStatus(succeeded ? "Mutation updated." : "Not enough mutation points or slots are occupied.");
+        RefreshAll();
+
+    }
+
     private void RefreshDetails()
     {
         UnitData unit = SelectedUnit();
@@ -646,6 +803,7 @@ public sealed class BarracksMenu : MonoBehaviour
         if (unitStatsText != null)
         {
             unitStatsText.text = unit == null ? "" :
+                $"Level {unit.Level}   XP {unit.Experience}/{unit.ExperienceToNextLevel}   Points {unit.UnspentAttributePoints}\n" +
                 "HP  " + unit.currentHealth + "/" + unit.maxHealth + "\n" +
                 "Mana  " + unit.currentMana + "/" + unit.maxMana + "\n" +
                 "AP  " + unit.currentActionPoints + "/" + unit.maxActionPoints + "\n" +
@@ -685,10 +843,13 @@ public sealed class BarracksMenu : MonoBehaviour
 
             }
 
-            unitMutationsText.text = names.Length == 0 ? "None" : names.ToString();
+            unitMutationsText.text = unit == null ? "Select a unit" :
+                $"Mutation Points: {unit.MutationPoints}\n" +
+                (names.Length == 0 ? "None" : names.ToString());
 
         }
 
+        RefreshProgressionOptions(unit);
         bool editable = CanEdit(unit);
         if (renameButton != null)
         {
