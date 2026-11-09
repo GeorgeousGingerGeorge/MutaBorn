@@ -68,6 +68,7 @@ public sealed class WorldSpoilsDrop : MonoBehaviour
         }
 
         spoils.Collect(contents);
+        MissionLootPopup.Show("Recovered Spoils", contents, "You found nothing.");
         if (visualRoot != null)
         {
             visualRoot.SetActive(false);

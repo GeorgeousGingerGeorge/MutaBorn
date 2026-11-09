@@ -8,7 +8,8 @@ public enum NpcDialogueOutcome
     JoinCrew,
     Escape,
     Hostile,
-    Neutral
+    Neutral,
+    GiveItems
 
 }
 
