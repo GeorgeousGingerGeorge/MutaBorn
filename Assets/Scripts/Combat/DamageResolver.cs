@@ -202,6 +202,7 @@ namespace MutaBorn.Gameplay
                 int health = target.data.currentHealth;
                 result = new DamageResult(request, 0, 0, 0, 0, health, health,
                     null, true);
+                MutationTactics.TryCounterOnParry(target, attacker);
 
                 return true;
 

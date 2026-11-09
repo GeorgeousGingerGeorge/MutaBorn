@@ -33,9 +33,11 @@ public class MutationProgress
         int count = 0; 
         pointsRequired = initialCost;
 
-        while (count < currentStage) 
+        while (count < currentStage)
         {
             pointsRequired = Mathf.CeilToInt(pointsRequired * multiplier);
+            count++;
+
         }
     }
     public void AddProgress(int points) 

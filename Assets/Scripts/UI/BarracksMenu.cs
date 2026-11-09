@@ -694,7 +694,7 @@ public sealed class BarracksMenu : MonoBehaviour
         {
             foreach (MutationNodeDefinition node in database.MutationNodes)
             {
-                if (node != null && node.Level == 1 && unit.CanEquipMutation(node.Id))
+                if (node != null && !node.HiddenFromAcquisition && node.Level == 1 && unit.CanEquipMutation(node.Id))
                 {
                     mutationChoices.Add((MutationID.none, node.Id));
                     labels.Add($"Acquire {node.DisplayName} (50 points)");

@@ -159,7 +159,7 @@ public class UnitData
         }
 
         MutationNodeDefinition node = database != null ? database.GetNode(id) : null;
-        if (node == null || node.Level != 1 || MutationPoints < 50 ||
+        if (node == null || node.HiddenFromAcquisition || node.Level != 1 || MutationPoints < 50 ||
             !CanEquipMutation(id) || !TryAddFixedMutation(id, database))
         {
             return false;
@@ -528,6 +528,34 @@ public class UnitData
             else
             {
                 percent += bonus.Value;
+
+            }
+
+        }
+
+        // Fixed mutation percentages remain in UnitData across scene transitions.
+        MutationDataBase mutationDatabase = GameDataBaseLoader.Instance != null
+            ? GameDataBaseLoader.Instance.mutationData : null;
+        if (mutationDatabase != null)
+        {
+            foreach (ActiveMutationRecord owned in activeMutationNodes)
+            {
+                MutationNodeDefinition node = mutationDatabase.GetNode(owned.MutationId);
+                if (node == null)
+                {
+                    continue;
+
+                }
+
+                foreach (MutationStatMultiplier modifier in node.PercentBonuses)
+                {
+                    if (modifier.Stat == stat)
+                    {
+                        percent += modifier.Percent;
+
+                    }
+
+                }
 
             }
 
