@@ -93,6 +93,11 @@ public class DynamicStats : ScriptableObject
     [SerializeField] public int baseArmorModifier;
     [SerializeField] public int baseWillModifier;
 
+    [Header("Physical Dimensions")]
+    [SerializeField, Min(0.01f)]
+    private float standingHeight = 1.8f;
+    [SerializeField, Min(0.01f)]
+    private float crouchingHeight = 1.0f;
 
     [Header("DisplayValues (readOnly)")]
     [SerializeField] private int _BaseHealth;
@@ -213,6 +218,9 @@ public class DynamicStats : ScriptableObject
     public int lineOfSight => _LineOfSight;
     public int fieldOfView =>_fieldOfView;
 
+    [Header("Race Physical Dimensions for Cover- Read Only")]
+    public float StandingHeight => standingHeight;
+    public float CrouchingHeight => crouchingHeight;
     private void OnValidate()
     {
         if (flatStats == null)

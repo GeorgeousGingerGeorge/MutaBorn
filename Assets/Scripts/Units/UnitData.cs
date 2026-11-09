@@ -296,6 +296,12 @@ public class UnitData
     public int maxFieldOfView { get; private set; }
     public int currentFieldOfView { get; private set; }
 
+    [Header("Information used for cover calculations")]
+
+    public float standingHeight { get; private set; } = 1.8f;
+    public float crouchingHeight { get; private set; } = 1.0f;
+
+
     // Ward and damage resistances are derived from equipped gear, not cached
     // separately. Future stat modifiers can extend these accessors.
     public int ward
@@ -1638,8 +1644,10 @@ public class UnitData
         newUnit.UnitId = Guid.NewGuid().ToString("N");
         newUnit.characterName = name;
         newUnit.raceName = race.RaceName;
-        newUnit.race = race; 
-       
+        newUnit.race = race;
+        //Setting Physical Dimensions for Cover Calculations
+        newUnit.standingHeight = race.StandingHeight;
+        newUnit.crouchingHeight = race.CrouchingHeight;
 
         //Setting Starting Stats 
         newUnit.startingStrength = race.startStrength;

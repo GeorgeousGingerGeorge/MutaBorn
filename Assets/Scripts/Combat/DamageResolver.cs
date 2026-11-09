@@ -195,8 +195,8 @@ namespace MutaBorn.Gameplay
                 action, type, DamageDeliveryType.Unspecified, components,
                 action.FlatArmorPenetration, action.FlatWardPenetration, critical);
 
-            UnitStatusController defendingStatuses = target.GetComponent<UnitStatusController>();
-            float dodgeChance = defendingStatuses != null ? defendingStatuses.DodgeChancePercent : 0f;
+
+            float dodgeChance = CalculateDodgeChance(target);
             if (!ignoreDodge && dodgeChance > 0f && UnityEngine.Random.value * 100f < dodgeChance)
             {
                 int health = target.data.currentHealth;
@@ -579,6 +579,43 @@ namespace MutaBorn.Gameplay
 
         }
 
+        private static float CalculateDodgeChance(UnitController defender) 
+        {
+            if (defender == null || defender.data == null) 
+            {
+                return 0f; 
+
+            }
+            float minimumDodgeChance = 0f;
+            float maximumDodgeChance = 95f;
+
+            float dexterity = defender.data.totalDexterity;
+            float perception = defender.data.totalPerception;
+
+            float dodgeChance = GetAttributeContribution(dexterity) + GetAttributeContribution(perception);
+
+            UnitStatusController statuses = defender.GetComponent<UnitStatusController>();
+
+            if (statuses != null) 
+            {
+                dodgeChance += statuses.DodgeChancePercent;
+
+                
+            }
+
+            return Mathf.Clamp(dodgeChance, minimumDodgeChance, maximumDodgeChance);
+        }
+
+        private static float GetAttributeContribution(float attributeValue) 
+        {
+            float attributeSaturation = 50f;
+            float maxAttributeContribution = 10f;
+            float attribute = Mathf.Max(0f, attributeValue);
+
+            float contribution = attribute / (attribute + attributeSaturation);
+
+            return contribution * maxAttributeContribution;
+        }
         private static int ClampToInt(long value)
         {
             return (int)Math.Max(int.MinValue, Math.Min(value, int.MaxValue));
