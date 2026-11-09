@@ -65,7 +65,7 @@ namespace MutaBorn.Gameplay
                 default:
                     break;
             }
-
+            
             //accuracy -= CalculateDefenderEvasion(defender);
 
             accuracy += attacker.data.accuracyBonus;
@@ -115,7 +115,7 @@ namespace MutaBorn.Gameplay
 
             if(defender.currentStance == UnitStance.Crouching) 
             {
-                modifier -= crouchingAttackerPenalty;
+                modifier -= crouchingDefenderPenalty;
             }
            
 
