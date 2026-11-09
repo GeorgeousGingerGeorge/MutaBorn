@@ -102,6 +102,9 @@ public class ActionDefinition : ScriptableObject
     [SerializeField, Min(0)] private int minimumDamage = 5;
     [Tooltip("Number of separate direct attacks. AP is paid once; each hit resolves independently.")]
     [SerializeField, Range(1, 5)] private int hitCount = 1;
+    [Header("Projectile Configuration (Optional)")]
+    [Tooltip("Projectile used by this action. Leave empty for attacks without projectiles.")]
+    [SerializeField] private ProjectileDefinition projectileDefinition;
 
     [Header("Area Explosion (DamageArea only)")]
     [Tooltip("How far the explosion can be thrown, measured in grid tiles.")]
@@ -176,6 +179,7 @@ public class ActionDefinition : ScriptableObject
     public int FlatDamageBonus => flatDamageBonus;
     public int MinimumDamage => minimumDamage;
     public int HitCount => Mathf.Clamp(hitCount, 1, 5);
+    public ProjectileDefinition Projectile => projectileDefinition;
     public int AreaThrowRangeInTiles => Mathf.Max(0, areaThrowRangeInTiles);
     public int AreaRadiusInTiles => Mathf.Max(0, areaRadiusInTiles);
     public bool AreaSameFloorOnly => areaSameFloorOnly;

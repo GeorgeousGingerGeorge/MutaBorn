@@ -1059,9 +1059,116 @@ public sealed class CombatActionExecutor : MonoBehaviour
         return ApplyDamage(source, target, action, false);
 
     }
+    private bool TrySpawnProjectile(UnitController source, UnitController target, ActionDefinition action, Action<Collider, Vector3> onImpact)
+    {
+        if (source == null || target == null || action == null || action.Projectile == null)
+        {
+            return false;
+        }
 
-    private bool ApplyDamage(UnitController source, UnitController target, ActionDefinition action,
-        bool clearPlayerTargeting)
+        ProjectileDefinition projectile = action.Projectile;
+
+        if (projectile.ProjectilePrefab == null)
+        {
+            Debug.LogError($"Projectile prefab missing for {action.DisplayName}.");
+            return false;
+        }
+
+        if (!projectile.ProjectilePrefab.TryGetComponent(out ProjectileController prefabController))
+        {
+            Debug.LogError($"ProjectileController missing from {projectile.ProjectilePrefab.name}.");
+            return false;
+        }
+
+        Vector3 spawnPosition = source.transform.position + Vector3.up;
+
+        Collider targetCollider = target.GetComponentInChildren<Collider>();
+
+        Vector3 destination = targetCollider != null ? targetCollider.bounds.center : target.transform.position + Vector3.up;
+
+        GameObject projectileObject = Instantiate(projectile.ProjectilePrefab, spawnPosition, Quaternion.identity);
+
+        ProjectileController controller = projectileObject.GetComponent<ProjectileController>();
+
+        controller.Launch(projectile, destination, onImpact, source.transform);
+
+        return true;
+    }
+
+    // TODO: PROJECTILE SYSTEM
+    // Projectile spawning, collision, and damage on impact are working.
+    // NEXT: Fix turn synchronization so turns cannot advance while projectiles are flying.
+    // Verify AP is consumed correctly when firing, even if the projectile misses.
+    // Finish testing projectile collisions, then create special and explosive projectile prefabs.
+    private bool ApplyDamage(UnitController source, UnitController target, ActionDefinition action, bool clearPlayerTargeting)
+    {
+        // Actions without projectiles retain their existing combat behavior.
+        // Consumable projectile integration will be handled separately.
+        if (action == null)
+        {
+            return false;
+        }
+
+        if (action.Projectile == null || (clearPlayerTargeting && pendingConsumableIndex >= 0))
+        {
+            return ResolveDamage(source, target, action, clearPlayerTargeting);
+        }
+
+        if (source == null || target == null || source.data == null || target.data == null)
+        {
+            return false;
+        }
+
+        UnitStatusController statuses = source.GetComponent<UnitStatusController>();
+
+        if (statuses != null && !statuses.CanUseAction(action))
+        {
+            return false;
+        }
+
+        int apCost = Mathf.CeilToInt(action.ApCost);
+
+        if (source.data.currentActionPoints < apCost)
+        {
+            return false;
+        }
+
+        // Launch the projectile and resolve damage only when it strikes the intended target.
+        bool launched = TrySpawnProjectile(source, target, action, (hitCollider, impactPoint) =>
+        {
+            if (hitCollider == null)
+            {
+                return;
+            }
+
+            UnitController hitUnit = hitCollider.GetComponentInParent<UnitController>();
+
+            if (hitUnit != target || target == null || !target.isActiveAndEnabled || target.data == null || target.data.currentHealth <= 0)
+            {
+                return;
+            }
+
+            ResolveDamage(source, target, action, false, true);
+        });
+
+        if (!launched)
+        {
+            return false;
+        }
+
+        // Pay for the attack when fired, regardless of whether the projectile hits.
+        source.data.ModifyActionPoints(-apCost);
+        source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
+        statuses?.Remove("invisible");
+
+        if (clearPlayerTargeting)
+        {
+            CancelTargeting();
+        }
+
+        return true;
+    }
+    private bool ResolveDamage(UnitController source, UnitController target, ActionDefinition action, bool clearPlayerTargeting, bool costAlreadyPaid = false)
     {
         if (source == null || target == null || action == null ||
             source.data == null || target.data == null)
@@ -1112,6 +1219,13 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
             if (!landed)
             {
+                if (!costAlreadyPaid)
+                {
+                    source.data.ModifyActionPoints(-apCost);
+                    source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
+                    source.GetComponent<UnitStatusController>()?.Remove("invisible");
+                }
+
                 soundDetectionSystem?.RegisterSound(source.currentNode, SoundType.Scuffle, 12, source);
                 source.data.ModifyActionPoints(-apCost);
                 source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);

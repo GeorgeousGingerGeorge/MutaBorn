@@ -9,6 +9,7 @@ public class PauseMenuController : MonoBehaviour
 
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject optionsMenu;
+    [SerializeField] private GameObject quitMenu;
 
     private bool isPaused = false;
 
@@ -47,10 +48,10 @@ public class PauseMenuController : MonoBehaviour
         SceneManager.LoadScene(HubScene);
     }
 
-    public void ReturnToMenu()
+    public void OpenQuitMenu()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(MainMenuScene);
+        pauseMenu.SetActive(false);
+        quitMenu.SetActive(true);
     }
 
     public void OptionsMenu()
