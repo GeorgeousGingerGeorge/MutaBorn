@@ -21,16 +21,30 @@ public class MutationActionGrant
 }
 
 [Serializable]
+public sealed class MutationStatMultiplier
+{
+    [SerializeField] private StatIdentifier stat;
+    [SerializeField] private float percent;
+
+    public StatIdentifier Stat => stat;
+    public float Percent => percent;
+
+}
+
+[Serializable]
 public sealed class MutationNodeDefinition
 {
     [SerializeField] private MutationID id;
     [SerializeField] private string displayName;
+    [TextArea(2, 5)] [SerializeField] private string description;
+    [SerializeField] private bool hiddenFromAcquisition;
     [SerializeField] private string familyId;
     [SerializeField] private MutationStrain strain;
     [Min(1)]
     [SerializeField] private int level = 1;
     [Header("Complete Stats At This Level (Not Added To Previous Level)")]
     [SerializeField] private MutationBonus bonus = new MutationBonus();
+    [SerializeField] private List<MutationStatMultiplier> percentBonuses = new List<MutationStatMultiplier>();
     [Header("Granted Abilities and Effects")]
     [SerializeField] private ActionDefinition[] grantedActions = Array.Empty<ActionDefinition>();
     [SerializeField] private EffectGrant[] grantedEffects = Array.Empty<EffectGrant>();
@@ -45,6 +59,9 @@ public sealed class MutationNodeDefinition
 
     public MutationID Id => id;
     public string DisplayName => string.IsNullOrWhiteSpace(displayName) ? id.ToString() : displayName;
+    public string Description => description;
+    public bool HiddenFromAcquisition => hiddenFromAcquisition;
+    public IReadOnlyList<MutationStatMultiplier> PercentBonuses => percentBonuses ?? (IReadOnlyList<MutationStatMultiplier>)Array.Empty<MutationStatMultiplier>();
     public string FamilyId => familyId == null ? string.Empty : familyId.Trim();
     public MutationStrain Strain => strain;
     public int Level => level;
@@ -175,14 +192,19 @@ public class MutationDataBase : ScriptableObject
     };
 
 
-    public void Initialize() 
+    public void Initialize()
     {
+        mutationLookup.Clear();
         foreach (MutationLookupEntry entry in entries)
         {
-            mutationLookup.Add((entry.slot, entry.strain), entry.mutations);
+            if (entry != null)
+            {
+                mutationLookup[(entry.slot, entry.strain)] = entry.mutations;
+
+            }
+
         }
 
-        
     }
 
 
