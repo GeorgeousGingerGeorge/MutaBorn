@@ -134,7 +134,7 @@ public static class MutationTactics
 
             }
 
-            cover.SetValue_Health(action.MutationStructureHealth);
+            cover.SetValue_Durability(action.MutationStructureHealth);
 
         }
 

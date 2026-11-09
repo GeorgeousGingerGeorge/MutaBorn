@@ -1,5 +1,6 @@
 
 
+
 using UnityEngine;
 
 public struct CoverResult 
@@ -39,7 +40,7 @@ public class CoverSystem: MonoBehaviour
 
     public CoverResult CalculateCover(UnitController attacker, UnitController defender) 
     {
-        CoverResult bestResult = new CoverResult(CoverState.NONE, 0f, null);
+        CoverResult bestResult = new CoverResult(CoverState.NONE, 0f, 0f, null);
 
         if (attacker == null || defender == null || attacker == defender || occupancy == null) 
         {
@@ -86,11 +87,11 @@ public class CoverSystem: MonoBehaviour
 
             ObstacleController solidObstacle = occupancy.FindSolidObstacle(neighbor);
 
-            EvaluateObstacle(solidObstacle, obstacleOffset, isDiagonal, unitHeight, ref bestResult, "Solid");
+            EvaluateObstacle(solidObstacle, obstacleOffset, attacker, defender,isDiagonal, unitHeight, ref bestResult, "Solid");
 
             ObstacleController edgeObstacle = occupancy.FindEdgeObstacle(defenderNode, neighbor);
 
-            EvaluateObstacle(edgeObstacle, obstacleOffset, isDiagonal, unitHeight, ref bestResult, "Edge");
+            EvaluateObstacle(edgeObstacle, obstacleOffset, attacker, defender,isDiagonal, unitHeight, ref bestResult, "Edge");
         }
 
         if (bestResult.protectingObstacle != null)
@@ -108,7 +109,7 @@ public class CoverSystem: MonoBehaviour
         return bestResult;
     }
 
-    private void EvaluateObstacle(ObstacleController obstacle, Vector2Int obstacleOffset,  bool isDiagonal,float unitHeight, ref CoverResult bestResult, string source) 
+    private void EvaluateObstacle(ObstacleController obstacle, Vector2Int obstacleOffset,  UnitController attacker, UnitController defender, bool isDiagonal,float unitHeight, ref CoverResult bestResult, string source) 
     {
 
         if (obstacle == null) 
@@ -142,7 +143,8 @@ public class CoverSystem: MonoBehaviour
         }
 
         float verticalCoverage = CalculateVerticalCoverage(obstacle.coverHeight, unitHeight);
-
+        
+;
         if (verticalCoverage <= 0f) 
         {
             if (showRejectedObstacles) 
@@ -151,6 +153,7 @@ public class CoverSystem: MonoBehaviour
             }
             return;
         }
+      
 
         LogCover(
             $"{source}: {obstacle.obstacleName} qualifies" +
@@ -159,6 +162,12 @@ public class CoverSystem: MonoBehaviour
             $"Configured Cover: {obstacle.stateOfCover}," +
             $"Effective cover: {effectiveCover}" +
             $"Vertical Coverage: {verticalCoverage:P1}");
+
+        float horizontalCoverage = CalculateHorizontalCoverage(obstacle, attacker, defender);
+        if (horizontalCoverage <= 0f) 
+        {
+            return;
+        }
 
 
         bool isBetter = (int)effectiveCover > (int)bestResult.coverState || (effectiveCover == bestResult.coverState && verticalCoverage > bestResult.verticalCoverage);
@@ -169,7 +178,7 @@ public class CoverSystem: MonoBehaviour
             return;
         }
 
-        bestResult = new CoverResult(effectiveCover, verticalCoverage, obstacle);
+        bestResult = new CoverResult(effectiveCover, verticalCoverage, horizontalCoverage, obstacle);
 
         LogCover($"New Best Cover: {obstacle.obstacleName} | " + $"State: {effectiveCover} |" + $"Coverage: {verticalCoverage: P1}");
     }
@@ -297,6 +306,78 @@ public class CoverSystem: MonoBehaviour
         }
 
         return false;
+    }
+
+    private float CalculateHorizontalCoverage(ObstacleController obstacle, UnitController attacker, UnitController defender) 
+    {
+
+        if (obstacle == null || attacker == null || defender == null) 
+        {
+            return 0f;
+      
+        }
+
+        float unitWidth = defender.data.unitWidth;
+
+        if (unitWidth < 0f) 
+        {
+            return 0f;
+        }
+
+        Vector3 attackDirection = defender.transform.position - attacker.transform.position;
+
+        attackDirection.y = 0f;
+
+        if (attackDirection.sqrMagnitude <= 0.001f) 
+        {
+            return 0f;
+        }
+
+        attackDirection.Normalize();
+
+        //Direction Across the defenders width 
+
+        Vector3 perpendicular = Vector3.Cross(Vector3.up, attackDirection).normalized;
+
+        Vector3 defenderCenter = defender.transform.position;
+
+        const int sampleCount = 9;
+
+        int protectedSample = 0;
+
+        BoxCollider obstacleCollider = GetObstacleCollider(obstacle);
+
+        if (obstacleCollider == null) 
+        {
+            return 0f;
+
+
+        }
+
+        for (int tiles = 0; tiles < sampleCount; tiles++) 
+        {
+            float tile = (float)tiles / (sampleCount - 1);
+
+            float offset = Mathf.Lerp(-unitWidth * 0.5f, unitWidth * 0.5f, tile);
+
+            Vector3 samplePoint = defenderCenter + perpendicular * offset;
+
+            Vector3 direction = samplePoint - attacker.transform.position;
+
+            float distance = direction.magnitude;
+
+            if (distance <= 0.001f) 
+            {
+                continue;
+            }
+
+            if (obstacleCollider.Raycast(new Ray(attacker.transform.position, direction.normalized), out RaycastHit hit, distance)) 
+            {
+                protectedSample++;
+            }
+        }
+
+        return (float)protectedSample / sampleCount;
     }
     private BoxCollider GetObstacleCollider(ObstacleController obstacle)
     {

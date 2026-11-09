@@ -115,7 +115,7 @@ namespace MutaBorn.Gameplay
 
             if(defender.currentStance == UnitStance.Crouching) 
             {
-                modifier -= crouchingAttackerPenalty;
+                modifier -= crouchingDefenderPenalty;
             }
            
 

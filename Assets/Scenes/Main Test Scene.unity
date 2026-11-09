@@ -1474,6 +1474,8 @@ MonoBehaviour:
   researchText: {fileID: 0}
   claimAndReturnButton: {fileID: 1984032463}
   hubSceneName: Main Hub Integration Preview
+  victoryExperience: 100
+  victoryMutationPoints: 25
   victoryColor: {r: 0.35, g: 0.9, b: 0.5, a: 1}
   defeatColor: {r: 1, g: 0.4, b: 0.4, a: 1}
   pauseGameOnResult: 1
@@ -1507,6 +1509,7 @@ GameObject:
   - component: {fileID: 1119415674}
   - component: {fileID: 1119415695}
   - component: {fileID: 1119415694}
+  - component: {fileID: 1119415696}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1573,7 +1576,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FogOfWarManager
   lineOfSight: {fileID: 1119415679}
   gridManager: {fileID: 1119415692}
-  SeeTiles: 1
+  SeeTiles: 0
 --- !u!114 &1119415678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1813,7 +1816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e556b3f5c13f4f34cb83826d0cd82761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
-  currentLevel: {fileID: 11400000, guid: f02424d310a8499cbeec03d0edd49277, type: 2}
+  currentLevel: {fileID: 11400000, guid: cbf3235ea731f8f4a841702929781a7a, type: 2}
   gridCellSize: 2
   maxStepHeight: 0.5
   gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
@@ -1872,6 +1875,28 @@ MonoBehaviour:
   gridManager: {fileID: 1119415692}
   showCoverDebug: 1
   showRejectedObstacles: 1
+--- !u!114 &1119415696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119415673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7733b296882674cb9b0345863e988c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MutaBorn.Gameplay.AccuracySystem
+  baseAccuracy: 75
+  minimumHitChance: 5
+  maximumHitChance: 95
+  attributeHalfSaturation: 50
+  maximumAtributeContribution: 10
+  lowCoverPenalty: 15
+  highCoverPenalty: 30
+  crouchingAttackerPenalty: 5
+  crouchingDefenderPenalty: 10
+  coverSystem: {fileID: 1119415695}
 --- !u!1 &1408638570
 GameObject:
   m_ObjectHideFlags: 0
