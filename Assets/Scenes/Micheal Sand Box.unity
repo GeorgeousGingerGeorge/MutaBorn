@@ -8271,6 +8271,7 @@ GameObject:
   - component: {fileID: 1714028921}
   - component: {fileID: 1714028923}
   - component: {fileID: 1714028925}
+  - component: {fileID: 1714028926}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -8303,7 +8304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e556b3f5c13f4f34cb83826d0cd82761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
-  currentLevel: {fileID: 0}
+  currentLevel: {fileID: 11400000, guid: cbf3235ea731f8f4a841702929781a7a, type: 2}
   gridCellSize: 2
   maxStepHeight: 0.5
   gridCellPrefab: {fileID: 6494207454436567325, guid: c3e1fa342c968ad47bc46463525d6aa6, type: 3}
@@ -8639,12 +8640,34 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1714028903}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6380be42c36d2f94d824fefe5997b6f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StealthSystem
   lineOfSight: {fileID: 1714028919}
+--- !u!114 &1714028926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714028903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7733b296882674cb9b0345863e988c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MutaBorn.Gameplay.AccuracySystem
+  baseAccuracy: 75
+  minimumHitChance: 5
+  maximumHitChance: 95
+  attributeHalfSaturation: 50
+  maximumAtributeContribution: 10
+  lowCoverPenalty: 15
+  highCoverPenalty: 30
+  crouchingAttackerPenalty: 5
+  crouchingDefenderPenalty: 10
+  coverSystem: {fileID: 1714028923}
 --- !u!1 &1740969902
 GameObject:
   m_ObjectHideFlags: 0
