@@ -45,7 +45,7 @@ public class MainMenuController : MonoBehaviour
     }
     void TestLevel()
     {
-        SceneManager.LoadScene("Main Hub Sand Box");
+        SceneManager.LoadScene("Main Hub Integration Preview");
     }
 
     void OpenOptions()

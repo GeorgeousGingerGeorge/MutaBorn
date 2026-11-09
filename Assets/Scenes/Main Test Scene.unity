@@ -1243,6 +1243,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3430259756383905701, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -7.999939
+      objectReference: {fileID: 0}
     - target: {fileID: 3930750659138935415, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: mouseLocation
       value: 
@@ -1501,6 +1505,8 @@ GameObject:
   - component: {fileID: 1119415676}
   - component: {fileID: 1119415675}
   - component: {fileID: 1119415674}
+  - component: {fileID: 1119415695}
+  - component: {fileID: 1119415694}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1583,6 +1589,7 @@ MonoBehaviour:
   lineOfSight: {fileID: 1119415679}
   fogController: {fileID: 1119415677}
   occupancy: {fileID: 1119415685}
+  factionController: {fileID: 1119415686}
 --- !u!114 &1119415679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1835,6 +1842,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1119415694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119415673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6af41c50419d12499827dc812232f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundDetectionSystem
+  gridManager: {fileID: 1119415692}
+  occupancy: {fileID: 1119415685}
+--- !u!114 &1119415695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119415673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd11a2ed720e774fa88d290d7841147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoverSystem
+  occupancy: {fileID: 1119415685}
+  gridManager: {fileID: 1119415692}
+  showCoverDebug: 1
+  showRejectedObstacles: 1
 --- !u!1 &1408638570
 GameObject:
   m_ObjectHideFlags: 0
