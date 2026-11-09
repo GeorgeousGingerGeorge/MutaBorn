@@ -36,10 +36,9 @@ public sealed class BarracksUnitRowUI : MonoBehaviour
 
         }
 
-        // UnitData has no authoritative character level yet. Do not invent a number.
         if (levelText != null)
         {
-            levelText.text = "";
+            levelText.text = $"Lv {unit.Level}";
 
         }
 

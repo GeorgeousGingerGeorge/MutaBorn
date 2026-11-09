@@ -525,67 +525,11 @@ MonoBehaviour:
   researchText: {fileID: 0}
   claimAndReturnButton: {fileID: 315819157}
   hubSceneName: Main Hub Integration Preview
+  victoryExperience: 100
+  victoryMutationPoints: 25
   victoryColor: {r: 0.35, g: 0.9, b: 0.5, a: 1}
   defeatColor: {r: 1, g: 0.4, b: 0.4, a: 1}
   pauseGameOnResult: 1
---- !u!1001 &310000000
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 400000, guid: 501a2ba398074bd98e95694bd00f3b74, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 501a2ba398074bd98e95694bd00f3b74, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 501a2ba398074bd98e95694bd00f3b74, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140000, guid: 501a2ba398074bd98e95694bd00f3b74, type: 3}
-      propertyPath: areaSizeInTiles.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1140000, guid: 501a2ba398074bd98e95694bd00f3b74, type: 3}
-      propertyPath: areaSizeInTiles.y
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 501a2ba398074bd98e95694bd00f3b74, type: 3}
---- !u!1001 &310000001
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1000000002, guid: ca75b1f65bc443f38b0592609a4ede79, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000000002, guid: ca75b1f65bc443f38b0592609a4ede79, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1000000002, guid: ca75b1f65bc443f38b0592609a4ede79, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 10
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ca75b1f65bc443f38b0592609a4ede79, type: 3}
 --- !u!1 &315819156
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,7 +2608,5 @@ SceneRoots:
   - {fileID: 45559600}
   - {fileID: 1264814296}
   - {fileID: 1521948312}
-  - {fileID: 310000000}
-  - {fileID: 310000001}
   - {fileID: 1937713391}
   - {fileID: 671653173}

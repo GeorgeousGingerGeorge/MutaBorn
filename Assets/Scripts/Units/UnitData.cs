@@ -49,6 +49,129 @@ public class UnitData
     DynamicStats race;
     public DynamicStats RaceDefinition => race;
 
+    // Campaign progression belongs to the persistent UnitData, not scene wrappers.
+    public int Level { get; private set; } = 1;
+    public int Experience { get; private set; }
+    public int UnspentAttributePoints { get; private set; }
+    public int MutationPoints { get; private set; }
+    public int ExperienceToNextLevel => 100 + (Level - 1) * 50;
+
+    public void GainExperience(int amount)
+    {
+        if (amount <= 0 || Level >= 20)
+        {
+            return;
+
+        }
+
+        Experience += amount;
+        while (Level < 20 && Experience >= ExperienceToNextLevel)
+        {
+            Experience -= ExperienceToNextLevel;
+            Level++;
+            UnspentAttributePoints++;
+
+            // Only these two slots are level-gated; research handles the others.
+            if (Level == 3)
+            {
+                TryUnlockProgressionSlot(UnitSlotId.Accessory2);
+                TryUnlockProgressionSlot(UnitSlotId.Consumable2);
+
+            }
+
+        }
+
+        if (Level == 20)
+        {
+            Experience = 0;
+
+        }
+
+    }
+
+    public bool TrySpendAttributePoint(StatIdentifier stat)
+    {
+        if (UnspentAttributePoints <= 0)
+        {
+            return false;
+
+        }
+
+        switch (stat)
+        {
+            case StatIdentifier.Strength:
+                leveledStrength++;
+
+                break;
+            case StatIdentifier.Dexterity:
+                leveledDexterity++;
+
+                break;
+            case StatIdentifier.Vitality:
+                leveledVitality++;
+
+                break;
+            case StatIdentifier.Constitution:
+                leveledConstitution++;
+
+                break;
+            case StatIdentifier.Perception:
+                leveledPerception++;
+
+                break;
+            case StatIdentifier.Intelligence:
+                leveledIntelligence++;
+
+                break;
+            default:
+                return false;
+
+        }
+
+        UnspentAttributePoints--;
+        RecalculateStats();
+        LoadoutChanged?.Invoke();
+
+        return true;
+
+    }
+
+    public void GainMutationPoints(int amount)
+    {
+        if (amount > 0)
+        {
+            MutationPoints += amount;
+
+        }
+
+    }
+
+    // A level-one node can be acquired with the mutation points earned in missions.
+    // Starting mutations are still granted for free by the roster bootstrap.
+    public bool TryPurchaseMutation(MutationID id, MutationDataBase database)
+    {
+        if (ResearchManager.Instance != null &&
+            !ResearchManager.Instance.HasBenefit(ResearchBenefitType.MutationResearch))
+        {
+
+            return false;
+
+        }
+
+        MutationNodeDefinition node = database != null ? database.GetNode(id) : null;
+        if (node == null || node.HiddenFromAcquisition || node.Level != 1 || MutationPoints < 50 ||
+            !CanEquipMutation(id) || !TryAddFixedMutation(id, database))
+        {
+            return false;
+
+        }
+
+        MutationPoints -= 50;
+
+        return true;
+
+    }
+
     public readonly List<ActionDefinition> learnedActions = new List<ActionDefinition>();
 
     public bool TryLearnAction(ActionDefinition action)
@@ -411,6 +534,34 @@ public class UnitData
             else
             {
                 percent += bonus.Value;
+
+            }
+
+        }
+
+        // Fixed mutation percentages remain in UnitData across scene transitions.
+        MutationDataBase mutationDatabase = GameDataBaseLoader.Instance != null
+            ? GameDataBaseLoader.Instance.mutationData : null;
+        if (mutationDatabase != null)
+        {
+            foreach (ActiveMutationRecord owned in activeMutationNodes)
+            {
+                MutationNodeDefinition node = mutationDatabase.GetNode(owned.MutationId);
+                if (node == null)
+                {
+                    continue;
+
+                }
+
+                foreach (MutationStatMultiplier modifier in node.PercentBonuses)
+                {
+                    if (modifier.Stat == stat)
+                    {
+                        percent += modifier.Percent;
+
+                    }
+
+                }
 
             }
 
@@ -1250,6 +1401,14 @@ public class UnitData
 
     public bool TryEvolveMutation(MutationID currentId, MutationID nextId)
     {
+        if (ResearchManager.Instance != null &&
+            !ResearchManager.Instance.HasBenefit(ResearchBenefitType.MutationResearch))
+        {
+
+            return false;
+
+        }
+
         MutationDataBase database = GameDataBaseLoader.Instance != null
             ? GameDataBaseLoader.Instance.mutationData : null;
         if (database == null)
@@ -1262,7 +1421,7 @@ public class UnitData
         MutationNodeDefinition next = database.GetNode(nextId);
         if (previous == null || next == null || !previous.CanEvolveTo(nextId) ||
             !string.Equals(previous.FamilyId, next.FamilyId, StringComparison.OrdinalIgnoreCase) ||
-            next.Level <= previous.Level)
+            next.Level <= previous.Level || MutationPoints < next.Level * 50)
         {
             return false;
 
@@ -1287,6 +1446,7 @@ public class UnitData
             // The replacement contains the complete new level, not an incremental bonus.
             ApplyMutationBonuses(previous.Bonus, -1, false);
             record.EvolveTo(nextId);
+            MutationPoints -= next.Level * 50;
             ApplyMutationBonuses(next.Bonus, 1);
             LoadoutChanged?.Invoke();
 
@@ -1412,6 +1572,15 @@ public class UnitData
     public void InitializeTrackers() 
     {
         
+        MutationDataBase database = GameDataBaseLoader.Instance != null
+            ? GameDataBaseLoader.Instance.mutationData : null;
+        if (database == null)
+        {
+            return;
+
+        }
+
+        database.Initialize();
         foreach (BodySlots slot in Enum.GetValues(typeof(BodySlots)))
         {
             mutationTracker[slot] = new Dictionary<MutationStrain, Dictionary<MutationID, MutationProgress>>();
@@ -1420,7 +1589,7 @@ public class UnitData
             {
                 mutationTracker[slot][strain] = new Dictionary<MutationID, MutationProgress>();
 
-                List<MutationID> currentMutations = GameDataBaseLoader.Instance.mutationData.GetMutationsForSlots(slot, strain);
+                List<MutationID> currentMutations = database.GetMutationsForSlots(slot, strain);
                
                 if (currentMutations == null) 
                 {
@@ -1428,8 +1597,12 @@ public class UnitData
                 }
                 foreach (MutationID id in currentMutations) 
                 {
-                    if (id == MutationID.none) continue;
-                    MutationDefinition mutationCosts = GameDataBaseLoader.Instance.mutationData.MutationCost[id];
+                    if (id == MutationID.none || !database.MutationCost.TryGetValue(id, out MutationDefinition mutationCosts))
+                    {
+                        continue;
+
+                    }
+
                     mutationTracker[slot][strain][id] = new MutationProgress(id, mutationCosts.intialCost, mutationCosts.stageMultiplier);
                     
                 }
