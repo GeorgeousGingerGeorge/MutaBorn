@@ -74,6 +74,10 @@ public sealed class CombatActionExecutor : MonoBehaviour
     private TargetingModeController targetingController;
     private TargetingSystem targetSystem; 
     private FactionManager factionManager;
+    private CoverSystem coverSystem;
+    private LineOfSight lineOfSight;
+    private SoundDetectionSystem soundDetectionSystem;
+    private AccuracySystem accuracySystem;
     private int pendingConsumableIndex = -1;
     private bool lastAreaKilledTarget;
 
@@ -90,6 +94,10 @@ public sealed class CombatActionExecutor : MonoBehaviour
         Instance = this;
         factionManager = FindAnyObjectByType<FactionManager>();
         targetSystem = FindAnyObjectByType<TargetingSystem>();
+        coverSystem = FindAnyObjectByType<CoverSystem>();
+        lineOfSight = FindAnyObjectByType<LineOfSight>();
+        soundDetectionSystem = FindAnyObjectByType<SoundDetectionSystem>();
+        accuracySystem = FindAnyObjectByType<AccuracySystem>();
     }
 
     public bool TryBeginAction(UnitController source, ActionDefinition action)
@@ -105,7 +113,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
             action.CombatBehavior != CombatActionBehavior.ApplyGuard &&
             action.CombatBehavior != CombatActionBehavior.DamageArea &&
             action.CombatBehavior != CombatActionBehavior.HealArea &&
-            action.CombatBehavior != CombatActionBehavior.ApplySelfStatus)
+            action.CombatBehavior != CombatActionBehavior.ApplySelfStatus &&
+            action.CombatBehavior != CombatActionBehavior.RestoreMana)
         {
             Debug.LogWarning($"'{action.DisplayName}' does not have an executable combat behavior yet.", this);
 
@@ -158,6 +167,33 @@ public sealed class CombatActionExecutor : MonoBehaviour
             Debug.Log($"Not enough AP to use {action.DisplayName}.", source);
 
             return false;
+
+        }
+
+        if (action.MaxUsesPerTurn > 0 && loadout.GetUsesThisTurn(action) >= action.MaxUsesPerTurn)
+        {
+            Debug.Log($"{action.DisplayName} has reached its per-turn use limit.", source);
+
+            return false;
+
+        }
+
+        if (action.CombatBehavior == CombatActionBehavior.RestoreMana)
+        {
+            if (IsTargeting || action.ManaRestoreAmount <= 0 ||
+                source.data.currentMana >= source.data.maxMana)
+            {
+                return false;
+
+            }
+
+            source.data.ModifyActionPoints(-Mathf.CeilToInt(action.ApCost));
+            source.data.ModifyMana(action.ManaRestoreAmount);
+            loadout.RecordSuccessfulUse(action);
+            Debug.Log($"{source.data.characterName} used {action.DisplayName}: " +
+                $"MP {source.data.currentMana}/{source.data.maxMana}.", source);
+
+            return true;
 
         }
 
@@ -924,6 +960,11 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+        if (lineOfSight == null || !lineOfSight.HasPhysicalLineOfSight(source, target)) 
+        {
+            return false;
+        }
+
         UnitActionLoadout loadout = source.GetComponent<UnitActionLoadout>();
         bool ownsAction = false;
         if (loadout != null)
@@ -963,6 +1004,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
             return false;
 
         }
+
+
 
         return ApplyDamage(source, target, action, false);
 
@@ -1084,7 +1127,11 @@ public sealed class CombatActionExecutor : MonoBehaviour
             return false;
 
         }
-
+        if (accuracySystem == null)
+        {
+            Debug.Log("[Combat Apply Damage] Accuracy System not assigned", this);
+            return false;
+        }
         UnitStatusController executionStatuses = source.GetComponent<UnitStatusController>();
         if (executionStatuses != null && !executionStatuses.CanUseAction(action))
         {
@@ -1097,8 +1144,10 @@ public sealed class CombatActionExecutor : MonoBehaviour
         int sourceIndex = FindUniqueEquipmentSourceIndex(source, action);
         int apCost = Mathf.CeilToInt(action.ApCost);
         int apBefore = source.data.currentActionPoints;
+       
         bool landed = false;
         int hits = action.HitCount;
+
         for (int hitNumber = 0; hitNumber < hits; hitNumber++)
         {
             if (target == null || target.data == null || target.data.currentHealth <= 0)
@@ -1106,7 +1155,12 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 break;
 
             }
+            //Calculate and roll accuracy
+            float hitChance = accuracySystem.CalculateHitChance(source, target, action);
 
+
+            bool hit = accuracySystem.RollToHit(hitChance);
+           
             if (!DamageResolver.TryResolveAction(source, target, action,
                 out DamageResult damageResult, sourceIndex))
             {
@@ -1123,6 +1177,10 @@ public sealed class CombatActionExecutor : MonoBehaviour
                     source.GetComponent<UnitStatusController>()?.Remove("invisible");
                 }
 
+                soundDetectionSystem?.RegisterSound(source.currentNode, SoundType.Scuffle, 12, source);
+                source.data.ModifyActionPoints(-apCost);
+                source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
+                source.GetComponent<UnitStatusController>()?.Remove("invisible");
                 landed = true;
 
                 if (action.DamageStat == CombatDamageStat.Melee) // TRIGGER FOR ATTACK ANIMATION in baseCharAnimator
@@ -1134,6 +1192,15 @@ public sealed class CombatActionExecutor : MonoBehaviour
                         animator.SetTrigger("Attack");
                     }
                 }
+            }
+
+            if (!hit) 
+            {
+                Debug.Log($"[Combat] {source.data.characterName} used " +
+                    $"{action.DisplayName} (hit {hitNumber + 1}/{hits})" +
+                    $"on {target.data.characterName}: MISSED! " +
+                    $"Hit Chance: {hitChance:F1}%.");
+                continue;
             }
 
             string critical = damageResult.IsCritical && !damageResult.Evaded ? " CRITICAL!" : "";

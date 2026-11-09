@@ -6,3 +6,9 @@ public enum CoverState
     LOW,
     HIGH
 }
+public enum ObstacleCondition 
+{
+    Intact, 
+    Damaged,
+    Destroyed
+}

@@ -28,6 +28,8 @@ public sealed class CraftingRecipe
     public ItemData outputItem;
     public string outputResourceId;
     [Min(1)] public int outputAmount = 1;
+    [Tooltip("0 = no craft-tier gate. Research can unlock higher tiers.")]
+    [Min(0)] public int requiredCraftTier;
     public List<CraftingIngredient> ingredients = new List<CraftingIngredient>();
 
 }

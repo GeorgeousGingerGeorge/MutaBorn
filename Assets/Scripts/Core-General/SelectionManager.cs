@@ -273,6 +273,7 @@ public class SelectionManager : MonoBehaviour
             : (currentIndex + (direction > 0 ? 1 : -1) + playerUnits.Count) % playerUnits.Count;
 
         SelectUnit(playerUnits[nextIndex]);
+        CameraController.Instance?.FocusOnUnit(playerUnits[nextIndex]);
 
     }
 

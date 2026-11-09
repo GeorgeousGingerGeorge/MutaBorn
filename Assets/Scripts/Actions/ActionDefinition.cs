@@ -39,7 +39,8 @@ public enum CombatActionBehavior
     InspectUnit,
     DamageArea,
     ApplySelfStatus,
-    HealArea
+    HealArea,
+    RestoreMana
 
 }
 
@@ -77,6 +78,8 @@ public class ActionDefinition : ScriptableObject
 
     [Tooltip("Only applies to active actions. Passive abilities do not spend AP to activate.")]
     [SerializeField, Min(0)] private float apCost = 5f;
+    [Tooltip("Zero means unlimited uses per faction turn. Used by Arcane Replenish.")]
+    [SerializeField, Min(0)] private int maxUsesPerTurn;
 
     [Header("Status Interaction")]
     [Tooltip("Silence blocks MagicOrMutation actions. Disarm blocks RequiresWeapon actions. Unarmed attacks should not have RequiresWeapon.")]
@@ -113,6 +116,9 @@ public class ActionDefinition : ScriptableObject
     [Header("Area Healing (HealArea only)")]
     [Tooltip("Health restored to each friendly unit in the blast circle. Cannot heal past maximum HP.")]
     [SerializeField, Min(0)] private int areaHealAmount = 15;
+
+    [Header("Mana Recovery (RestoreMana only)")]
+    [SerializeField, Min(0)] private int manaRestoreAmount;
 
     [Header("Self Status (ApplySelfStatus only)")]
     [SerializeField] private StatusDefinition selfStatus;
@@ -151,6 +157,8 @@ public class ActionDefinition : ScriptableObject
     public string SubmenuGroup => submenuGroup;
     public int DisplayOrder => displayOrder;
     public float ApCost => apCost;
+    public int MaxUsesPerTurn => maxUsesPerTurn;
+    public int ManaRestoreAmount => Mathf.Max(0, manaRestoreAmount);
     public CombatActionBehavior CombatBehavior => combatBehavior;
     public ActionControlTags ControlTags => controlTags;
     public CombatDamageStat DamageStat => damageStat;

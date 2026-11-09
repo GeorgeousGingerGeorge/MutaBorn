@@ -14,6 +14,10 @@ public class UnitActionLoadout : MonoBehaviour
     private readonly Dictionary<string, int> successfulUses =
         new(StringComparer.OrdinalIgnoreCase);
 
+    private readonly Dictionary<string, int> usesThisTurn = new(StringComparer.OrdinalIgnoreCase);
+    private int trackedRound = -1;
+    private FactionData trackedFaction;
+
     private string lastUsedId;
     private string lastUsedAbilityId;
 
@@ -130,6 +134,16 @@ public class UnitActionLoadout : MonoBehaviour
 
         }
 
+        // A matching pair grants its shared action without modifying either weapon instance.
+        WeaponCombinationEntry combination = gameData.weaponCombos != null
+            ? gameData.weaponCombos.GetActive(unit.data)
+            : null;
+        if (combination != null)
+        {
+            AddAction(combination.grantedAction, $"Weapon Pair ({combination.name})", ids, definitions);
+
+        }
+
         // Mutation actions come from the mutations already equipped on UnitData.
         if (gameData.mutationData != null && unit.data.activeMutations != null)
         {
@@ -240,6 +254,32 @@ public class UnitActionLoadout : MonoBehaviour
 
     }
 
+    public int GetUsesThisTurn(ActionDefinition action)
+    {
+        if (action == null)
+        {
+            return 0;
+
+        }
+
+        SyncTurnUsage();
+        return usesThisTurn.TryGetValue(action.Id, out int count) ? count : 0;
+
+    }
+
+    private void SyncTurnUsage()
+    {
+        TurnManager turns = TurnManager.Instance;
+        if (turns != null && (trackedRound != turns.Round || trackedFaction != turns.ActiveFaction))
+        {
+            usesThisTurn.Clear();
+            trackedRound = turns.Round;
+            trackedFaction = turns.ActiveFaction;
+
+        }
+
+    }
+
     public IEnumerable<ActionDefinition> GetActions(ActionMenuCategory category)
     {
         foreach (ActionDefinition action in resolvedActions)
@@ -342,6 +382,9 @@ public class UnitActionLoadout : MonoBehaviour
 
         successfulUses.TryGetValue(id, out int count);
         successfulUses[id] = count + 1;
+        SyncTurnUsage();
+        usesThisTurn.TryGetValue(id, out int thisTurn);
+        usesThisTurn[id] = thisTurn + 1;
         lastUsedId = id;
 
         if (available.Category == ActionMenuCategory.Abilities)

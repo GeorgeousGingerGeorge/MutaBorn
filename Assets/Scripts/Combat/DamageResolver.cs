@@ -187,15 +187,16 @@ namespace MutaBorn.Gameplay
                 (action.CriticalChancePercent > 0f &&
                  UnityEngine.Random.value * 100f < action.CriticalChancePercent);
             float multiplier = action.DamageMultiplier *
-                (critical ? action.CriticalDamageMultiplier : 1f);
+                (critical ? action.CriticalDamageMultiplier : 1f) *
+                GetRacialDamageMultiplier(attacker);
 
             DamageRequest request = new DamageRequest(attacker, target, baseDamage,
                 multiplier, action.FlatDamageBonus, action.MinimumDamage,
                 action, type, DamageDeliveryType.Unspecified, components,
                 action.FlatArmorPenetration, action.FlatWardPenetration, critical);
 
-            UnitStatusController defendingStatuses = target.GetComponent<UnitStatusController>();
-            float dodgeChance = defendingStatuses != null ? defendingStatuses.DodgeChancePercent : 0f;
+
+            float dodgeChance = CalculateDodgeChance(target);
             if (!ignoreDodge && dodgeChance > 0f && UnityEngine.Random.value * 100f < dodgeChance)
             {
                 int health = target.data.currentHealth;
@@ -493,6 +494,66 @@ namespace MutaBorn.Gameplay
 
         }
 
+        // Calculated per attack, so deaths and reinforcements update the bonus.
+        private static float GetRacialDamageMultiplier(UnitController attacker)
+        {
+            DynamicStats race = attacker.data.RaceDefinition;
+            if (race == null)
+            {
+
+                return 1f;
+
+            }
+
+            if (race.RacialPassive == RacialPassiveKind.BattleFury)
+            {
+                float missingPercent = attacker.data.maxHealth > 0
+                    ? 100f * (1f - (float)attacker.data.currentHealth / attacker.data.maxHealth) : 0f;
+
+                return 1f + Mathf.Max(0f, missingPercent * race.MissingHealthDamageFactor) / 100f;
+
+            }
+
+            if (race.RacialPassive != RacialPassiveKind.StrengthInNumbers)
+            {
+
+                return 1f;
+
+            }
+
+            UnitFaction team = attacker.GetComponent<UnitFaction>();
+            if (team == null || team.Faction == null)
+            {
+
+                return 1f;
+
+            }
+
+            float percent = 0f;
+            foreach (UnitController teammate in UnityEngine.Object.FindObjectsByType<UnitController>(FindObjectsInactive.Exclude))
+            {
+                if (teammate == attacker || teammate.data == null || teammate.data.currentHealth <= 0)
+                {
+
+                    continue;
+
+                }
+
+                UnitFaction member = teammate.GetComponent<UnitFaction>();
+                if (member != null && member.Faction == team.Faction)
+                {
+                    percent += teammate.data.RaceDefinition != null &&
+                        teammate.data.RaceDefinition.RacialPassive == RacialPassiveKind.StrengthInNumbers
+                        ? race.HumanTeammateDamagePercent : race.TeammateDamagePercent;
+
+                }
+
+            }
+
+            return 1f + percent / 100f;
+
+        }
+
         private static int GetBaseDamage(UnitData attacker, CombatDamageStat damageStat)
         {
             switch (damageStat)
@@ -517,6 +578,43 @@ namespace MutaBorn.Gameplay
 
         }
 
+        private static float CalculateDodgeChance(UnitController defender) 
+        {
+            if (defender == null || defender.data == null) 
+            {
+                return 0f; 
+
+            }
+            float minimumDodgeChance = 0f;
+            float maximumDodgeChance = 95f;
+
+            float dexterity = defender.data.totalDexterity;
+            float perception = defender.data.totalPerception;
+
+            float dodgeChance = GetAttributeContribution(dexterity) + GetAttributeContribution(perception);
+
+            UnitStatusController statuses = defender.GetComponent<UnitStatusController>();
+
+            if (statuses != null) 
+            {
+                dodgeChance += statuses.DodgeChancePercent;
+
+                
+            }
+
+            return Mathf.Clamp(dodgeChance, minimumDodgeChance, maximumDodgeChance);
+        }
+
+        private static float GetAttributeContribution(float attributeValue) 
+        {
+            float attributeSaturation = 50f;
+            float maxAttributeContribution = 10f;
+            float attribute = Mathf.Max(0f, attributeValue);
+
+            float contribution = attribute / (attribute + attributeSaturation);
+
+            return contribution * maxAttributeContribution;
+        }
         private static int ClampToInt(long value)
         {
             return (int)Math.Max(int.MinValue, Math.Min(value, int.MaxValue));

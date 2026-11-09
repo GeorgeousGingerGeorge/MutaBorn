@@ -36,6 +36,7 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
     private ItemStorage storage;
     private ItemStorage subscribedStorage;
     private ResourceStockpile subscribedStockpile;
+    private ResearchManager observedResearch;
 
     public void Configure(WorkshopMenu menu, GameObject panel, Button opener, Button back,
         Button close, Button upgrade, Transform content, WorkshopUpgradeRowUI prefab,
@@ -65,11 +66,68 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
         if (upgradePanel != null) upgradePanel.SetActive(false);
     }
 
-    private void OnEnable() { Subscribe(); }
+    private void OnEnable()
+    {
+        Subscribe();
+        ObserveResearch();
+
+    }
+
+    private void Start()
+    {
+        ObserveResearch();
+
+    }
+
     private void OnDisable()
     {
         Unsubscribe();
+        if (observedResearch != null)
+        {
+            observedResearch.StateChanged -= RefreshResearchGate;
+            observedResearch = null;
+
+        }
+
         if (upgradePanel != null) upgradePanel.SetActive(false);
+
+    }
+
+    private void ObserveResearch()
+    {
+        if (observedResearch != null)
+        {
+            observedResearch.StateChanged -= RefreshResearchGate;
+
+        }
+
+        observedResearch = ResearchManager.Instance;
+        if (observedResearch != null)
+        {
+            observedResearch.StateChanged += RefreshResearchGate;
+
+        }
+
+        RefreshResearchGate();
+
+    }
+
+    private void RefreshResearchGate()
+    {
+        bool unlocked = ResearchManager.Instance == null ||
+            ResearchManager.Instance.HasBenefit(ResearchBenefitType.EquipmentUpgrades);
+        if (openUpgradeButton != null)
+        {
+            openUpgradeButton.gameObject.SetActive(unlocked);
+
+        }
+
+        if (!unlocked && upgradePanel != null)
+        {
+            upgradePanel.SetActive(false);
+
+        }
+
     }
 
     private void Subscribe()
@@ -103,6 +161,14 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
 
     public void Open()
     {
+        if (ResearchManager.Instance != null &&
+            !ResearchManager.Instance.HasBenefit(ResearchBenefitType.EquipmentUpgrades))
+        {
+
+            return;
+
+        }
+
         if (craftingMenu == null || upgradePanel == null) return;
         craftingMenu.Open();
         Subscribe();

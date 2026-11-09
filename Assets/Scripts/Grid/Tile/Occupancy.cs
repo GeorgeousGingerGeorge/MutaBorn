@@ -86,9 +86,9 @@ public class Occupancy : MonoBehaviour
     }
     public bool IsBlockedBySolidObstacle(GridNode destination) 
     {
-        if (solidObstacles.ContainsKey(destination)) 
+        if (solidObstacles.TryGetValue(destination, out ObstacleController obstacle) ) 
         {
-            return true;
+            return obstacle != null && obstacle.blocksMovement;
         }
 
         return false; 
@@ -105,9 +105,19 @@ public class Occupancy : MonoBehaviour
 
     public bool IsBlockedByEdgeObstacle(GridNode current, GridNode destination) 
     {
-        bool isEdgeObstacle = edgeObstacles.ContainsKey((current, destination)) || edgeObstacles.ContainsKey((destination, current));
-    
-        return isEdgeObstacle;
+        bool movementBlocked = false;
+        if (edgeObstacles.TryGetValue((current, destination), out ObstacleController obstacleFirstEntry) && 
+            edgeObstacles.TryGetValue((destination, current), out ObstacleController obstacleSecondEntry)) 
+        {
+            if (obstacleFirstEntry == obstacleSecondEntry) 
+            {
+                movementBlocked = obstacleFirstEntry.blocksMovement || obstacleSecondEntry.blocksMovement;
+               
+            }
+           
+        }
+
+        return movementBlocked;
     }
     public bool IsDiagonalBlockedByEdgeObstacle(GridNode current, GridNode destination)
     {
@@ -194,6 +204,13 @@ public class Occupancy : MonoBehaviour
             return; 
         }
 
+        if (IsBlockedByEdgeObstacle(firstNode, secondNode))
+        {
+
+            return;
+
+        }
+
         edgeObstacles.Add((firstNode, secondNode), edgeObstacle);
         edgeObstacles.Add((secondNode, firstNode), edgeObstacle);
         
@@ -243,9 +260,16 @@ public class Occupancy : MonoBehaviour
             return;
         }
 
-        if (edgeObstacles.TryGetValue((firstNode,secondNode), out ObstacleController exists) &&  exists == edgeObstacle)
+        if (edgeObstacles.TryGetValue((firstNode, secondNode), out ObstacleController exists) && exists == edgeObstacle)
         {
             edgeObstacles.Remove((firstNode, secondNode));
+
+        }
+
+        if (edgeObstacles.TryGetValue((secondNode, firstNode), out exists) && exists == edgeObstacle)
+        {
+            edgeObstacles.Remove((secondNode, firstNode));
+
         }
     }
     private bool TryGetFootprintNodes(GridNode anchorNode, UnitController unit, out List<GridNode> footprintNodes)

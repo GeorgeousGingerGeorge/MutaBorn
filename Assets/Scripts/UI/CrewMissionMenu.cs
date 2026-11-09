@@ -10,6 +10,29 @@ using UnityEngine.UI;
 public sealed class CrewMissionMenu : MonoBehaviour
 {
     [Serializable]
+    public sealed class MissionSceneEntry
+    {
+        public string displayName;
+        [TextArea(2, 3)] public string description;
+        [SerializeField] private string scenePath;
+#if UNITY_EDITOR
+        [SerializeField] private UnityEditor.SceneAsset sceneAsset;
+
+        public void RefreshScenePath()
+        {
+            scenePath = sceneAsset == null ? string.Empty :
+                UnityEditor.AssetDatabase.GetAssetPath(sceneAsset);
+
+        }
+#endif
+
+        public string ScenePath => scenePath;
+        public string Title => string.IsNullOrWhiteSpace(displayName) ?
+            System.IO.Path.GetFileNameWithoutExtension(scenePath) : displayName;
+
+    }
+
+    [Serializable]
     public sealed class CrewSlotView
     {
         public Button button;
@@ -28,9 +51,17 @@ public sealed class CrewMissionMenu : MonoBehaviour
     }
 
     [Header("Scene panels authored in Unity")]
+    [SerializeField] private GameObject raceMapRoot;
+    [SerializeField] private Button orcRegionButton;
+    [SerializeField] private Button raceMapBackButton;
     [SerializeField] private GameObject missionSelectRoot;
     [SerializeField] private GameObject crewSelectRoot;
     [SerializeField] private GameObject returnFromBarracksRoot;
+    [Header("Mission scene list")]
+    [SerializeField] private List<MissionSceneEntry> missionScenes = new List<MissionSceneEntry>();
+    [SerializeField] private Transform missionListContent;
+    [SerializeField] private Button missionRowTemplate;
+    [SerializeField] private TMP_Text emptyMissionText;
     [SerializeField] private Button testMissionButton;
     [SerializeField] private Button missionBackButton;
     [SerializeField] private Button crewBackButton;
@@ -52,22 +83,37 @@ public sealed class CrewMissionMenu : MonoBehaviour
     [SerializeField] private string testMissionScene = "Main Test Scene";
 
     private readonly List<GameObject> generatedRows = new List<GameObject>();
+    private readonly List<Button> generatedMissionRows = new List<Button>();
+    private string selectedMissionScene;
+    private string selectedMissionTitle;
     private UnitRoster observedRoster;
     private int selectedSlot;
 
     private void Awake()
     {
+        if (orcRegionButton != null)
+        {
+            orcRegionButton.onClick.AddListener(ShowMissionList);
+
+        }
+
+        if (raceMapBackButton != null)
+        {
+            raceMapBackButton.onClick.AddListener(CloseAll);
+
+        }
+
         if (testMissionButton != null)
         {
-            testMissionButton.onClick.AddListener(OpenCrewSelection);
+            testMissionButton.onClick.AddListener(OpenLegacyMission);
         }
         if (missionBackButton != null)
         {
-            missionBackButton.onClick.AddListener(CloseAll);
+            missionBackButton.onClick.AddListener(OpenRaceMap);
         }
         if (crewBackButton != null)
         {
-            crewBackButton.onClick.AddListener(OpenMissionSelect);
+            crewBackButton.onClick.AddListener(ShowMissionList);
         }
         if (startMissionButton != null)
         {
@@ -101,6 +147,22 @@ public sealed class CrewMissionMenu : MonoBehaviour
         CloseAll();
 
     }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        foreach (MissionSceneEntry mission in missionScenes)
+        {
+            if (mission != null)
+            {
+                mission.RefreshScenePath();
+
+            }
+
+        }
+
+    }
+#endif
 
     private void OnEnable()
     {
@@ -138,20 +200,118 @@ public sealed class CrewMissionMenu : MonoBehaviour
 
     }
 
+    // Keep the Hub's existing OnClick connection; the map is now the entry screen.
     public void OpenMissionSelect()
     {
+        OpenRaceMap();
+
+    }
+
+    public void OpenRaceMap()
+    {
         Subscribe();
+        CloseAll();
+        if (raceMapRoot != null)
+        {
+            raceMapRoot.SetActive(true);
+            if (orcRegionButton != null)
+            {
+                RaceMapRegionHover region = orcRegionButton.GetComponent<RaceMapRegionHover>();
+                if (region != null)
+                {
+                    region.Display();
+
+                }
+
+            }
+
+            return;
+
+        }
+
+        // Existing Hub prefabs still work until the one-time UI builder is run.
+        ShowMissionList();
+
+    }
+
+    private void ShowMissionList()
+    {
+        Subscribe();
+        RefreshMissionList();
+        CloseAll();
         if (missionSelectRoot != null)
         {
             missionSelectRoot.SetActive(true);
+
         }
-        if (crewSelectRoot != null)
+
+    }
+
+    private void OpenLegacyMission()
+    {
+        selectedMissionScene = testMissionScene;
+        selectedMissionTitle = testMissionScene;
+        OpenCrewSelection();
+
+    }
+
+    private void SelectMission(MissionSceneEntry mission)
+    {
+        selectedMissionScene = mission.ScenePath;
+        selectedMissionTitle = mission.Title;
+        OpenCrewSelection();
+
+    }
+
+    private void RefreshMissionList()
+    {
+        if (missionListContent == null || missionRowTemplate == null)
         {
-            crewSelectRoot.SetActive(false);
+
+            return;
+
         }
-        if (returnFromBarracksRoot != null)
+
+        foreach (Button row in generatedMissionRows)
         {
-            returnFromBarracksRoot.SetActive(false);
+            if (row != null)
+            {
+                Destroy(row.gameObject);
+
+            }
+
+        }
+
+        generatedMissionRows.Clear();
+        foreach (MissionSceneEntry mission in missionScenes)
+        {
+            if (mission == null || string.IsNullOrWhiteSpace(mission.ScenePath))
+            {
+                continue;
+
+            }
+
+            MissionSceneEntry selected = mission;
+            Button row = Instantiate(missionRowTemplate, missionListContent);
+            row.gameObject.SetActive(true);
+            row.onClick.RemoveAllListeners();
+            row.onClick.AddListener(() => SelectMission(selected));
+            TMP_Text label = row.GetComponentInChildren<TMP_Text>(true);
+            if (label != null)
+            {
+                label.text = string.IsNullOrWhiteSpace(mission.description) ?
+                    mission.Title : mission.Title + "\n" + mission.description;
+
+            }
+
+            generatedMissionRows.Add(row);
+
+        }
+
+        if (emptyMissionText != null)
+        {
+            emptyMissionText.gameObject.SetActive(generatedMissionRows.Count == 0);
+
         }
 
     }
@@ -178,6 +338,12 @@ public sealed class CrewMissionMenu : MonoBehaviour
 
     public void CloseAll()
     {
+        if (raceMapRoot != null)
+        {
+            raceMapRoot.SetActive(false);
+
+        }
+
         if (missionSelectRoot != null)
         {
             missionSelectRoot.SetActive(false);
@@ -251,7 +417,8 @@ public sealed class CrewMissionMenu : MonoBehaviour
             if (view.unitName != null)
             {
                 view.unitName.text = locked ? "Research Locked" :
-                    selected == null ? "+ Empty" : selected.characterName;
+                    selected == null ? "+ Empty" :
+                    selected.currentHealth <= 0 ? selected.characterName + " [Fallen]" : selected.characterName;
                 view.unitName.color = i == selectedSlot ? new Color(1f, 0.88f, 0.44f) : Color.white;
 
             }
@@ -277,9 +444,11 @@ public sealed class CrewMissionMenu : MonoBehaviour
         }
 
         RefreshCandidates(roster);
+        string missionName = string.IsNullOrWhiteSpace(selectedMissionTitle) ?
+            testMissionScene : selectedMissionTitle;
         SetMessage(selectedSlot >= roster.UnlockedCrewSlots ?
             "This slot requires a future research unlock." :
-            $"Slot {selectedSlot + 1}: choose a unit from your roster, or clear it.");
+            $"{missionName} - Slot {selectedSlot + 1}: choose your crew.");
 
     }
 
@@ -338,7 +507,7 @@ public sealed class CrewMissionMenu : MonoBehaviour
         UnitRoster roster = UnitRoster.Instance;
         if (roster == null || !roster.TryChooseCrewMember(selectedSlot, unitId))
         {
-            SetMessage("Unable to assign this unit (slot locked or unit currently deployed).");
+            SetMessage("Unable to assign this unit (fallen, locked, or currently deployed).");
 
             return;
 
@@ -379,7 +548,7 @@ public sealed class CrewMissionMenu : MonoBehaviour
         foreach (UnitRosterDeployment deployment in roster.Deployments)
         {
             if (deployment.SlotIndex < roster.UnlockedCrewSlots &&
-                roster.TryGetUnit(deployment.UnitId, out UnitData unit))
+                roster.TryGetUnit(deployment.UnitId, out UnitData unit) && unit.currentHealth > 0)
             {
                 hasCrew = true;
 
@@ -397,7 +566,23 @@ public sealed class CrewMissionMenu : MonoBehaviour
 
         }
 
-        SceneManager.LoadScene(testMissionScene);
+        string scene = string.IsNullOrWhiteSpace(selectedMissionScene) ?
+            testMissionScene : selectedMissionScene;
+        if (scene.StartsWith("Assets/", StringComparison.OrdinalIgnoreCase) &&
+            !scene.EndsWith(".unity", StringComparison.OrdinalIgnoreCase))
+        {
+            scene += ".unity";
+
+        }
+        if (!Application.CanStreamedLevelBeLoaded(scene))
+        {
+            SetMessage($"Mission '{scene}' is not in Build Settings / Build Profiles.");
+
+            return;
+
+        }
+
+        SceneManager.LoadScene(scene);
 
     }
 
@@ -449,6 +634,57 @@ public sealed class CrewMissionMenu : MonoBehaviour
     }
 
 #if UNITY_EDITOR
+    public void ConfigureRaceMapUI(GameObject screen, Button orcButton, Button backButton)
+    {
+        raceMapRoot = screen;
+        orcRegionButton = orcButton;
+        raceMapBackButton = backButton;
+
+    }
+
+    public void ConfigureMissionListUI(Transform content, Button rowTemplate, TMP_Text emptyMessage)
+    {
+        missionListContent = content;
+        missionRowTemplate = rowTemplate;
+        emptyMissionText = emptyMessage;
+
+    }
+
+    public void AddMissionIfMissing(string name, string description, UnityEditor.SceneAsset scene)
+    {
+        if (scene == null)
+        {
+
+            return;
+
+        }
+
+        string path = UnityEditor.AssetDatabase.GetAssetPath(scene);
+        foreach (MissionSceneEntry entry in missionScenes)
+        {
+            if (entry != null && entry.ScenePath == path)
+            {
+
+                return;
+
+            }
+
+        }
+
+        // Serialized fields are set by the authoring tool to preserve Inspector editing.
+        UnityEditor.SerializedObject serialized = new UnityEditor.SerializedObject(this);
+        UnityEditor.SerializedProperty entries = serialized.FindProperty("missionScenes");
+        int index = entries.arraySize;
+        entries.InsertArrayElementAtIndex(index);
+        UnityEditor.SerializedProperty entryProperty = entries.GetArrayElementAtIndex(index);
+        entryProperty.FindPropertyRelative("displayName").stringValue = name;
+        entryProperty.FindPropertyRelative("description").stringValue = description;
+        entryProperty.FindPropertyRelative("sceneAsset").objectReferenceValue = scene;
+        entryProperty.FindPropertyRelative("scenePath").stringValue = path;
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+
+    }
+
     // Called only by the editor authoring command when the persistent UI objects are created.
     public void ConfigureAuthoredUI(GameObject mission, GameObject crew, GameObject barracksReturn,
         Button missionButton, Button missionBack, Button crewBack, Button deploy,

@@ -462,6 +462,15 @@ public class TurnManager : MonoBehaviour
                 RebuildTurnOrder();
                 turnIndex = -1;
 
+                if (turnOrder.Count == 0)
+                {
+                    Debug.LogError("[TurnManager] No active factions are deployed. " +
+                        "Check mission crew spawning before starting turns.", this);
+
+                    return;
+
+                }
+
                 Round++;
                 Debug.Log($"=== ROUND {Round}: {turnOrder.Count} participating factions ===");
                 RoundStarted?.Invoke(Round);

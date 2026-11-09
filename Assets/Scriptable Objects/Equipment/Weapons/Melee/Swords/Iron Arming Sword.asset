@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26a55a7212599a0419e986f77eb48d6c, type: 3}
+  m_Name: "Iron Arming Sword"
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
+  _itemName: "Iron Arming Sword"
+  _itemID: "weapon-iron-arming-sword"
+  _description: "Forged or assembled around Iron and Textiles. One-handed sword with flexible hand-slot use. Additional techniques can be earned through equipment stars."
+  _sprite: {fileID: 21300000, guid: 26f8f6429eac5bb4ba06c64df542975e, type: 3}
+  _equippedModelPrefab: {fileID: 0}
+  armor: 0
+  weapon: 1
+  weaponSubtype: 1
+  _weaponModelPrefab: {fileID: 0}
+  accessory: 0
+  targetSlot: 1
+  equipmentFit: 1
+  requiresBothHands: 0
+  displayTypeLabel: "Sword"
+  currentRarity: 1
+  type: 1
+  statModifier: 0
+  startingScaling:
+    strength: 2
+    dexterity: 1
+    vitality: 0
+    constitution: 0
+    perception: 0
+    intelligence: 0
+  guaranteedActions: 
+  - {fileID: 11400000, guid: be753f8925e3ba94aa1ae565860a1177, type: 2}
+  guaranteedEffects: []
+  primaryDamageType: 1
+  guaranteedBonusDamage: []
+  generateStarRewards: 1
+  possibleAbilities: 
+  - action: {fileID: 11400000, guid: 001ad81c27594c059a3c7a819d97c472, type: 2}
+    weight: 50
+  - action: {fileID: 11400000, guid: 5c0f37784eaf9434bb1d85fdc8f85a19, type: 2}
+    weight: 35
+  - action: {fileID: 11400000, guid: 3e5e16fb65d39724e929308e6cdea734, type: 2}
+    weight: 25
+  possibleBonuses: 
+  - kind: 0
+    weight: 55
+    stat: 2
+    damageType: 0
+    amountRange: {x: 1, y: 3}
+    effect: {}
+  - kind: 0
+    weight: 35
+    stat: 0
+    damageType: 0
+    amountRange: {x: 1, y: 3}
+    effect: {}
+  grantedActionSet: {fileID: 0}
+  grantedEffectCollection: {fileID: 0}
+  _armorRating: 1
+  _wardRating: 0
+  resistances: []
+  _movementPenalty: 0
+  _meleeDamage: 7
+  _rangeDamage: 0
+  _magicDamage: 0
+  _accuracyBonus: 1
+  _meleeDamageRange: {x: 0, y: 0}
+  _distanceDamageRange: {x: 0, y: 0}
+  _magicDamageRange: {x: 0, y: 0}
+  _armorRatingRange: {x: 0, y: 0}
+  _movementPenaltyRange: {x: 0, y: 0}
+  _accuracyRange: {x: 0, y: 0}

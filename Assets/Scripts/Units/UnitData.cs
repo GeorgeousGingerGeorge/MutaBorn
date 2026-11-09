@@ -100,10 +100,10 @@ public class UnitData
 
     [Header("Character Information- Total Core Stats")]
     public int totalStrength => CalculateModifiedStat(StatIdentifier.Strength, leveledStrength + startingStrength + mutationStrength + equipmentStrength);
-    public int totalDexterity => CalculateModifiedStat(StatIdentifier.Dexterity, leveledDexterity + startingDexterity + mutationDexterity + equipmentDexterity);
+    public int totalDexterity => CalculateModifiedStat(StatIdentifier.Dexterity, leveledDexterity + startingDexterity + mutationDexterity + equipmentDexterity + (race != null ? race.RacialDexterityBonus : 0));
     public int totalVitality => CalculateModifiedStat(StatIdentifier.Vitality, leveledVitality + startingVitality + mutationVitality + equipmentVitality);
     public int totalConstitution => CalculateModifiedStat(StatIdentifier.Constitution, leveledConstitution + startingConstitution + mutationConstitution + equipmentConstitution);
-    public int totalPerception => CalculateModifiedStat(StatIdentifier.Perception, leveledPerception + startingPerception + mutationPerception + equipmentPerception);
+    public int totalPerception => CalculateModifiedStat(StatIdentifier.Perception, leveledPerception + startingPerception + mutationPerception + equipmentPerception + (race != null ? race.RacialPerceptionBonus : 0));
     public int totalIntelligence => CalculateModifiedStat(StatIdentifier.Intelligence, leveledIntelligence + startingIntelligence + mutationIntelligence + equipmentIntelligence);
 
     [Header("Character Information- Equipped Mutations/Gear Plus Tracker")]
@@ -172,6 +172,12 @@ public class UnitData
     public int currentLineOfSight { get; private set; }
     public int maxFieldOfView { get; private set; }
     public int currentFieldOfView { get; private set; }
+
+    [Header("Information used for cover calculations")]
+
+    public float standingHeight { get; private set; } = 1.8f;
+    public float crouchingHeight { get; private set; } = 1.0f;
+
 
     // Ward and damage resistances are derived from equipped gear, not cached
     // separately. Future stat modifiers can extend these accessors.
@@ -923,6 +929,60 @@ public class UnitData
 
     }
 
+    // Permanent loss after a casualty roll bypasses player slot locks but preserves slot identity.
+    public bool TryLoseItemAfterBattle(UnitSlotId slot)
+    {
+        UnitLoadoutSlotState state = GetSlot(slot);
+        if (state == null || string.IsNullOrWhiteSpace(state.ItemInstanceId))
+        {
+            return false;
+
+        }
+
+        if (UnitLoadoutSlots.IsConsumable(slot))
+        {
+            for (int i = 0; i < carriedConsumables.Count; i++)
+            {
+                if (carriedConsumables[i].instanceId != state.ItemInstanceId)
+                {
+                    continue;
+
+                }
+
+                carriedConsumables.RemoveAt(i);
+                state.SetItem(string.Empty);
+                LoadoutChanged?.Invoke();
+
+                return true;
+
+            }
+
+        }
+        else
+        {
+            for (int i = 0; i < equippedItems.Count; i++)
+            {
+                if (equippedItems[i].instanceId != state.ItemInstanceId)
+                {
+                    continue;
+
+                }
+
+                equippedItems.RemoveAt(i);
+                state.SetItem(string.Empty);
+                RecalculateStats();
+                LoadoutChanged?.Invoke();
+
+                return true;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
     // Legacy test-scene helper: generate fresh starting equipment only, not storage transfers.
     public bool TryEquipStartingItem(EquipmentData template)
     {
@@ -1411,8 +1471,10 @@ public class UnitData
         newUnit.UnitId = Guid.NewGuid().ToString("N");
         newUnit.characterName = name;
         newUnit.raceName = race.RaceName;
-        newUnit.race = race; 
-       
+        newUnit.race = race;
+        //Setting Physical Dimensions for Cover Calculations
+        newUnit.standingHeight = race.StandingHeight;
+        newUnit.crouchingHeight = race.CrouchingHeight;
 
         //Setting Starting Stats 
         newUnit.startingStrength = race.startStrength;
