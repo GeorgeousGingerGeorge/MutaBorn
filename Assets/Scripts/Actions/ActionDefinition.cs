@@ -40,7 +40,10 @@ public enum CombatActionBehavior
     DamageArea,
     ApplySelfStatus,
     HealArea,
-    RestoreMana
+    RestoreMana,
+    MutationScan = 8,
+    MutationDeployCover = 9,
+    MutationDeployTrap = 10
 
 }
 
@@ -140,6 +143,15 @@ public class ActionDefinition : ScriptableObject
     [Tooltip("Effects to trigger when this particular action successfully damages a unit. Does not apply to other actions.")]
     [SerializeField] private EffectCollection onDamageEffects;
 
+    [Header("Biological Mutation Combat Rules")]
+    [SerializeField] private bool mutationRushToTarget;
+    [SerializeField, Min(0)] private int mutationKnockbackTiles;
+    [SerializeField, Range(0f, 100f)] private float mutationNegateChancePercent;
+    [SerializeField, Min(1)] private int mutationGuardOwnerTurns = 1;
+    [SerializeField] private GameObject mutationDeployPrefab;
+    [SerializeField, Min(1)] private int mutationDeployDurationTurns = 2;
+    [SerializeField, Min(0)] private int mutationStructureHealth = 30;
+
     [Header("Defensive Rules")]
 
     [Tooltip("For ApplyGuard: percentage of ordinary damage prevented until the unit's next faction turn begins. Zero for flat-only Guard.")]
@@ -179,6 +191,13 @@ public class ActionDefinition : ScriptableObject
     public EffectCollection OnDamageEffects => onDamageEffects;
     public float GuardDamageReductionPercent => guardDamageReductionPercent;
     public int GuardFlatDamageReduction => Mathf.Max(0, guardFlatDamageReduction);
+    public bool MutationRushToTarget => mutationRushToTarget;
+    public int MutationKnockbackTiles => Mathf.Max(0, mutationKnockbackTiles);
+    public float MutationNegateChancePercent => mutationNegateChancePercent;
+    public int MutationGuardOwnerTurns => Mathf.Max(1, mutationGuardOwnerTurns);
+    public GameObject MutationDeployPrefab => mutationDeployPrefab;
+    public int MutationDeployDurationTurns => Mathf.Max(1, mutationDeployDurationTurns);
+    public int MutationStructureHealth => Mathf.Max(0, mutationStructureHealth);
     public float CriticalChancePercent => criticalChancePercent;
     public float CriticalDamageMultiplier => Mathf.Max(1f, criticalDamageMultiplier);
     public int FlatArmorPenetration => Mathf.Max(0, flatArmorPenetration);

@@ -114,7 +114,10 @@ public sealed class CombatActionExecutor : MonoBehaviour
             action.CombatBehavior != CombatActionBehavior.DamageArea &&
             action.CombatBehavior != CombatActionBehavior.HealArea &&
             action.CombatBehavior != CombatActionBehavior.ApplySelfStatus &&
-            action.CombatBehavior != CombatActionBehavior.RestoreMana)
+            action.CombatBehavior != CombatActionBehavior.RestoreMana &&
+            action.CombatBehavior != CombatActionBehavior.MutationScan &&
+            action.CombatBehavior != CombatActionBehavior.MutationDeployCover &&
+            action.CombatBehavior != CombatActionBehavior.MutationDeployTrap)
         {
             Debug.LogWarning($"'{action.DisplayName}' does not have an executable combat behavior yet.", this);
 
@@ -178,6 +181,21 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+        if (action.CombatBehavior == CombatActionBehavior.MutationScan)
+        {
+            if (IsTargeting || !MutationTactics.TryScan(source, action))
+            {
+                return false;
+
+            }
+
+            source.data.ModifyActionPoints(-Mathf.CeilToInt(action.ApCost));
+            loadout.RecordSuccessfulUse(action);
+
+            return true;
+
+        }
+
         if (action.CombatBehavior == CombatActionBehavior.RestoreMana)
         {
             if (IsTargeting || action.ManaRestoreAmount <= 0 ||
@@ -217,7 +235,9 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
             }
 
-            if (!statuses.ApplyGuard(source, action.GuardDamageReductionPercent, action.GuardFlatDamageReduction))
+            if (!statuses.ApplyGuard(source, action.GuardDamageReductionPercent,
+                action.GuardFlatDamageReduction, action.MutationNegateChancePercent,
+                action.MutationGuardOwnerTurns))
             {
                 return false;
 
@@ -288,7 +308,9 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         bool isArea = action.CombatBehavior == CombatActionBehavior.DamageArea ||
-            action.CombatBehavior == CombatActionBehavior.HealArea;
+            action.CombatBehavior == CombatActionBehavior.HealArea ||
+            action.CombatBehavior == CombatActionBehavior.MutationDeployCover ||
+            action.CombatBehavior == CombatActionBehavior.MutationDeployTrap;
         GridManager grid = isArea ? FindAnyObjectByType<GridManager>() : null;
         if (isArea && (source.currentNode == null || grid == null))
         {
@@ -535,6 +557,15 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         UnitController source = attacker;
         int index = pendingConsumableIndex;
+        if (pendingAction.MutationRushToTarget &&
+            !MutationTactics.TryRushAdjacent(source, target))
+        {
+            Debug.Log("Charge path is blocked; no AP spent.", source);
+
+            return;
+
+        }
+
         if (ApplyDamage(source, target, pendingAction, true) && index >= 0)
         {
             CompleteConsumableUse(source, index, target.data.currentHealth <= 0);
@@ -545,6 +576,24 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     private void OnAreaPointPicked(Vector3 point, int floorId)
     {
+        if (pendingAction != null &&
+            (pendingAction.CombatBehavior == CombatActionBehavior.MutationDeployCover ||
+             pendingAction.CombatBehavior == CombatActionBehavior.MutationDeployTrap))
+        {
+            if (attacker != null && CanCommand(attacker) &&
+                attacker.data.currentActionPoints >= Mathf.CeilToInt(pendingAction.ApCost) &&
+                MutationTactics.TryDeploy(attacker, pendingAction, point, floorId))
+            {
+                attacker.data.ModifyActionPoints(-Mathf.CeilToInt(pendingAction.ApCost));
+                attacker.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(pendingAction);
+                CancelTargeting();
+
+            }
+
+            return;
+
+        }
+
         TryExecuteArea(point, floorId);
 
     }
@@ -1212,6 +1261,12 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 $"HP {damageResult.HealthBefore}->{damageResult.HealthAfter}/{target.data.maxHealth}; " +
                 $"AP {apBefore}->{source.data.currentActionPoints}.", source);
             FinalizeResolvedDamage(damageResult, sourceIndex);
+            if (damageResult.ActualDamage > 0 && target != null &&
+                target.data.currentHealth > 0 && action.MutationKnockbackTiles > 0)
+            {
+                MutationTactics.TryKnockback(source, target, action.MutationKnockbackTiles);
+
+            }
 
         }
 

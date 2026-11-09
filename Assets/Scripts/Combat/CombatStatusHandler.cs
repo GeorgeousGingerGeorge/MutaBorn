@@ -11,15 +11,19 @@ public sealed class CombatStatusHandler : MonoBehaviour
     [SerializeField, Range(0f, 100f)] private float debugGuardReductionPercent = 0f;
     [SerializeField, Min(0)] private int debugGuardFlatReduction = 3;
 
-    private readonly struct GuardProtection
+    private struct GuardProtection
     {
         public readonly float Percent;
         public readonly int Flat;
+        public readonly float NegateChance;
+        public int RemainingOwnerTurns;
 
-        public GuardProtection(float percent, int flat)
+        public GuardProtection(float percent, int flat, float negateChance, int duration)
         {
             Percent = percent;
             Flat = flat;
+            NegateChance = negateChance;
+            RemainingOwnerTurns = duration;
 
         }
 
@@ -27,6 +31,7 @@ public sealed class CombatStatusHandler : MonoBehaviour
 
     private readonly Dictionary<UnitController, GuardProtection> guardReductions = new();
     private readonly List<UnitController> expiredGuards = new();
+    private readonly Dictionary<UnitController, GuardProtection> ongoingGuards = new();
     private TurnManager subscribedTurnManager;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -77,6 +82,13 @@ public sealed class CombatStatusHandler : MonoBehaviour
 
     public bool ApplyGuard(UnitController owner, float damageReductionPercent, int flatReduction)
     {
+        return ApplyGuard(owner, damageReductionPercent, flatReduction, 0f, 1);
+
+    }
+
+    public bool ApplyGuard(UnitController owner, float damageReductionPercent, int flatReduction,
+        float negateChancePercent, int durationOwnerTurns)
+    {
         if (owner == null || !owner.isActiveAndEnabled ||
             owner.data == null || owner.data.currentHealth <= 0)
         {
@@ -86,7 +98,8 @@ public sealed class CombatStatusHandler : MonoBehaviour
 
         float percent = Mathf.Clamp(damageReductionPercent, 0f, 100f);
         int flat = Mathf.Max(0, flatReduction);
-        guardReductions[owner] = new GuardProtection(percent, flat);
+        guardReductions[owner] = new GuardProtection(percent, flat,
+            Mathf.Clamp(negateChancePercent, 0f, 100f), Mathf.Max(1, durationOwnerTurns));
 
         Debug.Log($"{owner.data.characterName} is Guarding: -{flat} damage per ordinary hit" +
                   (percent > 0f ? $", then {percent:0.#}% reduction" : "") + ".", owner);
@@ -103,6 +116,14 @@ public sealed class CombatStatusHandler : MonoBehaviour
             !guardReductions.TryGetValue(target, out GuardProtection protection))
         {
             return damage;
+
+        }
+
+        if (protection.NegateChance > 0f && UnityEngine.Random.value * 100f < protection.NegateChance)
+        {
+            MutaBorn.Gameplay.CombatFloatingFeedback.ReportGuardBlocked(target, damage);
+
+            return 0;
 
         }
 
@@ -131,6 +152,7 @@ public sealed class CombatStatusHandler : MonoBehaviour
     private void OnTurnStarted(FactionData faction)
     {
         expiredGuards.Clear();
+        ongoingGuards.Clear();
 
         foreach (KeyValuePair<UnitController, GuardProtection> active in guardReductions)
         {
@@ -147,9 +169,26 @@ public sealed class CombatStatusHandler : MonoBehaviour
             UnitFaction member = unit.GetComponent<UnitFaction>();
             if (member != null && member.Faction == faction)
             {
-                expiredGuards.Add(unit);
+                GuardProtection protection = active.Value;
+                protection.RemainingOwnerTurns--;
+                if (protection.RemainingOwnerTurns <= 0)
+                {
+                    expiredGuards.Add(unit);
+
+                }
+                else
+                {
+                    ongoingGuards[unit] = protection;
+
+                }
 
             }
+
+        }
+
+        foreach (KeyValuePair<UnitController, GuardProtection> ongoing in ongoingGuards)
+        {
+            guardReductions[ongoing.Key] = ongoing.Value;
 
         }
 
