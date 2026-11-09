@@ -31,6 +31,7 @@ public class TurnManager : MonoBehaviour
         new Dictionary<FactionData, int>();
     private int turnIndex = -1;
     private Coroutine aiAutoSkipCoroutine;
+    private Coroutine projectileWaitCoroutine;
 
     public int Round { get; private set; }
     public FactionData ActiveFaction { get; private set; }
@@ -106,6 +107,12 @@ public class TurnManager : MonoBehaviour
 
     public void RestartTurns()
     {
+        if (projectileWaitCoroutine != null)
+        {
+            StopCoroutine(projectileWaitCoroutine);
+            projectileWaitCoroutine = null;
+        }
+
         if (aiAutoSkipCoroutine != null)
         {
             StopCoroutine(aiAutoSkipCoroutine);
@@ -407,9 +414,32 @@ public class TurnManager : MonoBehaviour
         }
 
     }
+    private IEnumerator WaitForProjectiles()
+    {
+        // Wait until all active projectiles have finished traveling.
+        while (FindObjectsByType<ProjectileController>(FindObjectsSortMode.None).Length > 0)
+        {
+            yield return null;
+        }
 
+        projectileWaitCoroutine = null;
+
+        // Resume the turn transition.
+        AdvanceTurn();
+    }
     private void AdvanceTurn()
     {
+        if (projectileWaitCoroutine != null)
+        {
+            return;
+        }
+
+        if (FindObjectsByType<ProjectileController>(FindObjectsSortMode.None).Length > 0)
+        {
+            projectileWaitCoroutine = StartCoroutine(WaitForProjectiles());
+            return;
+        }
+
         if (ActiveFaction != null)
         {
             FactionData endedFaction = ActiveFaction;
@@ -500,6 +530,11 @@ public class TurnManager : MonoBehaviour
 
     private void OnDisable()
     {
+        if (projectileWaitCoroutine != null)
+        {
+            StopCoroutine(projectileWaitCoroutine);
+            projectileWaitCoroutine = null;
+        }
         if (aiAutoSkipCoroutine != null)
         {
             StopCoroutine(aiAutoSkipCoroutine);

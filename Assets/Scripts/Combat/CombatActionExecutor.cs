@@ -1002,6 +1002,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         return true;
     }
+
     // TODO: PROJECTILE SYSTEM
     // Projectile spawning, collision, and damage on impact are working.
     // NEXT: Fix turn synchronization so turns cannot advance while projectiles are flying.
