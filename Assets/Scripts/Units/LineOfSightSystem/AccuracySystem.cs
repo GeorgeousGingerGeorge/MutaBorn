@@ -65,7 +65,7 @@ namespace MutaBorn.Gameplay
                 default:
                     break;
             }
-
+            
             //accuracy -= CalculateDefenderEvasion(defender);
 
             accuracy += attacker.data.accuracyBonus;

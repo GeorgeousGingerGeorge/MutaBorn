@@ -1,16 +1,19 @@
 
+
 using UnityEngine;
 
 public struct CoverResult 
 {
     public CoverState coverState;
     public float verticalCoverage;
+    public float horizontalCoverage;
     public ObstacleController protectingObstacle;
 
-    public CoverResult(CoverState state, float coverage, ObstacleController obstacle) 
+    public CoverResult(CoverState state, float stanceCoverage, float bodyCoverage, ObstacleController obstacle) 
     {
         coverState = state;
-        verticalCoverage = coverage;
+        verticalCoverage = stanceCoverage;
+        horizontalCoverage = bodyCoverage;
         protectingObstacle = obstacle; 
     }
 }

@@ -227,7 +227,7 @@ public class UnitController : MonoBehaviour
         }
 
         race = GameDataBaseLoader.Instance.raceData.GetRace(raceName.ToString());
-        data = UnitData.CreateNewUnit(unitName, race);
+        data = UnitData.CreateNewUnit(unitName, race, CalculateUnitWidth());
         gameObject.name = unitName; 
         InitializeRaceModel();
 
@@ -1150,7 +1150,14 @@ public class UnitController : MonoBehaviour
                 break;
         }
     }
+    private float CalculateUnitWidth() 
+    {
+        float xStep = footPrintSize.x;
+        float yStep = footPrintSize.y;
+        float widthModifier = 0.8f;
 
+        return (xStep + yStep) * widthModifier;
+    }
     public void SetStance(UnitStance state) 
     {
 
