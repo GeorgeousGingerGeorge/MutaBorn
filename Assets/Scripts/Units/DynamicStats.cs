@@ -98,6 +98,8 @@ public class DynamicStats : ScriptableObject
     private float standingHeight = 1.8f;
     [SerializeField, Min(0.01f)]
     private float crouchingHeight = 1.0f;
+    
+
 
     [Header("DisplayValues (readOnly)")]
     [SerializeField] private int _BaseHealth;

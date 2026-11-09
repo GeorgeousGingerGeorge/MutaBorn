@@ -449,14 +449,8 @@ public static class MutationRosterInstaller
         if (data == null)
         {
             data = ScriptableObject.CreateInstance<ObstacleData>();
-            data.obstacleName = "Biomineral Cover";
-            data.typeOfObstacle = ObstacleType.Solid;
-            data.blocksMovement = true;
-            data.blocksLineOfSight = true;
-            data.coverState = CoverState.HIGH;
-            data.directions = (CoverDirections)255;
-            data.isDestructible = true;
-            data.maxHealth = 45;
+            data.CreateObstacleData("Biomineral Cover", ObstacleType.Solid, true, true, false, false, 
+                false, false, CoverState.NONE, default, true, 45, null);  
             AssetDatabase.CreateAsset(data, dataPath);
 
         }

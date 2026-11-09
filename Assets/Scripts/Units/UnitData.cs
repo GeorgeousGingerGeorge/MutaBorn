@@ -300,7 +300,7 @@ public class UnitData
 
     public float standingHeight { get; private set; } = 1.8f;
     public float crouchingHeight { get; private set; } = 1.0f;
-
+    public float unitWidth { get; private set; } = 1.6f;
 
     // Ward and damage resistances are derived from equipped gear, not cached
     // separately. Future stat modifiers can extend these accessors.
@@ -1637,7 +1637,7 @@ public class UnitData
     }
 
     //Initializes the unit
-    public static UnitData CreateNewUnit(string name = "Unit",DynamicStats race = null) 
+    public static UnitData CreateNewUnit(string name = "Unit",DynamicStats race = null, float widthCalculationfromWidth = 1.6f) 
     {
         //Setting Character name and race name for search later
         UnitData newUnit = new UnitData();
@@ -1648,6 +1648,7 @@ public class UnitData
         //Setting Physical Dimensions for Cover Calculations
         newUnit.standingHeight = race.StandingHeight;
         newUnit.crouchingHeight = race.CrouchingHeight;
+        newUnit.unitWidth = widthCalculationfromWidth;
 
         //Setting Starting Stats 
         newUnit.startingStrength = race.startStrength;
@@ -1656,6 +1657,7 @@ public class UnitData
         newUnit.startingConstitution = race.startConstitution;
         newUnit.startingPerception = race.startPerception;
         newUnit.startingIntelligence = race.startIntelligence;
+
 
         newUnit.CalcMaxHealth(race);
         newUnit.CalcMaxMana(race);
