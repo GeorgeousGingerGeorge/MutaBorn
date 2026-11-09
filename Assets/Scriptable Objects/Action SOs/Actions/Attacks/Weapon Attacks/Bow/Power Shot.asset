@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: "Power Shot"
+  m_Name: Power Shot
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: "power-shot"
-  displayName: "Power Shot"
-  description: "Draw deep and punch through defenses. +5 Armor penetration."
+  actionId: power-shot
+  displayName: Power Shot
+  description: Draw deep and punch through defenses. +5 Armor penetration.
   icon: {fileID: 0}
   activationType: 0
   category: 0
-  submenuGroup: "Bow"
+  submenuGroup: Bow
   displayOrder: 30
   apCost: 9
   controlTags: 2
@@ -28,6 +28,14 @@ MonoBehaviour:
   damageMultiplier: 1.65
   flatDamageBonus: 0
   minimumDamage: 1
+  hitCount: 1
+  projectileDefinition: {fileID: 11400000, guid: 8424e330cf004504b8c7893986e8bb15, type: 2}
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
   damageType: 2
   additionalDamage: []
   criticalChancePercent: 0
@@ -36,11 +44,4 @@ MonoBehaviour:
   flatWardPenetration: 0
   onDamageEffects: {fileID: 0}
   guardDamageReductionPercent: 0
-  hitCount: 1
-  areaThrowRangeInTiles: 6
-  areaRadiusInTiles: 2
-  areaSameFloorOnly: 1
-  areaFriendlyFire: 0
-  areaHealAmount: 0
-  selfStatus: {fileID: 0}
   guardFlatDamageReduction: 0
