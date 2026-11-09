@@ -10,24 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: "Arrow Shot"
+  m_Name: Arrow Shot
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: "arrow-shot"
-  displayName: "Arrow Shot"
-  description: "Standard aimed arrow. Reliable Pierce damage."
+  actionId: arrow-shot
+  displayName: Arrow Shot
+  description: Standard aimed arrow. Reliable Pierce damage.
   icon: {fileID: 0}
   activationType: 0
   category: 0
-  submenuGroup: "Bow"
+  submenuGroup: Bow
   displayOrder: 10
   apCost: 5
   controlTags: 2
   combatBehavior: 1
   damageStat: 1
   combatRange: 9
-  damageMultiplier: 1.0
+  damageMultiplier: 1
   flatDamageBonus: 0
   minimumDamage: 1
+  hitCount: 1
+  projectileDefinition: {fileID: 11400000, guid: 8424e330cf004504b8c7893986e8bb15, type: 2}
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
   damageType: 2
   additionalDamage: []
   criticalChancePercent: 6
@@ -36,11 +44,4 @@ MonoBehaviour:
   flatWardPenetration: 0
   onDamageEffects: {fileID: 0}
   guardDamageReductionPercent: 0
-  hitCount: 1
-  areaThrowRangeInTiles: 6
-  areaRadiusInTiles: 2
-  areaSameFloorOnly: 1
-  areaFriendlyFire: 0
-  areaHealAmount: 0
-  selfStatus: {fileID: 0}
   guardFlatDamageReduction: 0
