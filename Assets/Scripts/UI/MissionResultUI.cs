@@ -24,6 +24,10 @@ public sealed class MissionResultUI : MonoBehaviour
     [SerializeField] private Button claimAndReturnButton;
     [SerializeField] private string hubSceneName = "TEST Hub";
 
+    [Header("Unit Progression - On Claimed Victory")]
+    [SerializeField, Min(0)] private int victoryExperience = 100;
+    [SerializeField, Min(0)] private int victoryMutationPoints = 25;
+
     [Header("Appearance")]
     [SerializeField] private Color victoryColor = new Color(0.35f, 0.9f, 0.5f);
     [SerializeField] private Color defeatColor = new Color(1f, 0.4f, 0.4f);
@@ -34,7 +38,7 @@ public sealed class MissionResultUI : MonoBehaviour
 
     private bool subscribed;
     private bool resultShown;
-    private bool researchBattleRecorded;
+    private bool victoryProgressRecorded;
     private bool pausedTime;
     private float previousTimeScale = 1f;
 
@@ -179,7 +183,9 @@ public sealed class MissionResultUI : MonoBehaviour
 
         if (experienceText != null)
         {
-            experienceText.text = "UNIT EXPERIENCE\nXP rewards will be added in a later update.";
+            experienceText.text = victory
+                ? $"UNIT EXPERIENCE\nSurviving mission participants: +{victoryExperience} XP and +{EffectiveMutationPoints()} Mutation Points on claim."
+                : "UNIT EXPERIENCE\nNo progression awarded on defeat.";
 
         }
 
@@ -246,6 +252,16 @@ public sealed class MissionResultUI : MonoBehaviour
 
     }
 
+    private int EffectiveMutationPoints()
+    {
+        ResearchManager research = ResearchManager.Instance;
+        int bonusPercent = research != null
+            ? research.BenefitTotal(ResearchBenefitType.MutationExperience) : 0;
+
+        return victoryMutationPoints + Mathf.CeilToInt(victoryMutationPoints * bonusPercent / 100f);
+
+    }
+
     public void ClaimAndReturnToHub()
     {
         if (string.IsNullOrWhiteSpace(hubSceneName) ||
@@ -266,11 +282,23 @@ public sealed class MissionResultUI : MonoBehaviour
 
         }
 
-        if (!researchBattleRecorded && missionManager != null &&
-            missionManager.Status == MissionStatus.Victory && ResearchManager.Instance != null)
+        if (!victoryProgressRecorded && missionManager != null &&
+            missionManager.Status == MissionStatus.Victory)
         {
-            researchBattleRecorded = true;
-            ResearchManager.Instance.RecordClaimedVictory();
+            victoryProgressRecorded = true;
+            UnitRoster roster = UnitRoster.Instance;
+            if (roster != null)
+            {
+                int count = roster.GrantVictoryProgress(victoryExperience, EffectiveMutationPoints());
+                Debug.Log($"[Progression] Rewarded {count} surviving deployed unit(s).", this);
+
+            }
+
+            if (ResearchManager.Instance != null)
+            {
+                ResearchManager.Instance.RecordClaimedVictory();
+
+            }
 
         }
 
