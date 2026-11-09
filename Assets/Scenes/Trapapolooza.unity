@@ -984,7 +984,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -6, y: -8}
+  m_AnchoredPosition: {x: -6, y: -8.000015}
   m_SizeDelta: {x: 14, y: -16}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &327632967
@@ -2594,6 +2594,9 @@ GameObject:
   - component: {fileID: 1006876218}
   - component: {fileID: 1006876240}
   - component: {fileID: 1006876241}
+  - component: {fileID: 1006876243}
+  - component: {fileID: 1006876242}
+  - component: {fileID: 1006876244}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -2646,6 +2649,7 @@ MonoBehaviour:
   lineOfSight: {fileID: 1006876221}
   fogController: {fileID: 1006876219}
   occupancy: {fileID: 1006876227}
+  factionController: {fileID: 1006876228}
 --- !u!114 &1006876221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2692,7 +2696,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1006876217}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f546f358a84839243bb50e14694dae99, type: 3}
   m_Name: 
@@ -2928,6 +2932,56 @@ MonoBehaviour:
   stealthSystem: {fileID: 1006876240}
   gridManager: {fileID: 1006876234}
   groundTargetTolerance: 0.1
+--- !u!114 &1006876242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006876217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6af41c50419d12499827dc812232f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundDetectionSystem
+  gridManager: {fileID: 1006876234}
+  occupancy: {fileID: 1006876227}
+--- !u!114 &1006876243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006876217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd11a2ed720e774fa88d290d7841147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoverSystem
+  occupancy: {fileID: 1006876227}
+  gridManager: {fileID: 1006876234}
+  showCoverDebug: 1
+  showRejectedObstacles: 1
+--- !u!114 &1006876244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1006876217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7733b296882674cb9b0345863e988c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MutaBorn.Gameplay.AccuracySystem
+  baseAccuracy: 75
+  minimumHitChange: 35
+  maximumHitChance: 95
+  attributeHalfSaturation: 50
+  maximumAtributeContribution: 10
+  lowCoverPenalty: 15
+  highCoverPenalty: 30
+  coverSystem: {fileID: 1006876243}
 --- !u!1 &1011230890
 GameObject:
   m_ObjectHideFlags: 0
