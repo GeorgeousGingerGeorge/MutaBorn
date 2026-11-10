@@ -54,21 +54,13 @@ public class GridManager : MonoBehaviour
 
         if (currentLevel == null)
         {
-            //GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, mainGrid.transform);
-            //current.transform.localScale = new Vector3(1.5f, 2f, 1.5f);
-            //current.GetComponent<ObstacleController>().InitializeNodes();
-
-
-            Vector3 wallPosition = new Vector3(0f, 2.26f, 1.05f);
-
-            for (int multipleObjects = 0; multipleObjects < 1; multipleObjects++)
+            foreach (TileController tile in tileLookup.Values) 
             {
-
-                GameObject wall = Instantiate(wallPrefab, wallPosition, Quaternion.identity, mainGrid.transform);
-                wall.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
-                wall.GetComponent<ObstacleController>().InitializeNodes();
-                wallPosition.x += 2f;
+                tile.SetFogState(FogState.CLEAR);
             }
+
+
+        
         }
 
 
