@@ -14,6 +14,7 @@ public sealed class WorkshopResourcesHUD : MonoBehaviour
     [SerializeField] private Transform listContent;
     [SerializeField] private WorkshopResourceRowUI rowPrefab;
     [SerializeField] private bool showUndiscovered = true;
+    [SerializeField] private bool alwaysVisible;
 
     private readonly List<WorkshopResourceRowUI> rows = new List<WorkshopResourceRowUI>();
     private ResourceStockpile subscribed;
@@ -37,7 +38,7 @@ public sealed class WorkshopResourcesHUD : MonoBehaviour
         if (toggleButton != null) toggleButton.onClick.AddListener(ToggleDropdown);
         if (closeButton != null) closeButton.onClick.AddListener(CloseDropdown);
         if (nextCategoryButton != null) nextCategoryButton.onClick.AddListener(NextCategory);
-        if (dropdownPanel != null) dropdownPanel.SetActive(false);
+        if (dropdownPanel != null) dropdownPanel.SetActive(alwaysVisible);
 
     }
 
@@ -89,9 +90,15 @@ public sealed class WorkshopResourcesHUD : MonoBehaviour
 
     }
 
+    public void SetAlwaysVisible(bool value)
+    {
+        alwaysVisible = value;
+
+    }
+
     public void ToggleDropdown()
     {
-        if (dropdownPanel == null) return;
+        if (alwaysVisible || dropdownPanel == null) return;
         dropdownPanel.SetActive(!dropdownPanel.activeSelf);
         if (dropdownPanel.activeSelf) Refresh();
 
@@ -99,7 +106,7 @@ public sealed class WorkshopResourcesHUD : MonoBehaviour
 
     public void CloseDropdown()
     {
-        if (dropdownPanel != null) dropdownPanel.SetActive(false);
+        if (!alwaysVisible && dropdownPanel != null) dropdownPanel.SetActive(false);
 
     }
 
