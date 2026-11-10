@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +17,9 @@ public sealed class MissionNpcCharacter : MonoBehaviour
     [Header("Teach abilities on neutral outcome (optional)")]
     [SerializeField] private ActionDefinition[] taughtActions = new ActionDefinition[0];
 
+    [Header("Supplies given when asked (optional)")]
+    [SerializeField] private List<WorldLootEntry> offeredLoot = new();
+
     [Header("Stationary defensive turn")]
     [SerializeField, Min(0)] private int healPerTurn = 4;
     [SerializeField, Range(0, 100)] private float guardPercent = 15;
@@ -26,6 +30,7 @@ public sealed class MissionNpcCharacter : MonoBehaviour
     [SerializeField] private UnityEvent onEscaped;
     [SerializeField] private UnityEvent onHostile;
     [SerializeField] private UnityEvent onNeutral;
+    [SerializeField] private UnityEvent onSuppliesGiven;
 
     private UnitController unit;
     private UnitFaction member;
@@ -198,6 +203,35 @@ public sealed class MissionNpcCharacter : MonoBehaviour
                 provoked = true;
                 resolved = true;
                 onHostile?.Invoke();
+
+                break;
+
+            case NpcDialogueOutcome.GiveItems:
+                MissionSpoils spoils = MissionSpoils.Instance;
+                if (spoils == null || spoils.IsPrepared)
+                {
+                    Debug.LogWarning("NPC supplies require an active, unclaimed MissionSpoils.", this);
+
+                    return;
+
+                }
+
+                List<WorldLootStack> supplies = new List<WorldLootStack>();
+                foreach (WorldLootEntry entry in offeredLoot)
+                {
+                    if (entry != null && entry.IsValid)
+                    {
+                        supplies.Add(new WorldLootStack(entry));
+
+                    }
+
+                }
+
+                spoils.Collect(supplies);
+                resolved = true;
+                onSuppliesGiven?.Invoke();
+                MissionLootPopup.Show($"Supplies from {unit.data.characterName}", supplies,
+                    "You got nothing.");
 
                 break;
 

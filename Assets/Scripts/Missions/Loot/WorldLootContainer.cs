@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -35,6 +34,14 @@ public sealed class WorldLootContainer : WorldInteractable
     [SerializeField] private bool collected;
 
     public IReadOnlyList<WorldLootStack> Contents => contents;
+
+    public override bool CanInteract(UnitController actor)
+    {
+        return !inspected && !collected && MissionSpoils.Instance != null &&
+            !MissionSpoils.Instance.IsPrepared && base.CanInteract(actor);
+
+    }
+
     public override string InteractionMenuLabel => kind switch
     {
         WorldLootContainerKind.Chest => inspected ? "Inspect Chest" : "Open Chest",
@@ -45,6 +52,14 @@ public sealed class WorldLootContainer : WorldInteractable
 
     private void Start()
     {
+        if (inspected || collected)
+        {
+            ShowUsedState();
+
+            return;
+
+        }
+
         GenerateContents();
 
     }
@@ -109,51 +124,66 @@ public sealed class WorldLootContainer : WorldInteractable
     protected override void OnInteractionSucceeded(UnitController actor)
     {
         GenerateContents();
-        StringBuilder result = new StringBuilder($"{actor.name} inspected {name}: ");
-        if (contents.Count == 0)
+        MissionSpoils.Instance.Collect(contents);
+        collected = true;
+        inspected = true;
+
+        string title = kind switch
         {
-            result.Append("Empty");
+            WorldLootContainerKind.Chest => "Chest Opened",
+            WorldLootContainerKind.Searchable => "Search Results",
+            _ => "Podium Loot"
+
+        };
+        MissionLootPopup.Show(title, contents, "You found nothing.");
+
+        if (contents.Count > 0)
+        {
+            onLootFound.Invoke();
 
         }
         else
         {
-            for (int i = 0; i < contents.Count; i++)
-            {
-                if (i > 0)
-                {
-                    result.Append(", ");
-
-                }
-
-                result.Append($"{contents[i].quantity}x {contents[i].DisplayName}");
-
-            }
+            onEmpty.Invoke();
 
         }
 
-        Debug.Log(result.ToString(), this);
-        if (!collected && MissionSpoils.Instance != null)
+    }
+
+    protected override void OnInteractionFinished(UnitController actor)
+    {
+        ShowUsedState();
+
+    }
+
+    private void ShowUsedState()
+    {
+        foreach (Renderer renderer in GetComponentsInChildren<Renderer>(true))
         {
-            MissionSpoils.Instance.Collect(contents);
-            collected = true;
-
-        }
-
-        if (!inspected)
-        {
-            inspected = true;
-            if (contents.Count > 0)
+            Material material = renderer.sharedMaterial;
+            if (material == null)
             {
-                onLootFound.Invoke();
-
-            }
-            else
-            {
-                onEmpty.Invoke();
+                continue;
 
             }
 
+            int colorProperty = material.HasProperty("_BaseColor")
+                ? Shader.PropertyToID("_BaseColor")
+                : material.HasProperty("_Color") ? Shader.PropertyToID("_Color") : -1;
+            if (colorProperty < 0)
+            {
+                continue;
+
+            }
+
+            MaterialPropertyBlock block = new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(block);
+            block.SetColor(colorProperty, new Color(0.32f, 0.32f, 0.32f, 1f));
+            renderer.SetPropertyBlock(block);
+
         }
+
+        enabled = false;
 
     }
 
