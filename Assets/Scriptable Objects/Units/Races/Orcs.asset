@@ -14,28 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DynamicStats
   raceName: Orc
   objectName: 
+  raceModelPrefab: {fileID: 6331287635373702943, guid: 3047e3a52d04c6348be3d9df0ddb20ed, type: 3}
   flatStats: {fileID: 11400000, guid: 614370313c2a7b848a80f6300ed0962d, type: 2}
-
-  _strengthModifier: 1.2
-  _dexterityModifier: 0.9
-  _vitalityModifier: 1.05
-  _constitutionModifier: 1.15
-  _perceptionModifier: 0.9
-  _intelligenceModifier: 0.8
-  
-  healthModifier: 25
-  manaModifier: -10
-  actionPointsModifier: -4
-  baseMeleeModifier: 6
-  baseRangeModifier: -3
-  baseMagicModifier: -5
-  baseArmorModifier: 8
-  baseWillModifier: 9
-  _BaseHealth: 75
-  _BaseMana: 10
-  _ActionPoints: 16
-  _MeleeDamage: 16
-  _RangeDamage: 7
-  _MagicDamage: 5
-  _ArmorDef: 18
-  _Will: 109
+  _strengthModifier: 1
+  _dexterityModifier: 1
+  _vitalityModifier: 1
+  _constitutionModifier: 1
+  _perceptionModifier: 1
+  _intelligenceModifier: 1
+  healthModifier: 0
+  manaModifier: 0
+  actionPointsModifier: 0
+  baseMeleeModifier: 0
+  baseRangeModifier: 0
+  baseMagicModifier: 0
+  baseArmorModifier: 0
+  baseWillModifier: 0
+  standingHeight: 1.8
+  crouchingHeight: 1
+  _BaseHealth: 50
+  _BaseMana: 20
+  _ActionPoints: 20
+  _MeleeDamage: 10
+  _RangeDamage: 10
+  _MagicDamage: 10
+  _ArmorDef: 10
+  _Will: 100
+  _LineOfSight: 10
+  _fieldOfView: 180
+  racialActionSet: {fileID: 11400000, guid: 0ea9c526310c45a9b6f1631a7bfdbfb8, type: 2}
+  racialPassive: 2
+  missingHealthDamageFactor: 0.5

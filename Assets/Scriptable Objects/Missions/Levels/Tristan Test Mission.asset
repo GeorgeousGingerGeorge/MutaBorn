@@ -12,13 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f19ee410294cac9e59405fec5051a6, type: 3}
   m_Name: Tristan Test Mission
   m_EditorClassIdentifier: Assembly-CSharp::LevelMissionData
-  missionId: tristan-test
-  missionName: Tristan Test Mission
+  missionId: first-sprint
+  missionName: First Sprint
   playerFaction: {fileID: 11400000, guid: f70d6ea892e819b4eb2732e0c194dc1f, type: 2}
   objectives:
+  - template: {fileID: 11400000, guid: f18c4fbb68bd4c8dbdd07ffa9671a0e8, type: 2}
+    objectiveId: extract-allies
+    optional: 0
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 1
+    prerequisiteObjectiveIds: []
   - template: {fileID: 11400000, guid: 1fa0c02e19034b5899639cf97ba3d9ae, type: 2}
     objectiveId: eliminate-hostiles
-    optional: 0
+    optional: 1
     initiallyVisible: 1
     initiallyActive: 1
     countWhileLocked: 1
@@ -30,3 +37,11 @@ MonoBehaviour:
     initiallyActive: 1
     countWhileLocked: 1
     prerequisiteObjectiveIds: []
+  - template: {fileID: 11400000, guid: 883f75dd42e84798b1de9ca02f7923ae, type: 2}
+    objectiveId: eliminate-priority-target
+    optional: 1
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 1
+    prerequisiteObjectiveIds: []
+  lootTable: {fileID: 11400000, guid: 22c95faaf1ab4c18a1dc59ca22468b07, type: 2}

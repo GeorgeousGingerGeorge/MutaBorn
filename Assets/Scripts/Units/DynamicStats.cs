@@ -1,4 +1,28 @@
+
+using System.Collections.Generic;
 using UnityEngine;
+
+public enum RaceNames 
+{
+    Elf,
+    Dwarf,
+    Human,
+    Orc,
+    Goblin,
+
+}
+
+
+public enum RacialPassiveKind
+{
+    None,
+    StrengthInNumbers,
+    BattleFury,
+    Opportunist,
+    KeenSenses,
+    MasterCraftsman
+
+}
 
 [CreateAssetMenu(fileName = "DynamicStats", menuName = "Scriptable Objects/DynamicStats")]
 public class DynamicStats : ScriptableObject
@@ -10,6 +34,11 @@ public class DynamicStats : ScriptableObject
 
     public string RaceName => raceName;
     public string ObjectName => objectName;
+
+    [Header("Race Visuals")]
+    [Tooltip("Instantiated under UnitController when a unit of this race enters a scene.")]
+    [SerializeField] private GameObject raceModelPrefab;
+    public GameObject RaceModelPrefab => raceModelPrefab;
 
 
     [Header("Base Character Flat Stats")]
@@ -64,6 +93,13 @@ public class DynamicStats : ScriptableObject
     [SerializeField] public int baseArmorModifier;
     [SerializeField] public int baseWillModifier;
 
+    [Header("Physical Dimensions")]
+    [SerializeField, Min(0.01f)]
+    private float standingHeight = 1.8f;
+    [SerializeField, Min(0.01f)]
+    private float crouchingHeight = 1.0f;
+    
+
 
     [Header("DisplayValues (readOnly)")]
     [SerializeField] private int _BaseHealth;
@@ -87,12 +123,59 @@ public class DynamicStats : ScriptableObject
 
     [SerializeField] private int _Will;
 
+    [SerializeField]
+    [Range(1, 15)]
+    private int _LineOfSight;
+    [SerializeField]
+    [Range(45, 360)]
+    private int _fieldOfView;
+
 
     [Header("Racial Actions")]
     [Tooltip("Actions automatically granted to units of this race, in addition to the universal action set.")]
     [SerializeField] private ActionSet racialActionSet;
 
     public ActionSet RacialActions => racialActionSet;
+
+    [Header("Racial Passive")]
+    [SerializeField] private RacialPassiveKind racialPassive;
+    [Tooltip("Human: percent outgoing damage per living same-faction teammate.")]
+    [SerializeField, Min(0f)] private float teammateDamagePercent = 2f;
+    [Tooltip("Human: use this instead for living Human teammates.")]
+    [SerializeField, Min(0f)] private float humanTeammateDamagePercent = 3f;
+    [Tooltip("Orc: damage bonus percentage per 1% of missing HP.")]
+    [SerializeField, Min(0f)] private float missingHealthDamageFactor = 0.5f;
+    [Tooltip("Goblin placeholder until Opportunist combat conditions are implemented.")]
+    [SerializeField, Min(0)] private int goblinDexterityBonus = 2;
+    [Tooltip("Elf placeholder until an accuracy system is integrated.")]
+    [SerializeField, Min(0)] private int elfPerceptionBonus = 2;
+
+    [Header("Dwarf Master Craftsman")]
+    [SerializeField, Range(0, 100)] private int equipmentBonusPercent = 15;
+    [SerializeField, Range(0, 100)] private int specialEquipmentBonusPercent = 25;
+    [Tooltip("Dwarf equipment that receives the special bonus instead of the regular bonus.")]
+    [SerializeField] private List<EquipmentData> specialEquipment = new List<EquipmentData>();
+
+    public RacialPassiveKind RacialPassive => racialPassive;
+    public float TeammateDamagePercent => teammateDamagePercent;
+    public float HumanTeammateDamagePercent => humanTeammateDamagePercent;
+    public float MissingHealthDamageFactor => missingHealthDamageFactor;
+    public int RacialDexterityBonus => racialPassive == RacialPassiveKind.Opportunist ? goblinDexterityBonus : 0;
+    public int RacialPerceptionBonus => racialPassive == RacialPassiveKind.KeenSenses ? elfPerceptionBonus : 0;
+
+    public int GetEquipmentBonusPercent(EquipmentData template)
+    {
+        if (racialPassive != RacialPassiveKind.MasterCraftsman)
+        {
+
+            return 0;
+
+        }
+
+        return template != null && specialEquipment != null && specialEquipment.Contains(template)
+            ? specialEquipmentBonusPercent : equipmentBonusPercent;
+
+    }
 
     
     [Header("BaseCharater- Modifiers")]
@@ -134,6 +217,12 @@ public class DynamicStats : ScriptableObject
 
     public int will => _Will;
 
+    public int lineOfSight => _LineOfSight;
+    public int fieldOfView =>_fieldOfView;
+
+    [Header("Race Physical Dimensions for Cover- Read Only")]
+    public float StandingHeight => standingHeight;
+    public float CrouchingHeight => crouchingHeight;
     private void OnValidate()
     {
         if (flatStats == null)

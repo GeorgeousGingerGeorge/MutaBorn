@@ -598,6 +598,36 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "FloorUp",
+                    "type": "PassThrough",
+                    "id": "df478092-a500-421f-af1c-55258e1c4e48",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "FloorDown",
+                    "type": "PassThrough",
+                    "id": "da88476c-2b2d-4aa9-ae93-bc682024be4a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "ShowOptionalObjectives",
+                    "type": "Button",
+                    "id": "d8a2ce6c-f071-47dc-991b-3b6c39925471",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -1027,6 +1057,61 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Return to Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65249b67-033b-41c2-a629-a72b222bf58f",
+                    "path": "<Keyboard>/pageUp",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "FloorUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6ace07e-692f-41bd-94e7-12a52d6f959b",
+                    "path": "<Keyboard>/numpad9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FloorUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "09caee90-250f-4101-9d61-a6c97029b6a1",
+                    "path": "<Keyboard>/pageDown",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "FloorDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d115bad4-28b4-41df-9a29-f4cede9df844",
+                    "path": "<Keyboard>/numpad3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FloorDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0403a2ee-7023-4da1-b518-85fa37669e2b",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowOptionalObjectives",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

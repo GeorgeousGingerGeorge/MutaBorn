@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41144560ec1e9ec4aa5b5733ccebc53e, type: 3}
+  m_Name: Fire Thorns
+  m_EditorClassIdentifier: Assembly-CSharp::MutaBorn.Gameplay.EffectCollection
+  effects:
+  - definition: {fileID: 11400000, guid: 51438e5c27f8465439a30349229ff832, type: 2}
+    activation:
+      trigger: 3
+      phase: 3
+      frequency: 0
+      eventActor: 3
+      requireGrantingSourceMatch: 0
+    targeting:
+      reference: 2
+      selection: 0
+      factionMask: 4
+      includeOwner: 0
+      radiusInTiles: 0
+      sameFloorOnly: 0
+    lifetime:
+      lifetime: 1
+      durationTurns: 0
+      maximumUses: 0
+    operationParameters:
+      resource: 0
+      stat: 0
+      damageType: 11
+      damageDelivery: 4
+      defenseStat: 41
+      statusId: 
+    value:
+      constant: 10
+      terms: []
+      rounding: 0
+    conditions: []

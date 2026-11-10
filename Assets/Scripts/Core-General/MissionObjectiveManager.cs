@@ -26,6 +26,8 @@ public sealed class MissionObjectiveEntry
 {
     private readonly HashSet<Component> targets = new();
     private readonly HashSet<Component> completedTargets = new();
+    private readonly HashSet<string> completedTargetIds = new(StringComparer.Ordinal);
+    private int extractionProgress;
 
     public string Id { get; }
     public string Title => Template.Title;
@@ -33,13 +35,35 @@ public sealed class MissionObjectiveEntry
     public MissionObjectiveType Type => Template.ObjectiveType;
     public ObjectiveDefinition Template { get; }
     public bool Optional { get; }
+    public int WorldMarkerPriority { get; }
     public bool StartsActive { get; }
     public bool CountWhileLocked { get; }
     public bool Visible { get; private set; }
     public MissionObjectiveStatus Status { get; private set; }
-    public int Progress => completedTargets.Count;
+    public int Progress => Type == MissionObjectiveType.ExtractPlayerUnits ? extractionProgress : completedTargets.Count;
+    public bool HasExtractionZone { get; private set; } = true;
     public int Total { get; private set; }
     public int TargetCount => targets.Count;
+    public IReadOnlyCollection<string> CompletedTargetIds => completedTargetIds;
+
+    // Read-only, live targets for presentation systems such as world-space objective markers.
+    // Targets already completed by this objective are excluded.
+    public IEnumerable<Component> PendingTargets
+    {
+        get
+        {
+            foreach (Component target in targets)
+            {
+                if (target != null && !completedTargets.Contains(target))
+                {
+                    yield return target;
+
+                }
+
+            }
+
+        }
+    }
     public int Remaining => Mathf.Max(0, Total - Progress);
     public IReadOnlyList<string> Prerequisites { get; }
 
@@ -48,11 +72,26 @@ public sealed class MissionObjectiveEntry
         Template = setup.Template;
         Id = setup.ObjectiveId.Trim();
         Optional = setup.Optional;
+        WorldMarkerPriority = setup.WorldMarkerPriority;
         StartsActive = setup.InitiallyActive;
         CountWhileLocked = setup.CountWhileLocked;
         Visible = setup.InitiallyVisible;
         Prerequisites = setup.PrerequisiteObjectiveIds;
         Status = MissionObjectiveStatus.Locked;
+
+    }
+
+    internal bool SetExtractionProgress(int inside, int total, bool hasZone)
+    {
+        int newTotal = Mathf.Max(1, total);
+        int newProgress = Mathf.Clamp(inside, 0, newTotal);
+        bool changed = Total != newTotal || extractionProgress != newProgress || HasExtractionZone != hasZone;
+
+        Total = newTotal;
+        extractionProgress = newProgress;
+        HasExtractionZone = hasZone;
+
+        return changed;
 
     }
 
@@ -85,13 +124,110 @@ public sealed class MissionObjectiveEntry
             Status == MissionObjectiveStatus.Locked && !CountWhileLocked)
         {
             return false;
-
         }
 
-        return completedTargets.Add(target);
+        if (!completedTargets.Add(target))
+        {
+            return false;
+        }
 
+        MissionUnitIdentity identity = target.GetComponentInParent<MissionUnitIdentity>(true);
+
+        if (identity != null && !string.IsNullOrWhiteSpace(identity.PersistentId))
+        {
+            completedTargetIds.Add(identity.PersistentId);
+        }
+        else
+        {
+            Debug.LogWarning($"Objective '{Id}' completed target '{target.name}' without a persistent identity.");
+        }
+
+        return true;
     }
+    internal bool TryRestoreCompletedTargets(IReadOnlyList<string> savedIds, bool apply = true)
+    {
+        if (savedIds == null)
+        {
+            return false;
+        }
 
+        HashSet<Component> restoredTargets = new();
+        HashSet<string> restoredIds = new(StringComparer.Ordinal);
+
+        foreach (string savedId in savedIds)
+        {
+            if (string.IsNullOrWhiteSpace(savedId) || !restoredIds.Add(savedId))
+            {
+                Debug.LogError($"Invalid completed target ID for objective '{Id}'.");
+                return false;
+            }
+
+            Component matchingTarget = null;
+
+            foreach (Component target in targets)
+            {
+                if (target == null)
+                {
+                    continue;
+                }
+
+                MissionUnitIdentity identity = target.GetComponentInParent<MissionUnitIdentity>(true);
+
+                if (identity != null && identity.PersistentId == savedId)
+                {
+                    if (matchingTarget != null)
+                    {
+                        Debug.LogError($"Duplicate objective target identity: {savedId}");
+                        return false;
+                    }
+
+                    matchingTarget = target;
+                }
+            }
+
+            if (matchingTarget == null)
+            {
+                Debug.LogError($"Could not restore target '{savedId}' for objective '{Id}'.");
+                return false;
+            }
+
+            restoredTargets.Add(matchingTarget);
+        }
+
+        if (!apply)
+        {
+            return true;
+        }
+
+        completedTargets.Clear();
+        completedTargetIds.Clear();
+
+        foreach (Component target in restoredTargets)
+        {
+            completedTargets.Add(target);
+        }
+
+        foreach (string id in restoredIds)
+        {
+            completedTargetIds.Add(id);
+        }
+
+        // Restore interaction usage for objective targets.
+        if (Type == MissionObjectiveType.InteractWithTargets)
+        {
+            foreach (Component target in targets)
+            {
+                if (target is ObjectiveInteractable interactable)
+                {
+                    bool wasCompleted = completedTargets.Contains(target);
+
+                    interactable.RestoreUsedState(wasCompleted);
+                }
+            }
+        }
+
+        return true;
+    }
     internal void SetVisible(bool visible)
     {
         Visible = visible;
@@ -118,6 +254,9 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
     private readonly List<MissionObjectiveEntry> objectives = new();
     private readonly HashSet<string> ids = new(StringComparer.OrdinalIgnoreCase);
+    private float nextExtractionCheck;
+    private bool warnedAboutMissingZone;
+    private const string WorldMarkersResourcePath = "MutaBorn/MissionObjectiveWorldMarkers";
 
     public IReadOnlyList<MissionObjectiveEntry> Objectives => objectives;
     public LevelMissionData LevelMission => levelMission;
@@ -145,6 +284,12 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         Instance = this;
 
+        if (GetComponent<MissionSpoils>() == null)
+        {
+            gameObject.AddComponent<MissionSpoils>();
+
+        }
+
         if (factionManager == null)
         {
             factionManager = FindAnyObjectByType<FactionManager>();
@@ -168,6 +313,19 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
     }
 
+    private void Update()
+    {
+        if (Status != MissionStatus.InProgress || Time.time < nextExtractionCheck)
+        {
+            return;
+
+        }
+
+        nextExtractionCheck = Time.time + 0.15f;
+        RefreshExtractionProgress();
+
+    }
+
     private void InitializeMission()
     {
         if (levelMission == null || levelMission.PlayerFaction == null || factionManager == null)
@@ -181,6 +339,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         objectives.Clear();
         ids.Clear();
+        warnedAboutMissingZone = false;
 
         foreach (LevelObjectiveSetup setup in levelMission.Objectives)
         {
@@ -259,6 +418,15 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
             objective.FinishTargetCount();
 
+            if (objective.Type == MissionObjectiveType.ExtractPlayerUnits)
+            {
+                // Dynamic objective: progress is computed from living player units inside ONE zone.
+                // This is not an interaction or a fixed count of targets.
+                objective.SetExtractionProgress(0, 1, false);
+                continue;
+
+            }
+
             if (objective.TargetCount == 0)
             {
                 Debug.LogWarning($"Objective '{objective.Id}' found no matching targets. " +
@@ -277,7 +445,9 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         }
 
         Status = MissionStatus.InProgress;
+        RefreshExtractionProgress(false);
         RefreshDependencies();
+        EnsureObjectiveWorldMarkers();
         PublishChange();
         CheckMissionCompletion();
 
@@ -289,6 +459,169 @@ public sealed class MissionObjectiveManager : MonoBehaviour
                           $"{objective.Status}, optional={objective.Optional}.", this);
 
             }
+
+        }
+
+    }
+
+    // Only the mission manager needs to be placed in each scene. A single
+    // presentation controller follows its objectives, including prefab-spawned targets.
+    private void EnsureObjectiveWorldMarkers()
+    {
+        MissionObjectiveWorldMarkers markers = GetComponentInChildren<MissionObjectiveWorldMarkers>(true);
+        if (markers == null)
+        {
+            markers = FindAnyObjectByType<MissionObjectiveWorldMarkers>();
+
+        }
+
+        if (markers == null)
+        {
+            GameObject prefab = Resources.Load<GameObject>(WorldMarkersResourcePath);
+            if (prefab == null || prefab.GetComponent<MissionObjectiveWorldMarkers>() == null)
+            {
+                Debug.LogWarning("[Objectives] Auto-markers are not configured. Run " +
+                    "Tools > MutaBorn > Enable Automatic Objective World Markers once in the Editor. " +
+                    "Mission objectives will continue working without banners.", this);
+
+                return;
+
+            }
+
+            GameObject instance = Instantiate(prefab, transform);
+            instance.name = "MissionObjectiveWorldMarkers (Auto)";
+            markers = instance.GetComponent<MissionObjectiveWorldMarkers>();
+
+        }
+
+        markers.BindManager(this);
+
+    }
+
+    private void RefreshExtractionProgress(bool publish = true)
+    {
+        bool hasExtractionObjective = false;
+
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            if (objective.Type == MissionObjectiveType.ExtractPlayerUnits)
+            {
+                hasExtractionObjective = true;
+                break;
+
+            }
+
+        }
+
+        if (!hasExtractionObjective || levelMission == null)
+        {
+            return;
+
+        }
+
+        List<UnitController> livingAllies = new();
+
+        foreach (UnitController unit in FindObjectsByType<UnitController>())
+        {
+            if (!IsLivingUnit(unit))
+            {
+                continue;
+
+            }
+
+            UnitFaction member = unit.GetComponent<UnitFaction>();
+            if (member != null && member.Faction == levelMission.PlayerFaction)
+            {
+                livingAllies.Add(unit);
+
+            }
+
+        }
+
+        // All-player-unit extraction cannot succeed with zero survivors.
+        if (livingAllies.Count == 0)
+        {
+            FinishMission(MissionStatus.Defeat);
+
+            return;
+
+        }
+
+        MissionExtractionZone[] zones = FindObjectsByType<MissionExtractionZone>();
+        bool changed = false;
+
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            if (objective.Type != MissionObjectiveType.ExtractPlayerUnits ||
+                objective.Status == MissionObjectiveStatus.Failed ||
+                objective.Status == MissionObjectiveStatus.Completed)
+            {
+                continue;
+
+            }
+
+            int bestInside = 0;
+            bool zoneFound = false;
+
+            foreach (MissionExtractionZone zone in zones)
+            {
+                if (zone == null || !zone.isActiveAndEnabled ||
+                    !zone.MatchesZoneId(objective.Template.TargetKey))
+                {
+                    continue;
+
+                }
+
+                zoneFound = true;
+                int inside = 0;
+
+                foreach (UnitController ally in livingAllies)
+                {
+                    if (zone.Contains(ally))
+                    {
+                        inside++;
+
+                    }
+
+                }
+
+                bestInside = Mathf.Max(bestInside, inside);
+
+            }
+
+            if (!zoneFound && !warnedAboutMissingZone)
+            {
+                warnedAboutMissingZone = true;
+                Debug.LogWarning($"Extraction objective '{objective.Id}' has no active MissionExtractionZone " +
+                                 $"with Zone ID '{objective.Template.TargetKey}'. Place the Extraction Zone prefab in the scene.", this);
+
+            }
+
+            // Keep completion impossible until at least one matching zone actually exists.
+            bool objectiveChanged = objective.SetExtractionProgress(zoneFound ? bestInside : 0,
+                livingAllies.Count, zoneFound);
+            changed |= objectiveChanged;
+
+            if (objectiveChanged && logProgress && publish)
+            {
+                Debug.Log($"Extraction '{objective.Title}': {objective.Progress}/{objective.Total} surviving allies inside.", this);
+
+            }
+
+        }
+
+        if (!changed)
+        {
+            return;
+
+        }
+
+        RefreshDependencies();
+
+        if (publish)
+        {
+            PublishChange();
+            CheckMissionCompletion();
 
         }
 
@@ -409,11 +742,21 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         RecordMatchingTarget(MissionObjectiveType.EliminateUnits, defeated);
 
-        if (Status == MissionStatus.InProgress && !HasLivingPlayerUnit())
+        if (Status != MissionStatus.InProgress)
+        {
+            return;
+
+        }
+
+        if (!HasLivingPlayerUnit())
         {
             FinishMission(MissionStatus.Defeat);
 
+            return;
+
         }
+
+        RefreshExtractionProgress();
 
     }
 
@@ -471,7 +814,8 @@ public sealed class MissionObjectiveManager : MonoBehaviour
                 }
 
                 if (objective.Status == MissionObjectiveStatus.Active &&
-                    objective.Progress >= objective.Total)
+                    objective.Progress >= objective.Total &&
+                    (objective.Type != MissionObjectiveType.ExtractPlayerUnits || objective.HasExtractionZone))
                 {
                     objective.SetStatus(MissionObjectiveStatus.Completed);
                     changed = true;
@@ -500,7 +844,89 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         return true;
 
     }
+    public MissionObjectivesSaveData CaptureObjectiveState()
+    {
+        if (Status == MissionStatus.NotStarted)
+        {
+            Debug.LogWarning("Cannot capture objectives before mission initialization.");
+            return null;
+        }
 
+        MissionObjectivesSaveData saved = new MissionObjectivesSaveData();
+
+        saved.missionStatus = Status;
+
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            ObjectiveSaveData entry = new ObjectiveSaveData
+            {
+                objectiveId = objective.Id,
+                status = objective.Status,
+                visible = objective.Visible,
+                completedTargetIds = new List<string>(objective.CompletedTargetIds)
+            };
+
+            saved.objectives.Add(entry);
+        }
+
+        return saved;
+    }
+    public bool TryRestoreObjectiveState(MissionObjectivesSaveData saved)
+    {
+        if (saved == null || saved.objectives == null ||
+            Status == MissionStatus.NotStarted ||
+            saved.objectives.Count != objectives.Count)
+        {
+            Debug.LogError("Cannot restore objectives: Invalid mission objective data.");
+            return false;
+        }
+
+        HashSet<string> processedIds = new(StringComparer.OrdinalIgnoreCase);
+
+        // Validate every objective before changing existing state.
+        foreach (ObjectiveSaveData savedObjective in saved.objectives)
+        {
+            if (savedObjective == null ||
+                string.IsNullOrWhiteSpace(savedObjective.objectiveId) ||
+                !processedIds.Add(savedObjective.objectiveId.Trim()))
+            {
+                Debug.LogError("Missing or duplicate saved objective ID.");
+                return false;
+            }
+
+            MissionObjectiveEntry objective = FindObjective(savedObjective.objectiveId);
+
+            if (objective == null ||
+                !objective.TryRestoreCompletedTargets(savedObjective.completedTargetIds, false))
+            {
+                Debug.LogError($"Objective restoration validation failed: {savedObjective.objectiveId}");
+                return false;
+            }
+        }
+
+        // Apply validated objective states.
+        foreach (ObjectiveSaveData savedObjective in saved.objectives)
+        {
+            MissionObjectiveEntry objective = FindObjective(savedObjective.objectiveId);
+
+            if (!objective.TryRestoreCompletedTargets(savedObjective.completedTargetIds))
+            {
+                Debug.LogError($"Failed to restore objective: {savedObjective.objectiveId}");
+                return false;
+            }
+
+            objective.SetStatus(savedObjective.status);
+            objective.SetVisible(savedObjective.visible);
+        }
+
+        Status = saved.missionStatus;
+
+        PublishChange();
+
+        Debug.Log($"Successfully restored {objectives.Count} mission objectives!");
+
+        return true;
+    }
     public MissionObjectiveEntry FindObjective(string id)
     {
         if (string.IsNullOrWhiteSpace(id))

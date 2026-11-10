@@ -6,9 +6,13 @@ public class TileController : MonoBehaviour
     [Header("Reference Node")]
     public GridNode node { get; private set; }
     [SerializeField]private TerrainType _terrain;
+    public TerrainType terrainType => _terrain;
     [Header("Visual Elements")]
     [SerializeField] private GameObject highlightOverlay;
+    [SerializeField] private GameObject FogOverlay; 
     [SerializeField] private Renderer highlightRenderer;
+
+    public FogState fogState { get; private set; } = FogState.DARK;
 
     [Header("Controls Color states")]
     private bool isHovered;
@@ -40,8 +44,30 @@ public class TileController : MonoBehaviour
         isHovered = false;
         isSelected = false;
         isInMovementRange = false;
+        
         SetHighlight(false, Color.white);
+        SetFogState(FogState.DARK);
     }
+
+    public void SetFogState(FogState state) 
+    {
+        fogState = state; 
+        switch (fogState) 
+        {
+            case FogState.CLEAR:
+                {
+
+                    FogOverlay.SetActive(false);
+                }
+                break;
+            case FogState.DARK:
+                {
+                    FogOverlay.SetActive(true);
+                }
+                break;
+        }
+    }
+    
     public void SetHover(bool hover) 
     {
         
@@ -87,7 +113,7 @@ public class TileController : MonoBehaviour
             
             tileColors.green = 0.75f;
             tileColors.blue = 1f;
-            tileColors.alpha = 0.5f; 
+            tileColors.alpha = 0.75f; 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
         }
         else if (isUnitSelected) 
@@ -100,8 +126,10 @@ public class TileController : MonoBehaviour
         }
         else if (isInMovementRange)
         {
-            tileColors.red = 0.2f;
-            tileColors.green = 0.45f;
+            tileColors.red = 1f;
+            tileColors.green = 1f;
+            tileColors.blue = 1f;
+            tileColors.alpha = 0.25f;
 
 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
@@ -111,6 +139,7 @@ public class TileController : MonoBehaviour
             tileColors.red = 0.5f;
             tileColors.green = 0.45f;
             tileColors.blue = 0.8f;
+            tileColors.alpha = 0.35f;
 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
         }

@@ -1,22 +1,108 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum ConnectorType 
+{
+    Stairs,
+    Ladder,
+    Elevator,
+    Ramp,
+    Drop
+}
+[System.Serializable]
+public struct GridFootPrint 
+{
+    public Vector2Int size;
+    public Vector2Int offset;
+}
 public class FloorConnector : MonoBehaviour
 {
-    [Header("Coordinates in the World")]
-    [SerializeField] private Vector3 worldPosition;
-    [Header("Lower Floor Connection")]
-    [SerializeField] private int lowerFloorID;
-    [SerializeField] private Vector2Int lowerGridPosition;
-    [Header("Upper Floor Connection")]
-    [SerializeField] private int upperFloorID;
-    [SerializeField] private Vector2Int upperGridPosition;
+    [Header("ConnectorType")]
+    [SerializeField] private ConnectorType _connector;
+    public ConnectorType connectorType => _connector;
 
+    [Header("ConnectionPoints Coordinates in the world")]
+    [SerializeField] private Transform lowerConnection;
+    [SerializeField] private Transform upperConnection;
+
+    private GridNode lowerNode;
+    private GridNode upperNode;
+
+    [Header("OccupiedNodes- Holds all the nodes this object covers")]
+    private List<GridNode> occupiedNodes = new List<GridNode>();
+
+    public IReadOnlyList<GridNode> nodes => occupiedNodes;
+
+    public void Initialize(GridManager gridManager)
+    {
+        if (gridManager == null)
+        {
+            return;
+        }
+
+        InitializeConnectionNodes(gridManager);
+        CalculateOccupiedNodes(gridManager);
+        Connect(gridManager);
+
+    }
+    private void InitializeConnectionNodes(GridManager gridManager) 
+    {
+        lowerNode = gridManager.GetNodeFromClosestWorldPosition(lowerConnection.position);
+        upperNode = gridManager.GetNodeFromClosestWorldPosition(upperConnection.position);
+    }
+    private void CalculateOccupiedNodes(GridManager gridManager) 
+    {
+        occupiedNodes.Clear();
+
+        float heightDifference = Mathf.Abs(upperConnection.position.y - lowerConnection.position.y);
+
+        float horizontalDifference = Vector2.Distance(new Vector2(lowerConnection.position.x, lowerConnection.position.z),
+            new Vector2(upperConnection.position.x, upperConnection.position.z));
+
+        Vector3 lowerPosition = lowerNode.cellWorldPosition;
+        Vector3 upperPosition = upperNode.cellWorldPosition;
+
+
+        Vector3 horizontalDirection = upperPosition - lowerPosition;
+
+        horizontalDirection.y = 0f;
+
+        float horizontalDistance = horizontalDirection.magnitude;
+
+        if (horizontalDistance < gridManager.GridCellSize) 
+        {
+            return;
+        }
+
+        horizontalDirection.Normalize();
+
+        int steps = Mathf.RoundToInt(horizontalDistance / gridManager.GridCellSize);
+
+        for (int i = 1; i < steps; i++) 
+        {
+            Vector3 nodePosition = lowerPosition + horizontalDirection * (i * gridManager.GridCellSize);
+
+            GridNode node = gridManager.GetNodeFromClosestWorldPosition(nodePosition);
+
+            if (node != null && node != lowerNode && node != upperNode && !occupiedNodes.Contains(node)) 
+            {
+                occupiedNodes.Add(node);             
+            }
+        }
+
+
+    }
     public void Connect(GridManager gridManager)
     {
-        GridNode lowerNode = gridManager.GetNodeFromGridPosition(lowerFloorID, lowerGridPosition);
-        GridNode upperNode = gridManager.GetNodeFromGridPosition(upperFloorID, upperGridPosition);
+        GridNode lowerNode = null;
+        GridNode upperNode = null;
 
-        
+     
+
+        lowerNode = gridManager.GetNodeFromClosestWorldPosition(lowerConnection.position);
+        upperNode = gridManager.GetNodeFromClosestWorldPosition(upperConnection.position);
+     
         if (lowerNode == null || upperNode == null) 
         {
             return;
@@ -25,36 +111,12 @@ public class FloorConnector : MonoBehaviour
         lowerNode.AddConnections(upperNode);
         upperNode.AddConnections(lowerNode);
     }
-
-    //Setters
-    public void SetWorldPosition(Vector3 worldPosition)
-    {
-        this.worldPosition = worldPosition;
-    }
-    public void SetLowerFloor(int index) 
-    {
-        lowerFloorID = index;
-    }
-    public void SetLowerGridNode(Vector2Int lowerGridPosition) 
-    {
-        this.lowerGridPosition = lowerGridPosition;
-    }
-    public void SetUpperFloor(int index) 
-    {
-        upperFloorID = index;
-    }
-    public void SetUpperGridNode(Vector2Int upperGridPosition)
-    {
-        this.upperGridPosition = upperGridPosition;
-    }
-
-
-
-    //Getters
-    public Vector3 GetWorldPosition() 
-    {
-        return worldPosition;
-    }
-
    
+  
+    public void SetWorldPosition(Vector3 position) 
+    {
+        transform.position = position;
+    }
+  
+  
 }

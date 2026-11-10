@@ -16,23 +16,24 @@ public class ActionMenuUI : MonoBehaviour
     [Tooltip("Default OFF keeps the bottom menu visible when nothing is selected.")]
     [SerializeField] private bool hideUnitContentWhenNoSelection = false;
 
-    [Header("Selected Unit / AP")]
+    [Header("Selected Unit / AP / MP")]
     [SerializeField] private TMP_Text unitNameText;
     [SerializeField] private TMP_Text apText;
     [SerializeField] private UIImage apFillImage;
+    [SerializeField] private TMP_Text mpText;
+    [SerializeField] private UIImage mpFillImage;
 
     [Header("Main Buttons")]
-    [SerializeField] private UIButton basicAttacksButton;
+    [SerializeField] private UIButton attacksButton;
     [SerializeField] private UIButton defenseButton;
     [SerializeField] private UIButton interactButton;
     [SerializeField] private UIButton abilitiesButton;
-    [SerializeField] private UIButton mostUsedButton;
-    [SerializeField] private TMP_Text mostUsedText;
-    [SerializeField] private UIButton lastUsedButton;
-    [SerializeField] private TMP_Text lastUsedText;
-    [SerializeField] private UIButton unitInfoButton;
-    [SerializeField] private UIButton inspectUnitButton;
-    [SerializeField] private ActionDefinition inspectUnitAction;
+    [SerializeField] private UIButton itemsButton;
+
+    //[SerializeField] private UIButton mostUsedButton;
+    //[SerializeField] private TMP_Text mostUsedText;
+    //[SerializeField] private UIButton lastUsedButton;
+    //[SerializeField] private TMP_Text lastUsedText;
 
     [Header("Optional Expanded Menu (Not Collapsible Groups Yet)")]
     [SerializeField] private GameObject expandedPanel;
@@ -45,28 +46,27 @@ public class ActionMenuUI : MonoBehaviour
     [Header("Combat Execution")]
     [SerializeField] private CombatActionExecutor combatExecutor;
 
-    [Header("Unit Inspection")]
-    [SerializeField] private UnitInspectionUI unitInspectionUI;
-
     [Header("Action Description (Optional)")]
     [Tooltip("Existing Action Info Boarder; located automatically if left unassigned.")]
     [SerializeField] private GameObject actionInfoPanel;
     [SerializeField] private TMP_Text actionDescriptionText;
 
     [Header("Contextual Interactions")]
-    [Tooltip("How often to refresh actions from nearby targets (seconds). Uses grid-range checks from ObjectiveInteractable.")]
+    [Tooltip("How often to refresh actions from nearby targets (seconds). Uses grid-range checks from WorldInteractable.")]
     [SerializeField, Min(0.05f)] private float interactionScanInterval = 0.2f;
 
     private UnitController displayedUnit;
     private UnitActionLoadout displayedLoadout;
-    private readonly List<ObjectiveInteractable> nearbyInteractions = new();
+    private readonly List<WorldInteractable> nearbyInteractions = new();
     private ActionMenuCategory openCategory;
     private bool categoryIsOpen;
     private int lastLoadoutVersion = -1;
     private float nextInteractionScanTime;
     private float lastExpandedAP = float.NaN;
     private ActionDefinition previewAction;
+    private ConsumableData previewConsumable;
     private ActionDefinition targetedAction;
+    private bool wasConsumableTargeting;
 
     private void Awake()
     {
@@ -79,51 +79,53 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         // Connect in code. Leave these buttons' Inspector On Click lists EMPTY.
-        if (basicAttacksButton != null)
+        if (attacksButton != null)
         {
-            basicAttacksButton.onClick.AddListener(() => OpenCategory(ActionMenuCategory.BasicAttacks));
+            attacksButton.onClick.AddListener(() => OpenCategory(ActionMenuCategory.Attacks));
 
         }
+
         if (defenseButton != null)
         {
             defenseButton.onClick.AddListener(() => OpenCategory(ActionMenuCategory.Defense));
 
         }
+
         if (abilitiesButton != null)
         {
             abilitiesButton.onClick.AddListener(() => OpenCategory(ActionMenuCategory.Abilities));
 
         }
+
         if (interactButton != null)
         {
             interactButton.onClick.AddListener(() => OpenCategory(ActionMenuCategory.Interact));
 
         }
-        if (unitInfoButton != null)
+
+        if (itemsButton != null)
         {
-            unitInfoButton.onClick.AddListener(RequestUnitInfo);
+            itemsButton.onClick.AddListener(() => OpenCategory(ActionMenuCategory.Items));
 
         }
-        if (inspectUnitButton != null)
-        {
-            inspectUnitButton.onClick.AddListener(() => RequestAction(inspectUnitAction));
 
-        }
         if (closeExpandedButton != null)
         {
             closeExpandedButton.onClick.AddListener(CloseCategory);
 
         }
-        if (mostUsedButton != null)
-        {
-            mostUsedButton.onClick.AddListener(() => RequestAction(displayedLoadout != null ? displayedLoadout.MostUsedAbility : null));
 
-        }
-        if (lastUsedButton != null)
-        {
-            lastUsedButton.onClick.AddListener(() => RequestAction(displayedLoadout != null ? displayedLoadout.LastUsedAbility : null));
+        //if (mostUsedButton != null)
+        //{
+        //    mostUsedButton.onClick.AddListener(() => RequestAction(displayedLoadout != null ? displayedLoadout.MostUsedAbility : null));
+        //
+        //}
 
-        }
+        //if (lastUsedButton != null)
+        //{
+        //    lastUsedButton.onClick.AddListener(() => RequestAction(displayedLoadout != null ? displayedLoadout.LastUsedAbility : null));
+        //
+        //}
 
         CloseCategory();
         ShowNoSelection();
@@ -174,31 +176,43 @@ public class ActionMenuUI : MonoBehaviour
         UnitData data = displayedUnit.data;
         float currentAP = Mathf.Max(0, data.currentActionPoints);
         float maxAP = Mathf.Max(0, data.maxActionPoints);
+        float currentMP = Mathf.Max(0, data.currentMana);
+        float maxMP = Mathf.Max(0, data.maxMana);
 
         if (unitNameText != null)
         {
             unitNameText.text = $"{data.raceName} / {data.characterName}";
 
         }
+
         if (apText != null)
         {
-            apText.text = $"{currentAP:0.#} / {maxAP:0.#} AP";
+            apText.text = $"{currentAP:0.#} / {maxAP:0.#}";
 
         }
+
         if (apFillImage != null)
         {
             apFillImage.fillAmount = maxAP > 0f ? Mathf.Clamp01(currentAP / maxAP) : 0f;
 
         }
 
-        SetInteractable(basicAttacksButton, true);
+        if (mpText != null)
+        {
+            mpText.text = $"{currentMP:0.#} / {maxMP:0.#}";
+
+        }
+
+        if (mpFillImage != null)
+        {
+            mpFillImage.fillAmount = maxMP > 0f ? Mathf.Clamp01(currentMP / maxMP) : 0f;
+
+        }
+
+        SetInteractable(attacksButton, true);
         SetInteractable(defenseButton, true);
         SetInteractable(abilitiesButton, true);
-        SetInteractable(unitInfoButton, true);
-        SetInteractable(inspectUnitButton,
-            inspectUnitAction != null &&
-            inspectUnitAction.CombatBehavior == CombatActionBehavior.InspectUnit &&
-            currentAP >= Mathf.CeilToInt(inspectUnitAction.ApCost));
+        SetInteractable(itemsButton, true);
 
         // Refresh nearby interactions before updating the Interact button availability.
         if (Time.unscaledTime >= nextInteractionScanTime)
@@ -222,7 +236,17 @@ public class ActionMenuUI : MonoBehaviour
 
         }
 
-        UpdateQuickButtons(currentAP);
+        bool isConsumableTargeting = CombatActionExecutor.IsTargeting;
+        if (categoryIsOpen && openCategory == ActionMenuCategory.Items &&
+            wasConsumableTargeting && !isConsumableTargeting)
+        {
+            RebuildCategory();
+
+        }
+
+        wasConsumableTargeting = isConsumableTargeting;
+
+        //UpdateQuickButtons(currentAP);
         RefreshActionInfoPanel();
         if (categoryIsOpen && !Mathf.Approximately(lastExpandedAP, currentAP))
         {
@@ -235,23 +259,7 @@ public class ActionMenuUI : MonoBehaviour
 
     private bool CanCommand(UnitController unit)
     {
-        if (unit == null || !unit.isActiveAndEnabled)
-        {
-            return false;
-
-        }
-
-        TurnManager turns = TurnManager.Instance;
-        if (turns == null || !turns.IsPlayerTurn)
-        {
-            return false;
-
-        }
-
-        UnitFaction unitFaction = unit.GetComponent<UnitFaction>();
-
-        return unitFaction != null && unitFaction.Faction != null &&
-            turns.IsFactionTurn(unitFaction.Faction);
+        return selectionManager != null && selectionManager.CanCommandUnit(unit);
 
     }
 
@@ -264,7 +272,7 @@ public class ActionMenuUI : MonoBehaviour
         }
         if (apText != null)
         {
-            apText.text = "0 / 0 AP";
+            apText.text = "0 / 0";
 
         }
         if (apFillImage != null)
@@ -273,24 +281,23 @@ public class ActionMenuUI : MonoBehaviour
 
         }
 
-        SetInteractable(unitInfoButton, false);
-        SetInteractable(inspectUnitButton, false);
+        if (mpText != null)
+        {
+            mpText.text = "0 / 0";
+
+        }
+
+        if (mpFillImage != null)
+        {
+            mpFillImage.fillAmount = 0f;
+
+        }
+
         SetInteractable(interactButton, false);
-        SetInteractable(basicAttacksButton, false);
+        SetInteractable(attacksButton, false);
         SetInteractable(defenseButton, false);
         SetInteractable(abilitiesButton, false);
-        SetInteractable(mostUsedButton, false);
-        SetInteractable(lastUsedButton, false);
-        if (mostUsedText != null)
-        {
-            mostUsedText.text = "MOST USED\n—";
-
-        }
-        if (lastUsedText != null)
-        {
-            lastUsedText.text = "LAST USED\n—";
-
-        }
+        SetInteractable(itemsButton, false);
 
     }
 
@@ -304,26 +311,26 @@ public class ActionMenuUI : MonoBehaviour
 
     }
 
-    private void UpdateQuickButtons(float currentAP)
-    {
-        ActionDefinition most = displayedLoadout != null ? displayedLoadout.MostUsedAbility : null;
-        ActionDefinition last = displayedLoadout != null ? displayedLoadout.LastUsedAbility : null;
-
-        if (mostUsedText != null)
-        {
-            mostUsedText.text = most != null ? $"MOST USED\n{most.DisplayName}" : "MOST USED\n—";
-
-        }
-        if (lastUsedText != null)
-        {
-            lastUsedText.text = last != null ? $"LAST USED\n{last.DisplayName}" : "LAST USED\n—";
-
-        }
-
-        SetInteractable(mostUsedButton, most != null && currentAP >= most.ApCost);
-        SetInteractable(lastUsedButton, last != null && currentAP >= last.ApCost);
-
-    }
+    //private void UpdateQuickButtons(float currentAP)
+    //{
+    //    ActionDefinition most = displayedLoadout != null ? displayedLoadout.MostUsedAbility : null;
+    //    ActionDefinition last = displayedLoadout != null ? displayedLoadout.LastUsedAbility : null;
+    //
+    //    if (mostUsedText != null)
+    //    {
+    //        mostUsedText.text = most != null ? $"MOST USED\n{most.DisplayName}" : "MOST USED\n—";
+    //
+    //    }
+    //    if (lastUsedText != null)
+    //    {
+    //        lastUsedText.text = last != null ? $"LAST USED\n{last.DisplayName}" : "LAST USED\n—";
+    //
+    //    }
+    //
+    //    SetInteractable(mostUsedButton, most != null && currentAP >= most.ApCost);
+    //    SetInteractable(lastUsedButton, last != null && currentAP >= last.ApCost);
+    //
+    //}
 
     private void OpenCategory(ActionMenuCategory category)
     {
@@ -362,6 +369,7 @@ public class ActionMenuUI : MonoBehaviour
     {
         categoryIsOpen = false;
         previewAction = null;
+        previewConsumable = null;
         lastExpandedAP = float.NaN;
         if (expandedPanel != null)
         {
@@ -388,16 +396,18 @@ public class ActionMenuUI : MonoBehaviour
 
         if (expandedTitle != null)
         {
-            expandedTitle.text = openCategory == ActionMenuCategory.BasicAttacks ? "ATTACKS" :
+            expandedTitle.text = openCategory == ActionMenuCategory.Attacks ? "ATTACKS" :
                 openCategory == ActionMenuCategory.Defense ? "DEFENCE" :
-                openCategory == ActionMenuCategory.Interact ? "INTERACT" : "ABILITIES";
+                openCategory == ActionMenuCategory.Interact ? "INTERACT" : 
+                openCategory == ActionMenuCategory.Items ? "ITEMS" : 
+                "ABILITIES";
 
         }
 
         int count = 0;
         if (openCategory == ActionMenuCategory.Interact)
         {
-            foreach (ObjectiveInteractable target in nearbyInteractions)
+            foreach (WorldInteractable target in nearbyInteractions)
             {
                 if (target == null || !target.CanInteract(displayedUnit) || target.InteractionAction == null)
                 {
@@ -407,10 +417,10 @@ public class ActionMenuUI : MonoBehaviour
 
                 ActionDefinition action = target.InteractionAction;
                 ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
-                ObjectiveInteractable selectedTarget = target;
+                WorldInteractable selectedTarget = target;
                 item.Bind(action, displayedUnit.data.currentActionPoints,
                     _ => RequestInteraction(selectedTarget), PreviewAction, EndActionPreview);
-                item.SetContextLabel(target.InteractionTargetName);
+                item.SetContextLabel(target.InteractionMenuLabel);
                 count++;
 
             }
@@ -423,6 +433,29 @@ public class ActionMenuUI : MonoBehaviour
                 ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
                 item.Bind(action, displayedUnit.data.currentActionPoints, RequestAction,
                     PreviewAction, EndActionPreview);
+                count++;
+
+            }
+
+        }
+
+        if (openCategory == ActionMenuCategory.Items && displayedUnit != null && displayedUnit.data != null)
+        {
+            for (int i = 0; i < displayedUnit.data.carriedConsumables.Count; i++)
+            {
+                ConsumableInstance consumableInstance = displayedUnit.data.carriedConsumables[i];
+                ConsumableData consumable = consumableInstance.definition;
+                if (consumable == null)
+                {
+                    continue;
+
+                }
+
+                int selectedIndex = i;
+                ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
+                item.BindConsumable(consumable, consumable.UseAction, consumableInstance.remainingUses,
+                    displayedUnit.data.currentActionPoints,
+                    () => RequestConsumable(selectedIndex), PreviewConsumable, EndConsumablePreview);
                 count++;
 
             }
@@ -468,17 +501,24 @@ public class ActionMenuUI : MonoBehaviour
 
         }
 
+        if (action.IsPassive)
+        {
+            CloseCategory();
+            RefreshActionInfoPanel();
+
+            return;
+
+        }
+
         if (displayedUnit.data.currentActionPoints < action.ApCost)
         {
             return;
 
         }
 
-        if (action.IsPassive)
-        {
-            return;
-
-        }
+        // A valid action click dismisses the expanded menu, even if execution
+        // cannot begin (for example, an action without an implemented behavior).
+        CloseCategory();
 
         if (combatExecutor == null)
         {
@@ -489,6 +529,7 @@ public class ActionMenuUI : MonoBehaviour
         if (combatExecutor == null)
         {
             Debug.LogError("No CombatActionExecutor in scene. Add it to the Action Menu object.", this);
+            RefreshActionInfoPanel();
 
             return;
 
@@ -497,47 +538,21 @@ public class ActionMenuUI : MonoBehaviour
         if (combatExecutor.TryBeginAction(displayedUnit, action))
         {
             targetedAction = TargetingModeController.IsTargeting ? action : null;
-            CloseCategory();
-            RefreshActionInfoPanel();
+            CameraController.Instance?.FocusOnUnit(displayedUnit, true);
 
         }
 
-    }
-
-    private void RequestUnitInfo()
-    {
-        if (displayedUnit == null || displayedUnit.data == null)
-        {
-            return;
-
-        }
-
-        if (unitInspectionUI == null)
-        {
-            unitInspectionUI = FindAnyObjectByType<UnitInspectionUI>();
-
-        }
-
-        if (unitInspectionUI == null)
-        {
-            Debug.LogWarning("ActionMenuUI: Assign the UnitInspectionUI component in the Inspector.", this);
-
-            return;
-
-        }
-
-        CloseCategory();
-        unitInspectionUI.Open(displayedUnit);
+        RefreshActionInfoPanel();
 
     }
 
     private void RefreshNearbyInteractions()
     {
-        List<ObjectiveInteractable> available = new();
+        List<WorldInteractable> available = new();
 
         if (displayedUnit != null)
         {
-            foreach (ObjectiveInteractable target in FindObjectsByType<ObjectiveInteractable>())
+            foreach (WorldInteractable target in FindObjectsByType<WorldInteractable>())
             {
                 if (target != null && target.InteractionAction != null &&
                     target.InteractionAction.Category == ActionMenuCategory.Interact &&
@@ -667,7 +682,8 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         ActionDefinition shown = displayedUnit != null ? targetedAction ?? previewAction : null;
-        bool shouldShow = shown != null;
+        ConsumableData shownConsumable = displayedUnit != null && shown == null ? previewConsumable : null;
+        bool shouldShow = shown != null || shownConsumable != null;
         if (actionInfoPanel.activeSelf != shouldShow)
         {
             actionInfoPanel.SetActive(shouldShow);
@@ -680,10 +696,35 @@ public class ActionMenuUI : MonoBehaviour
 
         }
 
+        if (shownConsumable != null)
+        {
+            string consumableDescription = string.IsNullOrWhiteSpace(shownConsumable.description)
+                ? "No description available."
+                : shownConsumable.description.Trim();
+            ActionDefinition useAction = shownConsumable.UseAction;
+            if (useAction != null)
+            {
+                consumableDescription = string.IsNullOrWhiteSpace(useAction.Description)
+                    ? consumableDescription
+                    : useAction.Description.Trim();
+
+            }
+
+            string label = useAction != null ? useAction.DisplayName : shownConsumable.itemName;
+            actionDescriptionText.text = $"<b>{label}</b>  |  Consumable\n" +
+                consumableDescription;
+
+            return;
+
+        }
+
         string cost = shown.IsPassive ? "PASSIVE" : $"{shown.ApCost:0.#} AP";
         string range = shown.CombatBehavior == CombatActionBehavior.DamageUnit
             ? $"  |  Range: {shown.CombatRange:0.#}"
-            : "";
+            : (shown.CombatBehavior == CombatActionBehavior.DamageArea ||
+                shown.CombatBehavior == CombatActionBehavior.HealArea)
+                ? $"  |  Throw: {shown.AreaThrowRangeInTiles} tiles | Blast: {shown.AreaRadiusInTiles} tiles"
+                : "";
         string description = string.IsNullOrWhiteSpace(shown.Description)
             ? "No description available."
             : shown.Description.Trim();
@@ -697,7 +738,45 @@ public class ActionMenuUI : MonoBehaviour
 
     }
 
-    private void RequestInteraction(ObjectiveInteractable target)
+    private void PreviewConsumable(ConsumableData consumable)
+    {
+        previewConsumable = consumable;
+        RefreshActionInfoPanel();
+
+    }
+
+    private void EndConsumablePreview(ConsumableData consumable)
+    {
+        if (previewConsumable == consumable)
+        {
+            previewConsumable = null;
+            RefreshActionInfoPanel();
+
+        }
+
+    }
+
+    private void RequestConsumable(int index)
+    {
+        if (displayedUnit == null || displayedUnit.data == null || !CanCommand(displayedUnit))
+        {
+            return;
+
+        }
+
+        if (displayedUnit.TryUseConsumable(index))
+        {
+            CameraController.Instance?.FocusOnUnit(displayedUnit, true);
+            // Preserve the item button and refresh its use count/availability.
+            RebuildCategory();
+            lastExpandedAP = float.NaN;
+            RefreshActionInfoPanel();
+
+        }
+
+    }
+
+    private void RequestInteraction(WorldInteractable target)
     {
         if (target == null || displayedUnit == null || displayedUnit.data == null ||
             !CanCommand(displayedUnit) || !target.CanInteract(displayedUnit))
@@ -729,13 +808,9 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         displayedUnit.data.ModifyActionPoints(-apCost);
+        CloseCategory();
         RefreshNearbyInteractions();
-
-        if (categoryIsOpen && openCategory == ActionMenuCategory.Interact)
-        {
-            RebuildCategory();
-
-        }
+        RefreshActionInfoPanel();
 
     }
 

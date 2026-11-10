@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5042225517849447635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 963738056205059123}
+  - component: {fileID: 5094084578844555889}
+  - component: {fileID: 2026988373358006347}
+  - component: {fileID: 5944091441805020847}
+  - component: {fileID: 8952808655825226178}
+  - component: {fileID: 6391798232446601632}
+  - component: {fileID: 2714938449680381315}
+  - component: {fileID: 9145990640697671676}
+  - component: {fileID: 3988659102332761613}
+  m_Layer: 6
+  m_Name: CivilianUnit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &963738056205059123
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 12, y: 0.28, z: 16}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3375550127666924148}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &5094084578844555889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37cecde66f7b5c441bd9d6094f447d48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitController
+  footPrintSize: {x: 1, y: 1}
+  VisionOrigin: {fileID: 3375550127666924148}
+  unitName: Civilian
+  raceName: 2
+  currentMutation: 0
+  startingMutations: 
+  testEvolutionCurrent: 0
+  testEvolutionNext: 0
+  startingEquipment:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  startingConsumables:
+  - {fileID: 0}
+  - {fileID: 0}
+  currentEquipment: {fileID: 0}
+  initializationMode: 0
+  rosterDeploymentSlot: 0
+  occupancy: {fileID: 0}
+  selectionCircle: {fileID: 0}
+  weaponSocket: {fileID: 0}
+--- !u!114 &2026988373358006347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
+  turnSpeed: 540
+--- !u!114 &5944091441805020847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09e27292a15679545b93039a34ebb1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFaction
+  faction: {fileID: 11400000, guid: d33ca233060672d47acd1138d973996a, type: 2}
+--- !u!114 &8952808655825226178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee654d61a1c06274e95709e49a605257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitStats
+--- !u!114 &6391798232446601632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59614520e8bded741882b075aeb67c2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitActionLoadout
+--- !u!114 &2714938449680381315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82362c9a83134583bebe8d0fa4a5c07b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectiveInteractable
+  interactionName: Civilian
+  enabledForInteraction: 1
+  interactionAction: {fileID: 11400000, guid: 380c42b70d51477e819df832f1ff2518, type: 2}
+  interactionId: help
+  rangeInTiles: 1
+  singleUse: 1
+  requiresActiveObjective: 1
+  completionOutcome: 2
+--- !u!114 &9145990640697671676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0b50b7d99a1d51469e50f1a3e6f9b57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitHealthBarUI
+  heightAboveUnit: 3
+  canvasScale: 0.005
+  sizeMultiplier: 3
+  showHealthNumbers: 1
+  hideAtFullHealth: 0
+  showActiveStatuses: 1
+  backgroundColor: {r: 0.08, g: 0.09, b: 0.12, a: 0.9}
+  healthyColor: {r: 0.18, g: 0.8, b: 0.33, a: 1}
+--- !u!114 &3988659102332761613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c718f1f5305ef974db1f404365db7b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitFacing
+  currentFacing: 0
+  targetToRotate: {fileID: 963738056205059123}
+  turnSpeed: 360
+--- !u!1 &5397713485189517957
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3375550127666924148}
+  m_Layer: 6
+  m_Name: VisionOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3375550127666924148
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5397713485189517957}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 963738056205059123}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

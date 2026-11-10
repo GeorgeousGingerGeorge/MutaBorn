@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f19ee410294cac9e59405fec5051a6, type: 3}
+  m_Name: Research Progression Test Mission
+  m_EditorClassIdentifier: Assembly-CSharp::LevelMissionData
+  missionId: research-cycle-test
+  missionName: Research Progression Test
+  playerFaction: {fileID: 11400000, guid: f70d6ea892e819b4eb2732e0c194dc1f, type: 2}
+  objectives:
+  - template: {fileID: 11400000, guid: 7c7b393336574c60a60f506d3d83443c, type: 2}
+    objectiveId: reach-exit
+    optional: 0
+    worldMarkerPriority: 0
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 1
+    prerequisiteObjectiveIds: []
+  lootTable: {fileID: 0}

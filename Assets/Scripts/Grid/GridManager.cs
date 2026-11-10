@@ -6,18 +6,10 @@ public struct ConnectorsBetweenLevels
 {
     [Header("FloorConnector Object")]
     [SerializeField]public GameObject connector;
-    [SerializeField] public FloorConnector stairObject;
     [Header("CurrentWorldOrientation")]
     [SerializeField] public Vector3 worldPosition;
     [SerializeField] public Quaternion worldRotation;
-    [Header("LowerFloorNodes")]
-    [SerializeField] public int lowerFloorId;
-    [SerializeField] public Vector2Int lowerGridPosition;
-    [Header("UpperFloorNodes")]
-    [SerializeField] public int upperFloorId;
-    [SerializeField] public Vector2Int upperGridPosition;
-
-    
+ 
     
 }
 public class GridManager : MonoBehaviour
@@ -25,7 +17,10 @@ public class GridManager : MonoBehaviour
     [Header("Level Configuration")]
     [SerializeField] private Level_Design currentLevel;
     [Header("Adjust Tile Size")]
-    [SerializeField] private float gridCellSize = 2f;
+    [SerializeField] public float gridCellSize = 2f;
+    [SerializeField, Min(0f)] private float maxStepHeight = 0.5f;
+
+    public float GridCellSize => gridCellSize;
 
     [Header("CurrentGrid Information")]
     private Dictionary<Vector2Int, GridNode> grid = new Dictionary<Vector2Int, GridNode>();
@@ -33,7 +28,9 @@ public class GridManager : MonoBehaviour
     [Header("CurrentGrid Information- Generating a grid (No LevelPrefab)")]
 
     [SerializeField]public GameObject gridCellPrefab;
-    [SerializeField] public GameObject obstaclePrefab; 
+    [SerializeField] public GameObject obstaclePrefab;
+    [SerializeField] public GameObject wallPrefab;
+
     public List<FloorIdentification> floorGenerator = new List<FloorIdentification>();
     [SerializeField]public Dictionary<int,List<ConnectorsBetweenLevels>> stairGenerator = new Dictionary<int,List<ConnectorsBetweenLevels>>();
 
@@ -44,20 +41,37 @@ public class GridManager : MonoBehaviour
 
     [Header("CurrentGrid Information- Grids for Each Floor")]
     private Dictionary<int, Dictionary<Vector2Int, GridNode>> gridFloors = new Dictionary<int, Dictionary<Vector2Int, GridNode>>();
+    public int activeFloorID { get; private set; }
 
     [Header("CurrentGrid Information- Tile Lookup by Node")]
     private Dictionary<GridNode, TileController> tileLookup = new Dictionary<GridNode, TileController>();
 
 
-    public void Start()
+    public void Awake()
     {
         BuildLevel();
-        Vector3 positionGrid = new Vector3(8f, 1f, 6f);
-        if(currentLevel == null)
-        {  
-            GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, level.transform);
-            current.GetComponent<ObstacleController>().InitializeNodes();
+        Vector3 positionGrid = new Vector3(2f, 1.26f, 2f);
+
+        if (currentLevel == null)
+        {
+            //GameObject current = Instantiate(obstaclePrefab, positionGrid, Quaternion.identity, mainGrid.transform);
+            //current.transform.localScale = new Vector3(1.5f, 2f, 1.5f);
+            //current.GetComponent<ObstacleController>().InitializeNodes();
+
+
+            Vector3 wallPosition = new Vector3(0f, 2.26f, 1.05f);
+
+            for (int multipleObjects = 0; multipleObjects < 1; multipleObjects++)
+            {
+
+                GameObject wall = Instantiate(wallPrefab, wallPosition, Quaternion.identity, mainGrid.transform);
+                wall.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+                wall.GetComponent<ObstacleController>().InitializeNodes();
+                wallPosition.x += 2f;
+            }
         }
+
+
     }
 
     public void BuildLevel()
@@ -93,6 +107,43 @@ public class GridManager : MonoBehaviour
         }
 
         ConnectFloors();
+        InitializeObstacles();
+
+        // A placed crew area takes over ONLY the player's roster placeholders.
+        // Unmodified sandbox scenes continue to use their original unit setup.
+        MissionCrewSpawnArea crewArea = FindAnyObjectByType<MissionCrewSpawnArea>();
+        if (crewArea != null && crewArea.isActiveAndEnabled)
+        {
+            crewArea.PrepareDeployment(this);
+
+        }
+
+        // Spawn scene-owned faction units separately from the permanent player roster.
+        // This happens before the usual initialization/occupancy registration pass.
+        MissionFactionSpawnArea[] factionAreas = FindObjectsByType<MissionFactionSpawnArea>();
+        foreach (MissionFactionSpawnArea factionArea in factionAreas)
+        {
+            if (factionArea != null && factionArea.isActiveAndEnabled)
+            {
+                factionArea.PrepareDeployment(this);
+
+            }
+
+        }
+
+        InitializeUnits();
+
+        if (gridFloors.Count > 0)
+        {
+            int lowestFloor = int.MaxValue;
+
+            foreach (int floorID in gridFloors.Keys)
+            {
+                lowestFloor = Mathf.Min(lowestFloor, floorID);
+            }
+
+            activeFloorID = lowestFloor;
+        }
     }
 
     
@@ -154,20 +205,11 @@ public class GridManager : MonoBehaviour
             {
                 Vector3 worldPos = stairPerFloor[thisStair].worldPosition;
                 Quaternion worldRotation = stairPerFloor[thisStair].worldRotation;
-                int lowerFloor = stairPerFloor[thisStair].lowerFloorId;
-                Vector2Int lowerGrid = stairPerFloor[thisStair].lowerGridPosition;
-                int upperFloor = stairPerFloor[thisStair].upperFloorId;
-                Vector2Int upperGrid = stairPerFloor[thisStair].upperGridPosition;
 
-                stairPerFloor[thisStair].stairObject.SetWorldPosition(worldPos);
-                stairPerFloor[thisStair].stairObject.SetLowerFloor(lowerFloor);
-                stairPerFloor[thisStair].stairObject.SetLowerGridNode(lowerGrid);
-                stairPerFloor[thisStair].stairObject.SetUpperFloor(upperFloor);
-                stairPerFloor[thisStair].stairObject.SetUpperGridNode(upperGrid);
-
+                stairPerFloor[thisStair].connector.GetComponent<FloorConnector>().SetWorldPosition(worldPos);
                 GameObject stair = Instantiate(stairPerFloor[thisStair].connector, worldPos, worldRotation, stairNumber.transform);
                 stair.transform.SetParent(floorNumber.transform, false);
-                stair.GetComponent<ObstacleController>().InitializeNodes();
+                
 
             }
         }
@@ -177,49 +219,55 @@ public class GridManager : MonoBehaviour
         grid = new Dictionary<Vector2Int, GridNode>();
     }
     //used for when we create level using a prefab
-    public void CreateGrid_Level_Prefab(FloorIdentification floor) 
+    public void CreateGrid_Level_Prefab(FloorIdentification floor)
     {
         Transform thisFloor = floorNumber.transform.Find($"Floor_{floor.GetFloorID()}");
-      
 
+        int gridX = 0;
+        int gridZ = 0;
 
-        foreach (Transform floorSlice in thisFloor) 
+        foreach (Transform floorSlice in thisFloor)
         {
-            foreach (Transform sliceObject in floorSlice) 
+            foreach (Transform sliceObject in floorSlice)
             {
-               
+                if (!sliceObject.GetComponentInParent<TileController>())
+                {
+                    continue;
+                }
+                if (gridZ == floor.GetGridSize().y)
+                {
+                    gridZ = 0;
+                }
                 Vector3 worldPos = sliceObject.position;
 
 
-                int gridX = Mathf.FloorToInt(worldPos.x / gridCellSize);
-                int gridZ = Mathf.FloorToInt(worldPos.z / gridCellSize);
-
                 Vector2Int coords = new Vector2Int(gridX, gridZ);
                 GridNode currentNode = new GridNode(coords, floor.GetFloorID(), worldPos);
-                currentNode.SetTerrain(TerrainType.OpenGround);
+
                 //Add Components to the Tile(sliceObject) that we are manipulating in the grid
 
 
-                if (sliceObject.GetComponentInParent<TileController>()) 
+                if (sliceObject.GetComponentInParent<TileController>())
                 {
                     TileController currentTile = sliceObject.GetComponentInParent<TileController>();
                     currentTile.Initialize(currentNode);
                     RegisterTile(currentTile);
-                  
+                    currentNode.SetTerrain(currentTile.terrainType);
+
                 }
 
                 //Adds the node to the grid
                 grid.Add(coords, currentNode);
-                
 
+                gridZ++;
 
             }
-           
-           
+            gridX++;
+
         }
 
         //We need to set up connections for all the nodes in the grid
-        SetUpConnections(grid); 
+        SetUpConnections(grid);
         gridFloors.Add(floor.GetFloorID(), grid);
         grid = new Dictionary<Vector2Int, GridNode>(); //Since grid has been added, we declare a new grid
     }
@@ -249,7 +297,7 @@ public class GridManager : MonoBehaviour
             {
                 Vector2Int neighborPosition = pair.Value.coords + direction; //Stores the offset position of the current Node
 
-                if (currentGrid.TryGetValue(neighborPosition, out GridNode neighbor)) //Checks if the offset is in the grid
+                if (currentGrid.TryGetValue(neighborPosition, out GridNode neighbor) && Mathf.Abs(pair.Value.cellWorldPosition.y - neighbor.cellWorldPosition.y) <= maxStepHeight) //Checks if the offset is in the grid
                 {
                     pair.Value.AddConnections(neighbor); //establish the connection to the node if it receives a neighbor node
                 }
@@ -270,10 +318,39 @@ public class GridManager : MonoBehaviour
 
         foreach (FloorConnector connection in connections) 
         {
-            connection.Connect(this);
+            connection.Initialize(this);
+            
         }
     }
+    public void InitializeUnits() 
+    {
+        UnitController[] units = FindObjectsByType<UnitController>();
 
+        foreach (UnitController unit in units)
+        {
+            if (!unit.TryInitializeUnitData())
+            {
+                // Never initialize or register an unbound roster placeholder.
+                Debug.LogError($"Unable to initialize unit '{unit.name}'. Disabling scene unit.", unit);
+                unit.gameObject.SetActive(false);
+
+                continue;
+
+            }
+
+            unit.InitializeNode();
+
+        }
+    }
+    public void InitializeObstacles() 
+    {
+        ObstacleController[] obstacles = FindObjectsByType<ObstacleController>();
+
+        foreach (ObstacleController obstacle in obstacles) 
+        {
+            obstacle.InitializeNodes();
+        }
+    }
 
     //Getters- NodeFromGridPosition, NodeFrom-WorldPosition, Grid itself
     public GridNode GetNodeFromGridPosition(int floorID, Vector2Int gridPosition) 
@@ -327,6 +404,10 @@ public class GridManager : MonoBehaviour
 
         return thisGrid; 
     }
+    public IEnumerable<int> GetFloorIDS() 
+    {
+        return gridFloors.Keys;
+    }
     public TileController FindTile(GridNode node)
     {
         if (node == null)
@@ -335,6 +416,43 @@ public class GridManager : MonoBehaviour
         tileLookup.TryGetValue(node, out TileController tile);
         return tile;
     }
+    public IEnumerable<TileController> GetTiles() 
+    {
+        return tileLookup.Values;
+    }
 
+    public void SetActiveFloor(int floorID)
+    {
+        if (gridFloors.ContainsKey(floorID))
+        {
+            activeFloorID = floorID;
+        }
+    }
 
+    public void ChangeActiveFloor(int direction)
+    {
+        if (direction == 0)
+        {
+            return;
+        }
+
+        int nextFloor = activeFloorID;
+
+        foreach (int floorID in gridFloors.Keys)
+        {
+            if (direction > 0 && floorID > activeFloorID && (nextFloor == activeFloorID || floorID < nextFloor))
+            {
+                nextFloor = floorID;
+            }
+            else if (direction < 0 && floorID < activeFloorID && (nextFloor == activeFloorID || floorID > nextFloor))
+            {
+                nextFloor = floorID;
+            }
+        }
+
+        if (nextFloor != activeFloorID)
+        {
+            SetActiveFloor(nextFloor);
+        }
+    }
 }

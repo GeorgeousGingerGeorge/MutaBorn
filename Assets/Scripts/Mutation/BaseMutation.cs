@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using MutaBorn.Gameplay;
 
 public enum MutationID 
 {
@@ -15,8 +16,64 @@ public enum MutationID
     //MindBore Strain
 
     //Warden Strain
-    Sage
+    Sage,
+
+    // Fixed evolution nodes keep stable IDs across save files.
+    VampirismII = 5,
+    VampirismIII = 6,
+    BloodHunter = 7,
+    BioLauncher = 8,
+    CloakSkin = 9,
+    DodgeJet = 10,
+    HealingHands = 11,
+
+    // Biological mutation roster. Never renumber serialized IDs.
+    OsteodermalCarapace = 12,
+    MyotendinousOverdrive = 13,
+    BiomineralExtrusion = 14,
+    VibrosensoryLattice = 15,
+    MyxospindleGlands = 16,
+    HyperreflexiveArc = 17,
+    PneumaticOsteospines = 18,
+    HypertrophicGrasp = 19,
+    MyostatinSuppression = 20,
+    TendonElasticity = 21,
+    CorticalDensification = 22,
+    HematopoieticExpansion = 23,
+    NeuralMyelination = 24,
+    SensoryHypertrophy = 25,
+    OsteodermalCarapaceII = 26,
+    OsteodermalCarapaceIII = 27,
+    MyotendinousOverdriveII = 28,
+    MyotendinousOverdriveIII = 29,
+    BiomineralExtrusionII = 30,
+    BiomineralExtrusionIII = 31,
+    VibrosensoryLatticeII = 32,
+    VibrosensoryLatticeIII = 33,
+    MyxospindleGlandsII = 34,
+    MyxospindleGlandsIII = 35,
+    HyperreflexiveArcII = 36,
+    HyperreflexiveArcIII = 37,
+    PneumaticOsteospinesII = 38,
+    PneumaticOsteospinesIII = 39,
+    HypertrophicGraspII = 40,
+    HypertrophicGraspIII = 41,
+    MyostatinSuppressionII = 42,
+    MyostatinSuppressionIII = 43,
+    TendonElasticityII = 44,
+    TendonElasticityIII = 45,
+    CorticalDensificationII = 46,
+    CorticalDensificationIII = 47,
+    HematopoieticExpansionII = 48,
+    HematopoieticExpansionIII = 49,
+    NeuralMyelinationII = 50,
+    NeuralMyelinationIII = 51,
+    SensoryHypertrophyII = 52,
+    SensoryHypertrophyIII = 53,
+    SageII = 54,
+    SageIII = 55
 }
+[System.Serializable]
 public class MutationBonus 
 {
     // Core stat bonuses
@@ -107,6 +164,15 @@ public class VampirismMutation : BaseMutation
     public override void OnDamageDealt(UnitController owner, CombatDamageEvent damageEvent)
     {
         if (owner == null || owner.data == null || damageEvent.ActualDamage <= 0)
+        {
+            return;
+
+        }
+
+        // Keep the legacy reaction as a fallback until the new mutation effect
+        // has been verified in Unity, but never process both for the same hit.
+        UnitEffectSource effectSource = owner.GetComponent<UnitEffectSource>();
+        if (effectSource != null && effectSource.HasMutationEffects(ID))
         {
             return;
 

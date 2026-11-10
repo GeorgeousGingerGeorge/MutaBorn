@@ -26,7 +26,12 @@ public class OutlineController : MonoBehaviour
     [SerializeField]private LayerMask unitLayer;
 
     [Header("Selection/Hover Color Control")]
-  
+
+    [Header("Selection Circle")]
+    [SerializeField] private LineRenderer selectionCircle;
+    [SerializeField] private float circleRadius = 0.75f;
+    [SerializeField, Range(3, 128)] private int circleSegments = 48;
+    
     private Color hoverColor;
     private Color selectedColor;
     private bool isHovered = false;
@@ -37,20 +42,97 @@ public class OutlineController : MonoBehaviour
     public void SetupRenderer() 
     {
         properties = new MaterialPropertyBlock();
-        outlineRenderer.enabled = false; 
+        if (outlineRenderer != null)
+        {
+            outlineRenderer.enabled = false;
+
+        }
+
+        if (selectionCircle != null)
+        {
+            selectionCircle.useWorldSpace = false;
+            selectionCircle.loop = true;
+            selectionCircle.positionCount = circleSegments;
+
+            for (int i = 0; i < circleSegments; i++)
+            {
+                float angle = i * Mathf.PI * 2f / circleSegments;
+
+                float x = Mathf.Cos(angle) * circleRadius;
+                float z = Mathf.Sin(angle) * circleRadius;
+
+                selectionCircle.SetPosition(i, new Vector3(x, 0f, z));
+            }
+
+            selectionCircle.enabled = false;
+        }
+    }
+
+    // The preplaced model may be replaced by the race-defined model.
+    public void RebindRaceModel(Transform oldVisualRoot, Transform newVisualRoot)
+    {
+        if (selectionCircle == null ||
+            (oldVisualRoot != null && selectionCircle.transform.IsChildOf(oldVisualRoot)))
+        {
+            selectionCircle = newVisualRoot.GetComponentInChildren<LineRenderer>(true);
+
+        }
+
+        if (outlineRenderer != null && oldVisualRoot != null &&
+            outlineRenderer.transform.IsChildOf(oldVisualRoot))
+        {
+            string oldRendererName = outlineRenderer.gameObject.name;
+            outlineRenderer = null;
+            foreach (Renderer candidate in newVisualRoot.GetComponentsInChildren<Renderer>(true))
+            {
+                if (candidate.gameObject.name == oldRendererName)
+                {
+                    outlineRenderer = candidate;
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+        if (outlineRenderer != null)
+        {
+            SetupRenderer();
+
+        }
+
     }
 
     public void SetHovered(bool hovered) 
     {
         isHovered = hovered;
     }
-    public void SetSelected(bool selected) 
+    public void SetSelected(bool selected)
     {
-        isSelected = selected; 
+        isSelected = selected;
+
+        if (selectionCircle != null)
+        {
+            selectionCircle.enabled = selected;
+        }
     }
 
     public void UpdateColors() 
     {
+        if (outlineRenderer == null)
+        {
+            return;
+
+        }
+
+        if (properties == null)
+        {
+            properties = new MaterialPropertyBlock();
+
+        }
+
         outlineRenderer.GetPropertyBlock(properties);
         Color color;
         if (isSelected)
@@ -129,5 +211,29 @@ public class OutlineController : MonoBehaviour
                 break;
 
         }
+    }
+
+    private void Awake()
+    {
+        if (selectionCircle == null)
+        {
+            return;
+        }
+
+        selectionCircle.useWorldSpace = false;
+        selectionCircle.loop = true;
+        selectionCircle.positionCount = circleSegments;
+
+        for (int i = 0; i < circleSegments; i++)
+        {
+            float angle = i * Mathf.PI * 2f / circleSegments;
+
+            float x = Mathf.Cos(angle) * circleRadius;
+            float z = Mathf.Sin(angle) * circleRadius;
+
+            selectionCircle.SetPosition(i, new Vector3(x, 0f, z));
+        }
+
+        selectionCircle.enabled = false;
     }
 }

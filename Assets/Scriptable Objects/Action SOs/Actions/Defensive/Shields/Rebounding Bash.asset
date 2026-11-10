@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
+  m_Name: "Rebounding Bash"
+  m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
+  actionId: "rebounding-bash"
+  displayName: "Rebounding Bash"
+  description: "A light buckler punch; cheap Blunt damage and a chance to Daze."
+  icon: {fileID: 0}
+  activationType: 0
+  category: 0
+  submenuGroup: "Shields"
+  displayOrder: 80
+  apCost: 4
+  controlTags: 2
+  combatBehavior: 1
+  damageStat: 0
+  combatRange: 1.5
+  damageMultiplier: 0.5
+  flatDamageBonus: 0
+  minimumDamage: 1
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
+  damageType: 3
+  additionalDamage: []
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 11400000, guid: f19f80dffad24ab7a4ad1f7b1835eb7d, type: 2}
+  guardDamageReductionPercent: 0
+  hitCount: 1
+  guardFlatDamageReduction: 0

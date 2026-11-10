@@ -1,4 +1,5 @@
 using TMPro;
+using MutaBorn.Gameplay;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,18 +20,28 @@ public class UnitHealthBarUI : MonoBehaviour
     [Header("Display")]
     [SerializeField] private bool showHealthNumbers = true;
     [SerializeField] private bool hideAtFullHealth = false;
+    [SerializeField] private bool showActiveStatuses = true;
 
     [Header("Colors")]
     [SerializeField] private Color backgroundColor = new Color(0.08f, 0.09f, 0.12f, 0.9f);
     [SerializeField] private Color healthyColor = new Color(0.18f, 0.8f, 0.33f, 1f);
-    [SerializeField] private Color woundedColor = new Color(0.98f, 0.76f, 0.18f, 1f);
-    [SerializeField] private Color criticalColor = new Color(0.93f, 0.25f, 0.22f, 1f);
+
+    private const float HealthFillWidth = 244f;
+    private const float StatusLineHeight = 19f;
+    private const float StatusVerticalPadding = 12f;
 
     private UnitController unit;
+    private UnitFaction unitFaction;
+    private FactionData lastFaction;
     private RectTransform barRoot;
     private Image healthFill;
     private RectTransform healthFillRect;
     private TMP_Text healthText;
+    private TMP_Text statusText;
+    private GameObject statusPanel;
+    private RectTransform statusPanelRect;
+    private UnitStatusController statusController;
+    private int lastStatusRevision = -1;
     private Camera targetCamera;
 
     private int lastHealth = -1;
@@ -56,6 +67,13 @@ public class UnitHealthBarUI : MonoBehaviour
 
         }
 
+        unitFaction = unit.GetComponent<UnitFaction>();
+        if (unitFaction == null)
+        {
+            unitFaction = unit.GetComponentInParent<UnitFaction>();
+
+        }
+
         CreateBar();
 
     }
@@ -78,12 +96,33 @@ public class UnitHealthBarUI : MonoBehaviour
 
         }
 
-        bool fullHealth = data.currentHealth >= data.maxHealth;
-        SetBarVisible(!hideAtFullHealth || !fullHealth);
+        if (statusController == null)
+        {
+            statusController = unit.GetComponent<UnitStatusController>();
+            lastStatusRevision = -1;
 
-        if (data.currentHealth != lastHealth || data.maxHealth != lastMaximumHealth)
+        }
+
+        int activeStatusCount = statusController != null ? statusController.ActiveStatusCount : 0;
+        bool fullHealth = data.currentHealth >= data.maxHealth;
+        SetBarVisible(!hideAtFullHealth || !fullHealth || (showActiveStatuses && activeStatusCount > 0));
+
+        if (statusText != null && statusController != null &&
+            lastStatusRevision != statusController.StatusRevision)
+        {
+            statusText.text = showActiveStatuses ? statusController.GetStatusLines() : string.Empty;
+            statusPanel.SetActive(showActiveStatuses && activeStatusCount > 0);
+            statusPanelRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical,
+                activeStatusCount * StatusLineHeight + StatusVerticalPadding);
+            lastStatusRevision = statusController.StatusRevision;
+
+        }
+
+        FactionData currentFaction = unitFaction != null ? unitFaction.Faction : null;
+        if (data.currentHealth != lastHealth || data.maxHealth != lastMaximumHealth || currentFaction != lastFaction)
         {
             RefreshHealth(data.currentHealth, data.maxHealth);
+            lastFaction = currentFaction;
 
         }
 
@@ -120,7 +159,7 @@ public class UnitHealthBarUI : MonoBehaviour
         canvasObject.transform.SetParent(unit.transform, false);
 
         barRoot = canvasObject.GetComponent<RectTransform>();
-        barRoot.sizeDelta = new Vector2(204f, 36f);
+        barRoot.sizeDelta = new Vector2(256f, 46f);
         barRoot.localScale = Vector3.one * canvasScale * sizeMultiplier;
 
         Canvas canvas = canvasObject.GetComponent<Canvas>();
@@ -136,7 +175,7 @@ public class UnitHealthBarUI : MonoBehaviour
         backgroundRect.anchorMax = new Vector2(0.5f, 0.5f);
         backgroundRect.pivot = new Vector2(0.5f, 0.5f);
         backgroundRect.anchoredPosition = Vector2.zero;
-        backgroundRect.sizeDelta = new Vector2(200f, 30f);
+        backgroundRect.sizeDelta = new Vector2(248f, 40f);
 
         Image background = backgroundObject.GetComponent<Image>();
         background.color = backgroundColor;
@@ -150,7 +189,7 @@ public class UnitHealthBarUI : MonoBehaviour
         fillRect.anchorMax = new Vector2(0f, 0.5f);
         fillRect.pivot = new Vector2(0f, 0.5f);
         fillRect.anchoredPosition = new Vector2(2f, 0f);
-        fillRect.sizeDelta = new Vector2(196f, 26f);
+        fillRect.sizeDelta = new Vector2(HealthFillWidth, 36f);
         healthFillRect = fillRect;
 
         healthFill = fillObject.GetComponent<Image>();
@@ -170,7 +209,7 @@ public class UnitHealthBarUI : MonoBehaviour
 
             TextMeshProUGUI label = textObject.GetComponent<TextMeshProUGUI>();
             label.alignment = TextAlignmentOptions.Center;
-            label.fontSize = 18f;
+            label.fontSize = 22f;
             label.fontStyle = FontStyles.Bold;
             label.color = Color.white;
             label.raycastTarget = false;
@@ -179,7 +218,44 @@ public class UnitHealthBarUI : MonoBehaviour
 
         }
 
+        CreateStatusReadout();
         SetBarVisible(false);
+
+    }
+
+    private void CreateStatusReadout()
+    {
+        GameObject statusBackground = new GameObject("Active Status Background", typeof(RectTransform), typeof(Image));
+        statusBackground.transform.SetParent(barRoot, false);
+        RectTransform backgroundRect = statusBackground.GetComponent<RectTransform>();
+        backgroundRect.anchorMin = new Vector2(0.5f, 0.5f);
+        backgroundRect.anchorMax = new Vector2(0.5f, 0.5f);
+        backgroundRect.pivot = new Vector2(0.5f, 0f);
+        backgroundRect.anchoredPosition = new Vector2(0f, 22f);
+        backgroundRect.sizeDelta = new Vector2(300f, StatusLineHeight + StatusVerticalPadding);
+        statusPanelRect = backgroundRect;
+        Image background = statusBackground.GetComponent<Image>();
+        background.color = new Color(0.04f, 0.07f, 0.10f, 0.83f);
+        background.raycastTarget = false;
+
+        GameObject statusObject = new GameObject("Active Status Text", typeof(RectTransform), typeof(TextMeshProUGUI));
+        statusObject.transform.SetParent(backgroundRect, false);
+        RectTransform statusRect = statusObject.GetComponent<RectTransform>();
+        statusRect.anchorMin = Vector2.zero;
+        statusRect.anchorMax = Vector2.one;
+        statusRect.offsetMin = new Vector2(10f, 6f);
+        statusRect.offsetMax = new Vector2(-10f, -6f);
+
+        TextMeshProUGUI label = statusObject.GetComponent<TextMeshProUGUI>();
+        label.alignment = TextAlignmentOptions.TopLeft;
+        label.fontSize = 15f;
+        label.textWrappingMode = TextWrappingModes.NoWrap;
+        label.overflowMode = TextOverflowModes.Overflow;
+        label.color = new Color(0.80f, 0.94f, 1f, 1f);
+        label.raycastTarget = false;
+        statusText = label;
+        statusBackground.SetActive(false);
+        statusPanel = statusBackground;
 
     }
 
@@ -187,9 +263,12 @@ public class UnitHealthBarUI : MonoBehaviour
     {
         float percent = maximum > 0 ? Mathf.Clamp01((float)current / maximum) : 0f;
 
-        healthFillRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 196f * percent);
-        healthFill.color = percent > 0.5f ? healthyColor :
-            percent > 0.25f ? woundedColor : criticalColor;
+        healthFillRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, HealthFillWidth * percent);
+
+        FactionData faction = unitFaction != null ? unitFaction.Faction : null;
+        Color fillColor = faction != null ? faction.Color : healthyColor;
+        fillColor.a = 1f;
+        healthFill.color = fillColor;
 
         if (healthText != null)
         {

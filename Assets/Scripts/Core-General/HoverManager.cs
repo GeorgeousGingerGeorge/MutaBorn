@@ -45,6 +45,7 @@ public class HoverManager : MonoBehaviour
             
         }
         TileHover(currentTile);
+        
     }
 
     private void TileHover(TileController current) 

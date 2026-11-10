@@ -1,0 +1,4783 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 400000}
+  - component: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: ItemStorage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 543f293a0cab43048f6621f7e6373b0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemStorage
+  items:
+  - kind: 0
+    equipment:
+      itemName: Duelist Sabre
+      itemID: sword-duelist-sabre
+      instanceId: 41ce1bb3799d5e3cb9f9b388c06f75e0
+      template: {fileID: 11400000, guid: ff96e83cf7c88e44890e8214700f1160, type: 2}
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 1
+      rarity: 2
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: a42ce3de39f89d5489b0906442d957ac, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 1
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 5
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 4
+      rolledStats:
+        armor: 2
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 2
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 4cd1a0977d726aa42943ca0cfe4696f3, type: 2}
+      - {fileID: 11400000, guid: 5c0f37784eaf9434bb1d85fdc8f85a19, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 0
+      - 50
+      - 50
+      movementPenalty: 0
+      meleeDamage: 5
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 4
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Oak Practice Sword
+      itemID: sword-wooden
+      instanceId: d064169c0f2c59d48275226b8b36f2d9
+      template: {fileID: 11400000, guid: afe7a099f3bdae941b9f07aee626bc35, type: 2}
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 1
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: a42ce3de39f89d5489b0906442d957ac, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 1
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 3
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 4cd1a0977d726aa42943ca0cfe4696f3, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 45
+      - 20
+      - 35
+      movementPenalty: 0
+      meleeDamage: 3
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Guardian Longsword
+      itemID: sword-guardian-longsword
+      instanceId: d1bbd6ac18b350f2819bedd89972fd89
+      template: {fileID: 11400000, guid: 3b3104230ae184f4f860f297f92abf54, type: 2}
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 1
+      rarity: 3
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: a42ce3de39f89d5489b0906442d957ac, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 1
+      scalingCoefficient: 0
+      baseStats:
+        armor: 3
+        ward: 0
+        movementPenalty: 1
+        meleeDamage: 6
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 3
+      wardRating: 0
+      resistances:
+      - damageType: 1
+        percent: 5
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 3e5e16fb65d39724e929308e6cdea734, type: 2}
+      - {fileID: 11400000, guid: 51896952722f7aa4eb2d355169b80d42, type: 2}
+      - {fileID: 11400000, guid: 5c0f37784eaf9434bb1d85fdc8f85a19, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 100
+      - 0
+      - 0
+      movementPenalty: 1
+      meleeDamage: 6
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: War Reaver
+      itemID: sword-war-reaver
+      instanceId: 93bb28b9d57952f6bc651eed62ac4d71
+      template: {fileID: 11400000, guid: a917bea23fc8cec4ca03f5562e8f2bdb, type: 2}
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 1
+      rarity: 4
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: a42ce3de39f89d5489b0906442d957ac, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 1
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 2
+        meleeDamage: 9
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: -1
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 3
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage:
+      - damageType: 16
+        amount: 4
+      grantedActions:
+      - {fileID: 11400000, guid: 51896952722f7aa4eb2d355169b80d42, type: 2}
+      - {fileID: 11400000, guid: 001ad81c27594c059a3c7a819d97c472, type: 2}
+      - {fileID: 11400000, guid: 5c0f37784eaf9434bb1d85fdc8f85a19, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 0
+      - 100
+      - 0
+      movementPenalty: 2
+      meleeDamage: 12
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: -1
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Bloodthirster
+      itemID: sword-blood-thirster
+      instanceId: cdaf97019a5e5915b58fec475e5966aa
+      template: {fileID: 11400000, guid: e7d3e203320d8f14aa6c947a9835ad75, type: 2}
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 1
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: a42ce3de39f89d5489b0906442d957ac, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 1
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 6
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 001ad81c27594c059a3c7a819d97c472, type: 2}
+      grantedEffects:
+      - definition: {fileID: 11400000, guid: 7c291010b6004bc46906de79e5276138, type: 2}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 2
+          phase: 3
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 1
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: -1
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 1
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms:
+          - source: 1
+            literalValue: 0
+            stat: 0
+            resource: 0
+            multiplier: 0.1
+          rounding: 1
+        conditions: []
+      abilityWeights:
+      - 50
+      - 35
+      - 15
+      movementPenalty: 0
+      meleeDamage: 6
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Duelist Sabre
+      itemID: sword-duelist-sabre
+      instanceId: f516c7019c1a55d2a471cd2413cdd4c4
+      template: {fileID: 11400000, guid: ff96e83cf7c88e44890e8214700f1160, type: 2}
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 1
+      rarity: 2
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: a42ce3de39f89d5489b0906442d957ac, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 1
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 5
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 4
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 2
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 4cd1a0977d726aa42943ca0cfe4696f3, type: 2}
+      - {fileID: 11400000, guid: 001ad81c27594c059a3c7a819d97c472, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 47.5
+      - 52.5
+      - 0
+      movementPenalty: 0
+      meleeDamage: 7
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 4
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Oak Practice Sword
+      itemID: sword-wooden
+      instanceId: 086d77d2e01e573aa9b8b3f76a7d693e
+      template: {fileID: 11400000, guid: afe7a099f3bdae941b9f07aee626bc35, type: 2}
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 1
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: a42ce3de39f89d5489b0906442d957ac, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 1
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 3
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 4cd1a0977d726aa42943ca0cfe4696f3, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 45
+      - 20
+      - 35
+      movementPenalty: 0
+      meleeDamage: 3
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Guardian Longsword
+      itemID: sword-guardian-longsword
+      instanceId: 626920e9bffa5daaafca009a1bfd43b1
+      template: {fileID: 11400000, guid: 3b3104230ae184f4f860f297f92abf54, type: 2}
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 1
+      rarity: 3
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: a42ce3de39f89d5489b0906442d957ac, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 1
+      scalingCoefficient: 0
+      baseStats:
+        armor: 3
+        ward: 0
+        movementPenalty: 1
+        meleeDamage: 6
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 3
+      wardRating: 0
+      resistances:
+      - damageType: 1
+        percent: 9
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 3e5e16fb65d39724e929308e6cdea734, type: 2}
+      - {fileID: 11400000, guid: 4cd1a0977d726aa42943ca0cfe4696f3, type: 2}
+      - {fileID: 11400000, guid: 51896952722f7aa4eb2d355169b80d42, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 0
+      - 100
+      - 0
+      movementPenalty: 1
+      meleeDamage: 6
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: War Longbow
+      itemID: Weapon_Bow_B
+      instanceId: cc2277d5f7b65a778ec17714951f457b
+      template: {fileID: 11400000, guid: df63ada89427985418ccd60d39181620, type: 2}
+      armor: 0
+      weapon: 2
+      accessory: 0
+      slot: 1
+      rarity: 1
+      type: 1
+      statModifier: 2
+      grantedActionSet: {fileID: 11400000, guid: 81a04d78e67e3df4eb2467e5699d0f45, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 6
+        magicDamage: 0
+        accuracy: 2
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 2896ae8302a238e49866d7a723972148, type: 2}
+      - {fileID: 11400000, guid: baf9be4b5afd4690aed47cb72e5423e6, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 57.5
+      - 0
+      - 42.5
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 6
+      magicDamage: 0
+      accuracyBonus: 2
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Alchemist Greatbow
+      itemID: Weapon_Bow_C
+      instanceId: e1022725478b5c869a869329f0397e1a
+      template: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
+      armor: 0
+      weapon: 2
+      accessory: 0
+      slot: 1
+      rarity: 4
+      type: 1
+      statModifier: 16
+      grantedActionSet: {fileID: 11400000, guid: 81a04d78e67e3df4eb2467e5699d0f45, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 8
+        magicDamage: 0
+        accuracy: 1
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 1
+      wardRating: 0
+      resistances: []
+      bonusDamage:
+      - damageType: 2
+        amount: 5
+      - damageType: 2
+        amount: 3
+      grantedActions:
+      - {fileID: 11400000, guid: 19a29370945f42c59fd1eaa0994078e5, type: 2}
+      - {fileID: 11400000, guid: 15216698aa6648847ac8540b0aedbdde, type: 2}
+      - {fileID: 11400000, guid: 6da92454d2edb804faba171e796a5865, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 100
+      - 0
+      - 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 8
+      magicDamage: 0
+      accuracyBonus: 1
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Scout Recurve
+      itemID: Weapon_Bow_A
+      instanceId: 192425a6160f5b24ad07776b5a67343c
+      template: {fileID: 11400000, guid: 9841b40498097f54b95324da0ed2b3c1, type: 2}
+      armor: 0
+      weapon: 2
+      accessory: 0
+      slot: 1
+      rarity: 3
+      type: 1
+      statModifier: 1
+      grantedActionSet: {fileID: 11400000, guid: 81a04d78e67e3df4eb2467e5699d0f45, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 3
+        magicDamage: 0
+        accuracy: 4
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 3
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 6da92454d2edb804faba171e796a5865, type: 2}
+      - {fileID: 11400000, guid: baf9be4b5afd4690aed47cb72e5423e6, type: 2}
+      - {fileID: 11400000, guid: 7b983f56c3ddf98498af95c1aeedbc98, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 0
+      - 0
+      - 100
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 6
+      magicDamage: 0
+      accuracyBonus: 4
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: War Longbow
+      itemID: Weapon_Bow_B
+      instanceId: 3a006950c6475bd594f493eaac4b5f36
+      template: {fileID: 11400000, guid: df63ada89427985418ccd60d39181620, type: 2}
+      armor: 0
+      weapon: 2
+      accessory: 0
+      slot: 1
+      rarity: 1
+      type: 1
+      statModifier: 2
+      grantedActionSet: {fileID: 11400000, guid: 81a04d78e67e3df4eb2467e5699d0f45, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 6
+        magicDamage: 0
+        accuracy: 2
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 2896ae8302a238e49866d7a723972148, type: 2}
+      - {fileID: 11400000, guid: 15216698aa6648847ac8540b0aedbdde, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 0
+      - 55
+      - 45
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 6
+      magicDamage: 0
+      accuracyBonus: 2
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Alchemist Greatbow
+      itemID: Weapon_Bow_C
+      instanceId: 45bd4de0640e5ac78690e479fe68c0ce
+      template: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
+      armor: 0
+      weapon: 2
+      accessory: 0
+      slot: 1
+      rarity: 4
+      type: 1
+      statModifier: 16
+      grantedActionSet: {fileID: 11400000, guid: 81a04d78e67e3df4eb2467e5699d0f45, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 8
+        magicDamage: 0
+        accuracy: 1
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 2
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 1
+      wardRating: 0
+      resistances: []
+      bonusDamage:
+      - damageType: 2
+        amount: 3
+      grantedActions:
+      - {fileID: 11400000, guid: 19a29370945f42c59fd1eaa0994078e5, type: 2}
+      - {fileID: 11400000, guid: 6da92454d2edb804faba171e796a5865, type: 2}
+      - {fileID: 11400000, guid: 7b983f56c3ddf98498af95c1aeedbc98, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 0
+      - 0
+      - 100
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 10
+      magicDamage: 0
+      accuracyBonus: 1
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Umbral Codex
+      itemID: weapon-magic-umbral-codex
+      instanceId: b7bf8ee801935158af862401f83b888b
+      template: {fileID: 11400000, guid: 918e647135154c51a5d26039041c89f5, type: 2}
+      armor: 0
+      weapon: 3
+      accessory: 0
+      slot: 1
+      rarity: 2
+      type: 1
+      statModifier: 32
+      grantedActionSet: {fileID: 11400000, guid: 0c10095b3c78493699f7f0b52d00a2c9, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 4
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 8
+        accuracy: 1
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 3
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: ef2441f2344779f428833a8e65f75783, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 100
+      - 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 11
+      accuracyBonus: 1
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Verdant Lexicon
+      itemID: Weapon_Magic_C
+      instanceId: c27a3e46037c591cbfbf2374775b5c83
+      template: {fileID: 11400000, guid: b5a887e4ff7ff584ba9eab30d1a6eb2f, type: 2}
+      armor: 0
+      weapon: 3
+      accessory: 0
+      slot: 1
+      rarity: 2
+      type: 1
+      statModifier: 32
+      grantedActionSet: {fileID: 11400000, guid: 378f024fd59342c98b7dc8380197b466, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 4
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 5
+        accuracy: 1
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 1
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: c8aac3f391de4f0f8e73db768e9da205, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 0
+      - 100
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 6
+      accuracyBonus: 1
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Tempest Grimoire
+      itemID: Weapon_Magic_B
+      instanceId: bfb73cbd0ba658f5bd264192441fed19
+      template: {fileID: 11400000, guid: e96c41b3e172ea1418a16876e593f4d8, type: 2}
+      armor: 0
+      weapon: 3
+      accessory: 0
+      slot: 1
+      rarity: 3
+      type: 1
+      statModifier: 32
+      grantedActionSet: {fileID: 11400000, guid: 48a86dafa12d475c9e9bb5c16605809d, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 4
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 7
+        accuracy: 2
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 1
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: b693226fe9e244bbbe3bf760a68ff7ef, type: 2}
+      - {fileID: 11400000, guid: fbf3898950e49b1408be72e2a219308e, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 0
+      - 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 8
+      accuracyBonus: 2
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Cinder Codex
+      itemID: Weapon_Magic_A
+      instanceId: 9d1bf1cd3c6b54239032bf4b9ad6e8b0
+      template: {fileID: 11400000, guid: a22375e97d5554140b345f8f44dc9b96, type: 2}
+      armor: 0
+      weapon: 3
+      accessory: 0
+      slot: 1
+      rarity: 4
+      type: 1
+      statModifier: 48
+      grantedActionSet: {fileID: 11400000, guid: cfae848b8bb244d0a6efd7178852204a, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 4
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 12
+        accuracy: 2
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 5
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: df65c6269ed848adb36cfc2f7c8bfcb6, type: 2}
+      - {fileID: 11400000, guid: d0ae9d81ee14073498f07bb574ab06d7, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 0
+      - 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 17
+      accuracyBonus: 2
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Umbral Codex
+      itemID: weapon-magic-umbral-codex
+      instanceId: 506466e6a74b5e949df7f5b2776ced35
+      template: {fileID: 11400000, guid: 918e647135154c51a5d26039041c89f5, type: 2}
+      armor: 0
+      weapon: 3
+      accessory: 0
+      slot: 1
+      rarity: 2
+      type: 1
+      statModifier: 32
+      grantedActionSet: {fileID: 11400000, guid: 0c10095b3c78493699f7f0b52d00a2c9, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 4
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 8
+        accuracy: 1
+      rolledStats:
+        armor: 0
+        ward: 2
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 2
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: ef2441f2344779f428833a8e65f75783, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 100
+      - 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 8
+      accuracyBonus: 1
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Verdant Lexicon
+      itemID: Weapon_Magic_C
+      instanceId: fd41ab43fab5578cbdff602be9b3f567
+      template: {fileID: 11400000, guid: b5a887e4ff7ff584ba9eab30d1a6eb2f, type: 2}
+      armor: 0
+      weapon: 3
+      accessory: 0
+      slot: 1
+      rarity: 2
+      type: 1
+      statModifier: 32
+      grantedActionSet: {fileID: 11400000, guid: 378f024fd59342c98b7dc8380197b466, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 4
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 5
+        accuracy: 1
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 2
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: b3885e6f494f484096f1d042c7166515, type: 2}
+      grantedEffects: []
+      abilityWeights:
+      - 100
+      - 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 7
+      accuracyBonus: 1
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Kite Shield
+      itemID: shield-kite
+      instanceId: 938864a5f1335e3e9002623675863454
+      template: {fileID: 11400000, guid: a5dae2b85e394f00a81191d35ec9fc1f, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 2
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: ca5292f874a84c66b7c2051df6a6727a, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 6
+        ward: 1
+        movementPenalty: 1
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 6
+      wardRating: 1
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights:
+      - 50
+      - 30
+      - 20
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Runic Tome
+      itemID: shield-runic-tome
+      instanceId: 2aeff481d50657409692b501bbd773dc
+      template: {fileID: 11400000, guid: 11c18a88c7d64b4a943844df2f7b83db, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 2
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: 8237a87b1a974338a87e316524071661, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 1
+        ward: 10
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 2
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 1
+      wardRating: 10
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights:
+      - 50
+      - 30
+      - 20
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 2
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Buckler
+      itemID: shield-buckler
+      instanceId: b010c1302b9756e9aef259818ed40caf
+      template: {fileID: 11400000, guid: 760f01c9b3b7451a8c1e3b7699d8e3e4, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 2
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: 59807dfebce24ec5b14d509efd571378, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 3
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 3
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights:
+      - 25
+      - 45
+      - 30
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Tower Shield
+      itemID: shield-tower
+      instanceId: 3edb5567b3685975ba5f283b69e0f6d5
+      template: {fileID: 11400000, guid: 18e88434cf014e17b5c57265f09fb018, type: 2}
+      armor: 3
+      weapon: 0
+      accessory: 0
+      slot: 2
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: 758a0440f76d4f97878cce000340e857, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 11
+        ward: 1
+        movementPenalty: 3
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 11
+      wardRating: 1
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights:
+      - 40
+      - 40
+      - 20
+      movementPenalty: 3
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Kite Shield
+      itemID: shield-kite
+      instanceId: 752c4af7421b5024bdefcd80d9ee611a
+      template: {fileID: 11400000, guid: a5dae2b85e394f00a81191d35ec9fc1f, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 2
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: ca5292f874a84c66b7c2051df6a6727a, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 6
+        ward: 1
+        movementPenalty: 1
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 6
+      wardRating: 1
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights:
+      - 50
+      - 30
+      - 20
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Runic Tome
+      itemID: shield-runic-tome
+      instanceId: 246254f8bcb55dff801e75502f992645
+      template: {fileID: 11400000, guid: 11c18a88c7d64b4a943844df2f7b83db, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 2
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: 8237a87b1a974338a87e316524071661, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 1
+        ward: 10
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 2
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 1
+      wardRating: 10
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights:
+      - 50
+      - 30
+      - 20
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 2
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Leather Hood
+      itemID: armor-leather-helmet
+      instanceId: 754e9b2f17475b31a526ca9ca136a620
+      template: {fileID: 11400000, guid: 9807ae7336b479049b49930b92800cf2, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 4
+      rarity: 1
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.28
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 2
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Iron Helm
+      itemID: armor-iron-helmet
+      instanceId: 6a59f98bbc855fad8ab2f9e04abd0ed6
+      template: {fileID: 11400000, guid: 58d28df22d204b0449edab45f3e9def5, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 4
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Steel Helm
+      itemID: armor-steel-helmet
+      instanceId: 3e46789b7b5a5a4cbbb06e4ee2c3cabd
+      template: {fileID: 11400000, guid: c5a9bc9bea6243a4cb5565ebd6eed316, type: 2}
+      armor: 3
+      weapon: 0
+      accessory: 0
+      slot: 4
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Dragonhide Cowl
+      itemID: armor-dragonhide-helmet
+      instanceId: 7194c20544c455f4868b33b211162b01
+      template: {fileID: 11400000, guid: ec438c4d3b8f7274d8d4f2c1d133a417, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 4
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 2
+        ward: 2
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 3
+      wardRating: 3
+      resistances:
+      - damageType: 11
+        percent: 20
+      - damageType: 12
+        percent: -10
+      - damageType: 1
+        percent: -5
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Leather Hood
+      itemID: armor-leather-helmet
+      instanceId: aec77b5602195d1e905d7ff5d7ef4cb6
+      template: {fileID: 11400000, guid: 9807ae7336b479049b49930b92800cf2, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 4
+      rarity: 1
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.28
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 2
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Iron Helm
+      itemID: armor-iron-helmet
+      instanceId: bfb36e429ced5d8585fb978c20849fd0
+      template: {fileID: 11400000, guid: 58d28df22d204b0449edab45f3e9def5, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 4
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Steel Cuirass
+      itemID: armor-steel-chest
+      instanceId: 4a25dc8af90256d1afb7cb9d49c6e57f
+      template: {fileID: 11400000, guid: 8680ad92ae581ab49872c622b25075d8, type: 2}
+      armor: 3
+      weapon: 0
+      accessory: 0
+      slot: 8
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Leather Jerkin
+      itemID: armor-leather-chest
+      instanceId: 28f8f83f0c6c53a8804dc546b2758fd9
+      template: {fileID: 11400000, guid: c70bd34fa9736a04c9ca10ea7fa93534, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 8
+      rarity: 1
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.28
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 2
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Dragonhide Vest
+      itemID: Armor_Dragonhide_Vest
+      instanceId: 95d59d7a0b0056629e80274e5be3accd
+      template: {fileID: 11400000, guid: ef9a37e997aa8d645a5d334d57fd4bf2, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 8
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 2
+        ward: 2
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 3
+      wardRating: 3
+      resistances:
+      - damageType: 11
+        percent: 20
+      - damageType: 12
+        percent: -10
+      - damageType: 1
+        percent: -5
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Iron Cuirass
+      itemID: armor-iron-chest
+      instanceId: 93cb12e410e7545ea27d9410576d447e
+      template: {fileID: 11400000, guid: 1297319a33b238b4f83428898f2fe0cc, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 8
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Steel Cuirass
+      itemID: armor-steel-chest
+      instanceId: 5269aecd70a15055931f9de38184e6e1
+      template: {fileID: 11400000, guid: 8680ad92ae581ab49872c622b25075d8, type: 2}
+      armor: 3
+      weapon: 0
+      accessory: 0
+      slot: 8
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Leather Jerkin
+      itemID: armor-leather-chest
+      instanceId: 36df7ab1e9265833afc94d4fa0aa0187
+      template: {fileID: 11400000, guid: c70bd34fa9736a04c9ca10ea7fa93534, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 8
+      rarity: 1
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.28
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 2
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Dragonhide Grips
+      itemID: armor-dragonhide-gloves
+      instanceId: 8426225b8a525a86ae08ddf884a53cdb
+      template: {fileID: 11400000, guid: 47b56dc918bf8ba4096fdeccfe1ede4c, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 48
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 2
+        ward: 2
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 3
+      wardRating: 3
+      resistances:
+      - damageType: 11
+        percent: 20
+      - damageType: 12
+        percent: -10
+      - damageType: 1
+        percent: -5
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Iron Gauntlets
+      itemID: armor-iron-gloves
+      instanceId: ce28172cd7165d7f91f3fff26047c024
+      template: {fileID: 11400000, guid: 1bf95e7720c046246aff30acc5a9584a, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 48
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Steel Gauntlets
+      itemID: armor-steel-gloves
+      instanceId: dc492bd42b6055d98d4f9c8f930a5575
+      template: {fileID: 11400000, guid: 0ca3d9cc3ab55924db8fa0acc3711146, type: 2}
+      armor: 3
+      weapon: 0
+      accessory: 0
+      slot: 48
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Leather Gloves
+      itemID: armor-leather-gloves
+      instanceId: d296059bcdb25e60b3ac97382a1cf3ac
+      template: {fileID: 11400000, guid: 111e3ffb2a575274298607ba3dc289cc, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 48
+      rarity: 1
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.28
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 2
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Dragonhide Grips
+      itemID: armor-dragonhide-gloves
+      instanceId: 9054e9c320295d0eb0c5e489d947f81f
+      template: {fileID: 11400000, guid: 47b56dc918bf8ba4096fdeccfe1ede4c, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 48
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 2
+        ward: 2
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 3
+      wardRating: 3
+      resistances:
+      - damageType: 11
+        percent: 20
+      - damageType: 12
+        percent: -10
+      - damageType: 1
+        percent: -5
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Iron Gauntlets
+      itemID: armor-iron-gloves
+      instanceId: 85eca6ab89ab56be8178544f4a45f72b
+      template: {fileID: 11400000, guid: 1bf95e7720c046246aff30acc5a9584a, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 48
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Steel Greaves
+      itemID: armor-steel-pants
+      instanceId: 1700a879ccc45b4081625caf54e8b537
+      template: {fileID: 11400000, guid: ff693b940ca9e104a91b07c8463194cb, type: 2}
+      armor: 3
+      weapon: 0
+      accessory: 0
+      slot: 192
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Leather Leggings
+      itemID: armor-leather-pants
+      instanceId: 2575161e5a2a56f3b71dbc5d420361f0
+      template: {fileID: 11400000, guid: 9d54c82cf5d5bed4980c44a1cb52990f, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 192
+      rarity: 1
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.28
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 2
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Dragonhide Legguards
+      itemID: armor-dragonhide-pants
+      instanceId: 695770d4a7065e19b57756fc15bea5a8
+      template: {fileID: 11400000, guid: 7bc4fd1a4404d584d953e8ff81bd7609, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 192
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 2
+        ward: 2
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 3
+      wardRating: 3
+      resistances:
+      - damageType: 11
+        percent: 20
+      - damageType: 12
+        percent: -10
+      - damageType: 1
+        percent: -5
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Iron Greaves
+      itemID: armor-iron-pants
+      instanceId: 583fcacb8bb6522caf753c84be8f3674
+      template: {fileID: 11400000, guid: bc3939317feb981478ce5a7838bc4218, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 192
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Steel Greaves
+      itemID: armor-steel-pants
+      instanceId: 4f883c95b9f55d99ba15616f5f49069d
+      template: {fileID: 11400000, guid: ff693b940ca9e104a91b07c8463194cb, type: 2}
+      armor: 3
+      weapon: 0
+      accessory: 0
+      slot: 192
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Leather Leggings
+      itemID: armor-leather-pants
+      instanceId: c64ad80cbc8455d1ba7faf2ea7a23f77
+      template: {fileID: 11400000, guid: 9d54c82cf5d5bed4980c44a1cb52990f, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 192
+      rarity: 1
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.28
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 2
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Steel Sabatons
+      itemID: armor-steel-boots
+      instanceId: 53fe866ca9b85892abdd5e77f382d6a7
+      template: {fileID: 11400000, guid: 5c077e17904fef146b523b63aecc5f9a, type: 2}
+      armor: 3
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Iron Sabatons
+      itemID: armor-iron-boots
+      instanceId: 3d357f03581d5cf4980b4fb8b6a0a33d
+      template: {fileID: 11400000, guid: 52cb6ff3f0fcf934bbe44f1607be6793, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Dragonhide Treads
+      itemID: armor-dragonhide-boots
+      instanceId: c329a434bdc05fd3b8a37c9ded8e38f2
+      template: {fileID: 11400000, guid: b7c682b618cd208469e174ae1998800b, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 2
+        ward: 2
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 3
+      wardRating: 3
+      resistances:
+      - damageType: 11
+        percent: 20
+      - damageType: 12
+        percent: -10
+      - damageType: 1
+        percent: -5
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Leather Boots
+      itemID: armor-leather-boots
+      instanceId: 76041e7f34b25f2b9f63fa300f9d2b69
+      template: {fileID: 11400000, guid: 6c3b0438f3e70f446bdb6feebf3888e9, type: 2}
+      armor: 1
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 1
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.28
+      baseStats:
+        armor: 1
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 2
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Steel Sabatons
+      itemID: armor-steel-boots
+      instanceId: 91dd3838acf251d080ac4a852891a031
+      template: {fileID: 11400000, guid: 5c077e17904fef146b523b63aecc5f9a, type: 2}
+      armor: 3
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Iron Sabatons
+      itemID: armor-iron-boots
+      instanceId: 01c806af44e8540a965dd9d2f090320d
+      template: {fileID: 11400000, guid: 52cb6ff3f0fcf934bbe44f1607be6793, type: 2}
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Hearthglass Charm
+      itemID: accessory-hearthglass-charm
+      instanceId: 6937c0092016526d904bf91920192120
+      template: {fileID: 11400000, guid: 6d27046d8b4b4869a67f71066bfcc545, type: 2}
+      armor: 0
+      weapon: 0
+      accessory: 2
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances:
+      - damageType: 11
+        percent: 5
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Field Surveyor's Lens
+      itemID: accessory-surveyors-lens
+      instanceId: 1a446c0d7d30524491708eb26be316b9
+      template: {fileID: 11400000, guid: fd4d004001c1441db147413ebbb26e40, type: 2}
+      armor: 0
+      weapon: 0
+      accessory: 3
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 1
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 2
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Apprentice Wardstone
+      itemID: accessory-apprentice-wardstone
+      instanceId: c11f924ba3ed5fefb5643c9ad01a865b
+      template: {fileID: 11400000, guid: 7a42f30bd2074cd3b7bfd0a35e8af290, type: 2}
+      armor: 0
+      weapon: 0
+      accessory: 2
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 1
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 2
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Hearthglass Charm
+      itemID: accessory-hearthglass-charm
+      instanceId: dad783f564d052f7939c8e8db5764605
+      template: {fileID: 11400000, guid: 6d27046d8b4b4869a67f71066bfcc545, type: 2}
+      armor: 0
+      weapon: 0
+      accessory: 2
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances:
+      - damageType: 11
+        percent: 5
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Field Surveyor's Lens
+      itemID: accessory-surveyors-lens
+      instanceId: edd0aaa030ff5b1ba8f923f21b22b8cb
+      template: {fileID: 11400000, guid: fd4d004001c1441db147413ebbb26e40, type: 2}
+      armor: 0
+      weapon: 0
+      accessory: 3
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 1
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 2
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Apprentice Wardstone
+      itemID: accessory-apprentice-wardstone
+      instanceId: f07ff07b17215be48f4d01fa2d90ca02
+      template: {fileID: 11400000, guid: 7a42f30bd2074cd3b7bfd0a35e8af290, type: 2}
+      armor: 0
+      weapon: 0
+      accessory: 2
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0.2
+      baseStats:
+        armor: 0
+        ward: 1
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 2
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 9988cfb357f853c4bbc502cd9fd5aae7
+      definition: {fileID: 11400000, guid: 49effcffaced4aa3a0155eff5c42b03b, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 2
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: e450bc17928c5f3ca3ac3d74bc9b55d6
+      definition: {fileID: 11400000, guid: e9971da9db65451b858e6f6686a9c6d8, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 59630e978ed250c096aa578d9ba90c23
+      definition: {fileID: 11400000, guid: 6e281e7d08fc44ecb44b5d04479fa821, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: bab509e76b92514ea90f56ce18bd6b7f
+      definition: {fileID: 11400000, guid: acabf9cb1088424680785942017fe100, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: c0aba1a84a875c10a04a00e5a48fcc18
+      definition: {fileID: 11400000, guid: e5e82b61b43b48e8b80377853620cbc5, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 2ac9da4dc1fa5c73956174904a64fe77
+      definition: {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 2
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: e9558015852457c08c00acd6a185cf4b
+      definition: {fileID: 11400000, guid: 5524524084ab43099628b41770acdf97, type: 2}
+      consumableType: 2
+      consumeOnUse: 1
+      remainingUses: 2
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 7f8648df51ef5c28b27a3373157f7c5b
+      definition: {fileID: 11400000, guid: f5e6620fc6ca4deba360e31228adafc6, type: 2}
+      consumableType: 2
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 231b589c73a5538483fabc723857efd6
+      definition: {fileID: 11400000, guid: abbfbb7c51134a6ab3cc0b4baadc19e0, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 98a1ea0697a653e393170a8bdd98771a
+      definition: {fileID: 11400000, guid: 2cd8a6e5bddd4514946238aadcd20a6b, type: 2}
+      consumableType: 2
+      consumeOnUse: 1
+      remainingUses: 3
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: f074afc3ba98573484a89fcae16c4dc8
+      definition: {fileID: 11400000, guid: 41fe9655690e4985b3c9a443adafb52b, type: 2}
+      consumableType: 2
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 732900cbd0dd5880b16350db54879bb9
+      definition: {fileID: 11400000, guid: 49effcffaced4aa3a0155eff5c42b03b, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 2
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 61ea1c82a67b5dee930030c17fc3bb72
+      definition: {fileID: 11400000, guid: e9971da9db65451b858e6f6686a9c6d8, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: bb291d1ab1575177a14ae32c8529732f
+      definition: {fileID: 11400000, guid: 6e281e7d08fc44ecb44b5d04479fa821, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 6e2b8d474e605736a588b8fc2aa08b31
+      definition: {fileID: 11400000, guid: acabf9cb1088424680785942017fe100, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: bb7d075191f052658068e35e22572dad
+      definition: {fileID: 11400000, guid: e5e82b61b43b48e8b80377853620cbc5, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 22b97512ef99544195546aa02ba4609f
+      definition: {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 2
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 087aad2f5cbb56c581b56167666a411e
+      definition: {fileID: 11400000, guid: 5524524084ab43099628b41770acdf97, type: 2}
+      consumableType: 2
+      consumeOnUse: 1
+      remainingUses: 2
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: f8155901fb8658bdbeb7a543fa886083
+      definition: {fileID: 11400000, guid: f5e6620fc6ca4deba360e31228adafc6, type: 2}
+      consumableType: 2
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 944afe22208c5a1fbc3ede0546396b35
+      definition: {fileID: 11400000, guid: abbfbb7c51134a6ab3cc0b4baadc19e0, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 8402201ba8d45dd69e23798226246f35
+      definition: {fileID: 11400000, guid: 2cd8a6e5bddd4514946238aadcd20a6b, type: 2}
+      consumableType: 2
+      consumeOnUse: 1
+      remainingUses: 3
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: 93714297773a5ec28fca464e7b0d5f9a
+      definition: {fileID: 11400000, guid: 41fe9655690e4985b3c9a443adafb52b, type: 2}
+      consumableType: 2
+      consumeOnUse: 1
+      remainingUses: 1
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 1
+    equipment:
+      itemName: 
+      itemID: 
+      instanceId: 
+      template: {fileID: 0}
+      armor: 0
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 0
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+    consumable:
+      instanceId: e806237b2a39595790bee16f52334fdf
+      definition: {fileID: 11400000, guid: 49effcffaced4aa3a0155eff5c42b03b, type: 2}
+      consumableType: 1
+      consumeOnUse: 1
+      remainingUses: 2
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  mutationStorageUnlocked: 1
+  mutations: []

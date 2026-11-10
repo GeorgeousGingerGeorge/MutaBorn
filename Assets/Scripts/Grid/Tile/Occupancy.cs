@@ -1,8 +1,7 @@
-using Mono.Cecil;
-using System;
 using System.Collections.Generic;
 
 using UnityEngine;
+
 
 
 public class Occupancy : MonoBehaviour
@@ -13,7 +12,7 @@ public class Occupancy : MonoBehaviour
     private Dictionary<GridNode, UnitController> units = new Dictionary<GridNode, UnitController>();
     private Dictionary<GridNode, ObstacleController> solidObstacles = new Dictionary<GridNode, ObstacleController>();
     private Dictionary<(GridNode, GridNode), ObstacleController> edgeObstacles = new Dictionary<(GridNode,GridNode), ObstacleController>();
-
+   
     
     public bool CanEnterNode(GridNode currentNode, GridNode destination, UnitController unit = null) 
     {
@@ -37,15 +36,10 @@ public class Occupancy : MonoBehaviour
 
         if (unit == null) 
         {
-            if (IsBlockedBySolidObstacle(destination)) 
-            {
-                return false;
-            }
 
             if (IsUnitInNode(destination))
             {
                 return false;
-            
             }
         }   
         else if(!IsFootPrintMovable(destination, unit)) 
@@ -53,13 +47,16 @@ public class Occupancy : MonoBehaviour
             return false;
 
         }
-     
-        if (IsBlockedByEdgeObstacle(currentNode, destination)) 
+
+        if (IsBlockedByEdgeObstacle(currentNode, destination))
         {
             return false;
         }
 
-
+        if (IsDiagonalBlockedByEdgeObstacle(currentNode, destination)) 
+        {
+            return false;
+        }
 
         return true; 
     
@@ -89,13 +86,14 @@ public class Occupancy : MonoBehaviour
     }
     public bool IsBlockedBySolidObstacle(GridNode destination) 
     {
-        if (solidObstacles.ContainsKey(destination)) 
+        if (solidObstacles.TryGetValue(destination, out ObstacleController obstacle) ) 
         {
-            return true;
+            return obstacle != null && obstacle.blocksMovement;
         }
 
         return false; 
     }
+
     public bool IsUnitInNode(GridNode destination) 
     {
         if (units.ContainsKey(destination)) 
@@ -107,18 +105,45 @@ public class Occupancy : MonoBehaviour
 
     public bool IsBlockedByEdgeObstacle(GridNode current, GridNode destination) 
     {
-        if (edgeObstacles.ContainsKey((current, destination))) 
+        bool movementBlocked = false;
+        if (edgeObstacles.TryGetValue((current, destination), out ObstacleController obstacleFirstEntry) && 
+            edgeObstacles.TryGetValue((destination, current), out ObstacleController obstacleSecondEntry)) 
         {
-            return true;
+            if (obstacleFirstEntry == obstacleSecondEntry) 
+            {
+                movementBlocked = obstacleFirstEntry.blocksMovement || obstacleSecondEntry.blocksMovement;
+               
+            }
+           
         }
 
-        if (edgeObstacles.ContainsKey((destination, current)))
-        {
-            return true;
-        }
-
-        return false;
+        return movementBlocked;
     }
+    public bool IsDiagonalBlockedByEdgeObstacle(GridNode current, GridNode destination)
+    {
+        Vector2Int direction = destination.coords - current.coords;
+        if (Mathf.Abs(direction.x) != 1 || Mathf.Abs(direction.y) != 1) 
+        {
+            return false;
+        }
+
+        Vector2Int horizontal = current.coords + new Vector2Int(direction.x, 0);
+        Vector2Int vertical = current.coords + new Vector2Int(0, direction.y);
+
+        GridNode horizontalNode = gridManager.GetNodeFromGridPosition(current.floorID, horizontal);
+        GridNode verticalNode = gridManager.GetNodeFromGridPosition(current.floorID, vertical);
+
+        if (horizontalNode == null || verticalNode == null) 
+        {
+            return true;
+        }
+
+        bool horizontalBlocked = IsBlockedByEdgeObstacle(current, horizontalNode) || IsBlockedByEdgeObstacle(horizontalNode, destination);
+        bool verticalBlocked = IsBlockedByEdgeObstacle(current, verticalNode) || IsBlockedByEdgeObstacle(verticalNode, destination);
+
+        return horizontalBlocked || verticalBlocked; 
+    }
+
 
     //Registry-Adding
     public void RegisterUnit(GridNode currentNode, UnitController unit) 
@@ -168,13 +193,30 @@ public class Occupancy : MonoBehaviour
 
     public void RegisterEdgeObstacles(GridNode firstNode, GridNode secondNode, ObstacleController edgeObstacle) 
     {
+
         if (firstNode == null || secondNode == null || edgeObstacle == null) 
         {
             return;
         }
 
+        if (firstNode == secondNode) 
+        {
+            return; 
+        }
+
+        if (IsBlockedByEdgeObstacle(firstNode, secondNode))
+        {
+
+            return;
+
+        }
+
         edgeObstacles.Add((firstNode, secondNode), edgeObstacle);
+        edgeObstacles.Add((secondNode, firstNode), edgeObstacle);
+        
     }
+
+
 
     //Registry-Removing
     public void UnregisterUnit(GridNode currentNode, UnitController unit) 
@@ -218,9 +260,16 @@ public class Occupancy : MonoBehaviour
             return;
         }
 
-        if (edgeObstacles.TryGetValue((firstNode,secondNode), out ObstacleController exists) &&  exists == edgeObstacle)
+        if (edgeObstacles.TryGetValue((firstNode, secondNode), out ObstacleController exists) && exists == edgeObstacle)
         {
             edgeObstacles.Remove((firstNode, secondNode));
+
+        }
+
+        if (edgeObstacles.TryGetValue((secondNode, firstNode), out exists) && exists == edgeObstacle)
+        {
+            edgeObstacles.Remove((secondNode, firstNode));
+
         }
     }
     private bool TryGetFootprintNodes(GridNode anchorNode, UnitController unit, out List<GridNode> footprintNodes)
@@ -295,6 +344,53 @@ public class Occupancy : MonoBehaviour
         }
 
         return null;
+    }
+    public ObstacleController FindSolidObstacle(GridNode node) 
+    {
+        if (solidObstacles.TryGetValue(node, out ObstacleController obstacle))
+        {
+            return obstacle;
+
+        }
+
+        return null;
+    }
+    public ObstacleController FindEdgeObstacle(GridNode firstnode, GridNode secondNode) 
+    {
+        if (edgeObstacles.TryGetValue((firstnode, secondNode), out ObstacleController obstacle))
+        {
+            return obstacle;
+
+        }
+
+        return null;
+    }
+
+    public bool NodeOwnedBySolidObstacle(GridNode node)
+    {
+        ObstacleController obstacle = null;
+
+        obstacle = FindSolidObstacle(node);
+
+        if (obstacle != null) 
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public IEnumerable<UnitController> GetUnits() 
+    {
+        return new HashSet<UnitController>(units.Values);
+    }
+    public IEnumerable<ObstacleController> GetSolidObstacles() 
+    {
+        return new HashSet<ObstacleController>(solidObstacles.Values);
+    }
+    public IEnumerable<ObstacleController> GetEdgeObstacles() 
+    {
+        return new HashSet<ObstacleController>(edgeObstacles.Values);
     }
     public GridManager ReturnGrid()
     {

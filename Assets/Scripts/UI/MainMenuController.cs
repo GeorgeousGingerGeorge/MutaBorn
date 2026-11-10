@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -12,8 +12,13 @@ public class MainMenuController : MonoBehaviour
     public Button  creditsBackButton; // <-- Found on the credits panel
     public GameObject creditsPanel;
     public GameObject canvasMainMenu; 
-    
-    
+    public Button controlsButton;
+    public Button controlsBackButton;
+    public GameObject controlsPanel;
+    public GameObject optionsPanel;
+    public Button optionsBackButton;
+    public string hubName;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,6 +27,23 @@ public class MainMenuController : MonoBehaviour
         quitButton.onClick.AddListener(QuitGame);
         creditsButton.onClick.AddListener(OpenCredits);
         creditsBackButton.onClick.AddListener(CloseCredits);
+
+        if (controlsButton != null)
+        {
+            controlsButton.onClick.AddListener(OpenControls);
+
+        }
+
+        if (controlsBackButton != null)
+        {
+            controlsBackButton.onClick.AddListener(CloseControls);
+
+        }
+
+        if (optionsBackButton != null)
+        {
+            optionsBackButton.onClick.AddListener(CloseOptions);
+        }
     }
 
     // Update is called once per frame
@@ -31,12 +53,21 @@ public class MainMenuController : MonoBehaviour
     }
     void TestLevel()
     {
-        SceneManager.LoadScene("Main Test Scene");
+        SceneManager.LoadScene(hubName);
     }
 
     void OpenOptions()
     {
         Debug.Log("Options Selected");
+        optionsPanel.SetActive(true);
+        canvasMainMenu.SetActive(false);
+    }
+
+    void CloseOptions()
+    {
+        Debug.Log("Options Menu Closing");
+        optionsPanel.SetActive(false);
+        canvasMainMenu?.SetActive(true);
     }
 
     void QuitGame()
@@ -57,5 +88,35 @@ public class MainMenuController : MonoBehaviour
         Debug.Log("Credits Panel Closing");
         creditsPanel.SetActive(false);
         canvasMainMenu.SetActive(true);
+    }
+
+    void OpenControls()
+    {
+        if (controlsPanel == null || canvasMainMenu == null)
+        {
+            Debug.LogWarning("Main Menu Controls panel or menu panel is not assigned.", this);
+
+            return;
+
+        }
+
+        controlsPanel.SetActive(true);
+        canvasMainMenu.SetActive(false);
+
+    }
+
+    void CloseControls()
+    {
+        if (controlsPanel == null || canvasMainMenu == null)
+        {
+            Debug.LogWarning("Main Menu Controls panel or menu panel is not assigned.", this);
+
+            return;
+
+        }
+
+        controlsPanel.SetActive(false);
+        canvasMainMenu.SetActive(true);
+
     }
 }
