@@ -321,7 +321,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         float cellSize = grid != null ? grid.GridCellSize : 1f;
-        float targetRange = action.CombatRange;
+        float targetRange = action.AreaThrowRangeInTiles * cellSize;
 
         int targetFloorID = action.AreaSameFloorOnly ? source.currentNode.floorID : -1;
         Func<RaycastHit, bool> targetFilter;
@@ -421,7 +421,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         float cellSize = grid != null ? grid.GridCellSize : 1f;
-        float targetRange =  action.AreaThrowRangeInTiles * cellSize  ;
+        float targetRange = action.AreaThrowRangeInTiles * cellSize;
         int targetFloorId = action.AreaSameFloorOnly ? source.currentNode.floorID : -1; 
         Func<RaycastHit, bool> filter = isArea
             ? hit => hit.collider != null && hit.collider.GetComponentInParent<TileController>() != null
@@ -587,7 +587,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 attacker.data.ModifyActionPoints(-Mathf.CeilToInt(pendingAction.ApCost));
                 attacker.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(pendingAction);
                 CancelTargeting();
-
+            
             }
 
             return;
