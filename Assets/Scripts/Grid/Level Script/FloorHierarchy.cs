@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum FloorHierarchyRole 
 {
-    GridSlice,
+    FloorSlice,
     Environment,
     ObstacleContainer,
     ConnectorContainer,
@@ -13,11 +13,11 @@ public enum FloorHierarchyRole
 public class FloorHierarchy : MonoBehaviour
 {
     [Header("Hierarchy Role")]
-    [SerializeField]private FloorHierarchy role;
+    [SerializeField]private FloorHierarchyRole role;
 
     [Header("Grid Information")]
     [SerializeField]private int sliceX;
 
-    public FloorHierarchy Role => role;
+    public FloorHierarchyRole Role => role;
     public int SliceX => sliceX;
 }
