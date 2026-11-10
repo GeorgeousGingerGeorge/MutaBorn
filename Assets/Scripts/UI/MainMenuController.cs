@@ -14,8 +14,9 @@ public class MainMenuController : MonoBehaviour
     public Button controlsButton;
     public Button controlsBackButton;
     public GameObject controlsPanel;
-    
-    
+
+    public string hubName;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,7 +46,7 @@ public class MainMenuController : MonoBehaviour
     }
     void TestLevel()
     {
-        SceneManager.LoadScene("Main Hub Integration Preview");
+        SceneManager.LoadScene(hubName);
     }
 
     void OpenOptions()
