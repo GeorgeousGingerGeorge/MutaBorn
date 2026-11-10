@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class MainMenuController : MonoBehaviour
 {
@@ -14,7 +15,8 @@ public class MainMenuController : MonoBehaviour
     public Button controlsButton;
     public Button controlsBackButton;
     public GameObject controlsPanel;
-
+    public GameObject optionsPanel;
+    public Button optionsBackButton;
     public string hubName;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,6 +39,11 @@ public class MainMenuController : MonoBehaviour
             controlsBackButton.onClick.AddListener(CloseControls);
 
         }
+
+        if (optionsBackButton != null)
+        {
+            optionsBackButton.onClick.AddListener(CloseOptions);
+        }
     }
 
     // Update is called once per frame
@@ -52,6 +59,15 @@ public class MainMenuController : MonoBehaviour
     void OpenOptions()
     {
         Debug.Log("Options Selected");
+        optionsPanel.SetActive(true);
+        canvasMainMenu.SetActive(false);
+    }
+
+    void CloseOptions()
+    {
+        Debug.Log("Options Menu Closing");
+        optionsPanel.SetActive(false);
+        canvasMainMenu?.SetActive(true);
     }
 
     void QuitGame()
