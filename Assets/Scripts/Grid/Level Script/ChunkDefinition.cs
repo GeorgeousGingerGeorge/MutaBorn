@@ -32,7 +32,7 @@ public class ChunkDefinition : ScriptableObject
     public ChunkCategory Category => category;
     public Vector2Int MinimumDimensions => minimumDimensions;
     public Vector2Int MaximumDimensions => maximumDimensions;
-    public List<PrefabDefinition> AllowwedPrefabs => allowedPrefabs;
+    public List<PrefabDefinition> AllowedPrefabs => allowedPrefabs;
     public float MinimumWeight => minimumWeight;
     public float MaximumWeight => maximumWeight;
 
