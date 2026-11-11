@@ -86,6 +86,7 @@ public class ChunkPrefab : MonoBehaviour
                 }
 
                 int gridX = hierarchy.SliceX;
+                DiagnoseSlice(floorChild, gridX, floorDefinition.GridSize.y);
 
                 if (gridX < 0 || gridX >= floorDefinition.GridSize.x) 
                 {
@@ -158,5 +159,61 @@ public class ChunkPrefab : MonoBehaviour
             collectedFloors.Add(floorData);
         }
         return isValid;
+    }
+
+    private void DiagnoseSlice(
+    Transform floorSlice,
+    int sliceX,
+    int expectedZ)
+    {
+        int rawDirectHits = 0;
+
+        HashSet<TileController> directTiles = new();
+
+        foreach (Transform child in floorSlice)
+        {
+            TileController tile =
+                child.GetComponentInParent<TileController>();
+
+            if (tile != null)
+            {
+                rawDirectHits++;
+                directTiles.Add(tile);
+            }
+            else
+            {
+                // Check whether a TileController exists further down.
+                TileController nested =
+                    child.GetComponentInChildren<TileController>(true);
+
+                if (nested != null)
+                {
+                    Debug.LogWarning(
+                        $"Slice X={sliceX}: '{child.name}' contains " +
+                        $"a nested TileController that the current " +
+                        $"extraction method cannot find.",
+                        child);
+                }
+            }
+        }
+
+        TileController[] allDescendants =
+            floorSlice.GetComponentsInChildren<TileController>(true);
+
+        HashSet<TileController> recursiveTiles =
+            new(allDescendants);
+
+        Debug.Log(
+            $"SLICE X={sliceX}\n" +
+            $"Expected Z count: {expectedZ}\n" +
+            $"Direct children: {floorSlice.childCount}\n" +
+            $"Direct controller references: {rawDirectHits}\n" +
+            $"Unique direct controllers: {directTiles.Count}\n" +
+            $"Recursive controllers: {recursiveTiles.Count}\n" +
+            $"Duplicate direct references: " +
+            $"{rawDirectHits - directTiles.Count}\n" +
+            $"Potentially missed nested controllers: " +
+            $"{recursiveTiles.Count - directTiles.Count}",
+            floorSlice);
     }
 }
