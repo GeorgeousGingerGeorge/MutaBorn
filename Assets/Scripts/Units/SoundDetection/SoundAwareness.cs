@@ -13,7 +13,7 @@ public enum SoundType
 [System.Serializable] //For future ScriptableObject Data
 public class SoundAwareness 
 {
-    public GridNode soundOrigin;
+    [NonSerialized] public GridNode soundOrigin;
     public SoundType soundType;
     public int loudness; //Maximum Grid Movement Cost at which this sound can be heard 
 

@@ -22,9 +22,6 @@ public sealed class ObjectiveInteractable : WorldInteractable
     [Tooltip("Destroy removes a rescued unit from the scene and grid.")]
     [SerializeField] private InteractionCompletionOutcome completionOutcome = InteractionCompletionOutcome.DestroyTarget;
 
-    private bool used;
-    public new bool Used => used;
-
     public InteractionCompletionOutcome CompletionOutcome => completionOutcome;
 
     public void RestoreUsedState(bool savedUsed)
