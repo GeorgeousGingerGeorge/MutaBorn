@@ -49,7 +49,7 @@ public static class MissionSaveRestore
     {
         Dictionary<string, UnitController> unitLookup = new Dictionary<string, UnitController>();
 
-        UnitController[] units = Object.FindObjectsByType<UnitController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        UnitController[] units = Object.FindObjectsByType<UnitController>(FindObjectsInactive.Include);
 
         foreach (UnitController unit in units)
         {

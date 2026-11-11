@@ -16,7 +16,7 @@ public static class MutationTactics
         }
 
         int found = 0;
-        foreach (WorldTrap trap in Object.FindObjectsByType<WorldTrap>(FindObjectsSortMode.None))
+        foreach (WorldTrap trap in Object.FindObjectsByType<WorldTrap>())
         {
             if (trap == null || trap.IsRevealed ||
                 !InRange(owner.currentNode, grid.GetNodeFromClosestWorldPosition(trap.transform.position),
@@ -34,7 +34,7 @@ public static class MutationTactics
 
         FactionManager factions = Object.FindAnyObjectByType<FactionManager>();
         UnitFaction ownerFaction = owner.GetComponent<UnitFaction>();
-        foreach (UnitController target in Object.FindObjectsByType<UnitController>(FindObjectsSortMode.None))
+        foreach (UnitController target in Object.FindObjectsByType<UnitController>())
         {
             if (target == null || target == owner || target.data == null ||
                 target.data.currentHealth <= 0 || !InRange(owner.currentNode, target.currentNode,
@@ -93,7 +93,7 @@ public static class MutationTactics
 
         }
 
-        foreach (MutationDeployable deployed in Object.FindObjectsByType<MutationDeployable>(FindObjectsSortMode.None))
+        foreach (MutationDeployable deployed in Object.FindObjectsByType<MutationDeployable>())
         {
             if (deployed != null && deployed.Node == node)
             {

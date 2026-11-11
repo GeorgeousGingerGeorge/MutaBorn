@@ -95,10 +95,7 @@ public class SaveSystemTester : MonoBehaviour
             return;
         }
 
-        UnitController[] units = FindObjectsByType<UnitController>(
-            FindObjectsInactive.Include,
-            FindObjectsSortMode.None
-        );
+        UnitController[] units = FindObjectsByType<UnitController>(FindObjectsInactive.Include);
 
         foreach (UnitController unit in units)
         {
