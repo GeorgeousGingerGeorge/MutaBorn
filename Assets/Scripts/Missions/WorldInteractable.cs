@@ -14,11 +14,9 @@ public class WorldInteractable : SimpleInteractable
     [Tooltip("Invoked after a valid interaction. Connect any number of scene or prefab receivers.")]
     [SerializeField] private UnityEvent onInteracted = new UnityEvent();
 
-    private bool used;
-
+    public bool used;
     public ActionDefinition InteractionAction => interactionAction;
     public string InteractionId => interactionAction != null ? interactionAction.Id : interactionId;
-    public bool Used => used;
     public virtual string InteractionMenuLabel => interactionAction == null
         ? InteractionTargetName
         : $"{interactionAction.DisplayName} {InteractionTargetName}";

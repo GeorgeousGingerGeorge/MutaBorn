@@ -12,7 +12,7 @@ public static class MissionSaveCapture
             saveTimeUTC = DateTime.UtcNow.ToString("O")
         };
 
-        UnitController[] units = UnityEngine.Object.FindObjectsByType<UnitController>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        UnitController[] units = UnityEngine.Object.FindObjectsByType<UnitController>(FindObjectsInactive.Include);
 
         foreach (UnitController unit in units)
         {

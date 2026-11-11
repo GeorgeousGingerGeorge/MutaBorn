@@ -398,7 +398,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
                 foreach (ObjectiveInteractable interactable in interactables)
                 {
                     if (interactable != null && interactable.isActiveAndEnabled &&
-                        !interactable.Used &&
+                        !interactable.used &&
                         string.Equals(interactable.InteractionId?.Trim(), objective.Template.InteractionId?.Trim(),
                             StringComparison.OrdinalIgnoreCase) &&
                         MatchesTarget(objective.Template, interactable))
