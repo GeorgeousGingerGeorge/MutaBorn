@@ -11,7 +11,6 @@ public class ObstacleController : MonoBehaviour
     private Occupancy occupancy;
     private GridManager gridManager;
     private FloorConnector connector;
-    private bool registered;
 
     [Header("Obstacle Information")]
     [SerializeField] private ObstacleData data;
@@ -54,7 +53,7 @@ public class ObstacleController : MonoBehaviour
     
     private bool occupancyRegistered;
 
-    public bool IsBlocking => registered;
+    public bool IsBlocking => occupancyRegistered;
     public Occupancy CurrentOccupancy => occupancy;
 
     public void Awake()
@@ -149,7 +148,7 @@ public class ObstacleController : MonoBehaviour
                 break;
 
             case ObstacleType.FloorConnectors:
-                FloorConnector connector = GetComponent<FloorConnector>();
+                connector = GetComponent<FloorConnector>();
 
                 if (connector != null && connector.connectorType == ConnectorType.Stairs)
                 {
@@ -161,7 +160,7 @@ public class ObstacleController : MonoBehaviour
 
                     }
 
-                    registered = true;
+                    occupancyRegistered = true;
 
                 }
 
@@ -188,7 +187,7 @@ public class ObstacleController : MonoBehaviour
 
         }
 
-        if (blocked == registered)
+        if (blocked == occupancyRegistered)
         {
             return true;
 
@@ -262,9 +261,9 @@ public class ObstacleController : MonoBehaviour
                 return false;
 
         }
-        UpdateOccupancyRegistration(false);
+        UpdateOccupancyRegistration(!blocked);
 
-        return true;
+        return occupancyRegistered == blocked;
         
     }
 
