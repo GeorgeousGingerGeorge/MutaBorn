@@ -20,13 +20,13 @@ public sealed class WorkshopUpgradeRowUI : MonoBehaviour
     {
         if (label != null)
         {
-            string name = !string.IsNullOrWhiteSpace(item.itemName) ? item.itemName : item.template.itemName;
+            string name = !string.IsNullOrWhiteSpace(item.itemName) ? item.itemName : item.itemName;
             label.text = name + "  " + (int)item.rarity + "/5" +
                 (string.IsNullOrEmpty(ownerName) ? "  [Storage]" : "  [" + ownerName + "]");
         }
         if (icon != null)
         {
-            icon.sprite = item.template != null ? item.template.sprite : null;
+            icon.sprite = item.Icon;
             icon.enabled = icon.sprite != null;
             icon.preserveAspect = true;
             icon.raycastTarget = false;

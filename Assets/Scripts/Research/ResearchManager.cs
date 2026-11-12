@@ -152,6 +152,55 @@ public sealed class ResearchManager : MonoBehaviour
 
     }
 
+    public bool IsEquipmentTemplateAvailable(EquipmentTemplateReference reference)
+    {
+        if (!reference.TryResolve(out EquipmentTemplate template) || database == null)
+        {
+            return false;
+
+        }
+
+        bool hasDirectUnlock = false;
+        foreach (ResearchNode node in database.Nodes)
+        {
+            if (node == null || node.benefits == null)
+            {
+                continue;
+
+            }
+
+            foreach (ResearchBenefit benefit in node.benefits)
+            {
+                if (benefit != null && benefit.type == ResearchBenefitType.Recipe &&
+                    benefit.equipmentTemplate.equipmentType == reference.equipmentType &&
+                    string.Equals(benefit.equipmentTemplate.templateId, reference.templateId,
+                        StringComparison.Ordinal))
+                {
+                    hasDirectUnlock = true;
+                    if (IsComplete(node.id))
+                    {
+                        return true;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (hasDirectUnlock)
+        {
+            return false;
+
+        }
+
+        // Migrated recipes continue to use their existing research card IDs.
+        return !string.IsNullOrWhiteSpace(template.LegacyRecipeId) &&
+            IsRecipeAvailable(template.LegacyRecipeId);
+
+    }
+
     public int DiscountedCraftingCost(int baseCost)
     {
         int discount = Mathf.Clamp(BenefitTotal(ResearchBenefitType.CraftingDiscount), 0, 95);
@@ -293,6 +342,18 @@ public sealed class ResearchManager : MonoBehaviour
 
         }
 
+        if (node.battlesRequired == 0)
+        {
+            completedIds.Add(id);
+            pendingCompletionIds.Add(id);
+            SynchronizeUnlocks();
+            reason = "Research completed: " + node.displayName;
+            StateChanged?.Invoke();
+
+            return true;
+
+        }
+
         activeResearchId = id;
         remainingBattles = Mathf.Max(1, node.battlesRequired -
             BenefitTotal(ResearchBenefitType.ResearchSpeed));
@@ -390,6 +451,45 @@ public sealed class ResearchManager : MonoBehaviour
             }
 
         }
+
+    }
+
+    public int DebugUnlockAllResearch()
+    {
+        if (!Application.isEditor && !Debug.isDebugBuild)
+        {
+            return 0;
+
+        }
+        if (database == null)
+        {
+            Debug.LogWarning("Cannot unlock research: no ResearchDatabase is assigned.", this);
+
+            return 0;
+
+        }
+
+        int unlocked = 0;
+        foreach (ResearchNode node in database.Nodes)
+        {
+            if (node == null || string.IsNullOrWhiteSpace(node.id) || IsComplete(node.id))
+            {
+                continue;
+
+            }
+
+            completedIds.Add(node.id);
+            unlocked++;
+
+        }
+
+        activeResearchId = string.Empty;
+        remainingBattles = 0;
+        pendingCompletionIds.Clear();
+        SynchronizeUnlocks();
+        StateChanged?.Invoke();
+
+        return unlocked;
 
     }
 
