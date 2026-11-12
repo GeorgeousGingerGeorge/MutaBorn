@@ -16,21 +16,20 @@ MonoBehaviour:
   _itemID: armor-iron-pants
   _description: Iron Greaves fitted to protect the legs during long engagements. Reliable forged iron plates built for everyday battlefield protection.
   _sprite: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-  displayTypeLabel: "Pants"
-  itemName: Iron Armor
-  itemID: Armor_Iron_Armor
+  _equippedModelPrefab: {fileID: 6829650038492538919, guid: 873d871f5dd60914b8d8375c21c9180e, type: 3}
   armor: 2
   weapon: 0
+  weaponSubtype: 0
+  _weaponModelPrefab: {fileID: 6829650038492538919, guid: 873d871f5dd60914b8d8375c21c9180e, type: 3}
+  accessory: 0
   targetSlot: 192
   equipmentFit: 5
   requiresBothHands: 0
+  displayTypeLabel: Pants
   currentRarity: 1
   type: 1
   statModifier: 0
-  grantedActionSet: {fileID: 0}
-  accessory: 0
-  weaponSubtype: 0
-  startingScaling: 
+  startingScaling:
     strength: 1
     dexterity: 0
     vitality: 0
@@ -43,17 +42,53 @@ MonoBehaviour:
   guaranteedBonusDamage: []
   generateStarRewards: 1
   possibleAbilities: []
-  possibleBonuses: 
+  possibleBonuses:
   - kind: 0
     weight: 100
     stat: 0
     damageType: 0
     amountRange: {x: 1, y: 3}
-    effect: {}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
+  grantedActionSet: {fileID: 0}
   grantedEffectCollection: {fileID: 0}
+  _armorRating: 3
   _wardRating: 0
   resistances: []
-  _armorRating: 3
   _movementPenalty: 0
   _meleeDamage: 0
   _rangeDamage: 0

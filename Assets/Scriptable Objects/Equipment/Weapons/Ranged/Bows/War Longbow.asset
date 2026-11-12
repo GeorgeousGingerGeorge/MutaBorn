@@ -12,36 +12,172 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26a55a7212599a0419e986f77eb48d6c, type: 3}
   m_Name: War Longbow
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
-  _itemName: "War Longbow"
+  _itemName: War Longbow
   _itemID: Weapon_Bow_B
-  _description: "A long draw and hard punches. Specializes in Power Shot and armor penetration."
+  _description: A long draw and hard punches. Specializes in Power Shot and armor penetration.
   _sprite: {fileID: 21300000, guid: eb1bef7283d04874ebc5a62e8a55e262, type: 3}
-  displayTypeLabel: Bow
+  _equippedModelPrefab: {fileID: 1873514907322155636, guid: 712ce6da3913ce747931fd364eb7051e, type: 3}
   armor: 0
   weapon: 2
+  weaponSubtype: 7
+  _weaponModelPrefab: {fileID: 1873514907322155636, guid: 712ce6da3913ce747931fd364eb7051e, type: 3}
   accessory: 0
   targetSlot: 1
   equipmentFit: 1
   requiresBothHands: 1
+  displayTypeLabel: Bow
   currentRarity: 1
   type: 1
   statModifier: 2
-  guaranteedActions:
-  - {fileID: 11400000, guid: 2896ae8302a238e49866d7a723972148, type: 2}
-  grantedActionSet: {fileID: 11400000, guid: 81a04d78e67e3df4eb2467e5699d0f45, type: 2}
-  weaponSubtype: 7
-  startingScaling: 
+  startingScaling:
     strength: 0
     dexterity: 2
     vitality: 0
     constitution: 0
     perception: 2
     intelligence: 0
-  primaryDamageType: 2
+  guaranteedActions:
+  - {fileID: 11400000, guid: 2896ae8302a238e49866d7a723972148, type: 2}
   guaranteedEffects: []
+  primaryDamageType: 2
   guaranteedBonusDamage: []
+  generateStarRewards: 1
+  possibleAbilities:
+  - action: {fileID: 11400000, guid: 15216698aa6648847ac8540b0aedbdde, type: 2}
+    weight: 40
+  - action: {fileID: 11400000, guid: baf9be4b5afd4690aed47cb72e5423e6, type: 2}
+    weight: 35
+  - action: {fileID: 11400000, guid: 19a29370945f42c59fd1eaa0994078e5, type: 2}
+    weight: 25
+  possibleBonuses:
+  - kind: 0
+    weight: 45
+    stat: 3
+    damageType: 2
+    amountRange: {x: 1, y: 3}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
+  - kind: 0
+    weight: 25
+    stat: 0
+    damageType: 2
+    amountRange: {x: 1, y: 2}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
+  - kind: 1
+    weight: 30
+    stat: 3
+    damageType: 2
+    amountRange: {x: 2, y: 5}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
+  grantedActionSet: {fileID: 11400000, guid: 81a04d78e67e3df4eb2467e5699d0f45, type: 2}
   grantedEffectCollection: {fileID: 0}
   _armorRating: 0
+  _wardRating: 0
+  resistances: []
   _movementPenalty: 0
   _meleeDamage: 0
   _rangeDamage: 6
@@ -53,30 +189,3 @@ MonoBehaviour:
   _armorRatingRange: {x: 0, y: 0}
   _movementPenaltyRange: {x: 0, y: 0}
   _accuracyRange: {x: 0, y: 0}
-  possibleBonuses:
-  - kind: 0
-    weight: 45
-    stat: 3
-    damageType: 2
-    amountRange: {x: 1, y: 3}
-    effect: {}
-  - kind: 0
-    weight: 25
-    stat: 0
-    damageType: 2
-    amountRange: {x: 1, y: 2}
-    effect: {}
-  - kind: 1
-    weight: 30
-    stat: 3
-    damageType: 2
-    amountRange: {x: 2, y: 5}
-    effect: {}
-  generateStarRewards: 1
-  possibleAbilities:
-  - action: {fileID: 11400000, guid: 15216698aa6648847ac8540b0aedbdde, type: 2}
-    weight: 40
-  - action: {fileID: 11400000, guid: baf9be4b5afd4690aed47cb72e5423e6, type: 2}
-    weight: 35
-  - action: {fileID: 11400000, guid: 19a29370945f42c59fd1eaa0994078e5, type: 2}
-    weight: 25

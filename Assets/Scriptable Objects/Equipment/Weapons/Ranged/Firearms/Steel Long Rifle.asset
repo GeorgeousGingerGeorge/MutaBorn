@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26a55a7212599a0419e986f77eb48d6c, type: 3}
-  m_Name: "Steel Long Rifle"
+  m_Name: Steel Long Rifle
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
-  _itemName: "Steel Long Rifle"
-  _itemID: "weapon-steel-long-rifle"
-  _description: "Forged or assembled around Steel and Gunpowder. Two-handed firearm with stronger attacks but occupies both hands. Additional techniques can be earned through equipment stars."
+  _itemName: Steel Long Rifle
+  _itemID: weapon-steel-long-rifle
+  _description: Forged or assembled around Steel and Gunpowder. Two-handed firearm with stronger attacks but occupies both hands. Additional techniques can be earned through equipment stars.
   _sprite: {fileID: 21300000, guid: e260138abe484e19b1fcd72177fac7ec, type: 3}
-  _equippedModelPrefab: {fileID: 0}
+  _equippedModelPrefab: {fileID: 7949389198104037512, guid: 5e374af4cd899d34ba335ac21d7edc80, type: 3}
   armor: 0
   weapon: 2
   weaponSubtype: 8
-  _weaponModelPrefab: {fileID: 0}
+  _weaponModelPrefab: {fileID: 7949389198104037512, guid: 5e374af4cd899d34ba335ac21d7edc80, type: 3}
   accessory: 0
   targetSlot: 1
   equipmentFit: 1
   requiresBothHands: 1
-  displayTypeLabel: "Firearm"
+  displayTypeLabel: Firearm
   currentRarity: 2
   type: 1
   statModifier: 0
@@ -36,38 +36,143 @@ MonoBehaviour:
     constitution: 0
     perception: 3
     intelligence: 0
-  guaranteedActions: 
+  guaranteedActions:
   - {fileID: 11400000, guid: 5262d0ab17a8444db32d484ec373962d, type: 2}
   guaranteedEffects: []
   primaryDamageType: 2
   guaranteedBonusDamage: []
   generateStarRewards: 1
-  possibleAbilities: 
+  possibleAbilities:
   - action: {fileID: 11400000, guid: fe074b053fb2436aa61402f87587a28a, type: 2}
     weight: 50
   - action: {fileID: 11400000, guid: a1489b60e4384b2d9e1bf60a1c82ebb3, type: 2}
     weight: 35
   - action: {fileID: 11400000, guid: de491b7bd5f04a0fa0b4400158437ece, type: 2}
     weight: 25
-  possibleBonuses: 
+  possibleBonuses:
   - kind: 0
     weight: 55
     stat: 2
     damageType: 0
     amountRange: {x: 1, y: 3}
-    effect: {}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
   - kind: 0
     weight: 35
     stat: 3
     damageType: 0
     amountRange: {x: 1, y: 3}
-    effect: {}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
   - kind: 0
     weight: 20
     stat: 0
     damageType: 0
     amountRange: {x: 1, y: 2}
-    effect: {}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
   grantedActionSet: {fileID: 0}
   grantedEffectCollection: {fileID: 0}
   _armorRating: 1
