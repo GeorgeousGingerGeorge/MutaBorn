@@ -9,9 +9,6 @@ public class ChunkPlacementCandidate
     [Header("Generation Weight")]
     public float currentWeight;
 
-    [Header("Generation Depth")]
-    public int generationDepth;
-
     [Header("Placement Condition")]
     public bool isPlaced; 
 
@@ -19,7 +16,6 @@ public class ChunkPlacementCandidate
     {
         sourceSocket = socket;
         currentWeight = weight;
-        generationDepth = depth;
         isPlaced = false;
     }
 

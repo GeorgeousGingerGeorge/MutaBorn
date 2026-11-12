@@ -1,15 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using System.Reflection.Metadata.Ecma335;
-using Unity.VisualScripting;
+
 
 public class ProceduralLevelGenerator : MonoBehaviour
 {
     [Header("Generation Profile")]
     [SerializeField] private LevelGenerationProfile generationProfile;
 
-    [Header("Generation Profile")]
+    [Header("Generation Limit")]
     [SerializeField, Min(1)] private int allocationAttempts = 25;
 
     private System.Random random;
@@ -24,7 +23,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
     
     //Starts Generation
 
-    public bool TryGeneratInitialLayout(out GeneratedLevelLayout layout) 
+    public bool TryGenerateInitialLayout(out GeneratedLevelLayout layout) 
     {
         layout = null;
 
@@ -54,7 +53,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
 
     }
 
-   
+ 
     //Creates ChunkInstance
     private bool TryCreateChunk(ChunkDefinition definition, Vector2Int chunkOrigin, out ChunkInstance chunk) 
     {
@@ -84,7 +83,10 @@ public class ProceduralLevelGenerator : MonoBehaviour
                 prefabGridOffset = prefabOffset,
                 rotationDegrees = rotation,
                 prefabInstance = null,
-                floors = new List<ChunkFloorInstance>()
+                floors = new List<ChunkFloorInstance>(),
+                generationWeight = 100f,
+                sockets = new List<ChunkSocketInstance>(),
+                
             };
             return true;
         }
@@ -226,7 +228,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
 
     private void RegisterPlacementCandidates(ChunkInstance chunk) 
     {
-        float nextWeight = Mathf.Max(0f, chunk.generationWeight, chunk.chunkDefinition.InfluenceStrength);
+        float nextWeight = Mathf.Max(0f, chunk.generationWeight - chunk.chunkDefinition.InfluenceStrength);
 
         foreach(ChunkSocketInstance socket in chunk.sockets) 
         {
@@ -276,7 +278,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
 
     private void GenerateInitialLayoutTest() 
     {
-        if (!TryGeneratInitialLayout(out GeneratedLevelLayout layout)) 
+        if (!TryGenerateInitialLayout(out GeneratedLevelLayout layout)) 
         {
             return;
         }

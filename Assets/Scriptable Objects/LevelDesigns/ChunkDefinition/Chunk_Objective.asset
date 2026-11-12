@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9163df509a99043a60835f6424f490, type: 3}
   m_Name: Chunk_Objective
   m_EditorClassIdentifier: Assembly-CSharp::ChunkDefinition
-  chunkID: 
+  chunkID: Objective_01
   category: 2
-  minimumDimensions: {x: 0, y: 0}
-  maximumDimensions: {x: 0, y: 0}
-  allowedPrefabs: []
-  minimumWeight: 0
-  maximumWeight: 0
-  influenceStrength: 0
+  minimumDimensions: {x: 8, y: 8}
+  maximumDimensions: {x: 14, y: 14}
+  allowedPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  minimumWeight: 85
+  maximumWeight: 100
+  influenceStrength: 20
   minimumFloors: 1
   maximumFloors: 3

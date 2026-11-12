@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9163df509a99043a60835f6424f490, type: 3}
   m_Name: Chunk_Evacuation
   m_EditorClassIdentifier: Assembly-CSharp::ChunkDefinition
-  chunkID: 
+  chunkID: evacuation_01
   category: 0
-  minimumDimensions: {x: 0, y: 0}
-  maximumDimensions: {x: 0, y: 0}
-  allowedPrefabs: []
-  minimumWeight: 0
-  maximumWeight: 0
-  influenceStrength: 0
+  minimumDimensions: {x: 8, y: 8}
+  maximumDimensions: {x: 12, y: 12}
+  allowedPrefabs:
+  - {fileID: 11400000, guid: a825220f9b5adf449b8a44696bc3d57c, type: 2}
+  - {fileID: 0}
+  minimumWeight: 90
+  maximumWeight: 100
+  influenceStrength: 15
   minimumFloors: 1
-  maximumFloors: 3
+  maximumFloors: 2

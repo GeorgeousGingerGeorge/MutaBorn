@@ -16,6 +16,8 @@ public class ChunkFloorInstance
 
     [Header("Prefab Hierarchy")]
     public Transform floorTransform;
+    [Header("GridSize")]
+    public Vector2Int gridSize;
 
     [Header("ActualGridCells")]
     public List<GridCellDescriptor> cells = new List<GridCellDescriptor>();

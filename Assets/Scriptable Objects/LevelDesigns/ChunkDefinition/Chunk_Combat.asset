@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChunkDefinition
   chunkID: Combat_Zone
   category: 3
-  minimumDimensions: {x: 0, y: 0}
-  maximumDimensions: {x: 0, y: 0}
-  allowedPrefabs: []
-  minimumWeight: 0
-  maximumWeight: 0
-  influenceStrength: 0
+  minimumDimensions: {x: 10, y: 10}
+  maximumDimensions: {x: 16, y: 16}
+  allowedPrefabs:
+  - {fileID: 11400000, guid: a825220f9b5adf449b8a44696bc3d57c, type: 2}
+  minimumWeight: 55
+  maximumWeight: 85
+  influenceStrength: 12
   minimumFloors: 1
-  maximumFloors: 3
+  maximumFloors: 2
