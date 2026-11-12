@@ -240,8 +240,8 @@ public sealed class HubStorageMenu : MonoBehaviour
 
         }
 
-        EquipmentData equipment = item.Equipment.template;
-        if (equipment == null)
+        EquipmentInstance equipment = item.Equipment;
+        if (!equipment.IsValid)
         {
             return false;
 
@@ -250,7 +250,7 @@ public sealed class HubStorageMenu : MonoBehaviour
         EquipmentFitType fit = equipment.EquipmentFit;
         if (selectedCategory == Category.Weapons)
         {
-            return fit == EquipmentFitType.Hand || equipment.weaponGear != WeaponCategory.None;
+            return fit == EquipmentFitType.Hand || equipment.weapon != WeaponCategory.None;
 
         }
 
@@ -285,9 +285,10 @@ public sealed class HubStorageMenu : MonoBehaviour
         if (item.Kind == StoredItemKind.Equipment)
         {
             EquipmentInstance equipment = item.Equipment;
-            EquipmentData template = equipment.template;
-            name = string.IsNullOrWhiteSpace(equipment.itemName) ? name : equipment.itemName;
-            type = template == null ? "Equipment" : template.DisplayTypeLabel;
+            name = equipment.itemName;
+            description = equipment.Description;
+            sprite = equipment.Icon;
+            type = equipment.DisplayTypeLabel;
             stars = (int)equipment.rarity;
             EquipmentStatValues values = EquipmentGenerator.GetEffectiveStats(equipment, null);
             StringBuilder info = new StringBuilder();
