@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26a55a7212599a0419e986f77eb48d6c, type: 3}
-  m_Name: "Wooden Hand Crossbow"
+  m_Name: Wooden Hand Crossbow
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
-  _itemName: "Wooden Hand Crossbow"
-  _itemID: "weapon-wooden-hand-crossbow"
-  _description: "Forged or assembled around Wood and Textiles. One-handed crossbow with flexible hand-slot use. Additional techniques can be earned through equipment stars."
+  _itemName: Wooden Hand Crossbow
+  _itemID: weapon-wooden-hand-crossbow
+  _description: Forged or assembled around Wood and Textiles. One-handed crossbow with flexible hand-slot use. Additional techniques can be earned through equipment stars.
   _sprite: {fileID: 21300000, guid: 3e5e8d3fcb7b43e990520a23a83a87ff, type: 3}
-  _equippedModelPrefab: {fileID: 0}
+  _equippedModelPrefab: {fileID: 552349417994235922, guid: 26fcd6f24efac2441a6a27638832807b, type: 3}
   armor: 0
   weapon: 2
   weaponSubtype: 9
-  _weaponModelPrefab: {fileID: 0}
+  _weaponModelPrefab: {fileID: 552349417994235922, guid: 26fcd6f24efac2441a6a27638832807b, type: 3}
   accessory: 0
   targetSlot: 1
   equipmentFit: 1
   requiresBothHands: 0
-  displayTypeLabel: "Crossbow"
+  displayTypeLabel: Crossbow
   currentRarity: 0
   type: 1
   statModifier: 0
@@ -36,26 +36,61 @@ MonoBehaviour:
     constitution: 0
     perception: 2
     intelligence: 0
-  guaranteedActions: 
+  guaranteedActions:
   - {fileID: 11400000, guid: 87318f80c4c24c79a0e0ff2b0883f13f, type: 2}
   guaranteedEffects: []
   primaryDamageType: 2
   guaranteedBonusDamage: []
   generateStarRewards: 1
-  possibleAbilities: 
+  possibleAbilities:
   - action: {fileID: 11400000, guid: a0d31a2b9ae04419be2beb6b5dc24b7d, type: 2}
     weight: 50
   - action: {fileID: 11400000, guid: 10d42a414fa14680a0666c9060561dce, type: 2}
     weight: 35
   - action: {fileID: 11400000, guid: 2dfcf191474d4be0a85df45fa441ae25, type: 2}
     weight: 25
-  possibleBonuses: 
+  possibleBonuses:
   - kind: 0
     weight: 55
     stat: 3
     damageType: 0
     amountRange: {x: 1, y: 3}
-    effect: {}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
   grantedActionSet: {fileID: 0}
   grantedEffectCollection: {fileID: 0}
   _armorRating: 0
