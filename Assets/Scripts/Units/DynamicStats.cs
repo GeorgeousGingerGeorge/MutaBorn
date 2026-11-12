@@ -1,3 +1,4 @@
+using System;
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -154,7 +155,7 @@ public class DynamicStats : ScriptableObject
     [SerializeField, Range(0, 100)] private int equipmentBonusPercent = 15;
     [SerializeField, Range(0, 100)] private int specialEquipmentBonusPercent = 25;
     [Tooltip("Dwarf equipment that receives the special bonus instead of the regular bonus.")]
-    [SerializeField] private List<EquipmentData> specialEquipment = new List<EquipmentData>();
+    [SerializeField] private List<EquipmentTemplateReference> specialEquipment = new List<EquipmentTemplateReference>();
 
     public RacialPassiveKind RacialPassive => racialPassive;
     public float TeammateDamagePercent => teammateDamagePercent;
@@ -163,21 +164,33 @@ public class DynamicStats : ScriptableObject
     public int RacialDexterityBonus => racialPassive == RacialPassiveKind.Opportunist ? goblinDexterityBonus : 0;
     public int RacialPerceptionBonus => racialPassive == RacialPassiveKind.KeenSenses ? elfPerceptionBonus : 0;
 
-    public int GetEquipmentBonusPercent(EquipmentData template)
+    public int GetEquipmentBonusPercent(EquipmentInstance equipment)
     {
         if (racialPassive != RacialPassiveKind.MasterCraftsman)
         {
-
             return 0;
 
         }
 
-        return template != null && specialEquipment != null && specialEquipment.Contains(template)
-            ? specialEquipmentBonusPercent : equipmentBonusPercent;
+        if (specialEquipment != null)
+        {
+            foreach (EquipmentTemplateReference reference in specialEquipment)
+            {
+                if (reference.equipmentType == equipment.typeDefinition &&
+                    string.Equals(reference.templateId, equipment.templateId, StringComparison.Ordinal))
+                {
+                    return specialEquipmentBonusPercent;
+
+                }
+
+            }
+
+        }
+
+        return equipmentBonusPercent;
 
     }
 
-    
     [Header("BaseCharater- Modifiers")]
     public float strengthModifier => _strengthModifier;
     public float dexterityModifier => _dexterityModifier;
