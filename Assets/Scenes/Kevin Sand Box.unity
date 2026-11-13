@@ -419,6 +419,8 @@ MonoBehaviour:
   researchText: {fileID: 0}
   claimAndReturnButton: {fileID: 0}
   hubSceneName: TEST Hub
+  victoryExperience: 100
+  victoryMutationPoints: 25
   victoryColor: {r: 0.35, g: 0.9, b: 0.5, a: 1}
   defeatColor: {r: 1, g: 0.4, b: 0.4, a: 1}
   pauseGameOnResult: 1
@@ -613,6 +615,9 @@ MonoBehaviour:
   pauseMenu: {fileID: 1731839470}
   optionsMenu: {fileID: 1425032847}
   quitMenu: {fileID: 1876232482}
+  quitGame: {fileID: 0}
+  saveButton: {fileID: 0}
+  loadButton: {fileID: 0}
 --- !u!1 &19428250
 GameObject:
   m_ObjectHideFlags: 0
@@ -2314,7 +2319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &165828152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4528,7 +4532,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &406841738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6925,7 +6928,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &807803563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12305,7 +12307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1262682080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12823,6 +12824,7 @@ MonoBehaviour:
   onInteracted:
     m_PersistentCalls:
       m_Calls: []
+  used: 0
   requiresActiveObjective: 1
   completionOutcome: 0
 --- !u!114 &1279446978
@@ -12874,7 +12876,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1279446982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16890,7 +16891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1549101449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18903,7 +18903,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1699330938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20672,7 +20671,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1808681448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21390,6 +21388,7 @@ MonoBehaviour:
   onInteracted:
     m_PersistentCalls:
       m_Calls: []
+  used: 0
   requiresActiveObjective: 1
   completionOutcome: 0
 --- !u!114 &1876005492
@@ -21441,7 +21440,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1876005496
 MonoBehaviour:
   m_ObjectHideFlags: 0
