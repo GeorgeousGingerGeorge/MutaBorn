@@ -51,7 +51,7 @@ public class UnitMovements : MonoBehaviour
         }
     }
 
-    public void SetEquipmentAnimation(EquipmentData equipment) // for attack-specific animation
+    public void SetEquipmentAnimation(EquipmentInstance equipment) // for attack-specific animation
     {
         if (animBaseChar == null)
         {
@@ -61,14 +61,14 @@ public class UnitMovements : MonoBehaviour
         int idleType = 0;
         int runType = 0;
 
-        if (equipment != null)
+        if (equipment.IsValid)
         {
-            if (equipment.WeaponSubtypeId == WeaponSubtype.Bow)
+            if (equipment.WeaponSubtype == WeaponSubtype.Bow)
             {
                 idleType = 3;
                 runType = 3;
             }
-            else if (equipment.weaponGear == WeaponCategory.Melee)
+            else if (equipment.weapon == WeaponCategory.Melee)
             {
                 idleType = equipment.RequiresBothHands ? 2 : 1;
             }
