@@ -1156,6 +1156,13 @@ public sealed class CombatActionExecutor : MonoBehaviour
             return false;
         }
 
+        Animator animator = source.GetComponentInChildren<Animator>();
+
+        if (animator != null && animator.GetInteger("IdleType") == 3)
+        {
+            animator.SetTrigger("Attack");
+        }
+
         // Pay for the attack when fired, regardless of whether the projectile hits.
         source.data.ModifyActionPoints(-apCost);
         source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);

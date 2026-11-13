@@ -787,6 +787,20 @@ public class UnitController : MonoBehaviour
 
         }
 
+        EquipmentData equippedWeapon = null;
+
+        foreach (EquipmentInstance equipment in data.equippedItems)
+        {
+            if (equipment.template == null || equipment.template.weaponGear == WeaponCategory.None)
+            {
+                continue;
+            }
+
+            equippedWeapon = equipment.template;
+            break;
+        }
+
+        GetComponent<UnitMovements>()?.SetEquipmentAnimation(equippedWeapon);
     }
 
     //Sets the Node of the unit,
