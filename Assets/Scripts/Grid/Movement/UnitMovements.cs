@@ -37,8 +37,6 @@ public class UnitMovements : MonoBehaviour
         visibileController = FindAnyObjectByType<VisibilityManager>();
         soundController = FindAnyObjectByType<SoundDetectionSystem>();
         unit = GetComponent<UnitController>();
-
-        animBaseChar.SetFloat("IdleOffset", Random.value); // Idle animation offset (applies to all idle anims) | value = 0 < x > 1
     }
 
     // Called after UnitController replaces the race-specific model.
@@ -51,6 +49,33 @@ public class UnitMovements : MonoBehaviour
             animBaseChar.SetFloat("IdleOffset", Random.value);
             animBaseChar.SetFloat("Speed", 0f);
         }
+    }
+
+    public void SetEquipmentAnimation(EquipmentData equipment) // for attack-specific animation
+    {
+        if (animBaseChar == null)
+        {
+            return;
+        }
+
+        int idleType = 0;
+        int runType = 0;
+
+        if (equipment != null)
+        {
+            if (equipment.WeaponSubtypeId == WeaponSubtype.Bow)
+            {
+                idleType = 3;
+                runType = 3;
+            }
+            else if (equipment.weaponGear == WeaponCategory.Melee)
+            {
+                idleType = equipment.RequiresBothHands ? 2 : 1;
+            }
+        }
+
+        animBaseChar.SetInteger("IdleType", idleType);
+        animBaseChar.SetInteger("RunType", runType);
     }
 
     public void Update() 
