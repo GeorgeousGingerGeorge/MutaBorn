@@ -36,9 +36,9 @@ public sealed class UnitRosterStarterUnit
     public DynamicStats raceDefinition;
     public MutationID currentMutation;
     public MutationID[] startingMutations = new MutationID[0];
-    public EquipmentData[] startingEquipment = new EquipmentData[0];
+    public EquipmentTemplateReference[] startingEquipment = new EquipmentTemplateReference[0];
     public ConsumableData[] startingConsumables = new ConsumableData[0];
-    public ItemData legacyEquipment;
+    public EquipmentTemplateReference singleStartingEquipment;
 
 }
 
@@ -158,9 +158,9 @@ public sealed class UnitRoster : MonoBehaviour
             bool hasStartingEquipment = false;
             if (starter.startingEquipment != null)
             {
-                foreach (EquipmentData equipment in starter.startingEquipment)
+                foreach (EquipmentTemplateReference equipment in starter.startingEquipment)
                 {
-                    if (equipment == null)
+                    if (!equipment.TryResolve(out EquipmentTemplate definition))
                     {
                         continue;
 
@@ -169,7 +169,7 @@ public sealed class UnitRoster : MonoBehaviour
                     hasStartingEquipment = true;
                     if (!unit.TryEquipStartingItem(equipment))
                     {
-                        Debug.LogWarning($"[UnitRoster] {unit.characterName}: '{equipment.name}' cannot fit a free starting slot.", this);
+                        Debug.LogWarning($"[UnitRoster] {unit.characterName}: '{definition.DisplayName}' cannot fit a free starting slot.", this);
 
                     }
 
@@ -177,11 +177,11 @@ public sealed class UnitRoster : MonoBehaviour
 
             }
 
-            if (!hasStartingEquipment && starter.legacyEquipment is EquipmentData legacyEquipment)
+            if (!hasStartingEquipment && starter.singleStartingEquipment.TryResolve(out EquipmentTemplate fallback))
             {
-                if (!unit.TryEquipStartingItem(legacyEquipment))
+                if (!unit.TryEquipStartingItem(starter.singleStartingEquipment))
                 {
-                    Debug.LogWarning($"[UnitRoster] {unit.characterName}: legacy gear '{legacyEquipment.name}' could not be equipped.", this);
+                    Debug.LogWarning($"[UnitRoster] {unit.characterName}: starting gear '{fallback.DisplayName}' could not be equipped.", this);
 
                 }
 

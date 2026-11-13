@@ -822,7 +822,7 @@ public class UnitData
         UnitLoadoutSlotState other = GetSlot(otherHand);
         return other != null && !string.IsNullOrEmpty(other.ItemInstanceId) &&
             TryGetEquipmentInstance(other.ItemInstanceId, out EquipmentInstance item) &&
-            item.template != null && item.template.RequiresBothHands;
+            item.IsValid && item.RequiresBothHands;
 
     }
 
@@ -1002,8 +1002,8 @@ public class UnitData
 
     public bool CanEquipInstance(EquipmentInstance item, UnitSlotId slot)
     {
-        if (item.template == null || !UnitLoadoutSlots.IsValid(slot) ||
-            !UnitLoadoutSlots.Accepts(slot, item.template.EquipmentFit) ||
+        if (!item.IsValid || !UnitLoadoutSlots.IsValid(slot) ||
+            !UnitLoadoutSlots.Accepts(slot, item.EquipmentFit) ||
             GetSlotBlockReason(slot) != UnitSlotBlockReason.None)
         {
             return false;
@@ -1018,7 +1018,7 @@ public class UnitData
 
         }
 
-        return !item.template.RequiresBothHands ||
+        return !item.RequiresBothHands ||
             (UnitLoadoutSlots.IsHand(slot) &&
              GetSlotBlockReason(UnitLoadoutSlots.OtherHand(slot)) == UnitSlotBlockReason.None);
 
@@ -1134,39 +1134,35 @@ public class UnitData
 
     }
 
-    // Legacy test-scene helper: generate fresh starting equipment only, not storage transfers.
-    public bool TryEquipStartingItem(EquipmentData template)
+    public bool TryEquipStartingItem(EquipmentTemplateReference reference)
     {
-        return TryEquipStartingItem(template, out _);
+        return TryEquipStartingItem(reference, out _);
+
     }
 
-    public bool TryEquipStartingItem(EquipmentData template, out UnitSlotId equippedSlot)
+    public bool TryEquipStartingItem(EquipmentTemplateReference reference, out UnitSlotId equippedSlot)
     {
         equippedSlot = UnitSlotId.None;
-
-        if (template == null)
+        if (!reference.TryResolve(out _))
         {
             return false;
+
         }
 
-        EquipmentInstance item = EquipmentGenerator.CreateEquipment(template);
-
+        EquipmentInstance item = EquipmentGenerator.CreateEquipment(reference);
         foreach (UnitSlotId slot in UnitLoadoutSlots.All)
         {
-            if (CanEquipInstance(item, slot))
+            if (CanEquipInstance(item, slot) && TryEquipInstance(item, slot))
             {
-                bool success = TryEquipInstance(item, slot);
+                equippedSlot = slot;
+                return true;
 
-                if (success)
-                {
-                    equippedSlot = slot;
-                }
-
-                return success;
             }
+
         }
 
         return false;
+
     }
 
     public bool CanEquipItem(EquipmentInstance item)
@@ -1182,16 +1178,6 @@ public class UnitData
         }
 
         return false;
-
-    }
-
-    public void EquipItem(ItemData equipmentData)
-    {
-        if (equipmentData is EquipmentData equipment)
-        {
-            TryEquipStartingItem(equipment);
-
-        }
 
     }
 

@@ -35,7 +35,8 @@ public struct EquipmentInstance
     public string itemName;
     public string itemID;
     public string instanceId;
-    public EquipmentData template;
+    public EquipmentType typeDefinition;
+    public string templateId;
 
     [Header("Equipment Type")]
     public ArmorCategory armor;
@@ -68,6 +69,34 @@ public struct EquipmentInstance
     public int rangeDamage;
     public int magicDamage;
     public int accuracyBonus;
+    public EquipmentBonusStack[] bonusStacks;
+    public string lastUpgradeBonus;
+
+    public bool IsValid => typeDefinition != null && typeDefinition.TryGetTemplate(templateId, out _);
+    public EquipmentFitType EquipmentFit => typeDefinition != null ? typeDefinition.EquipmentFit : EquipmentFitType.Auto;
+    public bool RequiresBothHands => typeDefinition != null &&
+        (typeDefinition.TryGetTemplate(templateId, out EquipmentTemplate value)
+            ? typeDefinition.GetRequiresBothHands(value) : typeDefinition.RequiresBothHands);
+    public ArmorCategory ArmorWeight => typeDefinition != null &&
+        typeDefinition.TryGetTemplate(templateId, out EquipmentTemplate weight)
+            ? typeDefinition.GetArmorWeight(weight) : armor;
+    public WeaponSubtype WeaponSubtype => typeDefinition != null ? typeDefinition.WeaponSubtype : WeaponSubtype.None;
+    public Sprite Icon => typeDefinition != null && typeDefinition.TryGetTemplate(templateId, out EquipmentTemplate icon)
+        ? icon.TemplateIcon != null ? icon.TemplateIcon : typeDefinition.TypeIcon : null;
+    public Sprite TypeIcon => typeDefinition != null ? typeDefinition.TypeIcon : null;
+    public string Description => typeDefinition != null && typeDefinition.TryGetTemplate(templateId, out EquipmentTemplate desc)
+        ? desc.Description : string.Empty;
+    public string DisplayTypeLabel => typeDefinition != null ? typeDefinition.DisplayTypeLabel : string.Empty;
+    public GameObject ModelPrefab => typeDefinition != null && typeDefinition.TryGetTemplate(templateId, out EquipmentTemplate model)
+        ? model.ModelOverride != null ? model.ModelOverride : typeDefinition.ModelPrefab : null;
+
+}
+
+[Serializable]
+public struct EquipmentBonusStack
+{
+    public string bonusId;
+    public int stacks;
 
 }
 
@@ -97,10 +126,6 @@ public static class ItemGenerator
 
         switch (item) 
         {
-            case EquipmentData equipmentData:
-                {
-                    return EquipmentGenerator.CreateEquipment(equipmentData);
-                }
             case ConsumableData consumableData:
                 {
                     return ConsumableGenerator.CreateConsumable(consumableData);
@@ -119,83 +144,78 @@ public static class ItemGenerator
 public static class EquipmentGenerator
 {
 
-    public static EquipmentInstance CreateEquipment(EquipmentData equipmentInfo)
+    // Crafted items use this path and always start at zero stars.
+    public static EquipmentInstance CreateEquipment(EquipmentTemplateReference reference)
     {
-        if (equipmentInfo == null)
+        if (!reference.TryResolve(out EquipmentTemplate definition))
         {
             return default(EquipmentInstance);
 
         }
 
+        EquipmentType equipmentType = reference.equipmentType;
         EquipmentInstance item = new EquipmentInstance
         {
-            template = equipmentInfo,
-            itemName = equipmentInfo.itemName,
-            itemID = equipmentInfo.itemID,
+            typeDefinition = equipmentType,
+            templateId = definition.TemplateId,
+            itemID = equipmentType.TypeId + ":" + definition.TemplateId,
+            itemName = definition.DisplayName,
             instanceId = Guid.NewGuid().ToString("N"),
-            armor = equipmentInfo.armorGear,
-            weapon = equipmentInfo.weaponGear,
-            accessory = equipmentInfo.accessoryGear,
-            slot = equipmentInfo.slot,
-            type = equipmentInfo.genType,
-            statModifier = equipmentInfo.statMod,
-            attributeScaling = equipmentInfo.StartingScaling,
-            grantedActionSet = equipmentInfo.GrantedActionSet,
-            grantedEffectCollection = equipmentInfo.GrantedEffectCollection,
-            primaryDamageType = equipmentInfo.PrimaryDamageType,
-            grantedActions = CopyArray(equipmentInfo.GuaranteedActions),
-            grantedEffects = CopyArray(equipmentInfo.GuaranteedEffects),
-            bonusDamage = CopyArray(equipmentInfo.GuaranteedBonusDamage),
-            resistances = CopyArray(equipmentInfo.Resistances),
-            rarity = equipmentInfo.GenerateStarRewards ? EquipmentGrade.None : equipmentInfo.rarity
+            armor = equipmentType.GetArmorWeight(definition),
+            weapon = equipmentType.WeaponCategory,
+            accessory = equipmentType.AccessoryCategory,
+            rarity = EquipmentGrade.None,
+            type = definition.GenerationType,
+            attributeScaling = definition.StartingScaling,
+            grantedActionSet = equipmentType.GrantedActionSet,
+            grantedEffectCollection = equipmentType.GrantedEffectCollection,
+            primaryDamageType = definition.DamageTypeOverride == DamageType.Unspecified
+                ? equipmentType.PrimaryDamageType : definition.DamageTypeOverride,
+            grantedActions = equipmentType.GetStartingActions(definition),
+            grantedEffects = Combine(equipmentType.StartingEffects, definition.AddedEffects),
+            resistances = CopyArray(definition.StartingResistances),
+            bonusDamage = CopyArray(definition.StartingBonusDamage),
+            abilityWeights = Array.Empty<float>()
         };
-
-        EquipmentAbilityOption[] abilityPool = equipmentInfo.PossibleAbilities;
-        item.abilityWeights = new float[abilityPool == null ? 0 : abilityPool.Length];
-        for (int i = 0; i < item.abilityWeights.Length; i++)
-        {
-            item.abilityWeights[i] = abilityPool[i] == null ? 0f : Mathf.Max(0f, abilityPool[i].weight);
-
-        }
-
-        switch (item.type)
-        {
-            case EquipmentGenerationType.Random:
-            {
-                item.baseStats = GetRandomBaseStats(equipmentInfo);
-
-                break;
-
-            }
-            default:
-            {
-                item.baseStats = GetFixedBaseStats(equipmentInfo);
-
-                break;
-
-            }
-
-        }
-
-        if (equipmentInfo.GenerateStarRewards)
-        {
-            int desiredStar = Mathf.Clamp((int)equipmentInfo.rarity, 0, (int)EquipmentGrade.FiveStar);
-            for (int star = 1; star <= desiredStar; star++)
-            {
-                if (!TryUpgrade(ref item))
-                {
-                    Debug.LogWarning($"'{equipmentInfo.name}' cannot improve star {star}: " +
-                        "the item has no nonzero eligible flat stats.", equipmentInfo);
-
-                    break;
-
-                }
-
-            }
-
-        }
+        item.baseStats = item.type == EquipmentGenerationType.Random
+            ? GetRandomBaseStats(definition.RandomRanges) : definition.FixedStats;
 
         RecalculateItemStats(ref item);
+
+        return item;
+
+    }
+
+    // Loot rolls the template's natural star chances and the source's extra chances.
+    // Each earned star receives the same rewards as a normal upgrade, without spending resources.
+    public static EquipmentInstance CreateLootEquipment(EquipmentTemplateReference reference,
+        EquipmentStarDice additionalRolls)
+    {
+        EquipmentInstance item = CreateEquipment(reference);
+        if (!item.IsValid)
+        {
+            return item;
+
+        }
+
+        if (!reference.TryResolve(out EquipmentTemplate definition))
+        {
+            return item;
+
+        }
+
+        int stars = Mathf.Min(5, definition.StartingStarRolls.Roll() + additionalRolls.Roll());
+        for (int i = 0; i < stars; i++)
+        {
+            if (!TryUpgrade(ref item))
+            {
+                Debug.LogWarning($"Cannot generate all stars for '{item.itemName}': check its stat growth weights.", reference.equipmentType);
+
+                break;
+
+            }
+
+        }
 
         return item;
 
@@ -205,166 +225,62 @@ public static class EquipmentGenerator
     // Roll information stays on the individual item so UI can report duplicate rolls.
     public static bool TryUpgrade(ref EquipmentInstance item)
     {
-        if (item.template == null || item.rarity >= EquipmentGrade.FiveStar)
-            return false;
+        return TryUpgradeEmbedded(ref item);
 
-        EquipmentInstance upgraded = item;
-        if (!TryRollFlatStat(ref upgraded, out EquipmentStatUpgradeRoll roll1) ||
-            !TryRollFlatStat(ref upgraded, out EquipmentStatUpgradeRoll roll2))
-            return false;
-        upgraded.lastStatRoll1 = roll1;
-        upgraded.lastStatRoll2 = roll2;
-
-        int nextStar = (int)item.rarity + 1;
-        if (nextStar % 2 == 1)
-        {
-            TryImproveScaling(ref upgraded);
-            if (item.template.GenerateStarRewards)
-                TryRollAbility(ref upgraded);
-        }
-        else if (item.template.GenerateStarRewards)
-        {
-            TryRollBonus(ref upgraded);
-        }
-
-        upgraded.rarity = (EquipmentGrade)nextStar;
-        RecalculateItemStats(ref upgraded);
-        item = upgraded;
-        return true;
     }
 
-    private static bool TryRollFlatStat(ref EquipmentInstance item, out EquipmentStatUpgradeRoll roll)
+    private static bool TryUpgradeEmbedded(ref EquipmentInstance item)
+    {
+        if (!item.IsValid || item.rarity >= EquipmentGrade.FiveStar ||
+            !item.typeDefinition.TryGetTemplate(item.templateId, out EquipmentTemplate definition))
+        {
+            return false;
+
+        }
+
+        EquipmentInstance updated = item;
+        if (!TryRollEmbeddedStat(ref updated, definition.StatGrowth, out EquipmentStatUpgradeRoll first) ||
+            !TryRollEmbeddedStat(ref updated, definition.StatGrowth, out EquipmentStatUpgradeRoll second))
+        {
+            return false;
+
+        }
+
+        updated.lastStatRoll1 = first;
+        updated.lastStatRoll2 = second;
+        int nextStar = (int)item.rarity + 1;
+        updated.lastUpgradeBonus = string.Empty;
+        if (!RollEmbeddedBonus(ref updated, definition))
+        {
+            return false;
+
+        }
+
+        RollEmbeddedScaling(ref updated, definition, nextStar);
+        updated.rarity = (EquipmentGrade)nextStar;
+        RecalculateItemStats(ref updated);
+        item = updated;
+
+        return true;
+
+    }
+
+    private static bool TryRollEmbeddedStat(ref EquipmentInstance item,
+        EquipmentWeightedStatGrowth[] growth, out EquipmentStatUpgradeRoll roll)
     {
         roll = default(EquipmentStatUpgradeRoll);
-        List<EquipmentFlatStat> eligible = new List<EquipmentFlatStat>();
-        EquipmentStatValues stats = item.baseStats;
-        if (stats.armor != 0) eligible.Add(EquipmentFlatStat.Armor);
-        if (stats.ward != 0) eligible.Add(EquipmentFlatStat.Ward);
-        if (stats.meleeDamage != 0) eligible.Add(EquipmentFlatStat.MeleeDamage);
-        if (stats.rangeDamage != 0) eligible.Add(EquipmentFlatStat.RangedDamage);
-        if (stats.magicDamage != 0) eligible.Add(EquipmentFlatStat.MagicDamage);
-        if (stats.accuracy != 0) eligible.Add(EquipmentFlatStat.Accuracy);
-        if (eligible.Count == 0) return false;
-
-        roll.stat = eligible[UnityEngine.Random.Range(0, eligible.Count)];
-        roll.amount = UnityEngine.Random.Range(2, 6);
-        switch (roll.stat)
-        {
-            case EquipmentFlatStat.Armor: stats.armor += roll.amount; break;
-            case EquipmentFlatStat.Ward: stats.ward += roll.amount; break;
-            case EquipmentFlatStat.MeleeDamage: stats.meleeDamage += roll.amount; break;
-            case EquipmentFlatStat.RangedDamage: stats.rangeDamage += roll.amount; break;
-            case EquipmentFlatStat.MagicDamage: stats.magicDamage += roll.amount; break;
-            case EquipmentFlatStat.Accuracy: stats.accuracy += roll.amount; break;
-        }
-        item.baseStats = stats;
-        return true;
-    }
-
-    private static void TryImproveScaling(ref EquipmentInstance item)
-    {
-        EquipmentAttributeScaling grades = item.attributeScaling;
-        float[] chances = grades.UpgradeChances();
-        float roll = UnityEngine.Random.value;
-        int selected = -1;
-        int lastEligible = -1;
-        for (int i = 0; i < chances.Length; i++)
-        {
-            if (chances[i] <= 0f) continue;
-            lastEligible = i;
-            roll -= chances[i];
-            if (roll > 0f) continue;
-            selected = i;
-            break;
-        }
-        if (selected < 0) selected = lastEligible;
-        if (selected < 0) return; // All S.
-        grades.Set(selected, (EquipmentScalingGrade)((int)grades.Get(selected) + 1));
-        item.attributeScaling = grades;
-    }
-
-    public static bool HasEligibleFlatStat(EquipmentInstance item)
-    {
-        EquipmentStatValues stats = item.baseStats;
-        return stats.armor != 0 || stats.ward != 0 || stats.meleeDamage != 0 ||
-            stats.rangeDamage != 0 || stats.magicDamage != 0 || stats.accuracy != 0;
-    }
-
-    private static bool TryRollAbility(ref EquipmentInstance item)
-    {
-        EquipmentAbilityOption[] pool = item.template.PossibleAbilities;
-        if (pool == null || pool.Length == 0)
+        if (growth == null || growth.Length == 0)
         {
             return false;
-
-        }
-
-        float[] weights = item.abilityWeights == null
-            ? new float[pool.Length] : (float[])item.abilityWeights.Clone();
-        if (weights.Length != pool.Length)
-        {
-            Debug.LogWarning("The ability pool was modified after item generation. Existing items cannot reroll safely.", item.template);
-
-            return false;
-
-        }
-
-        HashSet<string> owned = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        if (item.grantedActions != null)
-        {
-            foreach (ActionDefinition action in item.grantedActions)
-            {
-                if (action != null && !string.IsNullOrWhiteSpace(action.Id))
-                {
-                    owned.Add(action.Id.Trim());
-
-                }
-
-            }
-
-        }
-
-        if (item.grantedActionSet != null)
-        {
-            foreach (ActionDefinition action in item.grantedActionSet.Actions)
-            {
-                if (action != null && !string.IsNullOrWhiteSpace(action.Id))
-                {
-                    owned.Add(action.Id.Trim());
-
-                }
-
-            }
 
         }
 
         List<int> eligible = new List<int>();
-        for (int i = 0; i < pool.Length; i++)
+        for (int i = 0; i < growth.Length; i++)
         {
-            ActionDefinition action = pool[i] != null ? pool[i].action : null;
-            if (action == null || string.IsNullOrWhiteSpace(action.Id) ||
-                owned.Contains(action.Id.Trim()) || weights[i] <= 0f ||
-                float.IsNaN(weights[i]) || float.IsInfinity(weights[i]))
-            {
-                continue;
-
-            }
-
-            bool duplicate = false;
-            foreach (int eligibleIndex in eligible)
-            {
-                if (string.Equals(pool[eligibleIndex].action.Id, action.Id,
-                    StringComparison.OrdinalIgnoreCase))
-                {
-                    duplicate = true;
-
-                    break;
-
-                }
-
-            }
-
-            if (!duplicate)
+            EquipmentWeightedStatGrowth entry = growth[i];
+            float weight = GetFlatStat(item.baseStats, entry.stat) == 0 ? entry.zeroWeight : entry.growthWeight;
+            if (weight > 0f)
             {
                 eligible.Add(i);
 
@@ -372,74 +288,137 @@ public static class EquipmentGenerator
 
         }
 
-        int selectedIndex = PickWeightedIndex(eligible, i => weights[i]);
-        if (selectedIndex < 0)
+        EquipmentStatValues startingStats = item.baseStats;
+        int selected = PickWeightedIndex(eligible, i => GetFlatStat(startingStats, growth[i].stat) == 0
+            ? growth[i].zeroWeight : growth[i].growthWeight);
+        if (selected < 0)
         {
             return false;
 
         }
 
-        ActionDefinition chosen = pool[selectedIndex].action;
-        item.grantedActions = Append(item.grantedActions, chosen);
-        float redistributed = weights[selectedIndex] / Mathf.Max(1, eligible.Count - 1);
-        weights[selectedIndex] = 0f;
-        foreach (int index in eligible)
-        {
-            if (index != selectedIndex)
-            {
-                weights[index] += redistributed;
-
-            }
-
-        }
-
-        item.abilityWeights = weights;
+        EquipmentWeightedStatGrowth chosen = growth[selected];
+        int amount = Mathf.Max(1, RandomFromRange(chosen.amountRange));
+        EquipmentStatValues stats = item.baseStats;
+        AddFlatStat(ref stats, chosen.stat, amount);
+        item.baseStats = stats;
+        roll = new EquipmentStatUpgradeRoll { stat = chosen.stat, amount = amount };
 
         return true;
 
     }
 
-    private static bool TryRollBonus(ref EquipmentInstance item)
+    private static int GetFlatStat(EquipmentStatValues stats, EquipmentFlatStat stat)
     {
-        EquipmentBonusOption[] pool = item.template.PossibleBonuses;
-        if (pool == null || pool.Length == 0)
+        switch (stat)
         {
-            return false;
+            case EquipmentFlatStat.Armor: return stats.armor;
+            case EquipmentFlatStat.Ward: return stats.ward;
+            case EquipmentFlatStat.MeleeDamage: return stats.meleeDamage;
+            case EquipmentFlatStat.RangedDamage: return stats.rangeDamage;
+            case EquipmentFlatStat.MagicDamage: return stats.magicDamage;
+            default: return stats.accuracy;
+
+        }
+
+    }
+
+    private static void AddFlatStat(ref EquipmentStatValues stats, EquipmentFlatStat stat, int amount)
+    {
+        switch (stat)
+        {
+            case EquipmentFlatStat.Armor: stats.armor += amount; break;
+            case EquipmentFlatStat.Ward: stats.ward += amount; break;
+            case EquipmentFlatStat.MeleeDamage: stats.meleeDamage += amount; break;
+            case EquipmentFlatStat.RangedDamage: stats.rangeDamage += amount; break;
+            case EquipmentFlatStat.MagicDamage: stats.magicDamage += amount; break;
+            case EquipmentFlatStat.Accuracy: stats.accuracy += amount; break;
+
+        }
+
+    }
+
+    private static void RollEmbeddedScaling(ref EquipmentInstance item, EquipmentTemplate template, int star)
+    {
+        foreach (EquipmentScalingOpportunity rule in template.ScalingOpportunities)
+        {
+            if (rule.star != star || UnityEngine.Random.value >= rule.successChance ||
+                rule.eligibleAttributes == null)
+            {
+                continue;
+
+            }
+
+            List<int> eligible = new List<int>();
+            foreach (EquipmentScalingAttribute attribute in rule.eligibleAttributes)
+            {
+                int index = (int)attribute;
+                if (index >= 0 && index < 6 && item.attributeScaling.Get(index) < EquipmentScalingGrade.S &&
+                    !eligible.Contains(index))
+                {
+                    eligible.Add(index);
+
+                }
+
+            }
+
+            if (eligible.Count > 0)
+            {
+                ImproveScaling(ref item, eligible[UnityEngine.Random.Range(0, eligible.Count)]);
+
+            }
+
+        }
+
+    }
+
+    private static void ImproveScaling(ref EquipmentInstance item, int attribute)
+    {
+        EquipmentAttributeScaling scaling = item.attributeScaling;
+        scaling.Set(attribute, (EquipmentScalingGrade)((int)scaling.Get(attribute) + 1));
+        item.attributeScaling = scaling;
+
+    }
+
+    private static bool RollEmbeddedBonus(ref EquipmentInstance item, EquipmentTemplate template)
+    {
+        List<EquipmentBonusOption> pool = new List<EquipmentBonusOption>();
+        List<string> ids = new List<string>();
+        EquipmentBonusOption[] defaults = item.typeDefinition.UpgradeBonuses;
+        for (int i = 0; i < defaults.Length; i++)
+        {
+            EquipmentBonusOption bonus = defaults[i];
+            if (bonus == null || (template.ExcludedTypeBonusIds != null &&
+                Array.IndexOf(template.ExcludedTypeBonusIds, bonus.bonusId) >= 0))
+            {
+                continue;
+
+            }
+
+            pool.Add(bonus);
+            ids.Add(!string.IsNullOrWhiteSpace(bonus.bonusId) ? bonus.bonusId : "type-" + i);
+
+        }
+
+        EquipmentBonusOption[] added = template.AddedUpgradeBonuses;
+        for (int i = 0; i < added.Length; i++)
+        {
+            if (added[i] != null)
+            {
+                pool.Add(added[i]);
+                ids.Add(!string.IsNullOrWhiteSpace(added[i].bonusId) ? added[i].bonusId : "template-" + i);
+
+            }
 
         }
 
         List<int> eligible = new List<int>();
-        for (int i = 0; i < pool.Length; i++)
+        for (int i = 0; i < pool.Count; i++)
         {
-            EquipmentBonusOption option = pool[i];
-            if (option == null ||
-                (option.kind != EquipmentBonusKind.Effect && option.kind != EquipmentBonusKind.Resistance) ||
-                option.weight <= 0f || float.IsNaN(option.weight) || float.IsInfinity(option.weight))
-            {
-                continue;
-
-            }
-
-            if (option.kind == EquipmentBonusKind.Effect &&
-                (option.effect == null || option.effect.Definition == null ||
-                 option.effect.Definition.Operation != EffectOperation.ModifyResource))
-            {
-                continue;
-
-            }
-
-            if ((option.kind == EquipmentBonusKind.DamageComponent ||
-                option.kind == EquipmentBonusKind.Resistance) &&
-                option.damageType == DamageType.Unspecified)
-            {
-                continue;
-
-            }
-
-            if ((option.kind == EquipmentBonusKind.DamageComponent &&
-                 Mathf.Max(option.amountRange.x, option.amountRange.y) <= 0) ||
-                (option.kind != EquipmentBonusKind.Effect &&
-                 option.amountRange.x == 0 && option.amountRange.y == 0))
+            EquipmentBonusOption bonus = pool[i];
+            int owned = BonusStackCount(item, ids[i]);
+            int cap = bonus.repeatable ? Mathf.Max(1, bonus.maxStacks) : 1;
+            if (bonus.weight <= 0f || owned >= cap || !IsEligibleBonus(item, bonus))
             {
                 continue;
 
@@ -457,96 +436,195 @@ public static class EquipmentGenerator
         }
 
         EquipmentBonusOption selected = pool[choice];
-        int min = Mathf.Min(selected.amountRange.x, selected.amountRange.y);
-        int max = Mathf.Max(selected.amountRange.x, selected.amountRange.y);
-        int amount = UnityEngine.Random.Range(min, max == int.MaxValue ? max : max + 1);
-        if (selected.kind != EquipmentBonusKind.Effect && amount == 0)
+        int amount = RandomFromRange(selected.amountRange);
+        if (amount == 0 && (selected.kind == EquipmentBonusKind.Stat ||
+            selected.kind == EquipmentBonusKind.Resistance))
         {
-            // A successful star always grants a nonzero bonus.
-            amount = max > 0 ? 1 : -1;
+            amount = Mathf.Max(selected.amountRange.x, selected.amountRange.y) > 0 ? 1 : -1;
 
         }
 
+        string bonusDetail = string.Empty;
         switch (selected.kind)
         {
             case EquipmentBonusKind.Stat:
             {
                 EquipmentStatValues stats = item.rolledStats;
-                switch (selected.stat)
-                {
-                    case EquipmentRollStat.Armor:
-                    {
-                        stats.armor += amount;
-
-                        break;
-
-                    }
-                    case EquipmentRollStat.Ward:
-                    {
-                        stats.ward += amount;
-
-                        break;
-
-                    }
-                    case EquipmentRollStat.MeleeDamage:
-                    {
-                        stats.meleeDamage += amount;
-
-                        break;
-
-                    }
-                    case EquipmentRollStat.RangedDamage:
-                    {
-                        stats.rangeDamage += amount;
-
-                        break;
-
-                    }
-                    case EquipmentRollStat.MagicDamage:
-                    {
-                        stats.magicDamage += amount;
-
-                        break;
-
-                    }
-
-                }
-
+                AddFlatStat(ref stats, (EquipmentFlatStat)selected.stat, amount);
                 item.rolledStats = stats;
-
+                bonusDetail = $"{amount:+0;-0;0} {BonusStatName(selected.stat)}";
                 break;
-
             }
             case EquipmentBonusKind.DamageComponent:
             {
-                item.bonusDamage = Append(item.bonusDamage, new DamageComponent(selected.damageType, Mathf.Max(0, amount)));
-
+                int damage = Mathf.Max(0, amount);
+                item.bonusDamage = Append(item.bonusDamage,
+                    new DamageComponent(selected.damageType, damage));
+                bonusDetail = $"+{damage} {selected.damageType} damage";
                 break;
-
             }
             case EquipmentBonusKind.Resistance:
             {
-                item.resistances = Append(item.resistances, new DamageResistance(selected.damageType, amount));
-
+                item.resistances = Append(item.resistances,
+                    new DamageResistance(selected.damageType, amount));
+                bonusDetail = $"{amount:+0;-0;0}% {selected.damageType} resistance";
                 break;
-
             }
             case EquipmentBonusKind.Effect:
             {
                 item.grantedEffects = Append(item.grantedEffects, selected.effect);
-
+                bonusDetail = "Effect: " + selected.effect.Definition.name;
                 break;
-
             }
-            default:
+            case EquipmentBonusKind.Action:
             {
-                return false;
+                item.grantedActions = Append(item.grantedActions, selected.action);
+                bonusDetail = "Ability: " + selected.action.name;
+                break;
+            }
+            case EquipmentBonusKind.ScalingGrade:
+            {
+                int attribute = (int)selected.scalingAttribute;
+                EquipmentScalingGrade previous = item.attributeScaling.Get(attribute);
+                ImproveScaling(ref item, attribute);
+                bonusDetail = $"{EquipmentAttributeScaling.Name(attribute)} scaling " +
+                    $"{previous} -> {item.attributeScaling.Get(attribute)}";
+                break;
+            }
+
+        }
+
+        List<EquipmentBonusStack> stacks = new List<EquipmentBonusStack>(item.bonusStacks ?? Array.Empty<EquipmentBonusStack>());
+        int index = stacks.FindIndex(entry => entry.bonusId == ids[choice]);
+        if (index >= 0)
+        {
+            EquipmentBonusStack record = stacks[index];
+            record.stacks++;
+            stacks[index] = record;
+
+        }
+        else
+        {
+            stacks.Add(new EquipmentBonusStack { bonusId = ids[choice], stacks = 1 });
+
+        }
+
+        item.bonusStacks = stacks.ToArray();
+        item.lastUpgradeBonus = string.IsNullOrWhiteSpace(selected.displayName)
+            ? bonusDetail : selected.displayName + " (" + bonusDetail + ")";
+
+        return true;
+
+    }
+
+    private static string BonusStatName(EquipmentRollStat stat)
+    {
+        switch (stat)
+        {
+            case EquipmentRollStat.Armor: return "Armor";
+            case EquipmentRollStat.Ward: return "Ward";
+            case EquipmentRollStat.MeleeDamage: return "Melee Damage";
+            case EquipmentRollStat.RangedDamage: return "Ranged Damage";
+            case EquipmentRollStat.MagicDamage: return "Magic Damage";
+            default: return "Accuracy";
+
+        }
+
+    }
+
+    private static int BonusStackCount(EquipmentInstance item, string id)
+    {
+        if (item.bonusStacks != null)
+        {
+            foreach (EquipmentBonusStack entry in item.bonusStacks)
+            {
+                if (entry.bonusId == id)
+                {
+                    return entry.stacks;
+
+                }
 
             }
 
         }
 
-        return true;
+        return 0;
+
+    }
+
+    private static bool IsEligibleBonus(EquipmentInstance item, EquipmentBonusOption bonus)
+    {
+        switch (bonus.kind)
+        {
+            case EquipmentBonusKind.Stat:
+                return bonus.amountRange.x != 0 || bonus.amountRange.y != 0;
+            case EquipmentBonusKind.DamageComponent:
+                return bonus.damageType != DamageType.Unspecified &&
+                    Mathf.Max(bonus.amountRange.x, bonus.amountRange.y) > 0;
+            case EquipmentBonusKind.Resistance:
+                return bonus.damageType != DamageType.Unspecified &&
+                    (bonus.amountRange.x != 0 || bonus.amountRange.y != 0);
+            case EquipmentBonusKind.Effect:
+                return bonus.effect != null && bonus.effect.Definition != null;
+            case EquipmentBonusKind.Action:
+                return bonus.action != null && !HasAction(item, bonus.action);
+            case EquipmentBonusKind.ScalingGrade:
+                return (int)bonus.scalingAttribute >= 0 && (int)bonus.scalingAttribute < 6 &&
+                    item.attributeScaling.Get((int)bonus.scalingAttribute) < EquipmentScalingGrade.S;
+            default:
+                return false;
+
+        }
+
+    }
+
+    private static bool HasAction(EquipmentInstance item, ActionDefinition action)
+    {
+        if (item.grantedActions != null && Array.IndexOf(item.grantedActions, action) >= 0)
+        {
+            return true;
+
+        }
+
+        if (item.grantedActionSet != null)
+        {
+            foreach (ActionDefinition existing in item.grantedActionSet.Actions)
+            {
+                if (existing == action)
+                {
+                    return true;
+
+                }
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    public static bool HasEligibleFlatStat(EquipmentInstance item)
+    {
+        if (!item.IsValid || !item.typeDefinition.TryGetTemplate(item.templateId, out EquipmentTemplate definition))
+        {
+            return false;
+
+        }
+
+        foreach (EquipmentWeightedStatGrowth entry in definition.StatGrowth)
+        {
+            float weight = GetFlatStat(item.baseStats, entry.stat) == 0
+                ? entry.zeroWeight : entry.growthWeight;
+            if (weight > 0f)
+            {
+                return true;
+
+            }
+
+        }
+
+        return false;
 
     }
 
@@ -581,32 +659,17 @@ public static class EquipmentGenerator
 
     }
 
-    private static EquipmentStatValues GetFixedBaseStats(EquipmentData info)
+    private static EquipmentStatValues GetRandomBaseStats(EquipmentStatRanges ranges)
     {
         return new EquipmentStatValues
         {
-            armor = info.armorRating,
-            ward = info.wardRating,
-            movementPenalty = info.movementPenalty,
-            meleeDamage = info.meleeDamage,
-            rangeDamage = info.rangeDamage,
-            magicDamage = info.magicDamage,
-            accuracy = info.accuracyBonus
-        };
-
-    }
-
-    private static EquipmentStatValues GetRandomBaseStats(EquipmentData info)
-    {
-        return new EquipmentStatValues
-        {
-            armor = RandomFromRange(info.armorRatingRange),
-            ward = info.wardRating,
-            movementPenalty = RandomFromRange(info.movementPenaltyRange),
-            meleeDamage = RandomFromRange(info.meleeDamageRange),
-            rangeDamage = RandomFromRange(info.distanceDamageRange),
-            magicDamage = RandomFromRange(info.magicDamageRange),
-            accuracy = RandomFromRange(info.accuracyRange)
+            armor = RandomFromRange(ranges.armor),
+            ward = RandomFromRange(ranges.ward),
+            movementPenalty = RandomFromRange(ranges.movementPenalty),
+            meleeDamage = RandomFromRange(ranges.meleeDamage),
+            rangeDamage = RandomFromRange(ranges.rangeDamage),
+            magicDamage = RandomFromRange(ranges.magicDamage),
+            accuracy = RandomFromRange(ranges.accuracy)
         };
 
     }
@@ -640,7 +703,7 @@ public static class EquipmentGenerator
         };
 
         int dwarfPercent = wielder != null && wielder.RaceDefinition != null
-            ? wielder.RaceDefinition.GetEquipmentBonusPercent(item.template) : 0;
+            ? wielder.RaceDefinition.GetEquipmentBonusPercent(item) : 0;
         if (dwarfPercent > 0)
         {
             result.armor = Scale(result.armor, dwarfPercent);
@@ -675,6 +738,27 @@ public static class EquipmentGenerator
         item.meleeDamage = values.meleeDamage;
         item.rangeDamage = values.rangeDamage;
         item.magicDamage = values.magicDamage;
+    }
+
+    private static T[] Combine<T>(T[] shared, T[] added)
+    {
+        int firstCount = shared == null ? 0 : shared.Length;
+        int secondCount = added == null ? 0 : added.Length;
+        T[] result = new T[firstCount + secondCount];
+        if (firstCount > 0)
+        {
+            Array.Copy(shared, result, firstCount);
+
+        }
+
+        if (secondCount > 0)
+        {
+            Array.Copy(added, 0, result, firstCount, secondCount);
+
+        }
+
+        return result;
+
     }
 
     private static T[] CopyArray<T>(T[] source)

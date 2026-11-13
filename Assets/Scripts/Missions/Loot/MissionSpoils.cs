@@ -20,6 +20,9 @@ public sealed class MissionSpoils : MonoBehaviour
 
     [Header("Battle loot rolls")]
     [SerializeField, Min(0)] private int lootTableRollsPerEnemy = 1;
+    [Header("Enemy Race Resource Loot")]
+    [Tooltip("Optional override. When empty, loads the shared RaceLootDatabase from Resources/MutaBorn automatically.")]
+    [SerializeField] private RaceLootDatabase raceLootDatabase;
     [SerializeField, Range(0, 100)] private int enemyEquipmentRecoveryPercent = 5;
     [SerializeField, Range(0, 100)] private int playerEquipmentLossPercent = 25;
     [SerializeField, Range(0, 100)] private int playerConsumableLossPercent = 25;
@@ -46,6 +49,24 @@ public sealed class MissionSpoils : MonoBehaviour
         Instance = this;
         mission = GetComponent<MissionObjectiveManager>();
         factions = FindAnyObjectByType<FactionManager>();
+        if (raceLootDatabase == null)
+        {
+            raceLootDatabase = Resources.Load<RaceLootDatabase>("MutaBorn/RaceLootDatabase");
+
+        }
+
+#if UNITY_EDITOR
+        if (raceLootDatabase == null)
+        {
+            Debug.LogWarning("[RaceLoot] Missing Assets/Resources/MutaBorn/RaceLootDatabase.asset.", this);
+
+        }
+        else
+        {
+            Debug.Log($"[RaceLoot] Loaded {raceLootDatabase.name} for mission spoils.", this);
+
+        }
+#endif
 
     }
 
@@ -108,14 +129,55 @@ public sealed class MissionSpoils : MonoBehaviour
 
     private void RecordEnemyDefeat(UnitController unit)
     {
-        if (prepared || !IsEnemy(unit) || !defeatedEnemies.Add(unit))
+        if (prepared || unit == null || defeatedEnemies.Contains(unit))
         {
 
             return;
 
         }
 
+        if (!IsEnemy(unit))
+        {
+#if UNITY_EDITOR
+            Debug.Log($"[RaceLoot] Ignored defeated unit '{unit.name}': not recognized as hostile to player.", this);
+#endif
+
+            return;
+
+        }
+
+        defeatedEnemies.Add(unit);
+
         MissionLootTable table = mission.LevelMission.LootTable;
+        if (raceLootDatabase != null &&
+            raceLootDatabase.TryGetLoot(unit.data.raceName, out MissionLootTable raceTable,
+                out int dropChancePercent))
+        {
+            // Race drops replace only the generic enemy resource roll; equipment recovery remains separate.
+            if (UnityEngine.Random.Range(0, 100) >= dropChancePercent)
+            {
+#if UNITY_EDITOR
+                Debug.Log($"[RaceLoot] {unit.data.characterName} ({unit.data.raceName}): no drop ({dropChancePercent}% chance).", this);
+#endif
+
+                return;
+
+            }
+
+            table = raceTable;
+#if UNITY_EDITOR
+            Debug.Log($"[RaceLoot] {unit.data.characterName} ({unit.data.raceName}): rolling {table.name}.", this);
+#endif
+
+        }
+#if UNITY_EDITOR
+        else
+        {
+            Debug.LogWarning($"[RaceLoot] No race profile for '{unit.data.raceName}' (or database missing). Using mission loot table.", this);
+
+        }
+#endif
+
         if (table == null)
         {
 
@@ -125,12 +187,15 @@ public sealed class MissionSpoils : MonoBehaviour
 
         for (int i = 0; i < lootTableRollsPerEnemy; i++)
         {
-            WorldLootEntry entry = table.Roll();
-            if (entry != null && entry.IsValid)
+            List<WorldLootStack> drops = table.RollContents();
+            Collect(drops);
+#if UNITY_EDITOR
+            foreach (WorldLootStack drop in drops)
             {
-                Collect(new WorldLootStack(entry));
+                Debug.Log($"[RaceLoot] Awarded {drop.quantity} x {drop.DisplayName} from {unit.data.characterName}.", this);
 
             }
+#endif
 
         }
 
@@ -186,15 +251,22 @@ public sealed class MissionSpoils : MonoBehaviour
 
         }
 
+        if (stack.kind == WorldLootKind.EquipmentTemplate)
+        {
+            if (stack.generatedEquipment.IsValid)
+            {
+                items.Add(new StoredItem(stack.generatedEquipment));
+
+            }
+
+            return;
+
+        }
+
         for (int i = 0; i < stack.quantity; i++)
         {
             object generated = ItemGenerator.ItemInstance(stack.item);
-            if (generated is EquipmentInstance equipment && equipment.template != null)
-            {
-                items.Add(new StoredItem(equipment));
-
-            }
-            else if (generated is ConsumableInstance consumable && consumable.definition != null)
+            if (generated is ConsumableInstance consumable && consumable.definition != null)
             {
                 items.Add(new StoredItem(consumable));
 
@@ -313,7 +385,7 @@ public sealed class MissionSpoils : MonoBehaviour
 
             }
             else if (defeated.data.TryGetEquipmentAtSlot(slot, out EquipmentInstance equipment) &&
-                equipment.template != null && defeated.data.TryLoseItemAfterBattle(slot))
+                equipment.IsValid && defeated.data.TryLoseItemAfterBattle(slot))
             {
                 if (string.IsNullOrWhiteSpace(equipment.instanceId))
                 {
@@ -398,19 +470,19 @@ public sealed class MissionSpoils : MonoBehaviour
         StringBuilder text = new();
         foreach (StoredItem item in items)
         {
-            text.AppendLine($"+ {item.Definition.itemName}");
+            text.AppendLine($"+ {item.DisplayName}");
 
         }
 
         foreach (CasualtyItem recovery in recovered)
         {
-            text.AppendLine($"+ {recovery.item.Definition.itemName} (Recovered from {recovery.unit.characterName})");
+            text.AppendLine($"+ {recovery.item.DisplayName} (Recovered from {recovery.unit.characterName})");
 
         }
 
         foreach (CasualtyItem loss in losses)
         {
-            text.AppendLine($"- {loss.item.Definition.itemName} ({loss.unit.characterName})");
+            text.AppendLine($"- {loss.item.DisplayName} ({loss.unit.characterName})");
 
         }
 
@@ -515,7 +587,7 @@ public sealed class MissionSpoils : MonoBehaviour
         foreach (CasualtyItem recoveredItem in recovered)
         {
             StoredItem item = recoveredItem.item;
-            if (string.IsNullOrWhiteSpace(item.InstanceId) || item.Definition == null ||
+            if (string.IsNullOrWhiteSpace(item.InstanceId) || !item.IsValid ||
                 !incomingIds.Add(item.InstanceId) || storage.TryGetItem(item.InstanceId, out _))
             {
                 Debug.LogError($"[MissionSpoils] Cannot recover casualty item '{item.InstanceId}'.", this);

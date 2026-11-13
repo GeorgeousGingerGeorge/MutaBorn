@@ -1,0 +1,1039 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426835ade34359a5f7312faf913101, type: 3}
+  m_Name: sling
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentType
+  typeId: sling
+  displayTypeLabel: Sling
+  typeIcon: {fileID: 0}
+  equipmentFit: 1
+  requiresBothHands: 0
+  armorCategory: 0
+  weaponCategory: 2
+  weaponSubtype: 10
+  accessoryCategory: 0
+  primaryDamageType: 3
+  upgradeBonuses: []
+  upgradeCosts: []
+  defaultSocket: 0
+  modelPrefab: {fileID: 0}
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  applyColors: 0
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+  accentColor: {r: 1, g: 1, b: 1, a: 1}
+  grantedActionSet: {fileID: 0}
+  grantedEffectCollection: {fileID: 0}
+  startingActions: []
+  startingEffects: []
+  templates:
+  - templateId: weapon-copper-fork-slingshot
+    displayName: Copper Fork Slingshot
+    description: Forged or assembled around Copper and Wood. One-handed sling with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 4d135f2e3f90432e8558561c5f2c890c, type: 3}
+    legacyItemId: weapon-copper-fork-slingshot
+    legacyRecipeId: craft.item.weapon-copper-fork-slingshot
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 5
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 1, y: 1}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 2
+      vitality: 0
+      constitution: 0
+      perception: 2
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: copper
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 3
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 3
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-copper-fork-slingshot-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-copper-fork-slingshot-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-copper-fork-slingshot-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 7a32f6fcd6ba4f1f983ba344162cb4b3, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-copper-fork-slingshot-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 44e14bc0682249b8ad94dece086516a3, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 48c0ff5c0d714f12ac28e745c056a690, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-pebble-sling
+    displayName: Pebble Sling
+    description: Forged or assembled around Stone and Textiles. One-handed sling with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 4d135f2e3f90432e8558561c5f2c890c, type: 3}
+    legacyItemId: weapon-pebble-sling
+    legacyRecipeId: craft.item.weapon-pebble-sling
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 3
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 2
+      vitality: 0
+      constitution: 0
+      perception: 2
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: stone
+        amount: 3
+      - resourceId: textiles
+        amount: 3
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 3
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 3
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-pebble-sling-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-pebble-sling-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 7a32f6fcd6ba4f1f983ba344162cb4b3, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-pebble-sling-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 44e14bc0682249b8ad94dece086516a3, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 48c0ff5c0d714f12ac28e745c056a690, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-rune-spun-sling
+    displayName: Rune-Spun Sling
+    description: Forged or assembled around Runes and Enchanted Textiles. One-handed sling with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 4d135f2e3f90432e8558561c5f2c890c, type: 3}
+    legacyItemId: weapon-rune-spun-sling
+    legacyRecipeId: craft.item.weapon-rune-spun-sling
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 2
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 7
+      magicDamage: 6
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 2, y: 2}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 3
+      vitality: 0
+      constitution: 0
+      perception: 3
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: textiles
+        amount: 3
+      - resourceId: maana_crystals
+        amount: 2
+      - resourceId: runes
+        amount: 2
+    startingStarRolls:
+      rollCount: 4
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 3
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 4
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 3
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-rune-spun-sling-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 4
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-rune-spun-sling-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-rune-spun-sling-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-rune-spun-sling-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 7a32f6fcd6ba4f1f983ba344162cb4b3, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-rune-spun-sling-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 44e14bc0682249b8ad94dece086516a3, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 48c0ff5c0d714f12ac28e745c056a690, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage:
+    - damageType: 4
+      amount: 2
+    damageTypeOverride: 0
+  - templateId: weapon-woven-leather-sling
+    displayName: Woven Leather Sling
+    description: Forged or assembled around Textiles and Stone. One-handed sling with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 4d135f2e3f90432e8558561c5f2c890c, type: 3}
+    legacyItemId: weapon-woven-leather-sling
+    legacyRecipeId: craft.item.weapon-woven-leather-sling
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 4
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 2
+      vitality: 0
+      constitution: 0
+      perception: 2
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: textiles
+        amount: 4
+      - resourceId: bones
+        amount: 1
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 3
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 3
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-woven-leather-sling-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-woven-leather-sling-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 7a32f6fcd6ba4f1f983ba344162cb4b3, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-woven-leather-sling-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 44e14bc0682249b8ad94dece086516a3, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 48c0ff5c0d714f12ac28e745c056a690, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0

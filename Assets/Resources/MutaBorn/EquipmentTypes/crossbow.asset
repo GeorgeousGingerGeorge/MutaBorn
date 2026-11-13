@@ -1,0 +1,1402 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426835ade34359a5f7312faf913101, type: 3}
+  m_Name: crossbow
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentType
+  typeId: crossbow
+  displayTypeLabel: Crossbow
+  typeIcon: {fileID: 0}
+  equipmentFit: 1
+  requiresBothHands: 0
+  armorCategory: 0
+  weaponCategory: 2
+  weaponSubtype: 9
+  accessoryCategory: 0
+  primaryDamageType: 2
+  upgradeBonuses: []
+  upgradeCosts: []
+  defaultSocket: 0
+  modelPrefab: {fileID: 0}
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  applyColors: 0
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+  accentColor: {r: 1, g: 1, b: 1, a: 1}
+  grantedActionSet: {fileID: 0}
+  grantedEffectCollection: {fileID: 0}
+  startingActions: []
+  startingEffects: []
+  templates:
+  - templateId: weapon-dvergrium-arbalest
+    displayName: Dvergrium Arbalest
+    description: Forged or assembled around Dvergrium and Steel. Two-handed crossbow with stronger attacks but occupies both hands. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 3e5e8d3fcb7b43e990520a23a83a87ff, type: 3}
+    legacyItemId: weapon-dvergrium-arbalest
+    legacyRecipeId: craft.item.weapon-dvergrium-arbalest
+    handednessOverride: 2
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 2
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 12
+      rangeDamage: 17
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 1, y: 1}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 3
+      vitality: 0
+      constitution: 0
+      perception: 3
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: dvergrium
+        amount: 4
+      - resourceId: steel
+        amount: 2
+      - resourceId: wood
+        amount: 2
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 4
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 2
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 3
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-dvergrium-arbalest-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 3
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-dvergrium-arbalest-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-dvergrium-arbalest-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-dvergrium-arbalest-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: a0d31a2b9ae04419be2beb6b5dc24b7d, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-dvergrium-arbalest-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 10d42a414fa14680a0666c9060561dce, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-dvergrium-arbalest-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 2dfcf191474d4be0a85df45fa441ae25, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: b3733b6c9fe74097946bb67762128139, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-iron-hand-crossbow
+    displayName: Iron Hand Crossbow
+    description: Forged or assembled around Iron and Wood. One-handed crossbow with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 3e5e8d3fcb7b43e990520a23a83a87ff, type: 3}
+    legacyItemId: weapon-iron-hand-crossbow
+    legacyRecipeId: craft.item.weapon-iron-hand-crossbow
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 1
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 2
+      rangeDamage: 7
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 2
+      vitality: 0
+      constitution: 0
+      perception: 2
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 2
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 3
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-hand-crossbow-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 3
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-hand-crossbow-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-hand-crossbow-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-hand-crossbow-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: a0d31a2b9ae04419be2beb6b5dc24b7d, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-hand-crossbow-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 10d42a414fa14680a0666c9060561dce, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-hand-crossbow-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 2dfcf191474d4be0a85df45fa441ae25, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 87318f80c4c24c79a0e0ff2b0883f13f, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-steel-siege-crossbow
+    displayName: Steel Siege Crossbow
+    description: Forged or assembled around Steel and Wood. Two-handed crossbow with stronger attacks but occupies both hands. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 3e5e8d3fcb7b43e990520a23a83a87ff, type: 3}
+    legacyItemId: weapon-steel-siege-crossbow
+    legacyRecipeId: craft.item.weapon-steel-siege-crossbow
+    handednessOverride: 2
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 1
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 8
+      rangeDamage: 13
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 2
+      vitality: 0
+      constitution: 0
+      perception: 2
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: steel
+        amount: 4
+      - resourceId: textiles
+        amount: 2
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 2
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 3
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-steel-siege-crossbow-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 3
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-steel-siege-crossbow-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-steel-siege-crossbow-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-steel-siege-crossbow-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: a0d31a2b9ae04419be2beb6b5dc24b7d, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-steel-siege-crossbow-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 10d42a414fa14680a0666c9060561dce, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-steel-siege-crossbow-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 2dfcf191474d4be0a85df45fa441ae25, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: b3733b6c9fe74097946bb67762128139, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-wooden-hand-crossbow
+    displayName: Wooden Hand Crossbow
+    description: Forged or assembled around Wood and Textiles. One-handed crossbow with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 3e5e8d3fcb7b43e990520a23a83a87ff, type: 3}
+    legacyItemId: weapon-wooden-hand-crossbow
+    legacyRecipeId: craft.item.weapon-wooden-hand-crossbow
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 6
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 2
+      vitality: 0
+      constitution: 0
+      perception: 2
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: wood
+        amount: 4
+      - resourceId: textiles
+        amount: 2
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 3
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 3
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-wooden-hand-crossbow-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-wooden-hand-crossbow-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: a0d31a2b9ae04419be2beb6b5dc24b7d, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-wooden-hand-crossbow-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 10d42a414fa14680a0666c9060561dce, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-wooden-hand-crossbow-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 2dfcf191474d4be0a85df45fa441ae25, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 87318f80c4c24c79a0e0ff2b0883f13f, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0

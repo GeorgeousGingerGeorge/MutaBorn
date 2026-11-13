@@ -44,14 +44,14 @@ public class UnitController : MonoBehaviour
     [Header("Evolution Testing (Play Mode)")]
     [SerializeField] private MutationID testEvolutionCurrent = MutationID.none;
     [SerializeField] private MutationID testEvolutionNext = MutationID.none;
-    [Header("Legacy Scene Starting Equipment (Temporary)")]
-    [SerializeField] private EquipmentData[] startingEquipment = new EquipmentData[6];
+    [Header("Scene Starting Equipment")]
+    [SerializeField] private EquipmentTemplateReference[] startingEquipment = new EquipmentTemplateReference[0];
 
     [Header("Legacy Scene Starting Consumables (Temporary)")]
     [SerializeField] private ConsumableData[] startingConsumables = new ConsumableData[2];
 
     // Retained for pre-existing scenes/prefabs. Used only if the new array is empty.
-    [SerializeField, HideInInspector] public ItemData currentEquipment;
+    [SerializeField] private EquipmentTemplateReference singleStartingEquipment;
     [Header("Optional Permanent Player Roster")]
     [SerializeField] private UnitInitializationMode initializationMode = UnitInitializationMode.LegacyScene;
     [SerializeField, Min(0)] private int rosterDeploymentSlot;
@@ -89,8 +89,8 @@ public class UnitController : MonoBehaviour
     [SerializeField] private LineRenderer selectionCircle;
 
     [SerializeField] private Transform weaponSocket;
-    private readonly Transform[] playerSockets = new Transform[7];
-    private readonly GameObject[] activeEquipmentModels = new GameObject[7];
+    private readonly Transform[] playerSockets = new Transform[10];
+    private readonly GameObject[] activeEquipmentModels = new GameObject[10];
     private GameObject activeWeapon;
     private GameObject activeRaceModel;
 
@@ -199,22 +199,6 @@ public class UnitController : MonoBehaviour
         data.LoadoutChanged += RefreshEquipmentAndMutationGrants;
         RefreshEquipmentAndMutationGrants();
 
-        // The weapon model is a scene visual, not a second inventory instance.
-        foreach (UnitSlotId slot in UnitLoadoutSlots.All)
-        {
-            int socketIndex = GetSocketIndex(slot);
-
-            if (socketIndex < 0)
-                continue;
-
-            if (!data.TryGetEquipmentAtSlot(slot, out EquipmentInstance equipment))
-                continue;
-
-            if (equipment.template == null || equipment.template.weaponModelPrefab == null)
-                continue;
-
-            AttachWeapon(equipment.template.weaponModelPrefab, socketIndex);
-        }
 
     }
 
@@ -261,9 +245,9 @@ public class UnitController : MonoBehaviour
 
         if (startingEquipment != null)
         {
-            foreach (EquipmentData equipment in startingEquipment)
+            foreach (EquipmentTemplateReference equipment in startingEquipment)
             {
-                if (equipment == null)
+                if (!equipment.TryResolve(out EquipmentTemplate definition))
                 {
                     continue;
 
@@ -272,37 +256,23 @@ public class UnitController : MonoBehaviour
                 hasStartingEquipment = true;
                 if (!data.TryEquipStartingItem(equipment, out UnitSlotId equippedSlot))
                 {
-                    Debug.LogWarning($"Starting equipment '{equipment.name}' has no compatible free slot on {unitName}.", this);
+                    Debug.LogWarning($"Starting equipment '{definition.DisplayName}' has no compatible free slot on {unitName}.", this);
 
                     continue;
 
                 }
 
-                if (equipment.weaponModelPrefab != null)
-                {
-                    int socketIndex = GetSocketIndex(equippedSlot);
-
-                    if (socketIndex >= 0)   
-                    {
-                        AttachWeapon(equipment.weaponModelPrefab, socketIndex);
-                    }
-                }
-
-                Debug.Log($"Equipped starting item: {equipment.name}");
+                Debug.Log($"Equipped starting item: {definition.DisplayName}");
 
             }
 
         }
 
         // Preserve equipment already assigned in existing scenes and prefabs.
-        if (!hasStartingEquipment && currentEquipment != null)
+        if (!hasStartingEquipment && singleStartingEquipment.TryResolve(out EquipmentTemplate fallback) &&
+            data.TryEquipStartingItem(singleStartingEquipment))
         {
-            if (currentEquipment is EquipmentData legacyEquipment &&
-                data.TryEquipStartingItem(legacyEquipment))
-            {
-                Debug.Log($"Equipped existing starting item: {currentEquipment.name}");
-
-            }
+            Debug.Log($"Equipped starting item: {fallback.DisplayName}");
 
         }
 
@@ -780,6 +750,8 @@ public class UnitController : MonoBehaviour
 
         }
 
+        RefreshEquipmentModels();
+
         UnitActionLoadout loadout = GetComponent<UnitActionLoadout>();
         if (loadout != null)
         {
@@ -970,6 +942,9 @@ public class UnitController : MonoBehaviour
         playerSockets[4] = FindVisualChild(newModel.transform, "armorSkt_Arms");
         playerSockets[5] = FindVisualChild(newModel.transform, "armorSkt_Legs");
         playerSockets[6] = FindVisualChild(newModel.transform, "armorSkt_Boots");
+        playerSockets[7] = FindVisualChild(newModel.transform, "accessorySkt_1");
+        playerSockets[8] = FindVisualChild(newModel.transform, "accessorySkt_2");
+        playerSockets[9] = FindVisualChild(newModel.transform, "accessorySkt_3");
 
         // Preserve compatibility with the existing AttachWeapon().
         weaponSocket = playerSockets[0] != null ? playerSockets[0] : playerSockets[1];
@@ -1099,6 +1074,110 @@ public class UnitController : MonoBehaviour
             ? index
             : -1;
     }
+    private void RefreshEquipmentModels()
+    {
+        for (int i = 0; i < activeEquipmentModels.Length; i++)
+        {
+            if (activeEquipmentModels[i] != null)
+            {
+                Destroy(activeEquipmentModels[i]);
+                activeEquipmentModels[i] = null;
+
+            }
+
+        }
+
+        if (data == null)
+        {
+            return;
+
+        }
+
+        foreach (UnitSlotId slot in UnitLoadoutSlots.All)
+        {
+            if (!data.TryGetEquipmentAtSlot(slot, out EquipmentInstance item) || item.ModelPrefab == null)
+            {
+                continue;
+
+            }
+
+            EquipmentTemplate definition = null;
+            if (item.typeDefinition != null)
+            {
+                item.typeDefinition.TryGetTemplate(item.templateId, out definition);
+
+            }
+
+            EquipmentAttachmentSocket socket = definition != null &&
+                definition.SocketOverride != EquipmentAttachmentSocket.Auto
+                ? definition.SocketOverride : item.typeDefinition != null
+                    ? item.typeDefinition.DefaultSocket : EquipmentAttachmentSocket.Auto;
+            int index = socket == EquipmentAttachmentSocket.Auto
+                ? GetSocketIndex(slot) : (int)socket - 1;
+            if (index < 0 || index >= playerSockets.Length || playerSockets[index] == null ||
+                !AttachWeapon(item.ModelPrefab, index))
+            {
+                continue;
+
+            }
+
+            if (definition == null)
+            {
+                continue;
+
+            }
+
+            Transform attached = activeEquipmentModels[index].transform;
+            bool overridden = definition.OverrideAttachment;
+            attached.localPosition = overridden ? definition.PositionOffset : item.typeDefinition.PositionOffset;
+            attached.localRotation = Quaternion.Euler(overridden ? definition.RotationOffset : item.typeDefinition.RotationOffset);
+            attached.localScale = Vector3.Scale(attached.localScale,
+                overridden ? definition.Scale : item.typeDefinition.Scale);
+
+            bool applyColors = definition.OverrideColors || item.typeDefinition.ApplyColors;
+            if (applyColors)
+            {
+                Color primary = definition.OverrideColors ? definition.PrimaryColor : item.typeDefinition.PrimaryColor;
+                Color secondary = definition.OverrideColors ? definition.SecondaryColor : item.typeDefinition.SecondaryColor;
+                Color accent = definition.OverrideColors ? definition.AccentColor : item.typeDefinition.AccentColor;
+                ApplyEquipmentColors(activeEquipmentModels[index], primary, secondary, accent);
+
+            }
+
+        }
+
+    }
+
+    private static void ApplyEquipmentColors(GameObject model, Color primary, Color secondary, Color accent)
+    {
+        MaterialPropertyBlock properties = new MaterialPropertyBlock();
+        foreach (Renderer renderer in model.GetComponentsInChildren<Renderer>(true))
+        {
+            Material[] materials = renderer.sharedMaterials;
+            for (int i = 0; i < materials.Length; i++)
+            {
+                Material material = materials[i];
+                if (material == null)
+                {
+                    continue;
+
+                }
+
+                properties.Clear();
+                renderer.GetPropertyBlock(properties, i);
+                if (material.HasProperty("_BaseColor")) properties.SetColor("_BaseColor", primary);
+                if (material.HasProperty("_Color")) properties.SetColor("_Color", primary);
+                if (material.HasProperty("_PrimaryColor")) properties.SetColor("_PrimaryColor", primary);
+                if (material.HasProperty("_SecondaryColor")) properties.SetColor("_SecondaryColor", secondary);
+                if (material.HasProperty("_AccentColor")) properties.SetColor("_AccentColor", accent);
+                renderer.SetPropertyBlock(properties, i);
+
+            }
+
+        }
+
+    }
+
     public bool AttachWeapon(GameObject weaponPrefab, int socketIndex = 0)
     {
         if (weaponPrefab == null || socketIndex < 0 || socketIndex >= playerSockets.Length)
