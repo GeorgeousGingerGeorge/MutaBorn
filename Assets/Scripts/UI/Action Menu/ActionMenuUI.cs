@@ -245,6 +245,11 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         wasConsumableTargeting = isConsumableTargeting;
+        if (categoryIsOpen && openCategory == ActionMenuCategory.Items)
+        {
+            RefreshExpandedButtonAffordability(currentAP);
+
+        }
 
         //UpdateQuickButtons(currentAP);
         RefreshActionInfoPanel();
@@ -430,6 +435,13 @@ public class ActionMenuUI : MonoBehaviour
         {
             foreach (ActionDefinition action in displayedLoadout.GetActions(openCategory))
             {
+                // Capture now belongs exclusively to carried consumables, not gear-granted actions.
+                if (action.CombatBehavior == CombatActionBehavior.CaptureUnit)
+                {
+                    continue;
+
+                }
+
                 ActionButtonUI item = Instantiate(actionButtonPrefab, expandedContent);
                 item.Bind(action, displayedUnit.data.currentActionPoints, RequestAction,
                     PreviewAction, EndActionPreview);
@@ -719,7 +731,8 @@ public class ActionMenuUI : MonoBehaviour
         }
 
         string cost = shown.IsPassive ? "PASSIVE" : $"{shown.ApCost:0.#} AP";
-        string range = shown.CombatBehavior == CombatActionBehavior.DamageUnit
+        string range = (shown.CombatBehavior == CombatActionBehavior.DamageUnit ||
+            shown.CombatBehavior == CombatActionBehavior.CaptureUnit)
             ? $"  |  Range: {shown.CombatRange:0.#}"
             : (shown.CombatBehavior == CombatActionBehavior.DamageArea ||
                 shown.CombatBehavior == CombatActionBehavior.HealArea)

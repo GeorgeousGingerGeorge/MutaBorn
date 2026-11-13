@@ -514,6 +514,8 @@ public sealed class ResearchManager : MonoBehaviour
 
         }
 
+        BrigManager.Instance?.SyncResearchSlots();
+
         ItemStorage storage = ItemStorage.Instance;
         if (storage != null && HasBenefit(ResearchBenefitType.MutationStorage))
         {

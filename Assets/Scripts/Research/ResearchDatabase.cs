@@ -26,7 +26,8 @@ public enum ResearchBenefitType
     ResearchSpeed,
     ResearchTier,
     ResourceCraftTier,
-    EquipmentCraftTier
+    EquipmentCraftTier,
+    BrigSlot
 
 }
 

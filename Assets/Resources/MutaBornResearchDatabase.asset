@@ -795,7 +795,7 @@ MonoBehaviour:
     battlesRequired: 2
     benefits:
     - type: 0
-      recipeId:
+      recipeId: 
       equipmentTemplate:
         equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
         templateId: iron_sword
@@ -1720,6 +1720,140 @@ MonoBehaviour:
     benefits:
     - type: 0
       recipeId: craft.item.weapon-mutated-heart-codex
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: p.brig3
+    displayName: Brig Cell 3
+    description: Increase the Brig capacity to 3 prisoners.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 60
+    - resourceId: iron
+      amount: 10
+    battlesRequired: 2
+    benefits:
+    - type: 14
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: p.brig4
+    displayName: Brig Cell 4
+    description: Increase the Brig capacity to 4 prisoners.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.brig3
+    costs:
+    - resourceId: gold
+      amount: 100
+    - resourceId: iron
+      amount: 15
+    battlesRequired: 2
+    benefits:
+    - type: 14
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: p.brig5
+    displayName: Brig Cell 5
+    description: Increase the Brig capacity to 5 prisoners.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.brig4
+    costs:
+    - resourceId: gold
+      amount: 150
+    - resourceId: iron
+      amount: 20
+    battlesRequired: 2
+    benefits:
+    - type: 14
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: e.capture-bola
+    displayName: Bola Capture Equipment
+    description: Unlock crafting the Bola capture consumable. One use per mission.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.field-accessories
+    costs:
+    - resourceId: gold
+      amount: 40
+    - resourceId: textiles
+      amount: 6
+    - resourceId: wood
+      amount: 2
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.item.consumable-capture-bola
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: e.capture-taser
+    displayName: Taser Capture Equipment
+    description: Unlock crafting the Taser capture consumable. One use per mission.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.field-accessories
+    - e.copperwork
+    costs:
+    - resourceId: gold
+      amount: 55
+    - resourceId: copper
+      amount: 6
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.consumable-capture-taser
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: e.capture-net-gun
+    displayName: Net Gun Capture Equipment
+    description: Unlock crafting the Net Gun capture consumable. One use per mission.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.capture-bola
+    - e.firearms
+    costs:
+    - resourceId: gold
+      amount: 80
+    - resourceId: iron
+      amount: 6
+    - resourceId: gunpowder
+      amount: 3
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.consumable-capture-net_gun
       equipmentTemplate:
         equipmentType: {fileID: 0}
         templateId: 

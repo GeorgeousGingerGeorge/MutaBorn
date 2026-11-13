@@ -43,7 +43,8 @@ public enum CombatActionBehavior
     RestoreMana,
     MutationScan = 8,
     MutationDeployCover = 9,
-    MutationDeployTrap = 10
+    MutationDeployTrap = 10,
+    CaptureUnit = 11
 
 }
 
@@ -105,6 +106,10 @@ public class ActionDefinition : ScriptableObject
     [Header("Projectile Configuration (Optional)")]
     [Tooltip("Projectile used by this action. Leave empty for attacks without projectiles.")]
     [SerializeField] private ProjectileDefinition projectileDefinition;
+
+    [Header("Capture Unit (CaptureUnit only)")]
+    [Tooltip("Small percentage-point bonus added to the target missing-HP percentage.")]
+    [SerializeField, Range(0, 20)] private int captureBonusPercent;
 
     [Header("Area Explosion (DamageArea only)")]
     [Tooltip("How far the explosion can be thrown, measured in grid tiles.")]
@@ -175,6 +180,7 @@ public class ActionDefinition : ScriptableObject
     public ActionControlTags ControlTags => controlTags;
     public CombatDamageStat DamageStat => damageStat;
     public float CombatRange => combatRange;
+    public int CaptureBonusPercent => captureBonusPercent;
     public float DamageMultiplier => damageMultiplier;
     public int FlatDamageBonus => flatDamageBonus;
     public int MinimumDamage => minimumDamage;
