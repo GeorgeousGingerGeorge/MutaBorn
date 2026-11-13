@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -95,7 +95,14 @@ namespace MutaBorn.Gameplay
 
         private void OnDamageApplied(CombatDamageEvent report)
         {
-            if (report.Target == null || report.ActualDamage <= 0 || canvasRect == null)
+            if (report.Target == null || report.ActualDamage <= 0)
+            {
+                return;
+
+            }
+
+            UnitHitFeedback.Show(report.Target, report.Attacker);
+            if (canvasRect == null)
             {
                 return;
 
