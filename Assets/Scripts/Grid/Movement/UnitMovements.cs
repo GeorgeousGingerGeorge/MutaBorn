@@ -37,42 +37,55 @@ public class UnitMovements : MonoBehaviour
         visibileController = FindAnyObjectByType<VisibilityManager>();
         soundController = FindAnyObjectByType<SoundDetectionSystem>();
         unit = GetComponent<UnitController>();
-        
-        //CDGoblin = GetComponentInChildren<Animator>();
-
     }
-    
+
     // Called after UnitController replaces the race-specific model.
     public void RefreshRaceAnimator(Animator animator)
     {
         animBaseChar = animator;
 
+        if (animBaseChar != null)
+        {
+            animBaseChar.SetFloat("IdleOffset", Random.value);
+            animBaseChar.SetFloat("Speed", 0f);
+        }
+    }
+
+    public void SetEquipmentAnimation(EquipmentData equipment) // for attack-specific animation
+    {
+        if (animBaseChar == null)
+        {
+            return;
+        }
+
+        int idleType = 0;
+        int runType = 0;
+
+        if (equipment != null)
+        {
+            if (equipment.WeaponSubtypeId == WeaponSubtype.Bow)
+            {
+                idleType = 3;
+                runType = 3;
+            }
+            else if (equipment.weaponGear == WeaponCategory.Melee)
+            {
+                idleType = equipment.RequiresBothHands ? 2 : 1;
+            }
+        }
+
+        animBaseChar.SetInteger("IdleType", idleType);
+        animBaseChar.SetInteger("RunType", runType);
     }
 
     public void Update() 
     {
-
-        
-      
-
-        //if (unit.GetComponentInChildren<Animator>() != null)
-        //{
-        //    animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
-        //    animBaseChar.transform.position = transform.position;
-        //    CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
-        //    CDGoblin.transform.position = transform.position;
-
-
-        //}
-
-        if (animBaseChar != null)
+            if (animBaseChar != null)
         {
             animBaseChar.SetFloat("Speed", isMoving ? 1f : 0f);
             animBaseChar.transform.position = transform.position;
         }
 
-
-       
     }
 
     public bool PlayerMovement(GridNode destination)
