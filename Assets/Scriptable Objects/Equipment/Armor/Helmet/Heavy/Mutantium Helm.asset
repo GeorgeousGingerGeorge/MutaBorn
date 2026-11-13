@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26a55a7212599a0419e986f77eb48d6c, type: 3}
-  m_Name: "Mutantium Helm"
+  m_Name: Mutantium Helm
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
-  _itemName: "Mutantium Helm"
-  _itemID: "armor-mutantium-helm"
-  _description: "Mutantium-based helmet protection. Part of the five-slot Mutantium armor family; wearing the full set has no automatic set bonus yet."
+  _itemName: Mutantium Helm
+  _itemID: armor-mutantium-helm
+  _description: Mutantium-based helmet protection. Part of the five-slot Mutantium armor family; wearing the full set has no automatic set bonus yet.
   _sprite: {fileID: 21300000, guid: 296760d114d2bc24b8f0a61108cf71cd, type: 3}
-  _equippedModelPrefab: {fileID: 0}
+  _equippedModelPrefab: {fileID: 6927750858605885335, guid: 498cac427b75d724ab7c4a0a4a7550d3, type: 3}
   armor: 3
   weapon: 0
   weaponSubtype: 0
-  _weaponModelPrefab: {fileID: 0}
+  _weaponModelPrefab: {fileID: 6927750858605885335, guid: 498cac427b75d724ab7c4a0a4a7550d3, type: 3}
   accessory: 0
   targetSlot: 4
   equipmentFit: 2
   requiresBothHands: 0
-  displayTypeLabel: "Helmet"
+  displayTypeLabel: Helmet
   currentRarity: 4
   type: 1
   statModifier: 0
@@ -42,24 +42,94 @@ MonoBehaviour:
   guaranteedBonusDamage: []
   generateStarRewards: 1
   possibleAbilities: []
-  possibleBonuses: 
+  possibleBonuses:
   - kind: 0
     weight: 60
     stat: 0
     damageType: 0
     amountRange: {x: 1, y: 3}
-    effect: {}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
   - kind: 0
     weight: 40
     stat: 1
     damageType: 0
     amountRange: {x: 1, y: 2}
-    effect: {}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
   grantedActionSet: {fileID: 0}
   grantedEffectCollection: {fileID: 0}
   _armorRating: 8
   _wardRating: 2
-  resistances: 
+  resistances:
   - damageType: 14
     percent: 10
   - damageType: 17

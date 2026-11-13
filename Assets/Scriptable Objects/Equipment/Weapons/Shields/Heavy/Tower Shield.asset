@@ -16,16 +16,26 @@ MonoBehaviour:
   _itemID: shield-tower
   _description: A massive heavy off-hand shield. Strong passive Armor and the most durable Guard stance.
   _sprite: {fileID: 21300000, guid: 7029721a62591ed4ebd358097e25c4e3, type: 3}
-  displayTypeLabel: Shield
+  _equippedModelPrefab: {fileID: 4267341377283729130, guid: 73fa6f66a2ac60f4d9fba4714e2deb5b, type: 3}
   armor: 3
   weapon: 0
+  weaponSubtype: 16
+  _weaponModelPrefab: {fileID: 4267341377283729130, guid: 73fa6f66a2ac60f4d9fba4714e2deb5b, type: 3}
   accessory: 0
   targetSlot: 2
   equipmentFit: 1
   requiresBothHands: 0
+  displayTypeLabel: Shield
   currentRarity: 0
   type: 1
   statModifier: 0
+  startingScaling:
+    strength: 1
+    dexterity: 0
+    vitality: 1
+    constitution: 2
+    perception: 0
+    intelligence: 0
   guaranteedActions: []
   guaranteedEffects: []
   primaryDamageType: 0
@@ -46,12 +56,15 @@ MonoBehaviour:
     amountRange: {x: 3, y: 6}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -66,10 +79,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -82,12 +97,15 @@ MonoBehaviour:
     amountRange: {x: 1, y: 3}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -102,10 +120,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -118,12 +138,15 @@ MonoBehaviour:
     amountRange: {x: 5, y: 10}
     effect:
       definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
       activation:
         trigger: 0
         phase: 0
         frequency: 0
         eventActor: 0
         requireGrantingSourceMatch: 0
+        requireAction: 0
       targeting:
         reference: 0
         selection: 0
@@ -138,10 +161,12 @@ MonoBehaviour:
       operationParameters:
         resource: 0
         stat: 0
+        statModifierMode: 0
         damageType: 0
         damageDelivery: 0
         defenseStat: 0
         statusId: 
+        statusDefinition: {fileID: 0}
       value:
         constant: 0
         terms: []
@@ -149,14 +174,6 @@ MonoBehaviour:
       conditions: []
   grantedActionSet: {fileID: 11400000, guid: 758a0440f76d4f97878cce000340e857, type: 2}
   grantedEffectCollection: {fileID: 0}
-  weaponSubtype: 16
-  startingScaling: 
-    strength: 1
-    dexterity: 0
-    vitality: 1
-    constitution: 2
-    perception: 0
-    intelligence: 0
   _armorRating: 11
   _wardRating: 1
   resistances: []

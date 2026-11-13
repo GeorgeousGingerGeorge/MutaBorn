@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26a55a7212599a0419e986f77eb48d6c, type: 3}
-  m_Name: "Enchanted Sash"
+  m_Name: Enchanted Sash
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
-  _itemName: "Enchanted Sash"
-  _itemID: "accessory-enchanted-sash"
-  _description: "A sash of enchanted cloth that adds mixed protection. Primarily made with Enchanted Textiles."
+  _itemName: Enchanted Sash
+  _itemID: accessory-enchanted-sash
+  _description: A sash of enchanted cloth that adds mixed protection. Primarily made with Enchanted Textiles.
   _sprite: {fileID: 21300000, guid: 28e3d486d14f68d40b7ddcebe4bad932, type: 3}
-  _equippedModelPrefab: {fileID: 0}
+  _equippedModelPrefab: {fileID: 6514175594483425435, guid: 179c10e8756749f4fb9fb670f6fa0a86, type: 3}
   armor: 0
   weapon: 0
   weaponSubtype: 0
-  _weaponModelPrefab: {fileID: 0}
+  _weaponModelPrefab: {fileID: 6514175594483425435, guid: 179c10e8756749f4fb9fb670f6fa0a86, type: 3}
   accessory: 2
   targetSlot: 0
   equipmentFit: 7
   requiresBothHands: 0
-  displayTypeLabel: "Worn"
+  displayTypeLabel: Worn
   currentRarity: 2
   type: 1
   statModifier: 0
@@ -42,24 +42,94 @@ MonoBehaviour:
   guaranteedBonusDamage: []
   generateStarRewards: 1
   possibleAbilities: []
-  possibleBonuses: 
+  possibleBonuses:
   - kind: 0
     weight: 45
     stat: 0
     damageType: 0
     amountRange: {x: 1, y: 2}
-    effect: {}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
   - kind: 0
     weight: 55
     stat: 1
     damageType: 0
     amountRange: {x: 1, y: 2}
-    effect: {}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 1
+        phase: 1
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 7
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 1
+      lifetime:
+        lifetime: 0
+        durationTurns: 1
+        maximumUses: 1
+      operationParameters:
+        resource: -1
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 1
+      conditions: []
   grantedActionSet: {fileID: 0}
   grantedEffectCollection: {fileID: 0}
   _armorRating: 1
   _wardRating: 2
-  resistances: 
+  resistances:
   - damageType: 14
     percent: 5
   - damageType: 17
