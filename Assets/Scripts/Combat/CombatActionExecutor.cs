@@ -1156,7 +1156,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
             return false;
         }
 
-        Animator animator = source.GetComponentInChildren<Animator>();
+        Animator animator = source.GetComponentInChildren<Animator>(); // Bow Attack Animation trigger
 
         if (animator != null && animator.GetInteger("IdleType") == 3)
         {

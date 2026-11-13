@@ -50,8 +50,7 @@ public class UnitMovements : MonoBehaviour
             animBaseChar.SetFloat("Speed", 0f);
         }
     }
-
-    public void SetEquipmentAnimation(EquipmentInstance equipment) // for attack-specific animation
+    public void SetEquipmentAnimation(EquipmentType equipmentType, EquipmentTemplate template)
     {
         if (animBaseChar == null)
         {
@@ -61,16 +60,16 @@ public class UnitMovements : MonoBehaviour
         int idleType = 0;
         int runType = 0;
 
-        if (equipment.IsValid)
+        if (equipmentType != null)
         {
-            if (equipment.WeaponSubtype == WeaponSubtype.Bow)
+            if (equipmentType.WeaponSubtype == WeaponSubtype.Bow)
             {
                 idleType = 3;
                 runType = 3;
             }
-            else if (equipment.weapon == WeaponCategory.Melee)
+            else if (equipmentType.WeaponCategory == WeaponCategory.Melee)
             {
-                idleType = equipment.RequiresBothHands ? 2 : 1;
+                idleType = equipmentType.GetRequiresBothHands(template) ? 2 : 1;
             }
         }
 

@@ -759,20 +759,25 @@ public class UnitController : MonoBehaviour
 
         }
 
-        EquipmentData equippedWeapon = null;
+        EquipmentType equippedType = null;
+        EquipmentTemplate equippedTemplate = null;
 
         foreach (EquipmentInstance equipment in data.equippedItems)
         {
-            if (equipment.template == null || equipment.template.weaponGear == WeaponCategory.None)
+            EquipmentType type = equipment.typeDefinition;
+
+            if (type == null || type.WeaponCategory == WeaponCategory.None)
             {
                 continue;
             }
 
-            equippedWeapon = equipment.template;
+            equippedType = type;
+            type.TryGetTemplate(equipment.templateId, out equippedTemplate);
             break;
         }
 
-        GetComponent<UnitMovements>()?.SetEquipmentAnimation(equippedWeapon);
+        GetComponent<UnitMovements>()?.SetEquipmentAnimation(equippedType, equippedTemplate);
+
     }
 
     //Sets the Node of the unit,
