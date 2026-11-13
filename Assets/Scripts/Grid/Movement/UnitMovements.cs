@@ -37,42 +37,30 @@ public class UnitMovements : MonoBehaviour
         visibileController = FindAnyObjectByType<VisibilityManager>();
         soundController = FindAnyObjectByType<SoundDetectionSystem>();
         unit = GetComponent<UnitController>();
-        
-        //CDGoblin = GetComponentInChildren<Animator>();
 
+        animBaseChar.SetFloat("IdleOffset", Random.value); // Idle animation offset (applies to all idle anims) | value = 0 < x > 1
     }
-    
+
     // Called after UnitController replaces the race-specific model.
     public void RefreshRaceAnimator(Animator animator)
     {
         animBaseChar = animator;
 
+        if (animBaseChar != null)
+        {
+            animBaseChar.SetFloat("IdleOffset", Random.value);
+            animBaseChar.SetFloat("Speed", 0f);
+        }
     }
 
     public void Update() 
     {
-
-        
-      
-
-        //if (unit.GetComponentInChildren<Animator>() != null)
-        //{
-        //    animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
-        //    animBaseChar.transform.position = transform.position;
-        //    CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
-        //    CDGoblin.transform.position = transform.position;
-
-
-        //}
-
-        if (animBaseChar != null)
+            if (animBaseChar != null)
         {
             animBaseChar.SetFloat("Speed", isMoving ? 1f : 0f);
             animBaseChar.transform.position = transform.position;
         }
 
-
-       
     }
 
     public bool PlayerMovement(GridNode destination)
