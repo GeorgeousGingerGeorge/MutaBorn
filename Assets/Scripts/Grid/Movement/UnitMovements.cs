@@ -67,10 +67,15 @@ public class UnitMovements : MonoBehaviour
                 idleType = 3;
                 runType = 3;
             }
+            
             else if (equipmentType.WeaponCategory == WeaponCategory.Melee)
             {
-                idleType = equipmentType.GetRequiresBothHands(template) ? 2 : 1;
+                bool isTwoHanded = equipmentType.GetRequiresBothHands(template);
+
+                idleType = isTwoHanded ? 2 : 1;
+                runType = isTwoHanded ? 2 : 0;
             }
+
         }
 
         animBaseChar.SetInteger("IdleType", idleType);
