@@ -1,0 +1,4023 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426835ade34359a5f7312faf913101, type: 3}
+  m_Name: sword
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentType
+  typeId: sword
+  displayTypeLabel: Sword
+  typeIcon: {fileID: 0}
+  equipmentFit: 1
+  requiresBothHands: 0
+  armorCategory: 0
+  weaponCategory: 1
+  weaponSubtype: 1
+  accessoryCategory: 0
+  primaryDamageType: 1
+  upgradeBonuses:
+  - kind: 0
+    weight: 1
+    stat: 2
+    damageType: 0
+    amountRange: {x: 1, y: 3}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 0
+        phase: 0
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 0
+        includeOwner: 0
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 0
+        durationTurns: 0
+        maximumUses: 0
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 0
+      conditions: []
+    bonusId: "\tsword-damage"
+    displayName: 
+    repeatable: 1
+    maxStacks: 5
+    action: {fileID: 0}
+    scalingAttribute: 0
+  upgradeCosts: []
+  defaultSocket: 0
+  modelPrefab: {fileID: 7754776579416677092, guid: 357da59c7de11b945893330f6404c58f, type: 3}
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  applyColors: 0
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+  accentColor: {r: 1, g: 1, b: 1, a: 1}
+  grantedActionSet: {fileID: 0}
+  grantedEffectCollection: {fileID: 0}
+  startingActions: []
+  startingEffects: []
+  templates:
+  - templateId: iron_sword
+    displayName: Iron Sword
+    description: A dependable iron sword for close-range combat.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 12
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 5
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 5, y: 8}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 40, y: 60}
+    startingScaling:
+      strength: 1
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: iron
+        amount: 2
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 3
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 2
+      growthWeight: 60
+      zeroWeight: 0
+      amountRange: {x: 1, y: 4}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 0
+      growthWeight: 5
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: sword-blood-thirster
+    displayName: Bloodthirster
+    description: A hungry blade that rewards aggression. Strikes can cut deep and its legacy lifesteal enchantment remains.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 6
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 0
+        y: 0
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: wood
+        amount: 1
+      - resourceId: unstable_compound
+        amount: 2
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 30.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 30
+      stat: 2
+      damageType: 1
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-blood-thirster-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 5
+      stat: 4
+      damageType: 11
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-blood-thirster-1
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 20
+      stat: 4
+      damageType: 4
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-blood-thirster-2
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 10
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-blood-thirster-3
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 2
+      weight: 10
+      stat: 0
+      damageType: 1
+      amountRange:
+        x: 3
+        y: 3
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-blood-thirster-4
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 3
+      weight: 1
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect:
+        definition:
+          fileID: 11400000
+          guid: 7c291010b6004bc46906de79e5276138
+          type: 2
+        activation:
+          trigger: 2
+          phase: 3
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 1
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: -1
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 1
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms:
+          - source: 1
+            literalValue: 0
+            stat: 0
+            resource: -1
+            multiplier: 0.05
+          rounding: 1
+        conditions: []
+      bonusId: legacy-sword-blood-thirster-5
+      displayName: Effect
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 3
+      weight: 1
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect:
+        definition:
+          fileID: 11400000
+          guid: f154e272dc2b47446814e51f4d6e7b0e
+          type: 2
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 2
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: -1
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 1
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: -1
+          stat: 1
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 1
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-sword-blood-thirster-6
+      displayName: Effect
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-blood-thirster-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 4cd1a0977d726aa42943ca0cfe4696f3
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-blood-thirster-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 15
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-blood-thirster-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 51896952722f7aa4eb2d355169b80d42
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 0
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: 001ad81c27594c059a3c7a819d97c472
+      type: 2
+    - fileID: 11400000
+      guid: 163629e41c4f9fd4980d8f9f2f9b0040
+      type: 2
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    - fileID: 11400000
+      guid: b7c84d4cb378b9547a84cae44b49d880
+      type: 2
+    addedEffects:
+    - definition:
+        fileID: 11400000
+        guid: 7c291010b6004bc46906de79e5276138
+        type: 2
+      activation:
+        trigger: 2
+        phase: 3
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 1
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: -1
+        includeOwner: 1
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 1
+        durationTurns: 0
+        maximumUses: 0
+      operationParameters:
+        resource: 0
+        stat: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: null
+      value:
+        constant: 0
+        terms:
+        - source: 1
+          literalValue: 0
+          stat: 0
+          resource: 0
+          multiplier: 0.1
+        rounding: 1
+      conditions: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: sword-blood-thirster
+    legacyRecipeId: craft.item.sword-blood-thirster
+  - templateId: sword-duelist-sabre
+    displayName: Duelist Sabre
+    description: A nimble dueling blade. Opens with a three-hit Combo and rewards precision.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 5
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 4
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 0
+        y: 0
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 30.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    - stat: 5
+      growthWeight: 20.0
+      zeroWeight: 0
+      amountRange:
+        x: 1
+        y: 2
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 30
+      stat: 2
+      damageType: 1
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-duelist-sabre-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 5
+      stat: 4
+      damageType: 11
+      amountRange:
+        x: 2
+        y: 4
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-duelist-sabre-1
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 20
+      stat: 4
+      damageType: 16
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-duelist-sabre-2
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 10
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-duelist-sabre-3
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 2
+      weight: 10
+      stat: 0
+      damageType: 1
+      amountRange:
+        x: 5
+        y: 10
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-duelist-sabre-4
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 3
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect:
+        definition:
+          fileID: 11400000
+          guid: 7c291010b6004bc46906de79e5276138
+          type: 2
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 2
+          phase: 3
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 1
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: -1
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 1
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms:
+          - source: 1
+            literalValue: 0
+            stat: 0
+            resource: -1
+            multiplier: 0.05
+          rounding: 1
+        conditions: []
+      bonusId: legacy-sword-duelist-sabre-5
+      displayName: Effect
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 30
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-duelist-sabre-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-duelist-sabre-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 3e5e16fb65d39724e929308e6cdea734
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-duelist-sabre-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 001ad81c27594c059a3c7a819d97c472
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 7754776579416677092
+      guid: 357da59c7de11b945893330f6404c58f
+      type: 3
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: 4cd1a0977d726aa42943ca0cfe4696f3
+      type: 2
+    - fileID: 11400000
+      guid: 163629e41c4f9fd4980d8f9f2f9b0040
+      type: 2
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    - fileID: 11400000
+      guid: b7c84d4cb378b9547a84cae44b49d880
+      type: 2
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: sword-duelist-sabre
+    legacyRecipeId: craft.item.sword-duelist-sabre
+  - templateId: sword-dvergrium-forged
+    displayName: Dvergrium Sword
+    description: A traditional Dwarven blade forged from prized Dvergrium. Built for discipline and resilience.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 0
+    fixedStats:
+      armor: 2
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 10
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 0
+        y: 0
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: dvergrium
+        amount: 4
+      - resourceId: wood
+        amount: 1
+      - resourceId: steel
+        amount: 2
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 10.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 30.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    - stat: 5
+      growthWeight: 20.0
+      zeroWeight: 0
+      amountRange:
+        x: 1
+        y: 2
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 30
+      stat: 2
+      damageType: 1
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-dvergrium-forged-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 5
+      stat: 4
+      damageType: 11
+      amountRange:
+        x: 2
+        y: 4
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-dvergrium-forged-1
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 20
+      stat: 4
+      damageType: 16
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-dvergrium-forged-2
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 10
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-dvergrium-forged-3
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 2
+      weight: 10
+      stat: 0
+      damageType: 1
+      amountRange:
+        x: 5
+        y: 10
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-dvergrium-forged-4
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 3
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect:
+        definition:
+          fileID: 11400000
+          guid: 7c291010b6004bc46906de79e5276138
+          type: 2
+        activation:
+          trigger: 2
+          phase: 3
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 1
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: -1
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 1
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms:
+          - source: 1
+            literalValue: 0
+            stat: 0
+            resource: -1
+            multiplier: 0.05
+          rounding: 1
+        conditions: []
+      bonusId: legacy-sword-dvergrium-forged-5
+      displayName: Effect
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 30
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-dvergrium-forged-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-dvergrium-forged-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 3e5e16fb65d39724e929308e6cdea734
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-dvergrium-forged-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 001ad81c27594c059a3c7a819d97c472
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 0
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: 4cd1a0977d726aa42943ca0cfe4696f3
+      type: 2
+    - fileID: 11400000
+      guid: 163629e41c4f9fd4980d8f9f2f9b0040
+      type: 2
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    - fileID: 11400000
+      guid: b7c84d4cb378b9547a84cae44b49d880
+      type: 2
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: sword-dvergrium-forged
+    legacyRecipeId: craft.item.dvergrium-sword
+  - templateId: sword-guardian-longsword
+    displayName: Guardian Longsword
+    description: A versatile field blade with a wide Cleave. Its reinforced guard grants passive Armor.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 2
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 6
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 0
+        y: 0
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: steel
+        amount: 4
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 3
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 10.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 30.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 30
+      stat: 2
+      damageType: 1
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-guardian-longsword-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 5
+      stat: 4
+      damageType: 11
+      amountRange:
+        x: 2
+        y: 4
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-guardian-longsword-1
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 20
+      stat: 4
+      damageType: 16
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-guardian-longsword-2
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 10
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-guardian-longsword-3
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 2
+      weight: 10
+      stat: 0
+      damageType: 1
+      amountRange:
+        x: 5
+        y: 10
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-guardian-longsword-4
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 3
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect:
+        definition:
+          fileID: 11400000
+          guid: 7c291010b6004bc46906de79e5276138
+          type: 2
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 2
+          phase: 3
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 1
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: -1
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 1
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms:
+          - source: 1
+            literalValue: 0
+            stat: 0
+            resource: -1
+            multiplier: 0.05
+          rounding: 1
+        conditions: []
+      bonusId: legacy-sword-guardian-longsword-5
+      displayName: Effect
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 30
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-guardian-longsword-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 4cd1a0977d726aa42943ca0cfe4696f3
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 40
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-guardian-longsword-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 30
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-guardian-longsword-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 51896952722f7aa4eb2d355169b80d42
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 0
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: 3e5e16fb65d39724e929308e6cdea734
+      type: 2
+    - fileID: 11400000
+      guid: 163629e41c4f9fd4980d8f9f2f9b0040
+      type: 2
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    - fileID: 11400000
+      guid: b7c84d4cb378b9547a84cae44b49d880
+      type: 2
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: sword-guardian-longsword
+    legacyRecipeId: craft.item.sword-guardian-longsword
+  - templateId: sword-war-reaver
+    displayName: War Reaver
+    description: A brutal heavy sword. The Whirlwind blast hits multiple enemies; slower to carry.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 2
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 9
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: -1
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 0
+        y: 0
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: iron
+        amount: 2
+      - resourceId: wood
+        amount: 1
+      - resourceId: steel
+        amount: 2
+    startingStarRolls:
+      rollCount: 4
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 30.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    - stat: 5
+      growthWeight: 20.0
+      zeroWeight: 0
+      amountRange:
+        x: 1
+        y: 2
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 30
+      stat: 2
+      damageType: 1
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-war-reaver-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 5
+      stat: 4
+      damageType: 11
+      amountRange:
+        x: 2
+        y: 4
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-war-reaver-1
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 20
+      stat: 4
+      damageType: 16
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-war-reaver-2
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 10
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-war-reaver-3
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 2
+      weight: 10
+      stat: 0
+      damageType: 1
+      amountRange:
+        x: 5
+        y: 10
+      effect:
+        definition:
+          fileID: 0
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-war-reaver-4
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 3
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect:
+        definition:
+          fileID: 11400000
+          guid: 7c291010b6004bc46906de79e5276138
+          type: 2
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 2
+          phase: 3
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 1
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: -1
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 1
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition:
+            fileID: 0
+        value:
+          constant: 0
+          terms:
+          - source: 1
+            literalValue: 0
+            stat: 0
+            resource: -1
+            multiplier: 0.05
+          rounding: 1
+        conditions: []
+      bonusId: legacy-sword-war-reaver-5
+      displayName: Effect
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-war-reaver-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-war-reaver-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 3e5e16fb65d39724e929308e6cdea734
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 15
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-war-reaver-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 001ad81c27594c059a3c7a819d97c472
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 0
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: 51896952722f7aa4eb2d355169b80d42
+      type: 2
+    - fileID: 11400000
+      guid: 163629e41c4f9fd4980d8f9f2f9b0040
+      type: 2
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    - fileID: 11400000
+      guid: b7c84d4cb378b9547a84cae44b49d880
+      type: 2
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: sword-war-reaver
+    legacyRecipeId: craft.item.sword-war-reaver
+  - templateId: sword-wooden
+    displayName: Oak Practice Sword
+    description: A light practice blade. Fast swings and safe Blunt hilt strikes; ideal for learning combos.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 3
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 0
+        y: 0
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: wood
+        amount: 3
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 30.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 30
+      stat: 2
+      damageType: 1
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-wooden-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 5
+      stat: 4
+      damageType: 11
+      amountRange:
+        x: 2
+        y: 4
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-wooden-1
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 1
+      weight: 20
+      stat: 4
+      damageType: 16
+      amountRange:
+        x: 2
+        y: 5
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-wooden-2
+      displayName: Extra Damage
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 10
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-wooden-3
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 2
+      weight: 10
+      stat: 0
+      damageType: 1
+      amountRange:
+        x: 5
+        y: 10
+      effect:
+        definition:
+          fileID: 0
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-sword-wooden-4
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 3
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect:
+        definition:
+          fileID: 11400000
+          guid: 7c291010b6004bc46906de79e5276138
+          type: 2
+        activation:
+          trigger: 2
+          phase: 3
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 1
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: -1
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 1
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+        value:
+          constant: 0
+          terms:
+          - source: 1
+            literalValue: 0
+            stat: 0
+            resource: -1
+            multiplier: 0.05
+          rounding: 1
+        conditions: []
+      bonusId: legacy-sword-wooden-5
+      displayName: Effect
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 45
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-wooden-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 3e5e16fb65d39724e929308e6cdea734
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-wooden-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 51896952722f7aa4eb2d355169b80d42
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-sword-wooden-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 0
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: 4cd1a0977d726aa42943ca0cfe4696f3
+      type: 2
+    - fileID: 11400000
+      guid: 163629e41c4f9fd4980d8f9f2f9b0040
+      type: 2
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    - fileID: 11400000
+      guid: b7c84d4cb378b9547a84cae44b49d880
+      type: 2
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: sword-wooden
+    legacyRecipeId: craft.item.sword-wooden
+  - templateId: weapon-copper-shortsword
+    displayName: Copper Shortsword
+    description: Forged or assembled around Copper and Wood. One-handed sword with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 5
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 1
+        y: 1
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: copper
+        amount: 4
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 35.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 55.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    - stat: 5
+      growthWeight: 20.0
+      zeroWeight: 0
+      amountRange:
+        x: 1
+        y: 2
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect: {}
+      bonusId: legacy-weapon-copper-shortsword-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 1
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect: {}
+      bonusId: legacy-weapon-copper-shortsword-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-copper-shortsword-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 001ad81c27594c059a3c7a819d97c472
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-copper-shortsword-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-copper-shortsword-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 3e5e16fb65d39724e929308e6cdea734
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 0
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: weapon-copper-shortsword
+    legacyRecipeId: craft.item.weapon-copper-shortsword
+  - templateId: weapon-iron-arming-sword
+    displayName: Iron Arming Sword
+    description: Forged or assembled around Iron and Textiles. One-handed sword with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 1
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 7
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 0
+        y: 0
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 35.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 55.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    - stat: 5
+      growthWeight: 20.0
+      zeroWeight: 0
+      amountRange:
+        x: 1
+        y: 2
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect: {}
+      bonusId: legacy-weapon-iron-arming-sword-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect: {}
+      bonusId: legacy-weapon-iron-arming-sword-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-iron-arming-sword-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 001ad81c27594c059a3c7a819d97c472
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-iron-arming-sword-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-iron-arming-sword-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 3e5e16fb65d39724e929308e6cdea734
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 0
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: weapon-iron-arming-sword
+    legacyRecipeId: craft.item.weapon-iron-arming-sword
+  - templateId: weapon-mutantium-edge
+    displayName: Mutantium Edge
+    description: Forged or assembled around Mutantium and Corrupt Nodule. Two-handed sword with stronger attacks but occupies both hands. Additional techniques can be earned through equipment stars.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 2
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 2
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 18
+      rangeDamage: 0
+      magicDamage: 11
+      accuracy: 1
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 0
+        y: 0
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 3
+      dexterity: 2
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: mutantium
+        amount: 4
+      - resourceId: steel
+        amount: 2
+      - resourceId: corrupt_nodule
+        amount: 1
+    startingStarRolls:
+      rollCount: 4
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 20.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 55.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    - stat: 4
+      growthWeight: 35.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    - stat: 5
+      growthWeight: 20.0
+      zeroWeight: 0
+      amountRange:
+        x: 1
+        y: 2
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect: {}
+      bonusId: legacy-weapon-mutantium-edge-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 4
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect: {}
+      bonusId: legacy-weapon-mutantium-edge-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 2
+      effect: {}
+      bonusId: legacy-weapon-mutantium-edge-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-mutantium-edge-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 001ad81c27594c059a3c7a819d97c472
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-mutantium-edge-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-mutantium-edge-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 3e5e16fb65d39724e929308e6cdea734
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 0
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+      type: 2
+    addedEffects: []
+    startingResistances:
+    - damageType: 14
+      percent: 5
+    - damageType: 17
+      percent: -5
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: weapon-mutantium-edge
+    legacyRecipeId: craft.item.weapon-mutantium-edge
+  - templateId: weapon-silver-duelblade
+    displayName: Silver Duelblade
+    description: Forged or assembled around Silver and Gems. One-handed sword with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon:
+      fileID: 21300000
+      guid: 26f8f6429eac5bb4ba06c64df542975e
+      type: 3
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 2
+      movementPenalty: 0
+      meleeDamage: 7
+      rangeDamage: 0
+      magicDamage: 3
+      accuracy: 2
+    randomRanges:
+      armor:
+        x: 0
+        y: 0
+      ward:
+        x: 2
+        y: 2
+      movementPenalty:
+        x: 0
+        y: 0
+      meleeDamage:
+        x: 0
+        y: 0
+      rangeDamage:
+        x: 0
+        y: 0
+      magicDamage:
+        x: 0
+        y: 0
+      accuracy:
+        x: 0
+        y: 0
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: silver
+        amount: 4
+      - resourceId: gems
+        amount: 1
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 20.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 2
+    - stat: 2
+      growthWeight: 55.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    - stat: 4
+      growthWeight: 35.0
+      zeroWeight: 1
+      amountRange:
+        x: 1
+        y: 3
+    - stat: 5
+      growthWeight: 20.0
+      zeroWeight: 0
+      amountRange:
+        x: 1
+        y: 2
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect: {}
+      bonusId: legacy-weapon-silver-duelblade-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 4
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 3
+      effect: {}
+      bonusId: legacy-weapon-silver-duelblade-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 1
+      damageType: 0
+      amountRange:
+        x: 1
+        y: 2
+      effect: {}
+      bonusId: legacy-weapon-silver-duelblade-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action:
+        fileID: 0
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-silver-duelblade-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 001ad81c27594c059a3c7a819d97c472
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-silver-duelblade-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 5c0f37784eaf9434bb1d85fdc8f85a19
+        type: 2
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange:
+        x: 0
+        y: 0
+      effect: {}
+      bonusId: legacy-weapon-silver-duelblade-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action:
+        fileID: 11400000
+        guid: 3e5e16fb65d39724e929308e6cdea734
+        type: 2
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride:
+      fileID: 0
+    overrideAttachment: 0
+    positionOffset:
+      x: 0
+      y: 0
+      z: 0
+    rotationOffset:
+      x: 0
+      y: 0
+      z: 0
+    scale:
+      x: 1
+      y: 1
+      z: 1
+    overrideColors: 0
+    primaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    secondaryColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    accentColor:
+      r: 1
+      g: 1
+      b: 1
+      a: 1
+    excludedTypeActions: []
+    addedActions:
+    - fileID: 11400000
+      guid: be753f8925e3ba94aa1ae565860a1177
+      type: 2
+    addedEffects: []
+    startingResistances:
+    - damageType: 16
+      percent: 5
+    startingBonusDamage: []
+    damageTypeOverride: 0
+    legacyItemId: weapon-silver-duelblade
+    legacyRecipeId: craft.item.weapon-silver-duelblade

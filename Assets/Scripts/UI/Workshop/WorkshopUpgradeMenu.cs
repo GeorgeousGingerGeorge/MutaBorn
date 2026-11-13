@@ -211,7 +211,7 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
         if (string.IsNullOrEmpty(selectedOwnerId))
         {
             if (storage != null && storage.TryGetItem(selectedInstanceId, out StoredItem stored) &&
-                stored.Kind == StoredItemKind.Equipment && stored.Equipment.template != null)
+                stored.Kind == StoredItemKind.Equipment && stored.Equipment.IsValid)
             {
                 item = stored.Equipment;
                 return true;
@@ -225,7 +225,7 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
         {
             if (!string.Equals(gear.instanceId, selectedInstanceId, StringComparison.Ordinal)) continue;
             item = gear;
-            return gear.template != null;
+            return gear.IsValid;
         }
         return false;
     }
@@ -247,7 +247,7 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
         {
             foreach (StoredItem stored in storage.Items)
             {
-                if (stored == null || stored.Kind != StoredItemKind.Equipment || stored.Equipment.template == null) continue;
+                if (stored == null || stored.Kind != StoredItemKind.Equipment || !stored.Equipment.IsValid) continue;
                 EquipmentInstance item = stored.Equipment;
                 AddRow(item, null, null);
             }
@@ -261,7 +261,7 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
                 if (unit == null) continue;
                 foreach (EquipmentInstance item in unit.equippedItems)
                 {
-                    if (item.template != null) AddRow(item, unit.UnitId, unit.characterName);
+                    if (item.IsValid) AddRow(item, unit.UnitId, unit.characterName);
                 }
             }
         }
@@ -296,7 +296,7 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
                 (owner != null ? "\nEquipped by " + owner.characterName : "\nIn Storage");
         if (itemIcon != null)
         {
-            itemIcon.sprite = item.template.sprite;
+            itemIcon.sprite = item.Icon;
             itemIcon.enabled = itemIcon.sprite != null;
             itemIcon.preserveAspect = true;
         }
@@ -305,7 +305,7 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
         EquipmentStatValues effective = EquipmentGenerator.GetEffectiveStats(item, owner);
         if (itemStatsText != null)
         {
-            itemStatsText.text = "PERMANENT / " + (owner != null ? "EQUIPPED" : "STORED") + " STATS\n" +
+            itemStatsText.text = "BASE / " + (owner != null ? "EQUIPPED" : "STORED") + " STATS\n" +
                 "Armor " + baseStats.armor + " / " + effective.armor +
                 "    Ward " + baseStats.ward + " / " + effective.ward +
                 "\nMelee " + baseStats.meleeDamage + " / " + effective.meleeDamage +
@@ -337,6 +337,15 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
     private static string FormatItemEffects(EquipmentInstance item)
     {
         StringBuilder details = new StringBuilder();
+        EquipmentStatValues bonuses = item.rolledStats;
+        AppendStatBonus(details, "Armor", bonuses.armor);
+        AppendStatBonus(details, "Ward", bonuses.ward);
+        AppendStatBonus(details, "Melee Damage", bonuses.meleeDamage);
+        AppendStatBonus(details, "Ranged Damage", bonuses.rangeDamage);
+        AppendStatBonus(details, "Magic Damage", bonuses.magicDamage);
+        AppendStatBonus(details, "Accuracy", bonuses.accuracy);
+        AppendStatBonus(details, "Movement Penalty", bonuses.movementPenalty);
+
         AppendEffectGrants(details, item.grantedEffects);
 
         if (item.grantedEffectCollection != null)
@@ -363,6 +372,19 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
         }
 
         return details.Length == 0 ? "No effects or bonuses." : details.ToString().TrimEnd();
+    }
+
+    private static void AppendStatBonus(StringBuilder details, string stat, int amount)
+    {
+        if (amount == 0)
+        {
+            return;
+
+        }
+
+        details.Append("Bonus ").Append(stat).Append(": ")
+            .AppendLine(amount.ToString("+0;-0;0"));
+
     }
 
     private static void AppendEffectGrants(StringBuilder details, IEnumerable<EffectGrant> grants)

@@ -25,7 +25,7 @@ public enum UnitSlotId
 
 }
 
-// The family of slot an EquipmentData template may use.
+// The family of slot an Equipment Type template may use.
 // Auto preserves the old assets until their slot fit is explicitly configured.
 public enum EquipmentFitType
 {

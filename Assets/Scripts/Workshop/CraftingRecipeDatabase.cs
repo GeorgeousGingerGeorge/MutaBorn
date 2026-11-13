@@ -26,6 +26,7 @@ public sealed class CraftingRecipe
     [TextArea(2, 4)] public string description;
     public CraftingOutputKind outputKind;
     public ItemData outputItem;
+    public EquipmentTemplateReference outputEquipment;
     public string outputResourceId;
     [Min(1)] public int outputAmount = 1;
     [Tooltip("0 = no craft-tier gate. Research can unlock higher tiers.")]
