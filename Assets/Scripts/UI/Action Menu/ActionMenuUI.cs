@@ -1,6 +1,10 @@
 using System.Collections.Generic;
+using System.Text;
+using MutaBorn.Gameplay;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UIButton = UnityEngine.UI.Button;
 using UIImage = UnityEngine.UI.Image;
 
@@ -51,6 +55,9 @@ public class ActionMenuUI : MonoBehaviour
     [SerializeField] private GameObject actionInfoPanel;
     [SerializeField] private TMP_Text actionDescriptionText;
 
+    [Header("Attack Preview (scene/prefab component)")]
+    [SerializeField] private AttackPreviewUI attackPreviewUI;
+
     [Header("Contextual Interactions")]
     [Tooltip("How often to refresh actions from nearby targets (seconds). Uses grid-range checks from WorldInteractable.")]
     [SerializeField, Min(0.05f)] private float interactionScanInterval = 0.2f;
@@ -67,10 +74,25 @@ public class ActionMenuUI : MonoBehaviour
     private ConsumableData previewConsumable;
     private ActionDefinition targetedAction;
     private bool wasConsumableTargeting;
+    private ConsumableData targetedConsumable;
+    private AccuracySystem previewAccuracy;
+    private TargetingSystem previewTargeting;
+    private float nextPreviewRefresh;
 
     private void Awake()
     {
         ConfigureActionInfoPanel();
+        if (attackPreviewUI == null)
+        {
+            attackPreviewUI = GetComponentInChildren<AttackPreviewUI>(true);
+
+        }
+
+        if (attackPreviewUI != null)
+        {
+            attackPreviewUI.Hide();
+
+        }
 
         if (selectionManager == null)
         {
@@ -151,6 +173,7 @@ public class ActionMenuUI : MonoBehaviour
             nearbyInteractions.Clear();
             nextInteractionScanTime = 0f;
             targetedAction = null;
+            targetedConsumable = null;
             CloseCategory();
 
         }
@@ -167,6 +190,7 @@ public class ActionMenuUI : MonoBehaviour
         {
             ShowNoSelection();
             RefreshActionInfoPanel();
+            RefreshAttackPreviewPanel();
 
             return;
 
@@ -253,6 +277,7 @@ public class ActionMenuUI : MonoBehaviour
 
         //UpdateQuickButtons(currentAP);
         RefreshActionInfoPanel();
+        RefreshAttackPreviewPanel();
         if (categoryIsOpen && !Mathf.Approximately(lastExpandedAP, currentAP))
         {
             RefreshExpandedButtonAffordability(currentAP);
@@ -687,14 +712,16 @@ public class ActionMenuUI : MonoBehaviour
 
         }
 
-        if (targetedAction != null && !TargetingModeController.IsTargeting)
+        if (!TargetingModeController.IsTargeting)
         {
             targetedAction = null;
+            targetedConsumable = null;
 
         }
 
         ActionDefinition shown = displayedUnit != null ? targetedAction ?? previewAction : null;
-        ConsumableData shownConsumable = displayedUnit != null && shown == null ? previewConsumable : null;
+        ConsumableData shownConsumable = displayedUnit != null && shown == null
+            ? targetedConsumable ?? previewConsumable : null;
         bool shouldShow = shown != null || shownConsumable != null;
         if (actionInfoPanel.activeSelf != shouldShow)
         {
@@ -769,6 +796,297 @@ public class ActionMenuUI : MonoBehaviour
 
     }
 
+    private void RefreshAttackPreviewPanel()
+    {
+        if (attackPreviewUI == null)
+        {
+            return;
+
+        }
+
+        bool targeting = TargetingModeController.IsTargeting;
+        ActionDefinition action = displayedUnit == null ? null :
+            (targeting ? targetedAction ?? targetedConsumable?.UseAction :
+             previewAction ?? previewConsumable?.UseAction);
+        bool active = action != null && action.CombatBehavior == CombatActionBehavior.DamageUnit;
+        if (!active)
+        {
+            attackPreviewUI.Hide();
+
+            return;
+
+        }
+
+        if (Time.unscaledTime < nextPreviewRefresh)
+        {
+            return;
+
+        }
+
+        nextPreviewRefresh = Time.unscaledTime + 0.1f;
+        string message = "HOVER OVER UNIT OR DESTRUCTIBLE SURFACE";
+        if (Mouse.current == null || Camera.main == null ||
+            (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject()))
+        {
+            ShowPreviewMessage(message);
+
+            return;
+
+        }
+
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit[] hits = Physics.RaycastAll(ray, 1000f,
+            Physics.DefaultRaycastLayers, QueryTriggerInteraction.Collide);
+        System.Array.Sort(hits, (left, right) => left.distance.CompareTo(right.distance));
+        UnitController target = null;
+        ObstacleController obstacle = null;
+        foreach (RaycastHit raycastHit in hits)
+        {
+            if (raycastHit.collider == null)
+            {
+                continue;
+
+            }
+
+            target = raycastHit.collider.GetComponentInParent<UnitController>();
+            if (target != null)
+            {
+                break;
+
+            }
+
+            obstacle = raycastHit.collider.GetComponentInParent<ObstacleController>();
+            if (obstacle != null && obstacle.isDestructible)
+            {
+                break;
+
+            }
+
+        }
+
+        if (target == null)
+        {
+            ShowPreviewMessage(obstacle != null && obstacle.isDestructible
+                ? $"{obstacle.obstacleName}  |  {obstacle.currentHealth}/{obstacle.maxHealth} HP\n" +
+                  "DESTRUCTIBLE — THIS ACTION TARGETS UNITS ONLY"
+                : message);
+
+            return;
+
+        }
+
+        if (target == displayedUnit || target.data == null ||
+            target.data.currentHealth <= 0 || !target.isActiveAndEnabled)
+        {
+            ShowPreviewMessage("HOVER OVER A VALID TARGET");
+
+            return;
+
+        }
+
+        if (Vector3.Distance(displayedUnit.transform.position,
+            target.transform.position) > action.CombatRange)
+        {
+            ShowPreviewMessage("NOT IN RANGE");
+
+            return;
+
+        }
+
+        if (previewTargeting == null)
+        {
+            previewTargeting = FindAnyObjectByType<TargetingSystem>();
+
+        }
+
+        if (previewTargeting == null ||
+            !previewTargeting.CanTargetUnit(displayedUnit, target, action.CombatRange))
+        {
+            ShowPreviewMessage("TARGET BLOCKED / NOT DETECTED");
+
+            return;
+
+        }
+
+        if (previewAccuracy == null)
+        {
+            previewAccuracy = FindAnyObjectByType<AccuracySystem>();
+
+        }
+
+        if (previewAccuracy == null)
+        {
+            ShowPreviewMessage("ACCURACY SYSTEM UNAVAILABLE");
+
+            return;
+
+        }
+
+        int equipmentIndex = FindPreviewEquipmentIndex(displayedUnit, action);
+        if (!DamageResolver.TryPreviewActionDamage(displayedUnit, target,
+            action, equipmentIndex, out int damage, out int criticalDamage))
+        {
+            ShowPreviewMessage("DAMAGE PREVIEW UNAVAILABLE");
+
+            return;
+
+        }
+
+        float hitChance = previewAccuracy.CalculateHitChance(displayedUnit, target, action);
+        float dodge = DamageResolver.GetDodgeChance(target);
+        float chanceToLand = hitChance * (1f - dodge / 100f);
+        StringBuilder onHit = new StringBuilder();
+        AppendHitProcs(onHit, action, displayedUnit, equipmentIndex);
+        string guard = null;
+        if (CombatStatusHandler.Instance != null &&
+            CombatStatusHandler.Instance.TryPreviewGuard(target, 0, out _, out float negate))
+        {
+            guard = negate > 0f
+                ? $"Guard active — {negate:0.#}% chance to negate damage"
+                : "Damage includes active Guard";
+
+        }
+
+        attackPreviewUI.ShowDetails(new AttackPreviewUI.PreviewData
+        {
+            TargetName = target.data.characterName,
+            TargetStats = $"HP {target.data.currentHealth}/{target.data.maxHealth}  " +
+                $"Armor {target.data.armor}  Ward {target.data.ward}",
+            ActionName = action.DisplayName,
+            Damage = damage,
+            HitCount = action.HitCount,
+            HitChance = hitChance,
+            DodgeChance = dodge,
+            LandChance = chanceToLand,
+            CriticalChance = action.CriticalChancePercent,
+            CriticalDamage = criticalDamage,
+            OnHit = onHit.ToString(),
+            Guard = guard
+
+        });
+
+    }
+
+    private static int FindPreviewEquipmentIndex(UnitController unit, ActionDefinition action)
+    {
+        if (unit == null || unit.data == null || unit.data.equippedItems == null)
+        {
+            return -1;
+
+        }
+
+        int sourceIndex = -1;
+        for (int i = 0; i < unit.data.equippedItems.Count; i++)
+        {
+            EquipmentInstance item = unit.data.equippedItems[i];
+            bool grants = item.grantedActionSet != null &&
+                item.grantedActionSet.ContainsAction(action.Id);
+            if (!grants && item.grantedActions != null)
+            {
+                foreach (ActionDefinition granted in item.grantedActions)
+                {
+                    if (granted != null && string.Equals(granted.Id, action.Id,
+                        System.StringComparison.OrdinalIgnoreCase))
+                    {
+                        grants = true;
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+            if (grants)
+            {
+                if (sourceIndex >= 0)
+                {
+                    return -1;
+
+                }
+
+                sourceIndex = i;
+
+            }
+
+        }
+
+        return sourceIndex;
+
+    }
+
+    private static void AppendHitProcs(StringBuilder output, ActionDefinition action,
+        UnitController unit, int equipmentIndex)
+    {
+        List<EffectGrant> grants = new List<EffectGrant>();
+        if (action.OnDamageEffects != null && action.OnDamageEffects.Effects != null)
+        {
+            grants.AddRange(action.OnDamageEffects.Effects);
+
+        }
+
+        if (equipmentIndex >= 0 && unit.data.equippedItems != null &&
+            equipmentIndex < unit.data.equippedItems.Count)
+        {
+            EquipmentInstance equipment = unit.data.equippedItems[equipmentIndex];
+            if (equipment.grantedEffectCollection != null)
+            {
+                grants.AddRange(equipment.grantedEffectCollection.Effects);
+
+            }
+
+            if (equipment.grantedEffects != null)
+            {
+                grants.AddRange(equipment.grantedEffects);
+
+            }
+
+        }
+
+        int count = 0;
+        foreach (EffectGrant grant in grants)
+        {
+            if (grant == null || grant.Definition == null || grant.Activation == null ||
+                grant.Activation.Trigger != EffectTrigger.OnDamageDealt ||
+                grant.ProcChancePercent <= 0f ||
+                grant.Definition.Operation != EffectOperation.ApplyStatus ||
+                grant.OperationParameters == null ||
+                grant.OperationParameters.StatusDefinition == null ||
+                grant.Targeting == null ||
+                grant.Targeting.Selection != EffectTargetSelection.Single ||
+                (grant.Targeting.Reference != EffectTargetReference.EventTarget &&
+                 grant.Targeting.Reference != EffectTargetReference.ActionTarget))
+            {
+                continue;
+
+            }
+
+            if (count > 0)
+            {
+                output.Append("  |  ");
+
+            }
+
+            output.Append($"{grant.OperationParameters.StatusDefinition.DisplayName} " +
+                $"{grant.ProcChancePercent:0.#}%");
+            count++;
+            if (count >= 3)
+            {
+                break;
+
+            }
+
+        }
+
+    }
+
+    private void ShowPreviewMessage(string message)
+    {
+        attackPreviewUI.ShowMessage(message);
+
+    }
+
     private void RequestConsumable(int index)
     {
         if (displayedUnit == null || displayedUnit.data == null || !CanCommand(displayedUnit))
@@ -779,6 +1097,9 @@ public class ActionMenuUI : MonoBehaviour
 
         if (displayedUnit.TryUseConsumable(index))
         {
+            targetedConsumable = TargetingModeController.IsTargeting &&
+                index >= 0 && index < displayedUnit.data.carriedConsumables.Count
+                ? displayedUnit.data.carriedConsumables[index].definition : null;
             CameraController.Instance?.FocusOnUnit(displayedUnit, true);
             // Preserve the item button and refresh its use count/availability.
             RebuildCategory();

@@ -1344,7 +1344,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         int apCost = Mathf.CeilToInt(action.ApCost);
         int apBefore = source.data.currentActionPoints;
        
-        bool landed = false;
+        bool attempted = false;
         int hits = action.HitCount;
 
         for (int hitNumber = 0; hitNumber < hits; hitNumber++)
@@ -1354,33 +1354,30 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 break;
 
             }
-            //Calculate and roll accuracy
+
             float hitChance = accuracySystem.CalculateHitChance(source, target, action);
-
-
             bool hit = accuracySystem.RollToHit(hitChance);
-           
-            if (!DamageResolver.TryResolveAction(source, target, action,
-                out DamageResult damageResult, sourceIndex))
+            DamageResult damageResult = default;
+            // Never apply damage or on-hit effects when accuracy misses.
+            if (hit && !DamageResolver.TryResolveAction(source, target, action,
+                out damageResult, sourceIndex))
             {
                 break;
 
             }
 
-            if (!landed)
+            if (!attempted)
             {
                 if (!costAlreadyPaid)
                 {
                     source.data.ModifyActionPoints(-apCost);
                     source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
-                    source.GetComponent<UnitStatusController>()?.Remove("invisible");
+                    executionStatuses?.Remove("invisible");
+
                 }
 
                 soundDetectionSystem?.RegisterSound(source.currentNode, SoundType.Scuffle, 12, source);
-                source.data.ModifyActionPoints(-apCost);
-                source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
-                source.GetComponent<UnitStatusController>()?.Remove("invisible");
-                landed = true;
+                attempted = true;
 
                 if (action.DamageStat == CombatDamageStat.Melee) // TRIGGER FOR ATTACK ANIMATION in baseCharAnimator
                 {
@@ -1389,17 +1386,22 @@ public sealed class CombatActionExecutor : MonoBehaviour
                     if (animator != null)
                     {
                         animator.SetTrigger("Attack");
+
                     }
+
                 }
+
             }
 
-            if (!hit) 
+            if (!hit)
             {
                 Debug.Log($"[Combat] {source.data.characterName} used " +
-                    $"{action.DisplayName} (hit {hitNumber + 1}/{hits})" +
+                    $"{action.DisplayName} (hit {hitNumber + 1}/{hits}) " +
                     $"on {target.data.characterName}: MISSED! " +
                     $"Hit Chance: {hitChance:F1}%.");
+
                 continue;
+
             }
 
             string critical = damageResult.IsCritical && !damageResult.Evaded ? " CRITICAL!" : "";
@@ -1420,13 +1422,13 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        if (landed && clearPlayerTargeting)
+        if (attempted && clearPlayerTargeting)
         {
             CancelTargeting();
 
         }
 
-        return landed;
+        return attempted;
 
     }
 
