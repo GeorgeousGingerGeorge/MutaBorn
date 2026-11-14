@@ -17,6 +17,7 @@ public class MainMenuController : MonoBehaviour
     public GameObject controlsPanel;
     public GameObject optionsPanel;
     public Button optionsBackButton;
+    public Button loadButton;
     public string hubName;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,6 +44,11 @@ public class MainMenuController : MonoBehaviour
         if (optionsBackButton != null)
         {
             optionsBackButton.onClick.AddListener(CloseOptions);
+        }
+
+        if (loadButton != null)
+        {
+            loadButton.onClick.AddListener(LoadSavedMission);
         }
     }
 
@@ -118,5 +124,24 @@ public class MainMenuController : MonoBehaviour
         controlsPanel.SetActive(false);
         canvasMainMenu.SetActive(true);
 
+    }
+
+    public void LoadSavedMission()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved))
+        {
+            Debug.LogError("No valid mission save found!");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(saved.sceneName) || !Application.CanStreamedLevelBeLoaded(saved.sceneName))
+        {
+            Debug.LogError($"Saved mission scene is unavailable: {saved.sceneName}");
+            return;
+        }
+
+        Debug.Log($"Loading saved mission scene: {saved.sceneName}");
+
+        SceneManager.LoadScene(saved.sceneName);
     }
 }
