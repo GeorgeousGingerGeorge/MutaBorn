@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 114000005}
   - component: {fileID: 114000004}
   - component: {fileID: 114000030}
+  - component: {fileID: 4093134781810389558}
   m_Layer: 0
   m_Name: Element Barrel (AoE)
   m_TagString: Untagged
@@ -63,6 +64,8 @@ MonoBehaviour:
   statusChances:
   - status: {fileID: 11400000, guid: 4b46f500dd4f42dd961af805fc5f559f, type: 2}
     chancePercent: 60
+    stacks: 1
+  projectileDefinition: {fileID: 0}
   affectedFactions: []
   oneShot: 1
   startsArmed: 1
@@ -106,7 +109,10 @@ MonoBehaviour:
   detectionRangeInTiles: 2
   visualRoot: {fileID: 100000001}
   armedColor: {r: 0.95, g: 0.13, b: 0.13, a: 1}
-  disarmedColor: {r: 0.28, g: 0.18, b: 0.2, a: 1}
+  disarmedColor: {r: 0.08, g: 0.08, b: 0.09, a: 1}
+  elementTintStrength: 0.25
+  playElementImpactOnFire: 1
+  elementImpactSize: 1.15
 --- !u!114 &114000005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,12 +158,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldTrapHitAreaDebug
   showInGame: 1
-  showWhenDisarmed: 1
+  showWhenDisarmed: 0
   armedColor: {r: 1, g: 0.15, b: 0.1, a: 0.35}
   disarmedColor: {r: 0.4, g: 0.4, b: 0.4, a: 0.25}
   tileFill: 0.9
   heightAboveNode: 0.6
   refreshSeconds: 0.2
+--- !u!114 &4093134781810389558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc853ea94175b0f343a7c6ddbe0ad45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldTrapVfx
+  firePrefab: {fileID: 4030820931565389401, guid: 12c325b3a5ac57d49ab02015d7888ffc, type: 3}
+  hitPrefab: {fileID: 2395421922198484763, guid: be78cd6c13306ee43aeae889f25ccafa, type: 3}
+  fireOffset: {x: 0, y: 0.65, z: 0}
 --- !u!1 &100000001
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +245,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: feff0c33aff75944596249ff74da9d67, type: 2}
+  - {fileID: 2100000, guid: 4b539a906c2242143baf0dc919dc7f53, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -347,7 +368,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.08, z: 0}
   m_LocalScale: {x: 1.35, y: 0.12, z: 1.35}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3004121404989919892}
   m_Father: {fileID: 400000010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &330000011
@@ -473,7 +495,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: feff0c33aff75944596249ff74da9d67, type: 2}
+  - {fileID: 2100000, guid: 51693182ea3c1b44c8c4e693638787c0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -497,3 +519,65 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &5820464956288675005
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 400000011}
+    m_Modifications:
+    - target: {fileID: 4601922340224327692, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_Name
+      value: VFX_PressurePlateIdle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+--- !u!4 &3004121404989919892 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8752388029682843177, guid: e1295a0bf13f617438081bfa741fbcfd, type: 3}
+  m_PrefabInstance: {fileID: 5820464956288675005}
+  m_PrefabAsset: {fileID: 0}

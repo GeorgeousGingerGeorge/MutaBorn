@@ -34,6 +34,13 @@ public class ActionMenuUI : MonoBehaviour
     [SerializeField] private UIButton abilitiesButton;
     [SerializeField] private UIButton itemsButton;
 
+    [Header("Stance Button")]
+    [SerializeField] private UIButton stanceButton;
+    [SerializeField] private UIImage stanceIcon;
+    [SerializeField] private TMP_Text stanceText;
+    [SerializeField] private Sprite standingSprite;
+    [SerializeField] private Sprite crouchingSprite;
+
     //[SerializeField] private UIButton mostUsedButton;
     //[SerializeField] private TMP_Text mostUsedText;
     //[SerializeField] private UIButton lastUsedButton;
@@ -128,6 +135,12 @@ public class ActionMenuUI : MonoBehaviour
         if (itemsButton != null)
         {
             itemsButton.onClick.AddListener(() => OpenCategory(ActionMenuCategory.Items));
+
+        }
+
+        if (stanceButton != null)
+        {
+            stanceButton.onClick.AddListener(ToggleStance);
 
         }
 
@@ -237,6 +250,7 @@ public class ActionMenuUI : MonoBehaviour
         SetInteractable(defenseButton, true);
         SetInteractable(abilitiesButton, true);
         SetInteractable(itemsButton, true);
+        RefreshStanceButton();
 
         // Refresh nearby interactions before updating the Interact button availability.
         if (Time.unscaledTime >= nextInteractionScanTime)
@@ -328,6 +342,49 @@ public class ActionMenuUI : MonoBehaviour
         SetInteractable(defenseButton, false);
         SetInteractable(abilitiesButton, false);
         SetInteractable(itemsButton, false);
+        RefreshStanceButton();
+
+    }
+
+    private void ToggleStance()
+    {
+        if (!CanCommand(displayedUnit) || displayedUnit.data == null)
+        {
+            return;
+
+        }
+
+        UnitStance next = displayedUnit.currentStance == UnitStance.Standing
+            ? UnitStance.Crouching : UnitStance.Standing;
+        displayedUnit.SetStance(next);
+        RefreshStanceButton();
+
+    }
+
+    private void RefreshStanceButton()
+    {
+        bool hasUnit = displayedUnit != null && displayedUnit.data != null;
+        SetInteractable(stanceButton, hasUnit);
+
+        UnitStance stance = hasUnit ? displayedUnit.currentStance : UnitStance.Standing;
+        Sprite sprite = stance == UnitStance.Crouching ? crouchingSprite : standingSprite;
+        if (stanceIcon != null && stanceIcon.sprite != sprite)
+        {
+            stanceIcon.sprite = sprite;
+
+        }
+
+        if (stanceText != null)
+        {
+            string label = !hasUnit ? "STANCE" :
+                stance == UnitStance.Crouching ? "CROUCH" : "STAND";
+            if (stanceText.text != label)
+            {
+                stanceText.text = label;
+
+            }
+
+        }
 
     }
 

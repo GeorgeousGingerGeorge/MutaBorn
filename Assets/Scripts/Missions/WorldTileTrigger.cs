@@ -209,6 +209,7 @@ public class WorldTileTrigger : MonoBehaviour
         {
             activated = true;
             UpdateVisual();
+            GetComponent<WorldInteractableVfx>()?.Play();
             onActivated.Invoke();
 
         }
