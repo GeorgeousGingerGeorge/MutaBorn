@@ -12,7 +12,7 @@ public sealed class MissionExtractionZone : MonoBehaviour
 
     [Header("Grid Area (same convention as mission spawn areas)")]
     [Tooltip("-1 selects the closest grid floor using this marker's height (useful for older scenes). Set an explicit floor ID for new levels.")]
-    [SerializeField] private int floorId = -1;
+    [SerializeField] private int floorId = 1;
     [Tooltip("How many tiles the zone covers, starting at the nearest tile to this marker on the selected floor.")]
     [SerializeField] private Vector2Int areaSizeInTiles = new Vector2Int(3, 3);
     [Tooltip("Only count a large unit when its complete tile footprint is inside the zone.")]
@@ -416,7 +416,15 @@ public sealed class MissionExtractionZone : MonoBehaviour
         Gizmos.color = oldColor;
 
     }
+    public void ResolveFloorID(ChunkInstance ownerChunk)
+    {
+        if (!ownerChunk.globalFloorMappings.TryGetValue(floorId, out int resolvedFloorID))
+        {
+            return;
+        }
 
+        floorId = resolvedFloorID;
+    }
     private void OnValidate()
     {
         areaSizeInTiles.x = Mathf.Max(1, areaSizeInTiles.x);
