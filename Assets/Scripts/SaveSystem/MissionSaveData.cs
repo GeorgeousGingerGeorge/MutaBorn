@@ -131,4 +131,28 @@ public class UnitRosterMemberSaveData
     // Equipped mutations
     public List<MutationID> fixedMutationIds = new List<MutationID>();
     public List<MutationID> legacyMutationIds = new List<MutationID>();
+
+    // Equipment owned by this character
+    public List<EquipmentSaveData> equipment = new List<EquipmentSaveData>();
+}
+
+[Serializable]
+public class EquipmentSaveData
+{
+    // Persistent equipment identity
+    public string instanceId;
+    public string typeId;
+    public string templateId;
+
+    // Equipment generation and upgrades
+    public EquipmentGrade rarity;
+    public EquipmentStatValues baseStats;
+    public EquipmentStatValues rolledStats;
+    public EquipmentAttributeScaling attributeScaling;
+
+    // Upgrade history
+    public EquipmentStatUpgradeRoll lastStatRoll1;
+    public EquipmentStatUpgradeRoll lastStatRoll2;
+    public EquipmentBonusStack[] bonusStacks;
+    public string lastUpgradeBonus;
 }

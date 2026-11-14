@@ -72,6 +72,33 @@ public static class MissionSaveCapture
                     }
                 }
 
+                // Capture equipped item instances without generating replacements
+                foreach (EquipmentInstance item in unit.equippedItems)
+                {
+                    if (item.typeDefinition == null || string.IsNullOrWhiteSpace(item.instanceId) || string.IsNullOrWhiteSpace(item.typeDefinition.TypeId) || string.IsNullOrWhiteSpace(item.templateId))
+                    {
+                        Debug.LogError($"[Save/Load] Invalid equipment identity for {unit.characterName}: {item.itemName}.");
+                        return null;
+                    }
+
+                    savedMember.equipment.Add(new EquipmentSaveData
+                    {
+                        instanceId = item.instanceId,
+                        typeId = item.typeDefinition.TypeId,
+                        templateId = item.templateId,
+
+                        rarity = item.rarity,
+                        baseStats = item.baseStats,
+                        rolledStats = item.rolledStats,
+                        attributeScaling = item.attributeScaling,
+
+                        lastStatRoll1 = item.lastStatRoll1,
+                        lastStatRoll2 = item.lastStatRoll2,
+                        bonusStacks = item.bonusStacks,
+                        lastUpgradeBonus = item.lastUpgradeBonus
+                    });
+                }
+
                 snapshot.rosterState.members.Add(savedMember);
 
                 Debug.Log($"[Save/Load] {unit.characterName}: {savedMember.fixedMutationIds.Count} fixed mutations, {savedMember.legacyMutationIds.Count} legacy mutations.");

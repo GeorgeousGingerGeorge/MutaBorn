@@ -479,4 +479,102 @@ public class SaveSystemTester : MonoBehaviour
 
         Debug.Log($"[Save/Load] Fixed mutation reconstruction verified: {verified}/{saved.rosterState.members.Count} characters.");
     }
+
+    [ContextMenu("Test / Verify Equipment Registry")]
+    private void TestVerifyEquipmentRegistry()
+    {
+        GameDataBase database = GameDataBaseLoader.Instance;
+        UnitRoster roster = UnitRoster.Instance;
+
+        if (database == null || roster == null)
+        {
+            Debug.LogError("[Save/Load] Game database or roster unavailable.");
+            return;
+        }
+
+        int checkedItems = 0;
+        int verified = 0;
+
+        foreach (UnitData unit in roster.Units)
+        {
+            foreach (EquipmentInstance item in unit.equippedItems)
+            {
+                checkedItems++;
+
+                string typeId = item.typeDefinition != null ? item.typeDefinition.TypeId : null;
+                EquipmentType equipmentType = database.GetEquipmentType(typeId);
+
+                if (equipmentType == null || equipmentType != item.typeDefinition || !equipmentType.TryGetTemplate(item.templateId, out EquipmentTemplate template))
+                {
+                    Debug.LogError($"[Save/Load] Equipment lookup failed: {unit.characterName} / {item.itemName}.");
+                    continue;
+                }
+
+                verified++;
+            }
+        }
+
+        if (checkedItems == 0)
+        {
+            Debug.LogWarning("[Save/Load] No equipped items found to verify.");
+            return;
+        }
+
+        Debug.Log($"[Save/Load] Equipment registry verified: {verified}/{checkedItems} equipped items.");
+    }
+
+    [ContextMenu("Test / Verify Saved Equipment")]
+    private void TestVerifySavedEquipment()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null)
+        {
+            Debug.LogError("[Save/Load] Saved equipment data not found.");
+            return;
+        }
+
+        GameDataBase database = GameDataBaseLoader.Instance;
+
+        if (database == null)
+        {
+            Debug.LogError("[Save/Load] Game database unavailable.");
+            return;
+        }
+
+        int total = 0;
+        int verified = 0;
+        HashSet<string> instanceIds = new HashSet<string>();
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            if (member.equipment == null)
+            {
+                Debug.LogError($"[Save/Load] Equipment list missing for {member.characterName}.");
+                continue;
+            }
+
+            foreach (EquipmentSaveData item in member.equipment)
+            {
+                total++;
+
+                if (string.IsNullOrWhiteSpace(item.instanceId) || !instanceIds.Add(item.instanceId))
+                {
+                    Debug.LogError($"[Save/Load] Missing or duplicate equipment ID for {member.characterName}.");
+                    continue;
+                }
+
+                EquipmentType type = database.GetEquipmentType(item.typeId);
+
+                if (type == null || !type.TryGetTemplate(item.templateId, out EquipmentTemplate template))
+                {
+                    Debug.LogError($"[Save/Load] Saved equipment definition not found for {member.characterName}.");
+                    continue;
+                }
+
+                verified++;
+            }
+        }
+
+        Debug.Log($"[Save/Load] Saved equipment verified: {verified}/{total} items.");
+    }
+
 }
