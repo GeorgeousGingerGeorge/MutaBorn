@@ -109,6 +109,36 @@ public sealed class CombatStatusHandler : MonoBehaviour
 
     }
 
+    // Deterministic outcome if Guard's random full-negation does not trigger.
+    // Only the normal damage path rolls chance and shows floating feedback.
+    public bool TryPreviewGuard(UnitController target, int incomingDamage,
+        out int reducedDamage, out float negateChance)
+    {
+        reducedDamage = Mathf.Max(0, incomingDamage);
+        negateChance = 0f;
+        if (target == null || !guardReductions.TryGetValue(target, out GuardProtection protection))
+        {
+            return false;
+
+        }
+
+        negateChance = protection.NegateChance;
+        if (reducedDamage > 0)
+        {
+            reducedDamage = Mathf.Max(1, reducedDamage - protection.Flat);
+            if (protection.Percent > 0f)
+            {
+                reducedDamage = Mathf.Max(1, Mathf.CeilToInt(reducedDamage *
+                    (1f - protection.Percent / 100f)));
+
+            }
+
+        }
+
+        return true;
+
+    }
+
     public int FilterIncomingDamage(UnitController target, int incomingDamage)
     {
         int damage = Mathf.Max(0, incomingDamage);

@@ -444,7 +444,8 @@ public class UnitController : MonoBehaviour
 
         }
 
-        if (definition.UseKind == ConsumableUseKind.TargetedAttack)
+        if (definition.UseKind == ConsumableUseKind.TargetedAttack ||
+            definition.UseKind == ConsumableUseKind.CaptureUnit)
         {
             CombatActionExecutor combat = CombatActionExecutor.Instance;
             return combat != null && combat.TryBeginConsumable(this, index);
