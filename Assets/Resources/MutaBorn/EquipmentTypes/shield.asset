@@ -1,0 +1,3125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426835ade34359a5f7312faf913101, type: 3}
+  m_Name: shield
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentType
+  typeId: shield
+  displayTypeLabel: Shield
+  typeIcon: {fileID: 0}
+  equipmentFit: 1
+  requiresBothHands: 0
+  armorCategory: 2
+  weaponCategory: 0
+  weaponSubtype: 16
+  accessoryCategory: 0
+  primaryDamageType: 0
+  upgradeBonuses: []
+  upgradeCosts: []
+  defaultSocket: 0
+  modelPrefab: {fileID: 945023216308655273, guid: 9833a2c735c7c6c428386e7ca5c5326b, type: 3}
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  applyColors: 0
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+  accentColor: {r: 1, g: 1, b: 1, a: 1}
+  grantedActionSet: {fileID: 0}
+  grantedEffectCollection: {fileID: 0}
+  startingActions: []
+  startingEffects: []
+  templates:
+  - templateId: shield-buckler
+    displayName: Buckler
+    description: A light, mobile off-hand buckler. Low passive Armor with fast guarding and blunt counter pressure.
+    templateIcon: {fileID: 21300000, guid: 7029721a62591ed4ebd358097e25c4e3, type: 3}
+    legacyItemId: shield-buckler
+    legacyRecipeId: craft.item.shield-buckler
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 65
+      stat: 0
+      damageType: 0
+      amountRange: {x: 2, y: 4}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-buckler-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 15
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-buckler-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 2
+      weight: 10
+      stat: 1
+      damageType: 3
+      amountRange: {x: 3, y: 5}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-buckler-2
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-buckler-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: d6655bc0cd3c4a3188f0b6259ae7f076, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 45
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-buckler-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: c2f04d4190d64965bd7e9b88c85802c0, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 30
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-buckler-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 1a4603b303e647c1b4259762fec1c0d0, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 47c6dbb5c7a64befac19fd7dc79def5f, type: 2}
+    - {fileID: 11400000, guid: c2f04d4190d64965bd7e9b88c85802c0, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: shield-dvergrium-bulwark
+    displayName: Dvergrium Shield
+    description: A dense Dvergrium shield bearing the maker's mark. A source of pride among Dwarven defenders.
+    templateIcon: {fileID: 21300000, guid: 7029721a62591ed4ebd358097e25c4e3, type: 3}
+    legacyItemId: shield-dvergrium-bulwark
+    legacyRecipeId: craft.item.dvergrium-shield
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 0
+    fixedStats:
+      armor: 9
+      ward: 2
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 2, y: 2}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 1
+      dexterity: 0
+      vitality: 0
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: dvergrium
+        amount: 5
+      - resourceId: steel
+        amount: 2
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 0
+      damageType: 0
+      amountRange: {x: 2, y: 5}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-dvergrium-bulwark-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-dvergrium-bulwark-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 2
+      weight: 20
+      stat: 1
+      damageType: 3
+      amountRange: {x: 3, y: 8}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-dvergrium-bulwark-2
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-dvergrium-bulwark-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 1a4603b303e647c1b4259762fec1c0d0, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 30
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-dvergrium-bulwark-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 47683a07271948b580edd1e2c7fdf3df, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-dvergrium-bulwark-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: c2f04d4190d64965bd7e9b88c85802c0, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: cf826c23fd714d94b273270e81c8b592, type: 2}
+    - {fileID: 11400000, guid: 1a4603b303e647c1b4259762fec1c0d0, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: shield-kite
+    displayName: Kite Shield
+    description: A medium off-hand shield. Balanced Armor and guard, with a straightforward shield strike.
+    templateIcon: {fileID: 21300000, guid: 7029721a62591ed4ebd358097e25c4e3, type: 3}
+    legacyItemId: shield-kite
+    legacyRecipeId: craft.item.shield-kite
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 1
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 1, y: 1}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: iron
+        amount: 3
+      - resourceId: wood
+        amount: 3
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 0
+      damageType: 0
+      amountRange: {x: 2, y: 5}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-kite-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-kite-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 2
+      weight: 20
+      stat: 1
+      damageType: 3
+      amountRange: {x: 3, y: 8}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-kite-2
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-kite-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 1a4603b303e647c1b4259762fec1c0d0, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 30
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-kite-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 47683a07271948b580edd1e2c7fdf3df, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-kite-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: c2f04d4190d64965bd7e9b88c85802c0, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: cf826c23fd714d94b273270e81c8b592, type: 2}
+    - {fileID: 11400000, guid: 1a4603b303e647c1b4259762fec1c0d0, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: shield-runic-tome
+    displayName: Runic Tome
+    description: A magical off-hand warding tome. Prioritizes Ward over Armor and enables Arcane defense and attacks.
+    templateIcon: {fileID: 21300000, guid: c83e8691835d8bb46905049e167c1d4a, type: 3}
+    legacyItemId: shield-runic-tome
+    legacyRecipeId: craft.item.shield-runic-tome
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 1
+      ward: 10
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 2
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 10, y: 10}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: iron
+        amount: 2
+      - resourceId: textiles
+        amount: 2
+      - resourceId: enchanted_textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 70
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 70
+      stat: 1
+      damageType: 0
+      amountRange: {x: 2, y: 5}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-runic-tome-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-runic-tome-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 2
+      weight: 20
+      stat: 1
+      damageType: 4
+      amountRange: {x: 5, y: 10}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-runic-tome-2
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-runic-tome-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 5d78f9a08cac4c4a95a2a9ccf7d1bf31, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 30
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-runic-tome-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 6c9b5ffa42584769b7cad262c0909dd2, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-runic-tome-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 8f6b94de7934444fbfd50c2aa82f17b6, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 7b7280e6a257449eba7ba6de0eb3c632, type: 2}
+    - {fileID: 11400000, guid: 6c9b5ffa42584769b7cad262c0909dd2, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: shield-tower
+    displayName: Tower Shield
+    description: A massive heavy off-hand shield. Strong passive Armor and the most durable Guard stance.
+    templateIcon: {fileID: 21300000, guid: 7029721a62591ed4ebd358097e25c4e3, type: 3}
+    legacyItemId: shield-tower
+    legacyRecipeId: craft.item.shield-tower
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 11
+      ward: 1
+      movementPenalty: 3
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 1, y: 1}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: iron
+        amount: 3
+      - resourceId: wood
+        amount: 3
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 70
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 15
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 70
+      stat: 0
+      damageType: 0
+      amountRange: {x: 3, y: 6}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-tower-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 15
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-tower-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 2
+      weight: 20
+      stat: 1
+      damageType: 3
+      amountRange: {x: 5, y: 10}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 0
+          phase: 0
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 0
+          includeOwner: 0
+          radiusInTiles: 0
+          sameFloorOnly: 0
+        lifetime:
+          lifetime: 0
+          durationTurns: 0
+          maximumUses: 0
+        operationParameters:
+          resource: 0
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: null
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 0
+        conditions: []
+      bonusId: legacy-shield-tower-2
+      displayName: Resistance
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 40
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-tower-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 47683a07271948b580edd1e2c7fdf3df, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 40
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-tower-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 0b5031644273437cbe59d1c7c91c25ee, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-shield-tower-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 0ea30afe9a90475fba535c8f90b6ede7, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 85d2f0aa05444687b4b4b1bd9045015b, type: 2}
+    - {fileID: 11400000, guid: 0ea30afe9a90475fba535c8f90b6ede7, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-copper-kite-shield
+    displayName: Copper Kite Shield
+    description: Forged or assembled around Copper and Wood. One-handed shield with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 7029721a62591ed4ebd358097e25c4e3, type: 3}
+    legacyItemId: weapon-copper-kite-shield
+    legacyRecipeId: craft.item.weapon-copper-kite-shield
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 1, y: 1}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: copper
+        amount: 4
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-copper-kite-shield-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-copper-kite-shield-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-copper-kite-shield-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 1a4603b303e647c1b4259762fec1c0d0, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-copper-kite-shield-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 47683a07271948b580edd1e2c7fdf3df, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-copper-kite-shield-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 0ea30afe9a90475fba535c8f90b6ede7, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 47c6dbb5c7a64befac19fd7dc79def5f, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 3
+  - templateId: weapon-mutantium-bulwark
+    displayName: Mutantium Bulwark
+    description: Forged or assembled around Mutantium and Steel. One-handed shield with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 7029721a62591ed4ebd358097e25c4e3, type: 3}
+    legacyItemId: weapon-mutantium-bulwark
+    legacyRecipeId: craft.item.weapon-mutantium-bulwark
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 15
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 0
+      vitality: 2
+      constitution: 3
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: mutantium
+        amount: 4
+      - resourceId: steel
+        amount: 2
+      - resourceId: corrupt_nodule
+        amount: 1
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 4
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 2
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 4
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-bulwark-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 4
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-bulwark-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-bulwark-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-bulwark-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 1a4603b303e647c1b4259762fec1c0d0, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-bulwark-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 47683a07271948b580edd1e2c7fdf3df, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-bulwark-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 0ea30afe9a90475fba535c8f90b6ede7, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 47c6dbb5c7a64befac19fd7dc79def5f, type: 2}
+    addedEffects: []
+    startingResistances:
+    - damageType: 14
+      percent: 5
+    - damageType: 17
+      percent: -5
+    startingBonusDamage: []
+    damageTypeOverride: 3
+  - templateId: weapon-silver-warden-shield
+    displayName: Silver Warden Shield
+    description: Forged or assembled around Silver and Gems. One-handed shield with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 7029721a62591ed4ebd358097e25c4e3, type: 3}
+    legacyItemId: weapon-silver-warden-shield
+    legacyRecipeId: craft.item.weapon-silver-warden-shield
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 9
+      ward: 2
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 2, y: 2}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: silver
+        amount: 4
+      - resourceId: gems
+        amount: 1
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 4
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-warden-shield-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-warden-shield-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-warden-shield-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-warden-shield-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 1a4603b303e647c1b4259762fec1c0d0, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-warden-shield-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 47683a07271948b580edd1e2c7fdf3df, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-warden-shield-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 0ea30afe9a90475fba535c8f90b6ede7, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 47c6dbb5c7a64befac19fd7dc79def5f, type: 2}
+    addedEffects: []
+    startingResistances:
+    - damageType: 16
+      percent: 5
+    startingBonusDamage: []
+    damageTypeOverride: 3
+  - templateId: weapon-wooden-roundshield
+    displayName: Wooden Roundshield
+    description: Forged or assembled around Wood and Iron. One-handed shield with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: 7029721a62591ed4ebd358097e25c4e3, type: 3}
+    legacyItemId: weapon-wooden-roundshield
+    legacyRecipeId: craft.item.weapon-wooden-roundshield
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: wood
+        amount: 4
+      - resourceId: iron
+        amount: 1
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-wooden-roundshield-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-wooden-roundshield-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 1a4603b303e647c1b4259762fec1c0d0, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-wooden-roundshield-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 47683a07271948b580edd1e2c7fdf3df, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-wooden-roundshield-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 0ea30afe9a90475fba535c8f90b6ede7, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 47c6dbb5c7a64befac19fd7dc79def5f, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 3

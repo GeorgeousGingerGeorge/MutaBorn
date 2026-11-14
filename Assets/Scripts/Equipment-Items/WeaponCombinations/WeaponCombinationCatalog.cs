@@ -54,14 +54,14 @@ public class WeaponCombinationCatalog : ScriptableObject
 
         foreach (EquipmentInstance item in data.equippedItems)
         {
-            if (item.instanceId != equippedSlot.ItemInstanceId || item.template == null ||
-                item.template.RequiresBothHands || item.template.EquipmentFit != EquipmentFitType.Hand)
+            if (item.instanceId != equippedSlot.ItemInstanceId || !item.IsValid ||
+                item.RequiresBothHands || item.EquipmentFit != EquipmentFitType.Hand)
             {
                 continue;
 
             }
 
-            subtype = item.template.WeaponSubtypeId;
+            subtype = item.WeaponSubtype;
             return subtype != WeaponSubtype.None;
 
         }

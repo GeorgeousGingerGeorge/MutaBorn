@@ -153,7 +153,7 @@ public static class UnitItemTransfers
 
         }
 
-        if (string.IsNullOrWhiteSpace(original.InstanceId) || original.Definition == null ||
+        if (string.IsNullOrWhiteSpace(original.InstanceId) || !original.IsValid ||
             IsOwnedByAnotherUnit(original.InstanceId, unit))
         {
             error = "Missing item identity/definition or duplicate ownership across roster units.";
@@ -409,7 +409,7 @@ public static class UnitItemTransfers
 
         if (string.IsNullOrWhiteSpace(incomingId) ||
             !storage.TryGetItem(incomingId, out incoming) || incoming == null ||
-            incoming.Definition == null || IsOwnedByAnyRosterUnit(incomingId))
+            !incoming.IsValid || IsOwnedByAnyRosterUnit(incomingId))
         {
             error = "Stored item is missing, invalid or already owned by a unit.";
 
@@ -429,8 +429,8 @@ public static class UnitItemTransfers
         bool isConsumable = UnitLoadoutSlots.IsConsumable(slot);
         if (incoming.Kind == StoredItemKind.Equipment)
         {
-            if (incoming.Equipment.template == null || isConsumable ||
-                !UnitLoadoutSlots.Accepts(slot, incoming.Equipment.template.EquipmentFit))
+            if (!incoming.Equipment.IsValid || isConsumable ||
+                !UnitLoadoutSlots.Accepts(slot, incoming.Equipment.EquipmentFit))
             {
                 error = "That equipment type cannot fit this slot.";
 
@@ -469,7 +469,7 @@ public static class UnitItemTransfers
             // If the selected hand is blocked by an existing two-handed item,
             // that existing item must return to storage first. If the incoming
             // item itself is two-handed, it must clear the opposite hand.
-            bool clearOther = incoming.Equipment.template.RequiresBothHands ||
+            bool clearOther = incoming.Equipment.RequiresBothHands ||
                 unit.GetSlotBlockReason(slot) == UnitSlotBlockReason.TwoHandedWeapon;
             if (clearOther)
             {
@@ -565,7 +565,7 @@ public static class UnitItemTransfers
 
         }
 
-        if (string.IsNullOrWhiteSpace(item.InstanceId) || item.Definition == null ||
+        if (string.IsNullOrWhiteSpace(item.InstanceId) || !item.IsValid ||
             storage.TryGetItem(item.InstanceId, out StoredItem duplicate) ||
             IsOwnedByAnotherUnit(item.InstanceId, unit))
         {

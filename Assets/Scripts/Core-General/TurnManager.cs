@@ -417,7 +417,7 @@ public class TurnManager : MonoBehaviour
     private IEnumerator WaitForProjectiles()
     {
         // Wait until all active projectiles have finished traveling.
-        while (FindObjectsByType<ProjectileController>(FindObjectsSortMode.None).Length > 0)
+        while (FindObjectsByType<ProjectileController>().Length > 0)
         {
             yield return null;
         }
@@ -434,7 +434,7 @@ public class TurnManager : MonoBehaviour
             return;
         }
 
-        if (FindObjectsByType<ProjectileController>(FindObjectsSortMode.None).Length > 0)
+        if (FindObjectsByType<ProjectileController>().Length > 0)
         {
             projectileWaitCoroutine = StartCoroutine(WaitForProjectiles());
             return;

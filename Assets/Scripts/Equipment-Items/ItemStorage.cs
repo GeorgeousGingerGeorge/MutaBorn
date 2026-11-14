@@ -21,9 +21,13 @@ public sealed class StoredItem
     public string InstanceId => kind == StoredItemKind.Equipment
         ? equipment.instanceId : consumable.instanceId;
     public ItemData Definition => kind == StoredItemKind.Equipment
-        ? (ItemData)equipment.template : consumable.definition;
+        ? null : consumable.definition;
+    public bool IsValid => kind == StoredItemKind.Equipment
+        ? equipment.IsValid : consumable.definition != null;
     public EquipmentInstance Equipment => equipment;
     public ConsumableInstance Consumable => consumable;
+    public string DisplayName => kind == StoredItemKind.Equipment
+        ? equipment.itemName : consumable.definition != null ? consumable.definition.itemName : "Missing Item";
 
     public StoredItem(EquipmentInstance item)
     {
@@ -135,7 +139,7 @@ public class ItemStorage : MonoBehaviour
         if (source.Kind == StoredItemKind.Equipment)
         {
             EquipmentInstance equipment = source.Equipment;
-            if (equipment.template == null)
+            if (!equipment.IsValid)
             {
                 return false;
 
@@ -199,7 +203,7 @@ public class ItemStorage : MonoBehaviour
     public bool CanStoreTransferredItem(StoredItem item)
     {
         return item != null && !string.IsNullOrWhiteSpace(item.InstanceId) &&
-            item.Definition != null && FindItemIndex(item.InstanceId) < 0 &&
+            item.IsValid && FindItemIndex(item.InstanceId) < 0 &&
             !IsOwnedByRoster(item.InstanceId);
 
     }

@@ -1,0 +1,1161 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426835ade34359a5f7312faf913101, type: 3}
+  m_Name: dagger
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentType
+  typeId: dagger
+  displayTypeLabel: Dagger
+  typeIcon: {fileID: 0}
+  equipmentFit: 1
+  requiresBothHands: 0
+  armorCategory: 0
+  weaponCategory: 1
+  weaponSubtype: 5
+  accessoryCategory: 0
+  primaryDamageType: 2
+  upgradeBonuses: []
+  upgradeCosts: []
+  defaultSocket: 0
+  modelPrefab: {fileID: 7108611429215699362, guid: ed142213bc531e64fb76ba828534d0ff, type: 3}
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  applyColors: 0
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+  accentColor: {r: 1, g: 1, b: 1, a: 1}
+  grantedActionSet: {fileID: 0}
+  grantedEffectCollection: {fileID: 0}
+  startingActions: []
+  startingEffects: []
+  templates:
+  - templateId: weapon-bone-shiv
+    displayName: Bone Shiv
+    description: Forged or assembled around Bones and Textiles. One-handed dagger with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: e6f2069ec7194411bdaf93f1d7e79e47, type: 3}
+    legacyItemId: weapon-bone-shiv
+    legacyRecipeId: craft.item.weapon-bone-shiv
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 4
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 3
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: bones
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 2
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-bone-shiv-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-bone-shiv-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 6c4cfd8a87264778a4732e9bb533fc87, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-bone-shiv-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 55069648af7b48eebbbb1a3f0a37a588, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 984978e35fad47479fb3c13b503c44ad, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-iron-stiletto
+    displayName: Iron Stiletto
+    description: Forged or assembled around Iron and Wood. One-handed dagger with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: e6f2069ec7194411bdaf93f1d7e79e47, type: 3}
+    legacyItemId: weapon-iron-stiletto
+    legacyRecipeId: craft.item.weapon-iron-stiletto
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 1
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 6
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 3
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 2
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-stiletto-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-stiletto-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-stiletto-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 6c4cfd8a87264778a4732e9bb533fc87, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-iron-stiletto-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 55069648af7b48eebbbb1a3f0a37a588, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 984978e35fad47479fb3c13b503c44ad, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-mutantium-kris
+    displayName: Mutantium Kris
+    description: Forged or assembled around Mutantium and Corrupt Nodule. One-handed dagger with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: e6f2069ec7194411bdaf93f1d7e79e47, type: 3}
+    legacyItemId: weapon-mutantium-kris
+    legacyRecipeId: craft.item.weapon-mutantium-kris
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 2
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 11
+      rangeDamage: 0
+      magicDamage: 5
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 4
+      vitality: 0
+      constitution: 0
+      perception: 2
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: mutantium
+        amount: 4
+      - resourceId: steel
+        amount: 2
+      - resourceId: corrupt_nodule
+        amount: 1
+    startingStarRolls:
+      rollCount: 4
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 2
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 4
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-kris-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 4
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-kris-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 0
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-kris-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-kris-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 6c4cfd8a87264778a4732e9bb533fc87, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutantium-kris-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 55069648af7b48eebbbb1a3f0a37a588, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 984978e35fad47479fb3c13b503c44ad, type: 2}
+    addedEffects: []
+    startingResistances:
+    - damageType: 14
+      percent: 5
+    - damageType: 17
+      percent: -5
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-silver-fang
+    displayName: Silver Fang
+    description: Forged or assembled around Silver and Gems. One-handed dagger with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: e6f2069ec7194411bdaf93f1d7e79e47, type: 3}
+    legacyItemId: weapon-silver-fang
+    legacyRecipeId: craft.item.weapon-silver-fang
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 2
+      movementPenalty: 0
+      meleeDamage: 6
+      rangeDamage: 0
+      magicDamage: 3
+      accuracy: 3
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 2, y: 2}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 3
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: silver
+        amount: 4
+      - resourceId: gems
+        amount: 1
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 20
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 2
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 4
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 2
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-fang-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 4
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-fang-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 20
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-fang-2
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-fang-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 6c4cfd8a87264778a4732e9bb533fc87, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-silver-fang-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 55069648af7b48eebbbb1a3f0a37a588, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 984978e35fad47479fb3c13b503c44ad, type: 2}
+    addedEffects: []
+    startingResistances:
+    - damageType: 16
+      percent: 5
+    startingBonusDamage: []
+    damageTypeOverride: 0

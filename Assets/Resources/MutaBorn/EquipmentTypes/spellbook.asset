@@ -1,0 +1,2368 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426835ade34359a5f7312faf913101, type: 3}
+  m_Name: spellbook
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentType
+  typeId: spellbook
+  displayTypeLabel: Spellbook
+  typeIcon: {fileID: 0}
+  equipmentFit: 1
+  requiresBothHands: 0
+  armorCategory: 0
+  weaponCategory: 3
+  weaponSubtype: 12
+  accessoryCategory: 0
+  primaryDamageType: 4
+  upgradeBonuses: []
+  upgradeCosts: []
+  defaultSocket: 0
+  modelPrefab: {fileID: 5612862256586875933, guid: 05e9f790bd76f28469d3edbd7eaf2dcb, type: 3}
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  applyColors: 0
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+  accentColor: {r: 1, g: 1, b: 1, a: 1}
+  grantedActionSet: {fileID: 0}
+  grantedEffectCollection: {fileID: 0}
+  startingActions: []
+  startingEffects: []
+  templates:
+  - templateId: Weapon_Magic_A
+    displayName: Cinder Codex
+    description: An infernal spellbook of Fire and corrosive acid. Favors area devastation.
+    templateIcon: {fileID: 21300000, guid: c83e8691835d8bb46905049e167c1d4a, type: 3}
+    legacyItemId: Weapon_Magic_A
+    legacyRecipeId: craft.item.weapon_cinder_codex
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 12
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 3
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: runes
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 3
+      - resourceId: glass
+        amount: 1
+    startingStarRolls:
+      rollCount: 4
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 70
+      stat: 4
+      damageType: 4
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_A-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 30
+      stat: 1
+      damageType: 4
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_A-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_A-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: d0ae9d81ee14073498f07bb574ab06d7, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_A-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: df65c6269ed848adb36cfc2f7c8bfcb6, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+    - {fileID: 11400000, guid: fbf3898950e49b1408be72e2a219308e, type: 2}
+    - {fileID: 11400000, guid: 48ab348c84a84cec92d7cbecbcd03c99, type: 2}
+    - {fileID: 11400000, guid: b693226fe9e244bbbe3bf760a68ff7ef, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: Weapon_Magic_B
+    displayName: Tempest Grimoire
+    description: A stormbound tome of Lightning, Wind, and Ice control.
+    templateIcon: {fileID: 21300000, guid: c83e8691835d8bb46905049e167c1d4a, type: 3}
+    legacyItemId: Weapon_Magic_B
+    legacyRecipeId: craft.item.weapon_tempest_grimoire
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 7
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 3
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: runes
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 3
+      - resourceId: glass
+        amount: 1
+    startingStarRolls:
+      rollCount: 3
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 70
+      stat: 4
+      damageType: 4
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_B-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 30
+      stat: 1
+      damageType: 4
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_B-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 45
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_B-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: fbf3898950e49b1408be72e2a219308e, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 55
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_B-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: b693226fe9e244bbbe3bf760a68ff7ef, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+    - {fileID: 11400000, guid: ef2441f2344779f428833a8e65f75783, type: 2}
+    - {fileID: 11400000, guid: 28ff6b0be62946d488dbccf25ef99102, type: 2}
+    - {fileID: 11400000, guid: d85a8af8d0604ea7ac4faf02de1df4d4, type: 2}
+    - {fileID: 11400000, guid: bb5e5d7133814c428c17c1c4ea8e65f1, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: Weapon_Magic_C
+    displayName: Verdant Lexicon
+    description: A living spellbook of Nature, Water healing, Poison, and Earth binds.
+    templateIcon: {fileID: 21300000, guid: c83e8691835d8bb46905049e167c1d4a, type: 3}
+    legacyItemId: Weapon_Magic_C
+    legacyRecipeId: craft.item.weapon_verdant_lexicon
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 5
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 3
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: runes
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 70
+      stat: 4
+      damageType: 4
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_C-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 30
+      stat: 1
+      damageType: 4
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_C-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 60
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_C-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: c8aac3f391de4f0f8e73db768e9da205, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 40
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-Weapon_Magic_C-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: b3885e6f494f484096f1d042c7166515, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+    - {fileID: 11400000, guid: 6f30fbe1fb632704a803a098ed770e67, type: 2}
+    - {fileID: 11400000, guid: b248f0d49dac4e94994868b7c90136ec, type: 2}
+    - {fileID: 11400000, guid: df65c6269ed848adb36cfc2f7c8bfcb6, type: 2}
+    - {fileID: 11400000, guid: 3ff7177320af4a3c98d387e63c6f88c1, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-apprentice-notes
+    displayName: Apprentice Notes
+    description: Forged or assembled around Wood and Textiles. One-handed spellbook with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: c83e8691835d8bb46905049e167c1d4a, type: 3}
+    legacyItemId: weapon-apprentice-notes
+    legacyRecipeId: craft.item.weapon-apprentice-notes
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 2
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 5
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 2, y: 2}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 3
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: maana_crystals
+        amount: 3
+      - resourceId: textiles
+        amount: 3
+    startingStarRolls:
+      rollCount: 0
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 4
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-apprentice-notes-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-apprentice-notes-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-apprentice-notes-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-apprentice-notes-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: b3885e6f494f484096f1d042c7166515, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-apprentice-notes-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 7b7280e6a257449eba7ba6de0eb3c632, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 539080b969624cf58526934bf632062f, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-crystal-primer
+    displayName: Crystal Primer
+    description: Forged or assembled around Maana Crystals and Textiles. One-handed spellbook with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: c83e8691835d8bb46905049e167c1d4a, type: 3}
+    legacyItemId: weapon-crystal-primer
+    legacyRecipeId: craft.item.weapon-crystal-primer
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 8
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 3, y: 3}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 3
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: gems
+        amount: 2
+      - resourceId: glass
+        amount: 2
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 4
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-crystal-primer-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-crystal-primer-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-crystal-primer-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-crystal-primer-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: b3885e6f494f484096f1d042c7166515, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-crystal-primer-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 7b7280e6a257449eba7ba6de0eb3c632, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 539080b969624cf58526934bf632062f, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-magic-umbral-codex
+    displayName: Umbral Codex
+    description: Dark curses and Holy restoration share these forbidden pages.
+    templateIcon: {fileID: 21300000, guid: c83e8691835d8bb46905049e167c1d4a, type: 3}
+    legacyItemId: weapon-magic-umbral-codex
+    legacyRecipeId: craft.item.weapon-magic-umbral-codex
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 8
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 3
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: runes
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 0
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 70
+      stat: 4
+      damageType: 4
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-magic-umbral-codex-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 30
+      stat: 1
+      damageType: 4
+      amountRange: {x: 1, y: 2}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-magic-umbral-codex-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 40
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-magic-umbral-codex-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: bb5e5d7133814c428c17c1c4ea8e65f1, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 60
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-magic-umbral-codex-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: ef2441f2344779f428833a8e65f75783, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+    - {fileID: 11400000, guid: b3885e6f494f484096f1d042c7166515, type: 2}
+    - {fileID: 11400000, guid: c8aac3f391de4f0f8e73db768e9da205, type: 2}
+    - {fileID: 11400000, guid: d0ae9d81ee14073498f07bb574ab06d7, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-mutated-heart-codex
+    displayName: Mutated Heart Codex
+    description: Forged or assembled around Mutated Heart and Runes. One-handed spellbook with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: c83e8691835d8bb46905049e167c1d4a, type: 3}
+    legacyItemId: weapon-mutated-heart-codex
+    legacyRecipeId: craft.item.weapon-mutated-heart-codex
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 9
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 4, y: 4}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 2
+      intelligence: 4
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: maana_crystals
+        amount: 4
+      - resourceId: runes
+        amount: 3
+      - resourceId: glass
+        amount: 2
+      - resourceId: mutated_heart
+        amount: 1
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 4
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 4
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutated-heart-codex-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutated-heart-codex-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutated-heart-codex-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutated-heart-codex-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: b3885e6f494f484096f1d042c7166515, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-mutated-heart-codex-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 7b7280e6a257449eba7ba6de0eb3c632, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 539080b969624cf58526934bf632062f, type: 2}
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: weapon-runic-spell-ledger
+    displayName: Runic Spell Ledger
+    description: Forged or assembled around Runes and Enchanted Textiles. One-handed spellbook with flexible hand-slot use. Additional techniques can be earned through equipment stars.
+    templateIcon: {fileID: 21300000, guid: c83e8691835d8bb46905049e167c1d4a, type: 3}
+    legacyItemId: weapon-runic-spell-ledger
+    legacyRecipeId: craft.item.weapon-runic-spell-ledger
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 5
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 9
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 5, y: 5}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 3
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: maana_crystals
+        amount: 2
+      - resourceId: runes
+        amount: 2
+      - resourceId: wood
+        amount: 2
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 4
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 1
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 55
+      zeroWeight: 1
+      amountRange: {x: 1, y: 3}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses:
+    - kind: 0
+      weight: 55
+      stat: 4
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-runic-spell-ledger-0
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 0
+      weight: 35
+      stat: 1
+      damageType: 0
+      amountRange: {x: 1, y: 3}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-runic-spell-ledger-1
+      displayName: Stat Boost
+      repeatable: 1
+      maxStacks: 5
+      action: {fileID: 0}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 50
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-runic-spell-ledger-ability-0
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 35
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-runic-spell-ledger-ability-1
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: b3885e6f494f484096f1d042c7166515, type: 2}
+      scalingAttribute: 0
+    - kind: 4
+      weight: 25
+      stat: 0
+      damageType: 0
+      amountRange: {x: 0, y: 0}
+      effect:
+        definition: {fileID: 0}
+        procChancePercent: 100
+        procChanceSchemaVersion: 1
+        activation:
+          trigger: 1
+          phase: 1
+          frequency: 0
+          eventActor: 0
+          requireGrantingSourceMatch: 0
+          requireAction: 0
+        targeting:
+          reference: 0
+          selection: 0
+          factionMask: 7
+          includeOwner: 1
+          radiusInTiles: 0
+          sameFloorOnly: 1
+        lifetime:
+          lifetime: 0
+          durationTurns: 1
+          maximumUses: 1
+        operationParameters:
+          resource: -1
+          stat: 0
+          statModifierMode: 0
+          damageType: 0
+          damageDelivery: 0
+          defenseStat: 0
+          statusId: 
+          statusDefinition: {fileID: 0}
+        value:
+          constant: 0
+          terms: []
+          rounding: 1
+        conditions: []
+      bonusId: legacy-weapon-runic-spell-ledger-ability-2
+      displayName: Learned Ability
+      repeatable: 0
+      maxStacks: 1
+      action: {fileID: 11400000, guid: 7b7280e6a257449eba7ba6de0eb3c632, type: 2}
+      scalingAttribute: 0
+    scalingOpportunities: []
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions:
+    - {fileID: 11400000, guid: 539080b969624cf58526934bf632062f, type: 2}
+    addedEffects: []
+    startingResistances:
+    - damageType: 4
+      percent: 5
+    startingBonusDamage: []
+    damageTypeOverride: 0

@@ -44,6 +44,8 @@ public sealed class ResearchBenefit
     public ResearchBenefitType type;
     [Tooltip("Recipe ID for Recipe unlocks; ignored for other benefits.")]
     public string recipeId;
+    [Tooltip("For an embedded equipment recipe, assign its Equipment Type and Template ID instead of Recipe ID.")]
+    public EquipmentTemplateReference equipmentTemplate;
     [Tooltip("Equipment/consumable slot for UnitSlot unlocks.")]
     public UnitSlotId slot;
     [Tooltip("Amount for discounts, speed, experience and tiers. Use 1 for crew slots.")]
@@ -61,7 +63,7 @@ public sealed class ResearchNode
     [Min(0)] public int requiredTier;
     public List<string> prerequisiteIds = new List<string>();
     public List<ResearchCost> costs = new List<ResearchCost>();
-    [Min(1)] public int battlesRequired = 1;
+    [Min(0)] public int battlesRequired = 1;
     public List<ResearchBenefit> benefits = new List<ResearchBenefit>();
 
 }
