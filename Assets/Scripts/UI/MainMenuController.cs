@@ -54,6 +54,7 @@ public class MainMenuController : MonoBehaviour
     void TestLevel()
     {
         SceneManager.LoadScene(hubName);
+        AudioManager.Instance.PlaySound("Button Click");
     }
 
     void OpenOptions()

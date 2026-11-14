@@ -315,6 +315,9 @@ MonoBehaviour:
   currentLevel: {fileID: 0}
   gridCellSize: 2
   maxStepHeight: 0.5
+  floorHeightTolerance: 0.05
+  proceduralLevelGenerator: {fileID: 0}
+  levelAssembler: {fileID: 0}
   gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
   obstaclePrefab: {fileID: 1490576499627723649, guid: 4d64a26457947d7409f3f24854110fcc, type: 3}
   wallPrefab: {fileID: 0}
@@ -618,6 +621,7 @@ MonoBehaviour:
   quitGame: {fileID: 0}
   saveButton: {fileID: 0}
   loadButton: {fileID: 0}
+  controlsMenu: {fileID: 0}
 --- !u!1 &19428250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,7 +1313,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -5803,6 +5807,8 @@ MonoBehaviour:
   ringWidth: 0.12
   ringHeightOffset: 0.3
   ringColor: {r: 1, g: 0.2, b: 0.16, a: 0.95}
+  showExplosionRing: 1
+  explosionRingOpacity: 0.88
 --- !u!114 &708210733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5840,6 +5846,11 @@ MonoBehaviour:
   interactButton: {fileID: 799047814}
   abilitiesButton: {fileID: 1313328835}
   itemsButton: {fileID: 0}
+  stanceButton: {fileID: 0}
+  stanceIcon: {fileID: 0}
+  stanceText: {fileID: 0}
+  standingSprite: {fileID: 0}
+  crouchingSprite: {fileID: 0}
   expandedPanel: {fileID: 475444301}
   expandedTitle: {fileID: 1345019388}
   expandedContent: {fileID: 999038434}
@@ -5849,6 +5860,7 @@ MonoBehaviour:
   combatExecutor: {fileID: 708210733}
   actionInfoPanel: {fileID: 0}
   actionDescriptionText: {fileID: 0}
+  attackPreviewUI: {fileID: 0}
   interactionScanInterval: 0.2
 --- !u!4 &719934385 stripped
 Transform:
