@@ -381,6 +381,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6981270930447380429}
+  - component: {fileID: 8196414870182086496}
   m_Layer: 0
   m_Name: Destroyed
   m_TagString: Untagged
@@ -404,6 +405,28 @@ Transform:
   - {fileID: 3591464666547574035}
   m_Father: {fileID: 366345505196927412}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8196414870182086496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611587689341223080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9949bc0d0b8c048438c9d87237ac858a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleDestructionStages
+  stageName: 2
+  healthThreshold: 0.1
+  stageVisual: {fileID: 611587689341223080}
+  blockMovement: 0
+  blockLineofSight: 0
+  blockProjectile: 0
+  blockSound: 0
+  coverState: 0
+  obstacleHeight: 0
+  stageParticleEffect: {fileID: 0}
 --- !u!1 &651291250330765753
 GameObject:
   m_ObjectHideFlags: 0
@@ -2726,13 +2749,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1748663626284738969}
+  - component: {fileID: 8771261677838617144}
   m_Layer: 0
   m_Name: Intact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1748663626284738969
 Transform:
   m_ObjectHideFlags: 0
@@ -2749,6 +2773,28 @@ Transform:
   - {fileID: 1000131583725394852}
   m_Father: {fileID: 366345505196927412}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8771261677838617144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5637272279738617736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9949bc0d0b8c048438c9d87237ac858a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleDestructionStages
+  stageName: 0
+  healthThreshold: 0.75
+  stageVisual: {fileID: 5637272279738617736}
+  blockMovement: 1
+  blockLineofSight: 1
+  blockProjectile: 1
+  blockSound: 1
+  coverState: 1
+  obstacleHeight: 0.8
+  stageParticleEffect: {fileID: 0}
 --- !u!1 &5798924702967722660
 GameObject:
   m_ObjectHideFlags: 0
@@ -2758,6 +2804,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 366345505196927412}
+  - component: {fileID: 1284120815021369381}
   m_Layer: 0
   m_Name: Ores
   m_TagString: Untagged
@@ -2783,6 +2830,20 @@ Transform:
   - {fileID: 6981270930447380429}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1284120815021369381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5798924702967722660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10a4458cf2648e498c079ae547ec438, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleController
+  data: {fileID: 0}
+  destructionEffectPrefab: {fileID: 0}
 --- !u!1 &5809343366429092545
 GameObject:
   m_ObjectHideFlags: 0
@@ -3128,13 +3189,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5397899956897965934}
+  - component: {fileID: 981269012496358085}
   m_Layer: 0
   m_Name: Damaged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5397899956897965934
 Transform:
   m_ObjectHideFlags: 0
@@ -3151,6 +3213,28 @@ Transform:
   - {fileID: 596579109802031995}
   m_Father: {fileID: 366345505196927412}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &981269012496358085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6262246164381510559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9949bc0d0b8c048438c9d87237ac858a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleDestructionStages
+  stageName: 1
+  healthThreshold: 0.45
+  stageVisual: {fileID: 6262246164381510559}
+  blockMovement: 1
+  blockLineofSight: 1
+  blockProjectile: 1
+  blockSound: 1
+  coverState: 1
+  obstacleHeight: 0.5
+  stageParticleEffect: {fileID: 0}
 --- !u!1 &6272552800213072789
 GameObject:
   m_ObjectHideFlags: 0

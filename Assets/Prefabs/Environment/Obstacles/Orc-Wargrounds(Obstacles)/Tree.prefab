@@ -631,6 +631,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5329251765001781931}
+  - component: {fileID: 2448984638866686289}
   m_Layer: 0
   m_Name: Damaged
   m_TagString: Untagged
@@ -654,6 +655,28 @@ Transform:
   - {fileID: 8246325948111175429}
   m_Father: {fileID: 1525133585450046582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2448984638866686289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5117055376199590758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9949bc0d0b8c048438c9d87237ac858a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleDestructionStages
+  stageName: 1
+  healthThreshold: 0.45
+  stageVisual: {fileID: 5117055376199590758}
+  blockMovement: 1
+  blockLineofSight: 1
+  blockProjectile: 1
+  blockSound: 1
+  coverState: 1
+  obstacleHeight: 1.8
+  stageParticleEffect: {fileID: 0}
 --- !u!1 &6253253352948913657
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,6 +776,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9174129615211152972}
+  - component: {fileID: 6218912830606184870}
   m_Layer: 0
   m_Name: Intact
   m_TagString: Untagged
@@ -776,6 +800,28 @@ Transform:
   - {fileID: 2933381118161657624}
   m_Father: {fileID: 1525133585450046582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6218912830606184870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7438239264453800070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9949bc0d0b8c048438c9d87237ac858a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleDestructionStages
+  stageName: 0
+  healthThreshold: 0.75
+  stageVisual: {fileID: 7438239264453800070}
+  blockMovement: 1
+  blockLineofSight: 1
+  blockProjectile: 1
+  blockSound: 1
+  coverState: 2
+  obstacleHeight: 2
+  stageParticleEffect: {fileID: 0}
 --- !u!1 &8600164367881098834
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,6 +954,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5758209415960431864}
+  - component: {fileID: 7116771226834542566}
   m_Layer: 0
   m_Name: Destroyed
   m_TagString: Untagged
@@ -931,6 +978,28 @@ Transform:
   - {fileID: 7706156078801354717}
   m_Father: {fileID: 1525133585450046582}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7116771226834542566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9162306761670945765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9949bc0d0b8c048438c9d87237ac858a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleDestructionStages
+  stageName: 2
+  healthThreshold: 0
+  stageVisual: {fileID: 9162306761670945765}
+  blockMovement: 1
+  blockLineofSight: 1
+  blockProjectile: 0
+  blockSound: 0
+  coverState: 1
+  obstacleHeight: 1.5
+  stageParticleEffect: {fileID: 0}
 --- !u!1001 &103545281621612411
 PrefabInstance:
   m_ObjectHideFlags: 0
