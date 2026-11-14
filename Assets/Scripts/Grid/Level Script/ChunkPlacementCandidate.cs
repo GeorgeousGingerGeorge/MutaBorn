@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
+
 public class ChunkPlacementCandidate
 {
     [Header("Available Connections")]
