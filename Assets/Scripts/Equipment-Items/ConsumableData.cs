@@ -7,7 +7,8 @@ public enum ConsumableUseKind
     RestoreHealth = 1,
     RestoreActionPoints = 2,
     ApplyStatus = 3,
-    TargetedAttack = 4
+    TargetedAttack = 4,
+    CaptureUnit = 5
 
 }
 

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -78,6 +78,7 @@ namespace MutaBorn.Gameplay
             CombatFloatingFeedback.StatusApplied += OnStatusApplied;
             CombatFloatingFeedback.GuardBlocked += OnGuardBlocked;
             CombatFloatingFeedback.GuardActivated += OnGuardActivated;
+            CombatFloatingFeedback.CaptureResolved += OnCaptureResolved;
 
         }
 
@@ -88,12 +89,20 @@ namespace MutaBorn.Gameplay
             CombatFloatingFeedback.StatusApplied -= OnStatusApplied;
             CombatFloatingFeedback.GuardBlocked -= OnGuardBlocked;
             CombatFloatingFeedback.GuardActivated -= OnGuardActivated;
+            CombatFloatingFeedback.CaptureResolved -= OnCaptureResolved;
 
         }
 
         private void OnDamageApplied(CombatDamageEvent report)
         {
-            if (report.Target == null || report.ActualDamage <= 0 || canvasRect == null)
+            if (report.Target == null || report.ActualDamage <= 0)
+            {
+                return;
+
+            }
+
+            UnitHitFeedback.Show(report.Target, report.Attacker);
+            if (canvasRect == null)
             {
                 return;
 
@@ -313,6 +322,15 @@ namespace MutaBorn.Gameplay
 
         }
 
+        private void OnCaptureResolved(UnitController target, bool succeeded)
+        {
+            SpawnFeedback(target, succeeded ? "CAPTURED" : "FAILED", "CAPTURE",
+                succeeded ? new Color(0.36f, 0.94f, 0.68f, 1f)
+                    : new Color(1f, 0.58f, 0.32f, 1f),
+                null, succeeded ? DamageType.Holy : DamageType.Dark, 148f);
+
+        }
+
         private void OnGuardBlocked(UnitController unit, int amount)
         {
             if (amount > 0)
@@ -408,7 +426,7 @@ namespace MutaBorn.Gameplay
         }
 
         private void SpawnFeedback(UnitController unit, string value, string category,
-            Color tint, Sprite icon, DamageType styleType)
+            Color tint, Sprite icon, DamageType styleType, float width = 96f)
         {
             if (unit == null || !unit.isActiveAndEnabled || canvasRect == null)
             {
@@ -451,7 +469,7 @@ namespace MutaBorn.Gameplay
             popupRect.anchorMin = new Vector2(0.5f, 0.5f);
             popupRect.anchorMax = new Vector2(0.5f, 0.5f);
             popupRect.pivot = new Vector2(0.5f, 0.5f);
-            popupRect.sizeDelta = new Vector2(96f, 76f);
+            popupRect.sizeDelta = new Vector2(width, 76f);
             popupRect.anchoredPosition = canvasPoint + new Vector2(offset, 0f);
 
             GameObject backgroundObject = new GameObject("Feedback Type PNG",

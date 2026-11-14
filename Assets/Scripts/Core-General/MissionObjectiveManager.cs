@@ -301,6 +301,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
     private void OnEnable()
     {
         CombatActionExecutor.UnitDefeated += OnUnitDefeated;
+        CombatActionExecutor.UnitCaptured += OnUnitCaptured;
         ObjectiveInteractable.InteractionCompleted += OnInteractionCompleted;
 
     }
@@ -732,6 +733,17 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
     }
 
+    private void OnUnitCaptured(UnitController captor, UnitController prisoner)
+    {
+        if (Status == MissionStatus.InProgress && prisoner != null)
+        {
+            RecordMatchingTarget(MissionObjectiveType.EliminateUnits, prisoner);
+            RefreshExtractionProgress();
+
+        }
+
+    }
+
     private void OnUnitDefeated(UnitController attacker, UnitController defeated)
     {
         if (Status != MissionStatus.InProgress || defeated == null)
@@ -1122,6 +1134,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
     private void OnDisable()
     {
         CombatActionExecutor.UnitDefeated -= OnUnitDefeated;
+        CombatActionExecutor.UnitCaptured -= OnUnitCaptured;
         ObjectiveInteractable.InteractionCompleted -= OnInteractionCompleted;
 
         if (Instance == this)

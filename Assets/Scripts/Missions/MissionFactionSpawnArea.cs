@@ -173,7 +173,15 @@ public sealed class MissionFactionSpawnArea : MonoBehaviour
         Debug.Log($"[FactionSpawn] Placed {placed} {faction.DisplayName} mission units on floor {floorId}.", this);
 
     }
+    public void ResolveFloorID(ChunkInstance ownerChunk)
+    {
+        if (!ownerChunk.globalFloorMappings.TryGetValue(floorId, out int resolvedFloorID))
+        {
+            return;
+        }
 
+        floorId = resolvedFloorID;
+    }
     private void OnDrawGizmosSelected()
     {
         Vector2Int size = new Vector2Int(Mathf.Max(1, areaSizeInTiles.x), Mathf.Max(1, areaSizeInTiles.y));
