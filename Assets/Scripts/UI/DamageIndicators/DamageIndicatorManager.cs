@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +20,7 @@ namespace MutaBorn.Gameplay
         private RectTransform canvasRect;
         private DamageIndicatorPalette palette;
         private Sprite guardActivationIcon;
+        private Sprite dodgeIcon;
         private Sprite healIcon;
         private Sprite apIcon;
         private Sprite manaIcon;
@@ -49,6 +50,7 @@ namespace MutaBorn.Gameplay
             // placed in Resources/DamageIndicators is loaded automatically.
             guardActivationIcon = LoadFeedbackSprite(
                 palette != null ? palette.GuardActivationIcon : null, "GuardActivationIcon");
+            dodgeIcon = LoadFeedbackSprite(palette != null ? palette.DodgeIcon : null, "DodgeIcon");
             healIcon = LoadFeedbackSprite(palette != null ? palette.HealIcon : null, "HealIcon");
             apIcon = LoadFeedbackSprite(palette != null ? palette.APIcon : null, "APIcon");
             manaIcon = LoadFeedbackSprite(palette != null ? palette.ManaIcon : null, "ManaIcon");
@@ -78,6 +80,8 @@ namespace MutaBorn.Gameplay
             CombatFloatingFeedback.StatusApplied += OnStatusApplied;
             CombatFloatingFeedback.GuardBlocked += OnGuardBlocked;
             CombatFloatingFeedback.GuardActivated += OnGuardActivated;
+            CombatFloatingFeedback.AttackAvoided += OnAttackAvoided;
+            CombatFloatingFeedback.CaptureResolved += OnCaptureResolved;
 
         }
 
@@ -88,12 +92,21 @@ namespace MutaBorn.Gameplay
             CombatFloatingFeedback.StatusApplied -= OnStatusApplied;
             CombatFloatingFeedback.GuardBlocked -= OnGuardBlocked;
             CombatFloatingFeedback.GuardActivated -= OnGuardActivated;
+            CombatFloatingFeedback.AttackAvoided -= OnAttackAvoided;
+            CombatFloatingFeedback.CaptureResolved -= OnCaptureResolved;
 
         }
 
         private void OnDamageApplied(CombatDamageEvent report)
         {
-            if (report.Target == null || report.ActualDamage <= 0 || canvasRect == null)
+            if (report.Target == null || report.ActualDamage <= 0)
+            {
+                return;
+
+            }
+
+            UnitHitFeedback.Show(report.Target, report.Attacker);
+            if (canvasRect == null)
             {
                 return;
 
@@ -313,6 +326,15 @@ namespace MutaBorn.Gameplay
 
         }
 
+        private void OnCaptureResolved(UnitController target, bool succeeded)
+        {
+            SpawnFeedback(target, succeeded ? "CAPTURED" : "FAILED", "CAPTURE",
+                succeeded ? new Color(0.36f, 0.94f, 0.68f, 1f)
+                    : new Color(1f, 0.58f, 0.32f, 1f),
+                null, succeeded ? DamageType.Holy : DamageType.Dark, 148f);
+
+        }
+
         private void OnGuardBlocked(UnitController unit, int amount)
         {
             if (amount > 0)
@@ -327,6 +349,22 @@ namespace MutaBorn.Gameplay
         // Distinct from BLOCKED N: this confirms activation even if no attack follows.
         // All ApplyGuard actions (including shield variants and Brace) use this path.
         private void OnGuardActivated(UnitController unit)
+        {
+            SpawnOutcome(unit, "GUARD", guardActivationIcon,
+                new Color(0.74f, 0.88f, 1f, 1f));
+
+        }
+
+        private void OnAttackAvoided(UnitController target, bool dodged)
+        {
+            SpawnOutcome(target, dodged ? "DODGED" : "MISSED",
+                dodged ? dodgeIcon : null,
+                dodged ? new Color(0.67f, 0.95f, 0.85f, 1f)
+                    : new Color(1f, 0.78f, 0.59f, 1f));
+
+        }
+
+        private void SpawnOutcome(UnitController unit, string message, Sprite icon, Color color)
         {
             if (unit == null || !unit.isActiveAndEnabled || canvasRect == null)
             {
@@ -359,7 +397,7 @@ namespace MutaBorn.Gameplay
 
             int slot = NextSlot(unit.transform);
             float spacing = palette != null ? palette.SideSpacing : 46f;
-            GameObject popupObject = new GameObject("Guard Activated",
+            GameObject popupObject = new GameObject(message,
                 typeof(RectTransform), typeof(CanvasGroup), typeof(DamageIndicatorPopup));
             popupObject.transform.SetParent(canvasRect, false);
             RectTransform popupRect = popupObject.GetComponent<RectTransform>();
@@ -369,37 +407,38 @@ namespace MutaBorn.Gameplay
             popupRect.sizeDelta = new Vector2(108f, 122f);
             popupRect.anchoredPosition = canvasPoint + new Vector2(SlotOffset(slot) * spacing, 0f);
 
-            if (guardActivationIcon != null)
+            if (icon != null)
             {
-                GameObject shieldObject = new GameObject("Shield Icon",
+                GameObject iconObject = new GameObject("Outcome Icon",
                     typeof(RectTransform), typeof(Image));
-                shieldObject.transform.SetParent(popupRect, false);
-                RectTransform shieldRect = shieldObject.GetComponent<RectTransform>();
-                shieldRect.anchorMin = new Vector2(0.10f, 0.23f);
-                shieldRect.anchorMax = new Vector2(0.90f, 0.96f);
-                shieldRect.offsetMin = Vector2.zero;
-                shieldRect.offsetMax = Vector2.zero;
-                Image shieldImage = shieldObject.GetComponent<Image>();
-                shieldImage.sprite = guardActivationIcon;
-                shieldImage.preserveAspect = true;
-                shieldImage.raycastTarget = false;
+                iconObject.transform.SetParent(popupRect, false);
+                RectTransform iconRect = iconObject.GetComponent<RectTransform>();
+                iconRect.anchorMin = new Vector2(0.10f, 0.23f);
+                iconRect.anchorMax = new Vector2(0.90f, 0.96f);
+                iconRect.offsetMin = Vector2.zero;
+                iconRect.offsetMax = Vector2.zero;
+                Image iconImage = iconObject.GetComponent<Image>();
+                iconImage.sprite = icon;
+                iconImage.preserveAspect = true;
+                iconImage.raycastTarget = false;
 
             }
 
-            GameObject labelObject = new GameObject("Guard Text",
+            GameObject labelObject = new GameObject("Outcome Text",
                 typeof(RectTransform), typeof(TextMeshProUGUI));
             labelObject.transform.SetParent(popupRect, false);
             RectTransform labelRect = labelObject.GetComponent<RectTransform>();
             labelRect.anchorMin = new Vector2(0f, 0f);
-            labelRect.anchorMax = new Vector2(1f, guardActivationIcon != null ? 0.32f : 0.85f);
+            labelRect.anchorMax = new Vector2(1f, icon != null ? 0.32f : 0.85f);
             labelRect.offsetMin = Vector2.zero;
             labelRect.offsetMax = Vector2.zero;
             TextMeshProUGUI label = labelObject.GetComponent<TextMeshProUGUI>();
-            label.text = "GUARD";
+            label.text = message;
             label.alignment = TextAlignmentOptions.Center;
             label.fontStyle = FontStyles.Bold;
-            label.fontSize = guardActivationIcon != null ? 21f : 29f;
-            label.color = new Color(0.74f, 0.88f, 1f, 1f);
+            label.fontSize = icon != null ? 21f : 20f;
+            label.textWrappingMode = TextWrappingModes.NoWrap;
+            label.color = color;
             label.raycastTarget = false;
 
             popupObject.GetComponent<DamageIndicatorPopup>().Initialize(
@@ -408,7 +447,7 @@ namespace MutaBorn.Gameplay
         }
 
         private void SpawnFeedback(UnitController unit, string value, string category,
-            Color tint, Sprite icon, DamageType styleType)
+            Color tint, Sprite icon, DamageType styleType, float width = 96f)
         {
             if (unit == null || !unit.isActiveAndEnabled || canvasRect == null)
             {
@@ -444,6 +483,10 @@ namespace MutaBorn.Gameplay
             float offset = SlotOffset(slot) * spacing;
             DamageIndicatorStyle style = ResolveStyle(styleType);
 
+            bool useIconLayout = icon != null;
+            float popupWidth = useIconLayout ? Mathf.Max(82f, width * 0.85f) : width;
+            float popupHeight = useIconLayout ? 76f : 76f;
+
             GameObject popupObject = new GameObject("Combat Feedback " + value,
                 typeof(RectTransform), typeof(CanvasGroup), typeof(DamageIndicatorPopup));
             popupObject.transform.SetParent(canvasRect, false);
@@ -451,41 +494,42 @@ namespace MutaBorn.Gameplay
             popupRect.anchorMin = new Vector2(0.5f, 0.5f);
             popupRect.anchorMax = new Vector2(0.5f, 0.5f);
             popupRect.pivot = new Vector2(0.5f, 0.5f);
-            popupRect.sizeDelta = new Vector2(96f, 76f);
+            popupRect.sizeDelta = new Vector2(popupWidth, popupHeight);
             popupRect.anchoredPosition = canvasPoint + new Vector2(offset, 0f);
 
-            GameObject backgroundObject = new GameObject("Feedback Type PNG",
-                typeof(RectTransform), typeof(Image));
-            backgroundObject.transform.SetParent(popupRect, false);
-            RectTransform bgRect = backgroundObject.GetComponent<RectTransform>();
-            bgRect.anchorMin = Vector2.zero;
-            bgRect.anchorMax = Vector2.one;
-            bgRect.offsetMin = Vector2.zero;
-            bgRect.offsetMax = Vector2.zero;
-            Image background = backgroundObject.GetComponent<Image>();
-            background.sprite = style.backgroundSprite;
-            background.color = style.backgroundSprite != null
-                ? style.backgroundColor
-                : new Color(0.11f, 0.13f, 0.17f, 0.85f);
-            background.preserveAspect = true;
-            background.raycastTarget = false;
-
-            if (icon != null)
+            if (useIconLayout)
             {
-                GameObject iconObject = new GameObject("Feedback Icon",
+                GameObject backgroundObject = new GameObject("Feedback Icon",
                     typeof(RectTransform), typeof(Image));
-                iconObject.transform.SetParent(popupRect, false);
-                RectTransform iconRect = iconObject.GetComponent<RectTransform>();
-                iconRect.anchorMin = new Vector2(0.18f, 0.24f);
-                iconRect.anchorMax = new Vector2(0.82f, 0.88f);
-                iconRect.offsetMin = Vector2.zero;
-                iconRect.offsetMax = Vector2.zero;
-                Image iconImage = iconObject.GetComponent<Image>();
-                iconImage.sprite = icon;
-                iconImage.color = new Color(1f, 1f, 1f, 0.18f);
-                iconImage.preserveAspect = true;
-                iconImage.raycastTarget = false;
-
+                backgroundObject.transform.SetParent(popupRect, false);
+                RectTransform bgRect = backgroundObject.GetComponent<RectTransform>();
+                bgRect.anchorMin = Vector2.zero;
+                bgRect.anchorMax = Vector2.one;
+                bgRect.offsetMin = Vector2.zero;
+                bgRect.offsetMax = Vector2.zero;
+                Image background = backgroundObject.GetComponent<Image>();
+                background.sprite = icon;
+                background.color = Color.white;
+                background.preserveAspect = true;
+                background.raycastTarget = false;
+            }
+            else
+            {
+                GameObject backgroundObject = new GameObject("Feedback Type PNG",
+                    typeof(RectTransform), typeof(Image));
+                backgroundObject.transform.SetParent(popupRect, false);
+                RectTransform bgRect = backgroundObject.GetComponent<RectTransform>();
+                bgRect.anchorMin = Vector2.zero;
+                bgRect.anchorMax = Vector2.one;
+                bgRect.offsetMin = Vector2.zero;
+                bgRect.offsetMax = Vector2.zero;
+                Image background = backgroundObject.GetComponent<Image>();
+                background.sprite = style.backgroundSprite;
+                background.color = style.backgroundSprite != null
+                    ? style.backgroundColor
+                    : new Color(0.11f, 0.13f, 0.17f, 0.85f);
+                background.preserveAspect = true;
+                background.raycastTarget = false;
             }
 
             GameObject valueObject = new GameObject("Value",
@@ -498,14 +542,15 @@ namespace MutaBorn.Gameplay
             valueRect.offsetMax = Vector2.zero;
             TextMeshProUGUI valueText = valueObject.GetComponent<TextMeshProUGUI>();
             valueText.text = value;
-            valueText.fontSize = 31f;
+            valueText.fontSize = useIconLayout ? 33f : 31f;
             valueText.fontStyle = FontStyles.Bold;
             valueText.alignment = TextAlignmentOptions.Center;
             valueText.enableAutoSizing = true;
             valueText.fontSizeMin = 12f;
-            valueText.fontSizeMax = 31f;
+            valueText.fontSizeMax = useIconLayout ? 33f : 31f;
             valueText.color = tint;
             valueText.raycastTarget = false;
+            valueText.textWrappingMode = TextWrappingModes.NoWrap;
 
             GameObject labelObject = new GameObject("Feedback Label",
                 typeof(RectTransform), typeof(TextMeshProUGUI));
@@ -522,6 +567,7 @@ namespace MutaBorn.Gameplay
             labelText.alignment = TextAlignmentOptions.Center;
             labelText.color = tint;
             labelText.raycastTarget = false;
+            labelText.textWrappingMode = TextWrappingModes.NoWrap;
 
             Vector2 direction = new Vector2(SlotOffset(slot) * 0.4f, 1f).normalized;
             popupObject.GetComponent<DamageIndicatorPopup>().Initialize(
@@ -619,10 +665,10 @@ namespace MutaBorn.Gameplay
 
         private void CreateCanvas()
         {
-            GameObject canvasObject = new GameObject("Damage Indicator Canvas", typeof(RectTransform), typeof(Canvas));
+            GameObject canvasObject = new GameObject("Damage Indicator Canvas", typeof(RectTransform), typeof(UnityEngine.Canvas));
             canvasObject.transform.SetParent(transform, false);
             canvasRect = canvasObject.GetComponent<RectTransform>();
-            Canvas canvas = canvasObject.GetComponent<Canvas>();
+            UnityEngine.Canvas canvas = canvasObject.GetComponent<UnityEngine.Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.overrideSorting = true;
             canvas.sortingOrder = 500;

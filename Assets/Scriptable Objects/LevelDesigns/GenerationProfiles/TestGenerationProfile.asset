@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c5db10903f6824fb0250522e7ef28e, type: 3}
+  m_Name: TestGenerationProfile
+  m_EditorClassIdentifier: Assembly-CSharp::LevelGenerationProfile
+  randomizedSeed: 1
+  seed: 12345
+  entranceChunk: {fileID: 11400000, guid: 8890673250158b84891cacab975b5770, type: 2}
+  evacuationChunk: {fileID: 11400000, guid: 48a7fee3aa229034aa6401feeb19deb6, type: 2}
+  availableChunks:
+  - {fileID: 11400000, guid: 00b628d0c7f40894582bb0023ae0f529, type: 2}
+  maximumLevelDimensions: {x: 40, y: 40}
+  minimumChunks: 2
+  maximumChunks: 15
+  maximumGridCells: 800
+  maximumLogicalFloors: 3

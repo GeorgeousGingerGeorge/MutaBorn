@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using MutaBorn.Gameplay;
 using UnityEngine;
 
@@ -53,6 +54,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
     // Existing event signature preserved for future elimination objectives.
     // Fired once after a unit is removed from active combat.
     public static event Action<UnitController, UnitController> UnitDefeated;
+    public static event Action<UnitController, UnitController> UnitCaptured;
 
     private static int effectDamagePublishDepth;
     public static bool CanPublishEffectDamage => effectDamagePublishDepth < 4;
@@ -65,6 +67,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         Instance = null;
         DamageApplied = null;
         UnitDefeated = null;
+        UnitCaptured = null;
         effectDamagePublishDepth = 0;
 
     }
@@ -117,7 +120,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
             action.CombatBehavior != CombatActionBehavior.RestoreMana &&
             action.CombatBehavior != CombatActionBehavior.MutationScan &&
             action.CombatBehavior != CombatActionBehavior.MutationDeployCover &&
-            action.CombatBehavior != CombatActionBehavior.MutationDeployTrap)
+            action.CombatBehavior != CombatActionBehavior.MutationDeployTrap &&
+            action.CombatBehavior != CombatActionBehavior.CaptureUnit)
         {
             Debug.LogWarning($"'{action.DisplayName}' does not have an executable combat behavior yet.", this);
 
@@ -177,6 +181,13 @@ public sealed class CombatActionExecutor : MonoBehaviour
         {
             Debug.Log($"{action.DisplayName} has reached its per-turn use limit.", source);
 
+            return false;
+
+        }
+
+        // Capture actions come from consumable slots, never equipped accessories.
+        if (action.CombatBehavior == CombatActionBehavior.CaptureUnit)
+        {
             return false;
 
         }
@@ -349,7 +360,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 OnTargetingCancelled, () => CanCommand(source),
                 true, isArea, isArea ? action.AreaRadiusInTiles * cellSize : 0f,
                 isArea && action.AreaSameFloorOnly ? source.currentNode.floorID : -1,
-                isArea ? OnAreaPointPicked : null))
+                isArea ? OnAreaPointPicked : null, null, action.DamageType))
         {
             return false;
 
@@ -379,7 +390,11 @@ public sealed class CombatActionExecutor : MonoBehaviour
         if (definition == null || action == null || action.IsPassive ||
             action.Category != ActionMenuCategory.Items ||
             (action.CombatBehavior != CombatActionBehavior.DamageUnit &&
-             action.CombatBehavior != CombatActionBehavior.DamageArea) ||
+             action.CombatBehavior != CombatActionBehavior.DamageArea &&
+             action.CombatBehavior != CombatActionBehavior.CaptureUnit) ||
+            (action.CombatBehavior == CombatActionBehavior.CaptureUnit &&
+             (definition.UseKind != ConsumableUseKind.CaptureUnit ||
+              BrigManager.Instance == null || !BrigManager.Instance.HasSpace)) ||
             (!definition.UsesActionPointsOnly && item.remainingUses <= 0) ||
             source.data.currentActionPoints < Mathf.CeilToInt(action.ApCost))
         {
@@ -435,7 +450,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 true, isArea, isArea ? action.AreaRadiusInTiles * cellSize : 0f,
                 isArea && action.AreaSameFloorOnly ? source.currentNode.floorID : -1,
                 isArea ? OnAreaPointPicked : null,
-                isArea ? (Vector3 point, int floorId) => IsValidGroundTarget(point,floorId,source,action) : null))
+                isArea ? (Vector3 point, int floorId) => IsValidGroundTarget(point,floorId,source,action) : null,
+                action.DamageType))
         {
             return false;
 
@@ -566,9 +582,144 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+        if (pendingAction.CombatBehavior == CombatActionBehavior.CaptureUnit)
+        {
+            TryCaptureTarget(source, target, pendingAction);
+
+            return;
+
+        }
+
         if (ApplyDamage(source, target, pendingAction, true) && index >= 0)
         {
             CompleteConsumableUse(source, index, target.data.currentHealth <= 0);
+
+        }
+
+    }
+
+    private void TryCaptureTarget(UnitController source, UnitController target, ActionDefinition action)
+    {
+        int index = pendingConsumableIndex;
+        if (source == null || source.data == null || index < 0 ||
+            index >= source.data.carriedConsumables.Count ||
+            BrigManager.Instance == null || !BrigManager.Instance.HasSpace)
+        {
+            Debug.Log("No unused capture consumable or Brig slot available.", source);
+            CancelTargeting();
+
+            return;
+
+        }
+
+        ConsumableInstance item = source.data.carriedConsumables[index];
+        if (item.definition == null || item.definition.UseAction != action ||
+            item.definition.UseKind != ConsumableUseKind.CaptureUnit || item.remainingUses <= 0)
+        {
+            CancelTargeting();
+
+            return;
+
+        }
+
+        source.data.ModifyActionPoints(-Mathf.CeilToInt(action.ApCost));
+        CompleteConsumableUse(source, index, false);
+        float missingHealthPercent = 100f * (1f -
+            Mathf.Clamp01((float)target.data.currentHealth / Mathf.Max(1, target.data.maxHealth)));
+        float chance = Mathf.Clamp(missingHealthPercent + action.CaptureBonusPercent, 0f, 95f);
+        bool succeeded = UnityEngine.Random.Range(0f, 100f) < chance &&
+            BrigManager.Instance.TryCapture(target.data);
+        CombatFloatingFeedback.ReportCaptureResolved(target, succeeded);
+        if (succeeded)
+        {
+            target.enabled = false;
+            StartCoroutine(PlayCaptureBox(source, target));
+
+        }
+
+        Debug.Log($"[Capture] {source.data.characterName} used {item.definition.itemName} on " +
+            $"{target.data.characterName}: {chance:0.#}% chance, " +
+            (succeeded ? "CAPTURED" : "FAILED") + ". Consumable use spent.", source);
+        CancelTargeting();
+
+    }
+
+    private IEnumerator PlayCaptureBox(UnitController source, UnitController target)
+    {
+        GridManager grid = FindAnyObjectByType<GridManager>();
+        float tileSize = grid != null ? grid.GridCellSize : 2f;
+        float width = tileSize * 0.9f;
+        float height = tileSize * 2.5f;
+        Vector3 ground = target.transform.position;
+        Vector3 landed = ground + Vector3.up * (height * 0.5f);
+        Vector3 start = landed + Vector3.up * (height + tileSize);
+
+        GameObject box = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        box.name = "Capture Box";
+        box.transform.localScale = new Vector3(width, height, width);
+        box.transform.position = start;
+        Collider boxCollider = box.GetComponent<Collider>();
+        boxCollider.enabled = false;
+        Destroy(boxCollider);
+
+        Renderer boxRenderer = box.GetComponent<Renderer>();
+        Shader shader = Shader.Find("Universal Render Pipeline/Unlit");
+        if (shader == null)
+        {
+            shader = Shader.Find("Standard");
+
+        }
+
+        if (shader != null)
+        {
+            boxRenderer.material = new Material(shader);
+
+        }
+
+        Material material = boxRenderer.material;
+        material.color = new Color(0.28f, 0.47f, 0.58f, 1f);
+
+        const float fallDuration = 0.38f;
+        float elapsed = 0f;
+        while (elapsed < fallDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / fallDuration);
+            box.transform.position = Vector3.Lerp(start, landed, t * t);
+            yield return null;
+
+        }
+
+        box.transform.position = landed;
+        if (target != null)
+        {
+            if (target.occupancy != null && target.currentNode != null)
+            {
+                target.occupancy.UnregisterUnit(target.currentNode, target);
+
+            }
+
+            target.gameObject.SetActive(false);
+
+        }
+
+        const float shrinkDuration = 0.3f;
+        elapsed = 0f;
+        while (elapsed < shrinkDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float scale = 1f - Mathf.SmoothStep(0f, 1f, elapsed / shrinkDuration);
+            box.transform.localScale = new Vector3(width, height, width) * scale;
+            box.transform.position = ground + Vector3.up * (height * scale * 0.5f);
+            yield return null;
+
+        }
+
+        Destroy(material);
+        Destroy(box);
+        if (target != null)
+        {
+            UnitCaptured?.Invoke(source, target);
 
         }
 
@@ -805,11 +956,24 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     }
 
+    private static DamageType GetActionImpactType(ActionDefinition action)
+    {
+        if (action.DamageType != DamageType.Unspecified)
+        {
+            return action.DamageType;
+
+        }
+
+        return action.DamageStat == CombatDamageStat.Magic ? DamageType.Arcane :
+            action.DamageStat == CombatDamageStat.Ranged ? DamageType.Pierce : DamageType.Slash;
+
+    }
+
     private bool ResolveAreaAction(UnitController source, ActionDefinition action,
-        Vector3 impactPoint, int impactFloor)
+        Vector3 impactPoint, int impactFloor, bool costAlreadyPaid = false)
     {
         if (source == null || source.data == null || source.currentNode == null ||
-            action == null || !HasAuthorizedAreaAction(source, action) ||
+            action == null || (!costAlreadyPaid && !HasAuthorizedAreaAction(source, action)) ||
             (action.CombatBehavior != CombatActionBehavior.DamageArea &&
             action.CombatBehavior != CombatActionBehavior.HealArea))
         {
@@ -818,7 +982,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         UnitStatusController statuses = source.GetComponent<UnitStatusController>();
-        if (statuses != null && !statuses.CanUseAction(action))
+        if (!costAlreadyPaid && statuses != null && !statuses.CanUseAction(action))
         {
             return false;
 
@@ -854,22 +1018,58 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         int cost = Mathf.CeilToInt(action.ApCost);
-        if (source.data.currentActionPoints < cost)
+        if (!costAlreadyPaid && source.data.currentActionPoints < cost)
         {
             return false;
 
         }
 
-        int sourceIndex = FindUniqueEquipmentSourceIndex(source, action);
-        source.data.ModifyActionPoints(-cost);
-        source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
-
-        bool healing = action.CombatBehavior == CombatActionBehavior.HealArea;
-        if (!healing)
+        if (!costAlreadyPaid && action.CombatBehavior == CombatActionBehavior.DamageArea &&
+            action.Projectile != null)
         {
+            ProjectileDefinition projectile = action.Projectile;
+            if (projectile.ProjectilePrefab == null ||
+                projectile.ProjectilePrefab.GetComponent<ProjectileController>() == null)
+            {
+                Debug.LogError($"Projectile prefab missing or invalid for {action.DisplayName}.", source);
+
+                return false;
+
+            }
+
+            GameObject shot = Instantiate(projectile.ProjectilePrefab,
+                source.transform.position + Vector3.up, Quaternion.identity);
+            ProjectileElementVfx projectileVfx = shot.GetComponent<ProjectileElementVfx>();
+            projectileVfx?.Configure(GetActionImpactType(action));
+            projectileVfx?.SetAreaImpact(true);
+            shot.GetComponent<ProjectileController>().Launch(projectile, impactPoint, (collider, point) =>
+            {
+                ResolveAreaAction(source, action, point, impactFloor, true);
+
+            }, source.transform, true);
+            source.data.ModifyActionPoints(-cost);
+            source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
             statuses?.Remove("invisible");
+            lastAreaKilledTarget = false;
+
+            return true;
 
         }
+
+        int sourceIndex = FindUniqueEquipmentSourceIndex(source, action);
+        if (!costAlreadyPaid)
+        {
+            source.data.ModifyActionPoints(-cost);
+            source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
+            if (action.CombatBehavior == CombatActionBehavior.DamageArea)
+            {
+                statuses?.Remove("invisible");
+
+            }
+
+        }
+
+        bool healing = action.CombatBehavior == CombatActionBehavior.HealArea;
 
         lastAreaKilledTarget = false;
         int totalHealed = 0;
@@ -960,6 +1160,20 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 $"{damage.ActualDamage} {damage.Request.DamageType} damage, " +
                 $"HP {damage.HealthBefore} -> {damage.HealthAfter}/{target.data.maxHealth}.", target);
             FinalizeResolvedDamage(damage, sourceIndex);
+
+        }
+
+        if (!healing)
+        {
+            Vector3 center = impactPoint;
+            if (action.AreaSameFloorOnly && source.currentNode != null)
+            {
+                center.y = source.currentNode.cellWorldPosition.y;
+
+            }
+
+            ElementImpactVfx.Play(center + Vector3.up * 0.08f,
+                GetActionImpactType(action), Mathf.Max(0.25f, action.AreaRadiusInTiles * cellSize));
 
         }
 
@@ -1089,8 +1303,10 @@ public sealed class CombatActionExecutor : MonoBehaviour
         GameObject projectileObject = Instantiate(projectile.ProjectilePrefab, spawnPosition, Quaternion.identity);
 
         ProjectileController controller = projectileObject.GetComponent<ProjectileController>();
+        projectileObject.GetComponent<ProjectileElementVfx>()?.Configure(
+            action.DamageType == DamageType.Unspecified ? DamageType.Arcane : action.DamageType);
 
-        controller.Launch(projectile, destination, onImpact, source.transform);
+        controller.Launch(projectile, destination, onImpact, source.transform, true, target.transform);
 
         return true;
     }
@@ -1156,13 +1372,6 @@ public sealed class CombatActionExecutor : MonoBehaviour
             return false;
         }
 
-        Animator animator = source.GetComponentInChildren<Animator>(); // Bow Attack Animation trigger
-
-        if (animator != null && animator.GetInteger("IdleType") == 3)
-        {
-            animator.SetTrigger("Attack");
-        }
-
         // Pay for the attack when fired, regardless of whether the projectile hits.
         source.data.ModifyActionPoints(-apCost);
         source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
@@ -1201,7 +1410,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         int apCost = Mathf.CeilToInt(action.ApCost);
         int apBefore = source.data.currentActionPoints;
        
-        bool landed = false;
+        bool attempted = false;
         int hits = action.HitCount;
 
         for (int hitNumber = 0; hitNumber < hits; hitNumber++)
@@ -1211,33 +1420,30 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 break;
 
             }
-            //Calculate and roll accuracy
+
             float hitChance = accuracySystem.CalculateHitChance(source, target, action);
-
-
             bool hit = accuracySystem.RollToHit(hitChance);
-           
-            if (!DamageResolver.TryResolveAction(source, target, action,
-                out DamageResult damageResult, sourceIndex))
+            DamageResult damageResult = default;
+            // Never apply damage or on-hit effects when accuracy misses.
+            if (hit && !DamageResolver.TryResolveAction(source, target, action,
+                out damageResult, sourceIndex))
             {
                 break;
 
             }
 
-            if (!landed)
+            if (!attempted)
             {
                 if (!costAlreadyPaid)
                 {
                     source.data.ModifyActionPoints(-apCost);
                     source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
-                    source.GetComponent<UnitStatusController>()?.Remove("invisible");
+                    executionStatuses?.Remove("invisible");
+
                 }
 
                 soundDetectionSystem?.RegisterSound(source.currentNode, SoundType.Scuffle, 12, source);
-                source.data.ModifyActionPoints(-apCost);
-                source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
-                source.GetComponent<UnitStatusController>()?.Remove("invisible");
-                landed = true;
+                attempted = true;
 
                 if (action.DamageStat == CombatDamageStat.Melee) // TRIGGER FOR ATTACK ANIMATION in baseCharAnimator
                 {
@@ -1246,17 +1452,29 @@ public sealed class CombatActionExecutor : MonoBehaviour
                     if (animator != null)
                     {
                         animator.SetTrigger("Attack");
+
                     }
+
                 }
+
             }
 
-            if (!hit) 
+            if (!hit)
             {
                 Debug.Log($"[Combat] {source.data.characterName} used " +
-                    $"{action.DisplayName} (hit {hitNumber + 1}/{hits})" +
+                    $"{action.DisplayName} (hit {hitNumber + 1}/{hits}) " +
                     $"on {target.data.characterName}: MISSED! " +
                     $"Hit Chance: {hitChance:F1}%.");
+                CombatFloatingFeedback.ReportAttackAvoided(target, false);
+
                 continue;
+
+            }
+
+            if (damageResult.Evaded)
+            {
+                CombatFloatingFeedback.ReportAttackAvoided(target, true);
+
             }
 
             string critical = damageResult.IsCritical && !damageResult.Evaded ? " CRITICAL!" : "";
@@ -1277,13 +1495,13 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        if (landed && clearPlayerTargeting)
+        if (attempted && clearPlayerTargeting)
         {
             CancelTargeting();
 
         }
 
-        return landed;
+        return attempted;
 
     }
 

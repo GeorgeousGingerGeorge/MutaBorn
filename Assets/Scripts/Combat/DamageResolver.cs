@@ -112,6 +112,80 @@ namespace MutaBorn.Gameplay
         {
             result = default(DamageResult);
 
+            if (attacker == null || attacker.data == null || target == null ||
+                target.data == null || action == null)
+            {
+                return false;
+
+            }
+
+            bool critical = action.CriticalChancePercent >= 100f ||
+                (action.CriticalChancePercent > 0f &&
+                 UnityEngine.Random.value * 100f < action.CriticalChancePercent);
+            if (!TryBuildActionRequest(attacker, target, action, sourceEquipmentIndex,
+                critical, out DamageRequest request))
+            {
+                return false;
+
+            }
+
+            float dodgeChance = CalculateDodgeChance(target);
+            if (!ignoreDodge && dodgeChance > 0f && UnityEngine.Random.value * 100f < dodgeChance)
+            {
+                int health = target.data.currentHealth;
+                result = new DamageResult(request, 0, 0, 0, 0, health, health,
+                    null, true);
+                MutationTactics.TryCounterOnParry(target, attacker);
+
+                return true;
+
+            }
+
+            return TryResolve(request, out result);
+
+        }
+
+        // Uses the actual damage resolver without rolling crit/dodge or changing HP,
+        // Guard, status effects, AP, or equipment uses.
+        public static bool TryPreviewActionDamage(UnitController attacker, UnitController target,
+            ActionDefinition action, int sourceEquipmentIndex,
+            out int normalDamage, out int criticalDamage)
+        {
+            normalDamage = 0;
+            criticalDamage = 0;
+            if (!TryBuildActionRequest(attacker, target, action, sourceEquipmentIndex,
+                false, out DamageRequest normal) ||
+                !TryResolve(normal, out DamageResult normalResult, true))
+            {
+                return false;
+
+            }
+
+            normalDamage = normalResult.DamageAfterGuard;
+            if (action.CriticalChancePercent > 0f &&
+                TryBuildActionRequest(attacker, target, action, sourceEquipmentIndex,
+                    true, out DamageRequest critical) &&
+                TryResolve(critical, out DamageResult criticalResult, true))
+            {
+                criticalDamage = criticalResult.DamageAfterGuard;
+
+            }
+
+            return true;
+
+        }
+
+        public static float GetDodgeChance(UnitController defender)
+        {
+            return CalculateDodgeChance(defender);
+
+        }
+
+        private static bool TryBuildActionRequest(UnitController attacker, UnitController target,
+            ActionDefinition action, int sourceEquipmentIndex, bool critical,
+            out DamageRequest request)
+        {
+            request = default(DamageRequest);
             if (attacker == null || attacker.data == null || action == null ||
                 target == null || target.data == null)
             {
@@ -182,37 +256,21 @@ namespace MutaBorn.Gameplay
 
             }
 
-            // One critical roll per action, not one per damage type.
-            bool critical = action.CriticalChancePercent >= 100f ||
-                (action.CriticalChancePercent > 0f &&
-                 UnityEngine.Random.value * 100f < action.CriticalChancePercent);
             float multiplier = action.DamageMultiplier *
                 (critical ? action.CriticalDamageMultiplier : 1f) *
                 GetRacialDamageMultiplier(attacker);
 
-            DamageRequest request = new DamageRequest(attacker, target, baseDamage,
+            request = new DamageRequest(attacker, target, baseDamage,
                 multiplier, action.FlatDamageBonus, action.MinimumDamage,
                 action, type, DamageDeliveryType.Unspecified, components,
                 action.FlatArmorPenetration, action.FlatWardPenetration, critical);
 
 
-            float dodgeChance = CalculateDodgeChance(target);
-            if (!ignoreDodge && dodgeChance > 0f && UnityEngine.Random.value * 100f < dodgeChance)
-            {
-                int health = target.data.currentHealth;
-                result = new DamageResult(request, 0, 0, 0, 0, health, health,
-                    null, true);
-                MutationTactics.TryCounterOnParry(target, attacker);
-
-                return true;
-
-            }
-
-            return TryResolve(request, out result);
+            return true;
 
         }
 
-        public static bool TryResolve(DamageRequest request, out DamageResult result)
+        public static bool TryResolve(DamageRequest request, out DamageResult result, bool preview = false)
         {
             result = default(DamageResult);
 
@@ -333,15 +391,30 @@ namespace MutaBorn.Gameplay
             CombatStatusHandler statuses = CombatStatusHandler.Instance;
             if (statuses != null && guardableDamage > 0)
             {
-                guardableDamage = statuses.FilterIncomingDamage(target, guardableDamage);
+                if (preview)
+                {
+                    statuses.TryPreviewGuard(target, guardableDamage, out guardableDamage, out _);
+
+                }
+                else
+                {
+                    guardableDamage = statuses.FilterIncomingDamage(target, guardableDamage);
+
+                }
 
             }
 
             int damageAfterGuard = (int)Math.Min(int.MaxValue,
                 (long)Mathf.Max(0, guardableDamage) + trueDamageToApply);
             int healthBefore = target.data.currentHealth;
-            target.data.ModifyHealth(-damageAfterGuard);
-            int healthAfter = target.data.currentHealth;
+            if (!preview)
+            {
+                target.data.ModifyHealth(-damageAfterGuard);
+
+            }
+
+            int healthAfter = preview ? Mathf.Max(0, healthBefore - damageAfterGuard) :
+                target.data.currentHealth;
 
             // These allocations are visual/diagnostic only. They never alter
             // the total damage or the existing defense/Guard/health calculation.

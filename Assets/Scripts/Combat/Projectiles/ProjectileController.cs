@@ -13,8 +13,10 @@ public class ProjectileController : MonoBehaviour
     private bool isMoving;
     private System.Action<Collider, Vector3> onImpact;
     private Transform ignoredRoot;
+    private bool arcOverUnits;
+    private Transform intendedTarget;
 
-    public void Launch(ProjectileDefinition projectile, Vector3 destination, System.Action<Collider, Vector3> impactCallback = null, Transform ignoreRoot = null)
+    public void Launch(ProjectileDefinition projectile, Vector3 destination, System.Action<Collider, Vector3> impactCallback = null, Transform ignoreRoot = null, bool arcOverUnits = false, Transform intendedTarget = null)
     {
         if (projectile == null)
         {
@@ -25,6 +27,8 @@ public class ProjectileController : MonoBehaviour
         definition = projectile;
         onImpact = impactCallback;
         ignoredRoot = ignoreRoot;
+        this.arcOverUnits = arcOverUnits;
+        this.intendedTarget = intendedTarget;
 
         startPosition = transform.position;
         targetPosition = destination;
@@ -49,9 +53,13 @@ public class ProjectileController : MonoBehaviour
 
         Vector3 nextPosition = Vector3.Lerp(startPosition, targetPosition, progress);
 
-        if (definition.TrajectoryType == ProjectileTrajectoryType.Arc)
+        if (arcOverUnits || definition.TrajectoryType == ProjectileTrajectoryType.Arc)
         {
-            nextPosition.y += Mathf.Sin(progress * Mathf.PI) * definition.ArcHeight;
+            float horizontalDistance = Vector2.Distance(
+                new Vector2(startPosition.x, startPosition.z),
+                new Vector2(targetPosition.x, targetPosition.z));
+            float height = arcOverUnits ? Mathf.Max(1.8f, definition.ArcHeight, horizontalDistance * 0.4f) : definition.ArcHeight;
+            nextPosition.y += Mathf.Sin(progress * Mathf.PI) * height;
         }
 
         Vector3 direction = nextPosition - transform.position;
@@ -75,6 +83,18 @@ public class ProjectileController : MonoBehaviour
                     continue;
                 }
 
+                // Player attacks fly over non-target units; trap projectiles can still hit them.
+                if (arcOverUnits)
+                {
+                    UnitController hitUnit = hit.collider.GetComponentInParent<UnitController>();
+                    if (hitUnit != null && (intendedTarget == null || hitUnit.transform != intendedTarget))
+                    {
+                        continue;
+
+                    }
+
+                }
+
                 // Find the closest valid collision.
                 if (hit.distance < closestDistance)
                 {
@@ -92,6 +112,7 @@ public class ProjectileController : MonoBehaviour
 
                 isMoving = false;
 
+                GetComponent<ProjectileElementVfx>()?.PlayImpact(closestPoint);
                 onImpact?.Invoke(closestCollider, closestPoint);
 
                 Destroy(gameObject);
@@ -108,6 +129,7 @@ public class ProjectileController : MonoBehaviour
         {
             isMoving = false;
 
+            GetComponent<ProjectileElementVfx>()?.PlayImpact(targetPosition);
             onImpact?.Invoke(null, targetPosition);
 
             Destroy(gameObject);

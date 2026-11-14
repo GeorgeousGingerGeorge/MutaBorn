@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 400000000}
   - component: {fileID: 650000000}
   - component: {fileID: 114000000}
+  - component: {fileID: 6466511356445008486}
   m_Layer: 0
   m_Name: WorldInteractable (Base)
   m_TagString: Untagged
@@ -75,3 +76,19 @@ MonoBehaviour:
   onInteracted:
     m_PersistentCalls:
       m_Calls: []
+  used: 0
+--- !u!114 &6466511356445008486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e4aeb17648012f9f18e8e2b1750bbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldInteractableVfx
+  interactionPrefab: {fileID: 3845049224295768298, guid: 8155343ae6735c743a70b3c9504cf00c, type: 3}
+  offset: {x: 0, y: 0.8, z: 0}
+  tint: {r: 0.95, g: 0.78, b: 0.35, a: 1}
