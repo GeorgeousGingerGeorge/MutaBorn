@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 
@@ -94,6 +94,11 @@ public class CameraController : MonoBehaviour
 
     private void Awake()
     {
+        cameraControls = new CameraControls();
+        moveAction = cameraControls.Camera.MoveCamera;
+        rotateAction = cameraControls.Camera.RotateCamera;
+        fastMoveAction = cameraControls.Camera.FastMove;
+
         if (cameraTransform == null)
         {
             Camera childCamera = GetComponentInChildren<Camera>();
@@ -126,11 +131,6 @@ public class CameraController : MonoBehaviour
 
         }
 
-        cameraControls = new CameraControls();
-        moveAction = cameraControls.Camera.MoveCamera;
-        rotateAction = cameraControls.Camera.RotateCamera;
-        fastMoveAction = cameraControls.Camera.FastMove;
-
         zoomDirection = cameraTransform.localPosition.normalized;
         currentZoomDistance = cameraTransform.localPosition.magnitude;
         maxZoomDistance = Mathf.Max(minZoomDistance, maxZoomDistance);
@@ -142,6 +142,12 @@ public class CameraController : MonoBehaviour
 
     private void OnEnable()
     {
+        if (cameraControls == null)
+        {
+            return;
+
+        }
+
         if (Instance == null)
         {
             Instance = this;
@@ -161,8 +167,13 @@ public class CameraController : MonoBehaviour
 
         }
 
-        cameraControls.Camera.ZoomCamera.performed -= ZoomCamera;
-        cameraControls.Camera.Disable();
+        if (cameraControls != null)
+        {
+            cameraControls.Camera.ZoomCamera.performed -= ZoomCamera;
+            cameraControls.Camera.Disable();
+
+        }
+
         horizontalVelocity = Vector3.zero;
         CancelFocus();
 
