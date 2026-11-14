@@ -1706,6 +1706,28 @@ public class UnitData
             unit.TryUnlockProgressionSlot(UnitSlotId.Consumable2);
         }
 
+        // Restore saved fixed mutations
+        if (saved.fixedMutationIds != null && saved.fixedMutationIds.Count > 0)
+        {
+            GameDataBase database = GameDataBaseLoader.Instance;
+            MutationDataBase mutationDatabase = database != null ? database.mutationData : null;
+
+            if (mutationDatabase == null)
+            {
+                Debug.LogError($"[Save/Load] Mutation database unavailable for {saved.characterName}.");
+                return null;
+            }
+
+            foreach (MutationID mutationId in saved.fixedMutationIds)
+            {
+                if (mutationId == MutationID.none || !unit.TryAddFixedMutation(mutationId, mutationDatabase))
+                {
+                    Debug.LogError($"[Save/Load] Failed to restore mutation {mutationId} for {saved.characterName}.");
+                    return null;
+                }
+            }
+        }
+
         unit.RecalculateStats();
 
         return unit;

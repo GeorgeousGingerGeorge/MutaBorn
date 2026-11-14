@@ -417,4 +417,66 @@ public class SaveSystemTester : MonoBehaviour
 
         Debug.Log($"[Save/Load] Mutation verification: {verified}/{saved.rosterState.members.Count} roster members.");
     }
+
+    [ContextMenu("Test / Verify Reconstructed Fixed Mutations")]
+    private void TestVerifyReconstructedFixedMutations()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster members not found.");
+            return;
+        }
+
+        GameDataBase database = GameDataBaseLoader.Instance;
+        RaceDataBase raceDatabase = database != null ? database.raceData : null;
+
+        if (raceDatabase == null)
+        {
+            Debug.LogError("[Save/Load] Race database not found.");
+            return;
+        }
+
+        int verified = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            DynamicStats race = raceDatabase.GetRace(member.raceName);
+            UnitData unit = UnitData.CreateFromSavedIdentity(member, race);
+
+            if (unit == null)
+            {
+                Debug.LogError($"[Save/Load] Reconstruction failed for {member.characterName}.");
+                continue;
+            }
+
+            int expected = member.fixedMutationIds?.Count ?? 0;
+
+            if (unit.activeMutationNodes.Count != expected)
+            {
+                Debug.LogError($"[Save/Load] Mutation count mismatch for {member.characterName}.");
+                continue;
+            }
+
+            bool matches = true;
+
+            foreach (MutationID mutationId in member.fixedMutationIds)
+            {
+                if (!unit.activeMutationNodes.Exists(mutation => mutation != null && mutation.MutationId == mutationId))
+                {
+                    matches = false;
+                    break;
+                }
+            }
+
+            if (!matches)
+            {
+                Debug.LogError($"[Save/Load] Mutation ID mismatch for {member.characterName}.");
+                continue;
+            }
+
+            verified++;
+        }
+
+        Debug.Log($"[Save/Load] Fixed mutation reconstruction verified: {verified}/{saved.rosterState.members.Count} characters.");
+    }
 }
