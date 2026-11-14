@@ -428,6 +428,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -61.845
       objectReference: {fileID: 0}
+    - target: {fileID: 2732567231216955145, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732567231216955145, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732567231216955145, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1114952851}
+    - target: {fileID: 2732567231216955145, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732567231216955145, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BackToPauseMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732567231216955145, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PauseMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2732567231216955145, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 2753375657975327785, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -514,7 +542,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484303073276043739, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00019281839
+      value: 0.0006429308
       objectReference: {fileID: 0}
     - target: {fileID: 5839044276265712414, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_SizeDelta.y
@@ -686,9 +714,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CombatActionExecutor
 --- !u!1 &1114952850 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1147548474543627158, guid: b3d437b03174ad047b8398564a555089, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7042103481962908631, guid: b3d437b03174ad047b8398564a555089, type: 3}
   m_PrefabInstance: {fileID: 1114952848}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1114952851 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1412897260539581021, guid: b3d437b03174ad047b8398564a555089, type: 3}
+  m_PrefabInstance: {fileID: 1114952848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c8d6c357d583a42a411b9721f72713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseMenuController
 --- !u!114 &1114952854 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2014911886105565031, guid: b3d437b03174ad047b8398564a555089, type: 3}
