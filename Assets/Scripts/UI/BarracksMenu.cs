@@ -106,6 +106,15 @@ public sealed class BarracksMenu : MonoBehaviour
     [SerializeField] private int storageTileColumns = 4;
     [SerializeField] private bool filterPickerBySelectedSlot = true;
 
+    [Header("Prisoner View (for copied Brig screen only)")]
+    [SerializeField] private bool prisonerListOnly;
+    [SerializeField] private GameObject prisonerCellOverlay;
+    [SerializeField] private TMP_Text prisonerCellMessageText;
+    public string PrisonerCellStatus { get; private set; } = "Select a cell to inspect.";
+    public UnitData SelectedPrisoner => prisonerListOnly && BrigManager.Instance != null &&
+        BrigManager.Instance.Contains(externalUnit) ? externalUnit : null;
+    public event Action PrisonerSelectionChanged;
+
     private readonly List<GameObject> generatedRosterRows = new List<GameObject>();
     private readonly List<GameObject> generatedAbilityRows = new List<GameObject>();
     private readonly List<GameObject> generatedStorageRows = new List<GameObject>();
@@ -114,6 +123,8 @@ public sealed class BarracksMenu : MonoBehaviour
     private UnitData externalUnit;
     private UnitSlotId selectedSlot = UnitSlotId.RightHand;
     private bool allowEditing = true;
+    private bool prisonerView;
+    private int selectedPrisonerCell = -1;
     private bool transferInProgress;
     private UnitData listenedUnit;
     private UnitRoster subscribedRoster;
@@ -311,6 +322,11 @@ public sealed class BarracksMenu : MonoBehaviour
 
     private void OnEnable()
     {
+        if (prisonerListOnly)
+        {
+            ResetPrisonerSelection();
+
+        }
         Subscribe();
         RefreshAll();
 
@@ -340,8 +356,23 @@ public sealed class BarracksMenu : MonoBehaviour
     // Assign this to the Hub's existing Barracks tab through Button -> On Click().
     public void Open()
     {
+        if (prisonerListOnly)
+        {
+            ResetPrisonerSelection();
+            if (barracksRoot != null)
+            {
+                barracksRoot.SetActive(true);
+
+            }
+            Subscribe();
+            RefreshAll();
+
+            return;
+
+        }
         externalUnit = null;
         allowEditing = true;
+        prisonerView = false;
         if (barracksRoot != null)
         {
             barracksRoot.SetActive(true);
@@ -370,10 +401,17 @@ public sealed class BarracksMenu : MonoBehaviour
     // giving combat UI access to transfers or slot locks.
     public void ShowUnit(UnitData unit, bool editable)
     {
+        if (prisonerListOnly && unit != null &&
+            (BrigManager.Instance == null || !BrigManager.Instance.Contains(unit)))
+        {
+            return;
+
+        }
         CancelRename();
         externalUnit = unit;
         selectedUnitId = unit == null ? null : unit.UnitId;
-        allowEditing = editable;
+        allowEditing = !prisonerListOnly && editable;
+        prisonerView = false;
         selectedStoredItemId = null;
         if (unitDetailsRoot != null)
         {
@@ -383,6 +421,32 @@ public sealed class BarracksMenu : MonoBehaviour
 
         ListenToUnit(unit);
         RefreshDetails();
+
+    }
+
+    // Reuse the normal unit inspector; confiscation is the only permitted item edit.
+    public void ShowPrisoner(UnitData unit)
+    {
+        if (prisonerListOnly && unit != null && BrigManager.Instance != null)
+        {
+            for (int i = 0; i < BrigManager.Instance.Prisoners.Count; i++)
+            {
+                if (ReferenceEquals(BrigManager.Instance.GetPrisoner(i), unit))
+                {
+                    selectedPrisonerCell = i;
+
+                    break;
+
+                }
+
+            }
+
+        }
+        ShowUnit(unit, false);
+        prisonerView = unit != null && BrigManager.Instance != null &&
+            BrigManager.Instance.Contains(unit);
+        RefreshDetails();
+        RefreshPrisonerCellOverlay();
 
     }
 
@@ -408,6 +472,15 @@ public sealed class BarracksMenu : MonoBehaviour
 
     private void CloseDetails()
     {
+        if (prisonerListOnly)
+        {
+            ResetPrisonerSelection();
+            RefreshAll();
+            PrisonerSelectionChanged?.Invoke();
+
+            return;
+
+        }
         CancelRename();
         CloseMutationsPanel();
         CloseStoragePicker();
@@ -512,6 +585,11 @@ public sealed class BarracksMenu : MonoBehaviour
 
     private UnitData SelectedUnit()
     {
+        if (prisonerListOnly)
+        {
+            return SelectedPrisoner;
+
+        }
         if (externalUnit != null)
         {
             return externalUnit;
@@ -531,6 +609,11 @@ public sealed class BarracksMenu : MonoBehaviour
 
     private bool CanEdit(UnitData unit)
     {
+        if (prisonerListOnly)
+        {
+            return false;
+
+        }
         UnitRoster roster = UnitRoster.Instance;
         return allowEditing && externalUnit == null && unit != null && roster != null &&
             ItemStorage.Instance != null && roster.TryGetUnit(unit.UnitId, out UnitData owned) &&
@@ -538,10 +621,34 @@ public sealed class BarracksMenu : MonoBehaviour
 
     }
 
+    public void RefreshPrisoners()
+    {
+        if (prisonerListOnly)
+        {
+            RefreshAll();
+
+        }
+
+    }
+
     private void RefreshAll()
     {
+        if (prisonerListOnly)
+        {
+            BrigManager brig = BrigManager.Instance;
+            if (brig == null || !brig.Contains(externalUnit) || selectedPrisonerCell < 0 ||
+                !ReferenceEquals(brig.GetPrisoner(selectedPrisonerCell), externalUnit))
+            {
+                externalUnit = null;
+                selectedUnitId = null;
+
+            }
+            allowEditing = false;
+            prisonerView = externalUnit != null;
+
+        }
         UnitRoster roster = UnitRoster.Instance;
-        if (externalUnit == null && roster != null &&
+        if (!prisonerListOnly && externalUnit == null && roster != null &&
             (string.IsNullOrEmpty(selectedUnitId) ||
              !roster.TryGetUnit(selectedUnitId, out UnitData ignored)))
         {
@@ -552,6 +659,11 @@ public sealed class BarracksMenu : MonoBehaviour
 
         RefreshRoster();
         RefreshDetails();
+        if (prisonerListOnly)
+        {
+            RefreshPrisonerCellOverlay();
+
+        }
         if (storagePickerPanel != null && storagePickerPanel.activeSelf)
         {
             RefreshStoragePicker();
@@ -569,6 +681,24 @@ public sealed class BarracksMenu : MonoBehaviour
 
         }
 
+        if (prisonerListOnly)
+        {
+            BrigManager brig = BrigManager.Instance;
+            for (int i = 0; i < BrigManager.MaximumSlots; i++)
+            {
+                UnitData captive = brig != null ? brig.GetPrisoner(i) : null;
+                RaceArt art = captive != null ? FindRaceArt(captive) : null;
+                BarracksUnitRowUI row = Instantiate(unitRowPrefab, rosterContent);
+                row.BindBrigCell(i, captive, art == null ? null : art.rosterIcon,
+                    i == selectedPrisonerCell, brig == null || i >= brig.UnlockedSlots,
+                    SelectPrisonerCell);
+                generatedRosterRows.Add(row.gameObject);
+
+            }
+
+            return;
+
+        }
         UnitRoster roster = UnitRoster.Instance;
         if (roster == null)
         {
@@ -594,11 +724,123 @@ public sealed class BarracksMenu : MonoBehaviour
 
     }
 
+    private void ResetPrisonerSelection()
+    {
+        externalUnit = null;
+        selectedUnitId = null;
+        selectedPrisonerCell = -1;
+        prisonerView = false;
+        allowEditing = false;
+        PrisonerCellStatus = "Select a cell to inspect.";
+        CloseStoragePicker();
+        CloseMutationsPanel();
+
+    }
+
+    private void SelectPrisonerCell(int cellIndex)
+    {
+        if (!prisonerListOnly || cellIndex < 0 || cellIndex >= BrigManager.MaximumSlots)
+        {
+            return;
+
+        }
+        selectedPrisonerCell = cellIndex;
+        BrigManager brig = BrigManager.Instance;
+        UnitData captive = brig != null && cellIndex < brig.UnlockedSlots
+            ? brig.GetPrisoner(cellIndex) : null;
+        if (captive != null)
+        {
+            ShowPrisoner(captive);
+
+        }
+        else
+        {
+            externalUnit = null;
+            selectedUnitId = null;
+            prisonerView = false;
+            CloseStoragePicker();
+            CloseMutationsPanel();
+
+        }
+        RefreshAll();
+        PrisonerSelectionChanged?.Invoke();
+
+    }
+
+    private void RefreshPrisonerCellOverlay()
+    {
+        if (!prisonerListOnly)
+        {
+            return;
+
+        }
+        BrigManager brig = BrigManager.Instance;
+        if (selectedPrisonerCell < 0)
+        {
+            PrisonerCellStatus = "Select a cell to inspect.";
+
+        }
+        else if (brig == null || selectedPrisonerCell >= brig.UnlockedSlots)
+        {
+            PrisonerCellStatus = $"CELL {selectedPrisonerCell + 1} LOCKED - Unlock through Brig research.";
+
+        }
+        else if (brig.GetPrisoner(selectedPrisonerCell) == null)
+        {
+            PrisonerCellStatus = $"CELL {selectedPrisonerCell + 1} EMPTY - Ready for a prisoner.";
+
+        }
+        else
+        {
+            PrisonerCellStatus = $"CELL {selectedPrisonerCell + 1} - " +
+                brig.GetPrisoner(selectedPrisonerCell).characterName;
+
+        }
+        if (prisonerCellOverlay != null)
+        {
+            bool showingPrisoner = SelectedPrisoner != null;
+            prisonerCellOverlay.SetActive(!showingPrisoner);
+            if (!showingPrisoner && prisonerCellMessageText != null)
+            {
+                prisonerCellMessageText.text = PrisonerCellStatus;
+
+            }
+
+        }
+
+    }
+
     private void SelectRosterUnit(string unitId)
     {
+        if (prisonerListOnly)
+        {
+            BrigManager brig = BrigManager.Instance;
+            if (brig == null)
+            {
+                return;
+
+            }
+            foreach (UnitData captive in brig.Prisoners)
+            {
+                if (captive != null && captive.UnitId == unitId)
+                {
+                    ShowPrisoner(captive);
+                    RefreshRoster();
+                    PrisonerSelectionChanged?.Invoke();
+
+                    return;
+
+                }
+
+            }
+
+            return;
+
+        }
         CancelRename();
         externalUnit = null;
         allowEditing = true;
+        prisonerView = false;
         selectedUnitId = unitId;
         selectedStoredItemId = null;
         CloseStoragePicker();
@@ -973,7 +1215,8 @@ public sealed class BarracksMenu : MonoBehaviour
         bool hasItem = state != null && !string.IsNullOrEmpty(state.ItemInstanceId);
         bool modifiable = state != null && state.ProgressionUnlocked &&
             !state.PlayerLocked && state.OccupyingMutation == MutationID.none;
-        SetEditButtons(editable && modifiable, editable && modifiable && hasItem);
+        SetEditButtons(editable && modifiable,
+            (editable && modifiable && hasItem) || (prisonerView && hasItem));
         if (lockSlotButton != null)
         {
             lockSlotButton.interactable = editable && state != null;
@@ -1023,7 +1266,7 @@ public sealed class BarracksMenu : MonoBehaviour
 
         if (unequipButton != null)
         {
-            unequipButton.gameObject.SetActive(allowEditing);
+            unequipButton.gameObject.SetActive(allowEditing || prisonerView);
             unequipButton.interactable = canRemove;
 
         }
@@ -1497,6 +1740,17 @@ public sealed class BarracksMenu : MonoBehaviour
 
     private void ReturnSelectedItem()
     {
+        if (prisonerView)
+        {
+            bool taken = BrigManager.Instance != null &&
+                BrigManager.Instance.TryTakeItem(SelectedUnit(), selectedSlot);
+            SetStatus(taken ? "Item confiscated into Storage." : "Could not confiscate that item.");
+            RefreshDetails();
+
+            return;
+
+        }
+
         UnitData unit = SelectedUnit();
         if (!CanEdit(unit))
         {

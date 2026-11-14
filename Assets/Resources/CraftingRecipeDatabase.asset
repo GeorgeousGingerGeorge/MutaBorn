@@ -303,3 +303,57 @@ MonoBehaviour:
       amount: 2
     - resourceId: corrupt_nodule
       amount: 1
+  - recipeId: craft.item.consumable-capture-bola
+    displayName: Bola
+    description: 'Capture a weakened hostile within 5.5 units. Chance: missing target HP % + 7%, maximum 95%. Costs 5 AP and 1 use per mission, even on failure. Unavailable when the Brig is full (no AP or use spent).'
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: a15203cf43e48054395d57bd8d0ef2ec, type: 2}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: 
+    outputAmount: 1
+    requiredCraftTier: 0
+    ingredients:
+    - resourceId: textiles
+      amount: 4
+    - resourceId: stone
+      amount: 2
+    - resourceId: wood
+      amount: 1
+  - recipeId: craft.item.consumable-capture-taser
+    displayName: Taser
+    description: 'Capture a weakened hostile within 2.5 units. Chance: missing target HP % + 14%, maximum 95%. Costs 5 AP and 1 use per mission, even on failure. Unavailable when the Brig is full (no AP or use spent).'
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: ca82ebadd3418234592351ed310d64e2, type: 2}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: 
+    outputAmount: 1
+    requiredCraftTier: 0
+    ingredients:
+    - resourceId: copper
+      amount: 4
+    - resourceId: iron
+      amount: 2
+    - resourceId: maana_crystals
+      amount: 2
+  - recipeId: craft.item.consumable-capture-net_gun
+    displayName: Net Gun
+    description: 'Capture a weakened hostile within 9 units. Chance: missing target HP % + 0%, maximum 95%. Costs 5 AP and 1 use per mission, even on failure. Unavailable when the Brig is full (no AP or use spent).'
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 1c6c0a3e4c9632e4aa77617e90ec63e2, type: 2}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: 
+    outputAmount: 1
+    requiredCraftTier: 1
+    ingredients:
+    - resourceId: iron
+      amount: 5
+    - resourceId: textiles
+      amount: 6
+    - resourceId: gunpowder
+      amount: 2

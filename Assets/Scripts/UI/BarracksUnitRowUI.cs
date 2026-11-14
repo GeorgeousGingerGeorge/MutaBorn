@@ -15,6 +15,49 @@ public sealed class BarracksUnitRowUI : MonoBehaviour
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color selectedColor = new Color(0.63f, 0.83f, 1f, 1f);
 
+    public void BindBrigCell(int cellIndex, UnitData prisoner, Sprite icon, bool selected,
+        bool locked, Action<int> onSelected)
+    {
+        if (nameText != null)
+        {
+            nameText.text = $"CELL {cellIndex + 1} - " + (locked ? "LOCKED" :
+                prisoner == null ? "EMPTY" : prisoner.characterName);
+            nameText.fontStyle = selected ? FontStyles.Bold : FontStyles.Normal;
+
+        }
+        if (raceText != null)
+        {
+            raceText.gameObject.SetActive(false);
+
+        }
+        if (levelText != null)
+        {
+            levelText.text = locked ? "RESEARCH" : prisoner == null ? "AVAILABLE" :
+                $"Lv {prisoner.Level}";
+
+        }
+        if (raceIcon != null)
+        {
+            raceIcon.sprite = icon;
+            raceIcon.enabled = icon != null;
+            raceIcon.raycastTarget = false;
+
+        }
+        if (button == null)
+        {
+            button = GetComponent<Button>();
+
+        }
+        if (button != null)
+        {
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(() => onSelected?.Invoke(cellIndex));
+            button.interactable = true;
+
+        }
+
+    }
+
     public void Bind(UnitData unit, Sprite icon, bool selected, bool deployed, Action<string> onSelected)
     {
         if (unit == null)

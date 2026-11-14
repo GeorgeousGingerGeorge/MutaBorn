@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d850438c1d1329458f294ccee8e6d52, type: 3}
+  m_Name: Taser
+  m_EditorClassIdentifier: Assembly-CSharp::ConsumableData
+  _itemName: Taser
+  _itemID: consumable-capture-taser
+  _description: 'Capture a weakened hostile within 2.5 units. Chance: missing target HP % + 14%, maximum 95%. Costs 5 AP and 1 use per mission, even on failure. Unavailable when the Brig is full (no AP or use spent).'
+  _sprite: {fileID: 21300000, guid: 28e3d486d14f68d40b7ddcebe4bad932, type: 3}
+  _equippedModelPrefab: {fileID: 0}
+  _consumable: 2
+  _consumeOnUse: 1
+  _magnitude: 0
+  _damage: 0
+  _coverValue: 0
+  useAction: {fileID: 11400000, guid: 0071827917a572b4694381e57f3a3336, type: 2}
+  maxUses: 1
+  apCost: 5
+  onUseEffect:
+    definition: {fileID: 0}
+    procChancePercent: 100
+    procChanceSchemaVersion: 1
+    activation:
+      trigger: 1
+      phase: 1
+      frequency: 0
+      eventActor: 0
+      requireGrantingSourceMatch: 0
+      requireAction: 0
+    targeting:
+      reference: 0
+      selection: 0
+      factionMask: 7
+      includeOwner: 1
+      radiusInTiles: 0
+      sameFloorOnly: 1
+    lifetime:
+      lifetime: 0
+      durationTurns: 1
+      maximumUses: 1
+    operationParameters:
+      resource: -1
+      stat: 0
+      statModifierMode: 0
+      damageType: 0
+      damageDelivery: 0
+      defenseStat: 0
+      statusId: 
+      statusDefinition: {fileID: 0}
+    value:
+      constant: 0
+      terms: []
+      rounding: 1
+    conditions: []
+  useKind: 5
+  restoreHealth: 0
+  restoreActionPoints: 0
+  appliedStatus: {fileID: 0}
+  refillOnKill: 0
+  usesActionPointsOnly: 0
