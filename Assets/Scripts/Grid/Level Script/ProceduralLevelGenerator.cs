@@ -65,7 +65,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
             Debug.Log("Instance: EntranceChunk exceed the max level dimensions");
             return false;
         }
-
+       
         generatedLayout.chunks.Add(entranceChunk);
 
         if (!RegisterChunkSockets(entranceChunk, gridCellSize)) 
@@ -74,6 +74,9 @@ public class ProceduralLevelGenerator : MonoBehaviour
         }
 
         RegisterPlacementCandidates(entranceChunk);
+
+
+        Debug.Log($"[Entrance Chunk]Selected Entrance Chunk: {entranceChunk.chunkDefinition.ChunkID}");
 
         //Creates OptionalChunks
 
