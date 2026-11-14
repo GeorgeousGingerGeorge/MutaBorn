@@ -23,6 +23,9 @@ public sealed class WorldLootContainer : WorldInteractable
     [Tooltip("Only used by Searchable. A failed roll can leave it empty.")]
     [SerializeField, Range(0, 100)] private int searchFindChancePercent = 50;
 
+    [Header("Visual Feedback")]
+    [SerializeField] private bool burstOnLoot = true;
+
     [Header("First Inspection Results")]
     [SerializeField] private UnityEvent onLootFound = new();
     [SerializeField] private UnityEvent onEmpty = new();
@@ -135,7 +138,16 @@ public sealed class WorldLootContainer : WorldInteractable
             _ => "Podium Loot"
 
         };
-        MissionLootPopup.Show(title, contents, "You found nothing.");
+        bool showBurst = burstOnLoot &&
+            contents.Exists(stack => stack != null && stack.quantity > 0);
+        if (showBurst)
+        {
+            Debug.Log($"[MutaBorn Loot V2] Treasure burst: {title} ({name})", this);
+            MissionLootBurst.Play(transform);
+
+        }
+
+        MissionLootPopup.Show(title, contents, "You found nothing.", showBurst ? 0.4f : 0f);
 
         if (contents.Count > 0)
         {

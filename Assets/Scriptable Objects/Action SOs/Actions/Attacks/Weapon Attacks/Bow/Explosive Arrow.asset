@@ -21,6 +21,7 @@ MonoBehaviour:
   submenuGroup: Bow
   displayOrder: 70
   apCost: 10
+  maxUsesPerTurn: 0
   controlTags: 2
   combatBehavior: 4
   damageStat: 1
@@ -29,11 +30,14 @@ MonoBehaviour:
   flatDamageBonus: 0
   minimumDamage: 2
   hitCount: 1
+  projectileDefinition: {fileID: 11400000, guid: 133a6dcf72815324d9c47bd153be3812, type: 2}
+  captureBonusPercent: 0
   areaThrowRangeInTiles: 10
   areaRadiusInTiles: 2
   areaSameFloorOnly: 0
   areaFriendlyFire: 1
   areaHealAmount: 0
+  manaRestoreAmount: 0
   selfStatus: {fileID: 0}
   damageType: 11
   additionalDamage:
@@ -44,5 +48,12 @@ MonoBehaviour:
   flatArmorPenetration: 0
   flatWardPenetration: 0
   onDamageEffects: {fileID: 11400000, guid: 934097a6a1ac440ca0b44ff4bc33117f, type: 2}
+  mutationRushToTarget: 0
+  mutationKnockbackTiles: 0
+  mutationNegateChancePercent: 0
+  mutationGuardOwnerTurns: 1
+  mutationDeployPrefab: {fileID: 0}
+  mutationDeployDurationTurns: 2
+  mutationStructureHealth: 30
   guardDamageReductionPercent: 0
   guardFlatDamageReduction: 0
