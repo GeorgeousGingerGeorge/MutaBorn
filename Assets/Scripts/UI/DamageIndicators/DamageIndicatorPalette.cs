@@ -37,6 +37,8 @@ namespace MutaBorn.Gameplay
         [SerializeField] private Sprite blockedIcon;
         [Tooltip("Optional. Leave empty to load GuardActivationIcon.png from Resources/DamageIndicators.")]
         [SerializeField] private Sprite guardActivationIcon;
+        [Tooltip("Optional. Leave empty to load DodgeIcon.png from Resources/DamageIndicators.")]
+        [SerializeField] private Sprite dodgeIcon;
 
         [Header("Animation")]
         [SerializeField, Min(0.01f)] private float lifetime = 1.05f;
@@ -54,6 +56,7 @@ namespace MutaBorn.Gameplay
         public Sprite DebuffIcon => debuffIcon;
         public Sprite BlockedIcon => blockedIcon;
         public Sprite GuardActivationIcon => guardActivationIcon;
+        public Sprite DodgeIcon => dodgeIcon;
 
         public float Lifetime => Mathf.Max(0.01f, lifetime);
         public float HoldDuration => Mathf.Clamp(holdDuration, 0f, Lifetime);

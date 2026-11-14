@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using MutaBorn.Gameplay;
+using UnityEngine.Rendering;
 
 [DefaultExecutionOrder(-20)]
 public sealed class TargetingModeController : MonoBehaviour
@@ -29,6 +31,10 @@ public sealed class TargetingModeController : MonoBehaviour
     [SerializeField] private float ringHeightOffset = 0.15f;
     [SerializeField] private Color ringColor = new Color(1f, 0.20f, 0.16f, 0.95f);
 
+    [Header("Area Target Preview")]
+    [SerializeField] private bool showExplosionRing = true;
+    [SerializeField, Range(0f, 1f)] private float explosionRingOpacity = 0.88f;
+
     private bool isTargeting;
     private UnityEngine.Object owner;
     private UnitController sourceUnit;
@@ -47,7 +53,12 @@ public sealed class TargetingModeController : MonoBehaviour
     private bool madeRangeRing;
     private LineRenderer explosionRing;
     private Material explosionMaterial;
+    private GameObject explosionSphere;
+    private Material explosionSphereMaterial;
+    private readonly System.Collections.Generic.List<LineRenderer> affectedUnitCircles = new System.Collections.Generic.List<LineRenderer>();
+    private Material affectedUnitCircleMaterial;
     private float explosionRadiusWorld;
+    private DamageType previewDamageType = DamageType.Unspecified;
     private bool groundTargeting;
     private int requiredFloor;
     private bool hasHoverTile;
@@ -98,7 +109,8 @@ public sealed class TargetingModeController : MonoBehaviour
         float explosionPreviewRadiusWorld = 0f,
         int landingFloorId = -1,
         Action<Vector3, int> onGroundPointSelected = null,
-        Func<Vector3,int, bool> groundTargetFilter = null)
+        Func<Vector3,int, bool> groundTargetFilter = null,
+        DamageType damageType = DamageType.Unspecified)
     {
         if (!isActiveAndEnabled || requester == null || source == null ||
             source.data == null || (onTargetSelected == null && onGroundPointSelected == null))
@@ -119,6 +131,8 @@ public sealed class TargetingModeController : MonoBehaviour
         this.showRangeIndicator = showRangeIndicator;
         groundTargeting = allowGroundTargeting;
         explosionRadiusWorld = Mathf.Max(0f, explosionPreviewRadiusWorld);
+        previewDamageType = damageType;
+        UpdateExplosionPreviewColor();
         requiredFloor = landingFloorId;
         hasHoverTile = false;
         groundPointSelected = onGroundPointSelected;
@@ -312,6 +326,7 @@ public sealed class TargetingModeController : MonoBehaviour
         groundTargeting = false;
         groundPointSelected = null;
         hasHoverTile = false;
+        ClearPreviewAffectedUnits();
         SetVisuals(false);
         groundTargetFilter = null;
 
@@ -390,6 +405,7 @@ public sealed class TargetingModeController : MonoBehaviour
 
         rangeRing.enabled = false;
         PrepareExplosionRing();
+        PrepareExplosionSphere();
 
     }
 
@@ -419,26 +435,197 @@ public sealed class TargetingModeController : MonoBehaviour
 
     }
 
-    private void UpdateExplosionPreview()
+    private void PrepareExplosionSphere()
     {
-        if (!groundTargeting || explosionRing == null)
+        explosionSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        explosionSphere.name = "ExplosionRadiusSphere (Runtime)";
+        // Do not inherit scaling from the UI Canvas.
+        explosionSphere.layer = 2;
+        Collider collider = explosionSphere.GetComponent<Collider>();
+        if (collider != null)
+        {
+            Destroy(collider);
+
+        }
+
+        Shader shader = Shader.Find("Universal Render Pipeline/Unlit") ??
+            Shader.Find("Unlit/Transparent") ??
+            Shader.Find("Sprites/Default") ??
+            Shader.Find("Unlit/Color");
+        if (shader != null)
+        {
+            explosionSphereMaterial = new Material(shader);
+            ConfigureTransparentSphereMaterial(explosionSphereMaterial);
+            UpdateExplosionPreviewColor();
+            Renderer renderer = explosionSphere.GetComponent<Renderer>();
+            renderer.sharedMaterial = explosionSphereMaterial;
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
+
+        }
+
+        explosionSphere.SetActive(false);
+
+    }
+
+    private void UpdateExplosionPreviewColor()
+    {
+        Color tint = ElementVfxColors.For(previewDamageType);
+        if (explosionRing != null)
+        {
+            Color outline = tint;
+            outline.a = explosionRingOpacity;
+            explosionRing.startColor = outline;
+            explosionRing.endColor = outline;
+
+        }
+
+        if (explosionSphereMaterial == null)
         {
             return;
 
         }
 
-        hasHoverTile = TryGetGroundPoint(out hoveredGroundPoint, out int floorId) /*&&
-            IsWithinThrowRange(hoveredGroundPoint)*/;
-        explosionRing.enabled = hasHoverTile;
+        tint.a = 0.07f;
+        explosionSphereMaterial.SetColor("_BaseColor", tint);
+        explosionSphereMaterial.SetColor("_Color", tint);
+
+    }
+
+    private static void ConfigureTransparentSphereMaterial(Material material)
+    {
+        material.SetFloat("_Surface", 1f);
+        material.SetFloat("_Blend", 0f);
+        material.SetInt("_SrcBlend", (int)BlendMode.SrcAlpha);
+        material.SetInt("_DstBlend", (int)BlendMode.OneMinusSrcAlpha);
+        material.SetInt("_ZWrite", 0);
+        material.SetOverrideTag("RenderType", "Transparent");
+        material.renderQueue = (int)RenderQueue.Transparent;
+        material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
+
+    }
+
+    private void ClearPreviewAffectedUnits()
+    {
+        foreach (LineRenderer circle in affectedUnitCircles)
+        {
+            if (circle != null)
+            {
+                Destroy(circle.gameObject);
+
+            }
+
+        }
+
+        affectedUnitCircles.Clear();
+
+    }
+
+    private void UpdateAffectedUnitPreviews(Vector3 center, int floorId)
+    {
+        ClearPreviewAffectedUnits();
+        UnitController[] units = FindObjectsByType<UnitController>();
+        foreach (UnitController unit in units)
+        {
+            if (unit == null || !unit.isActiveAndEnabled || unit.data == null || unit.data.currentHealth <= 0 || unit.currentNode == null)
+            {
+                continue;
+
+            }
+
+            if (floorId >= 0 && unit.currentNode.floorID != floorId)
+            {
+                continue;
+
+            }
+
+            Vector3 delta = unit.transform.position - center;
+            delta.y = 0f;
+            if (delta.sqrMagnitude > explosionRadiusWorld * explosionRadiusWorld + 0.0001f)
+            {
+                continue;
+
+            }
+
+            GameObject ringObject = new GameObject("AoE Unit Preview Ring");
+            ringObject.transform.SetParent(transform, false);
+            LineRenderer circle = ringObject.AddComponent<LineRenderer>();
+            circle.useWorldSpace = true;
+            circle.loop = true;
+            circle.positionCount = 48;
+            circle.widthMultiplier = 0.10f;
+            circle.alignment = LineAlignment.View;
+            circle.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            circle.receiveShadows = false;
+            if (affectedUnitCircleMaterial == null)
+            {
+                Shader shader = Shader.Find("Sprites/Default") ?? Shader.Find("Unlit/Transparent") ?? Shader.Find("Unlit/Color");
+                if (shader != null)
+                {
+                    affectedUnitCircleMaterial = new Material(shader);
+                    affectedUnitCircleMaterial.color = new Color(0.22f, 1f, 0.35f, 0.95f);
+
+                }
+
+            }
+
+            if (affectedUnitCircleMaterial != null)
+            {
+                circle.sharedMaterial = affectedUnitCircleMaterial;
+
+            }
+
+            circle.startColor = new Color(0.22f, 1f, 0.35f, 0.95f);
+            circle.endColor = circle.startColor;
+            Vector3 circleCenter = unit.transform.position + Vector3.up * 0.08f;
+            float radius = 0.72f;
+            for (int i = 0; i < 48; i++)
+            {
+                float theta = i * (Mathf.PI * 2f / 48f);
+                Vector3 offset = new Vector3(Mathf.Cos(theta) * radius, 0f, Mathf.Sin(theta) * radius);
+                circle.SetPosition(i, circleCenter + offset);
+
+            }
+
+            affectedUnitCircles.Add(circle);
+
+        }
+
+    }
+
+    private void UpdateExplosionPreview()
+    {
+        if (!groundTargeting || explosionRing == null)
+        {
+            if (explosionSphere != null)
+            {
+                explosionSphere.SetActive(false);
+
+            }
+
+            ClearPreviewAffectedUnits();
+            return;
+
+        }
+
+        hasHoverTile = TryGetGroundPoint(out hoveredGroundPoint, out int floorId);
+        explosionRing.enabled = false;
 
         if (hasHoverTile && groundTargetFilter != null) 
         {
             hasHoverTile = groundTargetFilter(hoveredGroundPoint, floorId);
         }
-        explosionRing.enabled = hasHoverTile;
+
+        explosionRing.enabled = hasHoverTile && showExplosionRing && explosionRadiusWorld > 0f;
+        if (explosionSphere != null)
+        {
+            explosionSphere.SetActive(hasHoverTile);
+
+        }
 
         if (!hasHoverTile)
         {
+            ClearPreviewAffectedUnits();
             return;
 
         }
@@ -452,6 +639,17 @@ public sealed class TargetingModeController : MonoBehaviour
             explosionRing.SetPosition(i, center + offset);
 
         }
+
+        if (explosionSphere != null)
+        {
+            // The ring and the sphere equator now share one world-space center.
+            explosionSphere.transform.position = center;
+            float diameter = Mathf.Max(0.25f, explosionRadiusWorld * 2f);
+            explosionSphere.transform.localScale = new Vector3(diameter, diameter, diameter);
+
+        }
+
+        UpdateAffectedUnitPreviews(hoveredGroundPoint, floorId);
 
     }
 
@@ -545,7 +743,20 @@ public sealed class TargetingModeController : MonoBehaviour
 
         if (explosionRing != null)
         {
-            explosionRing.enabled = active && groundTargeting && hasHoverTile;
+            explosionRing.enabled = active && groundTargeting && hasHoverTile &&
+                showExplosionRing && explosionRadiusWorld > 0f;
+
+        }
+
+        if (explosionSphere != null)
+        {
+            explosionSphere.SetActive(active && groundTargeting && hasHoverTile);
+
+        }
+
+        if (!active)
+        {
+            ClearPreviewAffectedUnits();
 
         }
 
@@ -606,6 +817,26 @@ public sealed class TargetingModeController : MonoBehaviour
             Destroy(explosionMaterial);
 
         }
+
+        if (explosionSphere != null)
+        {
+            Destroy(explosionSphere);
+
+        }
+
+        if (explosionSphereMaterial != null)
+        {
+            Destroy(explosionSphereMaterial);
+
+        }
+
+        if (affectedUnitCircleMaterial != null)
+        {
+            Destroy(affectedUnitCircleMaterial);
+
+        }
+
+        ClearPreviewAffectedUnits();
 
         if (Instance == this)
         {

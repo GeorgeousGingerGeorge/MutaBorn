@@ -8,7 +8,7 @@ public sealed class WorldTrapHitAreaDebug : MonoBehaviour
 {
     [Header("Play Mode Hit Area Preview")]
     [SerializeField] private bool showInGame = true;
-    [SerializeField] private bool showWhenDisarmed = true;
+    [SerializeField] private bool showWhenDisarmed = false;
     [SerializeField] private Color armedColor = new Color(1f, 0.15f, 0.1f, 0.35f);
     [SerializeField] private Color disarmedColor = new Color(0.4f, 0.4f, 0.4f, 0.25f);
     [SerializeField, Range(0.2f, 1f)] private float tileFill = 0.9f;
@@ -34,7 +34,8 @@ public sealed class WorldTrapHitAreaDebug : MonoBehaviour
 
     private void Update()
     {
-        bool visible = showInGame && (trap.IsArmed || showWhenDisarmed);
+        // Disabled traps cannot retain a warning area, regardless of old prefab settings.
+        bool visible = showInGame && trap != null && trap.IsRevealed && trap.IsArmed;
         if (!visible)
         {
             if (overlay != null)

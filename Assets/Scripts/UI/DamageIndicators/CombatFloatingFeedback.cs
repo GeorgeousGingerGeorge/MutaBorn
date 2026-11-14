@@ -12,6 +12,7 @@ namespace MutaBorn.Gameplay
         public static event Action<UnitController, int> GuardBlocked;
         public static event Action<UnitController> GuardActivated;
         public static event Action<UnitController, bool> CaptureResolved;
+        public static event Action<UnitController, bool> AttackAvoided;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetSubscribers()
@@ -21,6 +22,7 @@ namespace MutaBorn.Gameplay
             GuardBlocked = null;
             GuardActivated = null;
             CaptureResolved = null;
+            AttackAvoided = null;
 
         }
 
@@ -59,6 +61,16 @@ namespace MutaBorn.Gameplay
             if (target != null)
             {
                 CaptureResolved?.Invoke(target, succeeded);
+
+            }
+
+        }
+
+        public static void ReportAttackAvoided(UnitController target, bool dodged)
+        {
+            if (target != null)
+            {
+                AttackAvoided?.Invoke(target, dodged);
 
             }
 

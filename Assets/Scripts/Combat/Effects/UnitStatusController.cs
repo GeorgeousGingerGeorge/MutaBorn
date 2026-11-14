@@ -28,7 +28,8 @@ namespace MutaBorn.Gameplay
                 Definition = definition;
                 Source = source;
                 Stacks = 1;
-                RemainingTurns = definition.DurationOwnerTurns;
+                RemainingTurns = definition.Stacking == StatusStackingPolicy.DurationStacks
+                    ? 1 : definition.DurationOwnerTurns;
                 SkipNextOwnerTurnEnd = skipTurnEnd;
                 AppliedOwnerRound = -1;
 
@@ -228,13 +229,15 @@ namespace MutaBorn.Gameplay
             ActiveStatus existing = Find(definition.Id);
             if (existing != null)
             {
-                if (definition.Stacking == StatusStackingPolicy.AddStacks)
+                if (definition.Stacking == StatusStackingPolicy.AddStacks ||
+                    definition.Stacking == StatusStackingPolicy.DurationStacks)
                 {
                     existing.Stacks = Mathf.Min(definition.MaximumStacks, existing.Stacks + stacks);
 
                 }
 
-                existing.RemainingTurns = definition.DurationOwnerTurns;
+                existing.RemainingTurns = definition.Stacking == StatusStackingPolicy.DurationStacks
+                    ? existing.Stacks : definition.DurationOwnerTurns;
                 // Refreshing an existing effect must not restart its first-turn grace.
                 RefreshStatModifier(existing);
                 statusRevision++;
@@ -247,8 +250,18 @@ namespace MutaBorn.Gameplay
             }
 
             bool appliedDuringOwnTurn = turns != null && IsOwnFaction(turns.ActiveFaction);
-            ActiveStatus status = new ActiveStatus(definition, source, appliedDuringOwnTurn);
+            // One duration stack is consumed at this turn's end. Start-of-turn
+            // damage/healing effects wait until their first scheduled tick.
+            bool skipEnd = appliedDuringOwnTurn && (definition.Stacking != StatusStackingPolicy.DurationStacks ||
+                definition.PeriodicOperation != StatusPeriodicOperation.None &&
+                definition.TickTiming == StatusTickTiming.OwnerTurnStart);
+            ActiveStatus status = new ActiveStatus(definition, source, skipEnd);
             status.Stacks = Mathf.Min(definition.MaximumStacks, stacks);
+            if (definition.Stacking == StatusStackingPolicy.DurationStacks)
+            {
+                status.RemainingTurns = status.Stacks;
+
+            }
             if (appliedDuringOwnTurn && turns != null)
             {
                 status.AppliedOwnerRound = turns.Round;
@@ -341,7 +354,7 @@ namespace MutaBorn.Gameplay
                 float chance = 0f;
                 foreach (ActiveStatus status in active)
                 {
-                    chance += status.Definition.DodgeChancePercentPerStack * status.Stacks;
+                    chance += status.Definition.DodgeChancePercentPerStack * EffectiveStacks(status);
 
                 }
 
@@ -358,7 +371,7 @@ namespace MutaBorn.Gameplay
                 float modifierPercent = 0f;
                 foreach (ActiveStatus status in active)
                 {
-                    modifierPercent += status.Definition.IncomingDamagePercentPerStack * status.Stacks;
+                    modifierPercent += status.Definition.IncomingDamagePercentPerStack * EffectiveStacks(status);
 
                 }
 
@@ -406,6 +419,13 @@ namespace MutaBorn.Gameplay
 
         }
 
+        // Duration stacks are turn charges, not damage or stat-strength multipliers.
+        private static int EffectiveStacks(ActiveStatus status)
+        {
+            return status.Definition.Stacking == StatusStackingPolicy.DurationStacks ? 1 : status.Stacks;
+
+        }
+
         private void RefreshStatModifier(ActiveStatus status)
         {
             if (owner == null || owner.data == null)
@@ -421,7 +441,7 @@ namespace MutaBorn.Gameplay
                 status.Definition.ModifierPerStack != 0f)
             {
                 modifiers.Add(new UnitData.StatModifierEntry(status.Definition.ModifiedStat,
-                    status.Definition.ModifierMode, (double)status.Definition.ModifierPerStack * status.Stacks));
+                    status.Definition.ModifierMode, (double)status.Definition.ModifierPerStack * EffectiveStacks(status)));
 
             }
 
@@ -436,7 +456,7 @@ namespace MutaBorn.Gameplay
                     }
 
                     modifiers.Add(new UnitData.StatModifierEntry(entry.Stat, entry.Mode,
-                        (double)entry.AmountPerStack * status.Stacks));
+                        (double)entry.AmountPerStack * EffectiveStacks(status)));
 
                 }
 
@@ -480,6 +500,21 @@ namespace MutaBorn.Gameplay
 
                 }
 
+                if (status.Definition.Stacking == StatusStackingPolicy.DurationStacks)
+                {
+                    status.Stacks--;
+                    status.RemainingTurns = status.Stacks;
+                    statusRevision++;
+                    if (status.Stacks <= 0)
+                    {
+                        RemoveAt(i, "expired");
+
+                    }
+
+                    continue;
+
+                }
+
                 status.RemainingTurns--;
                 if (status.RemainingTurns <= 0)
                 {
@@ -506,7 +541,7 @@ namespace MutaBorn.Gameplay
 
                 }
 
-                long amountLong = (long)status.Definition.AmountPerStack * status.Stacks;
+                long amountLong = (long)status.Definition.AmountPerStack * EffectiveStacks(status);
                 int amount = (int)Math.Min(int.MaxValue, amountLong);
                 if (amount <= 0)
                 {

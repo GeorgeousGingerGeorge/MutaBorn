@@ -13,7 +13,7 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private GameObject quitGame;
     [SerializeField] private GameObject saveButton;
     [SerializeField] private GameObject loadButton;
-
+    [SerializeField] private GameObject controlsMenu;
     private bool isPaused = false;
 
     private void Update()
@@ -66,6 +66,7 @@ public class PauseMenuController : MonoBehaviour
     public void BackToPauseMenu()
     {
         optionsMenu.SetActive(false);
+        controlsMenu.SetActive(false);
         pauseMenu.SetActive(true);
     }
 
@@ -130,6 +131,12 @@ public class PauseMenuController : MonoBehaviour
 
         Debug.Log($"Mission Snapshot Restored Successfully! Round: {turnManager.Round} | Active Faction: {turnManager.ActiveFaction.Id}");
     }
+    public void ControlsButton()
+    {
+        pauseMenu.SetActive(false);
+        controlsMenu.SetActive(true);
+    }
+
 
     public void QuitGame()
     {
