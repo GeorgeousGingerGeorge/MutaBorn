@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1d850438c1d1329458f294ccee8e6d52, type: 3}
-  m_Name: "Stoneblood Flask"
+  m_Name: Stoneblood Flask
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableData
-  _itemName: "Stoneblood Flask"
-  _itemID: "consumable-stoneblood-flask"
-  _description: "Gain Stone Skin (+6 Armor / +4 Ward per stack) for 3 owner turns."
+  _itemName: Stoneblood Flask
+  _itemID: consumable-stoneblood-flask
+  _description: Gain Stone Skin (+6 Armor / +4 Ward per stack) for 3 owner turns.
   _sprite: {fileID: 21300000, guid: 8809f5b793d70ef40bebc46fadaffd91, type: 3}
+  _equippedModelPrefab: {fileID: 834129472198006857, guid: 7169c8ca2fe61704f95bbd4bd6f1e349, type: 3}
   _consumable: 1
   _consumeOnUse: 1
   _magnitude: 0
@@ -26,6 +27,40 @@ MonoBehaviour:
   apCost: 5
   onUseEffect:
     definition: {fileID: 0}
+    procChancePercent: 100
+    procChanceSchemaVersion: 1
+    activation:
+      trigger: 1
+      phase: 1
+      frequency: 0
+      eventActor: 0
+      requireGrantingSourceMatch: 0
+      requireAction: 0
+    targeting:
+      reference: 0
+      selection: 0
+      factionMask: 7
+      includeOwner: 1
+      radiusInTiles: 0
+      sameFloorOnly: 1
+    lifetime:
+      lifetime: 0
+      durationTurns: 1
+      maximumUses: 1
+    operationParameters:
+      resource: -1
+      stat: 0
+      statModifierMode: 0
+      damageType: 0
+      damageDelivery: 0
+      defenseStat: 0
+      statusId: 
+      statusDefinition: {fileID: 0}
+    value:
+      constant: 0
+      terms: []
+      rounding: 1
+    conditions: []
   useKind: 3
   restoreHealth: 0
   restoreActionPoints: 0

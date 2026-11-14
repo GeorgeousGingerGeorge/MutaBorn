@@ -31,7 +31,7 @@ public static class WorkshopUpgradeService
 
         }
 
-        if (item.template == null || string.IsNullOrWhiteSpace(item.instanceId))
+        if (!item.IsValid || string.IsNullOrWhiteSpace(item.instanceId))
         {
             reason = "This equipment instance is not valid.";
             return false;
@@ -61,7 +61,7 @@ public static class WorkshopUpgradeService
     public static string CostDescription(EquipmentInstance item, ResourceStockpile stockpile,
         WorkshopUpgradeCosts rules)
     {
-        if (item.template == null) return "No equipment selected.";
+        if (!item.IsValid) return "No equipment selected.";
         if (item.rarity >= EquipmentGrade.FiveStar) return "Maximum stars reached.";
         if (stockpile == null || rules == null) return "Resource stockpile missing.";
         if (!BuildCosts(item, stockpile, rules, out List<KeyValuePair<string, int>> costs, out string error))
@@ -184,8 +184,73 @@ public static class WorkshopUpgradeService
         costs = new List<KeyValuePair<string, int>>();
         reason = string.Empty;
         int nextStar = Mathf.Clamp((int)item.rarity + 1, 1, 5);
-        if (!AddCost(costs, stockpile, rules.currencyId, rules.goldPerNextStar, nextStar, out reason)) return false;
-        if (!AddCost(costs, stockpile, rules.materialId, rules.materialPerNextStar, nextStar, out reason)) return false;
+        bool typeHasCosts = item.typeDefinition != null && item.typeDefinition.UpgradeCosts != null &&
+            item.typeDefinition.UpgradeCosts.Length > 0;
+        if (typeHasCosts)
+        {
+            foreach (EquipmentUpgradeResourceCost cost in item.typeDefinition.UpgradeCosts)
+            {
+                if (cost.star == nextStar && !AddCost(costs, stockpile, cost.resourceId,
+                    cost.amount, 1, out reason))
+                {
+                    return false;
+
+                }
+
+            }
+
+        }
+        else
+        {
+            if (!AddCost(costs, stockpile, rules.currencyId, rules.goldPerNextStar, nextStar, out reason)) return false;
+            if (!AddCost(costs, stockpile, rules.materialId, rules.materialPerNextStar, nextStar, out reason)) return false;
+
+        }
+
+        if (item.typeDefinition != null &&
+            item.typeDefinition.TryGetTemplate(item.templateId, out EquipmentTemplate template))
+        {
+            foreach (EquipmentUpgradeCostAdjustment adjustment in template.CostAdjustments)
+            {
+                if (adjustment.star != nextStar || string.IsNullOrWhiteSpace(adjustment.resourceId))
+                {
+                    continue;
+
+                }
+
+                int index = costs.FindIndex(entry => entry.Key == adjustment.resourceId);
+                int original = index >= 0 ? costs[index].Value : 0;
+                long changed = adjustment.replaceAmount ? adjustment.amount : (long)original + adjustment.amount;
+                if (changed > int.MaxValue)
+                {
+                    reason = "Upgrade cost exceeds resource limit.";
+                    return false;
+
+                }
+
+                if (index >= 0)
+                {
+                    costs.RemoveAt(index);
+
+                }
+
+                if (changed > 0)
+                {
+                    if (stockpile.GetResourceData(adjustment.resourceId) == null)
+                    {
+                        reason = "Missing upgrade resource: " + adjustment.resourceId;
+                        return false;
+
+                    }
+
+                    costs.Add(new KeyValuePair<string, int>(adjustment.resourceId, (int)changed));
+
+                }
+
+            }
+
+        }
+
         return true;
     }
 
@@ -274,7 +339,7 @@ public static class WorkshopUpgradeService
                 .Append(previous).Append(" -> ").AppendLine(current.ToString());
             gradesGained++;
         }
-        if ((int)after.rarity % 2 == 1 && gradesGained == 0)
+        if (before.typeDefinition == null && (int)after.rarity % 2 == 1 && gradesGained == 0)
             text.AppendLine("Scaling already maxed (all S).");
 
         int actionsBefore = before.grantedActions == null ? 0 : before.grantedActions.Length;
@@ -282,7 +347,7 @@ public static class WorkshopUpgradeService
         for (int i = actionsBefore; i < actionsAfter; i++)
             if (after.grantedActions[i] != null)
                 text.Append("New ability: ").AppendLine(after.grantedActions[i].name);
-        if ((int)after.rarity % 2 == 1 && actionsAfter == actionsBefore)
+        if (before.typeDefinition == null && (int)after.rarity % 2 == 1 && actionsAfter == actionsBefore)
             text.AppendLine("No new ability: add eligible abilities to this item's template.");
 
         int resBefore = before.resistances == null ? 0 : before.resistances.Length;
@@ -298,8 +363,12 @@ public static class WorkshopUpgradeService
         for (int i = effectsBefore; i < effectsAfter; i++)
             if (after.grantedEffects[i] != null && after.grantedEffects[i].Definition != null)
                 text.Append("New effect: ").AppendLine(after.grantedEffects[i].Definition.name);
-        if ((int)after.rarity % 2 == 0 && resAfter == resBefore && effectsAfter == effectsBefore)
+        if (before.typeDefinition == null && (int)after.rarity % 2 == 0 && resAfter == resBefore && effectsAfter == effectsBefore)
             text.AppendLine("No effect/resistance: configure this item's bonus pool.");
+        if (before.typeDefinition != null)
+            text.AppendLine(string.IsNullOrWhiteSpace(after.lastUpgradeBonus)
+                ? "Upgrade bonus: no eligible pool entry configured."
+                : "Upgrade bonus: " + after.lastUpgradeBonus);
 
         return text.ToString().TrimEnd();
     }

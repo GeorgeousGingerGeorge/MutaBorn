@@ -22,6 +22,9 @@ public sealed class ResearchMenu : MonoBehaviour
     [SerializeField] private TMP_Text statusText;
     [SerializeField] private Button startButton;
 
+    [Header("Debug (Editor / Development Build)")]
+    [SerializeField] private Button unlockAllResearchButton;
+
     [Header("Research completed notification (outside hidden panel)")]
     [SerializeField] private GameObject notificationPanel;
     [SerializeField] private TMP_Text notificationText;
@@ -69,6 +72,20 @@ public sealed class ResearchMenu : MonoBehaviour
         if (startButton != null)
         {
             startButton.onClick.AddListener(StartSelected);
+
+        }
+        if (unlockAllResearchButton != null)
+        {
+            if (Application.isEditor || Debug.isDebugBuild)
+            {
+                unlockAllResearchButton.onClick.AddListener(DebugUnlockAllResearch);
+
+            }
+            else
+            {
+                unlockAllResearchButton.gameObject.SetActive(false);
+
+            }
 
         }
         if (notificationLabButton != null)
@@ -355,7 +372,16 @@ public sealed class ResearchMenu : MonoBehaviour
             details.Append("• ").Append(benefit.type);
             if (benefit.type == ResearchBenefitType.Recipe)
             {
-                details.Append(": ").Append(benefit.recipeId);
+                if (benefit.equipmentTemplate.TryResolve(out EquipmentTemplate template))
+                {
+                    details.Append(": ").Append(template.DisplayName);
+
+                }
+                else
+                {
+                    details.Append(": ").Append(benefit.recipeId);
+
+                }
 
             }
             else if (benefit.type == ResearchBenefitType.UnitSlot)
@@ -392,6 +418,22 @@ public sealed class ResearchMenu : MonoBehaviour
                 : available ? "Ready to research" : reason;
 
         }
+
+    }
+
+    private void DebugUnlockAllResearch()
+    {
+        Observe();
+        if (manager == null)
+        {
+            Debug.LogWarning("Research debug unlock failed: ResearchManager was not found.", this);
+
+            return;
+
+        }
+
+        int unlocked = manager.DebugUnlockAllResearch();
+        Debug.Log($"Research debug unlock: {unlocked} new projects completed.", this);
 
     }
 

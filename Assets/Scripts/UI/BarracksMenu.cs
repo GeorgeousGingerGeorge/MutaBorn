@@ -881,7 +881,7 @@ public sealed class BarracksMenu : MonoBehaviour
             Sprite sprite = null;
             if (unit != null && unit.TryGetEquipmentAtSlot(entry.slot, out EquipmentInstance gear))
             {
-                sprite = gear.template == null ? null : gear.template.sprite;
+                sprite = gear.Icon;
 
             }
             else if (unit != null &&
@@ -1050,16 +1050,13 @@ public sealed class BarracksMenu : MonoBehaviour
 
     private void ShowEquipment(EquipmentInstance gear)
     {
-        SetItemHeader(!string.IsNullOrWhiteSpace(gear.itemName) ? gear.itemName :
-            ItemName(gear.template), gear.template == null ? null : gear.template.sprite,
-            gear.template == null ? "Equipment" :
-            (string.IsNullOrWhiteSpace(gear.template.DisplayTypeLabel)
-                ? gear.template.EquipmentFit.ToString()
-                : gear.template.DisplayTypeLabel));
+        SetItemHeader(gear.itemName, gear.Icon,
+            string.IsNullOrWhiteSpace(gear.DisplayTypeLabel)
+                ? gear.EquipmentFit.ToString() : gear.DisplayTypeLabel);
         SetStars((int)gear.rarity);
         if (itemDescriptionText != null)
         {
-            itemDescriptionText.text = gear.template == null ? "" : gear.template.description;
+            itemDescriptionText.text = gear.Description;
 
         }
 

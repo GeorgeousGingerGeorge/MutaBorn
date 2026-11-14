@@ -7,7 +7,7 @@ using UnityEngine;
 public sealed class UnitItemTransferTestProbe : MonoBehaviour
 {
     [SerializeField, Min(0)] private int rosterDeploymentSlot;
-    [SerializeField] private EquipmentData equipmentTemplate;
+    [SerializeField] private EquipmentTemplateReference equipmentTemplate;
     [SerializeField] private UnitSlotId equipmentSlot = UnitSlotId.RightHand;
     [SerializeField] private ConsumableData consumableTemplate;
     [SerializeField] private UnitSlotId consumableSlot = UnitSlotId.Consumable1;
@@ -16,7 +16,7 @@ public sealed class UnitItemTransferTestProbe : MonoBehaviour
     [ContextMenu("Debug / Test Equipment Storage Round Trip")]
     private void TestEquipment()
     {
-        if (equipmentTemplate == null)
+        if (!equipmentTemplate.TryResolve(out _))
         {
             Debug.LogWarning("Assign an equipment template first.", this);
 

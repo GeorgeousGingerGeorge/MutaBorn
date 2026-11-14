@@ -231,21 +231,17 @@ public sealed class UnitInspectionUI : MonoBehaviour
         details.AppendLine("<b>EQUIPMENT</b>");
         int equipmentCount = 0;
 
-        if (data.equippedItems != null)
+        foreach (UnitSlotId slot in UnitLoadoutSlots.All)
         {
-            foreach (EquipmentInstance item in data.equippedItems)
+            if (UnitLoadoutSlots.IsConsumable(slot) ||
+                !data.TryGetEquipmentAtSlot(slot, out EquipmentInstance item))
             {
-                if (item.Equals(default(EquipmentInstance)))
-                {
-                    continue;
-
-                }
-
-                details.AppendLine($"{item.slot}: {item.itemName}");
-                equipmentCount++;
-
+                continue;
 
             }
+
+            details.AppendLine($"{slot}: {item.itemName}");
+            equipmentCount++;
 
         }
 

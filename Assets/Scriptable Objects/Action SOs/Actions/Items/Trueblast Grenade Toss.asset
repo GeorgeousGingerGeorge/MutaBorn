@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: "Trueblast Grenade Toss"
+  m_Name: Trueblast Grenade Toss
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: "trueblast-grenade-toss"
-  displayName: "Trueblast Grenade Toss"
-  description: "Two-use grenade: cursor-centered blast deals True damage to everybody in a two-tile circle, including friendlies."
+  actionId: trueblast-grenade-toss
+  displayName: Trueblast Grenade Toss
+  description: 'Two-use grenade: cursor-centered blast deals True damage to everybody in a two-tile circle, including friendlies.'
   icon: {fileID: 0}
   activationType: 0
   category: 4
-  submenuGroup: "Consumables"
+  submenuGroup: Consumables
   displayOrder: 20
   apCost: 0
+  maxUsesPerTurn: 0
   controlTags: 0
   combatBehavior: 4
   damageStat: 1
@@ -28,11 +29,14 @@ MonoBehaviour:
   damageMultiplier: 0
   flatDamageBonus: 17
   minimumDamage: 17
+  hitCount: 1
+  projectileDefinition: {fileID: 0}
   areaThrowRangeInTiles: 6
   areaRadiusInTiles: 2
   areaSameFloorOnly: 1
   areaFriendlyFire: 1
   areaHealAmount: 0
+  manaRestoreAmount: 0
   selfStatus: {fileID: 0}
   damageType: 22
   additionalDamage: []
@@ -41,6 +45,12 @@ MonoBehaviour:
   flatArmorPenetration: 0
   flatWardPenetration: 0
   onDamageEffects: {fileID: 0}
+  mutationRushToTarget: 0
+  mutationKnockbackTiles: 0
+  mutationNegateChancePercent: 0
+  mutationGuardOwnerTurns: 1
+  mutationDeployPrefab: {fileID: 0}
+  mutationDeployDurationTurns: 2
+  mutationStructureHealth: 30
   guardDamageReductionPercent: 0
-  hitCount: 1
   guardFlatDamageReduction: 0

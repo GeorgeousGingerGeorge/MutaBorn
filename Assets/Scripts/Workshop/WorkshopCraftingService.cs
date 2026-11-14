@@ -19,7 +19,10 @@ public static class WorkshopCraftingService
         ResearchManager research = ResearchManager.Instance;
         if (research != null)
         {
-            if (!research.IsRecipeAvailable(recipe.recipeId))
+            bool unlocked = recipe.outputEquipment.equipmentType != null
+                ? research.IsEquipmentTemplateAvailable(recipe.outputEquipment)
+                : research.IsRecipeAvailable(recipe.recipeId);
+            if (!unlocked)
             {
                 reason = "Recipe must be unlocked by research.";
 
@@ -47,7 +50,8 @@ public static class WorkshopCraftingService
 
         if (recipe.outputKind == CraftingOutputKind.EquipmentOrConsumable)
         {
-            if (!(recipe.outputItem is EquipmentData) && !(recipe.outputItem is ConsumableData))
+            if (!recipe.outputEquipment.TryResolve(out _) &&
+                !(recipe.outputItem is ConsumableData))
             {
                 reason = "This item recipe has no valid equipment or consumable template.";
                 return false;
@@ -140,9 +144,9 @@ public static class WorkshopCraftingService
                 }
 
             }
-            else if (recipe.outputItem is EquipmentData equipment)
+            else if (recipe.outputEquipment.equipmentType != null)
             {
-                EquipmentInstance item = EquipmentGenerator.CreateEquipment(equipment);
+                EquipmentInstance item = EquipmentGenerator.CreateEquipment(recipe.outputEquipment);
                 created = storage.TryStoreEquipment(item);
 
             }
