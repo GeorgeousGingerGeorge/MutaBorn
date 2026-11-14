@@ -12,14 +12,14 @@ public class ChunkPlacementCandidate
     [Header("Placement Condition")]
     public bool isPlaced; 
 
-    public ChunkPlacementCandidate(ChunkSocketInstance socket, float weight, int depth) 
+    public ChunkPlacementCandidate(ChunkSocketInstance socket, float weight) 
     {
         sourceSocket = socket;
         currentWeight = weight;
         isPlaced = false;
     }
 
-    public bool IsAvailable => !isPlaced && sourceSocket != null && !sourceSocket.isConnected;
+    public bool IsAvailable => !isPlaced && sourceSocket != null && !sourceSocket.isConnected && sourceSocket.AllowedConnections != SocketConnectionType.None;
 
     public void ApplyInfluence(float influence) 
     {

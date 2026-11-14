@@ -37,7 +37,7 @@ public class LevelGenerationProfile : ScriptableObject
 
     public List<ChunkDefinition> AvailableChunks => availableChunks;
 
-    public Vector2Int MaxmimumLevelDimension => maximumLevelDimensions;
+    public Vector2Int MaximumLevelDimension => maximumLevelDimensions;
 
     public int MinimumChunks => minimumChunks;
     public int MaximumChunks => maximumChunks;

@@ -5,6 +5,8 @@ using UnityEngine;
 public enum ConnectorType 
 {
     Stairs,
+    Path,
+    DoorWay,
     Ladder,
     Elevator,
     Ramp,
@@ -44,6 +46,33 @@ public class FloorConnector : MonoBehaviour
         InitializeConnectionNodes(gridManager);
         CalculateOccupiedNodes(gridManager);
         Connect(gridManager);
+
+
+        Debug.Log($"[FloorConnector] Initializing: {name}");
+
+        Debug.Log($"Lower marker: {lowerConnection.position}");
+        Debug.Log($"Upper marker: {upperConnection.position}");
+
+        Debug.Log($"Lower node: {lowerNode != null}");
+        Debug.Log($"Upper node: {upperNode != null}");
+
+        if (lowerNode != null)
+        {
+            Debug.Log(
+                $"Lower node floor: {lowerNode.floorID}, " +
+                $"coordinates: {lowerNode.coords}, " +
+                $"world position: {lowerNode.cellWorldPosition}"
+            );
+        }
+
+        if (upperNode != null)
+        {
+            Debug.Log(
+                $"Upper node floor: {upperNode.floorID}, " +
+                $"coordinates: {upperNode.coords}, " +
+                $"world position: {upperNode.cellWorldPosition}"
+            );
+        }
 
     }
     private void InitializeConnectionNodes(GridManager gridManager) 

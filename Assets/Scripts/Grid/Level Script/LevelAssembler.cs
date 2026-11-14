@@ -39,9 +39,22 @@ public class LevelAssembler : MonoBehaviour
         Vector3 localPosition = new Vector3(prefabGridOrigin.x * gridCellSize, 0f, prefabGridOrigin.y * gridCellSize);
         Vector3 worldPosition = generatedLevelRoot.TransformPoint(localPosition);
 
-        Quaternion rotation = generatedLevelRoot.rotation * Quaternion.Euler(0f, chunk.rotationDegrees, 0f);
+        Quaternion rotation = generatedLevelRoot.rotation;
 
         GameObject instance = Instantiate(chunk.prefabDefinition.Prefab, worldPosition, rotation, generatedLevelRoot);
+        MissionCrewSpawnArea[] spawnAreas =
+         instance.GetComponentsInChildren<MissionCrewSpawnArea>(true);
+
+        foreach (MissionCrewSpawnArea spawnArea in spawnAreas)
+        {
+            Debug.Log(
+                $"Spawn Area: {spawnArea.name}\n" +
+                $"Is Child Of Chunk: {spawnArea.transform.IsChildOf(instance.transform)}\n" +
+                $"Local Position: {spawnArea.transform.localPosition}\n" +
+                $"World Position: {spawnArea.transform.position}",
+                spawnArea
+            );
+        }
 
         chunk.prefabInstance = instance;
 
@@ -66,6 +79,12 @@ public class LevelAssembler : MonoBehaviour
         }
 
         PopulateChunkFloors(chunk, collectedFloors, gridCellSize, generatedLevelRoot);
+        if (!PopulateSocketWorldPositions(chunk)) 
+        {
+            Destroy(instance);
+            chunk.prefabInstance = null;
+            return false;
+        }
 
         return true;
     }
@@ -120,6 +139,48 @@ public class LevelAssembler : MonoBehaviour
             }
             chunk.floors.Add(floor);
         }
+    }
+    private bool PopulateSocketWorldPositions(ChunkInstance chunk) 
+    {
+        foreach(ChunkSocketInstance socket in chunk.sockets) 
+        {
+
+            ChunkFloorInstance socketFloor = null;
+
+            foreach(ChunkFloorInstance floor in chunk.floors) 
+            {
+                if (floor.localFloorID == socket.localFloorID) 
+                {
+                    socketFloor = floor;
+                    break;
+                }
+            }
+
+            if (socketFloor == null) 
+            {
+                return false;
+            }
+
+            GridCellDescriptor socketCell = null;
+
+            foreach (GridCellDescriptor cell in socketFloor.cells) 
+            {
+                if (cell.localCoordinates == socket.sourceSocket.gridPosition) 
+                {
+                    socketCell = cell;
+
+                    break;
+                }
+            }
+            if(socketCell == null) 
+            {
+                return false;
+            }
+
+            socket.worldPosition = socketCell.worldPosition;
+        }
+
+        return true;
     }
 }
 

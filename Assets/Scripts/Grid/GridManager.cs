@@ -167,11 +167,14 @@ public class GridManager : MonoBehaviour
     }
     public void BuildFloor_Procedural()
     {
-        if (!proceduralLevelGenerator.TryGenerateInitialLayout(out GeneratedLevelLayout layout))
+        Debug.Log("[Grid] Starting procedural generation");
+        if (!proceduralLevelGenerator.TryGenerateInitialLayout(GridCellSize,out GeneratedLevelLayout layout))
         {
+            Debug.LogError("[Grid] Procedural generation failed");
             return;
         }
 
+        Debug.Log("[Grid] Generation successful");
         mainGrid = new GameObject("Procedural Grid");
 
         if (!levelAssembler.TryAssemble(layout, mainGrid.transform, gridCellSize)) 
@@ -179,6 +182,7 @@ public class GridManager : MonoBehaviour
             Debug.Log($"Failed to assemble generated level");
             return;
         }
+        Debug.Log("[Grid] Assembly successful");
 
         if (!ResolveGlobalFloorMappings(layout)) 
         {
@@ -186,12 +190,39 @@ public class GridManager : MonoBehaviour
             return;
         }
 
+        foreach (ChunkInstance chunk in layout.chunks) 
+        {
+            if (chunk.prefabInstance == null) 
+            {
+                return;
+            }
+
+            foreach (MissionCrewSpawnArea area in chunk.prefabInstance.GetComponentsInChildren<MissionCrewSpawnArea>()) 
+            {
+
+                area.ResolveFloorID(chunk);
+            }
+            foreach (MissionFactionSpawnArea area in chunk.prefabInstance.GetComponentsInChildren<MissionFactionSpawnArea>()) 
+            {
+
+                area.ResolveFloorID(chunk);
+            }
+            foreach (MissionExtractionZone area in chunk.prefabInstance.GetComponentsInChildren<MissionExtractionZone>()) 
+            {
+
+                area.ResolveFloorID(chunk);
+            }
+        }
+
+        Debug.Log("[Grid] Floor mappings successful");
+
         if (!CreateGrid_FromLayout(layout)) 
         {
             Debug.Log("Failed to create a grid from layout");
             return;
         }
-        
+        Debug.Log("[Grid] Grid construction completed");
+
     }
 
     //used for when we procedurally generate tiles later 
@@ -407,6 +438,11 @@ public class GridManager : MonoBehaviour
             SetUpConnections(floorGrid);
         }
 
+        if (!ValidateBuiltGrid(layout)) 
+        {
+            return false;
+        }
+
         return true;
     }
     public void RegisterTile(TileController tile)
@@ -456,6 +492,8 @@ public class GridManager : MonoBehaviour
             obstacle.InitializeNodes();
         }
     }
+
+  
 
     //Getters- NodeFromGridPosition, NodeFrom-WorldPosition, Grid itself
     public GridNode GetNodeFromGridPosition(int floorID, Vector2Int gridPosition) 
@@ -626,8 +664,24 @@ public class GridManager : MonoBehaviour
                 {
                     cell.globalFloorID = globalFloorID;
                 }
+
+                foreach(ChunkSocketInstance socket in chunk.sockets) 
+                {
+                    if(!chunk.globalFloorMappings.TryGetValue(socket.localFloorID, out int socketGlobalFloorID))
+                    {
+                        Debug.Log($"Could not resolve global floor for socket");
+
+                        return false;
+                    }
+
+                    socket.globalFloorID = socketGlobalFloorID;
+                }
             }
+
+            
         }
+
+        
 
         Debug.Log($"Resolved {globalFloorHeights.Count} global floors");
 
@@ -660,5 +714,65 @@ public class GridManager : MonoBehaviour
         {
             SetActiveFloor(nextFloor);
         }
+    }
+    private bool ValidateBuiltGrid(GeneratedLevelLayout layout)
+    {
+        int expectedTileCount = 0;
+
+        foreach (ChunkInstance chunk in layout.chunks)
+        {
+            foreach (ChunkFloorInstance floor in chunk.floors)
+            {
+                foreach (GridCellDescriptor cell in floor.cells)
+                {
+                    expectedTileCount++;
+
+                    if (!gridFloors.TryGetValue(
+                        cell.globalFloorID,
+                        out Dictionary<Vector2Int, GridNode> floorGrid))
+                    {
+                        Debug.LogError(
+                            $"Missing global floor {cell.globalFloorID}."
+                        );
+                        return false;
+                    }
+
+                    if (!floorGrid.TryGetValue(
+                        cell.globalCoordinates,
+                        out GridNode node))
+                    {
+                        Debug.LogError(
+                            $"Missing node at {cell.globalCoordinates} " +
+                            $"on floor {cell.globalFloorID}."
+                        );
+                        return false;
+                    }
+
+                    if (FindTile(node) != cell.tile)
+                    {
+                        Debug.LogError(
+                            $"Tile lookup mismatch at {cell.globalCoordinates}."
+                        );
+                        return false;
+                    }
+                }
+            }
+        }
+
+        if (expectedTileCount != tileLookup.Count)
+        {
+            Debug.LogError(
+                $"Tile count mismatch. Expected {expectedTileCount}, " +
+                $"actual {tileLookup.Count}."
+            );
+            return false;
+        }
+
+        Debug.Log(
+            $"GRID VALIDATION PASSED: {gridFloors.Count} floors, " +
+            $"{tileLookup.Count} tiles."
+        );
+
+        return true;
     }
 }

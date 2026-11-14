@@ -12,15 +12,14 @@ public class ChunkInstance
 
     [Header("Prefab Instance")]
     public GameObject prefabInstance;
-    public int rotationDegrees;
     public Vector2Int prefabGridOffset;
 
     [Header("Floor Information")]
 
-    public List<ChunkFloorInstance> floors;
+    public List<ChunkFloorInstance> floors = new List<ChunkFloorInstance>();
 
     [Header("Global Floor Mapping")]
-    public Dictionary<int, int> globalFloorMappings;
+    public Dictionary<int, int> globalFloorMappings = new Dictionary<int, int>();
 
     public float generationWeight;
     public List<ChunkSocketInstance> sockets = new List<ChunkSocketInstance>();
