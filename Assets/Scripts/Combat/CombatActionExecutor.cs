@@ -360,7 +360,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 OnTargetingCancelled, () => CanCommand(source),
                 true, isArea, isArea ? action.AreaRadiusInTiles * cellSize : 0f,
                 isArea && action.AreaSameFloorOnly ? source.currentNode.floorID : -1,
-                isArea ? OnAreaPointPicked : null))
+                isArea ? OnAreaPointPicked : null, null, action.DamageType))
         {
             return false;
 
@@ -450,7 +450,8 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 true, isArea, isArea ? action.AreaRadiusInTiles * cellSize : 0f,
                 isArea && action.AreaSameFloorOnly ? source.currentNode.floorID : -1,
                 isArea ? OnAreaPointPicked : null,
-                isArea ? (Vector3 point, int floorId) => IsValidGroundTarget(point,floorId,source,action) : null))
+                isArea ? (Vector3 point, int floorId) => IsValidGroundTarget(point,floorId,source,action) : null,
+                action.DamageType))
         {
             return false;
 
@@ -955,11 +956,24 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
     }
 
+    private static DamageType GetActionImpactType(ActionDefinition action)
+    {
+        if (action.DamageType != DamageType.Unspecified)
+        {
+            return action.DamageType;
+
+        }
+
+        return action.DamageStat == CombatDamageStat.Magic ? DamageType.Arcane :
+            action.DamageStat == CombatDamageStat.Ranged ? DamageType.Pierce : DamageType.Slash;
+
+    }
+
     private bool ResolveAreaAction(UnitController source, ActionDefinition action,
-        Vector3 impactPoint, int impactFloor)
+        Vector3 impactPoint, int impactFloor, bool costAlreadyPaid = false)
     {
         if (source == null || source.data == null || source.currentNode == null ||
-            action == null || !HasAuthorizedAreaAction(source, action) ||
+            action == null || (!costAlreadyPaid && !HasAuthorizedAreaAction(source, action)) ||
             (action.CombatBehavior != CombatActionBehavior.DamageArea &&
             action.CombatBehavior != CombatActionBehavior.HealArea))
         {
@@ -968,7 +982,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         UnitStatusController statuses = source.GetComponent<UnitStatusController>();
-        if (statuses != null && !statuses.CanUseAction(action))
+        if (!costAlreadyPaid && statuses != null && !statuses.CanUseAction(action))
         {
             return false;
 
@@ -1004,22 +1018,58 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
         int cost = Mathf.CeilToInt(action.ApCost);
-        if (source.data.currentActionPoints < cost)
+        if (!costAlreadyPaid && source.data.currentActionPoints < cost)
         {
             return false;
 
         }
 
-        int sourceIndex = FindUniqueEquipmentSourceIndex(source, action);
-        source.data.ModifyActionPoints(-cost);
-        source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
-
-        bool healing = action.CombatBehavior == CombatActionBehavior.HealArea;
-        if (!healing)
+        if (!costAlreadyPaid && action.CombatBehavior == CombatActionBehavior.DamageArea &&
+            action.Projectile != null)
         {
+            ProjectileDefinition projectile = action.Projectile;
+            if (projectile.ProjectilePrefab == null ||
+                projectile.ProjectilePrefab.GetComponent<ProjectileController>() == null)
+            {
+                Debug.LogError($"Projectile prefab missing or invalid for {action.DisplayName}.", source);
+
+                return false;
+
+            }
+
+            GameObject shot = Instantiate(projectile.ProjectilePrefab,
+                source.transform.position + Vector3.up, Quaternion.identity);
+            ProjectileElementVfx projectileVfx = shot.GetComponent<ProjectileElementVfx>();
+            projectileVfx?.Configure(GetActionImpactType(action));
+            projectileVfx?.SetAreaImpact(true);
+            shot.GetComponent<ProjectileController>().Launch(projectile, impactPoint, (collider, point) =>
+            {
+                ResolveAreaAction(source, action, point, impactFloor, true);
+
+            }, source.transform, true);
+            source.data.ModifyActionPoints(-cost);
+            source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
             statuses?.Remove("invisible");
+            lastAreaKilledTarget = false;
+
+            return true;
 
         }
+
+        int sourceIndex = FindUniqueEquipmentSourceIndex(source, action);
+        if (!costAlreadyPaid)
+        {
+            source.data.ModifyActionPoints(-cost);
+            source.GetComponent<UnitActionLoadout>()?.RecordSuccessfulUse(action);
+            if (action.CombatBehavior == CombatActionBehavior.DamageArea)
+            {
+                statuses?.Remove("invisible");
+
+            }
+
+        }
+
+        bool healing = action.CombatBehavior == CombatActionBehavior.HealArea;
 
         lastAreaKilledTarget = false;
         int totalHealed = 0;
@@ -1110,6 +1160,20 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 $"{damage.ActualDamage} {damage.Request.DamageType} damage, " +
                 $"HP {damage.HealthBefore} -> {damage.HealthAfter}/{target.data.maxHealth}.", target);
             FinalizeResolvedDamage(damage, sourceIndex);
+
+        }
+
+        if (!healing)
+        {
+            Vector3 center = impactPoint;
+            if (action.AreaSameFloorOnly && source.currentNode != null)
+            {
+                center.y = source.currentNode.cellWorldPosition.y;
+
+            }
+
+            ElementImpactVfx.Play(center + Vector3.up * 0.08f,
+                GetActionImpactType(action), Mathf.Max(0.25f, action.AreaRadiusInTiles * cellSize));
 
         }
 
@@ -1239,8 +1303,10 @@ public sealed class CombatActionExecutor : MonoBehaviour
         GameObject projectileObject = Instantiate(projectile.ProjectilePrefab, spawnPosition, Quaternion.identity);
 
         ProjectileController controller = projectileObject.GetComponent<ProjectileController>();
+        projectileObject.GetComponent<ProjectileElementVfx>()?.Configure(
+            action.DamageType == DamageType.Unspecified ? DamageType.Arcane : action.DamageType);
 
-        controller.Launch(projectile, destination, onImpact, source.transform);
+        controller.Launch(projectile, destination, onImpact, source.transform, true, target.transform);
 
         return true;
     }
@@ -1304,13 +1370,6 @@ public sealed class CombatActionExecutor : MonoBehaviour
         if (!launched)
         {
             return false;
-        }
-
-        Animator animator = source.GetComponentInChildren<Animator>(); // Bow Attack Animation trigger
-
-        if (animator != null && animator.GetInteger("IdleType") == 3)
-        {
-            animator.SetTrigger("Attack");
         }
 
         // Pay for the attack when fired, regardless of whether the projectile hits.
@@ -1406,8 +1465,15 @@ public sealed class CombatActionExecutor : MonoBehaviour
                     $"{action.DisplayName} (hit {hitNumber + 1}/{hits}) " +
                     $"on {target.data.characterName}: MISSED! " +
                     $"Hit Chance: {hitChance:F1}%.");
+                CombatFloatingFeedback.ReportAttackAvoided(target, false);
 
                 continue;
+
+            }
+
+            if (damageResult.Evaded)
+            {
+                CombatFloatingFeedback.ReportAttackAvoided(target, true);
 
             }
 

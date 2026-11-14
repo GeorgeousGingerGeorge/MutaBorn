@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 114000002}
   - component: {fileID: 114000003}
   - component: {fileID: 114000030}
+  - component: {fileID: 5112124982863564688}
   m_Layer: 0
   m_Name: Capture Trap (Bear)
   m_TagString: Untagged
@@ -61,6 +62,8 @@ MonoBehaviour:
   statusChances:
   - status: {fileID: 11400000, guid: 21ed3b9615e8472fa4e8e5dca3805393, type: 2}
     chancePercent: 100
+    stacks: 1
+  projectileDefinition: {fileID: 0}
   affectedFactions: []
   oneShot: 1
   startsArmed: 1
@@ -80,7 +83,10 @@ MonoBehaviour:
   detectionRangeInTiles: 2
   visualRoot: {fileID: 100000001}
   armedColor: {r: 0.95, g: 0.13, b: 0.13, a: 1}
-  disarmedColor: {r: 0.28, g: 0.18, b: 0.2, a: 1}
+  disarmedColor: {r: 0.08, g: 0.08, b: 0.09, a: 1}
+  elementTintStrength: 0.25
+  playElementImpactOnFire: 1
+  elementImpactSize: 0.65
 --- !u!114 &114000002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +121,7 @@ MonoBehaviour:
   onInteracted:
     m_PersistentCalls:
       m_Calls: []
+  used: 0
   trap: {fileID: 114000001}
 --- !u!114 &114000030
 MonoBehaviour:
@@ -129,12 +136,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldTrapHitAreaDebug
   showInGame: 1
-  showWhenDisarmed: 1
+  showWhenDisarmed: 0
   armedColor: {r: 1, g: 0.15, b: 0.1, a: 0.35}
   disarmedColor: {r: 0.4, g: 0.4, b: 0.4, a: 0.25}
   tileFill: 0.9
   heightAboveNode: 0.6
   refreshSeconds: 0.2
+--- !u!114 &5112124982863564688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100000000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc853ea94175b0f343a7c6ddbe0ad45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldTrapVfx
+  firePrefab: {fileID: 4030820931565389401, guid: 12c325b3a5ac57d49ab02015d7888ffc, type: 3}
+  hitPrefab: {fileID: 2395421922198484763, guid: be78cd6c13306ee43aeae889f25ccafa, type: 3}
+  fireOffset: {x: 0, y: 0.65, z: 0}
 --- !u!1 &100000001
 GameObject:
   m_ObjectHideFlags: 0

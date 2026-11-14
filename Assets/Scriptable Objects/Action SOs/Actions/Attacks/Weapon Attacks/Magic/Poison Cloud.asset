@@ -10,37 +10,48 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
-  m_Name: "Poison Cloud"
+  m_Name: Poison Cloud
   m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
-  actionId: "poison-cloud"
-  displayName: "Poison Cloud"
-  description: "Toxic cloud centered on the cursor. Hits enemies in a two-tile radius; can Poison."
+  actionId: poison-cloud
+  displayName: Poison Cloud
+  description: Toxic cloud centered on the cursor. Hits enemies in a two-tile radius; can Poison.
   icon: {fileID: 0}
   activationType: 0
   category: 0
-  submenuGroup: "Magic"
+  submenuGroup: Magic
   displayOrder: 50
   apCost: 9
+  maxUsesPerTurn: 0
+  controlTags: 1
   combatBehavior: 4
   damageStat: 2
   combatRange: 7
   damageMultiplier: 0.6
   flatDamageBonus: 0
   minimumDamage: 1
-  damageType: 14
-  additionalDamage: []
-  guardDamageReductionPercent: 0
-  controlTags: 1
   hitCount: 1
+  projectileDefinition: {fileID: 11400000, guid: 4ac8b48229d08fc4daf712fb33f2ba51, type: 2}
+  captureBonusPercent: 0
   areaThrowRangeInTiles: 7
   areaRadiusInTiles: 2
   areaSameFloorOnly: 1
   areaFriendlyFire: 1
   areaHealAmount: 0
+  manaRestoreAmount: 0
   selfStatus: {fileID: 0}
+  damageType: 14
+  additionalDamage: []
   criticalChancePercent: 0
   criticalDamageMultiplier: 1.5
   flatArmorPenetration: 0
   flatWardPenetration: 0
   onDamageEffects: {fileID: 11400000, guid: dad17856c8234f5286e60449f6a03395, type: 2}
+  mutationRushToTarget: 0
+  mutationKnockbackTiles: 0
+  mutationNegateChancePercent: 0
+  mutationGuardOwnerTurns: 1
+  mutationDeployPrefab: {fileID: 0}
+  mutationDeployDurationTurns: 2
+  mutationStructureHealth: 30
+  guardDamageReductionPercent: 0
   guardFlatDamageReduction: 0

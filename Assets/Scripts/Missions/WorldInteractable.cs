@@ -85,6 +85,7 @@ public class WorldInteractable : SimpleInteractable
         }
 
         OnInteractionSucceeded(actor);
+        GetComponent<WorldInteractableVfx>()?.Play();
         onInteracted?.Invoke();
         Debug.Log($"{actor.name} used {InteractionId} on {InteractionTargetName}.", this);
         OnInteractionFinished(actor);

@@ -22,6 +22,7 @@ public class UnitMovements : MonoBehaviour
     public bool isMoving { get; private set; } = false;
     private int pathIndex = 0;
     private float movementEfficiencyAtStart = 1f;
+    private float traveledMovementCost;
     private List<GridNode> movementPath = new List<GridNode>();
     public Dictionary<GridNode, float> reachableNodes { get; private set; }
     private List<TileController> highlightedTiles = new List<TileController>();
@@ -50,7 +51,29 @@ public class UnitMovements : MonoBehaviour
             animBaseChar.SetFloat("Speed", 0f);
         }
     }
+
     public void SetEquipmentAnimation(EquipmentType equipmentType, EquipmentTemplate template)
+    {
+        EquipmentInstance equipment = default(EquipmentInstance);
+        if (equipmentType != null && template != null)
+        {
+            equipment.typeDefinition = equipmentType;
+            equipment.templateId = template.TemplateId;
+            equipment.weapon = equipmentType.WeaponCategory;
+
+        }
+
+        SetEquipmentAnimation(equipment);
+
+    }
+
+    public void SetEquipmentAnimation(EquipmentInstance mainHand, EquipmentInstance offHand)
+    {
+        SetEquipmentAnimation(mainHand.IsValid ? mainHand : offHand);
+
+    }
+
+    public void SetEquipmentAnimation(EquipmentInstance equipment) // for attack-specific animation
     {
         if (animBaseChar == null)
         {
@@ -60,22 +83,17 @@ public class UnitMovements : MonoBehaviour
         int idleType = 0;
         int runType = 0;
 
-        if (equipmentType != null)
+        if (equipment.IsValid)
         {
-            if (equipmentType.WeaponSubtype == WeaponSubtype.Bow)
+            if (equipment.WeaponSubtype == WeaponSubtype.Bow)
             {
                 idleType = 3;
                 runType = 3;
             }
-            
-            else if (equipmentType.WeaponCategory == WeaponCategory.Melee)
+            else if (equipment.weapon == WeaponCategory.Melee)
             {
-                bool isTwoHanded = equipmentType.GetRequiresBothHands(template);
-
-                idleType = isTwoHanded ? 2 : 1;
-                runType = isTwoHanded ? 2 : 0;
+                idleType = equipment.RequiresBothHands ? 2 : 1;
             }
-
         }
 
         animBaseChar.SetInteger("IdleType", idleType);
@@ -183,6 +201,7 @@ public class UnitMovements : MonoBehaviour
         movementPath.AddRange(path);
 
         pathIndex = 0;
+        traveledMovementCost = 0f;
 
         while (pathIndex < movementPath.Count && movementPath[pathIndex] == unit.currentNode) 
         {
@@ -206,6 +225,15 @@ public class UnitMovements : MonoBehaviour
 
         while (pathIndex < movementPath.Count)
         {
+            MutaBorn.Gameplay.UnitStatusController statuses =
+                unit.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
+            if (statuses != null && !statuses.CanMoveVoluntarily)
+            {
+                SnapToCurrentTile();
+
+                break;
+
+            }
 
             GridNode nextnode = movementPath[pathIndex];
 
@@ -231,13 +259,23 @@ public class UnitMovements : MonoBehaviour
 
                 transform.position = target;
 
-                movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
+                GridNode previousNode = unit.currentNode;
+                traveledMovementCost += movementController.GetSegmentCost(previousNode, nextnode);
+                movementController.readOccupancy.UnregisterUnit(previousNode, unit);
 
                 unit.SetNode(nextnode);
-               
+
                 movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
 
                 pathIndex++;
+                // Trap sensors fire synchronously when SetNode changes. Stop on this tile.
+                if (statuses != null && !statuses.CanMoveVoluntarily)
+                {
+                    SnapToCurrentTile();
+
+                    break;
+
+                }
             }
 
             yield return null;
@@ -246,12 +284,22 @@ public class UnitMovements : MonoBehaviour
         CompleteMovement();
 
     }
+    private void SnapToCurrentTile()
+    {
+        if (unit.currentNode != null)
+        {
+            transform.position = unit.currentNode.cellWorldPosition + Vector3.up * 0.26f;
+
+        }
+
+    }
+
     private void CompleteMovement() 
     {
         soundController?.RegisterSound(unit.currentNode, SoundType.Footsteps, 8, unit);
         visibileController.UpdateVisibility();
         visibileController.UpdateAICurrentDetection();
-        unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
+        unit.data.ModifyActionPoints(-Mathf.CeilToInt(traveledMovementCost / movementEfficiencyAtStart));
 
         isMoving = false;
 
