@@ -14,6 +14,76 @@ public static class MissionSaveCapture
 
         UnitController[] units = UnityEngine.Object.FindObjectsByType<UnitController>(FindObjectsInactive.Include);
 
+        UnitRoster roster = UnitRoster.Instance;
+
+        if (roster != null)
+        {
+            snapshot.rosterState.unlockedCrewSlots = roster.UnlockedCrewSlots;
+
+            foreach (UnitRosterDeployment deployment in roster.Deployments)
+            {
+                snapshot.rosterState.deployments.Add(new UnitRosterDeploymentSaveData
+                {
+                    slotIndex = deployment.SlotIndex,
+                    unitId = deployment.UnitId
+                });
+            }
+
+            foreach (UnitData unit in roster.Units)
+            {
+                UnitRosterMemberSaveData savedMember = new UnitRosterMemberSaveData
+                {
+                    unitId = unit.UnitId,
+                    characterName = unit.characterName,
+                    raceName = unit.raceName,
+
+                    level = unit.Level,
+                    experience = unit.Experience,
+                    unspentAttributePoints = unit.UnspentAttributePoints,
+                    mutationPoints = unit.MutationPoints,
+
+                    leveledStrength = unit.leveledStrength,
+                    leveledDexterity = unit.leveledDexterity,
+                    leveledVitality = unit.leveledVitality,
+                    leveledConstitution = unit.leveledConstitution,
+                    leveledPerception = unit.leveledPerception,
+                    leveledIntelligence = unit.leveledIntelligence,
+
+                    currentHealth = unit.currentHealth,
+                    currentMana = unit.currentMana,
+                    currentActionPoints = unit.currentActionPoints
+                };
+
+                // Capture fixed mutation nodes
+                foreach (ActiveMutationRecord mutation in unit.activeMutationNodes)
+                {
+                    if (mutation != null && mutation.MutationId != MutationID.none)
+                    {
+                        savedMember.fixedMutationIds.Add(mutation.MutationId);
+                    }
+                }
+
+                // Capture legacy equipped mutations
+                foreach (BaseMutation mutation in unit.activeMutations.Values)
+                {
+                    if (mutation != null && mutation.ID != MutationID.none)
+                    {
+                        savedMember.legacyMutationIds.Add(mutation.ID);
+                    }
+                }
+
+                snapshot.rosterState.members.Add(savedMember);
+
+                Debug.Log($"[Save/Load] {unit.characterName}: {savedMember.fixedMutationIds.Count} fixed mutations, {savedMember.legacyMutationIds.Count} legacy mutations.");
+            }
+
+            Debug.Log($"[Save/Load] Captured {snapshot.rosterState.deployments.Count} crew deployments and {snapshot.rosterState.members.Count} roster members.");
+        }
+        else
+        {
+            Debug.LogWarning("[Save/Load] UnitRoster not found. Roster data was not captured.");
+        }
+
         foreach (UnitController unit in units)
         {
             if (unit.data == null)

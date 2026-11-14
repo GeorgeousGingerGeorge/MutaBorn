@@ -1,18 +1,27 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RaceDataBase", menuName = "Scriptable Objects/RaceDataBase")]
 public class RaceDataBase : ScriptableObject
 {
-    [SerializeField] private Dictionary<string, DynamicStats> raceDataBase;
+    [SerializeField] private List<DynamicStats> races = new List<DynamicStats>();
 
-
-    public DynamicStats GetRace(string raceName) 
+    public DynamicStats GetRace(string raceName)
     {
-        if (raceDataBase.TryGetValue(raceName, out DynamicStats race)) 
+        if (string.IsNullOrWhiteSpace(raceName))
         {
-            return race;
+            return null;
         }
-       return null;
+
+        foreach (DynamicStats race in races)
+        {
+            if (race != null && string.Equals(race.RaceName, raceName, StringComparison.OrdinalIgnoreCase))
+            {
+                return race;
+            }
+        }
+
+        return null;
     }
 }

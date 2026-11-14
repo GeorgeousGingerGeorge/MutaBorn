@@ -142,6 +142,8 @@ public class MainMenuController : MonoBehaviour
 
         Debug.Log($"Loading saved mission scene: {saved.sceneName}");
 
+        SaveManager.PendingRestore = saved;
+
         SceneManager.LoadScene(saved.sceneName);
     }
 }

@@ -265,4 +265,156 @@ public class SaveSystemTester : MonoBehaviour
 
         Debug.Log($"Mission Snapshot Restored Successfully! Round: {turnManager.Round} | Active Faction: {turnManager.ActiveFaction.Id}");
     }
+
+    [ContextMenu("Test / Verify Saved Roster")]
+    private void TestVerifySavedRoster()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState == null)
+        {
+            Debug.LogError("[Save/Load] No valid roster data found!");
+            return;
+        }
+
+        int members = saved.rosterState.members?.Count ?? 0;
+        int deployments = saved.rosterState.deployments?.Count ?? 0;
+
+        Debug.Log($"[Save/Load] JSON verified: {members} roster members and {deployments} deployments.");
+    }
+
+    [ContextMenu("Test / Verify Saved Race Lookups")]
+    private void TestVerifySavedRaceLookups()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState == null || saved.rosterState.members == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster data not found.");
+            return;
+        }
+
+        GameDataBase database = GameDataBaseLoader.Instance;
+        RaceDataBase raceDatabase = database != null ? database.raceData : null;
+
+        if (raceDatabase == null)
+        {
+            Debug.LogError("[Save/Load] Race database could not be loaded.");
+            return;
+        }
+
+        int resolved = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            DynamicStats race = raceDatabase.GetRace(member.raceName);
+
+            if (race == null)
+            {
+                Debug.LogError($"[Save/Load] Failed to resolve race '{member.raceName}' for {member.characterName}.");
+                continue;
+            }
+
+            resolved++;
+        }
+
+        Debug.Log($"[Save/Load] Race lookup verified: {resolved}/{saved.rosterState.members.Count} roster members.");
+    }
+
+    [ContextMenu("Test / Verify Unit Reconstruction")]
+    private void TestVerifyUnitReconstruction()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster members not found.");
+            return;
+        }
+
+        RaceDataBase raceDatabase = GameDataBaseLoader.Instance?.raceData;
+
+        if (raceDatabase == null)
+        {
+            Debug.LogError("[Save/Load] Race database not found.");
+            return;
+        }
+
+        int reconstructed = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            DynamicStats race = raceDatabase.GetRace(member.raceName);
+            UnitData unit = UnitData.CreateFromSavedIdentity(member, race);
+
+            if (unit == null)
+            {
+                Debug.LogError($"[Save/Load] Failed to reconstruct {member.characterName}.");
+                continue;
+            }
+
+            if (unit.UnitId != member.unitId || unit.Level != member.level || unit.Experience != member.experience || unit.UnspentAttributePoints != member.unspentAttributePoints || unit.MutationPoints != member.mutationPoints)
+            {
+                Debug.LogError($"[Save/Load] Identity or progression mismatch for {member.characterName}.");
+                continue;
+            }
+
+            reconstructed++;
+        }
+
+        Debug.Log($"[Save/Load] Unit reconstruction verified: {reconstructed}/{saved.rosterState.members.Count} characters.");
+    }
+
+    [ContextMenu("Test / Verify Saved Mutations")]
+    private void TestVerifySavedMutations()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null || UnitRoster.Instance == null)
+        {
+            Debug.LogError("[Save/Load] Saved mutation data or live roster not found.");
+            return;
+        }
+
+        int verified = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            if (!UnitRoster.Instance.TryGetUnit(member.unitId, out UnitData unit))
+            {
+                Debug.LogError($"[Save/Load] Roster member not found: {member.characterName}");
+                continue;
+            }
+
+            int fixedCount = 0;
+            int legacyCount = 0;
+            bool matches = true;
+
+            foreach (ActiveMutationRecord mutation in unit.activeMutationNodes)
+            {
+                if (mutation == null || mutation.MutationId == MutationID.none) continue;
+
+                fixedCount++;
+
+                if (!member.fixedMutationIds.Contains(mutation.MutationId))
+                {
+                    matches = false;
+                }
+            }
+
+            foreach (BaseMutation mutation in unit.activeMutations.Values)
+            {
+                if (mutation == null || mutation.ID == MutationID.none) continue;
+
+                legacyCount++;
+
+                if (!member.legacyMutationIds.Contains(mutation.ID))
+                {
+                    matches = false;
+                }
+            }
+
+            if (!matches || fixedCount != member.fixedMutationIds.Count || legacyCount != member.legacyMutationIds.Count)
+            {
+                Debug.LogError($"[Save/Load] Mutation mismatch for {member.characterName}.");
+                continue;
+            }
+
+            verified++;
+        }
+
+        Debug.Log($"[Save/Load] Mutation verification: {verified}/{saved.rosterState.members.Count} roster members.");
+    }
 }

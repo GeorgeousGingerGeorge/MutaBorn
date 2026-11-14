@@ -10,7 +10,7 @@ using UnityEngine;
     public string saveTimeUTC;
 
     public List<UnitSaveData> units = new List<UnitSaveData>();
-
+    public UnitRosterSaveData rosterState = new UnitRosterSaveData();
     public List<WorldObjectSaveData> worldObjects =
         new List<WorldObjectSaveData>();
 
@@ -81,4 +81,54 @@ public class ObjectiveSaveData
     public MissionObjectiveStatus status;
     public bool visible;
     public List<string> completedTargetIds = new List<string>();
+}
+
+[Serializable]
+public class UnitRosterSaveData
+{
+    public int unlockedCrewSlots;
+
+    public List<UnitRosterDeploymentSaveData> deployments = new List<UnitRosterDeploymentSaveData>();
+
+    // NEW: Stores the permanent crew members
+    public List<UnitRosterMemberSaveData> members = new List<UnitRosterMemberSaveData>();
+}
+
+[Serializable]
+public class UnitRosterDeploymentSaveData
+{
+    public int slotIndex;
+    public string unitId;
+}
+
+// NEW CLASS: Stores each crew member's persistent information
+[Serializable]
+public class UnitRosterMemberSaveData
+{
+    public string unitId;
+    public string characterName;
+    public string raceName;
+
+    // Character progression
+    public int level;
+    public int experience;
+    public int unspentAttributePoints;
+    public int mutationPoints;
+
+    // Leveled attributes
+    public int leveledStrength;
+    public int leveledDexterity;
+    public int leveledVitality;
+    public int leveledConstitution;
+    public int leveledPerception;
+    public int leveledIntelligence;
+
+    // Current resources
+    public int currentHealth;
+    public int currentMana;
+    public int currentActionPoints;
+
+    // Equipped mutations
+    public List<MutationID> fixedMutationIds = new List<MutationID>();
+    public List<MutationID> legacyMutationIds = new List<MutationID>();
 }

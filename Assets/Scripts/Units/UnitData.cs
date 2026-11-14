@@ -1666,4 +1666,48 @@ public class UnitData
         return newUnit; 
         
     }
+    public static UnitData CreateFromSavedIdentity(UnitRosterMemberSaveData saved, DynamicStats race)
+    {
+        if (saved == null || race == null || string.IsNullOrWhiteSpace(saved.unitId) || string.IsNullOrWhiteSpace(saved.characterName) || !string.Equals(saved.raceName, race.RaceName, StringComparison.OrdinalIgnoreCase))
+        {
+            Debug.LogError("[Save/Load] Invalid saved unit identity or race definition.");
+            return null;
+        }
+
+        if (saved.level < 1 || saved.level > 20 || saved.experience < 0 || saved.unspentAttributePoints < 0 || saved.mutationPoints < 0)
+        {
+            Debug.LogError("[Save/Load] Invalid saved character progression.");
+            return null;
+        }
+
+        UnitData unit = CreateNewUnit(saved.characterName, race);
+
+        // Restore permanent identity
+        unit.UnitId = saved.unitId;
+
+        // Restore progression
+        unit.Level = saved.level;
+        unit.Experience = saved.experience;
+        unit.UnspentAttributePoints = saved.unspentAttributePoints;
+        unit.MutationPoints = saved.mutationPoints;
+
+        // Restore leveled attributes
+        unit.leveledStrength = saved.leveledStrength;
+        unit.leveledDexterity = saved.leveledDexterity;
+        unit.leveledVitality = saved.leveledVitality;
+        unit.leveledConstitution = saved.leveledConstitution;
+        unit.leveledPerception = saved.leveledPerception;
+        unit.leveledIntelligence = saved.leveledIntelligence;
+
+        // Restore level-gated slots
+        if (unit.Level >= 3)
+        {
+            unit.TryUnlockProgressionSlot(UnitSlotId.Accessory2);
+            unit.TryUnlockProgressionSlot(UnitSlotId.Consumable2);
+        }
+
+        unit.RecalculateStats();
+
+        return unit;
+    }
 }

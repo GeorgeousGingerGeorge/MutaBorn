@@ -16,6 +16,17 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private GameObject controlsMenu;
     private bool isPaused = false;
 
+    private void Start()
+    {
+        MissionSaveData pending = SaveManager.PendingRestore;
+
+        if (pending == null)
+        {
+            return;
+        }
+
+        Debug.Log($"[Save/Load] Pending restore: {pending.sceneName} | Current scene: {SceneManager.GetActiveScene().name}");
+    }
     private void Update()
     {
         if (Keyboard.current != null && Keyboard.current.pKey.wasPressedThisFrame)
