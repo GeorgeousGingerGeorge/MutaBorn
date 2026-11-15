@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections; 
 using System.Collections.Generic;
+using System;
 
 
 public class ObstacleController : MonoBehaviour
@@ -356,30 +357,27 @@ public class ObstacleController : MonoBehaviour
             return;
         }
 
-
-        ObstacleDestructionStages[] stages = destructionStages;
-
-        //No Configured Stages: Use Default
-
-        if (stages == null || stages.Length == 0) 
+        if (destructionStages == null || destructionStages.Length == 0) 
         {
             currentStage = null;
             currentStageIndex = -1;
-
             ApplyDefaultObstacleInformation();
             return;
+
         }
 
         ObstacleDestructionStages selectedStage = null;
-        int selectedIndex = -1;
 
-        //Get's the Final entry in the array
-        int lastStageIndex = stages.Length - 1;
+        //No Configured Stages: Use Default
+
+        
+
+      
+     
 
         if (currentHealth <= 0) 
         {
-            selectedIndex = lastStageIndex;
-            selectedStage = stages[selectedIndex];
+            selectedStage = Array.Find(destructionStages, stage => stage != null && stage.stageName == ObstacleCondition.Destroyed);
         }
         else 
         {
@@ -387,20 +385,21 @@ public class ObstacleController : MonoBehaviour
 
             //Find threshold that the current health meets
 
-            for(int stageThreshold = 0; stageThreshold < lastStageIndex; stageThreshold++) 
+            foreach (ObstacleDestructionStages stage in destructionStages) 
             {
-                ObstacleDestructionStages stage = stages[stageThreshold];
-
-                if(stage == null) 
+                if(stage == null || stage.stageName == ObstacleCondition.Destroyed) 
                 {
                     continue;
                 }
 
-                if (healthPercentage >= stage.healthThreshold) 
+                if(healthPercentage < stage.healthThreshold) 
+                {
+                    continue;
+                }
+
+                if (selectedStage == null || stage.healthThreshold > selectedStage.healthThreshold) 
                 {
                     selectedStage = stage;
-                    selectedIndex = stageThreshold;
-                    break;
                 }
             }
         }
@@ -413,11 +412,13 @@ public class ObstacleController : MonoBehaviour
             currentStageIndex = -1;
 
             ApplyDefaultObstacleInformation();
+            UpdateStageVisuals();
        
 
             return;
         }
 
+        int selectedIndex = Array.IndexOf(destructionStages, selectedStage);
         //Don't reapply an unchanged stage
         if(selectedIndex == currentStageIndex) 
         {
