@@ -67,44 +67,33 @@ public class TargetingSystem : MonoBehaviour
 
     }
    
+    private FactionManager factionManager;
+
     private bool IsValidFactionTarget(UnitController attacker, UnitController target, out UnitFaction attackerFaction)
     {
-        attackerFaction = attacker.GetComponent<UnitFaction>();
-        
-        if (attacker == null || target == null)
+        attackerFaction = attacker != null ? attacker.GetComponent<UnitFaction>() : null;
+        if (attackerFaction == null || target == null)
         {
             return false;
+
         }
 
-      
         UnitFaction targetFaction = target.GetComponent<UnitFaction>();
-       
-
-        if (attackerFaction == null || targetFaction == null) 
+        if (targetFaction == null)
         {
             return false;
+
         }
 
-        switch (attackerFaction.GetFactionID()) 
+        if (factionManager == null)
         {
-            case "playerFaction":
-                {
-                    return targetFaction.GetFactionID() == "raiderFaction";
-                }
-            case "raiderFaction":
-                { 
-                    return targetFaction.GetFactionID() == "playerFaction" || targetFaction.GetFactionID() == "civilians";
+            factionManager = FindAnyObjectByType<FactionManager>();
 
-                }
-            case "civilians":
-                {
-                    return targetFaction.GetFactionID() == "raiderFaction";
-                }
-            default:
-
-                Debug.LogWarning("TargetingSystem: FactionID was not a choice ");
-                return false;
         }
+
+        return factionManager != null &&
+            factionManager.AreHostile(attackerFaction.Faction, targetFaction.Faction);
+
     }
     public bool CanTargetGround(UnitController attacker, Vector3 targetPosition, int targetFloorID, float range, bool use3DDistance = false)
     {
