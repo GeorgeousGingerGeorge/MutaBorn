@@ -16,17 +16,44 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private GameObject controlsMenu;
     private bool isPaused = false;
 
-    private void Start()
+    private System.Collections.IEnumerator Start()
     {
         MissionSaveData pending = SaveManager.PendingRestore;
 
         if (pending == null)
         {
-            return;
+            yield break;
         }
 
         Debug.Log($"[Save/Load] Pending restore: {pending.sceneName} | Current scene: {SceneManager.GetActiveScene().name}");
+
+        // Wait until the mission objectives have finished initializing.
+        int framesWaited = 0;
+
+        while (MissionObjectiveManager.Instance != null && MissionObjectiveManager.Instance.Status == MissionStatus.NotStarted && framesWaited < 120)
+        {
+            framesWaited++;
+            yield return null;
+        }
+
+        if (MissionObjectiveManager.Instance == null || MissionObjectiveManager.Instance.Status != MissionStatus.InProgress)
+        {
+            Debug.LogError("[Save/Load] Mission objectives were not ready for restoration.");
+            yield break;
+        }
+
+
+        if (TryApplyMissionSave(pending))
+        {
+            SaveManager.PendingRestore = null;
+            Debug.Log("[Save/Load] Automatic mission restoration completed successfully!");
+        }
+        else
+        {
+            Debug.LogError("[Save/Load] Automatic mission restoration failed.");
+        }
     }
+
     private void Update()
     {
         if (Keyboard.current != null && Keyboard.current.pKey.wasPressedThisFrame)
@@ -88,60 +115,65 @@ public class PauseMenuController : MonoBehaviour
         Debug.Log(success ? "Mission save test successful!!! :D" : "Mission save test failed!! :(");
     }
 
+
     public void LoadGame()
     {
-        Debug.Log("Game Loadedd :D Have fun!");
         if (!SaveManager.TryLoadMission(out MissionSaveData saved))
         {
-            Debug.LogError("No valid mission save found!");
+            Debug.LogError("[Save/Load] No valid mission save found!");
             return;
+        }
+
+        TryApplyMissionSave(saved);
+    }
+
+    private bool TryApplyMissionSave(MissionSaveData saved)
+    {
+        if (saved == null || !string.Equals(saved.sceneName, SceneManager.GetActiveScene().name, System.StringComparison.Ordinal))
+        {
+            Debug.LogError("[Save/Load] Saved mission does not match the current scene.");
+            return false;
         }
 
         TurnManager turnManager = TurnManager.Instance;
         GridManager gridManager = FindAnyObjectByType<GridManager>();
-
         MissionObjectiveManager objectiveManager = MissionObjectiveManager.Instance;
 
-        if (objectiveManager == null || saved.objectiveState == null)
+        if (turnManager == null || gridManager == null || objectiveManager == null || saved.turnState == null || saved.objectiveState == null || turnManager.PlayerFaction == null)
         {
-            Debug.LogError("Cannot restore mission: Objective state or manager missing.");
-            return;
-        }
-
-        if (turnManager == null || gridManager == null || saved.turnState == null || turnManager.PlayerFaction == null)
-        {
-            Debug.LogError("Missing required mission restoration components!");
-            return;
+            Debug.LogError("[Save/Load] Required mission restoration components are unavailable.");
+            return false;
         }
 
         if (!turnManager.IsPlayerTurn || !string.Equals(saved.turnState.activeFactionId, turnManager.PlayerFaction.Id, System.StringComparison.OrdinalIgnoreCase))
         {
-            Debug.LogError("Mission restoration currently supports player turns only.");
-            return;
+            Debug.LogError("[Save/Load] Mission restoration currently supports player turns only.");
+            return false;
         }
 
-        // Restore all saved unit states.
         if (!MissionSaveRestore.TryRestoreAllPositions(saved, gridManager))
         {
-            Debug.LogError("Mission restoration failed during unit restoration!");
-            return;
+            Debug.LogError("[Save/Load] Unit restoration failed.");
+            return false;
         }
 
-        // Restore saved turn progression.
         if (!turnManager.TryRestoreTurnState(saved.turnState))
         {
-            Debug.LogError("Turn restoration failed! Unit states were restored, but the mission is only partially restored.");
-            return;
-        }
-        // Restore objective progression
-        if (!objectiveManager.TryRestoreObjectiveState(saved.objectiveState))
-        {
-            Debug.LogError("Objective restoration failed! Unit and turn states were restored, but the mission is only partially restored.");
-            return;
+            Debug.LogError("[Save/Load] Turn restoration failed. Mission may be partially restored.");
+            return false;
         }
 
-        Debug.Log($"Mission Snapshot Restored Successfully! Round: {turnManager.Round} | Active Faction: {turnManager.ActiveFaction.Id}");
+        if (!objectiveManager.TryRestoreObjectiveState(saved.objectiveState))
+        {
+            Debug.LogError("[Save/Load] Objective restoration failed. Mission may be partially restored.");
+            return false;
+        }
+
+        Debug.Log($"[Save/Load] Mission restored successfully! Round: {turnManager.Round} | Active Faction: {turnManager.ActiveFaction.Id}");
+
+        return true;
     }
+
     public void ControlsButton()
     {
         pauseMenu.SetActive(false);
