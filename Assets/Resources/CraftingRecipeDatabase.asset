@@ -201,6 +201,50 @@ MonoBehaviour:
       amount: 1
     - resourceId: unstable_compound
       amount: 3
+  - recipeId: craft.resource.planks
+    displayName: Planks
+    description: Saw three Wood into one workable Plank.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: planks
+    outputAmount: 1
+    requiredCraftTier: 0
+    ingredients:
+    - resourceId: wood
+      amount: 3
+  - recipeId: craft.resource.bricks
+    displayName: Bricks
+    description: Cut three Stone into one sturdy Brick.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: bricks
+    outputAmount: 1
+    requiredCraftTier: 0
+    ingredients:
+    - resourceId: stone
+      amount: 3
+  - recipeId: craft.resource.arcanium
+    displayName: Arcanium
+    description: Refine copper with the energy in Maana Crystals.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: arcanium
+    outputAmount: 1
+    requiredCraftTier: 1
+    ingredients:
+    - resourceId: maana_crystals
+      amount: 1
+    - resourceId: copper
+      amount: 1
   - recipeId: craft.resource.steel
     displayName: Steel
     description: Craft a unit of Steel.
@@ -357,3 +401,65 @@ MonoBehaviour:
       amount: 6
     - resourceId: gunpowder
       amount: 2
+  - recipeId: craft.resource.planks-mythic
+    displayName: Planks (Mythical Lumber)
+    description: Break down three Mythical Lumber into one ordinary Plank. The enchantment is lost.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: planks
+    outputAmount: 1
+    requiredCraftTier: 0
+    ingredients:
+    - resourceId: mythical_lumber
+      amount: 3
+  - recipeId: craft.resource.scrap-iron
+    displayName: Scrap Fabrication
+    description: Combine Iron and Copper into three pieces of Goblin-style Scrap.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: scrap
+    outputAmount: 3
+    requiredCraftTier: 1
+    ingredients:
+    - resourceId: iron
+      amount: 2
+    - resourceId: copper
+      amount: 1
+  - recipeId: craft.resource.deepfire-steel
+    displayName: Deepfire Steel Smelting
+    description: Use Dwarven Deepfire Coals to refine a larger batch of Steel.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: steel
+    outputAmount: 5
+    requiredCraftTier: 1
+    ingredients:
+    - resourceId: iron
+      amount: 2
+    - resourceId: copper
+      amount: 1
+    - resourceId: deepfire_coals
+      amount: 1
+  - recipeId: craft.resource.skull-bones
+    displayName: Bone Recovery
+    description: Break down an Orc Beast Skull into useful crafting Bones.
+    outputKind: 1
+    outputItem: {fileID: 0}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: bones
+    outputAmount: 3
+    requiredCraftTier: 0
+    ingredients:
+    - resourceId: beast_skull
+      amount: 1
