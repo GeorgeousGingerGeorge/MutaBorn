@@ -26,7 +26,8 @@ public enum ActionControlTags
 {
     None = 0,
     MagicOrMutation = 1,
-    RequiresWeapon = 2
+    RequiresWeapon = 2,
+    Mutation = 4
 
 }
 
@@ -45,6 +46,14 @@ public enum CombatActionBehavior
     MutationDeployCover = 9,
     MutationDeployTrap = 10,
     CaptureUnit = 11
+
+}
+
+public enum RandomActionDamageType
+{
+    None = 0,
+    Physical = 1,
+    Elemental = 2
 
 }
 
@@ -137,6 +146,10 @@ public class ActionDefinition : ScriptableObject
     [Tooltip("Additional fixed-damage components, each using its own Armor/Ward and damage resistance. Optional.")]
     [SerializeField] private DamageComponent[] additionalDamage = new DamageComponent[0];
 
+    [Header("Randomized MutaBorn Attacks (Optional)")]
+    [SerializeField] private RandomActionDamageType randomDamageType = RandomActionDamageType.None;
+    [SerializeField] private StatusDefinition[] randomOnHitStatuses = new StatusDefinition[0];
+
     [Header("Optional Crit and Penetration")]
     [Tooltip("0 by default. Applied only to this attack, before defenses.")]
     [SerializeField, Range(0f, 100f)] private float criticalChancePercent;
@@ -193,6 +206,8 @@ public class ActionDefinition : ScriptableObject
     public int AreaHealAmount => Mathf.Max(0, areaHealAmount);
     public StatusDefinition SelfStatus => selfStatus;
     public DamageType DamageType => damageType;
+    public RandomActionDamageType RandomDamageType => randomDamageType;
+    public StatusDefinition[] RandomOnHitStatuses => randomOnHitStatuses;
     public DamageComponent[] AdditionalDamage => additionalDamage;
     public EffectCollection OnDamageEffects => onDamageEffects;
     public float GuardDamageReductionPercent => guardDamageReductionPercent;

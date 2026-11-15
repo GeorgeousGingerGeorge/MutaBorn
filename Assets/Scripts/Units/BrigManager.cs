@@ -174,9 +174,22 @@ public sealed class BrigManager : MonoBehaviour
 
     public int RansomGold(UnitData unit)
     {
+        if (unit != null && unit.IsTooCorrupt)
+        {
+            return 750 + unit.Level * 150;
+
+        }
+
         BrigRansomProfile profile = unit == null ? null : GetProfile(unit);
         return unit == null ? 0 : profile == null ? 25 + unit.Level * 15 :
             profile.baseGold + unit.Level * profile.goldPerLevel;
+
+    }
+
+    public string RecruitCostText(UnitData unit)
+    {
+        return unit != null && unit.IsTooCorrupt
+            ? "2 Mutated Hearts" : RecruitGold(unit) + " gold";
 
     }
 
@@ -232,7 +245,8 @@ public sealed class BrigManager : MonoBehaviour
         ResourceStockpile bank = ResourceStockpile.Instance;
         UnitRoster roster = UnitRoster.Instance;
         if (!Contains(unit) || roster == null || bank == null ||
-            !bank.RemoveResource("gold", RecruitGold(unit)))
+            !bank.RemoveResource(unit.IsTooCorrupt ? "mutated_heart" : "gold",
+                unit.IsTooCorrupt ? 2 : RecruitGold(unit)))
         {
             return false;
 
@@ -263,7 +277,8 @@ public sealed class BrigManager : MonoBehaviour
 
         }
 
-        int value = Mathf.Max(0, unit.MutationPoints) +
+        int value = (unit.IsTooCorrupt ? 300 + 100 * unit.Level : 0) +
+            Mathf.Max(0, unit.MutationPoints) +
             15 * Mathf.Max(unit.activeMutationNodes != null ? unit.activeMutationNodes.Count : 0,
                 unit.activeMutations != null ? unit.activeMutations.Count : 0);
         if (unit.activeMutationNodes != null)

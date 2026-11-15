@@ -11,6 +11,13 @@ public class UnitActionLoadout : MonoBehaviour
     private UnitController unit;
 
     private readonly List<ActionDefinition> resolvedActions = new();
+    private readonly HashSet<string> mutationActionIds = new(StringComparer.OrdinalIgnoreCase);
+
+    public bool IsMutationAction(ActionDefinition action)
+    {
+        return action != null && mutationActionIds.Contains(action.Id);
+
+    }
     private readonly Dictionary<string, int> successfulUses =
         new(StringComparer.OrdinalIgnoreCase);
 
@@ -42,6 +49,7 @@ public class UnitActionLoadout : MonoBehaviour
     public void InitializeForCombat()
     {
         resolvedActions.Clear();
+        mutationActionIds.Clear();
         HashSet<string> ids = new(StringComparer.OrdinalIgnoreCase);
         Dictionary<string, ActionDefinition> definitions =
             new(StringComparer.OrdinalIgnoreCase);
@@ -145,7 +153,7 @@ public class UnitActionLoadout : MonoBehaviour
         }
 
         // Mutation actions come from the mutations already equipped on UnitData.
-        if (gameData.mutationData != null && unit.data.activeMutations != null)
+        if (!unit.data.MutationsSuppressed && gameData.mutationData != null && unit.data.activeMutations != null)
         {
             foreach (KeyValuePair<BodySlots, BaseMutation> equipped in unit.data.activeMutations)
             {
@@ -162,15 +170,15 @@ public class UnitActionLoadout : MonoBehaviour
                 AddActionsFromSet(
                     mutationActions,
                     $"Mutation ({mutation.name}, {equipped.Key})",
-                    ids,
-                    definitions);
+                    ids, definitions);
+                MarkMutationActions(mutationActions);
 
             }
 
         }
 
         // Fixed mutations grant their own exact node content, independent of body slots.
-        if (gameData.mutationData != null && unit.data.activeMutationNodes != null)
+        if (!unit.data.MutationsSuppressed && gameData.mutationData != null && unit.data.activeMutationNodes != null)
         {
             foreach (ActiveMutationRecord active in unit.data.activeMutationNodes)
             {
@@ -182,9 +190,15 @@ public class UnitActionLoadout : MonoBehaviour
                 }
 
                 AddActionsFromSet(node.ActionSet, $"Mutation ({node.DisplayName})", ids, definitions);
+                MarkMutationActions(node.ActionSet);
                 foreach (ActionDefinition action in node.GrantedActions)
                 {
                     AddAction(action, $"Mutation ({node.DisplayName})", ids, definitions);
+                    if (action != null)
+                    {
+                        mutationActionIds.Add(action.Id);
+
+                    }
 
                 }
 
@@ -195,6 +209,26 @@ public class UnitActionLoadout : MonoBehaviour
         // Future source: learned skills. These belong to UnitData.
 
         Version++;
+
+    }
+
+    private void MarkMutationActions(ActionSet set)
+    {
+        if (set == null)
+        {
+            return;
+
+        }
+
+        foreach (ActionDefinition action in set.Actions)
+        {
+            if (action != null)
+            {
+                mutationActionIds.Add(action.Id);
+
+            }
+
+        }
 
     }
 
