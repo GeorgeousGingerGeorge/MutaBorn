@@ -775,4 +775,156 @@ public class SaveSystemTester : MonoBehaviour
         Debug.Log($"[Save/Load] Verified {resistanceEntries} resistance entries and {damageEntries} bonus damage entries.");
     }
 
+    [ContextMenu("Test / Reconstruct Saved Equipment")]
+    private void TestReconstructSavedEquipment()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null)
+        {
+            Debug.LogError("[Save/Load] Saved equipment data unavailable.");
+            return;
+        }
+
+        int total = 0;
+        int reconstructed = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            if (member.equipment == null)
+            {
+                continue;
+            }
+
+            foreach (EquipmentSaveData savedItem in member.equipment)
+            {
+                total++;
+
+                if (!EquipmentSaveRestore.TryReconstructCore(savedItem, out EquipmentInstance restored))
+                {
+                    Debug.LogError($"[Save/Load] Failed to reconstruct equipment: {savedItem.instanceId}.");
+                    continue;
+                }
+
+                bool matches = restored.instanceId == savedItem.instanceId &&
+                               restored.typeDefinition != null &&
+                               restored.typeDefinition.TypeId == savedItem.typeId &&
+                               restored.templateId == savedItem.templateId &&
+                               restored.rarity == savedItem.rarity &&
+                               restored.baseStats.Equals(savedItem.baseStats) &&
+                               restored.rolledStats.Equals(savedItem.rolledStats);
+
+                if (!matches)
+                {
+                    Debug.LogError($"[Save/Load] Reconstructed equipment mismatch: {savedItem.instanceId}.");
+                    continue;
+                }
+
+                reconstructed++;
+            }
+        }
+
+        Debug.Log($"[Save/Load] Equipment reconstruction verified: {reconstructed}/{total} items.");
+    }
+
+    [ContextMenu("Test / Verify Automatic Equipment Restoration")]
+    private void TestVerifyAutomaticEquipmentRestoration()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null || UnitRoster.Instance == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster or live roster unavailable.");
+            return;
+        }
+
+        int totalUnits = saved.rosterState.members.Count;
+        int restoredUnits = 0;
+        int totalItems = 0;
+        int restoredItems = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            totalItems += member.equipment?.Count ?? 0;
+
+            if (!UnitRoster.Instance.TryGetUnit(member.unitId, out UnitData original))
+            {
+                Debug.LogError($"[Save/Load] Original character unavailable: {member.characterName}.");
+                continue;
+            }
+
+            UnitData restored = UnitData.CreateFromSavedIdentity(member, original.RaceDefinition);
+
+            if (restored == null)
+            {
+                Debug.LogError($"[Save/Load] Character reconstruction failed: {member.characterName}.");
+                continue;
+            }
+
+            restoredUnits++;
+
+            if (restored.equippedItems.Count != (member.equipment?.Count ?? 0))
+            {
+                Debug.LogError($"[Save/Load] Equipment count mismatch: {member.characterName}.");
+            }
+
+            if (member.equipment == null)
+            {
+                continue;
+            }
+
+            foreach (EquipmentSaveData savedItem in member.equipment)
+            {
+                if (!restored.TryGetEquipmentAtSlot(savedItem.equippedSlot, out EquipmentInstance item) || item.instanceId != savedItem.instanceId)
+                {
+                    Debug.LogError($"[Save/Load] Equipment restoration mismatch: {member.characterName} / {savedItem.instanceId}.");
+                    continue;
+                }
+
+                restoredItems++;
+            }
+        }
+
+        Debug.Log($"[Save/Load] Automatic character reconstruction verified: {restoredUnits}/{totalUnits} units.");
+        Debug.Log($"[Save/Load] Automatic equipment restoration verified: {restoredItems}/{totalItems} items.");
+    }
+
+    [ContextMenu("Test / Verify Restored Character Resources")]
+    private void TestVerifyRestoredCharacterResources()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null || UnitRoster.Instance == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster or live roster unavailable.");
+            return;
+        }
+
+        int total = 0;
+        int verified = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            total++;
+
+            if (!UnitRoster.Instance.TryGetUnit(member.unitId, out UnitData original))
+            {
+                Debug.LogError($"[Save/Load] Original character unavailable: {member.characterName}.");
+                continue;
+            }
+
+            UnitData restored = UnitData.CreateFromSavedIdentity(member, original.RaceDefinition);
+
+            if (restored == null)
+            {
+                Debug.LogError($"[Save/Load] Failed to reconstruct {member.characterName}.");
+                continue;
+            }
+
+            if (restored.currentHealth != member.currentHealth || restored.currentMana != member.currentMana || restored.currentActionPoints != member.currentActionPoints)
+            {
+                Debug.LogError($"[Save/Load] Resource mismatch for {member.characterName}.");
+                continue;
+            }
+
+            verified++;
+        }
+
+        Debug.Log($"[Save/Load] Character resource restoration verified: {verified}/{total} units.");
+    }
+
 }

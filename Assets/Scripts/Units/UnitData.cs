@@ -1728,8 +1728,28 @@ public class UnitData
             }
         }
 
+        if (saved.equipment != null)
+        {
+            foreach (EquipmentSaveData savedItem in saved.equipment)
+            {
+                if (!EquipmentSaveRestore.TryRestoreEquippedItem(savedItem, unit))
+                {
+                    Debug.LogError($"[Save/Load] Failed to restore equipment for {saved.characterName}: {savedItem?.instanceId}.");
+                    return null;
+                }
+            }
+        }
+
         unit.RecalculateStats();
 
+        // Restore saved Health, Mana, and Action Points
+        if (!unit.TryRestoreSavedResources(saved.currentHealth, saved.currentMana, saved.currentActionPoints))
+        {
+            Debug.LogError($"[Save/Load] Failed to restore resources for {saved.characterName}.");
+            return null;
+        }
+
         return unit;
+
     }
 }
