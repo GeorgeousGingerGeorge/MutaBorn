@@ -48,6 +48,8 @@ public sealed class BarracksMenu : MonoBehaviour
     [SerializeField] private TMP_Text unitNameText;
     [SerializeField] private TMP_Text raceNameText;
     [SerializeField] private Image unitPortraitImage;
+    [Header("Live 3D Unit Preview")]
+    [SerializeField] private UnitLoadoutPreview unitPreview;
     [SerializeField] private TMP_Text unitStatsText;
     [SerializeField] private TMP_Text unitMutationsText;
     [SerializeField] private Button renameButton;
@@ -76,10 +78,27 @@ public sealed class BarracksMenu : MonoBehaviour
     [Tooltip("Shown on the free hand blocked by a two-handed weapon.")]
     [SerializeField] private Sprite twoHandedLockSprite;
 
+    [Header("Empty Unlocked Slot Icons")]
+    [SerializeField] private Sprite emptyRightHandSprite;
+    [SerializeField] private Sprite emptyLeftHandSprite;
+    [SerializeField] private Sprite emptyHeadSprite;
+    [SerializeField] private Sprite emptyChestSprite;
+    [SerializeField] private Sprite emptyGlovesSprite;
+    [SerializeField] private Sprite emptyPantsSprite;
+    [SerializeField] private Sprite emptyBootsSprite;
+    [SerializeField] private Sprite emptyAccessorySprite;
+    [SerializeField] private Sprite emptyConsumableSprite;
+
+    [Header("Slot Icon Colors")]
+    [SerializeField] private Color occupiedSlotIconColor = Color.white;
+    [SerializeField] private Color lockSlotIconColor = Color.white;
+    [SerializeField] private Color emptySlotIconColor = new Color(0.42f, 0.42f, 0.42f, 1f);
+
     [Header("Item Inspector - Existing UI")]
     [SerializeField] private TMP_Text itemNameText;
     [SerializeField] private TMP_Text itemTypeText;
     [SerializeField] private Image itemIcon;
+    [SerializeField] private Image itemTypeBadge;
     [Tooltip("Exactly five Images, ordered first star through fifth star.")]
     [SerializeField] private Image[] itemStars = new Image[5];
     [SerializeField] private Color inactiveStarColor = Color.black;
@@ -341,6 +360,11 @@ public sealed class BarracksMenu : MonoBehaviour
 
     private void OnDisable()
     {
+        if (unitPreview != null)
+        {
+            unitPreview.Show(null);
+
+        }
         CancelRename();
         Unsubscribe();
 
@@ -391,7 +415,7 @@ public sealed class BarracksMenu : MonoBehaviour
         CloseStoragePicker();
         if (barracksRoot != null)
         {
-            barracksRoot.SetActive(false);
+            MenuMotion.Hide(barracksRoot);
 
         }
 
@@ -1042,6 +1066,12 @@ public sealed class BarracksMenu : MonoBehaviour
 
         }
 
+        if (unitPreview != null)
+        {
+            unitPreview.Show(unit);
+
+        }
+
         if (unitStatsText != null)
         {
             unitStatsText.text = unit == null ? "" :
@@ -1121,6 +1151,8 @@ public sealed class BarracksMenu : MonoBehaviour
             }
 
             Sprite sprite = null;
+            bool showingEmptySlot = false;
+            bool showingLockedSlot = false;
             if (unit != null && unit.TryGetEquipmentAtSlot(entry.slot, out EquipmentInstance gear))
             {
                 sprite = gear.Icon;
@@ -1140,14 +1172,23 @@ public sealed class BarracksMenu : MonoBehaviour
             if (sprite == null && blockReason == UnitSlotBlockReason.TwoHandedWeapon)
             {
                 sprite = twoHandedLockSprite != null ? twoHandedLockSprite : lockedSlotSprite;
+                showingLockedSlot = sprite != null;
 
             }
             else if (sprite == null &&
                 (blockReason == UnitSlotBlockReason.ProgressionLocked ||
                  blockReason == UnitSlotBlockReason.PlayerLocked ||
-                 blockReason == UnitSlotBlockReason.MutationOccupied))
+                 blockReason == UnitSlotBlockReason.MutationOccupied ||
+                 blockReason == UnitSlotBlockReason.RaceRestricted))
             {
                 sprite = lockedSlotSprite;
+                showingLockedSlot = sprite != null;
+
+            }
+            else if (sprite == null && unit != null && blockReason == UnitSlotBlockReason.None)
+            {
+                sprite = EmptySlotSprite(entry.slot);
+                showingEmptySlot = sprite != null;
 
             }
 
@@ -1156,6 +1197,8 @@ public sealed class BarracksMenu : MonoBehaviour
                 entry.itemIcon.sprite = sprite;
                 entry.itemIcon.enabled = sprite != null;
                 entry.itemIcon.raycastTarget = false;
+                entry.itemIcon.color = showingEmptySlot ? emptySlotIconColor :
+                    showingLockedSlot ? lockSlotIconColor : occupiedSlotIconColor;
 
             }
 
@@ -1171,6 +1214,70 @@ public sealed class BarracksMenu : MonoBehaviour
         }
 
         ShowSelectedSlotItem();
+
+    }
+
+    private Sprite EmptySlotSprite(UnitSlotId slot)
+    {
+        switch (slot)
+        {
+            case UnitSlotId.RightHand:
+            {
+                return emptyRightHandSprite;
+
+            }
+            case UnitSlotId.LeftHand:
+            {
+                return emptyLeftHandSprite;
+
+            }
+            case UnitSlotId.Head:
+            {
+                return emptyHeadSprite;
+
+            }
+            case UnitSlotId.Chest:
+            {
+                return emptyChestSprite;
+
+            }
+            case UnitSlotId.Gloves:
+            {
+                return emptyGlovesSprite;
+
+            }
+            case UnitSlotId.Pants:
+            {
+                return emptyPantsSprite;
+
+            }
+            case UnitSlotId.Boots:
+            {
+                return emptyBootsSprite;
+
+            }
+            case UnitSlotId.Accessory1:
+            case UnitSlotId.Accessory2:
+            case UnitSlotId.Accessory3:
+            {
+                return emptyAccessorySprite;
+
+            }
+            case UnitSlotId.Consumable1:
+            case UnitSlotId.Consumable2:
+            case UnitSlotId.Consumable3:
+            case UnitSlotId.Consumable4:
+            {
+                return emptyConsumableSprite;
+
+            }
+            default:
+            {
+                return null;
+
+            }
+
+        }
 
     }
 
@@ -1296,6 +1403,7 @@ public sealed class BarracksMenu : MonoBehaviour
         SetItemHeader(gear.itemName, gear.Icon,
             string.IsNullOrWhiteSpace(gear.DisplayTypeLabel)
                 ? gear.EquipmentFit.ToString() : gear.DisplayTypeLabel);
+        SetItemTypeBadge(gear.TypeIcon);
         SetStars((int)gear.rarity);
         if (itemDescriptionText != null)
         {
@@ -1331,6 +1439,7 @@ public sealed class BarracksMenu : MonoBehaviour
         ConsumableData definition = item.definition;
         SetItemHeader(ItemName(definition), definition == null ? null : definition.sprite,
             "Consumable");
+        SetItemTypeBadge(null);
         SetStars(0);
         if (itemDescriptionText != null)
         {
@@ -1360,6 +1469,7 @@ public sealed class BarracksMenu : MonoBehaviour
     private void ShowEmptyItem(string description)
     {
         SetItemHeader("No item", null, "");
+        SetItemTypeBadge(null);
         SetStars(0);
         if (itemDescriptionText != null)
         {
@@ -1396,6 +1506,17 @@ public sealed class BarracksMenu : MonoBehaviour
             itemIcon.sprite = sprite;
             itemIcon.enabled = sprite != null;
             itemIcon.raycastTarget = false;
+
+        }
+
+    }
+
+    private void SetItemTypeBadge(Sprite sprite)
+    {
+        if (itemTypeBadge != null)
+        {
+            itemTypeBadge.sprite = sprite;
+            itemTypeBadge.enabled = sprite != null;
 
         }
 

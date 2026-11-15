@@ -11,7 +11,7 @@ public sealed class BarracksItemPopup : MonoBehaviour
 
     public void Hide()
     {
-        gameObject.SetActive(false);
+        MenuMotion.Hide(gameObject);
 
     }
 

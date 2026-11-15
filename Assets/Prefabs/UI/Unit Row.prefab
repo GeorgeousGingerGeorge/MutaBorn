@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 9207023141606660045}
   - component: {fileID: 4001946308379532639}
   - component: {fileID: 7432113092921881135}
+  - component: {fileID: 7698350467138965852}
   m_Layer: 5
   m_Name: Unit Row
   m_TagString: Untagged
@@ -302,9 +303,26 @@ MonoBehaviour:
   raceText: {fileID: 7432113092921881134}
   levelText: {fileID: 5499574174734133326}
   raceIcon: {fileID: 2355431682328152908}
+  lockedCellSprite: {fileID: 21300000, guid: 96e9d800e082e50448ab9ed04760d01c, type: 3}
   selectionBackground: {fileID: 4190579585251698069}
   normalColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   selectedColor: {r: 0.63, g: 0.83, b: 1, a: 1}
+--- !u!114 &7698350467138965852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3237293283277657286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322d371e47e3014f9e748e27018731a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuButtonMotion
+  hoverScale: 1.07
+  pressedScale: 0.96
+  smoothTime: 0.1
+  hoverTextColor: {r: 0.98, g: 0.84, b: 0.61, a: 1}
 --- !u!1 &6000471183156209923
 GameObject:
   m_ObjectHideFlags: 0

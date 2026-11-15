@@ -176,7 +176,7 @@ public sealed class ResearchMenu : MonoBehaviour
     {
         if (panel != null)
         {
-            panel.SetActive(false);
+            MenuMotion.Hide(panel);
 
         }
 

@@ -28,6 +28,8 @@ public sealed class WorkshopMenu : MonoBehaviour
     [SerializeField] private TMP_Text ingredientText;
     [SerializeField] private TMP_Text feedbackText;
     [SerializeField] private Image selectedIcon;
+    [SerializeField] private Image selectedTypeBadge;
+    [SerializeField] private Sprite lockedRecipeSprite;
 
     private readonly List<WorkshopRecipeRowUI> rows = new List<WorkshopRecipeRowUI>();
     private readonly StringBuilder builder = new StringBuilder(300);
@@ -150,9 +152,33 @@ public sealed class WorkshopMenu : MonoBehaviour
 
     }
 
+    private bool IsResearchLocked(CraftingRecipe recipe)
+    {
+        ResearchManager research = ResearchManager.Instance;
+        if (recipe == null || research == null)
+        {
+            return false;
+
+        }
+
+        bool unlocked = recipe.outputEquipment.equipmentType != null
+            ? research.IsEquipmentTemplateAvailable(recipe.outputEquipment)
+            : research.IsRecipeAvailable(recipe.recipeId);
+        ResearchBenefitType tier = recipe.outputKind == CraftingOutputKind.Resource
+            ? ResearchBenefitType.ResourceCraftTier : ResearchBenefitType.EquipmentCraftTier;
+
+        return !unlocked || recipe.requiredCraftTier > research.BenefitTotal(tier);
+
+    }
+
     private Sprite GetIcon(CraftingRecipe recipe)
     {
         if (recipe == null) return null;
+        if (lockedRecipeSprite != null && IsResearchLocked(recipe))
+        {
+            return lockedRecipeSprite;
+
+        }
         if (recipe.outputKind == CraftingOutputKind.EquipmentOrConsumable)
         {
             if (recipe.outputEquipment.TryResolve(out EquipmentTemplate template))
@@ -320,6 +346,7 @@ public sealed class WorkshopMenu : MonoBehaviour
             if (selectedDescription != null) selectedDescription.text = string.Empty;
             if (ingredientText != null) ingredientText.text = "";
             if (selectedIcon != null) selectedIcon.enabled = false;
+            if (selectedTypeBadge != null) selectedTypeBadge.enabled = false;
             if (craftButton != null) craftButton.interactable = false;
             return;
 
@@ -331,6 +358,16 @@ public sealed class WorkshopMenu : MonoBehaviour
         {
             selectedIcon.sprite = GetIcon(selectedRecipe);
             selectedIcon.enabled = selectedIcon.sprite != null;
+
+        }
+
+        if (selectedTypeBadge != null)
+        {
+            Sprite typeIcon = selectedRecipe.outputKind == CraftingOutputKind.EquipmentOrConsumable &&
+                selectedRecipe.outputEquipment.equipmentType != null
+                ? selectedRecipe.outputEquipment.equipmentType.TypeIcon : null;
+            selectedTypeBadge.sprite = typeIcon;
+            selectedTypeBadge.enabled = typeIcon != null;
 
         }
 
