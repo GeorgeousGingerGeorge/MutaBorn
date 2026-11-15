@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq.Expressions;
+using Unity.VisualScripting;
+using Unity.Collections.LowLevel.Unsafe;
 
 
 
@@ -22,53 +24,135 @@ public class ProceduralLevelGenerator : MonoBehaviour
     public List<ChunkPlacementCandidate> placementCandidates = new List<ChunkPlacementCandidate>();
 
     public float gridCellSize = 0f;
-    
+
+    [Header("Generation Settings")]
+    [SerializeField, Min(1)] private int maxGenerationAttempts = 10;
+
     //Starts Generation
 
-    public bool TryGenerateInitialLayout(float GridCellSize,out GeneratedLevelLayout layout) 
+    public bool TryGenerateInitialLayout(float GridCellSize, out GeneratedLevelLayout layout)
     {
+
         layout = null;
 
-        if (GridCellSize <= 0f) 
+        if (GridCellSize <= 0f)
         {
             return false;
         }
-        
+
+        if (!ValidateProfile())
+        {
+            return false;
+        }
+
+        int initialSeed = generationProfile.RandomizedSeed ? unchecked((int)DateTime.UtcNow.Ticks) : generationProfile.Seed;
+
+        int attempts = generationProfile.RandomizedSeed ? maxGenerationAttempts : 1;
+
+        for (int tries = 0; tries < attempts; tries++)
+        {
+            int attemptedSeed = unchecked(initialSeed + tries);
+
+            if (TryGenerateInitialLayout(GridCellSize, attemptedSeed, out layout))
+            {
+                return true;
+            }
+
+
+        }
+        layout = null;
+        return false;
+    }
+    public bool TryGenerateInitialLayout(float GridCellSize, int seed, out GeneratedLevelLayout layout) 
+    {
+        layout = null;
         gridCellSize = GridCellSize;
-        
-        placementCandidates.Clear();
-        
-        if (!ValidateProfile()) 
-        {
-            return false;
-        }
 
-        CurrentSeed = generationProfile.RandomizedSeed ? unchecked((int)DateTime.UtcNow.Ticks) : generationProfile.Seed;
-
-        random = new System.Random(CurrentSeed);
+        CurrentSeed = seed;
+        random = new System.Random(seed);
 
         generatedLayout = new GeneratedLevelLayout { seed = CurrentSeed };
         placementCandidates.Clear();
 
+        generatedLayout = new GeneratedLevelLayout
+        {
+            seed = CurrentSeed
+        };
+
         int targetChunk = random.Next(generationProfile.MinimumChunks, generationProfile.MaximumChunks + 1);
 
-  
 
-        if (!TryCreateChunk(generationProfile.EntranceChunk, Vector2Int.zero, out ChunkInstance entranceChunk)) 
+
+        if (!TryCreateChunk(generationProfile.EntranceChunk, Vector2Int.zero, out ChunkInstance entranceChunk))
         {
             Debug.Log($"Failed to create starting Chunk");
             Debug.LogError("[Generation Failure] Entrance creation failed.");
             return false;
         }
-        if (!FitsWithinLevelBounds(entranceChunk)) 
+        // Calculate the maximum valid origin within the 40x40 level.
+        Vector2Int maxOrigin =
+            generationProfile.MaximumLevelDimension -
+            entranceChunk.allocatedDimensions;
+
+        if (maxOrigin.x < 0 || maxOrigin.y < 0)
+        {
+            Debug.LogError("Entrance is larger than the level dimensions.");
+            return false;
+        }
+
+        // Randomly select one of five starting positions.
+        int startingPosition = random.Next(0, 5);
+
+        Vector2Int entranceOrigin;
+        string positionName;
+
+        switch (startingPosition)
+        {
+            case 0: // Lower Left
+                entranceOrigin = Vector2Int.zero;
+                positionName = "Lower Left";
+                break;
+
+            case 1: // Lower Right
+                entranceOrigin = new Vector2Int(maxOrigin.x, 0);
+                positionName = "Lower Right";
+                break;
+
+            case 2: // Upper Left
+                entranceOrigin = new Vector2Int(0, maxOrigin.y);
+                positionName = "Upper Left";
+                break;
+
+            case 3: // Upper Right
+                entranceOrigin = maxOrigin;
+                positionName = "Upper Right";
+                break;
+
+            default: // Center
+                entranceOrigin = new Vector2Int(
+                    maxOrigin.x / 2,
+                    maxOrigin.y / 2
+                );
+                positionName = "Center";
+                break;
+        }
+
+        entranceChunk.chunkGridOrigin = entranceOrigin;
+
+        Debug.Log(
+            $"Entrance Starting Position: {positionName} | " +
+            $"Grid Origin: {entranceOrigin} | " +
+            $"Footprint: {entranceChunk.allocatedDimensions}"
+        );
+        if (!FitsWithinLevelBounds(entranceChunk))
         {
             Debug.Log("Instance: EntranceChunk exceed the max level dimensions");
             return false;
         }
-       
+
         generatedLayout.chunks.Add(entranceChunk);
 
-        if (!RegisterChunkSockets(entranceChunk, gridCellSize)) 
+        if (!RegisterChunkSockets(entranceChunk, gridCellSize))
         {
             return false;
         }
@@ -83,39 +167,39 @@ public class ProceduralLevelGenerator : MonoBehaviour
         int additionalChunkCount = targetChunk - 2;
 
 
-        for(int currentChunk = 0; currentChunk < additionalChunkCount; currentChunk++) 
+        for (int currentChunk = 0; currentChunk < additionalChunkCount; currentChunk++)
         {
-            if (!TryCreateAdditionalChunks( out ChunkInstance additionalChunk)) 
+            if (!TryCreateAdditionalChunks(out ChunkInstance additionalChunk))
             {
                 int currentChunkCount = generatedLayout.chunks.Count;
 
                 //Go to Evacuation Chunk
                 int finalChunkCount = currentChunkCount + 1;
 
-                if (finalChunkCount >= generationProfile.MinimumChunks) 
+                if (finalChunkCount >= generationProfile.MinimumChunks)
                 {
                     break;
                 }
                 Debug.Log($"Failed to create additionalChunk {currentChunk + 1}");
-                        Debug.LogError(
-               $"[Generation Failure] Additional chunk failed. " +
-               $"Placed chunks: {generatedLayout.chunks.Count}, " +
-               $"Target chunks: {targetChunk}, Seed: {CurrentSeed}"
-           );
+                Debug.LogError(
+       $"[Generation Failure] Additional chunk failed. " +
+       $"Placed chunks: {generatedLayout.chunks.Count}, " +
+       $"Target chunks: {targetChunk}, Seed: {CurrentSeed}"
+   );
                 return false;
             }
 
-           
-            
+
+
         }
 
 
         ChunkInstance evacuationChunk = null;
         List<ChunkPlacementCandidate> attemptedEvacuationCandidates = new List<ChunkPlacementCandidate>();
 
-        while(TrySelectPlacementCandidate(attemptedEvacuationCandidates, out ChunkPlacementCandidate evacuationCandidate)) 
+        while (TrySelectPlacementCandidate(attemptedEvacuationCandidates, out ChunkPlacementCandidate evacuationCandidate))
         {
-          
+
 
             attemptedEvacuationCandidates.Add(evacuationCandidate);
 
@@ -124,13 +208,13 @@ public class ProceduralLevelGenerator : MonoBehaviour
                 continue;
             }
 
-            if (TryPlaceChunkAtSocket(generationProfile.EvacuationChunk, evacuationCandidate, out evacuationChunk)) 
+            if (TryPlaceChunkAtSocket(generationProfile.EvacuationChunk, evacuationCandidate, out evacuationChunk))
             {
                 break;
             }
         }
 
-        if (evacuationChunk == null) 
+        if (evacuationChunk == null)
         {
             Debug.LogError(
        $"[Generation Failure] Evacuation placement failed. " +
@@ -140,16 +224,16 @@ public class ProceduralLevelGenerator : MonoBehaviour
 
             return false;
         }
-       
-       
+
+
 
         layout = generatedLayout;
         Debug.Log($"Initial chunk Created Successfully. Seed: {CurrentSeed}");
-      
+
 
         return true;
-
     }
+
 
  
     //Creates ChunkInstance

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -12,6 +12,9 @@ public class Occupancy : MonoBehaviour
     private Dictionary<GridNode, UnitController> units = new Dictionary<GridNode, UnitController>();
     private Dictionary<GridNode, ObstacleController> solidObstacles = new Dictionary<GridNode, ObstacleController>();
     private Dictionary<(GridNode, GridNode), ObstacleController> edgeObstacles = new Dictionary<(GridNode,GridNode), ObstacleController>();
+
+    private HashSet<ObstacleController> WorldSpaceObstacles = new HashSet<ObstacleController>();
+   
    
     
     public bool CanEnterNode(GridNode currentNode, GridNode destination, UnitController unit = null) 
@@ -215,7 +218,15 @@ public class Occupancy : MonoBehaviour
         edgeObstacles.Add((secondNode, firstNode), edgeObstacle);
         
     }
+    public void RegisterWorldSpaceObstacles(ObstacleController obstacle) 
+    {
+        if (obstacle == null) 
+        {
+            return;
+        }
 
+        WorldSpaceObstacles.Add(obstacle);
+    }
 
 
     //Registry-Removing
@@ -271,6 +282,10 @@ public class Occupancy : MonoBehaviour
             edgeObstacles.Remove((secondNode, firstNode));
 
         }
+    }
+    public void UnregisterWorldSpaceObstacles(ObstacleController worldSpaceObstacle) 
+    {
+        WorldSpaceObstacles.Remove(worldSpaceObstacle);
     }
     private bool TryGetFootprintNodes(GridNode anchorNode, UnitController unit, out List<GridNode> footprintNodes)
     {

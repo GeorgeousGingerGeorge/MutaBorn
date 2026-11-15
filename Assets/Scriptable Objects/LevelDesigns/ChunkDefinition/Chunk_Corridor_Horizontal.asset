@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad9163df509a99043a60835f6424f490, type: 3}
-  m_Name: Chunk_Corridor
+  m_Name: Chunk_Corridor_Horizontal
   m_EditorClassIdentifier: Assembly-CSharp::ChunkDefinition
-  chunkID: Corridor_Path
+  chunkID: Corridor_Vertical
   category: 4
-  minimumDimensions: {x: 3, y: 10}
-  maximumDimensions: {x: 5, y: 15}
+  minimumDimensions: {x: 10, y: 4}
+  maximumDimensions: {x: 15, y: 5}
   allowedPrefabs:
-  - {fileID: 11400000, guid: cfd9f6cc363103949bdb8310b7fcf9d5, type: 2}
+  - {fileID: 11400000, guid: e0c944bd5f8bd7d4d96a750d5d7217c3, type: 2}
+  - {fileID: 11400000, guid: 0b1d63709f64f1b4a9695974a6c5222f, type: 2}
   minimumWeight: 20
   maximumWeight: 60
   influenceStrength: 10
