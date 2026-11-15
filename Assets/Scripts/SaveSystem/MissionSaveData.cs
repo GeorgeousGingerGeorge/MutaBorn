@@ -1,3 +1,4 @@
+using MutaBorn.Gameplay;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -143,12 +144,17 @@ public class EquipmentSaveData
     public string instanceId;
     public string typeId;
     public string templateId;
+    public UnitSlotId equippedSlot;
 
     // Equipment generation and upgrades
     public EquipmentGrade rarity;
     public EquipmentStatValues baseStats;
     public EquipmentStatValues rolledStats;
     public EquipmentAttributeScaling attributeScaling;
+
+    // Generated combat properties
+    public DamageResistance[] resistances;
+    public DamageComponent[] bonusDamage;
 
     // Upgrade history
     public EquipmentStatUpgradeRoll lastStatRoll1;

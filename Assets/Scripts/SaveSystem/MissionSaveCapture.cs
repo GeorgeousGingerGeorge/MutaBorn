@@ -81,16 +81,37 @@ public static class MissionSaveCapture
                         return null;
                     }
 
+                    UnitSlotId equippedSlot = UnitSlotId.None;
+
+                    foreach (UnitLoadoutSlotState slot in unit.LoadoutSlots)
+                    {
+                        if (slot != null && slot.ItemInstanceId == item.instanceId)
+                        {
+                            equippedSlot = slot.Slot;
+                            break;
+                        }
+                    }
+
+                    if (equippedSlot == UnitSlotId.None)
+                    {
+                        Debug.LogError($"[Save/Load] Equipment slot not found for {unit.characterName}: {item.itemName}.");
+                        return null;
+                    }
+
                     savedMember.equipment.Add(new EquipmentSaveData
                     {
                         instanceId = item.instanceId,
                         typeId = item.typeDefinition.TypeId,
                         templateId = item.templateId,
+                        equippedSlot = equippedSlot,
 
                         rarity = item.rarity,
                         baseStats = item.baseStats,
                         rolledStats = item.rolledStats,
                         attributeScaling = item.attributeScaling,
+
+                        resistances = item.resistances,
+                        bonusDamage = item.bonusDamage,
 
                         lastStatRoll1 = item.lastStatRoll1,
                         lastStatRoll2 = item.lastStatRoll2,
@@ -98,7 +119,6 @@ public static class MissionSaveCapture
                         lastUpgradeBonus = item.lastUpgradeBonus
                     });
                 }
-
                 snapshot.rosterState.members.Add(savedMember);
 
                 Debug.Log($"[Save/Load] {unit.characterName}: {savedMember.fixedMutationIds.Count} fixed mutations, {savedMember.legacyMutationIds.Count} legacy mutations.");

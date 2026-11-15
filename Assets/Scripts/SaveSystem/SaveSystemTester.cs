@@ -1,5 +1,7 @@
-using UnityEngine;
+using MutaBorn.Gameplay;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SaveSystemTester : MonoBehaviour
@@ -575,6 +577,202 @@ public class SaveSystemTester : MonoBehaviour
         }
 
         Debug.Log($"[Save/Load] Saved equipment verified: {verified}/{total} items.");
+    }
+
+    [ContextMenu("Test / Verify Saved Equipment Slots")]
+    private void TestVerifySavedEquipmentSlots()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster data not found.");
+            return;
+        }
+
+        int total = 0;
+        int verified = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            if (member.equipment == null)
+            {
+                continue;
+            }
+
+            foreach (EquipmentSaveData item in member.equipment)
+            {
+                total++;
+
+                if (item.equippedSlot == UnitSlotId.None)
+                {
+                    Debug.LogError($"[Save/Load] Missing equipment slot for {member.characterName}: {item.instanceId}.");
+                    continue;
+                }
+
+                verified++;
+            }
+        }
+
+        Debug.Log($"[Save/Load] Equipment slots verified: {verified}/{total} items.");
+    }
+
+    [ContextMenu("Test / Verify Equipment Slot Mapping")]
+    private void TestVerifyEquipmentSlotMapping()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null || UnitRoster.Instance == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster or live roster unavailable.");
+            return;
+        }
+
+        int total = 0;
+        int verified = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            if (!UnitRoster.Instance.TryGetUnit(member.unitId, out UnitData unit))
+            {
+                Debug.LogError($"[Save/Load] Roster member not found: {member.characterName}.");
+                continue;
+            }
+
+            foreach (EquipmentSaveData item in member.equipment)
+            {
+                total++;
+
+                UnitLoadoutSlotState slot = unit.GetSlot(item.equippedSlot);
+
+                if (slot == null || slot.ItemInstanceId != item.instanceId)
+                {
+                    Debug.LogError($"[Save/Load] Incorrect slot mapping for {member.characterName}: {item.instanceId}.");
+                    continue;
+                }
+
+                verified++;
+            }
+        }
+
+        Debug.Log($"[Save/Load] Equipment slot mapping verified: {verified}/{total} items.");
+    }
+
+    [ContextMenu("Test / Verify Saved Equipment Stats")]
+    private void TestVerifySavedEquipmentStats()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null || UnitRoster.Instance == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster or live roster unavailable.");
+            return;
+        }
+
+        int total = 0;
+        int verified = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            if (!UnitRoster.Instance.TryGetUnit(member.unitId, out UnitData unit))
+            {
+                Debug.LogError($"[Save/Load] Roster member not found: {member.characterName}.");
+                continue;
+            }
+
+            foreach (EquipmentSaveData savedItem in member.equipment)
+            {
+                total++;
+
+                int index = unit.equippedItems.FindIndex(item => item.instanceId == savedItem.instanceId);
+
+                if (index < 0)
+                {
+                    Debug.LogError($"[Save/Load] Equipment missing: {member.characterName} / {savedItem.instanceId}.");
+                    continue;
+                }
+
+                EquipmentInstance item = unit.equippedItems[index];
+
+                bool matches = item.rarity == savedItem.rarity &&
+                               item.baseStats.Equals(savedItem.baseStats) &&
+                               item.rolledStats.Equals(savedItem.rolledStats);
+
+                for (int i = 0; i < 6; i++)
+                {
+                    if (item.attributeScaling.Get(i) != savedItem.attributeScaling.Get(i))
+                    {
+                        matches = false;
+                        break;
+                    }
+                }
+
+                if (!matches)
+                {
+                    Debug.LogError($"[Save/Load] Equipment stat mismatch: {member.characterName} / {item.itemName}.");
+                    continue;
+                }
+
+                verified++;
+            }
+        }
+
+        Debug.Log($"[Save/Load] Equipment stats verified: {verified}/{total} items.");
+    }
+
+    [ContextMenu("Test / Verify Equipment Combat Properties")]
+    private void TestVerifyEquipmentCombatProperties()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null || UnitRoster.Instance == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster or live roster unavailable.");
+            return;
+        }
+
+        int total = 0;
+        int verified = 0;
+        int resistanceEntries = 0;
+        int damageEntries = 0;
+
+        foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+        {
+            if (!UnitRoster.Instance.TryGetUnit(member.unitId, out UnitData unit) || member.equipment == null)
+            {
+                Debug.LogError($"[Save/Load] Roster member unavailable: {member.characterName}.");
+                continue;
+            }
+
+            foreach (EquipmentSaveData savedItem in member.equipment)
+            {
+                total++;
+
+                int index = unit.equippedItems.FindIndex(item => item.instanceId == savedItem.instanceId);
+
+                if (index < 0)
+                {
+                    Debug.LogError($"[Save/Load] Equipment not found: {savedItem.instanceId}.");
+                    continue;
+                }
+
+                EquipmentInstance item = unit.equippedItems[index];
+
+                DamageResistance[] originalResistances = item.resistances ?? Array.Empty<DamageResistance>();
+                DamageResistance[] savedResistances = savedItem.resistances ?? Array.Empty<DamageResistance>();
+
+                DamageComponent[] originalDamage = item.bonusDamage ?? Array.Empty<DamageComponent>();
+                DamageComponent[] savedDamage = savedItem.bonusDamage ?? Array.Empty<DamageComponent>();
+
+                bool resistancesMatch = System.Collections.StructuralComparisons.StructuralEqualityComparer.Equals(originalResistances, savedResistances);
+                bool damageMatches = System.Collections.StructuralComparisons.StructuralEqualityComparer.Equals(originalDamage, savedDamage);
+
+                if (!resistancesMatch || !damageMatches)
+                {
+                    Debug.LogError($"[Save/Load] Combat property mismatch: {member.characterName} / {item.itemName}.");
+                    continue;
+                }
+
+                resistanceEntries += savedResistances.Length;
+                damageEntries += savedDamage.Length;
+                verified++;
+            }
+        }
+
+        Debug.Log($"[Save/Load] Equipment combat properties verified: {verified}/{total} items.");
+        Debug.Log($"[Save/Load] Verified {resistanceEntries} resistance entries and {damageEntries} bonus damage entries.");
     }
 
 }
