@@ -108,9 +108,15 @@ public static class MissionSaveRestore
 
             if (!currentUnits.ContainsKey(savedUnit.persistentId))
             {
+                if (IsMissingDefeatedCrew(savedUnit))
+                {
+                    continue;
+                }
+
                 Debug.LogError($"Unit not found: {savedUnit.persistentId}");
                 return false;
             }
+
 
             GridNode targetNode = gridManager.GetNodeFromGridPosition(
                 savedUnit.floorId,
@@ -212,17 +218,45 @@ public static class MissionSaveRestore
 
         Dictionary<string, UnitController> currentUnits = GetCurrentUnits();
 
-        if (currentUnits == null || currentUnits.Count != saved.units.Count)
+        if (currentUnits == null)
+        {
+            Debug.LogError("Current unit lookup failed.");
+            return false;
+        }
+
+        int missingDefeatedCrewCount = 0;
+
+        foreach (UnitSaveData savedUnit in saved.units)
+        {
+            if (!currentUnits.ContainsKey(savedUnit.persistentId) && IsMissingDefeatedCrew(savedUnit))
+            {
+                missingDefeatedCrewCount++;
+            }
+        }
+
+        if (currentUnits.Count != saved.units.Count - missingDefeatedCrewCount)
         {
             Debug.LogError("Current units do not match the saved unit count.");
             return false;
         }
 
+
         List<PositionRestoreEntry> restoreEntries = new List<PositionRestoreEntry>();
 
         foreach (UnitSaveData savedUnit in saved.units)
         {
-            UnitController unit = currentUnits[savedUnit.persistentId];
+
+            if (!currentUnits.TryGetValue(savedUnit.persistentId, out UnitController unit))
+            {
+                if (IsMissingDefeatedCrew(savedUnit))
+                {
+                    Debug.Log($"[Save/Load] Defeated crew member remains absent: {savedUnit.unitName}");
+                    continue;
+                }
+
+                Debug.LogError($"Unit not found during restoration: {savedUnit.persistentId}");
+                return false;
+            }
 
             if (unit == null || unit.data == null || unit.currentNode == null || unit.occupancy == null)
             {
@@ -366,4 +400,9 @@ public static class MissionSaveRestore
         Debug.Log($"Successfully restored {restoreEntries.Count} unit states!");
         return true;
     }
+    private static bool IsMissingDefeatedCrew(UnitSaveData savedUnit)
+    {
+        return savedUnit != null && !savedUnit.isActive && savedUnit.currentHealth == 0 && !string.IsNullOrEmpty(savedUnit.persistentId) && savedUnit.persistentId.StartsWith("CrewSlot_", System.StringComparison.Ordinal);
+    }
+
 }
