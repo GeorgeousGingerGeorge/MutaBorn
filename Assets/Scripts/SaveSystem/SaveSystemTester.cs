@@ -927,4 +927,64 @@ public class SaveSystemTester : MonoBehaviour
         Debug.Log($"[Save/Load] Character resource restoration verified: {verified}/{total} units.");
     }
 
+    [ContextMenu("Test / Verify Persistent Roster Restoration")]
+    private void TestVerifyPersistentRosterRestoration()
+    {
+        if (!Application.isPlaying || UnitRoster.Instance != null)
+        {
+            Debug.LogWarning("[Save/Load] Run this test in Play Mode from a scene without an existing UnitRoster.");
+            return;
+        }
+
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved) || saved.rosterState?.members == null || saved.rosterState.deployments == null)
+        {
+            Debug.LogError("[Save/Load] Saved roster data unavailable.");
+            return;
+        }
+
+        if (GameDataBaseLoader.Instance == null || GameDataBaseLoader.Instance.raceData == null)
+        {
+            Debug.LogError("[Save/Load] Game database unavailable.");
+            return;
+        }
+
+        GameObject testObject = new GameObject("Temporary Restored Roster");
+        UnitRoster roster = testObject.AddComponent<UnitRoster>();
+
+        try
+        {
+            if (!roster.TryRestoreSavedRoster(saved.rosterState))
+            {
+                Debug.LogError("[Save/Load] Persistent roster restoration failed.");
+                return;
+            }
+
+            int verifiedUnits = 0;
+            int verifiedDeployments = 0;
+
+            foreach (UnitRosterMemberSaveData member in saved.rosterState.members)
+            {
+                if (roster.TryGetUnit(member.unitId, out UnitData unit) && unit.characterName == member.characterName && unit.equippedItems.Count == (member.equipment?.Count ?? 0) && unit.currentHealth == member.currentHealth && unit.currentMana == member.currentMana && unit.currentActionPoints == member.currentActionPoints)
+                {
+                    verifiedUnits++;
+                }
+            }
+
+            foreach (UnitRosterDeploymentSaveData deployment in saved.rosterState.deployments)
+            {
+                if (roster.TryGetDeploymentUnit(deployment.slotIndex, out UnitData unit) && unit.UnitId == deployment.unitId)
+                {
+                    verifiedDeployments++;
+                }
+            }
+
+            Debug.Log($"[Save/Load] Persistent roster members verified: {verifiedUnits}/{saved.rosterState.members.Count}.");
+            Debug.Log($"[Save/Load] Persistent deployments verified: {verifiedDeployments}/{saved.rosterState.deployments.Count}.");
+        }
+        finally
+        {
+            Destroy(testObject);
+        }
+    }
+
 }
