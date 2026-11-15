@@ -1,9 +1,19 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
 // Shared Action Menu interaction target for world objects and mission targets.
 public class WorldInteractable : SimpleInteractable
 {
+    public static event Action<UnitController, WorldInteractable> WorldInteracted;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetEvents()
+    {
+        WorldInteracted = null;
+
+    }
+
     [Header("Interaction Identity")]
     [SerializeField] private ActionDefinition interactionAction;
     [SerializeField] private string interactionId = "interact";
@@ -85,6 +95,7 @@ public class WorldInteractable : SimpleInteractable
         }
 
         OnInteractionSucceeded(actor);
+        WorldInteracted?.Invoke(actor, this);
         GetComponent<WorldInteractableVfx>()?.Play();
         onInteracted?.Invoke();
         Debug.Log($"{actor.name} used {InteractionId} on {InteractionTargetName}.", this);
