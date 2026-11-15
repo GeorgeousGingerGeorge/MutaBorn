@@ -100,9 +100,16 @@ public class OptionsMenuController : MonoBehaviour
         );
     }
 
-    public void SetMasterVolume(float volume)
+    public void SetSFXVolume(float volume)
     {
-        AudioListener.volume = volume / 100f;
+        float normalizedVolume = volume / 100f;
+
+        float volumeInDecibels = normalizedVolume <= 0.0001f ? -80f : Mathf.Log10(normalizedVolume) * 20;
+
+        audioMixer.SetFloat(SFX_VOLUME_PARAMETER, volumeInDecibels);
+
+        PlayerPrefs.SetFloat(SFX_VOLUME_KEY, volume);
+        PlayerPrefs.Save();
     }
 
     public void SetDisplayMode(int mode)
