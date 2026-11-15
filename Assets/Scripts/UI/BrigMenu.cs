@@ -260,7 +260,7 @@ public sealed class BrigMenu : MonoBehaviour
         if (goldText != null)
         {
             goldText.text = selected == null ? "" :
-                $"Ransom: {brig.RansomGold(selected)} gold | Recruit offer: {brig.RecruitGold(selected)} gold";
+                $"Ransom: {brig.RansomGold(selected)} gold | Recruit offer: {brig.RecruitCostText(selected)}";
 
         }
         if (mutationResearchText != null)
@@ -306,8 +306,9 @@ public sealed class BrigMenu : MonoBehaviour
             selectedSlot = -1;
 
         }
-        Status(!attempted ? "Not enough gold or roster unavailable." :
-            accepted ? $"{unit.characterName} joined the roster!" : "Offer rejected. Gold spent.");
+        Status(!attempted ? "Not enough resources or roster unavailable." :
+            accepted ? $"{unit.characterName} joined the roster!" :
+            "Offer rejected. Recruitment payment spent.");
         Refresh();
 
     }

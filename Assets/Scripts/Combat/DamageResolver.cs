@@ -154,7 +154,7 @@ namespace MutaBorn.Gameplay
             normalDamage = 0;
             criticalDamage = 0;
             if (!TryBuildActionRequest(attacker, target, action, sourceEquipmentIndex,
-                false, out DamageRequest normal) ||
+                false, out DamageRequest normal, true) ||
                 !TryResolve(normal, out DamageResult normalResult, true))
             {
                 return false;
@@ -164,7 +164,7 @@ namespace MutaBorn.Gameplay
             normalDamage = normalResult.DamageAfterGuard;
             if (action.CriticalChancePercent > 0f &&
                 TryBuildActionRequest(attacker, target, action, sourceEquipmentIndex,
-                    true, out DamageRequest critical) &&
+                    true, out DamageRequest critical, true) &&
                 TryResolve(critical, out DamageResult criticalResult, true))
             {
                 criticalDamage = criticalResult.DamageAfterGuard;
@@ -183,7 +183,7 @@ namespace MutaBorn.Gameplay
 
         private static bool TryBuildActionRequest(UnitController attacker, UnitController target,
             ActionDefinition action, int sourceEquipmentIndex, bool critical,
-            out DamageRequest request)
+            out DamageRequest request, bool preview = false)
         {
             request = default(DamageRequest);
             if (attacker == null || attacker.data == null || action == null ||
@@ -195,6 +195,18 @@ namespace MutaBorn.Gameplay
 
             int baseDamage = GetBaseDamage(attacker.data, action.DamageStat);
             DamageType type = action.DamageType;
+            if (action.RandomDamageType == RandomActionDamageType.Physical)
+            {
+                type = preview ? DamageType.Slash :
+                    (DamageType)UnityEngine.Random.Range((int)DamageType.Slash, (int)DamageType.Blunt + 1);
+
+            }
+            else if (action.RandomDamageType == RandomActionDamageType.Elemental)
+            {
+                type = preview ? DamageType.Fire :
+                    (DamageType)UnityEngine.Random.Range((int)DamageType.Fire, (int)DamageType.Nature + 1);
+
+            }
 
             // Legacy assets have no damage type. Preserve a working default
             // until the team's ActionDefinition assets receive explicit types.

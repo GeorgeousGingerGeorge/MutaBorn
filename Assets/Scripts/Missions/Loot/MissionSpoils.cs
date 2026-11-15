@@ -148,6 +148,16 @@ public sealed class MissionSpoils : MonoBehaviour
 
         defeatedEnemies.Add(unit);
 
+        if (!string.Equals(unit.data.raceName, "MutaBorn", StringComparison.OrdinalIgnoreCase) &&
+            HasActiveMutation(unit.data) && raceLootDatabase != null &&
+            raceLootDatabase.TryGetMutatedEnemyLoot(out MissionLootTable mutatedLoot,
+                out int mutatedDropChance) &&
+            UnityEngine.Random.Range(0, 100) < mutatedDropChance)
+        {
+            Collect(mutatedLoot.RollContents());
+
+        }
+
         MissionLootTable table = mission.LevelMission.LootTable;
         if (raceLootDatabase != null &&
             raceLootDatabase.TryGetLoot(unit.data.raceName, out MissionLootTable raceTable,
@@ -198,6 +208,40 @@ public sealed class MissionSpoils : MonoBehaviour
 #endif
 
         }
+
+    }
+
+    private static bool HasActiveMutation(UnitData data)
+    {
+        if (data.activeMutationNodes != null)
+        {
+            foreach (ActiveMutationRecord record in data.activeMutationNodes)
+            {
+                if (record != null && record.MutationId != MutationID.none)
+                {
+                    return true;
+
+                }
+
+            }
+
+        }
+
+        if (data.activeMutations != null)
+        {
+            foreach (BaseMutation mutation in data.activeMutations.Values)
+            {
+                if (mutation != null)
+                {
+                    return true;
+
+                }
+
+            }
+
+        }
+
+        return false;
 
     }
 

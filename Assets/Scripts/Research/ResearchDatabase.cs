@@ -27,7 +27,8 @@ public enum ResearchBenefitType
     ResearchTier,
     ResourceCraftTier,
     EquipmentCraftTier,
-    BrigSlot
+    BrigSlot,
+    TradeTier
 
 }
 

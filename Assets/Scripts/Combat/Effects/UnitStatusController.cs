@@ -240,6 +240,7 @@ namespace MutaBorn.Gameplay
                     ? existing.Stacks : definition.DurationOwnerTurns;
                 // Refreshing an existing effect must not restart its first-turn grace.
                 RefreshStatModifier(existing);
+                owner.data.SetMutationsSuppressed(HasControl(StatusControlFlags.MutationSuppressed));
                 statusRevision++;
                 Log($"Status '{definition.DisplayName}' refreshed on {owner.data.characterName}: " +
                     $"{existing.Stacks} stack(s), {existing.RemainingTurns} owner turns remaining.");
@@ -270,6 +271,7 @@ namespace MutaBorn.Gameplay
 
             active.Add(status);
             RefreshStatModifier(status);
+            owner.data.SetMutationsSuppressed(HasControl(StatusControlFlags.MutationSuppressed));
             statusRevision++;
             Log($"Status '{definition.DisplayName}' applied to {owner.data.characterName}: " +
                 $"{status.Stacks} stack(s), {status.RemainingTurns} owner turns remaining.");
@@ -331,6 +333,15 @@ namespace MutaBorn.Gameplay
             if (HasControl(StatusControlFlags.Silence) &&
                 ((action.ControlTags & ActionControlTags.MagicOrMutation) != 0 ||
                  action.DamageStat == CombatDamageStat.Magic))
+            {
+                return false;
+
+            }
+
+            if (HasControl(StatusControlFlags.MutationSuppressed) &&
+                (((action.ControlTags & ActionControlTags.Mutation) != 0) ||
+                 (owner != null && owner.GetComponent<UnitActionLoadout>() != null &&
+                  owner.GetComponent<UnitActionLoadout>().IsMutationAction(action))))
             {
                 return false;
 
@@ -589,6 +600,12 @@ namespace MutaBorn.Gameplay
             }
 
             active.RemoveAt(index);
+            if (owner != null && owner.data != null)
+            {
+                owner.data.SetMutationsSuppressed(HasControl(StatusControlFlags.MutationSuppressed));
+
+            }
+
             statusRevision++;
             Log($"Status '{status.Definition.DisplayName}' {reason} on " +
                 $"{(owner != null && owner.data != null ? owner.data.characterName : gameObject.name)}.");
