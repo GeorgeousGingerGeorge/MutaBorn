@@ -1,15 +1,24 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class OptionsMenuController : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown displayDropdown;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] private AudioMixer audioMixer;
+
+    private const string SFX_VOLUME_PARAMETER = "SFXVolume";
+    private const string SFX_VOLUME_KEY = "SFXVolume";
 
     private List<Resolution> availableResolutions;
     private void Start()
     {
+
+        float savedVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 100f);
+        SetSFXVolume(savedVolume);
+
         displayDropdown.ClearOptions();
 
         displayDropdown.AddOptions(new System.Collections.Generic.List<string>

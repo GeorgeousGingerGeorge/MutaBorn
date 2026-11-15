@@ -121,6 +121,58 @@ public class AudioManager : MonoBehaviour
 
     }
 
+    public void PlaySoundAtPosition(string soundName, Vector3 position)
+    {
+        if (soundBanks == null)
+        {
+            Debug.LogError("No Sound Banks assigned to AudioManager.");
+            return;
+        }
+
+        foreach (SoundBank bank in soundBanks)
+        {
+            if (bank == null || bank.sounds == null)
+                continue;
+
+            foreach (SoundEntry sound in bank.sounds)
+            {
+                if (sound == null || sound.soundName != soundName)
+                    continue;
+
+                if (sound.audioClips == null || sound.audioClips.Length == 0)
+                    return;
+
+                AudioClip clip = sound.audioClips[
+                    UnityEngine.Random.Range(0, sound.audioClips.Length)];
+
+                if (clip == null)
+                    return;
+
+                GameObject soundObject = new GameObject("Positional Audio: " + soundName);
+                soundObject.transform.position = position;
+
+                AudioSource source = soundObject.AddComponent<AudioSource>();
+                source.clip = clip;
+                source.volume = sound.volume;
+                source.pitch = UnityEngine.Random.Range(
+                    sound.pitch - sound.pitchVariation,
+                    sound.pitch + sound.pitchVariation);
+
+                source.spatialBlend = 1f;
+                source.rolloffMode = AudioRolloffMode.Logarithmic;
+                source.outputAudioMixerGroup = sound.outputGroup;
+
+                source.Play();
+
+                Destroy(soundObject, clip.length / Mathf.Abs(source.pitch));
+
+                return;
+            }
+        }
+
+        Debug.LogWarning("Sound not found: " + soundName);
+    }
+
     public void PlayLoop(string soundName)
     {
         if (loopAudio == null)
@@ -220,7 +272,7 @@ public class AudioManager : MonoBehaviour
         hurtCooldowns[target] = Time.time + hurtCooldown;
 
         string soundName = target.raceName + " Hurt";
-        PlaySound(soundName);
+        PlaySoundAtPosition(soundName, target.transform.position);
     }
 
     private void HandleUnitDefeat(UnitController attacker, UnitController target)
@@ -228,6 +280,6 @@ public class AudioManager : MonoBehaviour
         Debug.Log("DEATH AUDIO EVENT RECEIVED!");
 
         string soundName = target.raceName + " Death";
-        PlaySound(soundName);
+        PlaySoundAtPosition(soundName, target.transform.position);
     }
 }
