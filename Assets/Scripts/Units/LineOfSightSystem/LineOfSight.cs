@@ -172,7 +172,7 @@ public class LineOfSight : MonoBehaviour
 
         return true;
     }
-    public bool HasPhysicalLineOfSight(Vector3 origin, Vector3 destination) 
+    public bool HasPhysicalLineOfSight(Vector3 origin, Vector3 destination, ObstacleController target = null) 
     {
         
         Vector3 direction = destination - origin;
@@ -193,7 +193,7 @@ public class LineOfSight : MonoBehaviour
             ObstacleController obstacle = hit.collider.GetComponentInParent<ObstacleController>();
             
 
-            if (obstacle == null) 
+            if (obstacle == null || obstacle == target) 
             {
                 continue;
             }

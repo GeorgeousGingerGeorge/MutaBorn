@@ -1057,6 +1057,7 @@ MonoBehaviour:
   quitGame: {fileID: 0}
   saveButton: {fileID: 0}
   loadButton: {fileID: 0}
+  controlsMenu: {fileID: 0}
 --- !u!114 &158045447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2646,6 +2647,12 @@ MonoBehaviour:
   focusOnAction: 1
   cancelFocusOnManualMovement: 1
   logFocusDiagnostics: 0
+  returnToStartDuration: 0.4
+  shakeOnDamage: 1
+  damageShakeDuration: 0.28
+  shakeAt20Damage: 0.1
+  shakeAt40Damage: 0.24
+  shakeAt80Damage: 0.55
   rotationSpeed: 90
   zoomStep: 2
   minZoomDistance: 25
@@ -4790,63 +4797,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030926779}
   m_CullTransparentMesh: 1
---- !u!1001 &1034663212
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1680166667193956278, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7715049924167510301, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: m_Name
-      value: PlayerUnit
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
 --- !u!1 &1038690210
 GameObject:
   m_ObjectHideFlags: 0
@@ -5308,6 +5258,8 @@ MonoBehaviour:
   ringWidth: 0.12
   ringHeightOffset: 0.3
   ringColor: {r: 1, g: 0.2, b: 0.16, a: 0.95}
+  showExplosionRing: 1
+  explosionRingOpacity: 0.88
 --- !u!114 &1077494773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5345,6 +5297,11 @@ MonoBehaviour:
   interactButton: {fileID: 1441182694}
   abilitiesButton: {fileID: 260296060}
   itemsButton: {fileID: 286435840}
+  stanceButton: {fileID: 0}
+  stanceIcon: {fileID: 0}
+  stanceText: {fileID: 0}
+  standingSprite: {fileID: 0}
+  crouchingSprite: {fileID: 0}
   expandedPanel: {fileID: 1957331348}
   expandedTitle: {fileID: 1658877231}
   expandedContent: {fileID: 2092029218}
@@ -5354,6 +5311,7 @@ MonoBehaviour:
   combatExecutor: {fileID: 1077494773}
   actionInfoPanel: {fileID: 730498311}
   actionDescriptionText: {fileID: 1856865358}
+  attackPreviewUI: {fileID: 0}
   interactionScanInterval: 0.2
 --- !u!1 &1091197624
 GameObject:
@@ -9969,8 +9927,8 @@ MonoBehaviour:
   gridCellSize: 2
   maxStepHeight: 0.5
   floorHeightTolerance: 0.05
-  proceduralLevelGenerator: {fileID: 1973177942}
-  levelAssembler: {fileID: 1973177941}
+  proceduralLevelGenerator: {fileID: 0}
+  levelAssembler: {fileID: 0}
   gridCellPrefab: {fileID: 6494207454436567325, guid: c3e1fa342c968ad47bc46463525d6aa6, type: 3}
   obstaclePrefab: {fileID: 5783946095117314508, guid: e531c1b203b0ed74b9f03903d03fcef6, type: 3}
   wallPrefab: {fileID: 3797262535275334675, guid: ce59f07f03801d5438613c644db36b60, type: 3}
@@ -10024,7 +9982,8 @@ MonoBehaviour:
   generationProfile: {fileID: 11400000, guid: 727c806162623f84ab456701a8c37b86, type: 2}
   allocationAttempts: 25
   placementCandidates: []
-  gridCellSize: 0
+  gridCellSize: 2
+  maxGenerationAttempts: 10
 --- !u!1 &1988042678
 GameObject:
   m_ObjectHideFlags: 0
@@ -10992,4 +10951,3 @@ SceneRoots:
   - {fileID: 158045445}
   - {fileID: 1973177940}
   - {fileID: 284880769}
-  - {fileID: 1034663212}

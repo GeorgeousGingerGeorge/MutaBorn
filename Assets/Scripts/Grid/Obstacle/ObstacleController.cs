@@ -1,13 +1,23 @@
 
 using UnityEngine;
-using System.Collections;
+using System.Collections; 
+using System.Collections.Generic;
+
 
 public class ObstacleController : MonoBehaviour
 {
     [Header("Node References - FirstNode, SecondNode (Solid || Edge)")]
     public GridNode firstnode { get; private set; } = null;
     public GridNode secondnode { get; private set; } = null;
+    public GridNode boundaryNode { get; private set; } = null;
+    public Vector2Int outwardDirection { get; private set; } = Vector2Int.zero;
+    private List<GridNode> occupiedNodes = new List<GridNode>();
+    public IReadOnlyList<GridNode> OccupiedNodes => occupiedNodes;
 
+    [Header("Determines the number of nodes the obstacle occupies")]
+    [SerializeField] public NodeCoverage nodeCoverage;
+    [SerializeField] public Vector2Int obstacleFootprint = Vector2Int.one;
+    [SerializeField] public Transform anchor;
     private Occupancy occupancy;
     private GridManager gridManager;
     private FloorConnector connector;
@@ -57,6 +67,7 @@ public class ObstacleController : MonoBehaviour
     public bool IsBlocking => occupancyRegistered;
     public Occupancy CurrentOccupancy => occupancy;
 
+    [SerializeField] private int ObstaclesCurrentHealth;
     public void Awake()
     {
         destructionStages = GetComponentsInChildren<ObstacleDestructionStages>(true);
@@ -81,6 +92,7 @@ public class ObstacleController : MonoBehaviour
         typeOfObstacle = currentData.typeOfObstacle;
         maxHealth = currentData.maxHealth;
         currentHealth = maxHealth;
+        ObstaclesCurrentHealth = currentHealth; //For Testing Purposes
         isDestructible = currentData.isDestructible;
 
 
@@ -135,23 +147,32 @@ public class ObstacleController : MonoBehaviour
         switch (currentData.typeOfObstacle)
         {
             case ObstacleType.Solid:
-                firstnode = gridManager.GetNodeFromClosestWorldPosition(transform.position);
+                {   if(nodeCoverage == NodeCoverage.Single && obstacleFootprint == Vector2Int.one)
+                    { 
+                        firstnode = gridManager.GetNodeFromClosestWorldPosition(transform.position); 
+                    }
+                    else if(nodeCoverage == NodeCoverage.Multiple && obstacleFootprint != Vector2Int.one) 
+                    {
+                        TryGetOccupiedNodes();
+                    }
 
+                }
                 break;
 
             case ObstacleType.Edges:
-                Vector3 perpendicular = transform.right;
-                perpendicular.y = 0f;
-                perpendicular.Normalize();
+                { 
+                    Vector3 perpendicular = transform.right;
+                    perpendicular.y = 0f;
+                    perpendicular.Normalize();
 
-                float offset = gridManager.GridCellSize / 2f;
+                    float offset = gridManager.GridCellSize / 2f;
 
-                firstnode = gridManager.GetNodeFromClosestWorldPosition(
-                    transform.position + perpendicular * offset);
+                    firstnode = gridManager.GetNodeFromClosestWorldPosition(
+                        transform.position + perpendicular * offset);
 
-                secondnode = gridManager.GetNodeFromClosestWorldPosition(
-                    transform.position - perpendicular * offset);
-
+                        secondnode = gridManager.GetNodeFromClosestWorldPosition(
+                            transform.position - perpendicular * offset);
+                }
                 break;
 
             case ObstacleType.FloorConnectors:
@@ -172,6 +193,57 @@ public class ObstacleController : MonoBehaviour
                 }
 
                 return;
+               
+            case ObstacleType.WorldSpace: 
+                {
+                    Vector3 perpendicular = transform.right;
+                    perpendicular.y = 0f;
+                    perpendicular.Normalize();
+
+                    float offset = gridManager.GridCellSize / 2f;
+
+
+                    Vector3 positionA = transform.position + perpendicular * offset;
+                    Vector3 positionB = transform.position - perpendicular * offset;
+
+                    bool hasNodeA = TryGetNodeAtPosition(positionA, out GridNode nodeA);
+                    bool hasNodeB = TryGetNodeAtPosition(positionB, out GridNode nodeB);
+
+                    if (hasNodeA && hasNodeB)
+                    {
+                        if (nodeA == nodeB)
+                        {
+                            return;
+                        }
+
+                        firstnode = nodeA;
+                        secondnode = nodeB;
+                    }
+                    else if (hasNodeA != hasNodeB)
+                    {
+                        boundaryNode = hasNodeA ? nodeA : nodeB;
+
+                        Vector3 outward = hasNodeA ? -perpendicular : perpendicular;
+
+                        if (Mathf.Abs(outward.x) > Mathf.Abs(outward.y))
+                        {
+                            outwardDirection = new Vector2Int(outward.x > 0 ? 1 : -1, 0);
+
+
+                        }
+                        else
+                        {
+                            outwardDirection = new Vector2Int(0, outward.z > 0 ? 1 : -1);
+
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                return;
+
 
         }
 
@@ -451,18 +523,25 @@ public class ObstacleController : MonoBehaviour
         {
             case ObstacleType.Solid:
                 {
-                    if (firstnode != null)
-                    { 
-                        occupancy.RegisterSolidObstacles(firstnode, this); 
+                    if (firstnode != null && nodeCoverage == NodeCoverage.Single)
+                    {
+                        occupancy.RegisterSolidObstacles(firstnode, this);
+                    }
+                    else if (firstnode != null && nodeCoverage == NodeCoverage.Multiple) 
+                    {
+
+                        foreach (GridNode node in occupiedNodes) 
+                        {
+                            occupancy.RegisterSolidObstacles(node, this);
+                        }
                     }
                 }
                 break;
             case ObstacleType.Edges:
                 {
-                    if (firstnode != null && secondnode != null) 
-                    {
+                  
                         occupancy.RegisterEdgeObstacles(firstnode, secondnode, this);
-                    }
+                  
                     
                 }
                 break;
@@ -485,7 +564,13 @@ public class ObstacleController : MonoBehaviour
                     }
                 }
                 break;
-            default:
+            case ObstacleType.WorldSpace:
+                {
+                    occupancy.RegisterWorldSpaceObstacles(this);
+                
+                }
+                    break;
+                default:
                 {
                     Debug.LogWarning($"Obstacle Controller -> RegisterObstacles Method: This case ({obstacleName} , {typeOfObstacle} was not added");
 
@@ -534,6 +619,9 @@ public class ObstacleController : MonoBehaviour
                     }
                 }
                 break;
+            case ObstacleType.WorldSpace:
+                occupancy.UnregisterWorldSpaceObstacles(this);
+                break;
             default:
                 {
                     Debug.LogWarning("Obstacle Controller -> RegisterObstacles Method: This case was not added");
@@ -559,6 +647,61 @@ public class ObstacleController : MonoBehaviour
             default:
                 return false;
         }
+    }
+
+    private bool TryGetOccupiedNodes() 
+    {
+        occupiedNodes.Clear();
+
+        if (obstacleFootprint == null || obstacleFootprint.x <= 0 || obstacleFootprint.y <= 0) 
+        {
+            return false;
+        }
+
+        firstnode = gridManager.GetNodeFromClosestWorldPosition(anchor.position);
+
+        if(firstnode == null) 
+        {
+            return false;
+        }
+
+        Dictionary<Vector2Int, GridNode> floorGrid = gridManager.GetGrid(firstnode.floorID);
+
+        for (int x = 0; x < obstacleFootprint.x; x++) 
+        {
+            for (int z = 0; z < obstacleFootprint.y; z++) 
+            {
+                Vector2Int coordinate = firstnode.coords + new Vector2Int(x, z);
+
+                if (!floorGrid.TryGetValue(coordinate, out GridNode node))
+                {
+                    occupiedNodes.Clear();
+                    return false;
+                
+                }
+
+                occupiedNodes.Add(node);
+            }
+        }
+
+        return true;
+        
+    }
+    private bool TryGetNodeAtPosition(Vector3 position,out GridNode node) 
+    {
+        node = gridManager.GetNodeFromClosestWorldPosition(position);
+
+        if (node == null) 
+        {
+            return false;
+        }
+
+        Vector2 samplePosition = new Vector2(position.x, position.y);
+
+        Vector2 nodePosition = new Vector2(node.cellWorldPosition.x, node.cellWorldPosition.z);
+
+        float tolerance = gridManager.GridCellSize * 0.2f;
+        return Vector2.Distance(samplePosition, nodePosition) <= tolerance;
     }
     public void SetValue_Durability(int health) 
     {
@@ -603,6 +746,7 @@ public class ObstacleController : MonoBehaviour
        
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
 
+        ObstaclesCurrentHealth = currentHealth;
         UpdateDestructionStage();
 
         if (currentHealth <= 0) 

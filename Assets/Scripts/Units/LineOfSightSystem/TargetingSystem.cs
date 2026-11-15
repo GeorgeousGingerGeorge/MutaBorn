@@ -66,6 +66,37 @@ public class TargetingSystem : MonoBehaviour
 
 
     }
+    public bool CanTargetObstacle(UnitController attacker, ObstacleController target, float range, bool use3DDistance = false) 
+    {
+        if (attacker == null || target == null || range < 0f) 
+        {
+            return false;
+        }
+
+        if (!target.isActiveAndEnabled || !target.isDestructible || target.IsDestroyed || target.currentHealth <= 0) 
+        {
+            return false;
+        }
+
+        if (lineOfSight == null || attacker.visionOrigin == null) 
+        {
+            return false;
+        }
+
+        Vector3 attackersLineOfSight = attacker.visionOrigin.position;
+
+        Collider targetCollider = target.GetComponentInChildren<Collider>();
+
+        Vector3 destination = targetCollider != null ? targetCollider.ClosestPoint(attackersLineOfSight) : target.transform.position;
+
+        if (!lineOfSight.HasPhysicalLineOfSight(attackersLineOfSight, destination, target)) 
+        {
+            return false;
+        }
+
+        return IsWithinRange(attacker.transform.position, destination, range, use3DDistance);
+        
+    }
    
     private FactionManager factionManager;
 
