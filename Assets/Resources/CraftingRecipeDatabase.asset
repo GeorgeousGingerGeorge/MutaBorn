@@ -201,6 +201,26 @@ MonoBehaviour:
       amount: 1
     - resourceId: unstable_compound
       amount: 3
+  - recipeId: craft.item.consumable-rescue-kit
+    displayName: Rescue Kit
+    description: Emergency revival kit. Revives a nearby downed friendly unit or non-hostile NPC during its rescue window. Two uses per mission.
+    outputKind: 0
+    outputItem: {fileID: 11400000, guid: 6f675f0681a94301a0f509e6a3233833, type: 2}
+    outputEquipment:
+      equipmentType: {fileID: 0}
+      templateId: 
+    outputResourceId: 
+    outputAmount: 1
+    requiredCraftTier: 0
+    ingredients:
+    - resourceId: iron
+      amount: 1
+    - resourceId: textiles
+      amount: 2
+    - resourceId: glass
+      amount: 1
+    - resourceId: maana_crystals
+      amount: 2
   - recipeId: craft.resource.planks
     displayName: Planks
     description: Saw three Wood into one workable Plank.

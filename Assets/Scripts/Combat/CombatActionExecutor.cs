@@ -391,10 +391,13 @@ public sealed class CombatActionExecutor : MonoBehaviour
             action.Category != ActionMenuCategory.Items ||
             (action.CombatBehavior != CombatActionBehavior.DamageUnit &&
              action.CombatBehavior != CombatActionBehavior.DamageArea &&
-             action.CombatBehavior != CombatActionBehavior.CaptureUnit) ||
+             action.CombatBehavior != CombatActionBehavior.CaptureUnit &&
+             action.CombatBehavior != CombatActionBehavior.ReviveUnit) ||
             (action.CombatBehavior == CombatActionBehavior.CaptureUnit &&
              (definition.UseKind != ConsumableUseKind.CaptureUnit ||
               BrigManager.Instance == null || !BrigManager.Instance.HasSpace)) ||
+            (action.CombatBehavior == CombatActionBehavior.ReviveUnit &&
+             definition.UseKind != ConsumableUseKind.ReviveUnit) ||
             (!definition.UsesActionPointsOnly && item.remainingUses <= 0) ||
             source.data.currentActionPoints < Mathf.CeilToInt(action.ApCost))
         {
@@ -440,7 +443,9 @@ public sealed class CombatActionExecutor : MonoBehaviour
         int targetFloorId = action.AreaSameFloorOnly ? source.currentNode.floorID : -1; 
         Func<RaycastHit, bool> filter = isArea
             ? hit => hit.collider != null && hit.collider.GetComponentInParent<TileController>() != null
-            : hit => IsValidUnitTarget(hit, source, action);
+            : hit => action.CombatBehavior == CombatActionBehavior.ReviveUnit
+                ? IsValidReviveTarget(hit, source, action)
+                : IsValidUnitTarget(hit, source, action);
                                                                                                 /* hit => hit.collider != null && hit.collider.GetComponentInParent<UnitController>() != null;*/
 
         if (!targetingController.TryBeginTargeting(
@@ -505,7 +510,84 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
-        TryExecuteAgainst(hit.collider.GetComponentInParent<UnitController>());
+        UnitController target = hit.collider.GetComponentInParent<UnitController>();
+        if (pendingAction != null && pendingAction.CombatBehavior == CombatActionBehavior.ReviveUnit)
+        {
+            TryReviveTarget(target);
+
+            return;
+
+        }
+
+        TryExecuteAgainst(target);
+
+    }
+
+    private bool IsValidReviveTarget(RaycastHit hit, UnitController source, ActionDefinition action)
+    {
+        UnitController target = hit.collider != null ? hit.collider.GetComponentInParent<UnitController>() : null;
+        return IsFriendlyDownedTarget(source, target, action);
+
+    }
+
+    private bool IsFriendlyDownedTarget(UnitController source, UnitController target, ActionDefinition action)
+    {
+        if (source == null || target == null || source == target || action == null ||
+            source.currentNode == null || target.currentNode == null ||
+            source.currentNode.floorID != target.currentNode.floorID ||
+            Vector3.Distance(source.transform.position, target.transform.position) > action.CombatRange)
+        {
+            return false;
+
+        }
+
+        UnitDownedState downed = target.GetComponent<UnitDownedState>();
+        UnitFaction sourceFaction = source.GetComponent<UnitFaction>();
+        UnitFaction targetFaction = target.GetComponent<UnitFaction>();
+        if (downed == null || !downed.IsDowned || sourceFaction == null ||
+            targetFaction == null || sourceFaction.Faction == null || targetFaction.Faction == null)
+        {
+            return false;
+
+        }
+
+        if (sourceFaction.Faction == targetFaction.Faction)
+        {
+            return true;
+
+        }
+
+        // Neutral civilians and unprovoked NPCs are rescueable; hostile units are not.
+        return factionManager != null &&
+            !factionManager.AreHostile(sourceFaction.Faction, targetFaction.Faction);
+
+    }
+
+    private void TryReviveTarget(UnitController target)
+    {
+        UnitController source = attacker;
+        ActionDefinition action = pendingAction;
+        int index = pendingConsumableIndex;
+        if (source == null || source.data == null || action == null ||
+            !CanCommand(source) || !IsFriendlyDownedTarget(source, target, action) ||
+            index < 0 || index >= source.data.carriedConsumables.Count ||
+            source.data.currentActionPoints < Mathf.CeilToInt(action.ApCost))
+        {
+            return;
+
+        }
+
+        ConsumableInstance item = source.data.carriedConsumables[index];
+        if (item.definition == null || item.definition.UseKind != ConsumableUseKind.ReviveUnit ||
+            item.remainingUses <= 0 || !target.GetComponent<UnitDownedState>().TryRevive(source))
+        {
+            return;
+
+        }
+
+        source.data.ModifyActionPoints(-Mathf.CeilToInt(action.ApCost));
+        CompleteConsumableUse(source, index, false);
+        CancelTargeting();
 
     }
 
@@ -1585,15 +1667,17 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         if (result.ReducedHealthToZero && target.gameObject.activeSelf)
         {
-            if (target.occupancy != null && target.currentNode != null)
+            UnitDownedState downed = target.GetComponent<UnitDownedState>();
+            if (downed != null && UnitDownedState.CanBeDowned(target))
             {
-                target.occupancy.UnregisterUnit(target.currentNode, target);
+                downed.EnterDowned(result.Request.Attacker);
 
             }
+            else
+            {
+                FinalizePermanentDeath(result.Request.Attacker, target);
 
-            target.gameObject.SetActive(false);
-            Debug.Log($"{target.data.characterName} was defeated!", target);
-            PublishUnitDefeated(result.Request.Attacker, target);
+            }
 
         }
 
@@ -1718,6 +1802,27 @@ public sealed class CombatActionExecutor : MonoBehaviour
             }
 
         }
+
+    }
+
+    public static void FinalizePermanentDeath(UnitController source, UnitController target)
+    {
+        if (target == null || target.data == null || !target.gameObject.activeSelf ||
+            target.data.currentHealth > 0)
+        {
+            return;
+
+        }
+
+        if (target.occupancy != null && target.currentNode != null)
+        {
+            target.occupancy.UnregisterUnit(target.currentNode, target);
+
+        }
+
+        target.gameObject.SetActive(false);
+        Debug.Log($"{target.data.characterName} was defeated!", target);
+        PublishUnitDefeated(source, target);
 
     }
 

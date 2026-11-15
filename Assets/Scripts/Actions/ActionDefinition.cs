@@ -45,7 +45,8 @@ public enum CombatActionBehavior
     MutationScan = 8,
     MutationDeployCover = 9,
     MutationDeployTrap = 10,
-    CaptureUnit = 11
+    CaptureUnit = 11,
+    ReviveUnit = 12
 
 }
 

@@ -347,6 +347,31 @@ MonoBehaviour:
         templateId: 
       slot: 0
       amount: 1
+  - id: e.rescue-kits
+    displayName: Emergency Rescue Training
+    description: Develop field rescue supplies and learn to craft Rescue Kits to revive downed allies and non-hostile NPCs within the two-round rescue window.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.potions
+    costs:
+    - resourceId: gold
+      amount: 65
+    - resourceId: iron
+      amount: 4
+    - resourceId: textiles
+      amount: 5
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.consumable-rescue-kit
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
   - id: e.dvergrium
     displayName: Dvergrium Smithing
     description: Learn to craft Dvergrium weapons, wards, shields and the full armor family.

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2714938449680381315}
   - component: {fileID: 9145990640697671676}
   - component: {fileID: 3988659102332761613}
+  - component: {fileID: 1317884082206905570}
   m_Layer: 6
   m_Name: CivilianUnit
   m_TagString: Untagged
@@ -212,3 +213,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 963738056205059123}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1317884082206905570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042225517849447635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35284aca5d145ed927b408a01278f89, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::UnitDownedState
+  reviveWindowRounds: 2
+  reviveHealthPercent: 25
+  rescueIconScale: 0.033
+  rescueIconHeight: 2.25

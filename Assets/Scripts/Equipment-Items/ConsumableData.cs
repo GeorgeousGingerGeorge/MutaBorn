@@ -8,7 +8,8 @@ public enum ConsumableUseKind
     RestoreActionPoints = 2,
     ApplyStatus = 3,
     TargetedAttack = 4,
-    CaptureUnit = 5
+    CaptureUnit = 5,
+    ReviveUnit = 6
 
 }
 
