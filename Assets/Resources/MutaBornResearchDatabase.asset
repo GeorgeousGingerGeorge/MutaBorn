@@ -1859,3 +1859,66 @@ MonoBehaviour:
         templateId: 
       slot: 0
       amount: 1
+  - id: p.trade.routes
+    displayName: Regional Trade Routes
+    description: Open trade routes for advanced materials such as gunpowder, gems and glass.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 45
+    - resourceId: wood
+      amount: 10
+    battlesRequired: 1
+    benefits:
+    - type: 15
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: p.trade.factions
+    displayName: Faction Trade Agreements
+    description: Negotiate access to faction goods, including Dwarven metals, enchanted materials and rare craftsmanship.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.trade.routes
+    costs:
+    - resourceId: gold
+      amount: 100
+    - resourceId: silver
+      amount: 10
+    battlesRequired: 2
+    benefits:
+    - type: 15
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: p.trade.rare
+    displayName: Forbidden Commerce
+    description: Gain access to special and volatile resources through underground traders.
+    category: 1
+    requiredTier: 1
+    prerequisiteIds:
+    - p.trade.factions
+    costs:
+    - resourceId: gold
+      amount: 160
+    - resourceId: gems
+      amount: 8
+    battlesRequired: 2
+    benefits:
+    - type: 15
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1

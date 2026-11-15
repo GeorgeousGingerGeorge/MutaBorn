@@ -10,6 +10,7 @@ public enum RaceNames
     Human,
     Orc,
     Goblin,
+    MutaBorn = 5,
 
 }
 
@@ -21,7 +22,8 @@ public enum RacialPassiveKind
     BattleFury,
     Opportunist,
     KeenSenses,
-    MasterCraftsman
+    MasterCraftsman,
+    TooCorrupt = 5
 
 }
 
@@ -150,6 +152,10 @@ public class DynamicStats : ScriptableObject
     [SerializeField, Min(0)] private int goblinDexterityBonus = 2;
     [Tooltip("Elf placeholder until an accuracy system is integrated.")]
     [SerializeField, Min(0)] private int elfPerceptionBonus = 2;
+
+    [Header("MutaBorn Too Corrupt")]
+    [SerializeField, Range(0f, 100f)] private float tooCorruptRegenPercent = 15f;
+    public float TooCorruptRegenPercent => tooCorruptRegenPercent;
 
     [Header("Dwarf Master Craftsman")]
     [SerializeField, Range(0, 100)] private int equipmentBonusPercent = 15;

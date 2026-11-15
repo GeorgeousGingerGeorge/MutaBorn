@@ -13,7 +13,8 @@ public sealed class HubStorageMenu : MonoBehaviour
         Armor,
         Accessories,
         Consumables,
-        Mutations
+        Mutations,
+        Trading
 
     }
 
@@ -43,6 +44,7 @@ public sealed class HubStorageMenu : MonoBehaviour
     private readonly List<GameObject> generatedActions = new List<GameObject>();
     private ItemStorage subscribedStorage;
     private Category selectedCategory = Category.All;
+    private HubStorageTrading trading;
 
     private void Awake()
     {
@@ -77,6 +79,18 @@ public sealed class HubStorageMenu : MonoBehaviour
         }
 
         ConfigureGrid();
+        if (weaponsButton != null && itemContent != null)
+        {
+            trading = GetComponent<HubStorageTrading>();
+            if (trading != null)
+            {
+                trading.Configure(
+                    () => SelectCategory(Category.Trading), () => SelectCategory(Category.All));
+
+            }
+
+        }
+
         if (itemPopup != null)
         {
             itemPopup.Hide();
@@ -146,6 +160,7 @@ public sealed class HubStorageMenu : MonoBehaviour
     private void SelectCategory(Category category)
     {
         selectedCategory = category;
+        trading?.SetVisible(category == Category.Trading);
         if (itemPopup != null)
         {
             itemPopup.Hide();
@@ -159,6 +174,14 @@ public sealed class HubStorageMenu : MonoBehaviour
     private void Refresh()
     {
         Clear(generatedRows);
+        if (selectedCategory == Category.Trading)
+        {
+            trading?.Refresh();
+
+            return;
+
+        }
+
         if (itemContent == null || itemRowPrefab == null)
         {
             return;

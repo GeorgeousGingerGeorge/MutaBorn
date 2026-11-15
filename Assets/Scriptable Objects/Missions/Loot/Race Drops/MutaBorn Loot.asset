@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MissionLootTable
   possibleLoot:
   - kind: 0
-    resourceId: sanguine_tears
+    resourceId: unstable_compound
     item: {fileID: 0}
     equipmentTemplate:
       equipmentType: {fileID: 0}
@@ -23,6 +23,24 @@ MonoBehaviour:
     maximumQuantity: 2
     weight: 70
   - kind: 0
+    resourceId: corrupt_nodule
+    item: {fileID: 0}
+    equipmentTemplate:
+      equipmentType: {fileID: 0}
+      templateId: 
+    minimumQuantity: 1
+    maximumQuantity: 2
+    weight: 20
+  - kind: 0
+    resourceId: mutated_heart
+    item: {fileID: 0}
+    equipmentTemplate:
+      equipmentType: {fileID: 0}
+      templateId: 
+    minimumQuantity: 1
+    maximumQuantity: 2
+    weight: 4
+  - kind: 0
     resourceId: wood
     item: {fileID: 0}
     equipmentTemplate:
@@ -30,7 +48,7 @@ MonoBehaviour:
       templateId: 
     minimumQuantity: 1
     maximumQuantity: 2
-    weight: 10
+    weight: 2
   - kind: 0
     resourceId: stone
     item: {fileID: 0}
@@ -39,7 +57,7 @@ MonoBehaviour:
       templateId: 
     minimumQuantity: 1
     maximumQuantity: 2
-    weight: 10
+    weight: 2
   - kind: 0
     resourceId: iron
     item: {fileID: 0}
@@ -48,7 +66,7 @@ MonoBehaviour:
       templateId: 
     minimumQuantity: 1
     maximumQuantity: 2
-    weight: 10
+    weight: 1
   - kind: 0
     resourceId: textiles
     item: {fileID: 0}
@@ -57,7 +75,7 @@ MonoBehaviour:
       templateId: 
     minimumQuantity: 1
     maximumQuantity: 2
-    weight: 10
+    weight: 1
   useSeparateDropRanges: 1
   minimumEquipmentDrops: 0
   maximumEquipmentDrops: 0
