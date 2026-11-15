@@ -98,15 +98,33 @@ public sealed class WorkshopResourcesHUD : MonoBehaviour
 
     public void ToggleDropdown()
     {
-        if (alwaysVisible || dropdownPanel == null) return;
-        dropdownPanel.SetActive(!dropdownPanel.activeSelf);
-        if (dropdownPanel.activeSelf) Refresh();
+        if (alwaysVisible || dropdownPanel == null)
+        {
+            return;
+
+        }
+
+        MenuMotion motion = dropdownPanel.GetComponent<MenuMotion>();
+        if (dropdownPanel.activeSelf && (motion == null || !motion.IsClosing))
+        {
+            CloseDropdown();
+
+            return;
+
+        }
+
+        MenuMotion.Show(dropdownPanel);
+        Refresh();
 
     }
 
     public void CloseDropdown()
     {
-        if (!alwaysVisible && dropdownPanel != null) dropdownPanel.SetActive(false);
+        if (!alwaysVisible && dropdownPanel != null)
+        {
+            MenuMotion.Hide(dropdownPanel);
+
+        }
 
     }
 

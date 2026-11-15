@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de4f504b39dc2c84cb0e36adcb4763d6, type: 3}
+  m_Name: Corridor_Wargrounds(10X4)(Horizontal-RightLeft)(prefabDefinition)
+  m_EditorClassIdentifier: Assembly-CSharp::PrefabDefinition
+  prefabID: Corridor_Wagrounds_02(10X4)(Horizontal)
+  prefab: {fileID: 7740588940949493036, guid: 5c522fc2aeb50e44aa0d12f46eeec799, type: 3}
+  selectionWeight: 3
+  allowRotation: 0
+  floors:
+  - localFloorID: 1
+    localPosition: {x: 0, y: 0, z: 0}
+    gridSize: {x: 10, y: 4}
+    socketSides: 10
+    socketType: 7
+    socketRules:
+    - gridPosition: {x: 0, y: 1}
+      direction: {x: -1, y: 0}
+      allowedConnections: 1
+    - gridPosition: {x: 0, y: 2}
+      direction: {x: -1, y: 0}
+      allowedConnections: 1
+    - gridPosition: {x: 9, y: 1}
+      direction: {x: 1, y: 0}
+      allowedConnections: 6
+    - gridPosition: {x: 9, y: 2}
+      direction: {x: 1, y: 0}
+      allowedConnections: 6

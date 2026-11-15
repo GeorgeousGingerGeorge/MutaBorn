@@ -409,33 +409,17 @@ public class SelectionManager : MonoBehaviour
 
     private void HandleClickSelection()
     {
-        if (mouseInWorld.unitHit && mouseInWorld.unitTarget.collider != null)
-        {
-            UnitController clickedUnit = mouseInWorld.unitTarget.collider.GetComponentInParent<UnitController>();
-            if (clickedUnit != null)
-            {
-                if (IsLivingPlayerUnit(clickedUnit))
-                {
-                    SelectUnit(clickedUnit);
-
-                }
-
-                // Clicking enemies never changes the selected player unit.
-                return;
-
-            }
-
-        }
-
+     
         if (!mouseInWorld.surfaceHit || mouseInWorld.groundTarget.collider == null)
         {
             return;
 
         }
-
+       
         TileController tile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
         if (tile == null || tile.node == null || occupancy == null)
         {
+            
             return;
 
         }
@@ -452,6 +436,9 @@ public class SelectionManager : MonoBehaviour
             return;
 
         }
+       
+
+              
 
         if (CanCommandUnit(selectedUnit))
         {
@@ -460,7 +447,7 @@ public class SelectionManager : MonoBehaviour
             selectedUnit.GetComponent<UnitMovements>()?.PlayerMovement(selectedTile.node);
 
         }
-
+        
     }
 
     private void OnDestroy()

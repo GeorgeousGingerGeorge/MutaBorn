@@ -140,7 +140,7 @@ public sealed class BrigMenu : MonoBehaviour
     {
         if (usePrisonerRoster && brigRoot != null)
         {
-            brigRoot.SetActive(false);
+            MenuMotion.Hide(brigRoot);
 
             return;
 

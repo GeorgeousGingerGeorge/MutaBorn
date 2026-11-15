@@ -20,7 +20,7 @@ MonoBehaviour:
   - localFloorID: 1
     localPosition: {x: 0, y: 0, z: 0}
     gridSize: {x: 8, y: 8}
-    socketSides: 3
+    socketSides: -1
     socketType: 1
     socketRules:
     - gridPosition: {x: 3, y: 7}
@@ -34,4 +34,13 @@ MonoBehaviour:
       allowedConnections: 1
     - gridPosition: {x: 7, y: 3}
       direction: {x: 1, y: 0}
+      allowedConnections: 1
+    - gridPosition: {x: 0, y: 3}
+      direction: {x: -1, y: 0}
+      allowedConnections: 1
+    - gridPosition: {x: 3, y: 0}
+      direction: {x: 0, y: -1}
+      allowedConnections: 1
+    - gridPosition: {x: 4, y: 0}
+      direction: {x: 0, y: -1}
       allowedConnections: 1

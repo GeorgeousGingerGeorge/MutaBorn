@@ -36,6 +36,7 @@ public sealed class HubStorageMenu : MonoBehaviour
     [SerializeField] private TMP_Text itemDescriptionText;
     [SerializeField] private TMP_Text itemStatsText;
     [SerializeField] private Image itemIcon;
+    [SerializeField] private Image itemTypeBadge;
     [SerializeField] private Image[] itemStars = new Image[5];
     [SerializeField] private Transform actionsContent;
     [SerializeField] private BarracksAbilityEntryUI actionRowPrefab;
@@ -350,6 +351,7 @@ public sealed class HubStorageMenu : MonoBehaviour
         }
 
         SetDetails(name, type, description, stats, sprite, stars);
+        SetItemTypeBadge(item.Kind == StoredItemKind.Equipment ? item.Equipment.TypeIcon : null);
         ShowActions(actions);
         if (itemPopup != null)
         {
@@ -388,6 +390,7 @@ public sealed class HubStorageMenu : MonoBehaviour
         SetDetails(mutation.MutationId.ToString(), "Stored Mutation",
             "Mutation kept in the separate mutation vault.",
             "Progress points: " + mutation.ProgressPoints, null, 0);
+        SetItemTypeBadge(null);
         ShowActions(null);
         if (itemPopup != null)
         {
@@ -417,6 +420,17 @@ public sealed class HubStorageMenu : MonoBehaviour
         }
 
         generatedRows.Add(row.gameObject);
+
+    }
+
+    private void SetItemTypeBadge(Sprite sprite)
+    {
+        if (itemTypeBadge != null)
+        {
+            itemTypeBadge.sprite = sprite;
+            itemTypeBadge.enabled = sprite != null;
+
+        }
 
     }
 
