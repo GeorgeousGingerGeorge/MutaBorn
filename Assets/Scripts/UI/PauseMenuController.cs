@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private GameObject saveButton;
     [SerializeField] private GameObject loadButton;
     [SerializeField] private GameObject controlsMenu;
+
     private bool isPaused = false;
 
     private System.Collections.IEnumerator Start()
@@ -169,10 +171,82 @@ public class PauseMenuController : MonoBehaviour
             return false;
         }
 
+        if (!TryRestoreTraps(saved))
+        {
+            Debug.LogError("[Save/Load] Trap restoration failed.");
+            return false;
+        }
+
         Debug.Log($"[Save/Load] Mission restored successfully! Round: {turnManager.Round} | Active Faction: {turnManager.ActiveFaction.Id}");
 
         return true;
     }
+
+    private bool TryRestoreTraps(MissionSaveData saved)
+    {
+        if (saved.worldObjects == null || saved.worldObjects.Count == 0)
+        {
+            return true;
+        }
+
+        WorldTrap[] traps = FindObjectsByType<WorldTrap>(FindObjectsInactive.Include);
+        Dictionary<string, WorldTrap> currentTraps = new Dictionary<string, WorldTrap>();
+
+        foreach (WorldTrap trap in traps)
+        {
+            string id = MissionWorldObjectIdentity.GetId(trap);
+
+            if (string.IsNullOrWhiteSpace(id) || currentTraps.ContainsKey(id))
+            {
+                Debug.LogError($"[Save/Load] Invalid or duplicate trap identity: {id}");
+                return false;
+            }
+
+            currentTraps.Add(id, trap);
+        }
+
+        HashSet<string> savedIds = new HashSet<string>();
+
+        foreach (WorldObjectSaveData worldObject in saved.worldObjects)
+        {
+            if (worldObject == null || worldObject.trapState == null)
+            {
+                continue;
+            }
+
+            if (string.IsNullOrWhiteSpace(worldObject.persistentId) || !savedIds.Add(worldObject.persistentId) || !currentTraps.TryGetValue(worldObject.persistentId, out WorldTrap trap) || trap.HasPendingImpact)
+            {
+                Debug.LogError($"[Save/Load] Cannot restore saved trap: {worldObject.persistentId}");
+                return false;
+            }
+        }
+
+        int restoredCount = 0;
+
+        foreach (WorldObjectSaveData worldObject in saved.worldObjects)
+        {
+            if (worldObject == null || worldObject.trapState == null)
+            {
+                continue;
+            }
+
+            WorldTrap trap = currentTraps[worldObject.persistentId];
+
+            if (!trap.TryRestoreSaveState(worldObject.trapState))
+            {
+                Debug.LogError($"[Save/Load] Failed to restore trap: {worldObject.persistentId}");
+                return false;
+            }
+
+            trap.gameObject.SetActive(worldObject.isActive);
+            restoredCount++;
+        }
+
+        Debug.Log($"[Save/Load] Restored {restoredCount} traps.");
+
+        return true;
+    }
+
 
     public void ControlsButton()
     {

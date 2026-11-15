@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic; 
 
 public static class MissionSaveCapture
 {
@@ -167,6 +168,43 @@ public static class MissionSaveCapture
 
             snapshot.units.Add(savedUnit);
         } // END of the unit foreach loop
+
+        WorldTrap[] traps = UnityEngine.Object.FindObjectsByType<WorldTrap>(FindObjectsInactive.Include);
+        HashSet<string> capturedTrapIds = new HashSet<string>();
+
+        foreach (WorldTrap trap in traps)
+        {
+            if (trap.HasPendingImpact)
+            {
+                Debug.LogError($"[Save/Load] Cannot save while trap impact is pending: {trap.name}.", trap);
+                return null;
+            }
+
+            string persistentId = MissionWorldObjectIdentity.GetId(trap);
+
+            if (string.IsNullOrWhiteSpace(persistentId))
+            {
+                Debug.LogError($"[Save/Load] Trap missing persistent identity: {trap.name}.", trap);
+                return null;
+            }
+
+            if (!capturedTrapIds.Add(persistentId))
+            {
+                Debug.LogError($"[Save/Load] Duplicate trap identity: {persistentId}.", trap);
+                return null;
+            }
+
+            snapshot.worldObjects.Add(new WorldObjectSaveData
+            {
+                persistentId = persistentId,
+                position = trap.transform.position,
+                isActive = trap.gameObject.activeSelf,
+                trapState = trap.CaptureSaveState()
+            });
+        }
+
+
+    Debug.Log($"[Save/Load] Captured {snapshot.worldObjects.Count} traps.");
 
         // Capture complete turn state
         TurnManager turnManager = TurnManager.Instance;

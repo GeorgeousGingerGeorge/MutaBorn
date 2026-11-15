@@ -12,8 +12,7 @@ using UnityEngine;
 
     public List<UnitSaveData> units = new List<UnitSaveData>();
     public UnitRosterSaveData rosterState = new UnitRosterSaveData();
-    public List<WorldObjectSaveData> worldObjects =
-        new List<WorldObjectSaveData>();
+    public List<WorldObjectSaveData> worldObjects = new List<WorldObjectSaveData>();
 
     public TurnSaveData turnState = new TurnSaveData();
 
@@ -40,13 +39,25 @@ using UnityEngine;
     public bool isActive;
 }
 
-[Serializable] public class WorldObjectSaveData
+[Serializable]
+public class WorldObjectSaveData
 {
     public string persistentId;
 
     public Vector3 position;
     public bool isActive;
+
+    public TrapSaveData trapState;
 }
+
+[Serializable]
+public class TrapSaveData
+{
+    public bool armed;
+    public bool fired;
+    public bool revealed;
+}
+
 
 [Serializable] public class TurnSaveData
 {
