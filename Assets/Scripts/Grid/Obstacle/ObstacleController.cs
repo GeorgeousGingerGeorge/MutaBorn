@@ -42,6 +42,7 @@ public class ObstacleController : MonoBehaviour
 
     [Header("Obstacle Infomration- Visual Changes to objects")]
     public ObstacleDestructionStages currentStage { get; private set; }
+    private ObstacleDestructionStages[] destructionStages;
     public int currentStageIndex { get; private set; } = -1;
 
     public bool isDestructible { get; private set; }
@@ -58,6 +59,8 @@ public class ObstacleController : MonoBehaviour
 
     public void Awake()
     {
+        destructionStages = GetComponentsInChildren<ObstacleDestructionStages>(true);
+        
         InitializeObstacleData();
        
     }
@@ -80,8 +83,12 @@ public class ObstacleController : MonoBehaviour
         currentHealth = maxHealth;
         isDestructible = currentData.isDestructible;
 
+
+
         //Gives Current Default Values of the obstacle
         ApplyDefaultObstacleInformation();
+
+        destructionStages = GetComponentsInChildren<ObstacleDestructionStages>(true);
 
         //Determine the Initial Destruction Stage
         UpdateDestructionStage();
@@ -277,7 +284,8 @@ public class ObstacleController : MonoBehaviour
             return;
         }
 
-        ObstacleDestructionStages[] stages = currentData.destructionStages;
+
+        ObstacleDestructionStages[] stages = destructionStages;
 
         //No Configured Stages: Use Default
 
@@ -368,7 +376,7 @@ public class ObstacleController : MonoBehaviour
 
     private void UpdateStageVisuals() 
     {
-        ObstacleDestructionStages[] stages = currentData.destructionStages;
+        ObstacleDestructionStages[] stages = destructionStages;
 
         foreach(ObstacleDestructionStages stage in stages) 
         {

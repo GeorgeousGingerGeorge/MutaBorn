@@ -1791,7 +1791,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
     }
-
+    
     private void OnDestroy()
     {
         if (Instance == this)
