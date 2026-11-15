@@ -16,6 +16,19 @@ public sealed class RaceLootDatabase : ScriptableObject
 {
     [SerializeField] private List<RaceLootProfile> profiles = new();
 
+    [Header("Other Races with Mutations")]
+    [SerializeField] private MissionLootTable mutatedEnemyLootTable;
+    [SerializeField, Range(0, 100)] private int mutatedEnemyDropChancePercent = 20;
+
+    public bool TryGetMutatedEnemyLoot(out MissionLootTable lootTable, out int dropChancePercent)
+    {
+        lootTable = mutatedEnemyLootTable;
+        dropChancePercent = Mathf.Clamp(mutatedEnemyDropChancePercent, 0, 100);
+
+        return lootTable != null;
+
+    }
+
     public bool TryGetLoot(string raceName, out MissionLootTable lootTable, out int dropChancePercent)
     {
         foreach (RaceLootProfile profile in profiles)

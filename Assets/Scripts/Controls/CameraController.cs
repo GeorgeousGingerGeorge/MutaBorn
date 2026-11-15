@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 
@@ -63,6 +64,16 @@ public class CameraController : MonoBehaviour
     [SerializeField] private bool logFocusDiagnostics = false;
 
 
+    [Header("Player Turn Camera Return")]
+    [SerializeField, Min(0.05f)] private float returnToStartDuration = 0.4f;
+
+    [Header("Damage Camera Shake")]
+    [SerializeField] private bool shakeOnDamage = true;
+    [SerializeField, Min(0.01f)] private float damageShakeDuration = 0.28f;
+    [SerializeField, Min(0f)] private float shakeAt20Damage = 0.10f;
+    [SerializeField, Min(0f)] private float shakeAt40Damage = 0.24f;
+    [SerializeField, Min(0f)] private float shakeAt80Damage = 0.55f;
+
     [Header("Rotation")]
     [SerializeField, Min(0f)] private float rotationSpeed = 90f;
 
@@ -87,6 +98,14 @@ public class CameraController : MonoBehaviour
     private Transform focusTarget;
     private Vector3 focusVelocity;
     private bool isFocusing;
+    private TurnManager turnManager;
+    private Coroutine playerTurnFocusRoutine;
+    private Vector3 startPosition;
+    private Vector3 returnFromPosition;
+    private float returnElapsed;
+    private bool returningToStart;
+    private float shakeTimeRemaining;
+    private float shakeStrength;
 
 
 
@@ -131,6 +150,7 @@ public class CameraController : MonoBehaviour
 
         }
 
+        startPosition = transform.position;
         zoomDirection = cameraTransform.localPosition.normalized;
         currentZoomDistance = cameraTransform.localPosition.magnitude;
         maxZoomDistance = Mathf.Max(minZoomDistance, maxZoomDistance);
@@ -156,11 +176,140 @@ public class CameraController : MonoBehaviour
 
         cameraControls.Camera.ZoomCamera.performed += ZoomCamera;
         cameraControls.Camera.Enable();
+        CombatActionExecutor.DamageApplied += OnDamageApplied;
+        SubscribeToTurns();
+
+    }
+
+    private void Start()
+    {
+        SubscribeToTurns();
+        if (turnManager != null && turnManager.IsPlayerTurn && playerTurnFocusRoutine == null)
+        {
+            BeginPlayerTurnFocus();
+
+        }
+
+    }
+
+    private void SubscribeToTurns()
+    {
+        TurnManager current = TurnManager.Instance;
+        if (turnManager == current)
+        {
+            return;
+
+        }
+
+        if (turnManager != null)
+        {
+            turnManager.TurnStarted -= OnTurnStarted;
+
+        }
+
+        turnManager = current;
+        if (turnManager != null)
+        {
+            turnManager.TurnStarted += OnTurnStarted;
+
+        }
+
+    }
+
+    private void OnTurnStarted(FactionData faction)
+    {
+        if (turnManager != null && faction == turnManager.PlayerFaction)
+        {
+            BeginPlayerTurnFocus();
+
+        }
+
+    }
+
+    private void BeginPlayerTurnFocus()
+    {
+        if (playerTurnFocusRoutine != null)
+        {
+            StopCoroutine(playerTurnFocusRoutine);
+
+        }
+
+        playerTurnFocusRoutine = StartCoroutine(PreparePlayerTurnFocus());
+
+    }
+
+    private IEnumerator PreparePlayerTurnFocus()
+    {
+        // Allow SelectionManager to pick a surviving player unit after turn changes.
+        yield return null;
+
+        SelectionManager selection = FindAnyObjectByType<SelectionManager>();
+        if (turnManager == null || !turnManager.IsPlayerTurn || selection == null ||
+            selection.selectedUnit == null || !selection.selectedUnit.isActiveAndEnabled)
+        {
+            playerTurnFocusRoutine = null;
+
+            yield break;
+
+        }
+
+        CancelFocus();
+        horizontalVelocity = Vector3.zero;
+        returnFromPosition = transform.position;
+        returnElapsed = 0f;
+        focusTarget = selection.selectedUnit.transform;
+        returningToStart = true;
+        playerTurnFocusRoutine = null;
+
+    }
+
+    private void OnDamageApplied(CombatDamageEvent damage)
+    {
+        if (!shakeOnDamage || damage.ActualDamage <= 0)
+        {
+            return;
+
+        }
+
+        float amount = damage.ActualDamage <= 20
+            ? Mathf.Lerp(0f, shakeAt20Damage, damage.ActualDamage / 20f)
+            : damage.ActualDamage <= 40
+                ? Mathf.Lerp(shakeAt20Damage, shakeAt40Damage, (damage.ActualDamage - 20f) / 20f)
+                : Mathf.Lerp(shakeAt40Damage, shakeAt80Damage,
+                    Mathf.Clamp01((damage.ActualDamage - 40f) / 40f));
+
+        shakeStrength = Mathf.Max(amount, shakeStrength *
+            (shakeTimeRemaining / Mathf.Max(0.01f, damageShakeDuration)));
+        shakeTimeRemaining = damageShakeDuration;
 
     }
 
     private void OnDisable()
     {
+        CombatActionExecutor.DamageApplied -= OnDamageApplied;
+        if (turnManager != null)
+        {
+            turnManager.TurnStarted -= OnTurnStarted;
+            turnManager = null;
+
+        }
+
+        if (playerTurnFocusRoutine != null)
+        {
+            StopCoroutine(playerTurnFocusRoutine);
+            playerTurnFocusRoutine = null;
+
+        }
+
+        returningToStart = false;
+        shakeTimeRemaining = 0f;
+        if (cameraTransform != null && zoomDirection.sqrMagnitude > 0f)
+        {
+            cameraTransform.localPosition = zoomDirection * currentZoomDistance;
+            cameraTransform.LookAt(transform.position);
+
+        }
+
         if (activeInstance == this)
         {
             activeInstance = null;
@@ -195,8 +344,10 @@ public class CameraController : MonoBehaviour
     {
         RotateCamera();
         GetKeyboardMovement();
-        if (isFocusing && cancelFocusOnManualMovement && targetMovement.sqrMagnitude > 0.0001f)
+        if ((isFocusing || returningToStart) && cancelFocusOnManualMovement &&
+            targetMovement.sqrMagnitude > 0.0001f)
         {
+            returningToStart = false;
             CancelFocus();
 
         }
@@ -233,6 +384,7 @@ public class CameraController : MonoBehaviour
 
         }
 
+        returningToStart = false;
         focusTarget = target;
         isFocusing = true;
         horizontalVelocity = Vector3.zero;
@@ -299,6 +451,38 @@ public class CameraController : MonoBehaviour
 
     private void UpdateBasePosition()
     {
+        if (returningToStart)
+        {
+            returnElapsed += Time.deltaTime;
+            float progress = Mathf.Clamp01(returnElapsed / returnToStartDuration);
+            transform.position = Vector3.Lerp(returnFromPosition, startPosition,
+                Mathf.SmoothStep(0f, 1f, progress));
+
+            if (progress >= 1f)
+            {
+                returningToStart = false;
+                SelectionManager selection = FindAnyObjectByType<SelectionManager>();
+                UnitController selected = selection != null ? selection.selectedUnit : null;
+                if (selected != null && selected.isActiveAndEnabled && selected.data != null &&
+                    selected.data.currentHealth > 0 && turnManager != null && turnManager.IsPlayerTurn)
+                {
+                    focusTarget = selected.transform;
+                    isFocusing = true;
+                    focusVelocity = Vector3.zero;
+
+                }
+                else
+                {
+                    CancelFocus();
+
+                }
+
+            }
+
+            return;
+
+        }
+
         if (isFocusing)
         {
             if (focusTarget == null)
@@ -370,7 +554,20 @@ public class CameraController : MonoBehaviour
         float blend = 1f - Mathf.Exp(-zoomDamping * Time.deltaTime);
         currentZoomDistance = Mathf.Lerp(currentZoomDistance, targetZoomDistance, blend);
 
-        cameraTransform.localPosition = zoomDirection * currentZoomDistance;
+        Vector3 shakeOffset = Vector3.zero;
+        if (shakeTimeRemaining > 0f)
+        {
+            shakeTimeRemaining = Mathf.Max(0f, shakeTimeRemaining - Time.unscaledDeltaTime);
+            float strength = shakeStrength * (shakeTimeRemaining / damageShakeDuration);
+            float phase = Time.unscaledTime * 32f;
+            shakeOffset = new Vector3(
+                Mathf.PerlinNoise(phase, 0.37f) * 2f - 1f,
+                Mathf.PerlinNoise(0.73f, phase) * 2f - 1f,
+                0f) * strength;
+
+        }
+
+        cameraTransform.localPosition = zoomDirection * currentZoomDistance + shakeOffset;
         cameraTransform.LookAt(transform.position);
 
     }
