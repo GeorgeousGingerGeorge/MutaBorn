@@ -47,7 +47,8 @@ public enum UnitSlotBlockReason
     PlayerLocked = 2,
     MutationOccupied = 3,
     TwoHandedWeapon = 4,
-    ItemOccupied = 5
+    ItemOccupied = 5,
+    RaceRestricted = 6
 
 }
 

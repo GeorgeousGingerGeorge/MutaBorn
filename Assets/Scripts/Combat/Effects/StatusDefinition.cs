@@ -20,7 +20,8 @@ namespace MutaBorn.Gameplay
         Root = 2,
         Silence = 4,
         Disarm = 8,
-        Invisible = 16
+        Invisible = 16,
+        MutationSuppressed = 32
 
     }
 

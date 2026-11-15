@@ -121,7 +121,8 @@ namespace MutaBorn.Gameplay
 
             }
 
-            if (owner != null && owner.data != null && owner.data.activeMutations != null)
+            if (owner != null && owner.data != null && !owner.data.MutationsSuppressed &&
+                owner.data.activeMutations != null)
             {
                 GameDataBase database = GameDataBaseLoader.Instance;
                 MutationDataBase mutationDatabase = database != null ? database.mutationData : null;
@@ -150,7 +151,8 @@ namespace MutaBorn.Gameplay
 
             // Each fixed mutation node owns its effect grants. Two different families
             // may reference the same definition without losing their independent effects.
-            if (owner != null && owner.data != null && owner.data.activeMutationNodes != null)
+            if (owner != null && owner.data != null && !owner.data.MutationsSuppressed &&
+                owner.data.activeMutationNodes != null)
             {
                 GameDataBase gameData = GameDataBaseLoader.Instance;
                 MutationDataBase database = gameData != null ? gameData.mutationData : null;

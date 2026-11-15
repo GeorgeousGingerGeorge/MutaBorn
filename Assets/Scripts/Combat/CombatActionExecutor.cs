@@ -1542,6 +1542,26 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         if (result.ActualDamage > 0)
         {
+            ActionDefinition action = result.Request.Action;
+            StatusDefinition[] statuses = action != null ? action.RandomOnHitStatuses : null;
+            if (statuses != null && statuses.Length > 0 && target.data.currentHealth > 0)
+            {
+                StatusDefinition chosen = statuses[UnityEngine.Random.Range(0, statuses.Length)];
+                if (chosen != null)
+                {
+                    UnitStatusController controller = target.GetComponent<UnitStatusController>();
+                    if (controller == null)
+                    {
+                        controller = target.gameObject.AddComponent<UnitStatusController>();
+
+                    }
+
+                    controller.TryApply(chosen, result.Request.Attacker);
+
+                }
+
+            }
+
             PublishDamageApplied(new CombatDamageEvent(result.Request.Attacker, target,
                 result.Request.Action, result.ActualDamage, result.HealthBefore,
                 result.HealthAfter, sourceIndex, result.Request.DamageType,
@@ -1771,7 +1791,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
     }
-
+    
     private void OnDestroy()
     {
         if (Instance == this)

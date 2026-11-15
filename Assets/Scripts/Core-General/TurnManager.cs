@@ -397,6 +397,14 @@ public class TurnManager : MonoBehaviour
 
             }
 
+            if (unit.data.IsTooCorrupt && unit.data.RaceDefinition != null)
+            {
+                int healing = Mathf.CeilToInt(unit.data.maxHealth *
+                    unit.data.RaceDefinition.TooCorruptRegenPercent / 100f);
+                unit.data.ModifyHealth(healing);
+
+            }
+
             int missingAP = unit.data.maxActionPoints - unit.data.currentActionPoints;
             if (missingAP > 0)
             {
