@@ -769,6 +769,107 @@ public sealed class UnitRoster : MonoBehaviour
 
     }
 
+
+    public bool TryRestoreSavedRoster(UnitRosterSaveData saved)
+    {
+        if (saved == null || saved.members == null || saved.deployments == null || saved.members.Count == 0)
+        {
+            Debug.LogError("[Save/Load] Saved roster data is missing.");
+            return false;
+        }
+
+        if (units.Count > 0 || deployments.Count > 0 || activeBindings.Count > 0)
+        {
+            Debug.LogError("[Save/Load] Cannot restore into a roster that is already initialized.");
+            return false;
+        }
+
+        if (saved.unlockedCrewSlots < StartingCrewSlots || saved.unlockedCrewSlots > MaximumCrewSlots)
+        {
+            Debug.LogError("[Save/Load] Invalid saved crew slot count.");
+            return false;
+        }
+
+        GameDataBase database = GameDataBaseLoader.Instance;
+
+        if (database == null || database.raceData == null)
+        {
+            Debug.LogError("[Save/Load] Race database unavailable.");
+            return false;
+        }
+
+        List<UnitData> restoredUnits = new List<UnitData>();
+        List<UnitRosterDeployment> restoredDeployments = new List<UnitRosterDeployment>();
+
+        HashSet<string> unitIds = new HashSet<string>(StringComparer.Ordinal);
+        HashSet<string> itemIds = new HashSet<string>(StringComparer.Ordinal);
+        HashSet<int> deploymentSlots = new HashSet<int>();
+        HashSet<string> deployedUnitIds = new HashSet<string>(StringComparer.Ordinal);
+
+        // Rebuild every character before modifying the actual roster.
+        foreach (UnitRosterMemberSaveData member in saved.members)
+        {
+            if (member == null || string.IsNullOrWhiteSpace(member.unitId) || !unitIds.Add(member.unitId))
+            {
+                Debug.LogError("[Save/Load] Duplicate or invalid saved character identity.");
+                return false;
+            }
+
+            DynamicStats race = database.raceData.GetRace(member.raceName);
+            UnitData unit = UnitData.CreateFromSavedIdentity(member, race);
+
+            if (unit == null)
+            {
+                Debug.LogError($"[Save/Load] Failed to reconstruct roster member: {member.characterName}.");
+                return false;
+            }
+
+            foreach (EquipmentInstance item in unit.equippedItems)
+            {
+                if (string.IsNullOrWhiteSpace(item.instanceId) || !itemIds.Add(item.instanceId))
+                {
+                    Debug.LogError("[Save/Load] Duplicate or invalid equipment instance ID.");
+                    return false;
+                }
+            }
+
+            foreach (ConsumableInstance item in unit.carriedConsumables)
+            {
+                if (string.IsNullOrWhiteSpace(item.instanceId) || !itemIds.Add(item.instanceId))
+                {
+                    Debug.LogError("[Save/Load] Duplicate or invalid consumable instance ID.");
+                    return false;
+                }
+            }
+
+            restoredUnits.Add(unit);
+        }
+
+        // Validate all deployment assignments.
+        foreach (UnitRosterDeploymentSaveData deployment in saved.deployments)
+        {
+            if (deployment == null || deployment.slotIndex < 0 || deployment.slotIndex >= saved.unlockedCrewSlots || !deploymentSlots.Add(deployment.slotIndex) || !unitIds.Contains(deployment.unitId) || !deployedUnitIds.Add(deployment.unitId))
+            {
+                Debug.LogError("[Save/Load] Invalid saved deployment assignment.");
+                return false;
+            }
+
+            restoredDeployments.Add(new UnitRosterDeployment(deployment.slotIndex, deployment.unitId));
+        }
+
+        // Commit the reconstructed roster only after all validation succeeds.
+        units.AddRange(restoredUnits);
+        deployments.AddRange(restoredDeployments);
+        unlockedCrewSlots = saved.unlockedCrewSlots;
+
+        RosterChanged?.Invoke();
+
+        Debug.Log($"[Save/Load] Persistent roster restored: {units.Count} characters, {deployments.Count} deployments.");
+
+        return true;
+    }
+
+
     [ContextMenu("Debug / Log Roster")]
     private void DebugLogRoster()
     {
@@ -792,11 +893,7 @@ public sealed class UnitRoster : MonoBehaviour
                     Debug.Log($"[UnitRoster] Consumable {consumable.instanceId} / {consumable.remainingUses} uses", this);
 
                 }
-
             }
-
         }
-
     }
-
 }

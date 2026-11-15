@@ -23,8 +23,7 @@ public sealed class MissionCrewSpawnArea : MonoBehaviour
         Dictionary<Vector2Int, GridNode> floor = gridManager == null ? null : gridManager.GetGrid(floorId);
         if (roster == null || occupancy == null || floor == null || floor.Count == 0)
         {
-            Debug.LogError("[CrewSpawn] Missing roster, occupancy or floor grid. Legacy units remain unchanged.", this);
-
+            Debug.LogError($"[CrewSpawn] Roster: {roster != null} | Occupancy: {occupancy != null} | Floor: {floor != null} | Floor Count: {floor?.Count ?? 0}", this);
             return;
 
         }

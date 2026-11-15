@@ -5,7 +5,8 @@ using UnityEngine;
 public static class SaveManager
 {
     private static readonly string savePath = Path.Combine(Application.persistentDataPath, "mission_save.json");
-    
+    public static MissionSaveData PendingRestore { get; set; }
+
     public static bool SaveMission(MissionSaveData data)
     {
         if (data == null)
@@ -60,3 +61,4 @@ public static class SaveManager
         return SaveMission(snapshot);
     }
 }
+

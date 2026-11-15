@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic; 
 
 public static class MissionSaveCapture
 {
@@ -13,6 +14,123 @@ public static class MissionSaveCapture
         };
 
         UnitController[] units = UnityEngine.Object.FindObjectsByType<UnitController>(FindObjectsInactive.Include);
+
+        UnitRoster roster = UnitRoster.Instance;
+
+        if (roster != null)
+        {
+            snapshot.rosterState.unlockedCrewSlots = roster.UnlockedCrewSlots;
+
+            foreach (UnitRosterDeployment deployment in roster.Deployments)
+            {
+                snapshot.rosterState.deployments.Add(new UnitRosterDeploymentSaveData
+                {
+                    slotIndex = deployment.SlotIndex,
+                    unitId = deployment.UnitId
+                });
+            }
+
+            foreach (UnitData unit in roster.Units)
+            {
+                UnitRosterMemberSaveData savedMember = new UnitRosterMemberSaveData
+                {
+                    unitId = unit.UnitId,
+                    characterName = unit.characterName,
+                    raceName = unit.raceName,
+
+                    level = unit.Level,
+                    experience = unit.Experience,
+                    unspentAttributePoints = unit.UnspentAttributePoints,
+                    mutationPoints = unit.MutationPoints,
+
+                    leveledStrength = unit.leveledStrength,
+                    leveledDexterity = unit.leveledDexterity,
+                    leveledVitality = unit.leveledVitality,
+                    leveledConstitution = unit.leveledConstitution,
+                    leveledPerception = unit.leveledPerception,
+                    leveledIntelligence = unit.leveledIntelligence,
+
+                    currentHealth = unit.currentHealth,
+                    currentMana = unit.currentMana,
+                    currentActionPoints = unit.currentActionPoints
+                };
+
+                // Capture fixed mutation nodes
+                foreach (ActiveMutationRecord mutation in unit.activeMutationNodes)
+                {
+                    if (mutation != null && mutation.MutationId != MutationID.none)
+                    {
+                        savedMember.fixedMutationIds.Add(mutation.MutationId);
+                    }
+                }
+
+                // Capture legacy equipped mutations
+                foreach (BaseMutation mutation in unit.activeMutations.Values)
+                {
+                    if (mutation != null && mutation.ID != MutationID.none)
+                    {
+                        savedMember.legacyMutationIds.Add(mutation.ID);
+                    }
+                }
+
+                // Capture equipped item instances without generating replacements
+                foreach (EquipmentInstance item in unit.equippedItems)
+                {
+                    if (item.typeDefinition == null || string.IsNullOrWhiteSpace(item.instanceId) || string.IsNullOrWhiteSpace(item.typeDefinition.TypeId) || string.IsNullOrWhiteSpace(item.templateId))
+                    {
+                        Debug.LogError($"[Save/Load] Invalid equipment identity for {unit.characterName}: {item.itemName}.");
+                        return null;
+                    }
+
+                    UnitSlotId equippedSlot = UnitSlotId.None;
+
+                    foreach (UnitLoadoutSlotState slot in unit.LoadoutSlots)
+                    {
+                        if (slot != null && slot.ItemInstanceId == item.instanceId)
+                        {
+                            equippedSlot = slot.Slot;
+                            break;
+                        }
+                    }
+
+                    if (equippedSlot == UnitSlotId.None)
+                    {
+                        Debug.LogError($"[Save/Load] Equipment slot not found for {unit.characterName}: {item.itemName}.");
+                        return null;
+                    }
+
+                    savedMember.equipment.Add(new EquipmentSaveData
+                    {
+                        instanceId = item.instanceId,
+                        typeId = item.typeDefinition.TypeId,
+                        templateId = item.templateId,
+                        equippedSlot = equippedSlot,
+
+                        rarity = item.rarity,
+                        baseStats = item.baseStats,
+                        rolledStats = item.rolledStats,
+                        attributeScaling = item.attributeScaling,
+
+                        resistances = item.resistances,
+                        bonusDamage = item.bonusDamage,
+
+                        lastStatRoll1 = item.lastStatRoll1,
+                        lastStatRoll2 = item.lastStatRoll2,
+                        bonusStacks = item.bonusStacks,
+                        lastUpgradeBonus = item.lastUpgradeBonus
+                    });
+                }
+                snapshot.rosterState.members.Add(savedMember);
+
+                Debug.Log($"[Save/Load] {unit.characterName}: {savedMember.fixedMutationIds.Count} fixed mutations, {savedMember.legacyMutationIds.Count} legacy mutations.");
+            }
+
+            Debug.Log($"[Save/Load] Captured {snapshot.rosterState.deployments.Count} crew deployments and {snapshot.rosterState.members.Count} roster members.");
+        }
+        else
+        {
+            Debug.LogWarning("[Save/Load] UnitRoster not found. Roster data was not captured.");
+        }
 
         foreach (UnitController unit in units)
         {
@@ -50,6 +168,43 @@ public static class MissionSaveCapture
 
             snapshot.units.Add(savedUnit);
         } // END of the unit foreach loop
+
+        WorldTrap[] traps = UnityEngine.Object.FindObjectsByType<WorldTrap>(FindObjectsInactive.Include);
+        HashSet<string> capturedTrapIds = new HashSet<string>();
+
+        foreach (WorldTrap trap in traps)
+        {
+            if (trap.HasPendingImpact)
+            {
+                Debug.LogError($"[Save/Load] Cannot save while trap impact is pending: {trap.name}.", trap);
+                return null;
+            }
+
+            string persistentId = MissionWorldObjectIdentity.GetId(trap);
+
+            if (string.IsNullOrWhiteSpace(persistentId))
+            {
+                Debug.LogError($"[Save/Load] Trap missing persistent identity: {trap.name}.", trap);
+                return null;
+            }
+
+            if (!capturedTrapIds.Add(persistentId))
+            {
+                Debug.LogError($"[Save/Load] Duplicate trap identity: {persistentId}.", trap);
+                return null;
+            }
+
+            snapshot.worldObjects.Add(new WorldObjectSaveData
+            {
+                persistentId = persistentId,
+                position = trap.transform.position,
+                isActive = trap.gameObject.activeSelf,
+                trapState = trap.CaptureSaveState()
+            });
+        }
+
+
+    Debug.Log($"[Save/Load] Captured {snapshot.worldObjects.Count} traps.");
 
         // Capture complete turn state
         TurnManager turnManager = TurnManager.Instance;
