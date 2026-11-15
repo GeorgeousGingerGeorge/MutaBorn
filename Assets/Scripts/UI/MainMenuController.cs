@@ -17,6 +17,7 @@ public class MainMenuController : MonoBehaviour
     public GameObject controlsPanel;
     public GameObject optionsPanel;
     public Button optionsBackButton;
+    public Button loadButton;
     public string hubName;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -43,6 +44,11 @@ public class MainMenuController : MonoBehaviour
         if (optionsBackButton != null)
         {
             optionsBackButton.onClick.AddListener(CloseOptions);
+        }
+
+        if (loadButton != null)
+        {
+            loadButton.onClick.AddListener(LoadSavedMission);
         }
     }
 
@@ -134,4 +140,57 @@ public class MainMenuController : MonoBehaviour
         canvasMainMenu.SetActive(true);
 
     }
+
+
+    public void LoadSavedMission()
+    {
+        if (!SaveManager.TryLoadMission(out MissionSaveData saved))
+        {
+            Debug.LogError("[Save/Load] No valid mission save found!");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(saved.sceneName) || !Application.CanStreamedLevelBeLoaded(saved.sceneName))
+        {
+            Debug.LogError($"[Save/Load] Saved mission scene is unavailable: {saved.sceneName}");
+            return;
+        }
+
+        if (GameDataBaseLoader.Instance == null || GameDataBaseLoader.Instance.raceData == null)
+        {
+            Debug.LogError("[Save/Load] Game database is unavailable.");
+            return;
+        }
+
+        // Restore the persistent roster before the mission scene initializes.
+        UnitRoster roster = UnitRoster.Instance;
+        bool createdRoster = false;
+
+        if (roster == null)
+        {
+            GameObject rosterObject = new GameObject("Restored UnitRoster");
+            roster = rosterObject.AddComponent<UnitRoster>();
+            createdRoster = true;
+        }
+
+        if (roster == null || !roster.TryRestoreSavedRoster(saved.rosterState))
+        {
+            Debug.LogError("[Save/Load] Failed to restore the persistent roster.");
+
+            if (createdRoster && roster != null)
+            {
+                Destroy(roster.gameObject);
+            }
+
+            return;
+        }
+
+        // The mission can now access the restored roster during initialization.
+        SaveManager.PendingRestore = saved;
+
+        Debug.Log($"[Save/Load] Roster restored. Loading saved mission: {saved.sceneName}");
+
+        SceneManager.LoadScene(saved.sceneName);
+    }
+
 }
