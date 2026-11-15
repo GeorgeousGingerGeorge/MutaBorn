@@ -730,6 +730,7 @@ MonoBehaviour:
   anchor: {fileID: 0}
   data: {fileID: 11400000, guid: f35b88bc94f77294e8cb6e3299afc38f, type: 2}
   destructionEffectPrefab: {fileID: 0}
+  ObstaclesCurrentHealth: 0
 --- !u!1 &2605653167696059058
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,7 +969,7 @@ Transform:
   m_GameObject: {fileID: 2997770009506085696}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1113,7 +1114,7 @@ Transform:
   m_GameObject: {fileID: 3495908969925171052}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2414,7 +2415,7 @@ GameObject:
   - component: {fileID: 5196795641625520259}
   - component: {fileID: 7678658647410246400}
   m_Layer: 0
-  m_Name: Destroyed
+  m_Name: HeavilyDamaged
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2429,7 +2430,7 @@ Transform:
   m_GameObject: {fileID: 6657299909325737846}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2449,7 +2450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleDestructionStages
   stageName: 2
-  healthThreshold: 0
+  healthThreshold: 0.15
   stageVisual: {fileID: 6657299909325737846}
   blockMovement: 0
   blockLineofSight: 0
