@@ -25,6 +25,14 @@ public class HoverManager : MonoBehaviour
         UnitController currentUnit = null;
         ObstacleController currentObstacle = null;
 
+
+        if (mouseInWorld.surfaceHit)
+        {
+            currentTile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
+
+        }
+        TileHover(currentTile);
+
         if (mouseInWorld.unitHit)
         {
             currentUnit = mouseInWorld.unitTarget.collider.GetComponentInParent<UnitController>();
@@ -38,13 +46,7 @@ public class HoverManager : MonoBehaviour
             
         }
         ObstacleHover(currentObstacle);
-        
-        if (mouseInWorld.surfaceHit) 
-        {
-            currentTile = mouseInWorld.groundTarget.collider.GetComponentInParent<TileController>();
-            
-        }
-        TileHover(currentTile);
+     
         
     }
 

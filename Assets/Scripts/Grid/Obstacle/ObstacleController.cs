@@ -12,6 +12,7 @@ public class ObstacleController : MonoBehaviour
     public GridNode boundaryNode { get; private set; } = null;
     public Vector2Int outwardDirection { get; private set; } = Vector2Int.zero;
     private List<GridNode> occupiedNodes = new List<GridNode>();
+    public IReadOnlyList<GridNode> OccupiedNodes => occupiedNodes;
 
     [Header("Determines the number of nodes the obstacle occupies")]
     [SerializeField] public NodeCoverage nodeCoverage;
@@ -66,6 +67,7 @@ public class ObstacleController : MonoBehaviour
     public bool IsBlocking => occupancyRegistered;
     public Occupancy CurrentOccupancy => occupancy;
 
+    [SerializeField] private int ObstaclesCurrentHealth;
     public void Awake()
     {
         destructionStages = GetComponentsInChildren<ObstacleDestructionStages>(true);
@@ -90,6 +92,7 @@ public class ObstacleController : MonoBehaviour
         typeOfObstacle = currentData.typeOfObstacle;
         maxHealth = currentData.maxHealth;
         currentHealth = maxHealth;
+        ObstaclesCurrentHealth = currentHealth; //For Testing Purposes
         isDestructible = currentData.isDestructible;
 
 
@@ -743,6 +746,7 @@ public class ObstacleController : MonoBehaviour
        
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
 
+        ObstaclesCurrentHealth = currentHealth;
         UpdateDestructionStage();
 
         if (currentHealth <= 0) 

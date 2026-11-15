@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using MutaBorn.Gameplay;
 using UnityEngine;
 
@@ -347,7 +348,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         else
         {
 
-            targetFilter = hit => IsValidUnitTarget(hit, source, action);
+            targetFilter = hit => IsValidActionTarget(hit, source, action);
             //targetFilter = hit => hit.collider != null &&
             //    hit.collider.GetComponentInParent<UnitController>() != null;
 
@@ -440,7 +441,7 @@ public sealed class CombatActionExecutor : MonoBehaviour
         int targetFloorId = action.AreaSameFloorOnly ? source.currentNode.floorID : -1; 
         Func<RaycastHit, bool> filter = isArea
             ? hit => hit.collider != null && hit.collider.GetComponentInParent<TileController>() != null
-            : hit => IsValidUnitTarget(hit, source, action);
+            : hit => IsValidActionTarget(hit, source, action);
                                                                                                 /* hit => hit.collider != null && hit.collider.GetComponentInParent<UnitController>() != null;*/
 
         if (!targetingController.TryBeginTargeting(
@@ -504,8 +505,21 @@ public sealed class CombatActionExecutor : MonoBehaviour
             return;
 
         }
+        UnitController unit = hit.collider.GetComponentInParent<UnitController>();
 
-        TryExecuteAgainst(hit.collider.GetComponentInParent<UnitController>());
+        if (unit != null) 
+        {
+            TryExecuteAgainst(hit.collider.GetComponentInParent<UnitController>());
+            return;
+        }
+
+        ObstacleController obstacle = hit.collider.GetComponentInParent<ObstacleController>();
+
+        if (obstacle != null) 
+        {
+            TryExecuteAgainst(obstacle);
+        }
+       
 
     }
 
@@ -596,6 +610,41 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+    }
+    private void TryExecuteAgainst(ObstacleController target) 
+    {
+        if (target == null || attacker == null || pendingAction == null) 
+        {
+            
+            return;
+
+        }
+
+        if(!IsValidObstacleTarget(target, attacker, pendingAction)) 
+        {
+            return;
+        }
+
+        if (!CanCommand(attacker)) 
+        {
+            return;
+        }
+
+        if(attacker.data.currentActionPoints < pendingAction.ApCost) 
+        {
+            return;
+        }
+
+        int sourceIndex = FindUniqueEquipmentSourceIndex(attacker, pendingAction);
+
+        if (ApplyDamageToObstacle(target, pendingAction,sourceIndex, out int damage)) 
+        {
+            target.ModifyDurability(-damage);
+        }
+
+        CancelTargeting();
+
+        
     }
 
     private void TryCaptureTarget(UnitController source, UnitController target, ActionDefinition action)
@@ -1173,6 +1222,100 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+        ObstacleController[] obstacles = FindObjectsByType<ObstacleController>();
+
+        foreach (ObstacleController obstacle in obstacles) 
+        {
+            if (obstacle == null || !obstacle.isDestructible || obstacle.IsDestroyed || obstacle.currentHealth <= 0) 
+            {
+                continue;
+            }
+
+            Occupancy occupancy = obstacle.CurrentOccupancy;
+            List<GridNode> ownedNodes = new List<GridNode>();
+           
+
+            switch (obstacle.typeOfObstacle) 
+            {
+                case ObstacleType.Solid:
+                    {
+                        if (obstacle.nodeCoverage == NodeCoverage.Single)
+                        {
+                            ownedNodes.Add(obstacle.firstnode);
+                        }
+                        else if (obstacle.nodeCoverage == NodeCoverage.Multiple) 
+                        {
+                            ownedNodes = (List<GridNode>) obstacle.OccupiedNodes;
+                        }
+                    }
+                    break;
+                case ObstacleType.Edges:
+                    {
+                        if(obstacle.nodeCoverage == NodeCoverage.Edge) 
+                        {
+                            ownedNodes.Add(obstacle.firstnode);
+                            ownedNodes.Add(obstacle.secondnode);
+                        }
+                    }
+                    break;
+                case ObstacleType.WorldSpace:
+                    {
+                        ownedNodes.Add(obstacle.boundaryNode);
+                        
+                    }
+                    break;
+            }
+
+            if (ownedNodes.Count > 0)
+            {
+                bool nodeCheck = false;
+                foreach (GridNode node in ownedNodes)
+                {
+
+                    if (node == null)
+                    {
+                        nodeCheck = true;
+                        continue;
+                    }
+                    if (action.AreaSameFloorOnly && node.floorID != impactFloor)
+                    {
+                        nodeCheck = true;
+                        continue;
+                    }
+
+                    nodeCheck = false;
+                }
+
+                if (!nodeCheck)
+                {
+                    continue;
+                }
+            }
+
+            Vector3 delta = obstacle.transform.position - impactPoint;
+            delta.y = 0f;
+
+            if (delta.sqrMagnitude > radiusSquared + 0.0001f) 
+            {
+                continue;
+            }
+
+            eligible++;
+
+            if(!DamageResolver.TryCalculateObstacleDamage(source, action, sourceIndex, out int damage, out bool isCritical)) 
+            {
+                continue;
+            }
+
+            int before = obstacle.currentHealth;
+
+            obstacle.ModifyDurability(-damage);
+
+            affected++;
+
+
+           
+        }
         if (!healing)
         {
             Vector3 center = impactPoint;
@@ -1392,6 +1535,20 @@ public sealed class CombatActionExecutor : MonoBehaviour
             CancelTargeting();
         }
 
+        return true;
+    }
+    private bool ApplyDamageToObstacle(ObstacleController target, ActionDefinition action, int sourceIndex, out int damage) 
+    {
+        damage = 0;
+
+        if(!DamageResolver.TryCalculateObstacleDamage(attacker, pendingAction,sourceIndex, out damage, out bool isCritical)) 
+        {
+            return false;
+        }
+
+        int apCost = Mathf.CeilToInt(pendingAction.ApCost);
+        attacker.data.ModifyActionPoints(-apCost);
+        
         return true;
     }
     private bool ResolveDamage(UnitController source, UnitController target, ActionDefinition action, bool clearPlayerTargeting, bool costAlreadyPaid = false)
@@ -1746,9 +1903,32 @@ public sealed class CombatActionExecutor : MonoBehaviour
         }
 
     }
+    private bool IsValidActionTarget(RaycastHit hit, UnitController source, ActionDefinition action) 
+    {
+        if (hit.collider == null || source == null || action == null) 
+        {
+            return false;
+        }
+
+        UnitController unit = hit.collider.GetComponentInParent<UnitController>();
+
+        if (unit != null) 
+        {
+            return IsValidUnitTarget(hit, source, action);
+        }
+
+        ObstacleController obstacle = hit.collider.GetComponentInParent<ObstacleController>();
+
+        if (obstacle != null) 
+        {
+            return IsValidObstacleTarget(obstacle, source, action);
+        }
+
+        return false;
+    }
     private bool IsValidUnitTarget(RaycastHit hit, UnitController source, ActionDefinition action) 
     {
-        if (hit.collider == null || targetSystem == null) 
+        if (hit.collider == null || targetSystem == null || action == null) 
         {
             return false;
         }
@@ -1761,6 +1941,22 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         return targetSystem.CanTargetUnit(source, target, action.CombatRange);
 
+    }
+    private bool IsValidObstacleTarget(ObstacleController target, UnitController source, ActionDefinition action) 
+    {
+        if (target == null || source == null || action == null) 
+        {
+            return false;
+        }
+
+        if (action.CombatBehavior != CombatActionBehavior.DamageUnit) 
+        {
+            return false;
+        }
+
+
+
+        return targetSystem.CanTargetObstacle(source, target, action.CombatRange);
     }
     private bool IsValidGroundTarget(Vector3 point,int floorId,UnitController source,ActionDefinition action)
     {
