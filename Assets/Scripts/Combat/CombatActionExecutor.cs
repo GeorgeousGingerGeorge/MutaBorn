@@ -1069,6 +1069,16 @@ public sealed class CombatActionExecutor : MonoBehaviour
 
         }
 
+        if (!costAlreadyPaid && !string.IsNullOrWhiteSpace(action.AnimationStateName))
+        {
+            Animator animator = source.GetComponentInChildren<Animator>();
+
+            if (animator != null)
+            {
+                animator.CrossFade(action.AnimationStateName, 0.1f, 0, 0f);
+            }
+        }
+
         bool healing = action.CombatBehavior == CombatActionBehavior.HealArea;
 
         lastAreaKilledTarget = false;
@@ -1445,17 +1455,21 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 soundDetectionSystem?.RegisterSound(source.currentNode, SoundType.Scuffle, 12, source);
                 attempted = true;
 
-                if (action.DamageStat == CombatDamageStat.Melee) // TRIGGER FOR ATTACK ANIMATION in baseCharAnimator
-                {
-                    Animator animator = source.GetComponentInChildren<Animator>();
 
-                    if (animator != null)
+                Animator animator = source.GetComponentInChildren<Animator>();
+
+                if (animator != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(action.AnimationStateName))
+                    {
+                        animator.CrossFade(action.AnimationStateName, 0.1f, 0, 0f);
+                    }
+                    else if (action.DamageStat == CombatDamageStat.Melee)
                     {
                         animator.SetTrigger("Attack");
-
                     }
-
                 }
+
 
             }
 

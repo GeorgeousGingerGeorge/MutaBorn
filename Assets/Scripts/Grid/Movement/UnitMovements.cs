@@ -85,7 +85,25 @@ public class UnitMovements : MonoBehaviour
 
         if (equipment.IsValid)
         {
-            if (equipment.WeaponSubtype == WeaponSubtype.Bow)
+            if (equipment.WeaponSubtype == WeaponSubtype.Spellbook)
+            {
+                idleType = 5;
+            }
+            else if (equipment.WeaponSubtype == WeaponSubtype.Staff)
+            {
+                idleType = 5;
+            }
+            else if (equipment.WeaponSubtype == WeaponSubtype.Crossbow)
+            {
+                idleType = 4;
+                runType = 4;
+            }
+            else if (equipment.WeaponSubtype == WeaponSubtype.Firearm)
+            {
+                idleType = 4;
+                runType = 4;
+            }
+            else if (equipment.WeaponSubtype == WeaponSubtype.Bow)
             {
                 idleType = 3;
                 runType = 3;

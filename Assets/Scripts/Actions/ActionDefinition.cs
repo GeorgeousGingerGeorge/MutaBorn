@@ -79,6 +79,12 @@ public class ActionDefinition : ScriptableObject
 
     [SerializeField] private ActionActivationType activationType = ActionActivationType.Active;
 
+
+    [Header("Action Animation")]
+    [Tooltip("Animator state to play when this action executes. Leave empty for no animation.")]
+    [SerializeField] private string animationStateName = "";
+
+
     [Header("Menu Organization")]
 
     [SerializeField] private ActionMenuCategory category = ActionMenuCategory.Abilities;
@@ -223,4 +229,5 @@ public class ActionDefinition : ScriptableObject
     public float CriticalDamageMultiplier => Mathf.Max(1f, criticalDamageMultiplier);
     public int FlatArmorPenetration => Mathf.Max(0, flatArmorPenetration);
     public int FlatWardPenetration => Mathf.Max(0, flatWardPenetration);
+    public string AnimationStateName => animationStateName;
 }
