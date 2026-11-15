@@ -472,7 +472,66 @@ namespace MutaBorn.Gameplay
             return true;
 
         }
+        public static bool TryCalculateObstacleDamage(UnitController attacker, ActionDefinition action, int sourceEquipmentIndex,
+      out int damage, out bool isCritical)
+        {
 
+            damage = 0;
+            isCritical = false;
+
+            if (attacker == null || attacker.data == null || action == null)
+            {
+                return false;
+            }
+
+            isCritical = action.CriticalChancePercent >= 100f || (action.CriticalChancePercent > 0f &&
+                UnityEngine.Random.value * 100f < action.CriticalChancePercent);
+
+            int baseDamage = GetBaseDamage(attacker.data, action.DamageStat);
+
+            float multiplier = action.DamageMultiplier * (isCritical ? action.CriticalDamageMultiplier : 1f) * GetRacialDamageMultiplier(attacker);
+
+            if (float.IsNaN(multiplier) || float.IsInfinity(multiplier))
+            {
+                return false;
+            }
+
+            long totalDamage = Mathf.CeilToInt(Mathf.Max(0, baseDamage) * multiplier);
+
+            totalDamage += action.FlatDamageBonus;
+
+            if (action.AdditionalDamage != null)
+            {
+                foreach (DamageComponent component in action.AdditionalDamage)
+                {
+                    totalDamage += Mathf.Max(0, component.Amount);
+                }
+            }
+
+            if (sourceEquipmentIndex >= 0 && attacker.data.equippedItems != null && sourceEquipmentIndex < attacker.data.equippedItems.Count)
+            {
+                EquipmentInstance equipment = attacker.data.equippedItems[sourceEquipmentIndex];
+
+                if (equipment.bonusDamage != null)
+                {
+                    foreach (DamageComponent component in equipment.bonusDamage)
+                    {
+                        totalDamage += Mathf.Max(0, component.Amount);
+                    }
+                }
+            }
+
+            if (totalDamage > 0 || action.MinimumDamage > 0)
+            {
+                totalDamage = Math.Max(Math.Max(1, action.MinimumDamage), totalDamage);
+
+
+            }
+
+            damage = ClampToInt(totalDamage);
+
+            return true;
+        }
         private sealed class WeightedShare
         {
             public DamageType Type;
@@ -706,6 +765,8 @@ namespace MutaBorn.Gameplay
             return (int)Math.Max(int.MinValue, Math.Min(value, int.MaxValue));
 
         }
+
+  
 
     }
 
