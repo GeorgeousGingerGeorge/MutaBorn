@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
@@ -6,6 +7,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource loopAudio;
     public static AudioManager Instance;
     public SoundBank[] soundBanks;
+
+    private readonly System.Collections.Generic.Dictionary<UnitController, float> hurtCooldowns =
+    new System.Collections.Generic.Dictionary<UnitController, float>();
+
+    private const float hurtCooldown = 0.3f;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -34,6 +40,24 @@ public class AudioManager : MonoBehaviour
         }
 
     }
+
+    private void OnEnable()
+    {
+
+        Debug.Log("AUDIO MANAGER SUBSCRIBING TO COMBAT EVENTS!");
+
+        CombatActionExecutor.DamageApplied += HandleDamageApplied;
+        CombatActionExecutor.UnitDefeated += HandleUnitDefeat;
+    }
+
+    private void OnDisable()
+    {
+        CombatActionExecutor.DamageApplied -= HandleDamageApplied;
+        CombatActionExecutor.UnitDefeated -= HandleUnitDefeat;
+    }
+
+
+
     public void PlaySound(string soundName)
     {
         if (audioSource == null)
@@ -74,7 +98,7 @@ public class AudioManager : MonoBehaviour
                         return;
                     }
 
-                    int randomIndex = Random.Range(0, sound.audioClips.Length);
+                    int randomIndex = UnityEngine.Random.Range(0, sound.audioClips.Length);
 
                     AudioClip clip = sound.audioClips[randomIndex];
 
@@ -82,7 +106,7 @@ public class AudioManager : MonoBehaviour
                     {
                         audioSource.outputAudioMixerGroup = sound.outputGroup;
 
-                        float randomPitch = Random.Range(sound.pitch - sound.pitchVariation, sound.pitch + sound.pitchVariation);
+                        float randomPitch = UnityEngine.Random.Range(sound.pitch - sound.pitchVariation, sound.pitch + sound.pitchVariation);
 
                         audioSource.pitch = randomPitch;
                         audioSource.PlayOneShot(clip, sound.volume);
@@ -142,14 +166,14 @@ public class AudioManager : MonoBehaviour
                         return;
                     }
 
-                    int randomIndex = Random.Range(0, sound.audioClips.Length);
+                    int randomIndex = UnityEngine.Random.Range(0, sound.audioClips.Length);
                     AudioClip clip = sound.audioClips[randomIndex];
 
                     if (clip != null)
                     {
                         loopAudio.outputAudioMixerGroup = sound.outputGroup;
 
-                        float randomPitch = Random.Range(sound.pitch - sound.pitchVariation,
+                        float randomPitch = UnityEngine.Random.Range(sound.pitch - sound.pitchVariation,
                         sound.pitch + sound.pitchVariation);
 
                         loopAudio.pitch = randomPitch;
@@ -176,5 +200,34 @@ public class AudioManager : MonoBehaviour
 
         loopAudio.Stop();
         loopAudio.clip = null;
+    }
+
+    private void HandleDamageApplied(CombatDamageEvent report)
+    {
+        UnitController target = report.Target;
+
+        if (report.ReducedHealthToZero)
+        {
+            return;
+        }
+
+        if (hurtCooldowns.ContainsKey(target) &&
+            Time.time < hurtCooldowns[target])
+        {
+            return;
+        }
+
+        hurtCooldowns[target] = Time.time + hurtCooldown;
+
+        string soundName = target.raceName + " Hurt";
+        PlaySound(soundName);
+    }
+
+    private void HandleUnitDefeat(UnitController attacker, UnitController target)
+    {
+        Debug.Log("DEATH AUDIO EVENT RECEIVED!");
+
+        string soundName = target.raceName + " Death";
+        PlaySound(soundName);
     }
 }
