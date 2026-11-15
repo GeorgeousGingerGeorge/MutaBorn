@@ -1257,19 +1257,27 @@ public class UnitController : MonoBehaviour
 
         return (xStep + yStep) * widthModifier;
     }
-    public void SetStance(UnitStance state) 
+    public void SetStance(UnitStance state)
     {
-
-        switch (state) 
+        switch (state)
         {
             case UnitStance.Standing:
                 currentStance = UnitStance.Standing;
                 break;
+
             case UnitStance.Crouching:
                 currentStance = UnitStance.Crouching;
                 break;
         }
+
+        Animator animator = GetComponentInChildren<Animator>();
+
+        if (animator != null)
+        {
+            animator.SetBool("IsSneaking", currentStance == UnitStance.Crouching);
+        }
     }
+
 }
 
 
