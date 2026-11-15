@@ -27,6 +27,7 @@ namespace MutaBorn.Gameplay
         private Sprite buffIcon;
         private Sprite debuffIcon;
         private Sprite blockedIcon;
+        private Sprite captureIcon;
         private Camera worldCamera;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -57,6 +58,7 @@ namespace MutaBorn.Gameplay
             buffIcon = LoadFeedbackSprite(palette != null ? palette.BuffIcon : null, "BuffIcon");
             debuffIcon = LoadFeedbackSprite(palette != null ? palette.DebuffIcon : null, "DebuffIcon");
             blockedIcon = LoadFeedbackSprite(palette != null ? palette.BlockedIcon : null, "BlockedIcon");
+            captureIcon = LoadFeedbackSprite(null, "CaptureIcon");
             CreateCanvas();
 
         }
@@ -331,7 +333,7 @@ namespace MutaBorn.Gameplay
             SpawnFeedback(target, succeeded ? "CAPTURED" : "FAILED", "CAPTURE",
                 succeeded ? new Color(0.36f, 0.94f, 0.68f, 1f)
                     : new Color(1f, 0.58f, 0.32f, 1f),
-                null, succeeded ? DamageType.Holy : DamageType.Dark, 148f);
+                captureIcon, succeeded ? DamageType.Holy : DamageType.Dark, 148f);
 
         }
 

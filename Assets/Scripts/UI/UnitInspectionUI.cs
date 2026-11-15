@@ -35,7 +35,7 @@ public sealed class UnitInspectionUI : MonoBehaviour
     private float nextRefreshTime;
     private readonly StringBuilder details = new StringBuilder(1024);
 
-    public bool IsOpen => panelRoot != null && panelRoot.activeSelf;
+    public bool IsOpen => panelRoot != null && panelRoot.activeSelf && inspectedUnit != null;
 
     private void Awake()
     {
@@ -176,7 +176,7 @@ public sealed class UnitInspectionUI : MonoBehaviour
 
         if (panelRoot != null)
         {
-            panelRoot.SetActive(false);
+            MenuMotion.Hide(panelRoot);
 
         }
 

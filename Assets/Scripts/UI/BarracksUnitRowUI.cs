@@ -11,6 +11,7 @@ public sealed class BarracksUnitRowUI : MonoBehaviour
     [SerializeField] private TMP_Text raceText;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private Image raceIcon;
+    [SerializeField] private Sprite lockedCellSprite;
     [SerializeField] private Image selectionBackground;
     [SerializeField] private Color normalColor = Color.white;
     [SerializeField] private Color selectedColor = new Color(0.63f, 0.83f, 1f, 1f);
@@ -38,8 +39,8 @@ public sealed class BarracksUnitRowUI : MonoBehaviour
         }
         if (raceIcon != null)
         {
-            raceIcon.sprite = icon;
-            raceIcon.enabled = icon != null;
+            raceIcon.sprite = locked && lockedCellSprite != null ? lockedCellSprite : icon;
+            raceIcon.enabled = raceIcon.sprite != null;
             raceIcon.raycastTarget = false;
 
         }

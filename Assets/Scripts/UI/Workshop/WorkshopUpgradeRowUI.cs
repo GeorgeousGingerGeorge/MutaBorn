@@ -8,6 +8,7 @@ public sealed class WorkshopUpgradeRowUI : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private TMP_Text label;
     [SerializeField] private Image icon;
+    [SerializeField] private Image typeBadge;
 
     public void Configure(Button targetButton, TMP_Text targetLabel, Image targetIcon)
     {
@@ -30,6 +31,12 @@ public sealed class WorkshopUpgradeRowUI : MonoBehaviour
             icon.enabled = icon.sprite != null;
             icon.preserveAspect = true;
             icon.raycastTarget = false;
+        }
+        if (typeBadge != null)
+        {
+            typeBadge.sprite = item.TypeIcon;
+            typeBadge.enabled = item.TypeIcon != null;
+
         }
         if (button == null) button = GetComponent<Button>();
         if (button != null)

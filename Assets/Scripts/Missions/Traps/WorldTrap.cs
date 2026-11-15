@@ -826,4 +826,34 @@ public class WorldTrap : MonoBehaviour
 
     }
 
+    // SAVE SYSTEM ~~ BEGIN
+    public TrapSaveData CaptureSaveState()
+    {
+        return new TrapSaveData
+        {
+            armed = armed,
+            fired = fired,
+            revealed = revealed
+        };
+    }
+
+    public bool TryRestoreSaveState(TrapSaveData saved)
+    {
+        if (saved == null || firing || pendingImpact)
+        {
+            return false;
+        }
+
+        armed = saved.armed;
+        fired = saved.fired;
+        revealed = saved.revealed;
+
+        RefreshVisual();
+
+        return true;
+    }
+
+    public bool HasPendingImpact => firing || pendingImpact;
+    // SAVE SYSTEM ~~ END
+
 }

@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 10561937776758376}
   - component: {fileID: 5648320307371210025}
   - component: {fileID: 1640930765283224808}
+  - component: {fileID: 730837828906570394}
   m_Layer: 0
   m_Name: Crew Candidate Row
   m_TagString: Untagged
@@ -373,3 +374,19 @@ MonoBehaviour:
   button: {fileID: 10561937776758376}
   nameText: {fileID: 3605956988527890324}
   raceIcon: {fileID: 737992237671332968}
+--- !u!114 &730837828906570394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7278917625913727973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322d371e47e3014f9e748e27018731a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuButtonMotion
+  hoverScale: 1.07
+  pressedScale: 0.96
+  smoothTime: 0.1
+  hoverTextColor: {r: 0.98, g: 0.84, b: 0.61, a: 1}

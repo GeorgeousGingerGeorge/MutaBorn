@@ -25,6 +25,7 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
     [SerializeField] private TMP_Text costText;
     [SerializeField] private TMP_Text resultText;
     [SerializeField] private Image itemIcon;
+    [SerializeField] private Image itemTypeBadge;
     [SerializeField] private TMP_Text itemStatsText;
     [SerializeField] private TMP_Text scalingText;
     [SerializeField] private TMP_Text itemEffectsText;
@@ -285,6 +286,7 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
             if (itemTitle != null) itemTitle.text = "Select an equipment instance";
             if (costText != null) costText.text = string.Empty;
             if (itemIcon != null) itemIcon.enabled = false;
+            if (itemTypeBadge != null) itemTypeBadge.enabled = false;
             if (itemStatsText != null) itemStatsText.text = string.Empty;
             if (scalingText != null) scalingText.text = string.Empty;
             if (itemEffectsText != null) itemEffectsText.text = string.Empty;
@@ -299,6 +301,12 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
             itemIcon.sprite = item.Icon;
             itemIcon.enabled = itemIcon.sprite != null;
             itemIcon.preserveAspect = true;
+        }
+        if (itemTypeBadge != null)
+        {
+            itemTypeBadge.sprite = item.TypeIcon;
+            itemTypeBadge.enabled = item.TypeIcon != null;
+
         }
         if (costText != null) costText.text = WorkshopUpgradeService.CostDescription(item, stockpile, costs);
         EquipmentStatValues baseStats = item.baseStats;
