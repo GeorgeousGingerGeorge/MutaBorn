@@ -816,7 +816,8 @@ public class ActionMenuUI : MonoBehaviour
 
         string cost = shown.IsPassive ? "PASSIVE" : $"{shown.ApCost:0.#} AP";
         string range = (shown.CombatBehavior == CombatActionBehavior.DamageUnit ||
-            shown.CombatBehavior == CombatActionBehavior.CaptureUnit)
+            shown.CombatBehavior == CombatActionBehavior.CaptureUnit ||
+            shown.CombatBehavior == CombatActionBehavior.ReviveUnit)
             ? $"  |  Range: {shown.CombatRange:0.#}"
             : (shown.CombatBehavior == CombatActionBehavior.DamageArea ||
                 shown.CombatBehavior == CombatActionBehavior.HealArea)

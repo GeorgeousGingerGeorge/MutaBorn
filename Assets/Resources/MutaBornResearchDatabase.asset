@@ -82,11 +82,16 @@ MonoBehaviour:
     requiredTier: 1
     prerequisiteIds:
     - p.foundations
+    - e.basic-material-processing
     costs:
     - resourceId: gold
       amount: 65
     - resourceId: steel
       amount: 3
+    - resourceId: planks
+      amount: 4
+    - resourceId: bricks
+      amount: 4
     battlesRequired: 2
     benefits:
     - type: 8
@@ -342,6 +347,31 @@ MonoBehaviour:
         templateId: 
       slot: 0
       amount: 1
+  - id: e.rescue-kits
+    displayName: Emergency Rescue Training
+    description: Develop field rescue supplies and learn to craft Rescue Kits to revive downed allies and non-hostile NPCs within the two-round rescue window.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.potions
+    costs:
+    - resourceId: gold
+      amount: 65
+    - resourceId: iron
+      amount: 4
+    - resourceId: textiles
+      amount: 5
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.item.consumable-rescue-kit
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
   - id: e.dvergrium
     displayName: Dvergrium Smithing
     description: Learn to craft Dvergrium weapons, wards, shields and the full armor family.
@@ -355,6 +385,8 @@ MonoBehaviour:
       amount: 130
     - resourceId: dvergrium
       amount: 5
+    - resourceId: deepfire_coals
+      amount: 2
     battlesRequired: 3
     benefits:
     - type: 0
@@ -1358,6 +1390,10 @@ MonoBehaviour:
       amount: 5
     - resourceId: enchanted_textiles
       amount: 5
+    - resourceId: beast_skull
+      amount: 1
+    - resourceId: deepfire_coals
+      amount: 1
     battlesRequired: 2
     benefits:
     - type: 0
@@ -1478,6 +1514,7 @@ MonoBehaviour:
     prerequisiteIds:
     - p.tier2
     - e.runecraft
+    - e.arcanium-refining
     costs:
     - resourceId: gold
       amount: 115
@@ -1485,6 +1522,10 @@ MonoBehaviour:
       amount: 4
     - resourceId: maana_crystals
       amount: 8
+    - resourceId: arcanium
+      amount: 2
+    - resourceId: elven_papyrus
+      amount: 1
     battlesRequired: 3
     benefits:
     - type: 0
@@ -1530,6 +1571,8 @@ MonoBehaviour:
       amount: 6
     - resourceId: silver
       amount: 4
+    - resourceId: deepfire_coals
+      amount: 2
     battlesRequired: 3
     benefits:
     - type: 0
@@ -1561,6 +1604,7 @@ MonoBehaviour:
     prerequisiteIds:
     - p.tier2
     - e.equipment-tier
+    - e.basic-material-processing
     costs:
     - resourceId: gold
       amount: 145
@@ -1568,6 +1612,10 @@ MonoBehaviour:
       amount: 8
     - resourceId: runes
       amount: 4
+    - resourceId: planks
+      amount: 6
+    - resourceId: bricks
+      amount: 6
     battlesRequired: 3
     benefits:
     - type: 13
@@ -1732,11 +1780,14 @@ MonoBehaviour:
     requiredTier: 1
     prerequisiteIds:
     - p.foundations
+    - e.basic-material-processing
     costs:
     - resourceId: gold
       amount: 60
     - resourceId: iron
       amount: 10
+    - resourceId: bricks
+      amount: 4
     battlesRequired: 2
     benefits:
     - type: 14
@@ -1758,6 +1809,10 @@ MonoBehaviour:
       amount: 100
     - resourceId: iron
       amount: 15
+    - resourceId: bricks
+      amount: 8
+    - resourceId: planks
+      amount: 4
     battlesRequired: 2
     benefits:
     - type: 14
@@ -1779,6 +1834,10 @@ MonoBehaviour:
       amount: 150
     - resourceId: iron
       amount: 20
+    - resourceId: bricks
+      amount: 12
+    - resourceId: planks
+      amount: 8
     battlesRequired: 2
     benefits:
     - type: 14
@@ -1892,6 +1951,8 @@ MonoBehaviour:
       amount: 100
     - resourceId: silver
       amount: 10
+    - resourceId: elven_papyrus
+      amount: 1
     battlesRequired: 2
     benefits:
     - type: 15
@@ -1913,10 +1974,139 @@ MonoBehaviour:
       amount: 160
     - resourceId: gems
       amount: 8
+    - resourceId: beast_skull
+      amount: 1
     battlesRequired: 2
     benefits:
     - type: 15
       recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: e.basic-material-processing
+    displayName: Lumber and Masonry
+    description: Process three units of Wood or Mythical Lumber into a Plank, or three Stone into a Brick.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - p.foundations
+    costs:
+    - resourceId: gold
+      amount: 30
+    - resourceId: wood
+      amount: 8
+    - resourceId: stone
+      amount: 8
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.resource.planks
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.resource.bricks
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: craft.resource.planks-mythic
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: e.arcanium-refining
+    displayName: Arcanium Refining
+    description: Combine Copper with Maana Crystals to produce Arcanium.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds:
+    - e.resource-tier
+    - e.basic-material-processing
+    costs:
+    - resourceId: gold
+      amount: 90
+    - resourceId: copper
+      amount: 12
+    - resourceId: maana_crystals
+      amount: 8
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.resource.arcanium
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: e.scrap-recovery
+    displayName: Scrap Fabrication
+    description: Combine Iron and Copper into usable Scrap.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.resource-tier
+    costs:
+    - resourceId: gold
+      amount: 45
+    - resourceId: iron
+      amount: 4
+    - resourceId: copper
+      amount: 2
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.resource.scrap-iron
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: e.deepfire-smelting
+    displayName: Deepfire Smelting
+    description: Use Dwarven Deepfire Coals for higher-yield Steel production.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.steel
+    - e.resource-tier
+    costs:
+    - resourceId: gold
+      amount: 60
+    - resourceId: deepfire_coals
+      amount: 2
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: craft.resource.deepfire-steel
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: e.trophy-processing
+    displayName: Trophy Processing
+    description: Recover crafting Bones from Orc Beast Skulls.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds:
+    - e.leatherwork
+    costs:
+    - resourceId: gold
+      amount: 40
+    - resourceId: beast_skull
+      amount: 1
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: craft.resource.skull-bones
       equipmentTemplate:
         equipmentType: {fileID: 0}
         templateId: 
