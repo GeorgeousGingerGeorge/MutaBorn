@@ -263,7 +263,8 @@ public sealed class MissionObjectiveWorldMarkers : MonoBehaviour
 
     private void CollectCandidates(MissionObjectiveEntry objective)
     {
-        if (objective.Type == MissionObjectiveType.ExtractPlayerUnits)
+        if (objective.Type == MissionObjectiveType.ExtractPlayerUnits ||
+            objective.Type == MissionObjectiveType.ReachArea)
         {
             foreach (MissionExtractionZone zone in FindObjectsByType<MissionExtractionZone>())
             {
@@ -396,11 +397,15 @@ public sealed class MissionObjectiveWorldMarkers : MonoBehaviour
                 return objective.Template.TargetFilter == MissionTargetFilter.TargetId && priorityTargetIcon != null
                     ? priorityTargetIcon : eliminateIcon;
 
+            case MissionObjectiveType.DestroyObjects:
+                return interactIcon;
+
             case MissionObjectiveType.InteractWithTargets:
                 return string.Equals(objective.Template.InteractionId, "help", StringComparison.OrdinalIgnoreCase) && rescueIcon != null
                     ? rescueIcon : interactIcon;
 
             case MissionObjectiveType.ExtractPlayerUnits:
+            case MissionObjectiveType.ReachArea:
                 return extractionIcon;
 
             default:

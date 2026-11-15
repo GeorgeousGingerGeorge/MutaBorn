@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -84,6 +84,7 @@ namespace MutaBorn.Gameplay
             CombatFloatingFeedback.GuardActivated += OnGuardActivated;
             CombatFloatingFeedback.AttackAvoided += OnAttackAvoided;
             CombatFloatingFeedback.CaptureResolved += OnCaptureResolved;
+            CombatFloatingFeedback.RescueStateChanged += OnRescueStateChanged;
 
         }
 
@@ -96,6 +97,7 @@ namespace MutaBorn.Gameplay
             CombatFloatingFeedback.GuardActivated -= OnGuardActivated;
             CombatFloatingFeedback.AttackAvoided -= OnAttackAvoided;
             CombatFloatingFeedback.CaptureResolved -= OnCaptureResolved;
+            CombatFloatingFeedback.RescueStateChanged -= OnRescueStateChanged;
 
         }
 
@@ -325,6 +327,14 @@ namespace MutaBorn.Gameplay
                     : new Color(0.35f, 0.9f, 0.62f, 1f),
                 icon,
                 isDebuff ? DamageType.Dark : DamageType.Holy);
+
+        }
+
+        private void OnRescueStateChanged(UnitController unit, string state)
+        {
+            SpawnOutcome(unit, state, Resources.Load<Sprite>("MutaBorn/RescueHover"),
+                state == "DIED" ? new Color(1f, 0.35f, 0.32f, 1f) :
+                new Color(0.55f, 1f, 0.76f, 1f));
 
         }
 

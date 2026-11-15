@@ -128,7 +128,10 @@ public sealed class UnitInspectionUI : MonoBehaviour
         }
 
         if (mouseLocation == null || !mouseLocation.TryGetUnitUnderCursor(out UnitController unit) ||
-            unit == null || !unit.isActiveAndEnabled || unit.data == null || unit.data.currentHealth <= 0)
+            unit == null || !unit.isActiveAndEnabled || unit.data == null ||
+            (unit.data.currentHealth <= 0 &&
+             (unit.GetComponent<UnitDownedState>() == null ||
+              !unit.GetComponent<UnitDownedState>().IsDowned)))
         {
             return;
 
@@ -211,6 +214,12 @@ public sealed class UnitInspectionUI : MonoBehaviour
 
         details.AppendLine("<b>Pools</b>");
         details.AppendLine($"Health: {data.currentHealth} / {data.maxHealth}");
+        UnitDownedState downed = inspectedUnit.GetComponent<UnitDownedState>();
+        if (downed != null && downed.IsDowned)
+        {
+            details.AppendLine($"STATUS: DOWNED — {downed.RoundsRemaining} rounds remaining to revive");
+
+        }
         details.AppendLine($"Mana: {data.currentMana} / {data.maxMana}");
         details.AppendLine($"Action Points: {data.currentActionPoints} / {data.maxActionPoints}");
         details.AppendLine();

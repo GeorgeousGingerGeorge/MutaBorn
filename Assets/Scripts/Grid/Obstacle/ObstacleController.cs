@@ -7,6 +7,15 @@ using System;
 
 public class ObstacleController : MonoBehaviour
 {
+    public static event Action<ObstacleController> ObstacleDestroyed;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetEvents()
+    {
+        ObstacleDestroyed = null;
+
+    }
+
     [Header("Node References - FirstNode, SecondNode (Solid || Edge)")]
     public GridNode firstnode { get; private set; } = null;
     public GridNode secondnode { get; private set; } = null;
@@ -732,6 +741,7 @@ public class ObstacleController : MonoBehaviour
 
         UpdateDestructionStage();
         UpdateOccupancyRegistration(true);
+        ObstacleDestroyed?.Invoke(this);
 
         //Particle Effects and Delayed GameObject Cleanup
         StartCoroutine(CleanupAfterDestruction());
