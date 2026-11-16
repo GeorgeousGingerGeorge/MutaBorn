@@ -112,6 +112,30 @@ public sealed class MissionObjectiveEntry
 
     }
 
+    internal void CompleteProtection()
+    {
+        foreach (Component target in targets)
+        {
+            if (completedTargets.Count >= Total)
+            {
+                break;
+
+            }
+
+            completedTargets.Add(target);
+            MissionUnitIdentity identity = target.GetComponent<MissionUnitIdentity>();
+            if (identity != null && !string.IsNullOrWhiteSpace(identity.PersistentId))
+            {
+                completedTargetIds.Add(identity.PersistentId);
+
+            }
+
+        }
+
+        SetStatus(MissionObjectiveStatus.Completed);
+
+    }
+
     internal bool HasUncompletedTarget(Component target)
     {
         return target != null && targets.Contains(target) && !completedTargets.Contains(target);
@@ -387,7 +411,9 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         foreach (MissionObjectiveEntry objective in objectives)
         {
-            if (objective.Type == MissionObjectiveType.EliminateUnits)
+            if (objective.Type == MissionObjectiveType.EliminateUnits ||
+                objective.Type == MissionObjectiveType.CaptureUnits ||
+                objective.Type == MissionObjectiveType.ProtectUnits)
             {
                 foreach (UnitController unit in units)
                 {
@@ -820,7 +846,9 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         foreach (MissionObjectiveEntry objective in objectives)
         {
-            if (objective.Type == MissionObjectiveType.EliminateUnits &&
+            if ((objective.Type == MissionObjectiveType.EliminateUnits ||
+                objective.Type == MissionObjectiveType.CaptureUnits ||
+                objective.Type == MissionObjectiveType.ProtectUnits) &&
                 objective.Status != MissionObjectiveStatus.Completed &&
                 objective.Status != MissionObjectiveStatus.Failed &&
                 MatchesTarget(objective.Template, unit))
@@ -846,12 +874,16 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
     private void OnUnitCaptured(UnitController captor, UnitController prisoner)
     {
-        if (Status == MissionStatus.InProgress && prisoner != null)
+        if (Status != MissionStatus.InProgress || prisoner == null)
         {
-            RecordMatchingTarget(MissionObjectiveType.EliminateUnits, prisoner);
-            RefreshExtractionProgress();
+            return;
 
         }
+
+        FailTargetObjectives(prisoner, false);
+        RecordMatchingTarget(MissionObjectiveType.CaptureUnits, prisoner);
+        RecordMatchingTarget(MissionObjectiveType.EliminateUnits, prisoner);
+        RefreshExtractionProgress();
 
     }
 
@@ -863,6 +895,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         }
 
+        FailTargetObjectives(defeated, true);
         RecordMatchingTarget(MissionObjectiveType.EliminateUnits, defeated);
 
         if (Status != MissionStatus.InProgress)
@@ -880,6 +913,70 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         }
 
         RefreshExtractionProgress();
+
+    }
+
+    private void FailTargetObjectives(UnitController unit, bool includeCapture)
+    {
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            if ((objective.Type == MissionObjectiveType.ProtectUnits ||
+                includeCapture && objective.Type == MissionObjectiveType.CaptureUnits) &&
+                objective.HasUncompletedTarget(unit))
+            {
+                FailObjective(objective.Id);
+
+            }
+
+        }
+
+    }
+
+    private bool CanFinishProtection(MissionObjectiveEntry protectedObjective)
+    {
+        bool hasOtherRequiredObjective = false;
+
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            if (objective.Optional || objective.Type == MissionObjectiveType.ProtectUnits)
+            {
+                continue;
+
+            }
+
+            hasOtherRequiredObjective = true;
+            if (objective.Status != MissionObjectiveStatus.Completed)
+            {
+                return false;
+
+            }
+
+        }
+
+        if (!hasOtherRequiredObjective || protectedObjective.TargetCount == 0 ||
+            protectedObjective.TargetCount < protectedObjective.Total)
+        {
+            return false;
+
+        }
+
+        int surviving = 0;
+        foreach (Component target in protectedObjective.PendingTargets)
+        {
+            UnitController unit = target as UnitController;
+            UnitDownedState downed = unit != null ? unit.GetComponent<UnitDownedState>() : null;
+            if (unit == null || !unit.gameObject.activeInHierarchy ||
+                !IsLivingUnit(unit) && (downed == null || !downed.IsDowned))
+            {
+                return false;
+
+            }
+
+            surviving++;
+
+        }
+
+        return surviving == protectedObjective.TargetCount;
 
     }
 
@@ -937,6 +1034,17 @@ public sealed class MissionObjectiveManager : MonoBehaviour
                 }
 
                 if (objective.Status == MissionObjectiveStatus.Active &&
+                    objective.Type == MissionObjectiveType.ProtectUnits &&
+                    CanFinishProtection(objective))
+                {
+                    objective.CompleteProtection();
+                    SpawnReinforcements(objective.Id);
+                    changed = true;
+
+                }
+
+                if (objective.Status == MissionObjectiveStatus.Active &&
+                    objective.Type != MissionObjectiveType.ProtectUnits &&
                     objective.Progress >= objective.Total &&
                     (objective.Type == MissionObjectiveType.ExtractPlayerUnits || objective.Type == MissionObjectiveType.ReachArea
                         ? objective.HasExtractionZone : objective.TargetCount > 0))

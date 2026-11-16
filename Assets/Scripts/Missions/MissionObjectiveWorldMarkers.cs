@@ -397,6 +397,12 @@ public sealed class MissionObjectiveWorldMarkers : MonoBehaviour
                 return objective.Template.TargetFilter == MissionTargetFilter.TargetId && priorityTargetIcon != null
                     ? priorityTargetIcon : eliminateIcon;
 
+            case MissionObjectiveType.CaptureUnits:
+                return priorityTargetIcon != null ? priorityTargetIcon : eliminateIcon;
+
+            case MissionObjectiveType.ProtectUnits:
+                return rescueIcon != null ? rescueIcon : interactIcon;
+
             case MissionObjectiveType.DestroyObjects:
                 return interactIcon;
 
