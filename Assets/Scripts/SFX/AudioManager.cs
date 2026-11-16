@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using MutaBorn.Gameplay;
 
 public class AudioManager : MonoBehaviour
 {
@@ -160,6 +161,10 @@ public class AudioManager : MonoBehaviour
 
                 source.spatialBlend = 1f;
                 source.rolloffMode = AudioRolloffMode.Logarithmic;
+
+                source.minDistance = 20f;
+                source.maxDistance = 120f;
+
                 source.outputAudioMixerGroup = sound.outputGroup;
 
                 source.Play();
@@ -258,21 +263,37 @@ public class AudioManager : MonoBehaviour
     {
         UnitController target = report.Target;
 
-        if (report.ReducedHealthToZero)
-        {
-            return;
-        }
+        if (report.ReducedHealthToZero) return;
 
-        if (hurtCooldowns.ContainsKey(target) &&
-            Time.time < hurtCooldowns[target])
+        // Select the impact sound based on damage type.
+        string impactSound = report.DamageType switch
         {
+            DamageType.Slash => "Stab",
+            DamageType.Pierce => "Stab",
+            DamageType.Blunt => "Bonk",
+            DamageType.Arcane => "Magic Sound",
+            DamageType.Fire => "Fire Sound",
+            DamageType.Ice => "Ice Sound",
+            DamageType.Lightning => "Lightning Sound",
+            DamageType.Poison => "Splat",
+            DamageType.Acid => "Acid Sound",
+            DamageType.Dark => "Dark Sound",
+            DamageType.Holy => "Holy Sound",
+            DamageType.Wind => "Wind Sound",
+            DamageType.Earth => "Rock Sound",
+            DamageType.Water => "Splash",
+            DamageType.Nature => "Splat",
+            DamageType.True => "Wack",
+            _ => "Thunk"
+        };
+        PlaySoundAtPosition(impactSound, target.transform.position);  
+        if (hurtCooldowns.ContainsKey(target) && Time.time < hurtCooldowns[target])
             return;
-        }
 
         hurtCooldowns[target] = Time.time + hurtCooldown;
 
-        string soundName = target.raceName + " Hurt";
-        PlaySoundAtPosition(soundName, target.transform.position);
+        string hurtSound = target.raceName + " Hurt";
+        PlaySoundAtPosition(hurtSound, target.transform.position);
     }
 
     private void HandleUnitDefeat(UnitController attacker, UnitController target)

@@ -1662,10 +1662,6 @@ public sealed class CombatActionExecutor : MonoBehaviour
                 $"HP {damageResult.HealthBefore}->{damageResult.HealthAfter}/{target.data.maxHealth}; " +
                 $"AP {apBefore}->{source.data.currentActionPoints}.", source);
             FinalizeResolvedDamage(damageResult, sourceIndex);
-            if (action.DamageStat == CombatDamageStat.Melee)
-            {
-                AudioManager.Instance.PlaySound("Stab");
-            }
             if (damageResult.ActualDamage > 0 && target != null &&
                 target.data.currentHealth > 0 && action.MutationKnockbackTiles > 0)
             {
