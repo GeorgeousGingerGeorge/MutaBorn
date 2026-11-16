@@ -1103,7 +1103,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000000, guid: 0173ce13efb05123b3cc5ed74f2edaf1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 400000000, guid: 0173ce13efb05123b3cc5ed74f2edaf1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1226,6 +1226,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2879554570718717852, guid: b3d437b03174ad047b8398564a555089, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3085196434640651416, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_Name
       value: GameplayCanvas
@@ -1300,7 +1304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5484303073276043739, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000004208263
+      value: 0.0007970655
       objectReference: {fileID: 0}
     - target: {fileID: 5839044276265712414, guid: b3d437b03174ad047b8398564a555089, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1844,6 +1848,9 @@ MonoBehaviour:
   currentLevel: {fileID: 11400000, guid: f02424d310a8499cbeec03d0edd49277, type: 2}
   gridCellSize: 2
   maxStepHeight: 0.5
+  floorHeightTolerance: 0.05
+  proceduralLevelGenerator: {fileID: 0}
+  levelAssembler: {fileID: 0}
   gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
   obstaclePrefab: {fileID: 8213480166955949838, guid: cbd10e59348d05042bdb99e6453865b1, type: 3}
   wallPrefab: {fileID: 3797262535275334675, guid: ce59f07f03801d5438613c644db36b60, type: 3}
@@ -2301,6 +2308,12 @@ MonoBehaviour:
   focusOnAction: 1
   cancelFocusOnManualMovement: 1
   logFocusDiagnostics: 0
+  returnToStartDuration: 0.4
+  shakeOnDamage: 1
+  damageShakeDuration: 0.28
+  shakeAt20Damage: 0.1
+  shakeAt40Damage: 0.24
+  shakeAt80Damage: 0.55
   rotationSpeed: 90
   zoomStep: 2
   minZoomDistance: 15
