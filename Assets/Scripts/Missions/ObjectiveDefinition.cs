@@ -6,7 +6,9 @@ public enum MissionObjectiveType
     InteractWithTargets,
     ExtractPlayerUnits,
     DestroyObjects,
-    ReachArea
+    ReachArea,
+    CaptureUnits,
+    ProtectUnits
 
 }
 
