@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using MutaBorn.Gameplay;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -45,18 +46,42 @@ public class AudioManager : MonoBehaviour
     private void OnEnable()
     {
 
+        SceneManager.sceneLoaded += OnSceneLoaded;
         Debug.Log("AUDIO MANAGER SUBSCRIBING TO COMBAT EVENTS!");
 
         CombatActionExecutor.DamageApplied += HandleDamageApplied;
         CombatActionExecutor.UnitDefeated += HandleUnitDefeat;
+
     }
 
     private void OnDisable()
     {
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
         CombatActionExecutor.DamageApplied -= HandleDamageApplied;
         CombatActionExecutor.UnitDefeated -= HandleUnitDefeat;
     }
 
+
+    private void Start()
+    {
+        SubscribeToMissionEvents();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SubscribeToMissionEvents();
+    }
+
+    private void SubscribeToMissionEvents()
+    {
+        if (MissionObjectiveManager.Instance != null)
+        {
+            MissionObjectiveManager.Instance.MissionFinished -= HandleMissionFinished;
+            MissionObjectiveManager.Instance.MissionFinished += HandleMissionFinished;
+        }
+    }
 
 
     public void PlaySound(string soundName)
@@ -302,5 +327,17 @@ public class AudioManager : MonoBehaviour
 
         string soundName = target.raceName + " Death";
         PlaySoundAtPosition(soundName, target.transform.position);
+    }
+
+    private void HandleMissionFinished(MissionStatus result)
+    {
+        if (result == MissionStatus.Victory)
+        {
+            PlaySound("Mission Complete");
+        }
+        else if (result == MissionStatus.Defeat)
+        {
+            PlaySound("Mission Failed");
+        }
     }
 }
