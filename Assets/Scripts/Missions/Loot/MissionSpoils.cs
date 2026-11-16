@@ -330,7 +330,30 @@ public sealed class MissionSpoils : MonoBehaviour
 
         }
 
-        // Dead units are still in the scene, but CombatActionExecutor disabled their GameObjects.
+        // Resolve downed units before scoring the final loot and crew losses.
+        // Victorious crews evacuate their wounded; defeated crews cannot recover them.
+        foreach (UnitDownedState downed in FindObjectsByType<UnitDownedState>(FindObjectsInactive.Include))
+        {
+            if (downed == null || !downed.IsDowned)
+            {
+                continue;
+
+            }
+
+            if (mission.Status == MissionStatus.Victory)
+            {
+                downed.TryRevive(null);
+
+            }
+            else
+            {
+                downed.BecomePermanentlyDead();
+
+            }
+
+        }
+
+        // Only permanently dead units produce enemy drops or crew casualties.
         UnitRoster roster = UnitRoster.Instance;
         foreach (UnitController unit in FindObjectsByType<UnitController>(FindObjectsInactive.Include))
         {

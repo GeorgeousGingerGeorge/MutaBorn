@@ -93,6 +93,7 @@ public class UnitController : MonoBehaviour
     private readonly GameObject[] activeEquipmentModels = new GameObject[10];
     private GameObject activeWeapon;
     private GameObject activeRaceModel;
+    public Transform VisualModelTransform => activeRaceModel != null ? activeRaceModel.transform : null;
 
 
     public void InitializeUnitData()
@@ -198,7 +199,7 @@ public class UnitController : MonoBehaviour
         InitializeRaceModel();
         data.LoadoutChanged += RefreshEquipmentAndMutationGrants;
         RefreshEquipmentAndMutationGrants();
-
+        EnsureDownedState();
 
     }
 
@@ -304,8 +305,19 @@ public class UnitController : MonoBehaviour
 
         // Starting passive stat grants can change maximum resources.
         data.RefillResourcesToMax();
+        EnsureDownedState();
 
     }
+    private void EnsureDownedState()
+    {
+        if (GetComponent<UnitDownedState>() == null)
+        {
+            gameObject.AddComponent<UnitDownedState>();
+
+        }
+
+    }
+
     private void InitializeStartingMutation(MutationID id)
     {
         if (!data.EquipMutation(id))
@@ -445,7 +457,8 @@ public class UnitController : MonoBehaviour
         }
 
         if (definition.UseKind == ConsumableUseKind.TargetedAttack ||
-            definition.UseKind == ConsumableUseKind.CaptureUnit)
+            definition.UseKind == ConsumableUseKind.CaptureUnit ||
+            definition.UseKind == ConsumableUseKind.ReviveUnit)
         {
             CombatActionExecutor combat = CombatActionExecutor.Instance;
             return combat != null && combat.TryBeginConsumable(this, index);

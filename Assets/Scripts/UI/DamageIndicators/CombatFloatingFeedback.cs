@@ -13,6 +13,7 @@ namespace MutaBorn.Gameplay
         public static event Action<UnitController> GuardActivated;
         public static event Action<UnitController, bool> CaptureResolved;
         public static event Action<UnitController, bool> AttackAvoided;
+        public static event Action<UnitController, string> RescueStateChanged;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetSubscribers()
@@ -23,6 +24,17 @@ namespace MutaBorn.Gameplay
             GuardActivated = null;
             CaptureResolved = null;
             AttackAvoided = null;
+            RescueStateChanged = null;
+
+        }
+
+        public static void ReportRescueState(UnitController unit, string state)
+        {
+            if (unit != null)
+            {
+                RescueStateChanged?.Invoke(unit, state);
+
+            }
 
         }
 
