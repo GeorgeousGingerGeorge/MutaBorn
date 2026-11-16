@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 1140000}
   m_Layer: 0
-  m_Name: Research Test - Cycle Harness
+  m_Name: Human Boss Encounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,10 +41,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a542ac652bb64facbf332a6af1e9bda0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ResearchCycleTestHarness
-  starterRosterPrefab: {fileID: 11400000, guid: 45a7512d6bc74401aa3cb786e522344f, type: 3}
-  itemStoragePrefab: {fileID: 11400000, guid: 3e1303e75aca43a095bcb13049c8b4c2, type: 3}
-  resourceStockpilePrefab: {fileID: 11400000, guid: e7c36dcf91af419ab037feb55d2339c2, type: 3}
-  hubSceneName: Main Hub Sand Box
+  m_Script: {fileID: 11500000, guid: 854327b03fbe4357957d5c3c975439e1, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::MissionFactionSpawnArea
+  floorId: 1
+  areaSizeInTiles: {x: 8, y: 8}
+  gizmoCellSize: 2
+  faction: {fileID: 11400000, guid: 23185151c24a44f43999b9d17a5eb9db, type: 2}
+  spawnAreaId: boss-human-encounter
+  spawnAfterObjectiveId:
+  groups:
+  - unitPrefab: {fileID: 5671936229212389752, guid: 6036c26c80564dfbbceb392094101bab, type: 3}
+    count: 4
+  - unitPrefab: {fileID: 5671936229212389752, guid: 98acf79dbe624eebaca7aae57da83eaa, type: 3}
+    count: 1

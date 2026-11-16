@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 1140000}
   m_Layer: 0
-  m_Name: Research Test - Crew Spawn
+  m_Name: MutaBorn Boss Encounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,10 +41,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e345055fdefa4313ba2a71914144c490, type: 3}
+  m_Script: {fileID: 11500000, guid: 854327b03fbe4357957d5c3c975439e1, type: 3}
   m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::MissionCrewSpawnArea
+  m_EditorClassIdentifier: Assembly-CSharp::MissionFactionSpawnArea
   floorId: 1
-  areaSizeInTiles: {x: 2, y: 2}
+  areaSizeInTiles: {x: 8, y: 8}
   gizmoCellSize: 2
-  extraUnitPrefab: {fileID: 7086027051030963730, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
+  faction: {fileID: 11400000, guid: 23185151c24a44f43999b9d17a5eb9db, type: 2}
+  spawnAreaId: boss-mutaborn-encounter
+  spawnAfterObjectiveId:
+  groups:
+  - unitPrefab: {fileID: 5671936229212389752, guid: fe5d886f14ed4072b989b7f16ff70481, type: 3}
+    count: 4
+  - unitPrefab: {fileID: 5671936229212389752, guid: e8c72984e85a46e5b3b92f1a72c530b0, type: 3}
+    count: 1

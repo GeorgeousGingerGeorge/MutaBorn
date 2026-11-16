@@ -218,7 +218,13 @@ public sealed class MissionObjectiveHUD : MonoBehaviour
             }
 
         }
+        else if (objective.Type == MissionObjectiveType.ProtectUnits)
+        {
+            content.Append("Keep designated unit alive");
+
+        }
         else if (objective.Type == MissionObjectiveType.EliminateUnits ||
+            objective.Type == MissionObjectiveType.CaptureUnits ||
             objective.Type == MissionObjectiveType.DestroyObjects)
         {
             content.Append("Remaining: ").Append(objective.Remaining)
