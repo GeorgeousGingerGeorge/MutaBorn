@@ -213,7 +213,7 @@ public sealed class CrewMissionMenu : MonoBehaviour
         CloseAll();
         if (raceMapRoot != null)
         {
-            raceMapRoot.SetActive(true);
+            MenuMotion.Show(raceMapRoot);
             if (orcRegionButton != null)
             {
                 RaceMapRegionHover region = orcRegionButton.GetComponent<RaceMapRegionHover>();
@@ -241,7 +241,7 @@ public sealed class CrewMissionMenu : MonoBehaviour
         CloseAll();
         if (missionSelectRoot != null)
         {
-            missionSelectRoot.SetActive(true);
+            MenuMotion.Show(missionSelectRoot);
 
         }
 
@@ -322,15 +322,15 @@ public sealed class CrewMissionMenu : MonoBehaviour
         selectedSlot = Mathf.Clamp(selectedSlot, 0, UnitRoster.MaximumCrewSlots - 1);
         if (missionSelectRoot != null)
         {
-            missionSelectRoot.SetActive(false);
+            MenuMotion.Hide(missionSelectRoot);
         }
         if (crewSelectRoot != null)
         {
-            crewSelectRoot.SetActive(true);
+            MenuMotion.Show(crewSelectRoot);
         }
         if (returnFromBarracksRoot != null)
         {
-            returnFromBarracksRoot.SetActive(false);
+            MenuMotion.Hide(returnFromBarracksRoot);
         }
         Refresh();
 
@@ -340,21 +340,21 @@ public sealed class CrewMissionMenu : MonoBehaviour
     {
         if (raceMapRoot != null)
         {
-            raceMapRoot.SetActive(false);
+            MenuMotion.Hide(raceMapRoot);
 
         }
 
         if (missionSelectRoot != null)
         {
-            missionSelectRoot.SetActive(false);
+            MenuMotion.Hide(missionSelectRoot);
         }
         if (crewSelectRoot != null)
         {
-            crewSelectRoot.SetActive(false);
+            MenuMotion.Hide(crewSelectRoot);
         }
         if (returnFromBarracksRoot != null)
         {
-            returnFromBarracksRoot.SetActive(false);
+            MenuMotion.Hide(returnFromBarracksRoot);
         }
 
     }
@@ -604,12 +604,12 @@ public sealed class CrewMissionMenu : MonoBehaviour
 
         if (crewSelectRoot != null)
         {
-            crewSelectRoot.SetActive(false);
+            MenuMotion.Hide(crewSelectRoot);
         }
         barracks.Open();
         if (returnFromBarracksRoot != null)
         {
-            returnFromBarracksRoot.SetActive(true);
+            MenuMotion.Show(returnFromBarracksRoot);
         }
 
     }

@@ -205,19 +205,27 @@ public sealed class MissionObjectiveHUD : MonoBehaviour
 
         content.Append("    <color=#B0BDCB>");
 
-        if (objective.Type == MissionObjectiveType.ExtractPlayerUnits)
+        if (objective.Type == MissionObjectiveType.ExtractPlayerUnits ||
+            objective.Type == MissionObjectiveType.ReachArea)
         {
-            content.Append("In extraction: ").Append(objective.Progress)
+            content.Append(objective.Type == MissionObjectiveType.ReachArea ? "In area: " : "In extraction: ").Append(objective.Progress)
                 .Append(" / ").Append(objective.Total);
 
             if (!objective.HasExtractionZone)
             {
-                content.Append("  (Place extraction zone)");
+                content.Append("  (Place matching zone)");
 
             }
 
         }
-        else if (objective.Type == MissionObjectiveType.EliminateUnits)
+        else if (objective.Type == MissionObjectiveType.ProtectUnits)
+        {
+            content.Append("Keep designated unit alive");
+
+        }
+        else if (objective.Type == MissionObjectiveType.EliminateUnits ||
+            objective.Type == MissionObjectiveType.CaptureUnits ||
+            objective.Type == MissionObjectiveType.DestroyObjects)
         {
             content.Append("Remaining: ").Append(objective.Remaining)
                 .Append(" / ").Append(objective.Total);

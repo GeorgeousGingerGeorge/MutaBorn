@@ -323,7 +323,7 @@ public class GridManager : MonoBehaviour
                     currentNode.SetTerrain(currentTile.terrainType);
 
                 }
-
+                Debug.LogWarning($"Floor_{floor.GetFloorID()}" + $" {gridX}, {gridZ}");
                 //Adds the node to the grid
                 grid.Add(coords, currentNode);
 

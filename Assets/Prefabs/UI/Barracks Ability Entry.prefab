@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5208255859725979001}
   - component: {fileID: 407614768056892335}
   - component: {fileID: 5013490132783022530}
+  - component: {fileID: 4351595208422923042}
   m_Layer: 5
   m_Name: Barracks Ability Entry
   m_TagString: Untagged
@@ -156,12 +157,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b98c0b8ea7424ea19ae1a9dc7884189d, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BarracksAbilityEntryUI
   button: {fileID: 5208255859725979001}
   actionNameText: {fileID: 4029797870949650437}
   apCostText: {fileID: 2449794519273179648}
   actionIcon: {fileID: 0}
+--- !u!114 &4351595208422923042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3124601151058975739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322d371e47e3014f9e748e27018731a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MenuButtonMotion
+  hoverScale: 1.07
+  pressedScale: 0.96
+  smoothTime: 0.1
+  hoverTextColor: {r: 0.98, g: 0.84, b: 0.61, a: 1}
 --- !u!1 &4361662318897796521
 GameObject:
   m_ObjectHideFlags: 0

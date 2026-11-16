@@ -10,5 +10,6 @@ public enum ObstacleCondition
 {
     Intact, 
     Damaged,
+    HeavilyDamage,
     Destroyed
 }

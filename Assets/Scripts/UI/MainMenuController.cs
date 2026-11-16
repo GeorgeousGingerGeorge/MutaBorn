@@ -59,11 +59,14 @@ public class MainMenuController : MonoBehaviour
     }
     void TestLevel()
     {
+        AudioManager.Instance.PlaySound("Button Click");
         SceneManager.LoadScene(hubName);
     }
 
     void OpenOptions()
     {
+        AudioManager.Instance.PlaySound("Button Click");
+
         Debug.Log("Options Selected");
         optionsPanel.SetActive(true);
         canvasMainMenu.SetActive(false);
@@ -71,6 +74,8 @@ public class MainMenuController : MonoBehaviour
 
     void CloseOptions()
     {
+        AudioManager.Instance.PlaySound("Button Click");
+
         Debug.Log("Options Menu Closing");
         optionsPanel.SetActive(false);
         canvasMainMenu?.SetActive(true);
@@ -78,12 +83,16 @@ public class MainMenuController : MonoBehaviour
 
     void QuitGame()
     {
+        AudioManager.Instance.PlaySound("Button Click");
+
         Debug.Log("Shutting Down... Goooodbye :(");
         Application.Quit();
     }
 
     void OpenCredits()
     {
+        AudioManager.Instance.PlaySound("Button Click");
+
         Debug.Log("Credits Selected");
         creditsPanel.SetActive(true);
         canvasMainMenu.SetActive(false);
@@ -91,6 +100,8 @@ public class MainMenuController : MonoBehaviour
 
     void CloseCredits()
     {
+        AudioManager.Instance.PlaySound("Button Click");
+
         Debug.Log("Credits Panel Closing");
         creditsPanel.SetActive(false);
         canvasMainMenu.SetActive(true);
@@ -106,6 +117,8 @@ public class MainMenuController : MonoBehaviour
 
         }
 
+        AudioManager.Instance.PlaySound("Button Click");
+
         controlsPanel.SetActive(true);
         canvasMainMenu.SetActive(false);
 
@@ -120,6 +133,8 @@ public class MainMenuController : MonoBehaviour
             return;
 
         }
+
+        AudioManager.Instance.PlaySound("Button Click");
 
         controlsPanel.SetActive(false);
         canvasMainMenu.SetActive(true);

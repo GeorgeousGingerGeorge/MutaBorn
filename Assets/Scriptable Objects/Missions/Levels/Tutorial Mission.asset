@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f19ee410294cac9e59405fec5051a6, type: 3}
+  m_Name: Tutorial Mission
+  m_EditorClassIdentifier: Assembly-CSharp::LevelMissionData
+  missionId: tutorial-intro
+  missionName: Tutorial - First Steps
+  playerFaction: {fileID: 11400000, guid: f70d6ea892e819b4eb2732e0c194dc1f, type: 2}
+  objectives:
+  - template: {fileID: 11400000, guid: e9993a4fc8634090adb594e481128fef, type: 2}
+    objectiveId: tutorial-checkpoint
+    optional: 0
+    worldMarkerPriority: 30
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 0
+    prerequisiteObjectiveIds: []
+    rewards: []
+  - template: {fileID: 11400000, guid: e7159b496a534756b14d938e977a16c8, type: 2}
+    objectiveId: tutorial-activate-switch
+    optional: 0
+    worldMarkerPriority: 30
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 0
+    prerequisiteObjectiveIds:
+    - tutorial-checkpoint
+    rewards: []
+  - template: {fileID: 11400000, guid: c295d01804ff4658946f9bc43b4733da, type: 2}
+    objectiveId: tutorial-loot-chest
+    optional: 0
+    worldMarkerPriority: 30
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 0
+    prerequisiteObjectiveIds:
+    - tutorial-activate-switch
+    rewards: []
+  - template: {fileID: 11400000, guid: f18c4fbb68bd4c8dbdd07ffa9671a0e8, type: 2}
+    objectiveId: tutorial-extract
+    optional: 0
+    worldMarkerPriority: 30
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 0
+    prerequisiteObjectiveIds:
+    - tutorial-loot-chest
+    rewards: []
+  - template: {fileID: 11400000, guid: 1fa0c02e19034b5899639cf97ba3d9ae, type: 2}
+    objectiveId: tutorial-defeat-raiders
+    optional: 1
+    worldMarkerPriority: 5
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 1
+    prerequisiteObjectiveIds: []
+    rewards: []
+  - template: {fileID: 11400000, guid: 47e4fdb836744d0abdd9aa2aab592d95, type: 2}
+    objectiveId: tutorial-help-civilian
+    optional: 1
+    worldMarkerPriority: 5
+    initiallyVisible: 1
+    initiallyActive: 1
+    countWhileLocked: 1
+    prerequisiteObjectiveIds: []
+    rewards: []
+  lootTable: {fileID: 0}

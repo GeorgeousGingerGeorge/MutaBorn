@@ -9,6 +9,9 @@ public class TerrainLogic : MonoBehaviour
         float movementCost;
         switch (type) 
         {
+            case TerrainType.TestTerrain:
+                movementCost = -2f;
+                break;
             case TerrainType.OpenGround:
                 movementCost = 0f; 
                 break;
@@ -34,6 +37,7 @@ public class TerrainLogic : MonoBehaviour
 
         switch (type) 
         {
+            case TerrainType.TestTerrain:
             case TerrainType.OpenGround:
             case TerrainType.HighGrass:
             case TerrainType.Rubble:

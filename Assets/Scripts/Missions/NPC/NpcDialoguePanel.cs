@@ -11,6 +11,7 @@ public sealed class NpcDialoguePanel : MonoBehaviour
     [SerializeField] private TMP_Text speakerText;
     [SerializeField] private TMP_Text bodyText;
     [SerializeField] private Transform optionsRoot;
+    [SerializeField] private ScrollRect optionsScrollRect;
     [SerializeField] private Button optionButtonPrefab;
     [SerializeField] private Button closeButton;
 
@@ -79,6 +80,7 @@ public sealed class NpcDialoguePanel : MonoBehaviour
         bodyText.text = node.text;
         foreach (Button button in buttons)
         {
+            button.gameObject.SetActive(false);
             Destroy(button.gameObject);
 
         }
@@ -105,6 +107,13 @@ public sealed class NpcDialoguePanel : MonoBehaviour
             NpcDialogueChoice selected = choice;
             button.onClick.AddListener(() => Choose(selected));
             buttons.Add(button);
+
+        }
+
+        if (optionsScrollRect != null)
+        {
+            optionsScrollRect.StopMovement();
+            optionsScrollRect.verticalNormalizedPosition = 1f;
 
         }
 

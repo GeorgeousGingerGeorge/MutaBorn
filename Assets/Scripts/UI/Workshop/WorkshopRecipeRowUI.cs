@@ -7,6 +7,7 @@ public sealed class WorkshopRecipeRowUI : MonoBehaviour
 {
     [SerializeField] private Button button;
     [SerializeField] private Image icon;
+    [SerializeField] private Image typeBadge;
     [SerializeField] private TMP_Text title;
     [SerializeField] private TMP_Text category;
 
@@ -26,6 +27,15 @@ public sealed class WorkshopRecipeRowUI : MonoBehaviour
             recipe.outputItem is ConsumableData ? "CONSUMABLE" : "EQUIPMENT";
         icon.sprite = sprite;
         icon.enabled = sprite != null;
+        if (typeBadge != null)
+        {
+            Sprite typeIcon = recipe.outputKind == CraftingOutputKind.EquipmentOrConsumable &&
+                recipe.outputEquipment.equipmentType != null
+                ? recipe.outputEquipment.equipmentType.TypeIcon : null;
+            typeBadge.sprite = typeIcon;
+            typeBadge.enabled = typeIcon != null;
+
+        }
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() => select?.Invoke(recipe));
 

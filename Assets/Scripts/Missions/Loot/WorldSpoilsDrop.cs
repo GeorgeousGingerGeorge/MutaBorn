@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -5,6 +6,15 @@ using UnityEngine.Events;
 // Attach to a tree, crate, or other breakable. Call Break() when its existing destruction completes.
 public sealed class WorldSpoilsDrop : MonoBehaviour
 {
+    public static event Action<WorldSpoilsDrop> ObjectBroken;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetEvents()
+    {
+        ObjectBroken = null;
+
+    }
+
     [SerializeField, Min(1)] private int maximumHealth = 10;
     [SerializeField] private List<WorldLootEntry> drops = new();
     [SerializeField] private GameObject visualRoot;
@@ -76,6 +86,7 @@ public sealed class WorldSpoilsDrop : MonoBehaviour
         }
 
         onBroken.Invoke();
+        ObjectBroken?.Invoke(this);
 
     }
 

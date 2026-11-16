@@ -10,8 +10,11 @@ public enum ObstacleType
     WorldSpace = 1 << 3
 }
 
+
 public enum NodeCoverage 
 {
-    Single,
-    Multiple
+    Single, // Means the obstacle only covers a single node
+    Multiple, // Checks underneath a obstacle for all the nodes it occupies
+    Edge, // means its the boundary between two nodes
+    BoundaryEdge, // means its the boundary of a floor
 }

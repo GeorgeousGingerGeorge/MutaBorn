@@ -141,7 +141,8 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 ? ""
                 : consumable.UsesActionPointsOnly
                     ? $"{useAction.ApCost:0.#} AP"
-                    : useAction != null && useAction.CombatBehavior == CombatActionBehavior.CaptureUnit
+                    : useAction != null && (useAction.CombatBehavior == CombatActionBehavior.CaptureUnit ||
+                        useAction.CombatBehavior == CombatActionBehavior.ReviveUnit)
                         ? $"{boundConsumableUses}/{consumable.MaxUses} Uses | {useAction.ApCost:0.#} AP"
                         : $"{boundConsumableUses}/{consumable.MaxUses} Uses";
 
