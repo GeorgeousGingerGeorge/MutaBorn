@@ -285,6 +285,8 @@ public class UnitMovements : MonoBehaviour
 
                 movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
 
+                AudioManager.Instance?.PlayFootstep(nextnode, transform.position);
+
                 pathIndex++;
                 // Trap sensors fire synchronously when SetNode changes. Stop on this tile.
                 if (statuses != null && !statuses.CanMoveVoluntarily)
@@ -315,13 +317,14 @@ public class UnitMovements : MonoBehaviour
     private void CompleteMovement() 
     {
         soundController?.RegisterSound(unit.currentNode, SoundType.Footsteps, 8, unit);
+        AudioManager.Instance?.StopLoop();
         visibileController.UpdateVisibility();
         visibileController.UpdateAICurrentDetection();
         unit.data.ModifyActionPoints(-Mathf.CeilToInt(traveledMovementCost / movementEfficiencyAtStart));
 
         isMoving = false;
 
-       
+
 
         movementPath.Clear();
         pathIndex = 0;

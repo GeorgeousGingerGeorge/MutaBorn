@@ -294,6 +294,10 @@ public class SelectionManager : MonoBehaviour
 
         selectedUnit = unit;
         selectedUnit.SetSelected(true);
+
+        string soundName = unit.raceName + " Noise";
+        AudioManager.Instance.PlaySound(soundName);
+
         RefreshSelectedUnitTile();
 
         if (CanCommandUnit(unit) && !TargetingModeController.IsTargeting)

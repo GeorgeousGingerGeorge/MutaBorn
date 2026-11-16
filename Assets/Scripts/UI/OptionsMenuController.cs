@@ -1,15 +1,29 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class OptionsMenuController : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown displayDropdown;
     [SerializeField] private TMP_Dropdown resolutionDropdown;
+    [SerializeField] private AudioMixer audioMixer;
 
+    [SerializeField] private Slider sfxVolumeSlider;
+
+    private const string SFX_VOLUME_PARAMETER = "MyExposedParam";
+    private const string SFX_VOLUME_KEY = "SFXVolumeLinear";
     private List<Resolution> availableResolutions;
     private void Start()
     {
+
+        float savedVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 100f);
+
+        sfxVolumeSlider.SetValueWithoutNotify(savedVolume);
+
+        SetSFXVolume(savedVolume);
+
         displayDropdown.ClearOptions();
 
         displayDropdown.AddOptions(new System.Collections.Generic.List<string>
@@ -91,9 +105,18 @@ public class OptionsMenuController : MonoBehaviour
         );
     }
 
-    public void SetMasterVolume(float volume)
+    public void SetSFXVolume(float volume)
     {
-        AudioListener.volume = volume / 100f;
+        float normalizedVolume = volume / 100f;
+
+        float volumeInDecibels = normalizedVolume <= 0.0001f ? -80f : Mathf.Log10(normalizedVolume) * 20;
+
+        bool parameterFound = audioMixer.SetFloat(SFX_VOLUME_PARAMETER, volumeInDecibels);
+
+        Debug.Log("SFX Volume: " + volume + " | Decibels: " + volumeInDecibels + " | Parameter Found: " + parameterFound);
+
+        PlayerPrefs.SetFloat(SFX_VOLUME_KEY, volume);
+        PlayerPrefs.Save();
     }
 
     public void SetDisplayMode(int mode)

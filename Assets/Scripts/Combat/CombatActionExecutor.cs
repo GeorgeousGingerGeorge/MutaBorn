@@ -1720,6 +1720,11 @@ public sealed class CombatActionExecutor : MonoBehaviour
                     $"Hit Chance: {hitChance:F1}%.");
                 CombatFloatingFeedback.ReportAttackAvoided(target, false);
 
+                if (action.DamageStat == CombatDamageStat.Melee)
+                {
+                    AudioManager.Instance.PlaySound("Whiff");
+                }
+
                 continue;
 
             }
