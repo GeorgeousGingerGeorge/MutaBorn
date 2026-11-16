@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using MutaBorn.Gameplay;
 using UnityEngine.SceneManagement;
+using Newtonsoft.Json.Bson;
 
 public class AudioManager : MonoBehaviour
 {
@@ -201,6 +202,26 @@ public class AudioManager : MonoBehaviour
         }
 
         Debug.LogWarning("Sound not found: " + soundName);
+    }
+
+    public void PlayFootstep(GridNode node, Vector3 position)
+    {
+        if (node == null)
+            return;
+
+        string soundName = node.currentTerrain switch
+        {
+            TerrainType.OpenGround => "Grass Walk",
+            TerrainType.HighGrass => "Grass Walk",
+            TerrainType.Rubble => "Stone Walk",
+            TerrainType.Mud => "Particle Falling",
+            _ => null
+        };
+
+        if (!string.IsNullOrEmpty(soundName))
+        {
+            PlayLoop(soundName);
+        }
     }
 
     public void PlayLoop(string soundName)
