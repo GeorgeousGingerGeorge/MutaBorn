@@ -1,0 +1,423 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3028258744945561096
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3928373280130486178}
+  - component: {fileID: 5549209112436786415}
+  - component: {fileID: 9125210106980417303}
+  - component: {fileID: 8359985193889628398}
+  - component: {fileID: 5009995412417162344}
+  - component: {fileID: 4806010892125556665}
+  - component: {fileID: 1591235066353309722}
+  - component: {fileID: 7298679158920127889}
+  - component: {fileID: 6579601833965850874}
+  - component: {fileID: 5225472387858757727}
+  - component: {fileID: 6127508598305066497}
+  - component: {fileID: 2059073520549061560}
+  - component: {fileID: 139529597276382039}
+  - component: {fileID: 8591154979080561683}
+  - component: {fileID: 9103021617680710696}
+  - component: {fileID: 5206606777162447904}
+  - component: {fileID: 8110595275815109483}
+  - component: {fileID: 4594950338379065496}
+  - component: {fileID: 6040638740198709607}
+  - component: {fileID: 7856879407566568160}
+  - component: {fileID: 7346351409220111511}
+  - component: {fileID: 4115447456022330705}
+  - component: {fileID: 7327026200992058964}
+  m_Layer: 0
+  m_Name: Managers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3928373280130486178
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5549209112436786415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e556b3f5c13f4f34cb83826d0cd82761, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GridManager
+  currentLevel: {fileID: 11400000, guid: bd311a31d71745168d0e556b773f6fff, type: 2}
+  gridCellSize: 2
+  maxStepHeight: 0.5
+  floorHeightTolerance: 0.05
+  proceduralLevelGenerator: {fileID: 0}
+  levelAssembler: {fileID: 0}
+  gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
+  obstaclePrefab: {fileID: 8213480166955949838, guid: cbd10e59348d05042bdb99e6453865b1, type: 3}
+  wallPrefab: {fileID: 3797262535275334675, guid: ce59f07f03801d5438613c644db36b60, type: 3}
+  floorGenerator:
+  - floorID: 1
+    worldPosition: {x: 0, y: 0, z: 0}
+    gridSize: {x: 10, y: 10}
+  - floorID: 2
+    worldPosition: {x: 18, y: 4, z: 0}
+    gridSize: {x: 10, y: 10}
+  stairGenerator: []
+--- !u!114 &9125210106980417303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e8ea9088b8a4543b96efc422497124, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementManager
+  gridManager: {fileID: 5549209112436786415}
+  occupancy: {fileID: 6579601833965850874}
+--- !u!114 &8359985193889628398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f78759994a4f84468c3125b2f7b8a0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MouseLocation
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  unitLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &5009995412417162344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de5065ecb2cfad245a46368842fb30d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoverManager
+--- !u!114 &4806010892125556665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81044d6f991b2814ea08adf5eb2d094a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SelectionManager
+  previousUnitButton: {fileID: 0}
+  nextUnitButton: {fileID: 0}
+--- !u!114 &1591235066353309722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1e01f1c1ea7bc42a592de080930ca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputManager
+  mouseLeftAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  returnToMainMenu: {fileID: -2017496091887127493, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  floorUpAction: {fileID: 6969824856378084829, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  floorDownAction: {fileID: 7379162169223765735, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+--- !u!114 &7298679158920127889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ff12e0ac5b06854dba8f33b26565033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FactionManager
+  startingRelationships:
+  - factionA: {fileID: 11400000, guid: f70d6ea892e819b4eb2732e0c194dc1f, type: 2}
+    factionB: {fileID: 11400000, guid: d33ca233060672d47acd1138d973996a, type: 2}
+    relation: 0
+  - factionA: {fileID: 11400000, guid: f70d6ea892e819b4eb2732e0c194dc1f, type: 2}
+    factionB: {fileID: 11400000, guid: 23185151c24a44f43999b9d17a5eb9db, type: 2}
+    relation: 2
+  - factionA: {fileID: 11400000, guid: d33ca233060672d47acd1138d973996a, type: 2}
+    factionB: {fileID: 11400000, guid: 23185151c24a44f43999b9d17a5eb9db, type: 2}
+    relation: 2
+--- !u!114 &6579601833965850874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e24697c9f0f2aaf4f8ed5be02bb75c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Occupancy
+  gridManager: {fileID: 5549209112436786415}
+--- !u!114 &5225472387858757727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 294077b8f578f8e4c9af6b5c49d750bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TurnManager
+  factionManager: {fileID: 7298679158920127889}
+  playerFaction: {fileID: 11400000, guid: f70d6ea892e819b4eb2732e0c194dc1f, type: 2}
+  initiativeDieSides: 20
+  aiAutoSkipDelaySeconds: 1.5
+  enterEndsPlayerTurn: 1
+--- !u!114 &6127508598305066497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4bc54047472d1643b3b201e4bb31646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MutationCombatHandler
+  logDamageEvents: 1
+--- !u!114 &2059073520549061560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36660edc6d5f52a4c81567f23896cb1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CombatStatusHandler
+  debugGuardTarget: {fileID: 0}
+  debugGuardReductionPercent: 50
+  debugGuardFlatReduction: 3
+--- !u!114 &139529597276382039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f546f358a84839243bb50e14694dae99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MissionObjectiveManager
+  levelMission: {fileID: 11400000, guid: c3bb37b0f00ab7f4aa666bedf7132950, type: 2}
+  factionManager: {fileID: 7298679158920127889}
+  logProgress: 1
+--- !u!114 &8591154979080561683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d837b86d6f18f244b21ec74f7834e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleFactionAI
+  factionManager: {fileID: 7298679158920127889}
+  combatExecutor: {fileID: 0}
+  missionManager: {fileID: 139529597276382039}
+  movementSpeed: 6
+  delayBetweenUnits: 0.3
+  logDecisions: 1
+  maxDecisionsPerUnit: 8
+  maximumRejectedActions: 2
+  delayBetweenActions: 0.12
+  focusCameraOnAiActions: 1
+--- !u!114 &9103021617680710696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfa1b7c990949a489fad64ac64cf53c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LineOfSight
+  gridManager: {fileID: 5549209112436786415}
+  occupancy: {fileID: 6579601833965850874}
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!114 &5206606777162447904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae8c2769a570c284f9fc192d8ee2442f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DetectionSystem
+  lineOfSight: {fileID: 9103021617680710696}
+  fogController: {fileID: 8110595275815109483}
+  occupancy: {fileID: 6579601833965850874}
+  factionController: {fileID: 7298679158920127889}
+--- !u!114 &8110595275815109483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f6b9d6cfc9bfcb46b01b3ba61aefa76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FogOfWarManager
+  lineOfSight: {fileID: 9103021617680710696}
+  gridManager: {fileID: 5549209112436786415}
+  SeeTiles: 0
+--- !u!114 &4594950338379065496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a98e3fe73b8825044a36f0e618a4f90a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisibilityManager
+  fogController: {fileID: 8110595275815109483}
+  detection: {fileID: 5206606777162447904}
+  stealth: {fileID: 6040638740198709607}
+--- !u!114 &6040638740198709607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6380be42c36d2f94d824fefe5997b6f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StealthSystem
+  lineOfSight: {fileID: 9103021617680710696}
+--- !u!114 &7856879407566568160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d031893c887723449b998e64446b3be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetingSystem
+  lineOfSight: {fileID: 9103021617680710696}
+  detectionSystem: {fileID: 5206606777162447904}
+  stealthSystem: {fileID: 6040638740198709607}
+  gridManager: {fileID: 5549209112436786415}
+  groundTargetTolerance: 0.1
+--- !u!114 &7346351409220111511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dd11a2ed720e774fa88d290d7841147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoverSystem
+  occupancy: {fileID: 6579601833965850874}
+  gridManager: {fileID: 5549209112436786415}
+  showCoverDebug: 1
+  showRejectedObstacles: 1
+--- !u!114 &4115447456022330705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6af41c50419d12499827dc812232f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundDetectionSystem
+  gridManager: {fileID: 5549209112436786415}
+  occupancy: {fileID: 6579601833965850874}
+--- !u!114 &7327026200992058964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3028258744945561096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c7733b296882674cb9b0345863e988c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MutaBorn.Gameplay.AccuracySystem
+  baseAccuracy: 75
+  minimumHitChance: 5
+  maximumHitChance: 95
+  attributeHalfSaturation: 50
+  maximumAtributeContribution: 10
+  lowCoverPenalty: 15
+  highCoverPenalty: 30
+  crouchingAttackerPenalty: 5
+  crouchingDefenderPenalty: 10
+  coverSystem: {fileID: 7346351409220111511}

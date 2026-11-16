@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.ProBuilder.MeshOperations;
-using UnityEngineInternal;
+
 
 // Faction AI: recover from initialization races, prioritize usable attacks, and spend remaining AP.
 // No extra AI components are needed on individual units.

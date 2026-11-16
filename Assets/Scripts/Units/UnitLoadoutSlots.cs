@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 // Stable IDs for the unit's fourteen real loadout slots.

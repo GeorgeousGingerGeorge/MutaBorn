@@ -7,7 +7,7 @@ public enum ConnectorConnectionMode
     Either
 }
 
-[System.Serializable]
+
 public class ConnectorPlacement
 {
     [Header("Connector Definition")]
