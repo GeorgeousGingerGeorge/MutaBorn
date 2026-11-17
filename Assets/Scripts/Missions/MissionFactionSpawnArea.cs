@@ -23,12 +23,40 @@ public sealed class MissionFactionSpawnArea : MonoBehaviour
     [SerializeField] private int floorId = 1;
     [SerializeField] private Vector2Int areaSizeInTiles = new Vector2Int(4, 4);
     [SerializeField, Min(0.1f)] private float gizmoCellSize = 2f;
+    [Header("Mid-Mission Spawn (optional)")]
+    [Tooltip("Leave empty to spawn at level start. Otherwise spawn ONCE when this objective completes.")]
+    [SerializeField] private string spawnAfterObjectiveId;
     [Header("Mission units to create")]
     [SerializeField] private List<MissionFactionSpawnGroup> groups = new List<MissionFactionSpawnGroup>();
 
     private bool prepared;
 
     public void PrepareDeployment(GridManager gridManager)
+    {
+        if (!string.IsNullOrWhiteSpace(spawnAfterObjectiveId))
+        {
+            return;
+
+        }
+
+        SpawnUnits(gridManager, false);
+
+    }
+
+    public void SpawnAfterObjective(string completedObjectiveId)
+    {
+        if (prepared || string.IsNullOrWhiteSpace(spawnAfterObjectiveId) ||
+            !string.Equals(spawnAfterObjectiveId.Trim(), completedObjectiveId, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+
+        }
+
+        SpawnUnits(FindAnyObjectByType<GridManager>(), true);
+
+    }
+
+    private void SpawnUnits(GridManager gridManager, bool duringMission)
     {
         if (prepared)
         {
@@ -163,6 +191,20 @@ public sealed class MissionFactionSpawnArea : MonoBehaviour
 
                 }
 
+                if (duringMission)
+                {
+                    if (!unit.TryInitializeUnitData())
+                    {
+                        Destroy(unit.gameObject);
+                        continue;
+
+                    }
+
+                    unit.InitializeNode();
+                    MissionObjectiveManager.Instance?.RegisterSpawnedUnit(unit);
+
+                }
+
                 MissionSpawnAreaTiles.ReserveFootprint(chosen, unit.footPrint, reserved);
                 placed++;
 
@@ -173,7 +215,15 @@ public sealed class MissionFactionSpawnArea : MonoBehaviour
         Debug.Log($"[FactionSpawn] Placed {placed} {faction.DisplayName} mission units on floor {floorId}.", this);
 
     }
+    public void ResolveFloorID(ChunkInstance ownerChunk)
+    {
+        if (!ownerChunk.globalFloorMappings.TryGetValue(floorId, out int resolvedFloorID))
+        {
+            return;
+        }
 
+        floorId = resolvedFloorID;
+    }
     private void OnDrawGizmosSelected()
     {
         Vector2Int size = new Vector2Int(Mathf.Max(1, areaSizeInTiles.x), Mathf.Max(1, areaSizeInTiles.y));

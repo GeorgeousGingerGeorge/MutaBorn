@@ -23,8 +23,7 @@ public sealed class MissionCrewSpawnArea : MonoBehaviour
         Dictionary<Vector2Int, GridNode> floor = gridManager == null ? null : gridManager.GetGrid(floorId);
         if (roster == null || occupancy == null || floor == null || floor.Count == 0)
         {
-            Debug.LogError("[CrewSpawn] Missing roster, occupancy or floor grid. Legacy units remain unchanged.", this);
-
+            Debug.LogError($"[CrewSpawn] Roster: {roster != null} | Occupancy: {occupancy != null} | Floor: {floor != null} | Floor Count: {floor?.Count ?? 0}", this);
             return;
 
         }
@@ -240,7 +239,15 @@ public sealed class MissionCrewSpawnArea : MonoBehaviour
         return wrapper;
 
     }
+    public void ResolveFloorID(ChunkInstance ownerChunk) 
+    {
+        if (!ownerChunk.globalFloorMappings.TryGetValue(floorId, out int resolvedFloorID))
+        {
+            return;
+        }
 
+        floorId = resolvedFloorID;
+    }
     private void OnDrawGizmosSelected()
     {
         Vector2Int size = new Vector2Int(Mathf.Max(1, areaSizeInTiles.x), Mathf.Max(1, areaSizeInTiles.y));

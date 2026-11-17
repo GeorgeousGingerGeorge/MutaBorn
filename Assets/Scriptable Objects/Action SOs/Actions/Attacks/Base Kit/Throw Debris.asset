@@ -17,14 +17,44 @@ MonoBehaviour:
   description: Throw a rock or something from the ground at the enemy
   icon: {fileID: 0}
   activationType: 0
+  animationStateName: Throw
   category: 0
   submenuGroup: Ranged
   displayOrder: 2
   apCost: 4
+  maxUsesPerTurn: 0
+  controlTags: 0
   combatBehavior: 1
   damageStat: 1
   combatRange: 8
   damageMultiplier: 0.4
   flatDamageBonus: 0
   minimumDamage: 2
+  hitCount: 1
+  projectileDefinition: {fileID: 0}
+  captureBonusPercent: 0
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 1
+  areaHealAmount: 15
+  manaRestoreAmount: 0
+  selfStatus: {fileID: 0}
+  damageType: 0
+  additionalDamage: []
+  randomDamageType: 0
+  randomOnHitStatuses: []
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 0}
+  mutationRushToTarget: 0
+  mutationKnockbackTiles: 0
+  mutationNegateChancePercent: 0
+  mutationGuardOwnerTurns: 1
+  mutationDeployPrefab: {fileID: 0}
+  mutationDeployDurationTurns: 2
+  mutationStructureHealth: 30
   guardDamageReductionPercent: 50
+  guardFlatDamageReduction: 3

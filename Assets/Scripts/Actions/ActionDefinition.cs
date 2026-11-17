@@ -26,7 +26,8 @@ public enum ActionControlTags
 {
     None = 0,
     MagicOrMutation = 1,
-    RequiresWeapon = 2
+    RequiresWeapon = 2,
+    Mutation = 4
 
 }
 
@@ -43,7 +44,17 @@ public enum CombatActionBehavior
     RestoreMana,
     MutationScan = 8,
     MutationDeployCover = 9,
-    MutationDeployTrap = 10
+    MutationDeployTrap = 10,
+    CaptureUnit = 11,
+    ReviveUnit = 12
+
+}
+
+public enum RandomActionDamageType
+{
+    None = 0,
+    Physical = 1,
+    Elemental = 2
 
 }
 
@@ -68,6 +79,12 @@ public class ActionDefinition : ScriptableObject
     [Header("Behavior")]
 
     [SerializeField] private ActionActivationType activationType = ActionActivationType.Active;
+
+
+    [Header("Action Animation")]
+    [Tooltip("Animator state to play when this action executes. Leave empty for no animation.")]
+    [SerializeField] private string animationStateName = "";
+
 
     [Header("Menu Organization")]
 
@@ -106,6 +123,10 @@ public class ActionDefinition : ScriptableObject
     [Tooltip("Projectile used by this action. Leave empty for attacks without projectiles.")]
     [SerializeField] private ProjectileDefinition projectileDefinition;
 
+    [Header("Capture Unit (CaptureUnit only)")]
+    [Tooltip("Small percentage-point bonus added to the target missing-HP percentage.")]
+    [SerializeField, Range(0, 20)] private int captureBonusPercent;
+
     [Header("Area Explosion (DamageArea only)")]
     [Tooltip("How far the explosion can be thrown, measured in grid tiles.")]
     [SerializeField, Min(0)] private int areaThrowRangeInTiles = 6;
@@ -131,6 +152,10 @@ public class ActionDefinition : ScriptableObject
     [SerializeField] private DamageType damageType = DamageType.Unspecified;
     [Tooltip("Additional fixed-damage components, each using its own Armor/Ward and damage resistance. Optional.")]
     [SerializeField] private DamageComponent[] additionalDamage = new DamageComponent[0];
+
+    [Header("Randomized MutaBorn Attacks (Optional)")]
+    [SerializeField] private RandomActionDamageType randomDamageType = RandomActionDamageType.None;
+    [SerializeField] private StatusDefinition[] randomOnHitStatuses = new StatusDefinition[0];
 
     [Header("Optional Crit and Penetration")]
     [Tooltip("0 by default. Applied only to this attack, before defenses.")]
@@ -175,6 +200,7 @@ public class ActionDefinition : ScriptableObject
     public ActionControlTags ControlTags => controlTags;
     public CombatDamageStat DamageStat => damageStat;
     public float CombatRange => combatRange;
+    public int CaptureBonusPercent => captureBonusPercent;
     public float DamageMultiplier => damageMultiplier;
     public int FlatDamageBonus => flatDamageBonus;
     public int MinimumDamage => minimumDamage;
@@ -187,6 +213,8 @@ public class ActionDefinition : ScriptableObject
     public int AreaHealAmount => Mathf.Max(0, areaHealAmount);
     public StatusDefinition SelfStatus => selfStatus;
     public DamageType DamageType => damageType;
+    public RandomActionDamageType RandomDamageType => randomDamageType;
+    public StatusDefinition[] RandomOnHitStatuses => randomOnHitStatuses;
     public DamageComponent[] AdditionalDamage => additionalDamage;
     public EffectCollection OnDamageEffects => onDamageEffects;
     public float GuardDamageReductionPercent => guardDamageReductionPercent;
@@ -202,4 +230,5 @@ public class ActionDefinition : ScriptableObject
     public float CriticalDamageMultiplier => Mathf.Max(1f, criticalDamageMultiplier);
     public int FlatArmorPenetration => Mathf.Max(0, flatArmorPenetration);
     public int FlatWardPenetration => Mathf.Max(0, flatWardPenetration);
+    public string AnimationStateName => animationStateName;
 }

@@ -141,7 +141,10 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 ? ""
                 : consumable.UsesActionPointsOnly
                     ? $"{useAction.ApCost:0.#} AP"
-                    : $"{boundConsumableUses}/{consumable.MaxUses} Uses";
+                    : useAction != null && (useAction.CombatBehavior == CombatActionBehavior.CaptureUnit ||
+                        useAction.CombatBehavior == CombatActionBehavior.ReviveUnit)
+                        ? $"{boundConsumableUses}/{consumable.MaxUses} Uses | {useAction.ApCost:0.#} AP"
+                        : $"{boundConsumableUses}/{consumable.MaxUses} Uses";
 
         }
 
@@ -236,11 +239,23 @@ public class ActionButtonUI : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         if (boundConsumable != null)
         {
+            if (boundConsumableAction != null &&
+                boundConsumableAction.CombatBehavior == CombatActionBehavior.CaptureUnit &&
+                apCostText != null)
+            {
+                bool hasSpace = BrigManager.Instance != null && BrigManager.Instance.HasSpace;
+                apCostText.text = $"{boundConsumableUses}/{boundConsumable.MaxUses} Uses | " +
+                    (hasSpace ? $"{boundConsumableAction.ApCost:0.#} AP" : "BRIG FULL");
+
+            }
+
             button.interactable = boundConsumableAction != null &&
                 boundConsumableAction.Category == ActionMenuCategory.Items &&
                 !boundConsumableAction.IsPassive &&
                 (boundConsumable.UsesActionPointsOnly || boundConsumableUses > 0) &&
-                availableAP >= boundConsumableAction.ApCost;
+                availableAP >= boundConsumableAction.ApCost &&
+                (boundConsumableAction.CombatBehavior != CombatActionBehavior.CaptureUnit ||
+                 (BrigManager.Instance != null && BrigManager.Instance.HasSpace));
 
             return;
 

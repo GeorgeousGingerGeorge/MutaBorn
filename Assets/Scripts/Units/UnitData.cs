@@ -48,6 +48,22 @@ public class UnitData
     public string raceName;
     DynamicStats race;
     public DynamicStats RaceDefinition => race;
+    public bool IsTooCorrupt => string.Equals(raceName, "MutaBorn", StringComparison.OrdinalIgnoreCase);
+    public bool MutationsSuppressed { get; private set; }
+
+    public void SetMutationsSuppressed(bool suppressed)
+    {
+        if (MutationsSuppressed == suppressed)
+        {
+            return;
+
+        }
+
+        MutationsSuppressed = suppressed;
+        RecalculateStats();
+        LoadoutChanged?.Invoke();
+
+    }
 
     // Campaign progression belongs to the persistent UnitData, not scene wrappers.
     public int Level { get; private set; } = 1;
@@ -222,12 +238,12 @@ public class UnitData
     public int equipmentIntelligence { get; set; }
 
     [Header("Character Information- Total Core Stats")]
-    public int totalStrength => CalculateModifiedStat(StatIdentifier.Strength, leveledStrength + startingStrength + mutationStrength + equipmentStrength);
-    public int totalDexterity => CalculateModifiedStat(StatIdentifier.Dexterity, leveledDexterity + startingDexterity + mutationDexterity + equipmentDexterity + (race != null ? race.RacialDexterityBonus : 0));
-    public int totalVitality => CalculateModifiedStat(StatIdentifier.Vitality, leveledVitality + startingVitality + mutationVitality + equipmentVitality);
-    public int totalConstitution => CalculateModifiedStat(StatIdentifier.Constitution, leveledConstitution + startingConstitution + mutationConstitution + equipmentConstitution);
-    public int totalPerception => CalculateModifiedStat(StatIdentifier.Perception, leveledPerception + startingPerception + mutationPerception + equipmentPerception + (race != null ? race.RacialPerceptionBonus : 0));
-    public int totalIntelligence => CalculateModifiedStat(StatIdentifier.Intelligence, leveledIntelligence + startingIntelligence + mutationIntelligence + equipmentIntelligence);
+    public int totalStrength => CalculateModifiedStat(StatIdentifier.Strength, leveledStrength + startingStrength + (MutationsSuppressed ? 0 : mutationStrength) + equipmentStrength);
+    public int totalDexterity => CalculateModifiedStat(StatIdentifier.Dexterity, leveledDexterity + startingDexterity + (MutationsSuppressed ? 0 : mutationDexterity) + equipmentDexterity + (race != null ? race.RacialDexterityBonus : 0));
+    public int totalVitality => CalculateModifiedStat(StatIdentifier.Vitality, leveledVitality + startingVitality + (MutationsSuppressed ? 0 : mutationVitality) + equipmentVitality);
+    public int totalConstitution => CalculateModifiedStat(StatIdentifier.Constitution, leveledConstitution + startingConstitution + (MutationsSuppressed ? 0 : mutationConstitution) + equipmentConstitution);
+    public int totalPerception => CalculateModifiedStat(StatIdentifier.Perception, leveledPerception + startingPerception + (MutationsSuppressed ? 0 : mutationPerception) + equipmentPerception + (race != null ? race.RacialPerceptionBonus : 0));
+    public int totalIntelligence => CalculateModifiedStat(StatIdentifier.Intelligence, leveledIntelligence + startingIntelligence + (MutationsSuppressed ? 0 : mutationIntelligence) + equipmentIntelligence);
 
     [Header("Character Information- Equipped Mutations/Gear Plus Tracker")]
     // Legacy mutation scripts remain for pre-existing scenes until migration is verified.
@@ -542,7 +558,7 @@ public class UnitData
         // Fixed mutation percentages remain in UnitData across scene transitions.
         MutationDataBase mutationDatabase = GameDataBaseLoader.Instance != null
             ? GameDataBaseLoader.Instance.mutationData : null;
-        if (mutationDatabase != null)
+        if (!MutationsSuppressed && mutationDatabase != null)
         {
             foreach (ActiveMutationRecord owned in activeMutationNodes)
             {
@@ -584,44 +600,44 @@ public class UnitData
     public void CalcMaxHealth(DynamicStats race)
     {
         maxHealth = Mathf.Max(1, CalculateModifiedStat(StatIdentifier.MaxHealth, (float)race.baseHealth + ((float)totalVitality * ((float)race.vitalityHealthBonus * race.vitalityModifier))
-            + (float)mutationHealth + (float)equipmentHealth));
+            + (float)(MutationsSuppressed ? 0 : mutationHealth) + (float)equipmentHealth));
     }
     public void CalcMaxMana(DynamicStats race)
     {
         maxMana = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.MaxMana, (float)race.baseMana + ((float)totalIntelligence * ((float)race.intelligenceManaBonus * race.intelligenceModifier))
-            + (float) mutationMana + (float)equipmentMana));
+            + (float)(MutationsSuppressed ? 0 : mutationMana) + (float)equipmentMana));
 
     }
     public void CalcMaxActionPoints(DynamicStats race)
     {
         maxActionPoints = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.MaxActionPoints, (float)race.actionPoints + ((float)totalVitality * ((float)race.vitalityActionPointBonus * race.vitalityModifier))
-            + (float)mutationActionPoints + (float)equipmentActionPoints));
+            + (float)(MutationsSuppressed ? 0 : mutationActionPoints) + (float)equipmentActionPoints));
 
     }
     public void CalcMeleeDamage(DynamicStats race) 
     {
         meleeDamage = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.MeleeDamage, (float)race.meleeDamage + ((float)totalStrength * ((float)race.strengthMeleeDMGBonus * race.strengthModifier))
-        + ((float)totalDexterity * ((float)race.dexterityMeleeDMGBonus * race.dexterityModifier)) + (float)mutationMeleeDamage + (float)equipmentMeleeDamage));
+        + ((float)totalDexterity * ((float)race.dexterityMeleeDMGBonus * race.dexterityModifier)) + (float)(MutationsSuppressed ? 0 : mutationMeleeDamage) + (float)equipmentMeleeDamage));
     }
     public void CalcRangeDamage(DynamicStats race) 
     {
         rangeDamage = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.RangedDamage, (float)race.rangeDamage + ((float)totalPerception * ((float)race.perceptionRangeDMGBonus * race.perceptionModifier))
-        + ((float)totalDexterity * ((float)race.dexterityRangeDMGBonus * race.perceptionModifier)) + (float)mutationRangeDamage + (float)equipmentRangeDamage));
+        + ((float)totalDexterity * ((float)race.dexterityRangeDMGBonus * race.perceptionModifier)) + (float)(MutationsSuppressed ? 0 : mutationRangeDamage) + (float)equipmentRangeDamage));
     }
     public void CalcMagicDamage(DynamicStats race) 
     {
         magicDamage = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.MagicDamage, (float)race.magicDamage + ((float)totalIntelligence * ((float)race.intelligenceMagicDMGBonus * race.intelligenceModifier))
-     + (float)mutationMagicDamage + (float)equipmentMagicDamage));
+     + (float)(MutationsSuppressed ? 0 : mutationMagicDamage) + (float)equipmentMagicDamage));
     }
 
     public void CalcArmor(DynamicStats race) 
     {
         armor = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.PhysicalDefense, (float)race.armorDef + ((float)totalConstitution * ((float)race.constitutionArmorBonus * race.constitutionModifier))
-            + (float)mutationArmor + (float)equipmentArmor));
+            + (float)(MutationsSuppressed ? 0 : mutationArmor) + (float)equipmentArmor));
     }
     public void CalcWill(DynamicStats race) 
     {
-        will = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.Will, (double)race.will + mutationWill + equipmentWill));
+        will = Mathf.Max(0, CalculateModifiedStat(StatIdentifier.Will, (double)race.will + (MutationsSuppressed ? 0 : mutationWill) + equipmentWill));
     }
 
     //Takes both negative/positive values for health
@@ -822,12 +838,18 @@ public class UnitData
         UnitLoadoutSlotState other = GetSlot(otherHand);
         return other != null && !string.IsNullOrEmpty(other.ItemInstanceId) &&
             TryGetEquipmentInstance(other.ItemInstanceId, out EquipmentInstance item) &&
-            item.template != null && item.template.RequiresBothHands;
+            item.IsValid && item.RequiresBothHands;
 
     }
 
     public UnitSlotBlockReason GetSlotBlockReason(UnitSlotId slot)
     {
+        if (IsTooCorrupt && UnitLoadoutSlots.IsValid(slot))
+        {
+            return UnitSlotBlockReason.RaceRestricted;
+
+        }
+
         UnitLoadoutSlotState state = GetSlot(slot);
         if (state == null)
         {
@@ -1002,8 +1024,8 @@ public class UnitData
 
     public bool CanEquipInstance(EquipmentInstance item, UnitSlotId slot)
     {
-        if (item.template == null || !UnitLoadoutSlots.IsValid(slot) ||
-            !UnitLoadoutSlots.Accepts(slot, item.template.EquipmentFit) ||
+        if (!item.IsValid || !UnitLoadoutSlots.IsValid(slot) ||
+            !UnitLoadoutSlots.Accepts(slot, item.EquipmentFit) ||
             GetSlotBlockReason(slot) != UnitSlotBlockReason.None)
         {
             return false;
@@ -1018,7 +1040,7 @@ public class UnitData
 
         }
 
-        return !item.template.RequiresBothHands ||
+        return !item.RequiresBothHands ||
             (UnitLoadoutSlots.IsHand(slot) &&
              GetSlotBlockReason(UnitLoadoutSlots.OtherHand(slot)) == UnitSlotBlockReason.None);
 
@@ -1134,39 +1156,35 @@ public class UnitData
 
     }
 
-    // Legacy test-scene helper: generate fresh starting equipment only, not storage transfers.
-    public bool TryEquipStartingItem(EquipmentData template)
+    public bool TryEquipStartingItem(EquipmentTemplateReference reference)
     {
-        return TryEquipStartingItem(template, out _);
+        return TryEquipStartingItem(reference, out _);
+
     }
 
-    public bool TryEquipStartingItem(EquipmentData template, out UnitSlotId equippedSlot)
+    public bool TryEquipStartingItem(EquipmentTemplateReference reference, out UnitSlotId equippedSlot)
     {
         equippedSlot = UnitSlotId.None;
-
-        if (template == null)
+        if (!reference.TryResolve(out _))
         {
             return false;
+
         }
 
-        EquipmentInstance item = EquipmentGenerator.CreateEquipment(template);
-
+        EquipmentInstance item = EquipmentGenerator.CreateEquipment(reference);
         foreach (UnitSlotId slot in UnitLoadoutSlots.All)
         {
-            if (CanEquipInstance(item, slot))
+            if (CanEquipInstance(item, slot) && TryEquipInstance(item, slot))
             {
-                bool success = TryEquipInstance(item, slot);
+                equippedSlot = slot;
+                return true;
 
-                if (success)
-                {
-                    equippedSlot = slot;
-                }
-
-                return success;
             }
+
         }
 
         return false;
+
     }
 
     public bool CanEquipItem(EquipmentInstance item)
@@ -1182,16 +1200,6 @@ public class UnitData
         }
 
         return false;
-
-    }
-
-    public void EquipItem(ItemData equipmentData)
-    {
-        if (equipmentData is EquipmentData equipment)
-        {
-            TryEquipStartingItem(equipment);
-
-        }
 
     }
 
@@ -1679,5 +1687,91 @@ public class UnitData
         newUnit.currentFieldOfView = newUnit.maxFieldOfView;
         return newUnit; 
         
+    }
+    public static UnitData CreateFromSavedIdentity(UnitRosterMemberSaveData saved, DynamicStats race)
+    {
+        if (saved == null || race == null || string.IsNullOrWhiteSpace(saved.unitId) || string.IsNullOrWhiteSpace(saved.characterName) || !string.Equals(saved.raceName, race.RaceName, StringComparison.OrdinalIgnoreCase))
+        {
+            Debug.LogError("[Save/Load] Invalid saved unit identity or race definition.");
+            return null;
+        }
+
+        if (saved.level < 1 || saved.level > 20 || saved.experience < 0 || saved.unspentAttributePoints < 0 || saved.mutationPoints < 0)
+        {
+            Debug.LogError("[Save/Load] Invalid saved character progression.");
+            return null;
+        }
+
+        UnitData unit = CreateNewUnit(saved.characterName, race);
+
+        // Restore permanent identity
+        unit.UnitId = saved.unitId;
+
+        // Restore progression
+        unit.Level = saved.level;
+        unit.Experience = saved.experience;
+        unit.UnspentAttributePoints = saved.unspentAttributePoints;
+        unit.MutationPoints = saved.mutationPoints;
+
+        // Restore leveled attributes
+        unit.leveledStrength = saved.leveledStrength;
+        unit.leveledDexterity = saved.leveledDexterity;
+        unit.leveledVitality = saved.leveledVitality;
+        unit.leveledConstitution = saved.leveledConstitution;
+        unit.leveledPerception = saved.leveledPerception;
+        unit.leveledIntelligence = saved.leveledIntelligence;
+
+        // Restore level-gated slots
+        if (unit.Level >= 3)
+        {
+            unit.TryUnlockProgressionSlot(UnitSlotId.Accessory2);
+            unit.TryUnlockProgressionSlot(UnitSlotId.Consumable2);
+        }
+
+        // Restore saved fixed mutations
+        if (saved.fixedMutationIds != null && saved.fixedMutationIds.Count > 0)
+        {
+            GameDataBase database = GameDataBaseLoader.Instance;
+            MutationDataBase mutationDatabase = database != null ? database.mutationData : null;
+
+            if (mutationDatabase == null)
+            {
+                Debug.LogError($"[Save/Load] Mutation database unavailable for {saved.characterName}.");
+                return null;
+            }
+
+            foreach (MutationID mutationId in saved.fixedMutationIds)
+            {
+                if (mutationId == MutationID.none || !unit.TryAddFixedMutation(mutationId, mutationDatabase))
+                {
+                    Debug.LogError($"[Save/Load] Failed to restore mutation {mutationId} for {saved.characterName}.");
+                    return null;
+                }
+            }
+        }
+
+        if (saved.equipment != null)
+        {
+            foreach (EquipmentSaveData savedItem in saved.equipment)
+            {
+                if (!EquipmentSaveRestore.TryRestoreEquippedItem(savedItem, unit))
+                {
+                    Debug.LogError($"[Save/Load] Failed to restore equipment for {saved.characterName}: {savedItem?.instanceId}.");
+                    return null;
+                }
+            }
+        }
+
+        unit.RecalculateStats();
+
+        // Restore saved Health, Mana, and Action Points
+        if (!unit.TryRestoreSavedResources(saved.currentHealth, saved.currentMana, saved.currentActionPoints))
+        {
+            Debug.LogError($"[Save/Load] Failed to restore resources for {saved.characterName}.");
+            return null;
+        }
+
+        return unit;
+
     }
 }

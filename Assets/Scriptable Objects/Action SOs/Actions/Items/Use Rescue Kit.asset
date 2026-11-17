@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
+  m_Name: "Use Rescue Kit"
+  m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
+  actionId: "use-rescue-kit"
+  displayName: "Use Rescue Kit"
+  description: "Revives a downed ally or friendly NPC within 2.5 units, restoring 25% HP. Costs 2 AP and one charge."
+  icon: {fileID: 21300000, guid: 199514b23d962b048ad5d1dc172c41cd, type: 3}
+  activationType: 0
+  category: 4
+  submenuGroup: "Consumables"
+  displayOrder: 20
+  apCost: 2
+  controlTags: 0
+  combatBehavior: 12
+  damageStat: 0
+  combatRange: 2.5
+  damageMultiplier: 0
+  flatDamageBonus: 0
+  minimumDamage: 0
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  selfStatus: {fileID: 0}
+  damageType: 0
+  additionalDamage: []
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 0}
+  guardDamageReductionPercent: 0
+  hitCount: 1
+  guardFlatDamageReduction: 0

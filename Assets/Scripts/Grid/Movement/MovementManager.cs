@@ -246,6 +246,12 @@ public class MovementManager : MonoBehaviour
         return movementCost;
     }
 
+    public float GetSegmentCost(GridNode from, GridNode to)
+    {
+        return GetMovementCost(to, from);
+
+    }
+
     public List<GridNode> GetPath() 
     {
         return route; 

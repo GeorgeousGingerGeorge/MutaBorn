@@ -29,9 +29,9 @@ public class ObstacleData : ScriptableObject
     [SerializeField] private CoverState coverstate;
     [SerializeField, Min(0f)] private float heightOfCover = 0.8f;
 
-    [Header("Destuction")]
+    [Header("Destruction")]
 
-    [SerializeField] private ObstacleDestructionStages[] DestructionStages;
+    
     [SerializeField] private bool IsDestructible;
     [SerializeField] private int MaxHealth;
 
@@ -52,12 +52,12 @@ public class ObstacleData : ScriptableObject
     public float coverHeight => heightOfCover;
     public bool isDestructible => IsDestructible;
     public int maxHealth => MaxHealth;
-    public ObstacleDestructionStages[] destructionStages => DestructionStages;
+  
 
 
     public void CreateObstacleData(string name = null, ObstacleType type = ObstacleType.None, bool movement = false,
         bool sight = false, bool projectiles = false, bool sound = false, bool vaulted = false, bool climbed = false, CoverState state = CoverState.NONE,
-        float height = 0.8f, bool destructible = false, int health = 0, ObstacleDestructionStages[] stages = null)
+        float height = 0.8f, bool destructible = false, int health = 0)
     {
 
         ObstacleName = name;
@@ -72,7 +72,7 @@ public class ObstacleData : ScriptableObject
         heightOfCover = height;
         IsDestructible = destructible;
         MaxHealth = health;
-        DestructionStages = stages;
+      
 
     }
 }

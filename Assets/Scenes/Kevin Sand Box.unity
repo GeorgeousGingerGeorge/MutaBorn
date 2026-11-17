@@ -315,6 +315,9 @@ MonoBehaviour:
   currentLevel: {fileID: 0}
   gridCellSize: 2
   maxStepHeight: 0.5
+  floorHeightTolerance: 0.05
+  proceduralLevelGenerator: {fileID: 0}
+  levelAssembler: {fileID: 0}
   gridCellPrefab: {fileID: 6494207454436567325, guid: 5338e8c4e1be6124f888af8ec00f15a3, type: 3}
   obstaclePrefab: {fileID: 1490576499627723649, guid: 4d64a26457947d7409f3f24854110fcc, type: 3}
   wallPrefab: {fileID: 0}
@@ -419,6 +422,8 @@ MonoBehaviour:
   researchText: {fileID: 0}
   claimAndReturnButton: {fileID: 0}
   hubSceneName: TEST Hub
+  victoryExperience: 100
+  victoryMutationPoints: 25
   victoryColor: {r: 0.35, g: 0.9, b: 0.5, a: 1}
   defeatColor: {r: 1, g: 0.4, b: 0.4, a: 1}
   pauseGameOnResult: 1
@@ -613,6 +618,10 @@ MonoBehaviour:
   pauseMenu: {fileID: 1731839470}
   optionsMenu: {fileID: 1425032847}
   quitMenu: {fileID: 1876232482}
+  quitGame: {fileID: 0}
+  saveButton: {fileID: 0}
+  loadButton: {fileID: 0}
+  controlsMenu: {fileID: 0}
 --- !u!1 &19428250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,6 +1290,7 @@ GameObject:
   - component: {fileID: 92184231}
   - component: {fileID: 92184230}
   - component: {fileID: 92184233}
+  - component: {fileID: 92184234}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -1303,7 +1313,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1397,104 +1407,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 404bde76a03dcea42ad1d2504262c351, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  volume: 1
-  soundEffects:
-  - SoundName: Goblin Noise
-    audioClip: {fileID: 8300000, guid: 1d41e48d6b9ed434f8f89e6794925cb6, type: 3}
-  - SoundName: Goblin Hurt
-    audioClip: {fileID: 8300000, guid: 9849ed5e57537b445873d87ff35f3225, type: 3}
-  - SoundName: Goblin Dead
-    audioClip: {fileID: 8300000, guid: ceb1ac1bc48efc34fbea215172ef56ca, type: 3}
-  - SoundName: Orc Noise
-    audioClip: {fileID: 8300000, guid: 7930f8adaba2a06449e104676c7a9400, type: 3}
-  - SoundName: Orc Hurt
-    audioClip: {fileID: 8300000, guid: 1e807a1d4b2e91344878319e57871b88, type: 3}
-  - SoundName: Orc Dead
-    audioClip: {fileID: 8300000, guid: b0899e4b74838ae409fd05eb8c7daa88, type: 3}
-  - SoundName: Elf Noise
-    audioClip: {fileID: 8300000, guid: fb67592ab36de9347bd0cbfc85edac23, type: 3}
-  - SoundName: Elf Hurt
-    audioClip: {fileID: 8300000, guid: 318cefac7b3ca49478310c1a69275309, type: 3}
-  - SoundName: Elf Dead
-    audioClip: {fileID: 8300000, guid: 7e580c45fc6ca4441bd48b05a3527fe6, type: 3}
-  - SoundName: Human Noise
-    audioClip: {fileID: 8300000, guid: a1817957a4d82674ba18e3b244c15941, type: 3}
-  - SoundName: Human Hurt
-    audioClip: {fileID: 8300000, guid: 1e28b6fb20e42f44f945a004a919009f, type: 3}
-  - SoundName: Human Dead
-    audioClip: {fileID: 8300000, guid: 0091109fa39f1954da24a14fee2128c6, type: 3}
-  - SoundName: Dward Nosie
-    audioClip: {fileID: 8300000, guid: 22aee1cd4aea2964689c6aa706793fd9, type: 3}
-  - SoundName: Dwarf Hurt
-    audioClip: {fileID: 8300000, guid: 86c440e47b3efb544aec4d4334f9c475, type: 3}
-  - SoundName: Dwarf Dead
-    audioClip: {fileID: 8300000, guid: 75aa162e8b116d8438873d64a281248c, type: 3}
-  - SoundName: 'Mutaborn Noise '
-    audioClip: {fileID: 8300000, guid: b507a00f43e656047b7d56dcf3ffba8d, type: 3}
-  - SoundName: Mutaborn Hurt
-    audioClip: {fileID: 8300000, guid: 1f18a9f732f910b4f9ea18deb5f418a3, type: 3}
-  - SoundName: Mutaborn Dead
-    audioClip: {fileID: 8300000, guid: ad3a4474b10c639438bd1d778df77134, type: 3}
-  - SoundName: Splat
-    audioClip: {fileID: 8300000, guid: 002465c5a3520fe499792c0f52225c32, type: 3}
-  - SoundName: Slap
-    audioClip: {fileID: 8300000, guid: 6b1f6b9e2fab98546b579a2926a1a362, type: 3}
-  - SoundName: Cling
-    audioClip: {fileID: 8300000, guid: fcc5f7c75e58f03439e729e1657ede37, type: 3}
-  - SoundName: Explode
-    audioClip: {fileID: 8300000, guid: a91471ba71f038a42a47bd5d8e7fa2fb, type: 3}
-  - SoundName: Stab
-    audioClip: {fileID: 8300000, guid: cbd25f71fc59f3d4bb998454dae89155, type: 3}
-  - SoundName: Wack
-    audioClip: {fileID: 8300000, guid: aff3f138eeb5e1647a2c1ecfb7b02d33, type: 3}
-  - SoundName: Bonk
-    audioClip: {fileID: 8300000, guid: 0bd083e236ce16041ad06b2af228b051, type: 3}
-  - SoundName: Thunk
-    audioClip: {fileID: 8300000, guid: 41e2dc00094a99a4a8edaa59ed8c2530, type: 3}
-  - SoundName: Whiff
-    audioClip: {fileID: 8300000, guid: 60d138e647f294d4190f3b3ea3b1260b, type: 3}
-  - SoundName: Step Noise Grass
-    audioClip: {fileID: 8300000, guid: b00ca25d5cad95745941a07b4936bbd8, type: 3}
-  - SoundName: Step Noise Stone
-    audioClip: {fileID: 8300000, guid: 53f42caeaa7d74949ba8c0b79c7903c6, type: 3}
-  - SoundName: Water Noise
-    audioClip: {fileID: 8300000, guid: 8e16604ea7b383c46b088660e194255e, type: 3}
-  - SoundName: Splash
-    audioClip: {fileID: 8300000, guid: b1bad2f28d55cc445a82dccfb7f3e578, type: 3}
-  - SoundName: Sand/Particles Falling
-    audioClip: {fileID: 8300000, guid: cbdaeaeeff70d704db45798859418425, type: 3}
-  - SoundName: Chest Opening
-    audioClip: {fileID: 8300000, guid: 5b374208711e2e34098a1d46d517a892, type: 3}
-  - SoundName: Victory
-    audioClip: {fileID: 8300000, guid: d3e80124313e3a44181dabb64bfce1f5, type: 3}
-  - SoundName: Defeat
-    audioClip: {fileID: 8300000, guid: 70f65ac0ceb900f40a7f980de2147a82, type: 3}
-  - SoundName: Holy
-    audioClip: {fileID: 8300000, guid: e2a790be80c696945a891ff345f100ff, type: 3}
-  - SoundName: Ice
-    audioClip: {fileID: 8300000, guid: 1f1eb22a7cf405447bd0ebafe45941e2, type: 3}
-  - SoundName: Dark
-    audioClip: {fileID: 8300000, guid: 8e5b14a8f4253f6468a504224d8b11c5, type: 3}
-  - SoundName: Fire
-    audioClip: {fileID: 8300000, guid: 3c8b33cdf8fe8cd409ff1ae18b239545, type: 3}
-  - SoundName: Lightning
-    audioClip: {fileID: 8300000, guid: 2aee76e7e4214404ca149359298e8cb8, type: 3}
-  - SoundName: Wind
-    audioClip: {fileID: 8300000, guid: e299d1600158c424aa7ee51b942687cf, type: 3}
-  - SoundName: Acid
-    audioClip: {fileID: 8300000, guid: 9c4f888871b5d11458ea068800b5d07a, type: 3}
-  - SoundName: Magic
-    audioClip: {fileID: 8300000, guid: 24a06fb555169f943909f1344879c58d, type: 3}
-  - SoundName: Rock
-    audioClip: {fileID: 8300000, guid: a4422a7334d04014da65b22b8588615f, type: 3}
-  - SoundName: Click
-    audioClip: {fileID: 8300000, guid: 56885de442d874b469efebcf3272ff11, type: 3}
-  - SoundName: Pencil Check
-    audioClip: {fileID: 8300000, guid: bbf7a7a42fc3a5746a7293a3cbc22a53, type: 3}
-  - SoundName: Swap Unit Click
-    audioClip: {fileID: 8300000, guid: 56885de442d874b469efebcf3272ff11, type: 3}
-  - SoundName: Click Select
-    audioClip: {fileID: 8300000, guid: 56885de442d874b469efebcf3272ff11, type: 3}
+  audioSource: {fileID: 92184230}
+  loopAudio: {fileID: 92184234}
+  soundBanks:
+  - {fileID: 11400000, guid: 0385465e1b5b34e41bf7af85fd7cfde4, type: 2}
+  - {fileID: 11400000, guid: 47dc79d533109a049b89b1facb27b297, type: 2}
+  - {fileID: 11400000, guid: 58ce5688397ca0d4e9792e0c5aa9dbfb, type: 2}
+  - {fileID: 11400000, guid: 36ba1297833d3924d98d25189453ec14, type: 2}
+  - {fileID: 11400000, guid: c9a50a3d11ce9e541b6487c0f97f8b57, type: 2}
+  - {fileID: 11400000, guid: 573f5f3f0d32db346bda73dd391d529a, type: 2}
 --- !u!4 &92184232
 Transform:
   m_ObjectHideFlags: 0
@@ -1522,6 +1443,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 509a1e50fb061d7478e2b9c45271df68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioTest
+--- !u!82 &92184234
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 92184229}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &93545536
 GameObject:
   m_ObjectHideFlags: 0
@@ -2314,7 +2332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &165828152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2335,17 +2352,13 @@ MonoBehaviour:
   startingMutations: 
   testEvolutionCurrent: 0
   testEvolutionNext: 0
-  startingEquipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingEquipment: []
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
-  currentEquipment: {fileID: 0}
+  singleStartingEquipment:
+    equipmentType: {fileID: 0}
+    templateId: 
   initializationMode: 0
   rosterDeploymentSlot: 0
   occupancy: {fileID: 11190159}
@@ -4528,7 +4541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &406841738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4549,17 +4561,13 @@ MonoBehaviour:
   startingMutations: 
   testEvolutionCurrent: 0
   testEvolutionNext: 0
-  startingEquipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingEquipment: []
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
-  currentEquipment: {fileID: 11400000, guid: 3d831cbcb4b47aa419c854e5eab4fc7d, type: 2}
+  singleStartingEquipment:
+    equipmentType: {fileID: 0}
+    templateId: 
   initializationMode: 0
   rosterDeploymentSlot: 0
   occupancy: {fileID: 11190159}
@@ -5799,6 +5807,8 @@ MonoBehaviour:
   ringWidth: 0.12
   ringHeightOffset: 0.3
   ringColor: {r: 1, g: 0.2, b: 0.16, a: 0.95}
+  showExplosionRing: 1
+  explosionRingOpacity: 0.88
 --- !u!114 &708210733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5836,6 +5846,11 @@ MonoBehaviour:
   interactButton: {fileID: 799047814}
   abilitiesButton: {fileID: 1313328835}
   itemsButton: {fileID: 0}
+  stanceButton: {fileID: 0}
+  stanceIcon: {fileID: 0}
+  stanceText: {fileID: 0}
+  standingSprite: {fileID: 0}
+  crouchingSprite: {fileID: 0}
   expandedPanel: {fileID: 475444301}
   expandedTitle: {fileID: 1345019388}
   expandedContent: {fileID: 999038434}
@@ -5845,6 +5860,7 @@ MonoBehaviour:
   combatExecutor: {fileID: 708210733}
   actionInfoPanel: {fileID: 0}
   actionDescriptionText: {fileID: 0}
+  attackPreviewUI: {fileID: 0}
   interactionScanInterval: 0.2
 --- !u!4 &719934385 stripped
 Transform:
@@ -6925,7 +6941,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &807803563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6946,17 +6961,13 @@ MonoBehaviour:
   startingMutations: 
   testEvolutionCurrent: 0
   testEvolutionNext: 0
-  startingEquipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingEquipment: []
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
-  currentEquipment: {fileID: 11400000, guid: 21cc0c6f36e7490479b4bf9fd99fca16, type: 2}
+  singleStartingEquipment:
+    equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+    templateId: Weapon_Bow_C
   initializationMode: 0
   rosterDeploymentSlot: 0
   occupancy: {fileID: 11190159}
@@ -12305,7 +12316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1262682080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12326,17 +12336,13 @@ MonoBehaviour:
   startingMutations: 
   testEvolutionCurrent: 0
   testEvolutionNext: 0
-  startingEquipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingEquipment: []
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
-  currentEquipment: {fileID: 11400000, guid: 527eda6b9605c494b933742239a57615, type: 2}
+  singleStartingEquipment:
+    equipmentType: {fileID: 0}
+    templateId: 
   initializationMode: 0
   rosterDeploymentSlot: 0
   occupancy: {fileID: 11190159}
@@ -12823,6 +12829,7 @@ MonoBehaviour:
   onInteracted:
     m_PersistentCalls:
       m_Calls: []
+  used: 0
   requiresActiveObjective: 1
   completionOutcome: 0
 --- !u!114 &1279446978
@@ -12874,7 +12881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1279446982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12895,17 +12901,13 @@ MonoBehaviour:
   startingMutations: 
   testEvolutionCurrent: 0
   testEvolutionNext: 0
-  startingEquipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingEquipment: []
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
-  currentEquipment: {fileID: 0}
+  singleStartingEquipment:
+    equipmentType: {fileID: 0}
+    templateId: 
   initializationMode: 0
   rosterDeploymentSlot: 0
   occupancy: {fileID: 11190159}
@@ -16890,7 +16892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1549101449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16911,17 +16912,13 @@ MonoBehaviour:
   startingMutations: 
   testEvolutionCurrent: 0
   testEvolutionNext: 0
-  startingEquipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingEquipment: []
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
-  currentEquipment: {fileID: 0}
+  singleStartingEquipment:
+    equipmentType: {fileID: 0}
+    templateId: 
   initializationMode: 0
   rosterDeploymentSlot: 0
   occupancy: {fileID: 11190159}
@@ -18903,7 +18900,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1699330938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18924,17 +18920,13 @@ MonoBehaviour:
   startingMutations: 
   testEvolutionCurrent: 0
   testEvolutionNext: 0
-  startingEquipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingEquipment: []
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
-  currentEquipment: {fileID: 11400000, guid: e96c41b3e172ea1418a16876e593f4d8, type: 2}
+  singleStartingEquipment:
+    equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+    templateId: Weapon_Magic_B
   initializationMode: 0
   rosterDeploymentSlot: 0
   occupancy: {fileID: 11190159}
@@ -20672,7 +20664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1808681448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20693,17 +20684,13 @@ MonoBehaviour:
   startingMutations: 
   testEvolutionCurrent: 0
   testEvolutionNext: 0
-  startingEquipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingEquipment: []
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
-  currentEquipment: {fileID: 0}
+  singleStartingEquipment:
+    equipmentType: {fileID: 0}
+    templateId: 
   initializationMode: 0
   rosterDeploymentSlot: 0
   occupancy: {fileID: 11190159}
@@ -21390,6 +21377,7 @@ MonoBehaviour:
   onInteracted:
     m_PersistentCalls:
       m_Calls: []
+  used: 0
   requiresActiveObjective: 1
   completionOutcome: 0
 --- !u!114 &1876005492
@@ -21441,7 +21429,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07082552a0330874793c1203089cca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitMovements
-  turnSpeed: 540
 --- !u!114 &1876005496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21462,17 +21449,13 @@ MonoBehaviour:
   startingMutations: 
   testEvolutionCurrent: 0
   testEvolutionNext: 0
-  startingEquipment:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  startingEquipment: []
   startingConsumables:
   - {fileID: 0}
   - {fileID: 0}
-  currentEquipment: {fileID: 0}
+  singleStartingEquipment:
+    equipmentType: {fileID: 0}
+    templateId: 
   initializationMode: 0
   rosterDeploymentSlot: 0
   occupancy: {fileID: 11190159}

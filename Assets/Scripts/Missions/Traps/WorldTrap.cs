@@ -19,6 +19,7 @@ public sealed class TrapStatusChance
 {
     public StatusDefinition status;
     [Range(0f, 100f)] public float chancePercent = 100f;
+    [Min(1)] public int stacks = 1;
 
 }
 
@@ -39,6 +40,8 @@ public class WorldTrap : MonoBehaviour
     [SerializeField, Min(0)] private int minimumDamage = 4;
     [SerializeField, Min(0)] private int maximumDamage = 8;
     [SerializeField] private List<TrapStatusChance> statusChances = new List<TrapStatusChance>();
+    [Header("Optional Projectile (Forward Ray)")]
+    [SerializeField] private ProjectileDefinition projectileDefinition;
     [Tooltip("Empty means all factions, including allies and civilians.")]
     [SerializeField] private List<FactionData> affectedFactions = new List<FactionData>();
 
@@ -57,7 +60,10 @@ public class WorldTrap : MonoBehaviour
     [SerializeField, Min(0)] private int detectionRangeInTiles = 2;
     [SerializeField] private GameObject visualRoot;
     [SerializeField] private Color armedColor = new Color(0.95f, 0.13f, 0.13f);
-    [SerializeField] private Color disarmedColor = new Color(0.28f, 0.18f, 0.2f);
+    [SerializeField] private Color disarmedColor = new Color(0.08f, 0.08f, 0.09f);
+    [SerializeField, Range(0f, 1f)] private float elementTintStrength = 0.25f;
+    [SerializeField] private bool playElementImpactOnFire = true;
+    [SerializeField, Min(0.1f)] private float elementImpactSize = 0.9f;
 
     private readonly HashSet<UnitController> detectionAttempts = new HashSet<UnitController>();
     private GridNode anchor;
@@ -72,6 +78,7 @@ public class WorldTrap : MonoBehaviour
 
     public bool IsArmed => armed && (!oneShot || !fired);
     public bool IsRevealed => revealed;
+    public DamageType TrapDamageType => damageType;
 
     private void Awake()
     {
@@ -154,16 +161,40 @@ public class WorldTrap : MonoBehaviour
     {
         if (visualRoot == null)
         {
-
             return;
 
         }
 
-        visualRoot.SetActive(revealed);
-        Color tint = IsArmed ? armedColor : disarmedColor;
+        // A hidden trap chest must remain a visible chest, without giving away its trap.
+        bool chest = GetComponent<WorldTrapChestInteractable>() != null;
+        visualRoot.SetActive(revealed || chest);
+        if (!revealed)
+        {
+            return;
+
+        }
+
+        Color element = ElementVfxColors.For(damageType);
         MaterialPropertyBlock properties = new MaterialPropertyBlock();
         foreach (Renderer renderer in visualRoot.GetComponentsInChildren<Renderer>(true))
         {
+            Material material = renderer.sharedMaterial;
+            Color original = Color.white;
+            if (material != null && material.HasProperty(BaseColorId))
+            {
+                original = material.GetColor(BaseColorId);
+
+            }
+            else if (material != null && material.HasProperty(ColorId))
+            {
+                original = material.GetColor(ColorId);
+
+            }
+
+            Color tint = IsArmed
+                ? Color.Lerp(original, element, elementTintStrength)
+                : disarmedColor;
+
             renderer.GetPropertyBlock(properties);
             properties.SetColor(BaseColorId, tint);
             properties.SetColor(ColorId, tint);
@@ -193,6 +224,7 @@ public class WorldTrap : MonoBehaviour
 
         armed = false;
         RefreshVisual();
+        GetComponent<WorldTrapVfx>()?.PlayDisarm();
         onDisarmed.Invoke();
 
     }
@@ -205,6 +237,38 @@ public class WorldTrap : MonoBehaviour
     }
 
     // Called only on the ending faction's turn for persistent hazards.
+    private bool IsAreaExplosion()
+    {
+        return shape == TrapAreaShape.Radius ||
+            (shape == TrapAreaShape.Rectangle && areaSizeInTiles.x * areaSizeInTiles.y > 1);
+
+    }
+
+    private void PlayAreaExplosion()
+    {
+        if (!playElementImpactOnFire || !IsAreaExplosion() || anchor == null || grid == null)
+        {
+            return;
+
+        }
+
+        float cell = grid.GridCellSize;
+        float radius = shape == TrapAreaShape.Radius
+            ? Mathf.Max(0.5f, radiusInTiles) * cell
+            : Mathf.Sqrt(areaSizeInTiles.x * areaSizeInTiles.x +
+                areaSizeInTiles.y * areaSizeInTiles.y) * cell * 0.5f;
+        Vector3 center = anchor.cellWorldPosition;
+        if (shape == TrapAreaShape.Rectangle)
+        {
+            center += new Vector3((areaSizeInTiles.x - 1) * cell * 0.5f,
+                0f, (areaSizeInTiles.y - 1) * cell * 0.5f);
+
+        }
+
+        ElementImpactVfx.Play(center + Vector3.up * 0.08f, damageType, radius);
+
+    }
+
     public void FireForFaction(FactionData faction)
     {
         if (faction != null)
@@ -237,7 +301,13 @@ public class WorldTrap : MonoBehaviour
         {
             fired = true;
             Reveal();
-            if (impactDelaySeconds > 0f)
+            GetComponent<WorldTrapVfx>()?.PlayFire(damageType);
+            if (projectileDefinition != null && shape == TrapAreaShape.ForwardRay && targets.Count > 0)
+            {
+                LaunchProjectiles(targets);
+
+            }
+            else if (impactDelaySeconds > 0f)
             {
                 pendingImpact = true;
                 StartCoroutine(ResolveDelayedImpact(onlyFaction));
@@ -262,6 +332,73 @@ public class WorldTrap : MonoBehaviour
 
     }
 
+    // Forward-ray traps use the existing projectile collision path when configured.
+    private void LaunchProjectiles(List<UnitController> targets)
+    {
+        if (projectileDefinition.ProjectilePrefab == null)
+        {
+            ApplyTargets(targets);
+
+            return;
+
+        }
+
+        pendingImpact = true;
+        int remaining = targets.Count;
+        foreach (UnitController target in targets)
+        {
+            if (target == null)
+            {
+                remaining--;
+
+                continue;
+
+            }
+
+            Vector3 origin = transform.position + Vector3.up * 0.8f;
+            Collider targetCollider = target.GetComponentInChildren<Collider>();
+            Vector3 destination = targetCollider != null ? targetCollider.bounds.center :
+                target.transform.position + Vector3.up * 0.8f;
+            GameObject projectile = Instantiate(projectileDefinition.ProjectilePrefab, origin, Quaternion.identity);
+            ProjectileController controller = projectile.GetComponent<ProjectileController>();
+            if (controller == null)
+            {
+                Destroy(projectile);
+                remaining--;
+
+                continue;
+
+            }
+
+            controller.GetComponent<ProjectileElementVfx>()?.Configure(damageType);
+            controller.Launch(projectileDefinition, destination, (collider, point) =>
+            {
+                if (target != null && collider != null &&
+                    collider.GetComponentInParent<UnitController>() == target)
+                {
+                    ApplyToUnit(target);
+
+                }
+
+                remaining--;
+                if (remaining <= 0)
+                {
+                    pendingImpact = false;
+
+                }
+
+            }, transform);
+
+        }
+
+        if (remaining <= 0)
+        {
+            pendingImpact = false;
+
+        }
+
+    }
+
     private IEnumerator ResolveDelayedImpact(FactionData onlyFaction)
     {
 
@@ -277,6 +414,7 @@ public class WorldTrap : MonoBehaviour
 
     private void ApplyTargets(List<UnitController> targets)
     {
+        PlayAreaExplosion();
         foreach (UnitController target in targets)
         {
             ApplyToUnit(target);
@@ -323,7 +461,7 @@ public class WorldTrap : MonoBehaviour
                         entry.chancePercent > 0f &&
                         UnityEngine.Random.value * 100f < entry.chancePercent))
                     {
-                        hit |= statuses.TryApply(entry.status, null);
+                        hit |= statuses.TryApply(entry.status, null, Mathf.Max(1, entry.stacks));
 
                     }
 
@@ -335,6 +473,7 @@ public class WorldTrap : MonoBehaviour
 
         if (hit)
         {
+            GetComponent<WorldTrapVfx>()?.PlayHit(unit.transform.position + Vector3.up, damageType);
             onHit.Invoke();
 
         }
@@ -686,5 +825,35 @@ public class WorldTrap : MonoBehaviour
         }
 
     }
+
+    // SAVE SYSTEM ~~ BEGIN
+    public TrapSaveData CaptureSaveState()
+    {
+        return new TrapSaveData
+        {
+            armed = armed,
+            fired = fired,
+            revealed = revealed
+        };
+    }
+
+    public bool TryRestoreSaveState(TrapSaveData saved)
+    {
+        if (saved == null || firing || pendingImpact)
+        {
+            return false;
+        }
+
+        armed = saved.armed;
+        fired = saved.fired;
+        revealed = saved.revealed;
+
+        RefreshVisual();
+
+        return true;
+    }
+
+    public bool HasPendingImpact => firing || pendingImpact;
+    // SAVE SYSTEM ~~ END
 
 }

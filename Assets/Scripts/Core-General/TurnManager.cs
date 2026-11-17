@@ -397,6 +397,14 @@ public class TurnManager : MonoBehaviour
 
             }
 
+            if (unit.data.IsTooCorrupt && unit.data.RaceDefinition != null)
+            {
+                int healing = Mathf.CeilToInt(unit.data.maxHealth *
+                    unit.data.RaceDefinition.TooCorruptRegenPercent / 100f);
+                unit.data.ModifyHealth(healing);
+
+            }
+
             int missingAP = unit.data.maxActionPoints - unit.data.currentActionPoints;
             if (missingAP > 0)
             {
@@ -417,7 +425,7 @@ public class TurnManager : MonoBehaviour
     private IEnumerator WaitForProjectiles()
     {
         // Wait until all active projectiles have finished traveling.
-        while (FindObjectsByType<ProjectileController>(FindObjectsSortMode.None).Length > 0)
+        while (FindObjectsByType<ProjectileController>().Length > 0)
         {
             yield return null;
         }
@@ -434,7 +442,7 @@ public class TurnManager : MonoBehaviour
             return;
         }
 
-        if (FindObjectsByType<ProjectileController>(FindObjectsSortMode.None).Length > 0)
+        if (FindObjectsByType<ProjectileController>().Length > 0)
         {
             projectileWaitCoroutine = StartCoroutine(WaitForProjectiles());
             return;

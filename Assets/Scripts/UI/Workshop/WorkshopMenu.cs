@@ -9,6 +9,8 @@ public sealed class WorkshopMenu : MonoBehaviour
 {
     [Header("Recipes")]
     [SerializeField] private CraftingRecipeDatabase recipeDatabase;
+    [Tooltip("Equipment Types whose embedded template recipes appear in this Workshop.")]
+    [SerializeField] private List<EquipmentType> equipmentTypes = new List<EquipmentType>();
     [SerializeField] private Transform recipeContent;
     [SerializeField] private WorkshopRecipeRowUI recipeRowPrefab;
 
@@ -26,6 +28,8 @@ public sealed class WorkshopMenu : MonoBehaviour
     [SerializeField] private TMP_Text ingredientText;
     [SerializeField] private TMP_Text feedbackText;
     [SerializeField] private Image selectedIcon;
+    [SerializeField] private Image selectedTypeBadge;
+    [SerializeField] private Sprite lockedRecipeSprite;
 
     private readonly List<WorkshopRecipeRowUI> rows = new List<WorkshopRecipeRowUI>();
     private readonly StringBuilder builder = new StringBuilder(300);
@@ -143,15 +147,47 @@ public sealed class WorkshopMenu : MonoBehaviour
         if (filter == 0) return true;
         if (filter == 3) return recipe.outputKind == CraftingOutputKind.Resource;
         if (recipe.outputKind != CraftingOutputKind.EquipmentOrConsumable) return false;
-        return filter == 1 ? recipe.outputItem is EquipmentData : recipe.outputItem is ConsumableData;
+        return filter == 1 ? recipe.outputEquipment.equipmentType != null
+            : recipe.outputItem is ConsumableData;
+
+    }
+
+    private bool IsResearchLocked(CraftingRecipe recipe)
+    {
+        ResearchManager research = ResearchManager.Instance;
+        if (recipe == null || research == null)
+        {
+            return false;
+
+        }
+
+        bool unlocked = recipe.outputEquipment.equipmentType != null
+            ? research.IsEquipmentTemplateAvailable(recipe.outputEquipment)
+            : research.IsRecipeAvailable(recipe.recipeId);
+        ResearchBenefitType tier = recipe.outputKind == CraftingOutputKind.Resource
+            ? ResearchBenefitType.ResourceCraftTier : ResearchBenefitType.EquipmentCraftTier;
+
+        return !unlocked || recipe.requiredCraftTier > research.BenefitTotal(tier);
 
     }
 
     private Sprite GetIcon(CraftingRecipe recipe)
     {
         if (recipe == null) return null;
+        if (lockedRecipeSprite != null && IsResearchLocked(recipe))
+        {
+            return lockedRecipeSprite;
+
+        }
         if (recipe.outputKind == CraftingOutputKind.EquipmentOrConsumable)
         {
+            if (recipe.outputEquipment.TryResolve(out EquipmentTemplate template))
+            {
+                return template.TemplateIcon != null ? template.TemplateIcon
+                    : recipe.outputEquipment.equipmentType.TypeIcon;
+
+            }
+
             return recipe.outputItem == null ? null : recipe.outputItem.sprite;
 
         }
@@ -179,9 +215,57 @@ public sealed class WorkshopMenu : MonoBehaviour
 
         if (selectedRecipe != null && !Matches(selectedRecipe)) selectedRecipe = null;
 
+        List<EquipmentType> availableTypes = new List<EquipmentType>();
+        foreach (EquipmentType configuredType in equipmentTypes)
+        {
+            if (configuredType != null && !availableTypes.Contains(configuredType))
+            {
+                availableTypes.Add(configuredType);
+
+            }
+
+        }
+        foreach (EquipmentType type in Resources.LoadAll<EquipmentType>("MutaBorn/EquipmentTypes"))
+        {
+            if (type != null && !availableTypes.Contains(type))
+            {
+                availableTypes.Add(type);
+
+            }
+
+        }
+
+        HashSet<string> migratedRecipes = new HashSet<string>();
+        foreach (EquipmentType type in availableTypes)
+        {
+            if (type == null)
+            {
+                continue;
+
+            }
+
+            foreach (EquipmentTemplate template in type.Templates)
+            {
+                if (template != null && template.CraftingRecipe?.ingredients?.Count > 0 &&
+                    !string.IsNullOrWhiteSpace(template.LegacyRecipeId))
+                {
+                    migratedRecipes.Add(template.LegacyRecipeId);
+
+                }
+
+            }
+
+        }
+
+        if (selectedRecipe != null && migratedRecipes.Contains(selectedRecipe.recipeId))
+        {
+            selectedRecipe = null;
+
+        }
+
         foreach (CraftingRecipe recipe in recipeDatabase.Recipes)
         {
-            if (recipe == null || !Matches(recipe)) continue;
+            if (recipe == null || migratedRecipes.Contains(recipe.recipeId) || !Matches(recipe)) continue;
             if (selectedRecipe == null) selectedRecipe = recipe;
             WorkshopRecipeRowUI row = Instantiate(recipeRowPrefab, recipeContent);
             row.gameObject.SetActive(true);
@@ -189,6 +273,59 @@ public sealed class WorkshopMenu : MonoBehaviour
             rows.Add(row);
 
         }
+        foreach (EquipmentType type in availableTypes)
+        {
+            if (type == null)
+            {
+                continue;
+
+            }
+
+            foreach (EquipmentTemplate template in type.Templates)
+            {
+                EquipmentCraftingRecipe embedded = template?.CraftingRecipe;
+                if (embedded == null || embedded.ingredients == null || embedded.ingredients.Count == 0)
+                {
+                    continue;
+
+                }
+
+                CraftingRecipe recipe = new CraftingRecipe
+                {
+                    recipeId = "embedded." + type.TypeId + "." + template.TemplateId,
+                    displayName = template.DisplayName,
+                    description = template.Description,
+                    outputKind = CraftingOutputKind.EquipmentOrConsumable,
+                    outputEquipment = new EquipmentTemplateReference
+                    {
+                        equipmentType = type,
+                        templateId = template.TemplateId
+                    },
+                    requiredCraftTier = embedded.requiredCraftTier,
+                    ingredients = embedded.ingredients
+                };
+
+                if (!Matches(recipe))
+                {
+                    continue;
+
+                }
+
+                if (selectedRecipe == null)
+                {
+                    selectedRecipe = recipe;
+
+                }
+
+                WorkshopRecipeRowUI row = Instantiate(recipeRowPrefab, recipeContent);
+                row.gameObject.SetActive(true);
+                row.Bind(recipe, GetIcon(recipe), SelectRecipe);
+                rows.Add(row);
+
+            }
+
+        }
+
         RefreshDetails();
 
     }
@@ -209,6 +346,7 @@ public sealed class WorkshopMenu : MonoBehaviour
             if (selectedDescription != null) selectedDescription.text = string.Empty;
             if (ingredientText != null) ingredientText.text = "";
             if (selectedIcon != null) selectedIcon.enabled = false;
+            if (selectedTypeBadge != null) selectedTypeBadge.enabled = false;
             if (craftButton != null) craftButton.interactable = false;
             return;
 
@@ -220,6 +358,16 @@ public sealed class WorkshopMenu : MonoBehaviour
         {
             selectedIcon.sprite = GetIcon(selectedRecipe);
             selectedIcon.enabled = selectedIcon.sprite != null;
+
+        }
+
+        if (selectedTypeBadge != null)
+        {
+            Sprite typeIcon = selectedRecipe.outputKind == CraftingOutputKind.EquipmentOrConsumable &&
+                selectedRecipe.outputEquipment.equipmentType != null
+                ? selectedRecipe.outputEquipment.equipmentType.TypeIcon : null;
+            selectedTypeBadge.sprite = typeIcon;
+            selectedTypeBadge.enabled = typeIcon != null;
 
         }
 

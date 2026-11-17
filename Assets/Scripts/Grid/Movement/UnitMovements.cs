@@ -22,6 +22,7 @@ public class UnitMovements : MonoBehaviour
     public bool isMoving { get; private set; } = false;
     private int pathIndex = 0;
     private float movementEfficiencyAtStart = 1f;
+    private float traveledMovementCost;
     private List<GridNode> movementPath = new List<GridNode>();
     public Dictionary<GridNode, float> reachableNodes { get; private set; }
     private List<TileController> highlightedTiles = new List<TileController>();
@@ -37,42 +38,94 @@ public class UnitMovements : MonoBehaviour
         visibileController = FindAnyObjectByType<VisibilityManager>();
         soundController = FindAnyObjectByType<SoundDetectionSystem>();
         unit = GetComponent<UnitController>();
-        
-        //CDGoblin = GetComponentInChildren<Animator>();
-
     }
-    
+
     // Called after UnitController replaces the race-specific model.
     public void RefreshRaceAnimator(Animator animator)
     {
         animBaseChar = animator;
 
+        if (animBaseChar != null)
+        {
+            animBaseChar.SetFloat("IdleOffset", Random.value);
+            animBaseChar.SetFloat("Speed", 0f);
+        }
+    }
+
+    public void SetEquipmentAnimation(EquipmentType equipmentType, EquipmentTemplate template)
+    {
+        EquipmentInstance equipment = default(EquipmentInstance);
+        if (equipmentType != null && template != null)
+        {
+            equipment.typeDefinition = equipmentType;
+            equipment.templateId = template.TemplateId;
+            equipment.weapon = equipmentType.WeaponCategory;
+
+        }
+
+        SetEquipmentAnimation(equipment);
+
+    }
+
+    public void SetEquipmentAnimation(EquipmentInstance mainHand, EquipmentInstance offHand)
+    {
+        SetEquipmentAnimation(mainHand.IsValid ? mainHand : offHand);
+
+    }
+
+    public void SetEquipmentAnimation(EquipmentInstance equipment) // for attack-specific animation
+    {
+        if (animBaseChar == null)
+        {
+            return;
+        }
+
+        int idleType = 0;
+        int runType = 0;
+
+        if (equipment.IsValid)
+        {
+            if (equipment.WeaponSubtype == WeaponSubtype.Spellbook)
+            {
+                idleType = 5;
+            }
+            else if (equipment.WeaponSubtype == WeaponSubtype.Staff)
+            {
+                idleType = 5;
+            }
+            else if (equipment.WeaponSubtype == WeaponSubtype.Crossbow)
+            {
+                idleType = 4;
+                runType = 4;
+            }
+            else if (equipment.WeaponSubtype == WeaponSubtype.Firearm)
+            {
+                idleType = 4;
+                runType = 4;
+            }
+            else if (equipment.WeaponSubtype == WeaponSubtype.Bow)
+            {
+                idleType = 3;
+                runType = 3;
+            }
+            else if (equipment.weapon == WeaponCategory.Melee)
+            {
+                idleType = equipment.RequiresBothHands ? 2 : 1;
+            }
+        }
+
+        animBaseChar.SetInteger("IdleType", idleType);
+        animBaseChar.SetInteger("RunType", runType);
     }
 
     public void Update() 
     {
-
-        
-      
-
-        //if (unit.GetComponentInChildren<Animator>() != null)
-        //{
-        //    animBaseChar.SetFloat("Speed", isMoving ? 1f : 0);
-        //    animBaseChar.transform.position = transform.position;
-        //    CDGoblin.SetFloat("Speed", isMoving ? 1f : 0);
-        //    CDGoblin.transform.position = transform.position;
-
-
-        //}
-
-        if (animBaseChar != null)
+            if (animBaseChar != null)
         {
             animBaseChar.SetFloat("Speed", isMoving ? 1f : 0f);
             animBaseChar.transform.position = transform.position;
         }
 
-
-       
     }
 
     public bool PlayerMovement(GridNode destination)
@@ -166,6 +219,7 @@ public class UnitMovements : MonoBehaviour
         movementPath.AddRange(path);
 
         pathIndex = 0;
+        traveledMovementCost = 0f;
 
         while (pathIndex < movementPath.Count && movementPath[pathIndex] == unit.currentNode) 
         {
@@ -189,6 +243,15 @@ public class UnitMovements : MonoBehaviour
 
         while (pathIndex < movementPath.Count)
         {
+            MutaBorn.Gameplay.UnitStatusController statuses =
+                unit.GetComponent<MutaBorn.Gameplay.UnitStatusController>();
+            if (statuses != null && !statuses.CanMoveVoluntarily)
+            {
+                SnapToCurrentTile();
+
+                break;
+
+            }
 
             GridNode nextnode = movementPath[pathIndex];
 
@@ -214,13 +277,25 @@ public class UnitMovements : MonoBehaviour
 
                 transform.position = target;
 
-                movementController.readOccupancy.UnregisterUnit(unit.currentNode, unit);
+                GridNode previousNode = unit.currentNode;
+                traveledMovementCost += movementController.GetSegmentCost(previousNode, nextnode);
+                movementController.readOccupancy.UnregisterUnit(previousNode, unit);
 
                 unit.SetNode(nextnode);
-               
+
                 movementController.readOccupancy.RegisterUnit(unit.currentNode, unit);
 
+                AudioManager.Instance?.PlayFootstep(nextnode, transform.position);
+
                 pathIndex++;
+                // Trap sensors fire synchronously when SetNode changes. Stop on this tile.
+                if (statuses != null && !statuses.CanMoveVoluntarily)
+                {
+                    SnapToCurrentTile();
+
+                    break;
+
+                }
             }
 
             yield return null;
@@ -229,16 +304,27 @@ public class UnitMovements : MonoBehaviour
         CompleteMovement();
 
     }
+    private void SnapToCurrentTile()
+    {
+        if (unit.currentNode != null)
+        {
+            transform.position = unit.currentNode.cellWorldPosition + Vector3.up * 0.26f;
+
+        }
+
+    }
+
     private void CompleteMovement() 
     {
         soundController?.RegisterSound(unit.currentNode, SoundType.Footsteps, 8, unit);
+        AudioManager.Instance?.StopLoop();
         visibileController.UpdateVisibility();
         visibileController.UpdateAICurrentDetection();
-        unit.data.ModifyActionPoints(-Mathf.CeilToInt(movementController.movementCost / movementEfficiencyAtStart));
+        unit.data.ModifyActionPoints(-Mathf.CeilToInt(traveledMovementCost / movementEfficiencyAtStart));
 
         isMoving = false;
 
-       
+
 
         movementPath.Clear();
         pathIndex = 0;

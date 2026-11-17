@@ -1,3 +1,4 @@
+using System;
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public enum RaceNames
     Human,
     Orc,
     Goblin,
+    MutaBorn = 5,
 
 }
 
@@ -20,7 +22,8 @@ public enum RacialPassiveKind
     BattleFury,
     Opportunist,
     KeenSenses,
-    MasterCraftsman
+    MasterCraftsman,
+    TooCorrupt = 5
 
 }
 
@@ -150,11 +153,15 @@ public class DynamicStats : ScriptableObject
     [Tooltip("Elf placeholder until an accuracy system is integrated.")]
     [SerializeField, Min(0)] private int elfPerceptionBonus = 2;
 
+    [Header("MutaBorn Too Corrupt")]
+    [SerializeField, Range(0f, 100f)] private float tooCorruptRegenPercent = 15f;
+    public float TooCorruptRegenPercent => tooCorruptRegenPercent;
+
     [Header("Dwarf Master Craftsman")]
     [SerializeField, Range(0, 100)] private int equipmentBonusPercent = 15;
     [SerializeField, Range(0, 100)] private int specialEquipmentBonusPercent = 25;
     [Tooltip("Dwarf equipment that receives the special bonus instead of the regular bonus.")]
-    [SerializeField] private List<EquipmentData> specialEquipment = new List<EquipmentData>();
+    [SerializeField] private List<EquipmentTemplateReference> specialEquipment = new List<EquipmentTemplateReference>();
 
     public RacialPassiveKind RacialPassive => racialPassive;
     public float TeammateDamagePercent => teammateDamagePercent;
@@ -163,21 +170,33 @@ public class DynamicStats : ScriptableObject
     public int RacialDexterityBonus => racialPassive == RacialPassiveKind.Opportunist ? goblinDexterityBonus : 0;
     public int RacialPerceptionBonus => racialPassive == RacialPassiveKind.KeenSenses ? elfPerceptionBonus : 0;
 
-    public int GetEquipmentBonusPercent(EquipmentData template)
+    public int GetEquipmentBonusPercent(EquipmentInstance equipment)
     {
         if (racialPassive != RacialPassiveKind.MasterCraftsman)
         {
-
             return 0;
 
         }
 
-        return template != null && specialEquipment != null && specialEquipment.Contains(template)
-            ? specialEquipmentBonusPercent : equipmentBonusPercent;
+        if (specialEquipment != null)
+        {
+            foreach (EquipmentTemplateReference reference in specialEquipment)
+            {
+                if (reference.equipmentType == equipment.typeDefinition &&
+                    string.Equals(reference.templateId, equipment.templateId, StringComparison.Ordinal))
+                {
+                    return specialEquipmentBonusPercent;
+
+                }
+
+            }
+
+        }
+
+        return equipmentBonusPercent;
 
     }
 
-    
     [Header("BaseCharater- Modifiers")]
     public float strengthModifier => _strengthModifier;
     public float dexterityModifier => _dexterityModifier;

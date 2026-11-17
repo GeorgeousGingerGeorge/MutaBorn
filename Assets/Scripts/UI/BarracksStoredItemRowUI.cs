@@ -32,7 +32,8 @@ public sealed class BarracksStoredItemRowUI : MonoBehaviour
 
         if (itemIcon != null)
         {
-            itemIcon.sprite = definition == null ? null : definition.sprite;
+            itemIcon.sprite = item.Kind == StoredItemKind.Equipment
+                ? item.Equipment.Icon : definition == null ? null : definition.sprite;
             itemIcon.enabled = itemIcon.sprite != null;
             itemIcon.raycastTarget = false;
             itemIcon.color = Color.white;
@@ -42,9 +43,8 @@ public sealed class BarracksStoredItemRowUI : MonoBehaviour
 
         if (secondaryIcon != null)
         {
-            // Placeholder: same sprite as the main icon until separate category
-            // artwork is authored. No new item data or extra inventory is created.
-            secondaryIcon.sprite = definition == null ? null : definition.sprite;
+            secondaryIcon.sprite = item.Kind == StoredItemKind.Equipment
+                ? item.Equipment.TypeIcon : null;
             secondaryIcon.enabled = secondaryIcon.sprite != null;
             secondaryIcon.color = Color.white;
             secondaryIcon.preserveAspect = true;

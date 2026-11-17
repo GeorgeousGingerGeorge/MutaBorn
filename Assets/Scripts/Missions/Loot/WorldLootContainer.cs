@@ -18,10 +18,13 @@ public sealed class WorldLootContainer : WorldInteractable
     [SerializeField] private MissionLootTable lootTableOverride;
     [Tooltip("These entries are always present, regardless of the mission loot table.")]
     [SerializeField] private List<WorldLootEntry> specificLoot = new();
-    [Tooltip("Chest always rolls at least one. Podium uses only Specific Loot.")]
+    [Tooltip("Number of times to roll this table. With separate drop ranges enabled, each roll uses both ranges.")]
     [SerializeField, Min(1)] private int tableRolls = 1;
     [Tooltip("Only used by Searchable. A failed roll can leave it empty.")]
     [SerializeField, Range(0, 100)] private int searchFindChancePercent = 50;
+
+    [Header("Visual Feedback")]
+    [SerializeField] private bool burstOnLoot = true;
 
     [Header("First Inspection Results")]
     [SerializeField] private UnityEvent onLootFound = new();
@@ -105,7 +108,7 @@ public sealed class WorldLootContainer : WorldInteractable
 
         for (int i = 0; i < tableRolls; i++)
         {
-            AddEntry(table.Roll());
+            contents.AddRange(table.RollContents());
 
         }
 
@@ -135,7 +138,16 @@ public sealed class WorldLootContainer : WorldInteractable
             _ => "Podium Loot"
 
         };
-        MissionLootPopup.Show(title, contents, "You found nothing.");
+        bool showBurst = burstOnLoot &&
+            contents.Exists(stack => stack != null && stack.quantity > 0);
+        if (showBurst)
+        {
+            Debug.Log($"[MutaBorn Loot V2] Treasure burst: {title} ({name})", this);
+            MissionLootBurst.Play(transform);
+
+        }
+
+        MissionLootPopup.Show(title, contents, "You found nothing.", showBurst ? 0.4f : 0f);
 
         if (contents.Count > 0)
         {

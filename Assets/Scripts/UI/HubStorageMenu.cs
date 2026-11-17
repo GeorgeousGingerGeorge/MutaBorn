@@ -13,7 +13,8 @@ public sealed class HubStorageMenu : MonoBehaviour
         Armor,
         Accessories,
         Consumables,
-        Mutations
+        Mutations,
+        Trading
 
     }
 
@@ -35,6 +36,7 @@ public sealed class HubStorageMenu : MonoBehaviour
     [SerializeField] private TMP_Text itemDescriptionText;
     [SerializeField] private TMP_Text itemStatsText;
     [SerializeField] private Image itemIcon;
+    [SerializeField] private Image itemTypeBadge;
     [SerializeField] private Image[] itemStars = new Image[5];
     [SerializeField] private Transform actionsContent;
     [SerializeField] private BarracksAbilityEntryUI actionRowPrefab;
@@ -43,6 +45,7 @@ public sealed class HubStorageMenu : MonoBehaviour
     private readonly List<GameObject> generatedActions = new List<GameObject>();
     private ItemStorage subscribedStorage;
     private Category selectedCategory = Category.All;
+    private HubStorageTrading trading;
 
     private void Awake()
     {
@@ -77,6 +80,18 @@ public sealed class HubStorageMenu : MonoBehaviour
         }
 
         ConfigureGrid();
+        if (weaponsButton != null && itemContent != null)
+        {
+            trading = GetComponent<HubStorageTrading>();
+            if (trading != null)
+            {
+                trading.Configure(
+                    () => SelectCategory(Category.Trading), () => SelectCategory(Category.All));
+
+            }
+
+        }
+
         if (itemPopup != null)
         {
             itemPopup.Hide();
@@ -146,6 +161,7 @@ public sealed class HubStorageMenu : MonoBehaviour
     private void SelectCategory(Category category)
     {
         selectedCategory = category;
+        trading?.SetVisible(category == Category.Trading);
         if (itemPopup != null)
         {
             itemPopup.Hide();
@@ -159,6 +175,14 @@ public sealed class HubStorageMenu : MonoBehaviour
     private void Refresh()
     {
         Clear(generatedRows);
+        if (selectedCategory == Category.Trading)
+        {
+            trading?.Refresh();
+
+            return;
+
+        }
+
         if (itemContent == null || itemRowPrefab == null)
         {
             return;
@@ -240,8 +264,8 @@ public sealed class HubStorageMenu : MonoBehaviour
 
         }
 
-        EquipmentData equipment = item.Equipment.template;
-        if (equipment == null)
+        EquipmentInstance equipment = item.Equipment;
+        if (!equipment.IsValid)
         {
             return false;
 
@@ -250,7 +274,7 @@ public sealed class HubStorageMenu : MonoBehaviour
         EquipmentFitType fit = equipment.EquipmentFit;
         if (selectedCategory == Category.Weapons)
         {
-            return fit == EquipmentFitType.Hand || equipment.weaponGear != WeaponCategory.None;
+            return fit == EquipmentFitType.Hand || equipment.weapon != WeaponCategory.None;
 
         }
 
@@ -285,9 +309,10 @@ public sealed class HubStorageMenu : MonoBehaviour
         if (item.Kind == StoredItemKind.Equipment)
         {
             EquipmentInstance equipment = item.Equipment;
-            EquipmentData template = equipment.template;
-            name = string.IsNullOrWhiteSpace(equipment.itemName) ? name : equipment.itemName;
-            type = template == null ? "Equipment" : template.DisplayTypeLabel;
+            name = equipment.itemName;
+            description = equipment.Description;
+            sprite = equipment.Icon;
+            type = equipment.DisplayTypeLabel;
             stars = (int)equipment.rarity;
             EquipmentStatValues values = EquipmentGenerator.GetEffectiveStats(equipment, null);
             StringBuilder info = new StringBuilder();
@@ -326,6 +351,7 @@ public sealed class HubStorageMenu : MonoBehaviour
         }
 
         SetDetails(name, type, description, stats, sprite, stars);
+        SetItemTypeBadge(item.Kind == StoredItemKind.Equipment ? item.Equipment.TypeIcon : null);
         ShowActions(actions);
         if (itemPopup != null)
         {
@@ -364,6 +390,7 @@ public sealed class HubStorageMenu : MonoBehaviour
         SetDetails(mutation.MutationId.ToString(), "Stored Mutation",
             "Mutation kept in the separate mutation vault.",
             "Progress points: " + mutation.ProgressPoints, null, 0);
+        SetItemTypeBadge(null);
         ShowActions(null);
         if (itemPopup != null)
         {
@@ -393,6 +420,17 @@ public sealed class HubStorageMenu : MonoBehaviour
         }
 
         generatedRows.Add(row.gameObject);
+
+    }
+
+    private void SetItemTypeBadge(Sprite sprite)
+    {
+        if (itemTypeBadge != null)
+        {
+            itemTypeBadge.sprite = sprite;
+            itemTypeBadge.enabled = sprite != null;
+
+        }
 
     }
 

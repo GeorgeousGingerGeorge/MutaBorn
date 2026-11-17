@@ -7,7 +7,8 @@ namespace MutaBorn.Gameplay
     public enum StatusStackingPolicy
     {
         RefreshDuration = 0,
-        AddStacks = 1
+        AddStacks = 1,
+        DurationStacks = 2
 
     }
 
@@ -19,7 +20,8 @@ namespace MutaBorn.Gameplay
         Root = 2,
         Silence = 4,
         Disarm = 8,
-        Invisible = 16
+        Invisible = 16,
+        MutationSuppressed = 32
 
     }
 
@@ -63,9 +65,9 @@ namespace MutaBorn.Gameplay
         [SerializeField] private bool isDebuff = true;
 
         [Header("Duration and Stacking")]
-        [Min(1)] [SerializeField] private int durationOwnerTurns = 3;
-        [Min(1)] [SerializeField] private int maximumStacks = 1;
-        [SerializeField] private StatusStackingPolicy stacking = StatusStackingPolicy.RefreshDuration;
+        [Min(1)] [SerializeField] private int durationOwnerTurns = 1;
+        [Min(1)] [SerializeField] private int maximumStacks = 3;
+        [SerializeField] private StatusStackingPolicy stacking = StatusStackingPolicy.DurationStacks;
 
         [Header("Combat Control / Incoming Damage")]
         [SerializeField] private StatusControlFlags controls = StatusControlFlags.None;

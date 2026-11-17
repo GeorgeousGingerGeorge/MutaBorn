@@ -40,7 +40,8 @@ public sealed class MissionObjectiveEntry
     public bool CountWhileLocked { get; }
     public bool Visible { get; private set; }
     public MissionObjectiveStatus Status { get; private set; }
-    public int Progress => Type == MissionObjectiveType.ExtractPlayerUnits ? extractionProgress : completedTargets.Count;
+    public int Progress => Type == MissionObjectiveType.ExtractPlayerUnits || Type == MissionObjectiveType.ReachArea
+        ? extractionProgress : completedTargets.Count;
     public bool HasExtractionZone { get; private set; } = true;
     public int Total { get; private set; }
     public int TargetCount => targets.Count;
@@ -108,6 +109,30 @@ public sealed class MissionObjectiveEntry
     internal void FinishTargetCount()
     {
         Total = Template.CountAllMatchingTargets ? targets.Count : Template.RequiredCount;
+
+    }
+
+    internal void CompleteProtection()
+    {
+        foreach (Component target in targets)
+        {
+            if (completedTargets.Count >= Total)
+            {
+                break;
+
+            }
+
+            completedTargets.Add(target);
+            MissionUnitIdentity identity = target.GetComponent<MissionUnitIdentity>();
+            if (identity != null && !string.IsNullOrWhiteSpace(identity.PersistentId))
+            {
+                completedTargetIds.Add(identity.PersistentId);
+
+            }
+
+        }
+
+        SetStatus(MissionObjectiveStatus.Completed);
 
     }
 
@@ -301,7 +326,11 @@ public sealed class MissionObjectiveManager : MonoBehaviour
     private void OnEnable()
     {
         CombatActionExecutor.UnitDefeated += OnUnitDefeated;
+        CombatActionExecutor.UnitCaptured += OnUnitCaptured;
         ObjectiveInteractable.InteractionCompleted += OnInteractionCompleted;
+        WorldInteractable.WorldInteracted += OnWorldInteractionCompleted;
+        ObstacleController.ObstacleDestroyed += OnObstacleDestroyed;
+        WorldSpoilsDrop.ObjectBroken += OnObjectBroken;
 
     }
 
@@ -376,11 +405,15 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         }
 
         UnitController[] units = FindObjectsByType<UnitController>();
-        ObjectiveInteractable[] interactables = FindObjectsByType<ObjectiveInteractable>();
+        WorldInteractable[] interactables = FindObjectsByType<WorldInteractable>();
+        ObstacleController[] obstacles = FindObjectsByType<ObstacleController>();
+        WorldSpoilsDrop[] breakables = FindObjectsByType<WorldSpoilsDrop>();
 
         foreach (MissionObjectiveEntry objective in objectives)
         {
-            if (objective.Type == MissionObjectiveType.EliminateUnits)
+            if (objective.Type == MissionObjectiveType.EliminateUnits ||
+                objective.Type == MissionObjectiveType.CaptureUnits ||
+                objective.Type == MissionObjectiveType.ProtectUnits)
             {
                 foreach (UnitController unit in units)
                 {
@@ -395,10 +428,10 @@ public sealed class MissionObjectiveManager : MonoBehaviour
             }
             else if (objective.Type == MissionObjectiveType.InteractWithTargets)
             {
-                foreach (ObjectiveInteractable interactable in interactables)
+                foreach (WorldInteractable interactable in interactables)
                 {
                     if (interactable != null && interactable.isActiveAndEnabled &&
-                        !interactable.Used &&
+                        !interactable.used &&
                         string.Equals(interactable.InteractionId?.Trim(), objective.Template.InteractionId?.Trim(),
                             StringComparison.OrdinalIgnoreCase) &&
                         MatchesTarget(objective.Template, interactable))
@@ -416,9 +449,37 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
             }
 
+            else if (objective.Type == MissionObjectiveType.DestroyObjects)
+            {
+                foreach (ObstacleController obstacle in obstacles)
+                {
+                    if (obstacle != null && obstacle.isActiveAndEnabled && !obstacle.IsDestroyed &&
+                        obstacle.isDestructible && MatchesTarget(objective.Template, obstacle))
+                    {
+                        objective.AddTarget(obstacle);
+
+                    }
+
+                }
+
+                foreach (WorldSpoilsDrop breakable in breakables)
+                {
+                    if (breakable != null && breakable.isActiveAndEnabled &&
+                        breakable.GetComponent<ObstacleController>() == null &&
+                        MatchesTarget(objective.Template, breakable))
+                    {
+                        objective.AddTarget(breakable);
+
+                    }
+
+                }
+
+            }
+
             objective.FinishTargetCount();
 
-            if (objective.Type == MissionObjectiveType.ExtractPlayerUnits)
+            if (objective.Type == MissionObjectiveType.ExtractPlayerUnits ||
+                objective.Type == MissionObjectiveType.ReachArea)
             {
                 // Dynamic objective: progress is computed from living player units inside ONE zone.
                 // This is not an interaction or a fixed count of targets.
@@ -430,8 +491,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
             if (objective.TargetCount == 0)
             {
                 Debug.LogWarning($"Objective '{objective.Id}' found no matching targets. " +
-                                 "Check unit factions, target filters, and ObjectiveInteractable components. " +
-                                 "Count-all objectives with zero targets complete automatically.", this);
+                                 "Check target filters and matching scene components.", this);
 
             }
 
@@ -504,7 +564,8 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         foreach (MissionObjectiveEntry objective in objectives)
         {
-            if (objective.Type == MissionObjectiveType.ExtractPlayerUnits)
+            if (objective.Type == MissionObjectiveType.ExtractPlayerUnits ||
+                objective.Type == MissionObjectiveType.ReachArea)
             {
                 hasExtractionObjective = true;
                 break;
@@ -552,7 +613,8 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         foreach (MissionObjectiveEntry objective in objectives)
         {
-            if (objective.Type != MissionObjectiveType.ExtractPlayerUnits ||
+            if (objective.Type != MissionObjectiveType.ExtractPlayerUnits &&
+                objective.Type != MissionObjectiveType.ReachArea ||
                 objective.Status == MissionObjectiveStatus.Failed ||
                 objective.Status == MissionObjectiveStatus.Completed)
             {
@@ -592,14 +654,16 @@ public sealed class MissionObjectiveManager : MonoBehaviour
             if (!zoneFound && !warnedAboutMissingZone)
             {
                 warnedAboutMissingZone = true;
-                Debug.LogWarning($"Extraction objective '{objective.Id}' has no active MissionExtractionZone " +
-                                 $"with Zone ID '{objective.Template.TargetKey}'. Place the Extraction Zone prefab in the scene.", this);
+                Debug.LogWarning($"Area objective '{objective.Id}' has no active MissionExtractionZone " +
+                                 $"with Zone ID '{objective.Template.TargetKey}'. Place a zone in the scene.", this);
 
             }
 
             // Keep completion impossible until at least one matching zone actually exists.
+            int needed = objective.Type == MissionObjectiveType.ReachArea
+                ? Mathf.Max(1, objective.Template.RequiredCount) : livingAllies.Count;
             bool objectiveChanged = objective.SetExtractionProgress(zoneFound ? bestInside : 0,
-                livingAllies.Count, zoneFound);
+                needed, zoneFound);
             changed |= objectiveChanged;
 
             if (objectiveChanged && logProgress && publish)
@@ -732,6 +796,97 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
     }
 
+    private void OnWorldInteractionCompleted(UnitController actor, WorldInteractable target)
+    {
+        if (target is ObjectiveInteractable || Status != MissionStatus.InProgress ||
+            !IsLivingUnit(actor) || levelMission == null)
+        {
+            return;
+
+        }
+
+        UnitFaction member = actor.GetComponent<UnitFaction>();
+        if (member == null || member.Faction != levelMission.PlayerFaction)
+        {
+            return;
+
+        }
+
+        RecordMatchingTarget(MissionObjectiveType.InteractWithTargets, target);
+
+    }
+
+    private void OnObstacleDestroyed(ObstacleController target)
+    {
+        if (Status == MissionStatus.InProgress)
+        {
+            RecordMatchingTarget(MissionObjectiveType.DestroyObjects, target);
+
+        }
+
+    }
+
+    private void OnObjectBroken(WorldSpoilsDrop target)
+    {
+        if (Status == MissionStatus.InProgress)
+        {
+            RecordMatchingTarget(MissionObjectiveType.DestroyObjects, target);
+
+        }
+
+    }
+
+    public void RegisterSpawnedUnit(UnitController unit)
+    {
+        if (Status != MissionStatus.InProgress || !IsLivingUnit(unit))
+        {
+            return;
+
+        }
+
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            if ((objective.Type == MissionObjectiveType.EliminateUnits ||
+                objective.Type == MissionObjectiveType.CaptureUnits ||
+                objective.Type == MissionObjectiveType.ProtectUnits) &&
+                objective.Status != MissionObjectiveStatus.Completed &&
+                objective.Status != MissionObjectiveStatus.Failed &&
+                MatchesTarget(objective.Template, unit))
+            {
+                objective.AddTarget(unit);
+                objective.FinishTargetCount();
+
+            }
+
+        }
+
+    }
+
+    private void SpawnReinforcements(string completedObjectiveId)
+    {
+        foreach (MissionFactionSpawnArea area in FindObjectsByType<MissionFactionSpawnArea>())
+        {
+            area.SpawnAfterObjective(completedObjectiveId);
+
+        }
+
+    }
+
+    private void OnUnitCaptured(UnitController captor, UnitController prisoner)
+    {
+        if (Status != MissionStatus.InProgress || prisoner == null)
+        {
+            return;
+
+        }
+
+        FailTargetObjectives(prisoner, false);
+        RecordMatchingTarget(MissionObjectiveType.CaptureUnits, prisoner);
+        RecordMatchingTarget(MissionObjectiveType.EliminateUnits, prisoner);
+        RefreshExtractionProgress();
+
+    }
+
     private void OnUnitDefeated(UnitController attacker, UnitController defeated)
     {
         if (Status != MissionStatus.InProgress || defeated == null)
@@ -740,6 +895,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
 
         }
 
+        FailTargetObjectives(defeated, true);
         RecordMatchingTarget(MissionObjectiveType.EliminateUnits, defeated);
 
         if (Status != MissionStatus.InProgress)
@@ -757,6 +913,70 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         }
 
         RefreshExtractionProgress();
+
+    }
+
+    private void FailTargetObjectives(UnitController unit, bool includeCapture)
+    {
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            if ((objective.Type == MissionObjectiveType.ProtectUnits ||
+                includeCapture && objective.Type == MissionObjectiveType.CaptureUnits) &&
+                objective.HasUncompletedTarget(unit))
+            {
+                FailObjective(objective.Id);
+
+            }
+
+        }
+
+    }
+
+    private bool CanFinishProtection(MissionObjectiveEntry protectedObjective)
+    {
+        bool hasOtherRequiredObjective = false;
+
+        foreach (MissionObjectiveEntry objective in objectives)
+        {
+            if (objective.Optional || objective.Type == MissionObjectiveType.ProtectUnits)
+            {
+                continue;
+
+            }
+
+            hasOtherRequiredObjective = true;
+            if (objective.Status != MissionObjectiveStatus.Completed)
+            {
+                return false;
+
+            }
+
+        }
+
+        if (!hasOtherRequiredObjective || protectedObjective.TargetCount == 0 ||
+            protectedObjective.TargetCount < protectedObjective.Total)
+        {
+            return false;
+
+        }
+
+        int surviving = 0;
+        foreach (Component target in protectedObjective.PendingTargets)
+        {
+            UnitController unit = target as UnitController;
+            UnitDownedState downed = unit != null ? unit.GetComponent<UnitDownedState>() : null;
+            if (unit == null || !unit.gameObject.activeInHierarchy ||
+                !IsLivingUnit(unit) && (downed == null || !downed.IsDowned))
+            {
+                return false;
+
+            }
+
+            surviving++;
+
+        }
+
+        return surviving == protectedObjective.TargetCount;
 
     }
 
@@ -814,10 +1034,23 @@ public sealed class MissionObjectiveManager : MonoBehaviour
                 }
 
                 if (objective.Status == MissionObjectiveStatus.Active &&
+                    objective.Type == MissionObjectiveType.ProtectUnits &&
+                    CanFinishProtection(objective))
+                {
+                    objective.CompleteProtection();
+                    SpawnReinforcements(objective.Id);
+                    changed = true;
+
+                }
+
+                if (objective.Status == MissionObjectiveStatus.Active &&
+                    objective.Type != MissionObjectiveType.ProtectUnits &&
                     objective.Progress >= objective.Total &&
-                    (objective.Type != MissionObjectiveType.ExtractPlayerUnits || objective.HasExtractionZone))
+                    (objective.Type == MissionObjectiveType.ExtractPlayerUnits || objective.Type == MissionObjectiveType.ReachArea
+                        ? objective.HasExtractionZone : objective.TargetCount > 0))
                 {
                     objective.SetStatus(MissionObjectiveStatus.Completed);
+                    SpawnReinforcements(objective.Id);
                     changed = true;
 
                 }
@@ -1122,7 +1355,11 @@ public sealed class MissionObjectiveManager : MonoBehaviour
     private void OnDisable()
     {
         CombatActionExecutor.UnitDefeated -= OnUnitDefeated;
+        CombatActionExecutor.UnitCaptured -= OnUnitCaptured;
         ObjectiveInteractable.InteractionCompleted -= OnInteractionCompleted;
+        WorldInteractable.WorldInteracted -= OnWorldInteractionCompleted;
+        ObstacleController.ObstacleDestroyed -= OnObstacleDestroyed;
+        WorldSpoilsDrop.ObjectBroken -= OnObjectBroken;
 
         if (Instance == this)
         {

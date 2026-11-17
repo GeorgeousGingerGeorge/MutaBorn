@@ -66,45 +66,65 @@ public class TargetingSystem : MonoBehaviour
 
 
     }
+    public bool CanTargetObstacle(UnitController attacker, ObstacleController target, float range, bool use3DDistance = false) 
+    {
+        if (attacker == null || target == null || range < 0f) 
+        {
+            return false;
+        }
+
+        if (!target.isActiveAndEnabled || !target.isDestructible || target.IsDestroyed || target.currentHealth <= 0) 
+        {
+            return false;
+        }
+
+        if (lineOfSight == null || attacker.visionOrigin == null) 
+        {
+            return false;
+        }
+
+        Vector3 attackersLineOfSight = attacker.visionOrigin.position;
+
+        Collider targetCollider = target.GetComponentInChildren<Collider>();
+
+        Vector3 destination = targetCollider != null ? targetCollider.ClosestPoint(attackersLineOfSight) : target.transform.position;
+
+        if (!lineOfSight.HasPhysicalLineOfSight(attackersLineOfSight, destination, target)) 
+        {
+            return false;
+        }
+
+        return IsWithinRange(attacker.transform.position, destination, range, use3DDistance);
+        
+    }
    
+    private FactionManager factionManager;
+
     private bool IsValidFactionTarget(UnitController attacker, UnitController target, out UnitFaction attackerFaction)
     {
-        attackerFaction = attacker.GetComponent<UnitFaction>();
-        
-        if (attacker == null || target == null)
+        attackerFaction = attacker != null ? attacker.GetComponent<UnitFaction>() : null;
+        if (attackerFaction == null || target == null)
         {
             return false;
+
         }
 
-      
         UnitFaction targetFaction = target.GetComponent<UnitFaction>();
-       
-
-        if (attackerFaction == null || targetFaction == null) 
+        if (targetFaction == null)
         {
             return false;
+
         }
 
-        switch (attackerFaction.GetFactionID()) 
+        if (factionManager == null)
         {
-            case "playerFaction":
-                {
-                    return targetFaction.GetFactionID() == "raiderFaction";
-                }
-            case "raiderFaction":
-                { 
-                    return targetFaction.GetFactionID() == "playerFaction" || targetFaction.GetFactionID() == "civilians";
+            factionManager = FindAnyObjectByType<FactionManager>();
 
-                }
-            case "civilians":
-                {
-                    return targetFaction.GetFactionID() == "raiderFaction";
-                }
-            default:
-
-                Debug.LogWarning("TargetingSystem: FactionID was not a choice ");
-                return false;
         }
+
+        return factionManager != null &&
+            factionManager.AreHostile(attackerFaction.Faction, targetFaction.Faction);
+
     }
     public bool CanTargetGround(UnitController attacker, Vector3 targetPosition, int targetFloorID, float range, bool use3DDistance = false)
     {

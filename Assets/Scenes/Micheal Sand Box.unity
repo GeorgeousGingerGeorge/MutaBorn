@@ -853,17 +853,25 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7086027051030963730, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: 'startingEquipment.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: df63ada89427985418ccd60d39181620, type: 2}
-    - target: {fileID: 7086027051030963730, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
       propertyPath: 'startingEquipment.Array.data[4]'
-      value: 
+      value: iron_sword
       objectReference: {fileID: 0}
     - target: {fileID: 7086027051030963730, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
-      propertyPath: 'startingEquipment.Array.data[5]'
+      propertyPath: startingEquipment.Array.data[0].templateId
+      value: Weapon_Bow_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086027051030963730, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
+      propertyPath: startingEquipment.Array.data[5].templateId
+      value: iron_sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 7086027051030963730, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
+      propertyPath: startingEquipment.Array.data[0].equipmentType
       value: 
-      objectReference: {fileID: 11400000, guid: 518944e3ade43494199d6b2cecd30bfb, type: 2}
+      objectReference: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+    - target: {fileID: 7086027051030963730, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
+      propertyPath: startingEquipment.Array.data[5].equipmentType
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
     - target: {fileID: 7715049924167510301, guid: 757aed05d5368884c862adb7dd9cf89b, type: 3}
       propertyPath: m_Name
       value: PlayerUnit
@@ -1963,6 +1971,12 @@ MonoBehaviour:
   focusOnAction: 1
   cancelFocusOnManualMovement: 1
   logFocusDiagnostics: 0
+  returnToStartDuration: 0.4
+  shakeOnDamage: 1
+  damageShakeDuration: 0.28
+  shakeAt20Damage: 0.1
+  shakeAt40Damage: 0.24
+  shakeAt80Damage: 0.55
   rotationSpeed: 90
   zoomStep: 2
   minZoomDistance: 25
@@ -3116,6 +3130,8 @@ MonoBehaviour:
   ringWidth: 0.12
   ringHeightOffset: 0.3
   ringColor: {r: 1, g: 0.2, b: 0.16, a: 0.95}
+  showExplosionRing: 1
+  explosionRingOpacity: 0.88
 --- !u!114 &389829512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3153,6 +3169,11 @@ MonoBehaviour:
   interactButton: {fileID: 1976291688}
   abilitiesButton: {fileID: 1935075006}
   itemsButton: {fileID: 633031071}
+  stanceButton: {fileID: 0}
+  stanceIcon: {fileID: 0}
+  stanceText: {fileID: 0}
+  standingSprite: {fileID: 0}
+  crouchingSprite: {fileID: 0}
   expandedPanel: {fileID: 771822262}
   expandedTitle: {fileID: 347636532}
   expandedContent: {fileID: 1121180572}
@@ -3162,6 +3183,7 @@ MonoBehaviour:
   combatExecutor: {fileID: 389829512}
   actionInfoPanel: {fileID: 1681470002}
   actionDescriptionText: {fileID: 1424505665}
+  attackPreviewUI: {fileID: 0}
   interactionScanInterval: 0.2
 --- !u!1 &393336996
 GameObject:
@@ -3319,63 +3341,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396291378}
   m_CullTransparentMesh: 1
---- !u!1001 &431421118
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8549220198493811299, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8678976994913768172, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
-      propertyPath: m_Name
-      value: EnemyUnit
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c1ccf1fbe43a2d045b86ff77dd713149, type: 3}
 --- !u!1 &503033663
 GameObject:
   m_ObjectHideFlags: 0
@@ -7298,6 +7263,11 @@ MonoBehaviour:
   HubScene: 
   pauseMenu: {fileID: 1954475135}
   optionsMenu: {fileID: 0}
+  quitMenu: {fileID: 0}
+  quitGame: {fileID: 0}
+  saveButton: {fileID: 0}
+  loadButton: {fileID: 0}
+  controlsMenu: {fileID: 0}
 --- !u!114 &1460402884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8304,9 +8274,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e556b3f5c13f4f34cb83826d0cd82761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
-  currentLevel: {fileID: 11400000, guid: cbf3235ea731f8f4a841702929781a7a, type: 2}
+  currentLevel: {fileID: 11400000, guid: a109a47892615cc429685c9dad40fcc8, type: 2}
   gridCellSize: 2
   maxStepHeight: 0.5
+  floorHeightTolerance: 0.05
+  proceduralLevelGenerator: {fileID: 0}
+  levelAssembler: {fileID: 0}
   gridCellPrefab: {fileID: 6494207454436567325, guid: c3e1fa342c968ad47bc46463525d6aa6, type: 3}
   obstaclePrefab: {fileID: 5783946095117314508, guid: e531c1b203b0ed74b9f03903d03fcef6, type: 3}
   wallPrefab: {fileID: 3797262535275334675, guid: ce59f07f03801d5438613c644db36b60, type: 3}
@@ -8452,6 +8425,8 @@ MonoBehaviour:
   researchText: {fileID: 0}
   claimAndReturnButton: {fileID: 0}
   hubSceneName: TEST Hub
+  victoryExperience: 100
+  victoryMutationPoints: 25
   victoryColor: {r: 0.35, g: 0.9, b: 0.5, a: 1}
   defeatColor: {r: 1, g: 0.4, b: 0.4, a: 1}
   pauseGameOnResult: 1
@@ -11075,4 +11050,3 @@ SceneRoots:
   - {fileID: 1460402888}
   - {fileID: 118081633}
   - {fileID: 97625609}
-  - {fileID: 431421118}

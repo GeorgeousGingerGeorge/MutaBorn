@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7006423811964f00881b913759a396ae, type: 3}
+  m_Name: Iron Sword Loot Test
+  m_EditorClassIdentifier: Assembly-CSharp::MissionLootTable
+  possibleLoot:
+  - kind: 2
+    resourceId: 
+    item: {fileID: 0}
+    equipmentTemplate:
+      equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+      templateId: iron_sword
+    minimumQuantity: 1
+    maximumQuantity: 1
+    weight: 1
+  - kind: 0
+    resourceId: iron
+    item: {fileID: 0}
+    equipmentTemplate:
+      equipmentType: {fileID: 0}
+      templateId: 
+    minimumQuantity: 1
+    maximumQuantity: 2
+    weight: 1
+  - kind: 0
+    resourceId: wood
+    item: {fileID: 0}
+    equipmentTemplate:
+      equipmentType: {fileID: 0}
+      templateId: 
+    minimumQuantity: 1
+    maximumQuantity: 3
+    weight: 1
+  useSeparateDropRanges: 1
+  minimumEquipmentDrops: 1
+  maximumEquipmentDrops: 1
+  minimumResourceDrops: 1
+  maximumResourceDrops: 2
+  extraStarRolls:
+    rollCount: 3
+    dieSides: 4
+    minimumSuccess: 4

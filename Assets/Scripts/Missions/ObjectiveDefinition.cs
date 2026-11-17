@@ -4,7 +4,11 @@ public enum MissionObjectiveType
 {
     EliminateUnits,
     InteractWithTargets,
-    ExtractPlayerUnits
+    ExtractPlayerUnits,
+    DestroyObjects,
+    ReachArea,
+    CaptureUnits,
+    ProtectUnits
 
 }
 
@@ -40,13 +44,13 @@ public sealed class ObjectiveDefinition : ScriptableObject
     [SerializeField] private string targetKey;
 
     [Header("Interaction Rules")]
-    [Tooltip("Only for Interact With Targets. Must match ObjectiveInteractable.Interaction ID.")]
+    [Tooltip("For Interact With Targets: match the Interaction ID on any WorldInteractable (chests, switches, NPCs, etc.).")]
     [SerializeField] private string interactionId = "help";
 
     [Header("Count Rules")]
-    [Tooltip("If true, the objective requires every matching target found when the mission starts.")]
+    [Tooltip("For unit/object/interaction objectives: require every matching target. Reach Area always uses Required Count.")]
     [SerializeField] private bool countAllMatchingTargets = true;
-    [Tooltip("Used when Count All Matching Targets is false.")]
+    [Tooltip("Number of targets, or number of allies needed in a Reach Area.")]
     [SerializeField, Min(1)] private int requiredCount = 1;
 
     public string Title => title;

@@ -33,6 +33,12 @@ public sealed class ResearchCycleTestHarness : MonoBehaviour
 
         }
 
+        if (ResearchManager.Instance == null)
+        {
+            new GameObject("ResearchManager").AddComponent<ResearchManager>();
+
+        }
+
     }
 
     private void Start()
