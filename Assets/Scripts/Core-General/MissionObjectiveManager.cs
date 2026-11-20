@@ -1308,7 +1308,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         }
 
         Status = result;
-        Debug.Log(result == MissionStatus.Victory ? "MISSION COMPLETE — VICTORY!" : "MISSION FAILED — DEFEAT!", this);
+        Debug.Log(result == MissionStatus.Victory ? "MISSION COMPLETE  -  VICTORY!" : "MISSION FAILED  -  DEFEAT!", this);
         PublishChange();
         MissionFinished?.Invoke(result);
 
