@@ -296,7 +296,7 @@ public class SelectionManager : MonoBehaviour
         selectedUnit.SetSelected(true);
 
         string soundName = unit.raceName + " Noise";
-        AudioManager.Instance.PlaySound(soundName);
+        AudioManager.Instance?.PlaySound(soundName);
 
         RefreshSelectedUnitTile();
 

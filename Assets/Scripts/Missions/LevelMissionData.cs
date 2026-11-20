@@ -20,6 +20,8 @@ public sealed class LevelObjectiveSetup
     [SerializeField] private int worldMarkerPriority;
 
     [SerializeField] private bool initiallyVisible = true;
+    [Tooltip("Reveal the objective automatically when its prerequisites are completed.")]
+    [SerializeField] private bool revealWhenUnlocked;
     [SerializeField] private bool initiallyActive = true;
     [Tooltip("If true, eliminations occurring before activation still count.")]
     [SerializeField] private bool countWhileLocked = true;
@@ -32,6 +34,7 @@ public sealed class LevelObjectiveSetup
     public bool Optional => optional;
     public int WorldMarkerPriority => worldMarkerPriority;
     public bool InitiallyVisible => initiallyVisible;
+    public bool RevealWhenUnlocked => revealWhenUnlocked;
     public bool InitiallyActive => initiallyActive;
     public bool CountWhileLocked => countWhileLocked;
     public IReadOnlyList<string> PrerequisiteObjectiveIds => prerequisiteObjectiveIds;

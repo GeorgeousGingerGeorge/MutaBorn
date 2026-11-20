@@ -1531,6 +1531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5296140362620107339}
+  - component: {fileID: 710000000000900001}
   m_Layer: 0
   m_Name: Tutorial - First Steps
   m_TagString: Untagged
@@ -1555,6 +1556,26 @@ Transform:
   - {fileID: 2260146455810603898}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &710000000000900001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7843314569620537722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a9eaa61a7df4f9ca6d9028ec7935cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialMovementHintSpawner
+  greenTilesHint: {fileID: 21300000, guid: 6bf1628c9dcb4d8391787cb6f89cb78d, type: 3}
+  brownTilesHint: {fileID: 21300000, guid: 7797d2390c0f4372b4bfd0c0de90387d, type: 3}
+  pathPreviewHint: {fileID: 21300000, guid: 0f7589125a4a475fb336ce8cbe1be93d, type: 3}
+  firstHintLocalPosition: {x: 6, y: 2.6, z: 12}
+  secondHintLocalPosition: {x: 8.6, y: 3.35, z: 12.2}
+  thirdHintLocalPosition: {x: 11.2, y: 4.1, z: 12.4}
+  hintScale: {x: 1.85, y: 0.78, z: 1}
+  sortingOrder: 75
 --- !u!1 &8151934630253364687
 GameObject:
   m_ObjectHideFlags: 0
