@@ -369,7 +369,7 @@ public sealed class ResearchMenu : MonoBehaviour
 
             }
 
-            details.Append("• ").Append(benefit.type);
+            details.Append("- ").Append(benefit.type);
             if (benefit.type == ResearchBenefitType.Recipe)
             {
                 if (benefit.equipmentTemplate.TryResolve(out EquipmentTemplate template))
@@ -414,7 +414,7 @@ public sealed class ResearchMenu : MonoBehaviour
         {
             ResearchNode active = manager.Database.Find(manager.ActiveResearchId);
             statusText.text = active != null
-                ? "ACTIVE: " + active.displayName + " — " + manager.RemainingBattles + " victories remaining"
+                ? "ACTIVE: " + active.displayName + "  -  " + manager.RemainingBattles + " victories remaining"
                 : available ? "Ready to research" : reason;
 
         }

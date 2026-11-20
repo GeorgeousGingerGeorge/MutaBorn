@@ -569,7 +569,7 @@ public sealed class MissionSpoils : MonoBehaviour
         StringBuilder text = new();
         foreach (UnitData unit in casualties)
         {
-            text.AppendLine(unit.characterName + " — Permanently Lost");
+            text.AppendLine(unit.characterName + "  -  Permanently Lost");
 
         }
 

@@ -248,7 +248,7 @@ public sealed class MissionResultUI : MonoBehaviour
         string result = afterClaim == 0 ? "Completes when rewards are claimed."
             : $"{afterClaim} battle(s) remaining after claim.";
 
-        return $"RESEARCH PROGRESS\n{name}\n{remaining} → {afterClaim} battles remaining\n{result}";
+        return $"RESEARCH PROGRESS\n{name}\n{remaining} -> {afterClaim} battles remaining\n{result}";
 
     }
 
