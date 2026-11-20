@@ -29,6 +29,7 @@ public sealed class HubStorageMenu : MonoBehaviour
     [SerializeField] private Button accessoriesButton;
     [SerializeField] private Button consumablesButton;
     [SerializeField] private Button mutationsButton;
+    [SerializeField] private Button allButton;
 
     [Header("Resources Tab")]
     [SerializeField] private Button resourcesButton;
@@ -57,6 +58,23 @@ public sealed class HubStorageMenu : MonoBehaviour
 
     private void Awake()
     {
+        if (allButton == null)
+        {
+            Transform buttonTransform = transform.Find("Storage Header/AllButton");
+            if (buttonTransform != null)
+            {
+                allButton = buttonTransform.GetComponent<Button>();
+
+            }
+
+        }
+
+        if (allButton != null)
+        {
+            allButton.onClick.AddListener(ShowAll);
+
+        }
+
         if (weaponsButton != null)
         {
             weaponsButton.onClick.AddListener(() => SelectCategory(Category.Weapons));
