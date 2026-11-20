@@ -204,5 +204,4 @@ public sealed class MenuMotion : MonoBehaviour
         panel.SetActive(false);
 
     }
-
 }
