@@ -98,7 +98,7 @@ namespace MutaBorn.Gameplay
 
                 if (shown > 0)
                 {
-                    summary.Append("  ·  ");
+                    summary.Append("   |   ");
 
                 }
 

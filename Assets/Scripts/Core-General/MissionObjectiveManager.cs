@@ -37,6 +37,7 @@ public sealed class MissionObjectiveEntry
     public bool Optional { get; }
     public int WorldMarkerPriority { get; }
     public bool StartsActive { get; }
+    public bool RevealWhenUnlocked { get; }
     public bool CountWhileLocked { get; }
     public bool Visible { get; private set; }
     public MissionObjectiveStatus Status { get; private set; }
@@ -75,6 +76,7 @@ public sealed class MissionObjectiveEntry
         Optional = setup.Optional;
         WorldMarkerPriority = setup.WorldMarkerPriority;
         StartsActive = setup.InitiallyActive;
+        RevealWhenUnlocked = setup.RevealWhenUnlocked;
         CountWhileLocked = setup.CountWhileLocked;
         Visible = setup.InitiallyVisible;
         Prerequisites = setup.PrerequisiteObjectiveIds;
@@ -1029,6 +1031,12 @@ public sealed class MissionObjectiveManager : MonoBehaviour
                     HasCompletedPrerequisites(objective))
                 {
                     objective.SetStatus(MissionObjectiveStatus.Active);
+                    if (objective.RevealWhenUnlocked)
+                    {
+                        objective.SetVisible(true);
+
+                    }
+
                     changed = true;
 
                 }
@@ -1308,7 +1316,7 @@ public sealed class MissionObjectiveManager : MonoBehaviour
         }
 
         Status = result;
-        Debug.Log(result == MissionStatus.Victory ? "MISSION COMPLETE — VICTORY!" : "MISSION FAILED — DEFEAT!", this);
+        Debug.Log(result == MissionStatus.Victory ? "MISSION COMPLETE  -  VICTORY!" : "MISSION FAILED  -  DEFEAT!", this);
         PublishChange();
         MissionFinished?.Invoke(result);
 

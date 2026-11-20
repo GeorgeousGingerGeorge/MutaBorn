@@ -14,7 +14,8 @@ public sealed class HubStorageMenu : MonoBehaviour
         Accessories,
         Consumables,
         Mutations,
-        Trading
+        Trading,
+        Resources
 
     }
 
@@ -28,6 +29,14 @@ public sealed class HubStorageMenu : MonoBehaviour
     [SerializeField] private Button accessoriesButton;
     [SerializeField] private Button consumablesButton;
     [SerializeField] private Button mutationsButton;
+    [SerializeField] private Button allButton;
+
+    [Header("Resources Tab")]
+    [SerializeField] private Button resourcesButton;
+    [SerializeField] private Button addAllResourcesButton;
+    [SerializeField] private GameObject itemsScroll;
+    [SerializeField] private GameObject resourcesPanel;
+    [SerializeField] private WorkshopResourcesHUD resourcesHud;
 
     [Header("Existing Item Detail Screen")]
     [SerializeField] private BarracksItemPopup itemPopup;
@@ -49,6 +58,23 @@ public sealed class HubStorageMenu : MonoBehaviour
 
     private void Awake()
     {
+        if (allButton == null)
+        {
+            Transform buttonTransform = transform.Find("Storage Header/AllButton");
+            if (buttonTransform != null)
+            {
+                allButton = buttonTransform.GetComponent<Button>();
+
+            }
+
+        }
+
+        if (allButton != null)
+        {
+            allButton.onClick.AddListener(ShowAll);
+
+        }
+
         if (weaponsButton != null)
         {
             weaponsButton.onClick.AddListener(() => SelectCategory(Category.Weapons));
@@ -76,6 +102,18 @@ public sealed class HubStorageMenu : MonoBehaviour
         if (mutationsButton != null)
         {
             mutationsButton.onClick.AddListener(() => SelectCategory(Category.Mutations));
+
+        }
+
+        if (resourcesButton != null)
+        {
+            resourcesButton.onClick.AddListener(() => SelectCategory(Category.Resources));
+
+        }
+
+        if (addAllResourcesButton != null)
+        {
+            addAllResourcesButton.onClick.AddListener(Add999Resources);
 
         }
 
@@ -135,6 +173,43 @@ public sealed class HubStorageMenu : MonoBehaviour
 
     }
 
+    public void Add999Resources()
+    {
+        ResourceStockpile stockpile = ResourceStockpile.Instance;
+        if (stockpile == null || stockpile.Database == null)
+        {
+            return;
+
+        }
+
+        bool wasVisible = resourcesPanel != null && resourcesPanel.activeSelf;
+        if (wasVisible)
+        {
+            resourcesPanel.SetActive(false);
+
+        }
+
+        foreach (ResourceData resource in stockpile.Database.Resources)
+        {
+            if (resource == null)
+            {
+                continue;
+
+            }
+
+            stockpile.DiscoverResource(resource.ResourceID);
+            stockpile.AddResource(resource.ResourceID, 999);
+
+        }
+
+        if (wasVisible)
+        {
+            resourcesPanel.SetActive(true);
+
+        }
+
+    }
+
     private void Subscribe()
     {
         if (subscribedStorage == ItemStorage.Instance)
@@ -162,6 +237,24 @@ public sealed class HubStorageMenu : MonoBehaviour
     {
         selectedCategory = category;
         trading?.SetVisible(category == Category.Trading);
+        if (resourcesPanel != null)
+        {
+            resourcesPanel.SetActive(category == Category.Resources);
+
+        }
+
+        if (itemsScroll != null)
+        {
+            itemsScroll.SetActive(category != Category.Trading && category != Category.Resources);
+
+        }
+
+        if (category == Category.Resources)
+        {
+            resourcesHud?.Refresh();
+
+        }
+
         if (itemPopup != null)
         {
             itemPopup.Hide();
@@ -178,6 +271,14 @@ public sealed class HubStorageMenu : MonoBehaviour
         if (selectedCategory == Category.Trading)
         {
             trading?.Refresh();
+
+            return;
+
+        }
+
+        if (selectedCategory == Category.Resources)
+        {
+            resourcesHud?.Refresh();
 
             return;
 

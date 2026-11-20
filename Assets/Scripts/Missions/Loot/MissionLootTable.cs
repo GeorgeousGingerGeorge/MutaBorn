@@ -66,7 +66,7 @@ public sealed class WorldLootStack
     {
         WorldLootKind.Item => item != null ? item.itemName : "Missing Item",
         WorldLootKind.EquipmentTemplate => generatedEquipment.IsValid
-            ? $"{generatedEquipment.itemName} ({(int)generatedEquipment.rarity}★)" : "Missing Equipment",
+            ? $"{generatedEquipment.itemName} ({(int)generatedEquipment.rarity} stars)" : "Missing Equipment",
         _ => resourceId
 
     };

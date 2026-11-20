@@ -272,11 +272,8 @@ public class SelectionManager : MonoBehaviour
             ? (direction > 0 ? 0 : playerUnits.Count - 1)
             : (currentIndex + (direction > 0 ? 1 : -1) + playerUnits.Count) % playerUnits.Count;
 
-      
         SelectUnit(playerUnits[nextIndex]);
-        RefreshSelectedUnitTile();
         CameraController.Instance?.FocusOnUnit(playerUnits[nextIndex]);
-        
 
     }
 
@@ -299,9 +296,7 @@ public class SelectionManager : MonoBehaviour
         selectedUnit.SetSelected(true);
 
         string soundName = unit.raceName + " Noise";
-        AudioManager.Instance.PlaySound(soundName);
-        
-        
+        AudioManager.Instance?.PlaySound(soundName);
 
         RefreshSelectedUnitTile();
 

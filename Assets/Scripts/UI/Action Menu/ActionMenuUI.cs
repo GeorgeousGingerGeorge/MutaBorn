@@ -405,12 +405,12 @@ public class ActionMenuUI : MonoBehaviour
     //
     //    if (mostUsedText != null)
     //    {
-    //        mostUsedText.text = most != null ? $"MOST USED\n{most.DisplayName}" : "MOST USED\n—";
+    //        mostUsedText.text = most != null ? $"MOST USED\n{most.DisplayName}" : "MOST USED\n - ";
     //
     //    }
     //    if (lastUsedText != null)
     //    {
-    //        lastUsedText.text = last != null ? $"LAST USED\n{last.DisplayName}" : "LAST USED\n—";
+    //        lastUsedText.text = last != null ? $"LAST USED\n{last.DisplayName}" : "LAST USED\n - ";
     //
     //    }
     //
@@ -926,7 +926,7 @@ public class ActionMenuUI : MonoBehaviour
         {
             ShowPreviewMessage(obstacle != null && obstacle.isDestructible
                 ? $"{obstacle.obstacleName}  |  {obstacle.currentHealth}/{obstacle.maxHealth} HP\n" +
-                  "DESTRUCTIBLE — THIS ACTION TARGETS UNITS ONLY"
+                  "DESTRUCTIBLE  -  THIS ACTION TARGETS UNITS ONLY"
                 : message);
 
             return;
@@ -1000,7 +1000,7 @@ public class ActionMenuUI : MonoBehaviour
             CombatStatusHandler.Instance.TryPreviewGuard(target, 0, out _, out float negate))
         {
             guard = negate > 0f
-                ? $"Guard active — {negate:0.#}% chance to negate damage"
+                ? $"Guard active  -  {negate:0.#}% chance to negate damage"
                 : "Damage includes active Guard";
 
         }

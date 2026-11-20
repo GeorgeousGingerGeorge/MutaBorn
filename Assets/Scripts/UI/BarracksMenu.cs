@@ -52,6 +52,7 @@ public sealed class BarracksMenu : MonoBehaviour
     [SerializeField] private UnitLoadoutPreview unitPreview;
     [SerializeField] private TMP_Text unitStatsText;
     [SerializeField] private TMP_Text unitMutationsText;
+    private TMP_Text mutationTitleText;
     [SerializeField] private Button renameButton;
     [SerializeField] private TMP_InputField renameInput;
 
@@ -158,6 +159,22 @@ public sealed class BarracksMenu : MonoBehaviour
     {
         ConfigureStorageTileLayout();
         ConfigureUnitStatsViewport();
+        if (mutationsPanel != null)
+        {
+            foreach (TMP_Text title in mutationsPanel.GetComponentsInChildren<TMP_Text>(true))
+            {
+                if (title.name == "UDSM Title")
+                {
+                    mutationTitleText = title;
+
+                    break;
+
+                }
+
+            }
+
+        }
+
         if (renameButton != null)
         {
             renameButtonLabel = renameButton.GetComponentInChildren<TMP_Text>();
@@ -1042,6 +1059,12 @@ public sealed class BarracksMenu : MonoBehaviour
     {
         UnitData unit = SelectedUnit();
         ListenToUnit(unit);
+        if (mutationTitleText != null)
+        {
+            mutationTitleText.text = unit == null ? "Mutations" : $"{unit.characterName}'s Mutations";
+
+        }
+
         if (unitNameText != null)
         {
             unitNameText.text = renaming ? renameDraft + " |" :
