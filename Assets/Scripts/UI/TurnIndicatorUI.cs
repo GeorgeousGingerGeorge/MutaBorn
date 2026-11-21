@@ -141,7 +141,7 @@ public class TurnIndicatorUI : MonoBehaviour
 
         if (roundLabel != null)
         {
-            roundLabel.text = subscribedManager.Round > 0 ? $"Round {subscribedManager.Round}" : "Round —";
+            roundLabel.text = subscribedManager.Round > 0 ? $"Round {subscribedManager.Round}" : "Round  - ";
 
         }
 

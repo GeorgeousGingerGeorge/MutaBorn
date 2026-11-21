@@ -57,7 +57,7 @@ public sealed class RaceMapRegionHover : MonoBehaviour, IPointerEnterHandler, IP
         factionTitle.text = hidden ? "Unknown Faction" : factionName;
         territoryTitle.text = hidden ? "Territory Unknown" : territoryName;
         identityTitle.text = hidden ? "Unknown" : culturalIdentity;
-        statusTitle.text = available ? "AVAILABLE — SELECT TO VIEW MISSIONS" : "LOCKED — PREVIEW ONLY";
+        statusTitle.text = available ? "AVAILABLE  -  SELECT TO VIEW MISSIONS" : "LOCKED  -  PREVIEW ONLY";
         loreBody.text = hidden ? "This region remains shrouded in mystery." :
             "<b>TERRITORY DESCRIPTION</b>\n" + territoryDescription +
             "\n\n<b>FACTION BACKSTORY</b>\n" + factionHistory;

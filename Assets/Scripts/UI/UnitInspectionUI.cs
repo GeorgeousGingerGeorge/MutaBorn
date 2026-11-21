@@ -201,7 +201,7 @@ public sealed class UnitInspectionUI : MonoBehaviour
 
         if (titleText != null)
         {
-            titleText.text = $"{data.characterName} — {data.raceName}";
+            titleText.text = $"{data.characterName}  -  {data.raceName}";
 
         }
 
@@ -217,7 +217,7 @@ public sealed class UnitInspectionUI : MonoBehaviour
         UnitDownedState downed = inspectedUnit.GetComponent<UnitDownedState>();
         if (downed != null && downed.IsDowned)
         {
-            details.AppendLine($"STATUS: DOWNED — {downed.RoundsRemaining} rounds remaining to revive");
+            details.AppendLine($"STATUS: DOWNED  -  {downed.RoundsRemaining} rounds remaining to revive");
 
         }
         details.AppendLine($"Mana: {data.currentMana} / {data.maxMana}");
