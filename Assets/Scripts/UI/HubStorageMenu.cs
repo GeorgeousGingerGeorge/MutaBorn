@@ -9,6 +9,7 @@ public sealed class HubStorageMenu : MonoBehaviour
     private enum Category
     {
         All,
+        Equipment,
         Weapons,
         Armor,
         Accessories,
@@ -24,6 +25,7 @@ public sealed class HubStorageMenu : MonoBehaviour
     [SerializeField] private BarracksStoredItemRowUI itemRowPrefab;
 
     [Header("Existing Category Buttons")]
+    [SerializeField] private Button equipmentButton;
     [SerializeField] private Button weaponsButton;
     [SerializeField] private Button armorButton;
     [SerializeField] private Button accessoriesButton;
@@ -72,6 +74,35 @@ public sealed class HubStorageMenu : MonoBehaviour
         if (allButton != null)
         {
             allButton.onClick.AddListener(ShowAll);
+
+        }
+
+        if (equipmentButton == null)
+        {
+            Transform header = transform.Find("Storage Header");
+            if (header != null)
+            {
+                foreach (Button button in header.GetComponentsInChildren<Button>(true))
+                {
+                    TMP_Text label = button.GetComponentInChildren<TMP_Text>(true);
+                    if (button.name.ToLowerInvariant().Contains("equipment") ||
+                        (label != null && label.text.Trim().Equals("Equipment", System.StringComparison.OrdinalIgnoreCase)))
+                    {
+                        equipmentButton = button;
+
+                        break;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        if (equipmentButton != null)
+        {
+            equipmentButton.onClick.AddListener(ShowEquipment);
 
         }
 
@@ -170,6 +201,12 @@ public sealed class HubStorageMenu : MonoBehaviour
     public void ShowAll()
     {
         SelectCategory(Category.All);
+
+    }
+
+    public void ShowEquipment()
+    {
+        SelectCategory(Category.Equipment);
 
     }
 
@@ -350,6 +387,12 @@ public sealed class HubStorageMenu : MonoBehaviour
         if (selectedCategory == Category.All)
         {
             return true;
+
+        }
+
+        if (selectedCategory == Category.Equipment)
+        {
+            return item.Kind == StoredItemKind.Equipment;
 
         }
 
