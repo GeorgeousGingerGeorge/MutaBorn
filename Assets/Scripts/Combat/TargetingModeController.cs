@@ -678,9 +678,7 @@ public sealed class TargetingModeController : MonoBehaviour
             if (tile != null && tile.node != null &&
                 (requiredFloor < 0 || tile.node.floorID == requiredFloor))
             {
-                    Debug.Log(
-         $"Ray hit tile on floor {tile.node.floorID} at {hit.point}"
-     );
+                   
                 position = hit.point;
                 floorId = tile.node.floorID;
 

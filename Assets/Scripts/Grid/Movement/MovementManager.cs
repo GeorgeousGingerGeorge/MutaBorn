@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using UnityEngine;
 
 
@@ -97,32 +98,45 @@ public class MovementManager : MonoBehaviour
             {
                 if(neighbor == null || visited.Contains(neighbor))
                     continue;
-                if (!TerrainLogic.CheckTerrainType(neighbor.currentTerrain)) 
-                {
-                    continue; 
-                }
+
+                GridNode nextNode = neighbor;
+               
                 if (occupancy == null) 
                 {
                     return null;
                 }
-                if (!occupancy.CanEnterNode(current, neighbor, occupancy.FindUnit(startNode))) 
+                if (nextNode.floorID != current.floorID)
                 {
-                    continue;
+                    if (!TryGetNextNode(current, nextNode, occupancy.FindUnit(startNode), out nextNode)) 
+                    {
+                        continue;
+                    }
                 }
-                
-                float newCost = distance[current] + GetMovementCost(neighbor, current);
+                else
+                {
+                    if (!TerrainLogic.CheckTerrainType(neighbor.currentTerrain))
+                    {
+                        continue;
+                    }
+                    if (!occupancy.CanEnterNode(current, nextNode, occupancy.FindUnit(startNode)))
+                    {
+                        continue;
+                    }
+                }
+
+                float newCost = distance[current] + GetMovementCost(nextNode, current);
 
                 if (newCost > movementAllowed)
                     continue;
 
-                if (!distance.TryGetValue(neighbor, out float oldCost) || newCost < oldCost) 
+                if (!distance.TryGetValue(nextNode, out float oldCost) || newCost < oldCost) 
                 {
-                    distance[neighbor] = newCost;
-                    previousNode[neighbor] = current;
+                    distance[nextNode] = newCost;
+                    previousNode[nextNode] = current;
 
-                    if (!unvisited.Contains(neighbor)) 
+                    if (!unvisited.Contains(nextNode)) 
                     {
-                        unvisited.Add(neighbor);
+                        unvisited.Add(nextNode);
                     }
                 }
             }
@@ -177,31 +191,49 @@ public class MovementManager : MonoBehaviour
             {
                 if (neighbor == null || visited.Contains(neighbor)) 
                     continue;
+
+                GridNode nextNode = neighbor;
                 if (occupancy == null)
                 {
                     return null;
                 }
-                if (!occupancy.CanEnterNode(current, neighbor,occupancy.FindUnit(startNode)))
-                {
-                    continue;
-                }
 
-                float stepCost = GetMovementCost(neighbor, current);
+                if (nextNode.floorID != current.floorID)
+                {
+                    if(!TryGetNextNode(current, nextNode, occupancy.FindUnit(startNode), out nextNode)) 
+                    {
+                        continue;
+                    }
+                }
+                else 
+                {
+                    if (!TerrainLogic.CheckTerrainType(nextNode.currentTerrain))
+                    {
+                        continue;
+                    }
+                    if (!occupancy.CanEnterNode(current, nextNode, occupancy.FindUnit(startNode)))
+                    {
+                        continue;
+                    }
+                }
+                
+
+                float stepCost = GetMovementCost(nextNode, current);
 
                 if (stepCost < 0f)
                     continue;
 
-                float newCost = distances[current] + GetMovementCost(neighbor, current);
+                float newCost = distances[current] + GetMovementCost(nextNode, current);
 
                 if (newCost > movementAllowed)
                     continue;
 
-                if(!distances.TryGetValue(neighbor, out float oldCost) || newCost < oldCost)
+                if(!distances.TryGetValue(nextNode, out float oldCost) || newCost < oldCost)
                 {
-                    distances[neighbor] = newCost;
+                    distances[nextNode] = newCost;
 
-                    if (!unvisited.Contains(neighbor))
-                        unvisited.Add(neighbor);
+                    if (!unvisited.Contains(nextNode))
+                        unvisited.Add(nextNode);
                 }
             }
         }
@@ -227,6 +259,59 @@ public class MovementManager : MonoBehaviour
         path.Reverse();
 
         return path; 
+    }
+    private bool TryGetNextNode(GridNode current, GridNode neighbor, UnitController unit, out GridNode nextNode)
+    {
+        nextNode = null;
+
+        if (current.floorID == neighbor.floorID) 
+        {
+            return false;  
+        }
+
+        if (occupancy.CanEnterNode(current, neighbor, unit)) 
+        {
+            nextNode = neighbor;
+            return true;
+        }
+
+        UnitController occupyingUnit = occupancy.FindUnit(neighbor);
+
+        if(occupyingUnit == null || occupyingUnit == unit) 
+        {
+            return false;
+        }
+
+        float nearestDistance = float.MaxValue;
+
+        foreach (GridNode option in neighbor.GetNeighbors()) 
+        {
+            if (option == null || option.floorID != neighbor.floorID) 
+            {
+                continue;
+            }
+
+            if (!TerrainLogic.CheckTerrainType(option.currentTerrain)) 
+            {
+                continue;
+            }
+
+            if(!occupancy.CanEnterNode(neighbor, option, unit)) 
+            {
+                continue;
+            }
+
+            float distance = (option.cellWorldPosition - neighbor.cellWorldPosition).sqrMagnitude;
+
+            if (distance < nearestDistance) 
+            {
+                nearestDistance = distance;
+                nextNode = option; 
+            }
+        }
+
+        return nextNode != null; 
+    
     }
 
     //Calculation--MovementCost, need to add implentation for tile effect

@@ -1,4 +1,3 @@
-using UnityEngine;
 
 [System.Flags]
 public enum TerrainType 
