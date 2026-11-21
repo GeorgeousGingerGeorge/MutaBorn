@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Unity.Collections.Tests.CoreCLR.TestJobs;
+
 using UnityEngine;
-using UnityEngine.Rendering;
+
 
 
 public class DetectionSystem : MonoBehaviour

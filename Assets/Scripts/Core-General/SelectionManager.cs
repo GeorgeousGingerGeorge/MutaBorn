@@ -436,9 +436,9 @@ public class SelectionManager : MonoBehaviour
             return;
 
         }
-       
 
-              
+
+
 
         if (CanCommandUnit(selectedUnit))
         {
@@ -447,7 +447,7 @@ public class SelectionManager : MonoBehaviour
             selectedUnit.GetComponent<UnitMovements>()?.PlayerMovement(selectedTile.node);
 
         }
-        
+
     }
 
     private void OnDestroy()
