@@ -17341,7 +17341,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359571254}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0000011353266}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.09, y: 0.09, z: 0.09}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -17349,8 +17349,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30.100006, y: 13.4}
-  m_SizeDelta: {x: 1500, y: 50}
+  m_AnchoredPosition: {x: -0.6, y: 13.4}
+  m_SizeDelta: {x: 829, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &359571256
 MonoBehaviour:
@@ -17372,15 +17372,25 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'CONSUMABLES CONSUMABLES CONSUMABLES
+  m_text: '1. Health Restoration
 
-    PLACEHOLDER TEXT
+    - Restores a specified amount of health to the character through the existing health modification system.
 
+    2. Action Point Restoration
 
-    Lorem Ipsum esque
+    - Replenishes a specified amount of Action Points, restoring the character''s available AP.
 
+    3. Status Effect Consumables
 
-    Je ne pale beaucoups un English'
+    - Applies a configured status effect to the character using the existing UnitStatusController.
+
+    4. Targeted Attack Consumables
+
+    - Initiates a targeted combat action through CombatActionExecutor, allowing consumables to participate in the combat targeting system.
+
+    5. Legacy Effect Consumables
+
+    - Applies supported resource modifications or temporary stat modifiers through the existing effect system. This implementation requires the Eat consumable type.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17407,8 +17417,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -48176,7 +48186,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30.1, y: 13.4}
+  m_AnchoredPosition: {x: 28.7, y: 17.4}
   m_SizeDelta: {x: 1500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &963154432
@@ -48199,7 +48209,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n\t-Melee Weapons\n1. Swords \n\t- Versatile melee weapons offering a balance of speed, damage, and precision.\n2. Axes\n\t- Powerful weapons designed to deliver heavy strikes, often sacrificing speed for increased damage.\n3. Blunt Weapons (Maces, Hammers, Clubs)\n\t- Maces, hammers, and clubs designed to crush enemies and break through heavy armor.\n4. Polearms (Spears, Halberds, Glaives)\n\t- Spears, halberds, and glaives that provide extended melee reach and control over enemy positioning.\n5. Daggers\n\t- Lightweight weapons specializing in fast attacks, precision strikes, and close-quarters combat.\n6. Fist Weapons\n\t- Claws, knuckles, and other hand-mounted weapons designed for rapid, close-range attacks.\n\nRanged Weapons\n1. Bows\n\t- Traditional ranged weapons capable of delivering precise attacks from a distance.\n2. Crossbows\n\t- Mechanical ranged weapons delivering powerful projectiles, typically at the cost of slower reload speeds.\n3. Firearms\n\t- Gunpowder-based weapons capable of dealing significant ranged damage with high projectile velocity.\n4. Slings\n\t- Simple, lightweight ranged weapons that launch small projectiles using momentum.\n5. Dart Guns\n\t- Specialized ranged weapons designed to fire small projectiles, potentially applying poison or other status effects.\n\nMagic Weapons\n1. Spellbooks\n\t- Collections of magical knowledge used to channel spells, rituals, and specialized abilities.\n2. Staffs\n\t- Two-handed magical weapons that focus and amplify magical energy for offensive or defensive abilities.\n3. Wands\n\t- Lightweight magical implements designed for quick, precise spellcasting.\n4. Charms\n\t- Enchanted objects that provide magical effects, passive enhancements, or specialized abilities.\n\nDefensive Equipment\n1. Shields\n\t- Defensive equipment used to block attacks, reduce incoming damage, and protect against enemy assaults."
+  m_text: "Melee Weapons\n1. Swords \n\t- Versatile melee weapons offering a balance of speed, damage, and precision.\n2. Axes\n\t- Powerful weapons designed to deliver heavy strikes, often sacrificing speed for increased damage.\n3. Blunt Weapons (Maces, Hammers, Clubs)\n\t- Maces, hammers, and clubs designed to crush enemies and break through heavy armor.\n4. Polearms (Spears, Halberds, Glaives)\n\t- Spears, halberds, and glaives that provide extended melee reach and control over enemy positioning.\n5. Daggers\n\t- Lightweight weapons specializing in fast attacks, precision strikes, and close-quarters combat.\n6. Fist Weapons\n\t- Claws, knuckles, and other hand-mounted weapons designed for rapid, close-range attacks.\n\nRanged Weapons\n1. Bows\n\t- Traditional ranged weapons capable of delivering precise attacks from a distance.\n2. Crossbows\n\t- Mechanical ranged weapons delivering powerful projectiles, typically at the cost of slower reload speeds.\n3. Firearms\n\t- Gunpowder-based weapons capable of dealing significant ranged damage with high projectile velocity.\n4. Slings\n\t- Simple, lightweight ranged weapons that launch small projectiles using momentum.\n5. Dart Guns\n\t- Specialized ranged weapons designed to fire small projectiles, potentially applying poison or other status effects.\n\nMagic Weapons\n1. Spellbooks\n\t- Collections of magical knowledge used to channel spells, rituals, and specialized abilities.\n2. Staffs\n\t- Two-handed magical weapons that focus and amplify magical energy for offensive or defensive abilities.\n3. Wands\n\t- Lightweight magical implements designed for quick, precise spellcasting.\n4. Charms\n\t- Enchanted objects that provide magical effects, passive enhancements, or specialized abilities.\n\nDefensive Equipment\n1. Shields\n\t- Defensive equipment used to block attacks, reduce incoming damage, and protect against enemy assaults."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -48226,8 +48236,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -82219,7 +82229,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1544375820}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0000011353266}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 0.09, y: 0.09, z: 0.09}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -82227,8 +82237,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 30.100006, y: 13.4}
-  m_SizeDelta: {x: 1500, y: 50}
+  m_AnchoredPosition: {x: 2, y: 18.6}
+  m_SizeDelta: {x: 882, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1544375822
 MonoBehaviour:
@@ -82250,15 +82260,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'ARMOR ARMOR ARMOR
-
-    PLACEHOLDER TEXT
-
-
-    Lorem Ipsum esque
-
-
-    Je ne pale beaucoups un English'
+  m_text: "Armor Types\n1. Leather Armor\n\t- Protective equipment made from leather, providing physical defense through the game's armor rating system. Confirmed templates include helmets, gloves, pants, and boots.\n2. Iron Armor\n\t- Metal armor designed to provide physical protection. Confirmed equipment includes chest armor, gloves, pants, and boots.\n3. Steel Armor\n\t- Reinforced metal equipment with higher armor values in the saved examples. Some pieces also provide ward protection or carry movement penalties.\n4. Dragonhide Armor\n\t- Armor crafted from dragonhide, offering a combination of armor and ward ratings. Confirmed equipment includes helmets, gloves, pants, and boots.\n\nArmor Classifications\n5. Light Armor\n\t- Equipment assigned the Light armor weight classification. Its defense and movement statistics depend on the individual equipment template.\n6. Medium Armor\n\t- Equipment assigned the Medium armor weight classification, allowing a configurable balance of defensive attributes and movement penalties.\n7. Heavy Armor\n\t- Equipment assigned the Heavy armor weight classification. Designed to accommodate more protective equipment configurations, with statistics determined by the specific item.\n\n\nSpecialized Armor Properties\nThese are supported equipment mechanics, not separate armor material types.\n8. Ward Protection\n\t- An additional defensive rating that can be assigned to equipment alongside its standard armor value.\n9. Resistance-Enhanced Armor\n\t- Equipment configured with additional damage resistances to provide protection against specified damage types.\n10. Stat-Enhanced Armor\n\t- Equipment that provides additional character statistics through its base values, generated bonuses, or upgrades.\n11. Ability-Granting Armor\n\t- Equipment configured to provide additional actions or effects through the existing equipment system."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -82285,8 +82287,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
