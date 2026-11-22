@@ -397,8 +397,27 @@ public class UnitMovements : MonoBehaviour
 
 
             if(tile != null)
-            { 
-                tile.SetMovementRange(true);
+            {
+
+
+                float percentage = cost / movementBudget;
+                DistanceTraveled traveled = DistanceTraveled.Small;
+
+                if (percentage < 0.25)
+                {
+                    traveled = DistanceTraveled.Small;
+                }
+                else if (percentage > 0.25 && percentage < 0.5) 
+                {
+                    traveled = DistanceTraveled.Medium;
+                }
+                else if(percentage > 0.75) 
+                {
+                    traveled = DistanceTraveled.Far;
+                }
+
+                tile.SetMovementRange(true, traveled);
+
                 highlightedTiles.Add(tile);
             }
         }
