@@ -106,9 +106,15 @@ public class PauseMenuController : MonoBehaviour
     public void BackToPauseMenu()
     {
         optionsMenu.SetActive(false);
-        controlsMenu.SetActive(false);
+
+        if (controlsMenu != null)
+        {
+            controlsMenu.SetActive(false);
+        }
+
         pauseMenu.SetActive(true);
     }
+
 
     public void SaveGame()
     {
