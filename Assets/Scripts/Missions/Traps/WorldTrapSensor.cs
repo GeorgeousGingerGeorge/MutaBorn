@@ -1,4 +1,4 @@
-using MutaBorn.Gameplay;
+
 using UnityEngine;
 
 [RequireComponent(typeof(WorldTrap))]

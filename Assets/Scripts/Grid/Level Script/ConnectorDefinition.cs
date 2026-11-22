@@ -1,6 +1,5 @@
 using UnityEngine;
-using System.Collections.Generic;
-using Unity.Collections.Tests.CoreCLR.TestJobs;
+
 
 
 [CreateAssetMenu(fileName = "ConnectorDefinition", menuName ="Scriptable Objects/Connector Definition")]
