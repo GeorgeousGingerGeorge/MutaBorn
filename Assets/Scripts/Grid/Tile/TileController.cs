@@ -1,6 +1,13 @@
 using UnityEngine;
 
 
+public enum DistanceTraveled 
+{
+    Small,
+    Medium,
+    Far
+}
+
 public class TileController : MonoBehaviour
 {
     [Header("Reference Node")]
@@ -19,6 +26,7 @@ public class TileController : MonoBehaviour
     private bool isSelected;
     private bool isInMovementRange;
     public bool isUnitSelected { get; private set; }
+    private DistanceTraveled unitsCost = DistanceTraveled.Small;
    
     public void Initialize(GridNode node)
     {
@@ -80,9 +88,10 @@ public class TileController : MonoBehaviour
         isSelected = selected;
         UpdateHighLight();
     }
-    public void SetMovementRange(bool active)
+    public void SetMovementRange(bool active, DistanceTraveled traveled = DistanceTraveled.Small)
     {
         isInMovementRange = active;
+        unitsCost = traveled;
         UpdateHighLight();
     }
     public void SetUnitSelected(bool selected) 
@@ -99,6 +108,7 @@ public class TileController : MonoBehaviour
             highlightRenderer.material.color = color; 
         }
     }
+ 
    
     private void UpdateHighLight() 
     {
@@ -124,27 +134,52 @@ public class TileController : MonoBehaviour
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
 
         }
-        else if (isInMovementRange)
-        {
-            tileColors.red = 1f;
-            tileColors.green = 0.85f;
-            tileColors.blue = 0.75f;
-            tileColors.alpha = 0.05f;
-
-
-            color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
-        }
         else if (isHovered)
         {
             tileColors.red = 0.5f;
             tileColors.green = 0.45f;
             tileColors.blue = 0.8f;
-            tileColors.alpha = 0.35f;
+            tileColors.alpha = 0.65f;
 
             color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
         }
+        else if (isInMovementRange)
+        {
+            
+            switch (unitsCost) 
+            {
+                case DistanceTraveled.Small:
+                    {
+                        tileColors.red = 1f;
+                        tileColors.green = 1f;
+                        tileColors.blue = 1f;
+                       
+                    }
+                    break;
+                case DistanceTraveled.Medium:
+                    {
+                        tileColors.red = 1f;
+                        tileColors.green = 0.85f;
+                       
+
+                    }
+                    break;
+                case DistanceTraveled.Far:
+                    {
+                        tileColors.red = 1f;
+                        tileColors.green = 0.25f;   
+                    }
+                    break;
+            }
+
+            tileColors.alpha = 0.1f;
+
+            color = new Color(tileColors.red, tileColors.green, tileColors.blue, tileColors.alpha);
+        }
+      
        
         SetHighlight(visible, color);
+        
     }
     public void GetColors() 
     {
