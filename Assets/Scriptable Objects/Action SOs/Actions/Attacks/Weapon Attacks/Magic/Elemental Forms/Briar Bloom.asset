@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35cc24514a6562f469b4e1ebc683e07c, type: 3}
+  m_Name: Briar Bloom
+  m_EditorClassIdentifier: Assembly-CSharp::ActionDefinition
+  actionId: briar-bloom
+  displayName: Briar Bloom
+  description: Cause Nature briars to erupt up to 6 tiles away; may Root hostiles in a 2-tile radius.
+  icon: {fileID: 0}
+  activationType: 0
+  category: 0
+  submenuGroup: Magic
+  displayOrder: 450
+  apCost: 9
+  maxUsesPerTurn: 0
+  controlTags: 1
+  combatBehavior: 4
+  damageStat: 2
+  combatRange: 6
+  damageMultiplier: 0.65
+  flatDamageBonus: 0
+  minimumDamage: 1
+  hitCount: 1
+  projectileDefinition: {fileID: 11400000, guid: 4ac8b48229d08fc4daf712fb33f2ba51, type: 2}
+  captureBonusPercent: 0
+  areaThrowRangeInTiles: 6
+  areaRadiusInTiles: 2
+  areaSameFloorOnly: 1
+  areaFriendlyFire: 0
+  areaHealAmount: 0
+  manaRestoreAmount: 0
+  selfStatus: {fileID: 0}
+  damageType: 21
+  additionalDamage: []
+  criticalChancePercent: 0
+  criticalDamageMultiplier: 1.5
+  flatArmorPenetration: 0
+  flatWardPenetration: 0
+  onDamageEffects: {fileID: 11400000, guid: c0b34e69e05741729b0347f32e7e49d3, type: 2}
+  mutationRushToTarget: 0
+  mutationKnockbackTiles: 0
+  mutationNegateChancePercent: 0
+  mutationGuardOwnerTurns: 1
+  mutationDeployPrefab: {fileID: 0}
+  mutationDeployDurationTurns: 2
+  mutationStructureHealth: 30
+  guardDamageReductionPercent: 0
+  guardFlatDamageReduction: 0
