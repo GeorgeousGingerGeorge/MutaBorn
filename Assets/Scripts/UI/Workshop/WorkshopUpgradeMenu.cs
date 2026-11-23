@@ -178,6 +178,13 @@ public sealed class WorkshopUpgradeMenu : MonoBehaviour
         Refresh();
     }
 
+    public void OpenForStored(string instanceId)
+    {
+        selectedOwnerId = null;
+        selectedInstanceId = instanceId;
+        Open();
+    }
+
     public void OpenForEquipped(string unitId, string instanceId)
     {
         selectedOwnerId = unitId;

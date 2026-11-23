@@ -22,7 +22,54 @@ MonoBehaviour:
   weaponSubtype: 0
   accessoryCategory: 0
   primaryDamageType: 0
-  upgradeBonuses: []
+  upgradeBonuses:
+  - kind: 0
+    weight: 1
+    stat: 0
+    damageType: 0
+    amountRange: {x: 1, y: 2}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 0
+        phase: 0
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 0
+        includeOwner: 0
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 0
+        durationTurns: 0
+        maximumUses: 0
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 0
+      conditions: []
+    bonusId: imgset-growth-pants
+    displayName: Equipment Mastery
+    repeatable: 1
+    maxStacks: 5
+    action: {fileID: 0}
+    scalingAttribute: 0
   upgradeCosts: []
   defaultSocket: 0
   modelPrefab: {fileID: 6829650038492538919, guid: 873d871f5dd60914b8d8375c21c9180e, type: 3}
@@ -38,882 +85,17 @@ MonoBehaviour:
   startingActions: []
   startingEffects: []
   templates:
-  - templateId: armor-copper-legguards
-    displayName: Copper Legguards
-    description: Copper-based pants protection. Part of the five-slot Copper armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-    legacyItemId: armor-copper-legguards
-    legacyRecipeId: craft.item.armor-copper-legguards
-    handednessOverride: 0
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 2
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 0
-      constitution: 1
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: copper
-        amount: 5
-      - resourceId: textiles
-        amount: 1
-    startingStarRolls:
-      rollCount: 0
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-copper-legguards-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-dragonhide-pants
-    displayName: Dragonhide Legguards
-    description: Dragonhide Legguards fitted to protect the legs during long engagements. Scaled hide that protects against heat while retaining flexibility.
-    templateIcon: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-    legacyItemId: armor-dragonhide-pants
-    legacyRecipeId: craft.item.armor-dragonhide-pants
+  - templateId: acid-pants
+    displayName: Acid Pants
+    description: Acid Pants is a leggings rebuilt directly from the current Acid Mage image set.
+    templateIcon: {fileID: 21300000, guid: c5c0a844f84a1e347acc0d63ba2fbd8f, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 1
     generationType: 1
     fixedStats:
-      armor: 2
-      ward: 2
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 2, y: 2}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 0
-      dexterity: 1
-      vitality: 1
-      constitution: 1
-      perception: 0
-      intelligence: 1
-    craftingRecipe:
-      requiredCraftTier: 1
-      ingredients:
-      - resourceId: enchanted_textiles
-        amount: 3
-      - resourceId: bones
-        amount: 2
-      - resourceId: deepfire_coals
-        amount: 1
-    startingStarRolls:
-      rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 65
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 35
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 65
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dragonhide-pants-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 35
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dragonhide-pants-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances:
-    - damageType: 11
-      percent: 20
-    - damageType: 12
-      percent: -10
-    - damageType: 1
-      percent: -5
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-dvergrium-greaves
-    displayName: Dvergrium Greaves
-    description: Dvergrium-based pants protection. Part of the five-slot Dvergrium armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-    legacyItemId: armor-dvergrium-greaves
-    legacyRecipeId: craft.item.armor-dvergrium-greaves
-    handednessOverride: 0
-    armorWeightOverride: 3
-    generationType: 1
-    fixedStats:
-      armor: 7
-      ward: 1
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 1, y: 1}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 1
-      constitution: 3
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 1
-      ingredients:
-      - resourceId: dvergrium
-        amount: 5
-      - resourceId: steel
-        amount: 2
-      - resourceId: textiles
-        amount: 2
-      - resourceId: deepfire_coals
-        amount: 1
-    startingStarRolls:
-      rollCount: 3
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dvergrium-greaves-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dvergrium-greaves-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances:
-    - damageType: 3
-      percent: 5
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-iron-pants
-    displayName: Iron Greaves
-    description: Iron Greaves fitted to protect the legs during long engagements. Reliable forged iron plates built for everyday battlefield protection.
-    templateIcon: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-    legacyItemId: armor-iron-pants
-    legacyRecipeId: craft.item.armor-iron-pants
-    handednessOverride: 0
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 3
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 0
-      constitution: 1
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: iron
-        amount: 4
-      - resourceId: wood
-        amount: 1
-      - resourceId: textiles
-        amount: 1
-    startingStarRolls:
-      rollCount: 1
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-iron-pants-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-leather-pants
-    displayName: Leather Leggings
-    description: Leather Leggings fitted to protect the legs during long engagements. Supple leather pieces made for mobility rather than heavy impact.
-    templateIcon: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-    legacyItemId: armor-leather-pants
-    legacyRecipeId: craft.item.armor-leather-pants
-    handednessOverride: 0
-    armorWeightOverride: 1
-    generationType: 1
-    fixedStats:
-      armor: 1
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 0
-      dexterity: 1
-      vitality: 0
-      constitution: 0
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: textiles
-        amount: 4
-    startingStarRolls:
-      rollCount: 1
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-leather-pants-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-mutantium-greaves
-    displayName: Mutantium Greaves
-    description: Mutantium-based pants protection. Part of the five-slot Mutantium armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-    legacyItemId: armor-mutantium-greaves
-    legacyRecipeId: craft.item.armor-mutantium-greaves
-    handednessOverride: 0
-    armorWeightOverride: 3
-    generationType: 1
-    fixedStats:
-      armor: 7
-      ward: 2
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 2, y: 2}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 1
-      constitution: 3
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 2
-      ingredients:
-      - resourceId: mutantium
-        amount: 5
-      - resourceId: steel
-        amount: 2
-      - resourceId: textiles
-        amount: 2
-      - resourceId: corrupt_nodule
-        amount: 1
-    startingStarRolls:
-      rollCount: 4
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-mutantium-greaves-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-mutantium-greaves-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances:
-    - damageType: 14
-      percent: 10
-    - damageType: 17
-      percent: -5
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-runewoven-leggings
-    displayName: Runewoven Leggings
-    description: Runewoven-based pants protection. Part of the five-slot Runewoven armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-    legacyItemId: armor-runewoven-leggings
-    legacyRecipeId: craft.item.armor-runewoven-leggings
-    handednessOverride: 0
-    armorWeightOverride: 1
-    generationType: 1
-    fixedStats:
-      armor: 2
+      armor: 5
       ward: 3
       movementPenalty: 0
       meleeDamage: 0
@@ -922,7 +104,7 @@ MonoBehaviour:
       accuracy: 0
     randomRanges:
       armor: {x: 0, y: 0}
-      ward: {x: 3, y: 3}
+      ward: {x: 0, y: 0}
       movementPenalty: {x: 0, y: 0}
       meleeDamage: {x: 0, y: 0}
       rangeDamage: {x: 0, y: 0}
@@ -930,130 +112,40 @@ MonoBehaviour:
       accuracy: {x: 0, y: 0}
     startingScaling:
       strength: 0
-      dexterity: 1
+      dexterity: 0
       vitality: 1
-      constitution: 0
+      constitution: 2
       perception: 0
-      intelligence: 2
+      intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 1
+      requiredCraftTier: 2
       ingredients:
       - resourceId: enchanted_textiles
-        amount: 5
-      - resourceId: runes
-        amount: 2
+        amount: 6
       - resourceId: maana_crystals
-        amount: 1
+        amount: 2
     startingStarRolls:
       rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
+      dieSides: 5
+      minimumSuccess: 3
     statGrowth:
     - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
+      growthWeight: 65
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
     - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
+      growthWeight: 35
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
     excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-runewoven-leggings-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-runewoven-leggings-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1068,23 +160,21 @@ MonoBehaviour:
     excludedTypeActions: []
     addedActions: []
     addedEffects: []
-    startingResistances:
-    - damageType: 4
-      percent: 5
+    startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: armor-silver-legguards
-    displayName: Silver Legguards
-    description: Silver-based pants protection. Part of the five-slot Silver armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-    legacyItemId: armor-silver-legguards
-    legacyRecipeId: craft.item.armor-silver-legguards
+  - templateId: arcanite-l-pants
+    displayName: Arcanite L Pants
+    description: Arcanite L Pants is a leggings rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: 8690aadf08993de4b9998aaa334ea335, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
-    armorWeightOverride: 0
+    armorWeightOverride: 1
     generationType: 1
     fixedStats:
-      armor: 3
-      ward: 2
+      armor: 6
+      ward: 4
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
@@ -1092,7 +182,7 @@ MonoBehaviour:
       accuracy: 0
     randomRanges:
       armor: {x: 0, y: 0}
-      ward: {x: 2, y: 2}
+      ward: {x: 0, y: 0}
       movementPenalty: {x: 0, y: 0}
       meleeDamage: {x: 0, y: 0}
       rangeDamage: {x: 0, y: 0}
@@ -1100,130 +190,42 @@ MonoBehaviour:
       accuracy: {x: 0, y: 0}
     startingScaling:
       strength: 0
-      dexterity: 1
-      vitality: 0
-      constitution: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
       perception: 0
-      intelligence: 1
+      intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 1
+      requiredCraftTier: 3
       ingredients:
-      - resourceId: silver
-        amount: 5
-      - resourceId: gems
+      - resourceId: arcanium
+        amount: 6
+      - resourceId: enchanted_textiles
         amount: 1
-      - resourceId: textiles
-        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
     startingStarRolls:
       rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
+      dieSides: 5
+      minimumSuccess: 2
     statGrowth:
     - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
     - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
+      growthWeight: 35
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
     excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-silver-legguards-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-silver-legguards-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1238,19 +240,645 @@ MonoBehaviour:
     excludedTypeActions: []
     addedActions: []
     addedEffects: []
-    startingResistances:
-    - damageType: 16
-      percent: 5
+    startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: armor-steel-pants
-    displayName: Steel Greaves
-    description: Steel Greaves fitted to protect the legs during long engagements. Dense steel plates meant to absorb punishment at the cost of weight.
-    templateIcon: {fileID: 21300000, guid: 75273e79c3788e847bd51616f0859cd4, type: 3}
-    legacyItemId: armor-steel-pants
-    legacyRecipeId: craft.item.armor-steel-pants
+  - templateId: arcanite-m-pants
+    displayName: Arcanite M Pants
+    description: Arcanite M Pants is a leggings rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: 9a68e46c13c1da04eb6118e7f51841c7, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 4
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: arcanium
+        amount: 6
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: bone-pants
+    displayName: Bone Pants
+    description: Bone Pants is a leggings rebuilt directly from the current Bone image set.
+    templateIcon: {fileID: 21300000, guid: 82afc0f8440794246bda0ceb72005418, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: bones
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dark-pants
+    displayName: Dark Pants
+    description: Dark Pants is a leggings rebuilt directly from the current Dark Mage image set.
+    templateIcon: {fileID: 21300000, guid: 67c8c4df77d7a7a449273e45e445cead, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dwarven-pants
+    displayName: Dwarven Pants
+    description: Dwarven Pants is a leggings rebuilt directly from the current Dwarven image set.
+    templateIcon: {fileID: 21300000, guid: 24ab3f6c84db05d4686c61a7901027c8, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 8
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: dvergrium
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: earth-pants
+    displayName: Earth Pants
+    description: Earth Pants is a leggings rebuilt directly from the current Earth Mage image set.
+    templateIcon: {fileID: 21300000, guid: 4fd4404bb912c284cbbede5951f6eefa, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: elven-pants
+    displayName: Elven Pants
+    description: Elven Pants is a leggings rebuilt directly from the current Elven image set.
+    templateIcon: {fileID: 21300000, guid: a3736f796e9e8a7419ca42874d29c9a9, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: elven_papyrus
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: flame-pants
+    displayName: Flame Pants
+    description: Flame Pants is a leggings rebuilt directly from the current Flame Mage image set.
+    templateIcon: {fileID: 21300000, guid: 8c58972a869eff541a57bb6b00d070ee, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: ice-pants
+    displayName: Ice Pants
+    description: Ice Pants is a leggings rebuilt directly from the current Ice Mage image set.
+    templateIcon: {fileID: 21300000, guid: 8cabda2b22f372941839df21f5c4f271, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-l-pants
+    displayName: Iron L Pants
+    description: Iron L Pants is a leggings rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 5fe10e12f4cc26d43bfb844e82132fe5, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
     generationType: 1
     fixedStats:
       armor: 5
@@ -1269,78 +897,41 @@ MonoBehaviour:
       magicDamage: {x: 0, y: 0}
       accuracy: {x: 0, y: 0}
     startingScaling:
-      strength: 1
+      strength: 0
       dexterity: 0
-      vitality: 0
+      vitality: 1
       constitution: 2
       perception: 0
       intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 1
+      requiredCraftTier: 2
       ingredients:
-      - resourceId: steel
-        amount: 4
+      - resourceId: iron
+        amount: 5
       - resourceId: textiles
         amount: 1
     startingStarRolls:
       rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
+      dieSides: 5
+      minimumSuccess: 3
     statGrowth:
     - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
+      growthWeight: 65
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
     excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-steel-pants-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1358,17 +949,173 @@ MonoBehaviour:
     startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: armor-wooden-pants
-    displayName: Wooden Pants
-    description: Light wooden leg guards bound with textiles.
-    templateIcon: {fileID: 21300000, guid: df7d159a39107c64eb0b1c2292caa35b, type: 3}
-    legacyItemId: armor-wooden-pants
-    legacyRecipeId: craft.item.armor-wooden-pants
+  - templateId: iron-m-pants
+    displayName: Iron M Pants
+    description: Iron M Pants is a leggings rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 99209f2c7ad246b41bade84fd9ecb247, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-s-pants
+    displayName: Iron S Pants
+    description: Iron S Pants is a leggings rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 8e097856d2bc10e4c9a99d1b6b76a724, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: leather-pants
+    displayName: Leather Pants
+    description: Leather Pants is a leggings rebuilt directly from the current Leather image set.
+    templateIcon: {fileID: 21300000, guid: d54cffebf0e6ead49b164883a6d86e69, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 1
     generationType: 1
     fixedStats:
-      armor: 1
+      armor: 3
       ward: 0
       movementPenalty: 0
       meleeDamage: 0
@@ -1386,25 +1133,1439 @@ MonoBehaviour:
     startingScaling:
       strength: 0
       dexterity: 0
-      vitality: 0
-      constitution: 1
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: textiles
+        amount: 4
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: lightning-pants
+    displayName: Lightning Pants
+    description: Lightning Pants is a leggings rebuilt directly from the current Lightning Mage image set.
+    templateIcon: {fileID: 21300000, guid: 8a6f77e1d5e99f9488bc669e55abcc41, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: master-pants
+    displayName: Master Pants
+    description: Master Pants is a leggings rebuilt directly from the current Master Mage image set.
+    templateIcon: {fileID: 21300000, guid: 1fda088455f80f649a82d350e1f3bdcc, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 7
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: mutanium-pants
+    displayName: Mutanium Pants
+    description: Mutanium Pants is a leggings rebuilt directly from the current Mutanium image set.
+    templateIcon: {fileID: 21300000, guid: 275829f16356cb84cb005281db226d9e, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 9
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 4
+      ingredients:
+      - resourceId: mutantium
+        amount: 7
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 3
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: novice-pants
+    displayName: Novice Pants
+    description: Novice Pants is a leggings rebuilt directly from the current Novice Mage image set.
+    templateIcon: {fileID: 21300000, guid: 9625349c535ed5149af5d62af9ceaa3c, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 4
+      - resourceId: maana_crystals
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: peasant-pants
+    displayName: Peasant Pants
+    description: Peasant Pants is a leggings rebuilt directly from the current Peasant image set.
+    templateIcon: {fileID: 21300000, guid: 0e53419a9f2ab7f45b3d4a33c31b81f0, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: textiles
+        amount: 4
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: poison-pants
+    displayName: Poison Pants
+    description: Poison Pants is a leggings rebuilt directly from the current Poison Mage image set.
+    templateIcon: {fileID: 21300000, guid: 4541fd5ec690034429804ff24ee4a5ae, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: rune-pants
+    displayName: Rune Pants
+    description: Rune Pants is a leggings rebuilt directly from the current Rune image set.
+    templateIcon: {fileID: 21300000, guid: fa2d811656c7ba14a8562645fd45d989, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 4
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: runes
+        amount: 6
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: scrap-pants
+    displayName: Scrap Pants
+    description: Scrap Pants is a leggings rebuilt directly from the current Scrap image set.
+    templateIcon: {fileID: 21300000, guid: 5c4f2be0b306e1045a390208042e81a2, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: scrap
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-l-pants
+    displayName: Silver L Pants
+    description: Silver L Pants is a leggings rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 70597002c157eed4abfaf17482e8da3c, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-m-pants
+    displayName: Silver M Pants
+    description: Silver M Pants is a leggings rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 0a2b2d4d2b9ac034a91a1d9b4f26f44d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-s-pants
+    displayName: Silver S Pants
+    description: Silver S Pants is a leggings rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: f31cd6cb3f743bd488e867a96c6dcdfa, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 8
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-l-pants
+    displayName: Steel L Pants
+    description: Steel L Pants is a leggings rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: 29cd0427f400021409d95875f971a7e5, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-m-pants
+    displayName: Steel M Pants
+    description: Steel M Pants is a leggings rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: dfd980501dd6345429ac13c27cbc6f18, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-s-pants
+    displayName: Steel S Pants
+    description: Steel S Pants is a leggings rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: fa0ee40714ccc0742bd2e2779ba57222, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 8
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: stone-pants
+    displayName: Stone Pants
+    description: Stone Pants is a leggings rebuilt directly from the current Stone image set.
+    templateIcon: {fileID: 21300000, guid: e1fa29f5d72758e438f6262cd4ba585f, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: stone
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: thief-pants
+    displayName: Thief Pants
+    description: Thief Pants is a leggings rebuilt directly from the current Thief image set.
+    templateIcon: {fileID: 21300000, guid: 740ba3d0379857b4887338161e505be0, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: textiles
+        amount: 5
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: water-pants
+    displayName: Water Pants
+    description: Water Pants is a leggings rebuilt directly from the current Water Mage image set.
+    templateIcon: {fileID: 21300000, guid: f24188d0ee53adf4f8b53079847f44e8, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: wood-pants
+    displayName: Wood Pants
+    description: Wood Pants is a leggings rebuilt directly from the current Wood image set.
+    templateIcon: {fileID: 21300000, guid: bba5d56cb43bbc04bbf8a3b4436627d7, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
       perception: 0
       intelligence: 0
     craftingRecipe:
       requiredCraftTier: 0
       ingredients:
       - resourceId: wood
-        amount: 2
+        amount: 3
       - resourceId: textiles
         amount: 1
     startingStarRolls:
-      rollCount: 0
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth: []
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
     excludedTypeBonusIds: []
     addedUpgradeBonuses: []
-    scalingOpportunities: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
