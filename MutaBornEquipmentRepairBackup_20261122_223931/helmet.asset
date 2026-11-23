@@ -1,0 +1,2760 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426835ade34359a5f7312faf913101, type: 3}
+  m_Name: helmet
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentType
+  typeId: helmet
+  displayTypeLabel: Helmet
+  typeIcon: {fileID: 21300000, guid: dc79b99ec009f104c8c92b7ef14d88b5, type: 3}
+  equipmentFit: 2
+  requiresBothHands: 0
+  armorCategory: 2
+  weaponCategory: 0
+  weaponSubtype: 0
+  accessoryCategory: 0
+  primaryDamageType: 0
+  upgradeBonuses: []
+  upgradeCosts: []
+  defaultSocket: 0
+  modelPrefab: {fileID: 6927750858605885335, guid: 498cac427b75d724ab7c4a0a4a7550d3, type: 3}
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  applyColors: 0
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+  accentColor: {r: 1, g: 1, b: 1, a: 1}
+  grantedActionSet: {fileID: 0}
+  grantedEffectCollection: {fileID: 0}
+  startingActions: []
+  startingEffects: []
+  templates:
+  - templateId: acid-helmet
+    displayName: Acid Helmet
+    description: Acid Helmet is a headgear rebuilt directly from the current Acid Mage image set.
+    templateIcon: {fileID: 21300000, guid: cfa995543b83d314da3c31b9d9dce13c, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: arcanite-l-helmet
+    displayName: Arcanite L Helmet
+    description: Arcanite L Helmet is a headgear rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: 5148bc8c6aa78cf40a884c906e23d983, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: arcanium
+        amount: 6
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: arcanite-m-helmet
+    displayName: Arcanite M Helmet
+    description: Arcanite M Helmet is a headgear rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: b6dd3f1973b4a464ba23a7610c1bb085, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: arcanium
+        amount: 6
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: bone-helmet
+    displayName: Bone Helmet
+    description: Bone Helmet is a headgear rebuilt directly from the current Bone image set.
+    templateIcon: {fileID: 21300000, guid: 25ae58d0885f97d4cbfde96f00d7dc6c, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: bones
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dark-crown
+    displayName: Dark Crown
+    description: Dark Crown is a headgear rebuilt directly from the current Dark Mage image set.
+    templateIcon: {fileID: 21300000, guid: 586c92c75c420ec42a89737cb21e71a6, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dark-helmet
+    displayName: Dark Helmet
+    description: Dark Helmet is a headgear rebuilt directly from the current Dark Mage image set.
+    templateIcon: {fileID: 21300000, guid: 0396d60f47b4fc04b81622fffa0fe2ad, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dwarven-helmet
+    displayName: Dwarven Helmet
+    description: Dwarven Helmet is a headgear rebuilt directly from the current Dwarven image set.
+    templateIcon: {fileID: 21300000, guid: 309bf9be298c71e489716ba34350b07c, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 8
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: dvergrium
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: earth-helmet
+    displayName: Earth Helmet
+    description: Earth Helmet is a headgear rebuilt directly from the current Earth Mage image set.
+    templateIcon: {fileID: 21300000, guid: 2a742285d54ad83458500d0c41665696, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: elven-crown
+    displayName: Elven Crown
+    description: Elven Crown is a headgear rebuilt directly from the current Elven image set.
+    templateIcon: {fileID: 21300000, guid: 292828c83da20c641a670beb0073426d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: elven_papyrus
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: elven-helmet
+    displayName: Elven Helmet
+    description: Elven Helmet is a headgear rebuilt directly from the current Elven image set.
+    templateIcon: {fileID: 21300000, guid: d616c50d8be33db4191e5a641c423c8a, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: elven_papyrus
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: flame-helmet
+    displayName: Flame Helmet
+    description: Flame Helmet is a headgear rebuilt directly from the current Flame Mage image set.
+    templateIcon: {fileID: 21300000, guid: bb05e916178fd164082d7f558f6842a8, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: ice-helmet
+    displayName: Ice Helmet
+    description: Ice Helmet is a headgear rebuilt directly from the current Ice Mage image set.
+    templateIcon: {fileID: 21300000, guid: 7e11284e2336a744a9590650d2acd378, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-l-helmet
+    displayName: Iron L Helmet
+    description: Iron L Helmet is a headgear rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 4340ed9972ba9ee4389f4add06df7394, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-m-helmet
+    displayName: Iron M Helmet
+    description: Iron M Helmet is a headgear rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 9a030a1acb396cf4baf9f6addd1affe0, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-s-helmet
+    displayName: Iron S Helmet
+    description: Iron S Helmet is a headgear rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 8584dbecda81bdf4590fb94ff451744d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: leather-helmet
+    displayName: Leather Helmet
+    description: Leather Helmet is a headgear rebuilt directly from the current Leather image set.
+    templateIcon: {fileID: 21300000, guid: e91b2a08df66b53429c45c7b45f25230, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: textiles
+        amount: 4
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: lightning-helmet
+    displayName: Lightning Helmet
+    description: Lightning Helmet is a headgear rebuilt directly from the current Lightning Mage image set.
+    templateIcon: {fileID: 21300000, guid: 1cab141e95b2d0b4ab573ee1f2764267, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: master-helmet
+    displayName: Master Helmet
+    description: Master Helmet is a headgear rebuilt directly from the current Master Mage image set.
+    templateIcon: {fileID: 21300000, guid: fd1237d4849008b43a8447dcaf072584, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 7
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: mutanium-helmet
+    displayName: Mutanium Helmet
+    description: Mutanium Helmet is a headgear rebuilt directly from the current Mutanium image set.
+    templateIcon: {fileID: 21300000, guid: 3c797691935bf8242b47bbe550c7147d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 9
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 4
+      ingredients:
+      - resourceId: mutantium
+        amount: 7
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 3
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: novice-helmet
+    displayName: Novice Helmet
+    description: Novice Helmet is a headgear rebuilt directly from the current Novice Mage image set.
+    templateIcon: {fileID: 21300000, guid: 40b0952580cf92444b56cc0eb512038a, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 4
+      - resourceId: maana_crystals
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: peasant-helmet
+    displayName: Peasant Helmet
+    description: Peasant Helmet is a headgear rebuilt directly from the current Peasant image set.
+    templateIcon: {fileID: 21300000, guid: c5e6fca241c56414d982230786609dd6, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: textiles
+        amount: 4
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: poison-helmet
+    displayName: Poison Helmet
+    description: Poison Helmet is a headgear rebuilt directly from the current Poison Mage image set.
+    templateIcon: {fileID: 21300000, guid: 53cf3f884da82544789768292e35cff0, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: rune-helmet
+    displayName: Rune Helmet
+    description: Rune Helmet is a headgear rebuilt directly from the current Rune image set.
+    templateIcon: {fileID: 21300000, guid: ded5ec114940a084391b787a7cecfc41, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: runes
+        amount: 6
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: scrap-helmet
+    displayName: Scrap Helmet
+    description: Scrap Helmet is a headgear rebuilt directly from the current Scrap image set.
+    templateIcon: {fileID: 21300000, guid: f6d2991ffea77304a8cea29ecfcbd2a0, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: scrap
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-l-helmet
+    displayName: Silver L Helmet
+    description: Silver L Helmet is a headgear rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 496df1cbf0f14fc4ba0cc068599c47dc, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-m-helmet
+    displayName: Silver M Helmet
+    description: Silver M Helmet is a headgear rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: a393939aa9432ab4690e7a43f4600da4, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-s-helmet
+    displayName: Silver S Helmet
+    description: Silver S Helmet is a headgear rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 6a389fe73c565bb40b9e151f4c26349c, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 8
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-l-helmet
+    displayName: Steel L Helmet
+    description: Steel L Helmet is a headgear rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: 8a55414727d8dbf408c9d56cb114e24f, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-m-helmet
+    displayName: Steel M Helmet
+    description: Steel M Helmet is a headgear rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: 5991075667088244889ee8475ac256fd, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-s-helmet
+    displayName: Steel S Helmet
+    description: Steel S Helmet is a headgear rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: 1f9e70cfc617d1a46bc4b19b2618729e, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 8
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: stone-helmet
+    displayName: Stone Helmet
+    description: Stone Helmet is a headgear rebuilt directly from the current Stone image set.
+    templateIcon: {fileID: 21300000, guid: c726b95bda70a4d48844b8570900eca0, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: stone
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: thief-helmet
+    displayName: Thief Helmet
+    description: Thief Helmet is a headgear rebuilt directly from the current Thief image set.
+    templateIcon: {fileID: 21300000, guid: 360a8673ffe764f4c84699c03a551b9f, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: textiles
+        amount: 5
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: water-helmet
+    displayName: Water Helmet
+    description: Water Helmet is a headgear rebuilt directly from the current Water Mage image set.
+    templateIcon: {fileID: 21300000, guid: f3a9ac41bae5bfe428531ff43b97fd68, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: wood-helmet
+    displayName: Wood Helmet
+    description: Wood Helmet is a headgear rebuilt directly from the current Wood image set.
+    templateIcon: {fileID: 21300000, guid: f2a6c10d8489cad4e8bfb066718e87c1, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: wood
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0

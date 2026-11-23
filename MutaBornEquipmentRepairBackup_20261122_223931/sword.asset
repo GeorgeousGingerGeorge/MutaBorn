@@ -1,0 +1,1030 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426835ade34359a5f7312faf913101, type: 3}
+  m_Name: sword
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentType
+  typeId: sword
+  displayTypeLabel: Sword
+  typeIcon: {fileID: 21300000, guid: ce027a64b46d2b14b916ab9099f5593a, type: 3}
+  equipmentFit: 1
+  requiresBothHands: 0
+  armorCategory: 0
+  weaponCategory: 1
+  weaponSubtype: 1
+  accessoryCategory: 0
+  primaryDamageType: 1
+  upgradeBonuses:
+  - kind: 0
+    weight: 1
+    stat: 2
+    damageType: 0
+    amountRange: {x: 1, y: 3}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 0
+        phase: 0
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 0
+        includeOwner: 0
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 0
+        durationTurns: 0
+        maximumUses: 0
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 0
+      conditions: []
+    bonusId: "\tsword-damage"
+    displayName: 
+    repeatable: 1
+    maxStacks: 5
+    action: {fileID: 0}
+    scalingAttribute: 0
+  upgradeCosts: []
+  defaultSocket: 0
+  modelPrefab: {fileID: 7754776579416677092, guid: 357da59c7de11b945893330f6404c58f, type: 3}
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  applyColors: 0
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+  accentColor: {r: 1, g: 1, b: 1, a: 1}
+  grantedActionSet: {fileID: 11400000, guid: aa2e8b5a8a5d09746ac259e8b2f1eabb, type: 2}
+  grantedEffectCollection: {fileID: 0}
+  startingActions:
+  - {fileID: 11400000, guid: be753f8925e3ba94aa1ae565860a1177, type: 2}
+  - {fileID: 11400000, guid: 5c0f37784eaf9434bb1d85fdc8f85a19, type: 2}
+  - {fileID: 11400000, guid: 51896952722f7aa4eb2d355169b80d42, type: 2}
+  startingEffects: []
+  templates:
+  - templateId: arcanite-sword
+    displayName: Arcanite Sword
+    description: Arcanite Sword is a weapon rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: 4e73ad79b7c967e4b8d29ec050b36d6e, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 13
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 7
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: arcanium
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dwarven-sword
+    displayName: Dwarven Sword
+    description: Dwarven Sword is a weapon rebuilt directly from the current Dwarven image set.
+    templateIcon: {fileID: 21300000, guid: df8b4cf1727dc3547939b66e9837d943, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 13
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 7
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: dvergrium
+        amount: 6
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: elven-sword
+    displayName: Elven Sword
+    description: Elven Sword is a weapon rebuilt directly from the current Elven image set.
+    templateIcon: {fileID: 21300000, guid: e323ce5f3a73e8446a743ea8acfea92d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 11
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 6
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: elven_papyrus
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-sword
+    displayName: Iron Sword
+    description: Iron Sword is a weapon rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 8871f0b3ea59fa542bedec669dff5eb9, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 11
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 6
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 5
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: mutanium-sword
+    displayName: Mutanium Sword
+    description: Mutanium Sword is a weapon rebuilt directly from the current Mutanium image set.
+    templateIcon: {fileID: 21300000, guid: 643b31ae3e201804c81b87ed9cb8d452, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 15
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 8
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 4
+      ingredients:
+      - resourceId: mutantium
+        amount: 7
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 3
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: rune-sword
+    displayName: Rune Sword
+    description: Rune Sword is a weapon rebuilt directly from the current Rune image set.
+    templateIcon: {fileID: 21300000, guid: 5b9500a862ece8045a616c8276e5c3b2, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 13
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 7
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: runes
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: scrap-sword
+    displayName: Scrap Sword
+    description: Scrap Sword is a weapon rebuilt directly from the current Scrap image set.
+    templateIcon: {fileID: 21300000, guid: 1fd32b8b1c5c1304eb1079842d781d46, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 9
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 5
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: scrap
+        amount: 4
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-sword
+    displayName: Silver Sword
+    description: Silver Sword is a weapon rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 45d97995eb24b1745b2952d10966de18, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 13
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 7
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-sword
+    displayName: Steel Sword
+    description: Steel Sword is a weapon rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: c850962032d3df24ca60bb99a80a5638, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 13
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 7
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: stone-sword
+    displayName: Stone Sword
+    description: Stone Sword is a weapon rebuilt directly from the current Stone image set.
+    templateIcon: {fileID: 21300000, guid: c87c10e15549df64f8f57c4d0a323932, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 7
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 4
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: bones
+        amount: 3
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: stone-sword
+    displayName: Stone Sword
+    description: Stone Sword is a weapon rebuilt directly from the current Stone image set.
+    templateIcon: {fileID: 21300000, guid: 995124b2f59421a4a852db42f2780ea9, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 7
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 4
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: stone
+        amount: 3
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: wood-sword
+    displayName: Wood Sword
+    description: Wood Sword is a weapon rebuilt directly from the current Wood image set.
+    templateIcon: {fileID: 21300000, guid: 98a499038ec162b42a8884571597e87d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 7
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 4
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: wood
+        amount: 3
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0

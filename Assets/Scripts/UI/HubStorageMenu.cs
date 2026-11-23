@@ -40,6 +40,10 @@ public sealed class HubStorageMenu : MonoBehaviour
     [SerializeField] private GameObject resourcesPanel;
     [SerializeField] private WorkshopResourcesHUD resourcesHud;
 
+    [Header("Storage Upgrade Navigation")]
+    [SerializeField] private Button upgradeSelectedButton;
+    [SerializeField] private WorkshopUpgradeMenu workshopUpgradeMenu;
+
     [Header("Existing Item Detail Screen")]
     [SerializeField] private BarracksItemPopup itemPopup;
     [SerializeField] private TMP_Text itemNameText;
@@ -56,13 +60,15 @@ public sealed class HubStorageMenu : MonoBehaviour
     private readonly List<GameObject> generatedActions = new List<GameObject>();
     private ItemStorage subscribedStorage;
     private Category selectedCategory = Category.All;
+    private string selectedInstanceId;
     private HubStorageTrading trading;
 
     private void Awake()
     {
         if (allButton == null)
         {
-            Transform buttonTransform = transform.Find("Storage Header/AllButton");
+            Transform buttonTransform = transform.Find("Panel/Storage Header/AllButton") ??
+                transform.Find("Storage Header/AllButton");
             if (buttonTransform != null)
             {
                 allButton = buttonTransform.GetComponent<Button>();
@@ -79,7 +85,7 @@ public sealed class HubStorageMenu : MonoBehaviour
 
         if (equipmentButton == null)
         {
-            Transform header = transform.Find("Storage Header");
+            Transform header = transform.Find("Panel/Storage Header") ?? transform.Find("Storage Header");
             if (header != null)
             {
                 foreach (Button button in header.GetComponentsInChildren<Button>(true))
@@ -145,6 +151,12 @@ public sealed class HubStorageMenu : MonoBehaviour
         if (addAllResourcesButton != null)
         {
             addAllResourcesButton.onClick.AddListener(Add999Resources);
+
+        }
+
+        if (upgradeSelectedButton != null)
+        {
+            upgradeSelectedButton.onClick.AddListener(OpenSelectedUpgrade);
 
         }
 
@@ -272,23 +284,32 @@ public sealed class HubStorageMenu : MonoBehaviour
 
     private void SelectCategory(Category category)
     {
+        // The Resources HUD is an overlay, not an equipment filter.
+        if (category == Category.Resources)
+        {
+            if (resourcesPanel != null)
+            {
+                resourcesPanel.SetActive(true);
+
+            }
+
+            resourcesHud?.Refresh();
+
+            return;
+
+        }
+
         selectedCategory = category;
         trading?.SetVisible(category == Category.Trading);
         if (resourcesPanel != null)
         {
-            resourcesPanel.SetActive(category == Category.Resources);
+            resourcesPanel.SetActive(false);
 
         }
 
         if (itemsScroll != null)
         {
-            itemsScroll.SetActive(category != Category.Trading && category != Category.Resources);
-
-        }
-
-        if (category == Category.Resources)
-        {
-            resourcesHud?.Refresh();
+            itemsScroll.SetActive(category != Category.Trading);
 
         }
 
@@ -434,6 +455,7 @@ public sealed class HubStorageMenu : MonoBehaviour
 
     private void ShowItem(string instanceId)
     {
+        selectedInstanceId = instanceId;
         if (ItemStorage.Instance == null ||
             !ItemStorage.Instance.TryGetItem(instanceId, out StoredItem item))
         {
@@ -503,6 +525,30 @@ public sealed class HubStorageMenu : MonoBehaviour
 
         }
 
+    }
+
+    private void OpenSelectedUpgrade()
+    {
+        if (workshopUpgradeMenu == null || ItemStorage.Instance == null ||
+            !ItemStorage.Instance.TryGetItem(selectedInstanceId, out StoredItem selected) ||
+            selected.Kind != StoredItemKind.Equipment)
+        {
+            Debug.LogWarning("Select an equipment item in Storage before upgrading.", this);
+
+            return;
+
+        }
+
+        if (!selected.Equipment.IsValid)
+        {
+            Debug.LogWarning("This stored item's original equipment template was removed by the catalog rebuild. " +
+                "It needs a matching image-based template before it can be upgraded: " + selected.DisplayName, this);
+
+            return;
+
+        }
+
+        workshopUpgradeMenu.OpenForStored(selectedInstanceId);
     }
 
     private void AddMutationRow(ActiveMutationRecord mutation)

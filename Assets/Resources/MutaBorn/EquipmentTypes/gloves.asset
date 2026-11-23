@@ -22,7 +22,54 @@ MonoBehaviour:
   weaponSubtype: 0
   accessoryCategory: 0
   primaryDamageType: 0
-  upgradeBonuses: []
+  upgradeBonuses:
+  - kind: 0
+    weight: 1
+    stat: 0
+    damageType: 0
+    amountRange: {x: 1, y: 2}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 0
+        phase: 0
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 0
+        includeOwner: 0
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 0
+        durationTurns: 0
+        maximumUses: 0
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 0
+      conditions: []
+    bonusId: imgset-growth-gloves
+    displayName: Equipment Mastery
+    repeatable: 1
+    maxStacks: 5
+    action: {fileID: 0}
+    scalingAttribute: 0
   upgradeCosts: []
   defaultSocket: 0
   modelPrefab: {fileID: 9103237868817714709, guid: 78e72d9a807701247bf7a71c3fea4c61, type: 3}
@@ -38,891 +85,26 @@ MonoBehaviour:
   startingActions: []
   startingEffects: []
   templates:
-  - templateId: armor-copper-gloves
-    displayName: Copper Gloves
-    description: Copper-based gloves protection. Part of the five-slot Copper armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 070e985688408fc49845d79b225d7c50, type: 3}
-    legacyItemId: armor-copper-gloves
-    legacyRecipeId: craft.item.armor-copper-gloves
-    handednessOverride: 0
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 2
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 0
-      constitution: 1
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: copper
-        amount: 3
-      - resourceId: textiles
-        amount: 1
-    startingStarRolls:
-      rollCount: 0
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-copper-gloves-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-dragonhide-gloves
-    displayName: Dragonhide Grips
-    description: Dragonhide Grips shaped to protect the hands without fully sacrificing grip. Scaled hide that protects against heat while retaining flexibility.
-    templateIcon: {fileID: 21300000, guid: 070e985688408fc49845d79b225d7c50, type: 3}
-    legacyItemId: armor-dragonhide-gloves
-    legacyRecipeId: craft.item.armor-dragonhide-gloves
+  - templateId: acid-gloves
+    displayName: Acid Gloves
+    description: Acid Gloves is a gloves rebuilt directly from the current Acid Mage image set.
+    templateIcon: {fileID: 21300000, guid: 62acef6a403b81a48bd5840c347d1c2d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 1
     generationType: 1
     fixedStats:
-      armor: 2
-      ward: 2
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 2, y: 2}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 0
-      dexterity: 1
-      vitality: 1
-      constitution: 1
-      perception: 0
-      intelligence: 1
-    craftingRecipe:
-      requiredCraftTier: 1
-      ingredients:
-      - resourceId: enchanted_textiles
-        amount: 3
-      - resourceId: bones
-        amount: 2
-      - resourceId: deepfire_coals
-        amount: 1
-    startingStarRolls:
-      rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 65
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 35
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 65
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dragonhide-gloves-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 35
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dragonhide-gloves-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances:
-    - damageType: 11
-      percent: 20
-    - damageType: 12
-      percent: -10
-    - damageType: 1
-      percent: -5
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-dvergrium-gauntlets
-    displayName: Dvergrium Gauntlets
-    description: Dvergrium-based gloves protection. Part of the five-slot Dvergrium armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 070e985688408fc49845d79b225d7c50, type: 3}
-    legacyItemId: armor-dvergrium-gauntlets
-    legacyRecipeId: craft.item.armor-dvergrium-gauntlets
-    handednessOverride: 0
-    armorWeightOverride: 3
-    generationType: 1
-    fixedStats:
-      armor: 6
-      ward: 1
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 1, y: 1}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 1
-      constitution: 3
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 1
-      ingredients:
-      - resourceId: dvergrium
-        amount: 3
-      - resourceId: steel
-        amount: 2
-      - resourceId: textiles
-        amount: 2
-      - resourceId: deepfire_coals
-        amount: 1
-    startingStarRolls:
-      rollCount: 3
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dvergrium-gauntlets-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dvergrium-gauntlets-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances:
-    - damageType: 3
-      percent: 5
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-iron-gloves
-    displayName: Iron Gauntlets
-    description: Iron Gauntlets shaped to protect the hands without fully sacrificing grip. Reliable forged iron plates built for everyday battlefield protection.
-    templateIcon: {fileID: 21300000, guid: 070e985688408fc49845d79b225d7c50, type: 3}
-    legacyItemId: armor-iron-gloves
-    legacyRecipeId: craft.item.armor-iron-gloves
-    handednessOverride: 0
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 3
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 0
-      constitution: 1
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: iron
-        amount: 4
-      - resourceId: wood
-        amount: 1
-    startingStarRolls:
-      rollCount: 1
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-iron-gloves-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-leather-gloves
-    displayName: Leather Gloves
-    description: Leather Gloves shaped to protect the hands without fully sacrificing grip. Supple leather pieces made for mobility rather than heavy impact.
-    templateIcon: {fileID: 21300000, guid: 070e985688408fc49845d79b225d7c50, type: 3}
-    legacyItemId: armor-leather-gloves
-    legacyRecipeId: craft.item.armor-leather-gloves
-    handednessOverride: 0
-    armorWeightOverride: 1
-    generationType: 1
-    fixedStats:
-      armor: 1
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 0
-      dexterity: 1
-      vitality: 0
-      constitution: 0
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: textiles
-        amount: 4
-      - resourceId: bones
-        amount: 1
-    startingStarRolls:
-      rollCount: 1
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-leather-gloves-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-mutantium-gauntlets
-    displayName: Mutantium Gauntlets
-    description: Mutantium-based gloves protection. Part of the five-slot Mutantium armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 070e985688408fc49845d79b225d7c50, type: 3}
-    legacyItemId: armor-mutantium-gauntlets
-    legacyRecipeId: craft.item.armor-mutantium-gauntlets
-    handednessOverride: 0
-    armorWeightOverride: 3
-    generationType: 1
-    fixedStats:
-      armor: 7
-      ward: 2
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 2, y: 2}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 1
-      constitution: 3
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 2
-      ingredients:
-      - resourceId: mutantium
-        amount: 3
-      - resourceId: steel
-        amount: 2
-      - resourceId: textiles
-        amount: 2
-      - resourceId: corrupt_nodule
-        amount: 1
-    startingStarRolls:
-      rollCount: 4
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-mutantium-gauntlets-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-mutantium-gauntlets-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances:
-    - damageType: 14
-      percent: 10
-    - damageType: 17
-      percent: -5
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-runewoven-gloves
-    displayName: Runewoven Gloves
-    description: Runewoven-based gloves protection. Part of the five-slot Runewoven armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 070e985688408fc49845d79b225d7c50, type: 3}
-    legacyItemId: armor-runewoven-gloves
-    legacyRecipeId: craft.item.armor-runewoven-gloves
-    handednessOverride: 0
-    armorWeightOverride: 1
-    generationType: 1
-    fixedStats:
-      armor: 2
+      armor: 4
       ward: 3
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
-      accuracy: 0
+      accuracy: 2
     randomRanges:
       armor: {x: 0, y: 0}
-      ward: {x: 3, y: 3}
+      ward: {x: 0, y: 0}
       movementPenalty: {x: 0, y: 0}
       meleeDamage: {x: 0, y: 0}
       rangeDamage: {x: 0, y: 0}
@@ -930,130 +112,44 @@ MonoBehaviour:
       accuracy: {x: 0, y: 0}
     startingScaling:
       strength: 0
-      dexterity: 1
+      dexterity: 0
       vitality: 1
-      constitution: 0
+      constitution: 2
       perception: 0
-      intelligence: 2
+      intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 1
+      requiredCraftTier: 2
       ingredients:
       - resourceId: enchanted_textiles
-        amount: 3
-      - resourceId: runes
-        amount: 2
+        amount: 5
       - resourceId: maana_crystals
-        amount: 1
+        amount: 2
     startingStarRolls:
       rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
+      dieSides: 5
+      minimumSuccess: 3
     statGrowth:
     - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
+      growthWeight: 65
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
     - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
     excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-runewoven-gloves-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-runewoven-gloves-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1068,31 +164,29 @@ MonoBehaviour:
     excludedTypeActions: []
     addedActions: []
     addedEffects: []
-    startingResistances:
-    - damageType: 4
-      percent: 5
+    startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: armor-silver-gloves
-    displayName: Silver Gloves
-    description: Silver-based gloves protection. Part of the five-slot Silver armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: 070e985688408fc49845d79b225d7c50, type: 3}
-    legacyItemId: armor-silver-gloves
-    legacyRecipeId: craft.item.armor-silver-gloves
+  - templateId: arcanite-l-gloves
+    displayName: Arcanite L Gloves
+    description: Arcanite L Gloves is a gloves rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: 37ed105307462194fa0b6c443e5fe183, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
-    armorWeightOverride: 0
+    armorWeightOverride: 1
     generationType: 1
     fixedStats:
-      armor: 3
-      ward: 2
+      armor: 5
+      ward: 4
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
-      accuracy: 0
+      accuracy: 2
     randomRanges:
       armor: {x: 0, y: 0}
-      ward: {x: 2, y: 2}
+      ward: {x: 0, y: 0}
       movementPenalty: {x: 0, y: 0}
       meleeDamage: {x: 0, y: 0}
       rangeDamage: {x: 0, y: 0}
@@ -1100,130 +194,46 @@ MonoBehaviour:
       accuracy: {x: 0, y: 0}
     startingScaling:
       strength: 0
-      dexterity: 1
-      vitality: 0
-      constitution: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
       perception: 0
-      intelligence: 1
+      intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 1
+      requiredCraftTier: 3
       ingredients:
-      - resourceId: silver
-        amount: 3
-      - resourceId: gems
+      - resourceId: arcanium
+        amount: 5
+      - resourceId: enchanted_textiles
         amount: 1
-      - resourceId: textiles
-        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
     startingStarRolls:
       rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
+      dieSides: 5
+      minimumSuccess: 2
     statGrowth:
     - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
     - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
     excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-silver-gloves-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-silver-gloves-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1238,19 +248,747 @@ MonoBehaviour:
     excludedTypeActions: []
     addedActions: []
     addedEffects: []
-    startingResistances:
-    - damageType: 16
-      percent: 5
+    startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: armor-steel-gloves
-    displayName: Steel Gauntlets
-    description: Steel Gauntlets shaped to protect the hands without fully sacrificing grip. Dense steel plates meant to absorb punishment at the cost of weight.
-    templateIcon: {fileID: 21300000, guid: 070e985688408fc49845d79b225d7c50, type: 3}
-    legacyItemId: armor-steel-gloves
-    legacyRecipeId: craft.item.armor-steel-gloves
+  - templateId: arcanite-m-gloves
+    displayName: Arcanite M Gloves
+    description: Arcanite M Gloves is a gloves rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: 6f59c8009da8a5a44b2567c2ad6676fa, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: arcanium
+        amount: 5
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: bone-gloves
+    displayName: Bone Gloves
+    description: Bone Gloves is a gloves rebuilt directly from the current Bone image set.
+    templateIcon: {fileID: 21300000, guid: f082bd1b31d7a474494d65368429339b, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: bones
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dark-gloves
+    displayName: Dark Gloves
+    description: Dark Gloves is a gloves rebuilt directly from the current Dark Mage image set.
+    templateIcon: {fileID: 21300000, guid: 0c3a69df2bbff6f41a52f9fc8693c475, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dwarven-gloves
+    displayName: Dwarven Gloves
+    description: Dwarven Gloves is a gloves rebuilt directly from the current Dwarven image set.
+    templateIcon: {fileID: 21300000, guid: a10a239ae3b70c74996598ea529bb54a, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: dvergrium
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: earth-gloves
+    displayName: Earth Gloves
+    description: Earth Gloves is a gloves rebuilt directly from the current Earth Mage image set.
+    templateIcon: {fileID: 21300000, guid: 2b79e710d17b9694693d03e1b2d1d72e, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: elven-gloves
+    displayName: Elven Gloves
+    description: Elven Gloves is a gloves rebuilt directly from the current Elven image set.
+    templateIcon: {fileID: 21300000, guid: 37af8e4571b3de54a9ef1dc9ea1ce399, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: elven_papyrus
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: flame-gloves
+    displayName: Flame Gloves
+    description: Flame Gloves is a gloves rebuilt directly from the current Flame Mage image set.
+    templateIcon: {fileID: 21300000, guid: 02c0116af6fdc154abd4d9d4f0b5bea7, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: ice-gloves
+    displayName: Ice Gloves
+    description: Ice Gloves is a gloves rebuilt directly from the current Ice Mage image set.
+    templateIcon: {fileID: 21300000, guid: 5cd9e3d994c9cf14e9eebe886dde566d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-l-gloves
+    displayName: Iron L Gloves
+    description: Iron L Gloves is a gloves rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 2d0622ab497bf5545a69ef3d0e50f1cb, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-m-gloves
+    displayName: Iron M Gloves
+    description: Iron M Gloves is a gloves rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 96b1994cbc2682745b803196cc277a21, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
     generationType: 1
     fixedStats:
       armor: 5
@@ -1259,7 +997,7 @@ MonoBehaviour:
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
-      accuracy: 0
+      accuracy: 2
     randomRanges:
       armor: {x: 0, y: 0}
       ward: {x: 0, y: 0}
@@ -1269,78 +1007,41 @@ MonoBehaviour:
       magicDamage: {x: 0, y: 0}
       accuracy: {x: 0, y: 0}
     startingScaling:
-      strength: 1
+      strength: 0
       dexterity: 0
-      vitality: 0
+      vitality: 1
       constitution: 2
       perception: 0
       intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 1
+      requiredCraftTier: 2
       ingredients:
-      - resourceId: steel
+      - resourceId: iron
         amount: 4
       - resourceId: textiles
         amount: 1
     startingStarRolls:
       rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
+      dieSides: 5
+      minimumSuccess: 3
     statGrowth:
     - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
     excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-steel-gloves-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1358,23 +1059,23 @@ MonoBehaviour:
     startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: armor-wooden-gloves
-    displayName: Wooden Gloves
-    description: Simple wooden hand guards held together with textiles.
-    templateIcon: {fileID: 21300000, guid: 66ab3cb6a67817240a432d914d856ae2, type: 3}
-    legacyItemId: armor-wooden-gloves
-    legacyRecipeId: craft.item.armor-wooden-gloves
+  - templateId: iron-s-gloves
+    displayName: Iron S Gloves
+    description: Iron S Gloves is a gloves rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 4bcfd5a961c44ef49b519fd1013fa377, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
-    armorWeightOverride: 1
+    armorWeightOverride: 3
     generationType: 1
     fixedStats:
-      armor: 1
+      armor: 6
       ward: 0
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
-      accuracy: 0
+      accuracy: 2
     randomRanges:
       armor: {x: 0, y: 0}
       ward: {x: 0, y: 0}
@@ -1386,25 +1087,1541 @@ MonoBehaviour:
     startingScaling:
       strength: 0
       dexterity: 0
-      vitality: 0
-      constitution: 1
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: leather-gloves
+    displayName: Leather Gloves
+    description: Leather Gloves is a gloves rebuilt directly from the current Leather image set.
+    templateIcon: {fileID: 21300000, guid: b43be49676821014c937c39e870015ad, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 2
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: textiles
+        amount: 3
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: lightning-gloves
+    displayName: Lightning Gloves
+    description: Lightning Gloves is a gloves rebuilt directly from the current Lightning Mage image set.
+    templateIcon: {fileID: 21300000, guid: f6007bab16fd64e409eb191727289ad4, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: master-gloves
+    displayName: Master Gloves
+    description: Master Gloves is a gloves rebuilt directly from the current Master Mage image set.
+    templateIcon: {fileID: 21300000, guid: c8baac52a409b3941a9e545acff16a98, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: mutanium-gloves
+    displayName: Mutanium Gloves
+    description: Mutanium Gloves is a gloves rebuilt directly from the current Mutanium image set.
+    templateIcon: {fileID: 21300000, guid: 226be7f4429d29a47834bd00346085fb, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 8
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 3
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 4
+      ingredients:
+      - resourceId: mutantium
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 3
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: novice-gloves
+    displayName: Novice Gloves
+    description: Novice Gloves is a gloves rebuilt directly from the current Novice Mage image set.
+    templateIcon: {fileID: 21300000, guid: f17db2c32d5d3464980df6b2721bccbe, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 2
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 3
+      - resourceId: maana_crystals
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: peasant-gloves
+    displayName: Peasant Gloves
+    description: Peasant Gloves is a gloves rebuilt directly from the current Peasant image set.
+    templateIcon: {fileID: 21300000, guid: 8e73863ac71f27547a7c57922cc3ace9, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 2
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: textiles
+        amount: 3
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: poison-gloves
+    displayName: Poison Gloves
+    description: Poison Gloves is a gloves rebuilt directly from the current Poison Mage image set.
+    templateIcon: {fileID: 21300000, guid: 63e15fd43fee75746a069859dd53f644, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: rune-gloves
+    displayName: Rune Gloves
+    description: Rune Gloves is a gloves rebuilt directly from the current Rune image set.
+    templateIcon: {fileID: 21300000, guid: 06280459fbe331243bb468241f3ed6ff, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: runes
+        amount: 5
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: scrap-gloves
+    displayName: Scrap Gloves
+    description: Scrap Gloves is a gloves rebuilt directly from the current Scrap image set.
+    templateIcon: {fileID: 21300000, guid: 650b558250d2dd2458877f1c67c4971b, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: scrap
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-l-gloves
+    displayName: Silver L Gloves
+    description: Silver L Gloves is a gloves rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: f9171d9b4fd95664197a6274463f0cee, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-m-gloves
+    displayName: Silver M Gloves
+    description: Silver M Gloves is a gloves rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 5d3e7a7a5abaf2447a11bf3f7fc6faae, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-s-gloves
+    displayName: Silver S Gloves
+    description: Silver S Gloves is a gloves rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: dcbcdc932fd93284b8922ac837873757, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-l-gloves
+    displayName: Steel L Gloves
+    description: Steel L Gloves is a gloves rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: d4ff61de3f9f3384e8acd6153318cb24, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-m-gloves
+    displayName: Steel M Gloves
+    description: Steel M Gloves is a gloves rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: 041f16c2717345843bf9d3580194b8d6, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-s-gloves
+    displayName: Steel S Gloves
+    description: Steel S Gloves is a gloves rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: d9d1f56b0eaf93a46ab5ce7760df728e, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: stone-gloves
+    displayName: Stone Gloves
+    description: Stone Gloves is a gloves rebuilt directly from the current Stone image set.
+    templateIcon: {fileID: 21300000, guid: 33870705d0ee54e42b94424a2a8a0323, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: stone
+        amount: 2
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: thief-gloves
+    displayName: Thief Gloves
+    description: Thief Gloves is a gloves rebuilt directly from the current Thief image set.
+    templateIcon: {fileID: 21300000, guid: c06eb69e40fcd204b993bad1feeba0f6, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: textiles
+        amount: 4
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: water-gloves
+    displayName: Water Gloves
+    description: Water Gloves is a gloves rebuilt directly from the current Water Mage image set.
+    templateIcon: {fileID: 21300000, guid: 6cb5e669a6d090740aee21f997125b97, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: wood-gloves
+    displayName: Wood Gloves
+    description: Wood Gloves is a gloves rebuilt directly from the current Wood image set.
+    templateIcon: {fileID: 21300000, guid: 042297965120fca4d862ffe1060549b9, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
       perception: 0
       intelligence: 0
     craftingRecipe:
       requiredCraftTier: 0
       ingredients:
       - resourceId: wood
-        amount: 1
+        amount: 2
       - resourceId: textiles
         amount: 1
     startingStarRolls:
-      rollCount: 0
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth: []
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
     excludedTypeBonusIds: []
     addedUpgradeBonuses: []
-    scalingOpportunities: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}

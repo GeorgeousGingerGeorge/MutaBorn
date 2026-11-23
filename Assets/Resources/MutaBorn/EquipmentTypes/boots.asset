@@ -22,7 +22,54 @@ MonoBehaviour:
   weaponSubtype: 0
   accessoryCategory: 0
   primaryDamageType: 0
-  upgradeBonuses: []
+  upgradeBonuses:
+  - kind: 0
+    weight: 1
+    stat: 0
+    damageType: 0
+    amountRange: {x: 1, y: 2}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 0
+        phase: 0
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 0
+        includeOwner: 0
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 0
+        durationTurns: 0
+        maximumUses: 0
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 0
+      conditions: []
+    bonusId: imgset-growth-boots
+    displayName: Equipment Mastery
+    repeatable: 1
+    maxStacks: 5
+    action: {fileID: 0}
+    scalingAttribute: 0
   upgradeCosts: []
   defaultSocket: 0
   modelPrefab: {fileID: 4853172529506688934, guid: 6143ddf77c84dfb49b0a3fa7c3241464, type: 3}
@@ -38,891 +85,26 @@ MonoBehaviour:
   startingActions: []
   startingEffects: []
   templates:
-  - templateId: armor-copper-boots
-    displayName: Copper Boots
-    description: Copper-based boots protection. Part of the five-slot Copper armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: f5a5bf1bdbc074146918bd18f3ab79a7, type: 3}
-    legacyItemId: armor-copper-boots
-    legacyRecipeId: craft.item.armor-copper-boots
-    handednessOverride: 0
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 2
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 0
-      constitution: 1
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: copper
-        amount: 3
-      - resourceId: textiles
-        amount: 1
-    startingStarRolls:
-      rollCount: 0
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-copper-boots-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-dragonhide-boots
-    displayName: Dragonhide Treads
-    description: Dragonhide Treads designed to protect the feet while crossing rough ground. Scaled hide that protects against heat while retaining flexibility.
-    templateIcon: {fileID: 21300000, guid: f5a5bf1bdbc074146918bd18f3ab79a7, type: 3}
-    legacyItemId: armor-dragonhide-boots
-    legacyRecipeId: craft.item.armor-dragonhide-boots
+  - templateId: acid-boots
+    displayName: Acid Boots
+    description: Acid Boots is a boots rebuilt directly from the current Acid Mage image set.
+    templateIcon: {fileID: 21300000, guid: 4830f4e278c856f4fbc6de1da4f1f387, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 1
     generationType: 1
     fixedStats:
-      armor: 2
-      ward: 2
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 2, y: 2}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 0
-      dexterity: 1
-      vitality: 1
-      constitution: 1
-      perception: 0
-      intelligence: 1
-    craftingRecipe:
-      requiredCraftTier: 1
-      ingredients:
-      - resourceId: enchanted_textiles
-        amount: 3
-      - resourceId: bones
-        amount: 2
-      - resourceId: deepfire_coals
-        amount: 1
-    startingStarRolls:
-      rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 65
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 35
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 65
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dragonhide-boots-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 35
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dragonhide-boots-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances:
-    - damageType: 11
-      percent: 20
-    - damageType: 12
-      percent: -10
-    - damageType: 1
-      percent: -5
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-dvergrium-sabatons
-    displayName: Dvergrium Sabatons
-    description: Dvergrium-based boots protection. Part of the five-slot Dvergrium armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: f5a5bf1bdbc074146918bd18f3ab79a7, type: 3}
-    legacyItemId: armor-dvergrium-sabatons
-    legacyRecipeId: craft.item.armor-dvergrium-sabatons
-    handednessOverride: 0
-    armorWeightOverride: 3
-    generationType: 1
-    fixedStats:
-      armor: 6
-      ward: 1
-      movementPenalty: 1
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 1, y: 1}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 1
-      constitution: 3
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 1
-      ingredients:
-      - resourceId: dvergrium
-        amount: 3
-      - resourceId: steel
-        amount: 2
-      - resourceId: textiles
-        amount: 2
-      - resourceId: deepfire_coals
-        amount: 1
-    startingStarRolls:
-      rollCount: 3
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dvergrium-sabatons-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-dvergrium-sabatons-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances:
-    - damageType: 3
-      percent: 5
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-iron-boots
-    displayName: Iron Sabatons
-    description: Iron Sabatons designed to protect the feet while crossing rough ground. Reliable forged iron plates built for everyday battlefield protection.
-    templateIcon: {fileID: 21300000, guid: f5a5bf1bdbc074146918bd18f3ab79a7, type: 3}
-    legacyItemId: armor-iron-boots
-    legacyRecipeId: craft.item.armor-iron-boots
-    handednessOverride: 0
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 3
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 0
-      constitution: 1
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: iron
-        amount: 4
-      - resourceId: wood
-        amount: 1
-    startingStarRolls:
-      rollCount: 1
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-iron-boots-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-leather-boots
-    displayName: Leather Boots
-    description: Leather Boots designed to protect the feet while crossing rough ground. Supple leather pieces made for mobility rather than heavy impact.
-    templateIcon: {fileID: 21300000, guid: f5a5bf1bdbc074146918bd18f3ab79a7, type: 3}
-    legacyItemId: armor-leather-boots
-    legacyRecipeId: craft.item.armor-leather-boots
-    handednessOverride: 0
-    armorWeightOverride: 1
-    generationType: 1
-    fixedStats:
-      armor: 1
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 0
-      dexterity: 1
-      vitality: 0
-      constitution: 0
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: textiles
-        amount: 4
-      - resourceId: bones
-        amount: 1
-    startingStarRolls:
-      rollCount: 1
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-leather-boots-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-mutantium-sabatons
-    displayName: Mutantium Sabatons
-    description: Mutantium-based boots protection. Part of the five-slot Mutantium armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: f5a5bf1bdbc074146918bd18f3ab79a7, type: 3}
-    legacyItemId: armor-mutantium-sabatons
-    legacyRecipeId: craft.item.armor-mutantium-sabatons
-    handednessOverride: 0
-    armorWeightOverride: 3
-    generationType: 1
-    fixedStats:
-      armor: 7
-      ward: 2
-      movementPenalty: 1
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 2, y: 2}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
-      vitality: 1
-      constitution: 3
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 2
-      ingredients:
-      - resourceId: mutantium
-        amount: 3
-      - resourceId: steel
-        amount: 2
-      - resourceId: textiles
-        amount: 2
-      - resourceId: corrupt_nodule
-        amount: 1
-    startingStarRolls:
-      rollCount: 4
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-mutantium-sabatons-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-mutantium-sabatons-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions: []
-    addedEffects: []
-    startingResistances:
-    - damageType: 14
-      percent: 10
-    - damageType: 17
-      percent: -5
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: armor-runewoven-treads
-    displayName: Runewoven Treads
-    description: Runewoven-based boots protection. Part of the five-slot Runewoven armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: f5a5bf1bdbc074146918bd18f3ab79a7, type: 3}
-    legacyItemId: armor-runewoven-treads
-    legacyRecipeId: craft.item.armor-runewoven-treads
-    handednessOverride: 0
-    armorWeightOverride: 1
-    generationType: 1
-    fixedStats:
-      armor: 2
+      armor: 4
       ward: 3
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
-      accuracy: 0
+      accuracy: 1
     randomRanges:
       armor: {x: 0, y: 0}
-      ward: {x: 3, y: 3}
+      ward: {x: 0, y: 0}
       movementPenalty: {x: 0, y: 0}
       meleeDamage: {x: 0, y: 0}
       rangeDamage: {x: 0, y: 0}
@@ -930,130 +112,44 @@ MonoBehaviour:
       accuracy: {x: 0, y: 0}
     startingScaling:
       strength: 0
-      dexterity: 1
+      dexterity: 0
       vitality: 1
-      constitution: 0
+      constitution: 2
       perception: 0
-      intelligence: 2
+      intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 1
+      requiredCraftTier: 2
       ingredients:
       - resourceId: enchanted_textiles
-        amount: 3
-      - resourceId: runes
-        amount: 2
+        amount: 5
       - resourceId: maana_crystals
-        amount: 1
+        amount: 2
     startingStarRolls:
       rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
+      dieSides: 5
+      minimumSuccess: 3
     statGrowth:
     - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
+      growthWeight: 65
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
     - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
     excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-runewoven-treads-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-runewoven-treads-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1068,23 +164,757 @@ MonoBehaviour:
     excludedTypeActions: []
     addedActions: []
     addedEffects: []
-    startingResistances:
-    - damageType: 4
-      percent: 5
+    startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: armor-silver-boots
-    displayName: Silver Boots
-    description: Silver-based boots protection. Part of the five-slot Silver armor family; wearing the full set has no automatic set bonus yet.
-    templateIcon: {fileID: 21300000, guid: f5a5bf1bdbc074146918bd18f3ab79a7, type: 3}
-    legacyItemId: armor-silver-boots
-    legacyRecipeId: craft.item.armor-silver-boots
+  - templateId: arcanite-l-boots
+    displayName: Arcanite L Boots
+    description: Arcanite L Boots is a boots rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: b1dcb43c1fc58014880eab9327a849a3, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
-    armorWeightOverride: 0
+    armorWeightOverride: 1
     generationType: 1
     fixedStats:
-      armor: 3
-      ward: 2
+      armor: 5
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: arcanium
+        amount: 5
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: arcanite-m-boots
+    displayName: Arcanite M Boots
+    description: Arcanite M Boots is a boots rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: c124c435dfb1e6049bf35a592b18e57a, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 4
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: arcanium
+        amount: 5
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: bone-boots
+    displayName: Bone Boots
+    description: Bone Boots is a boots rebuilt directly from the current Bone image set.
+    templateIcon: {fileID: 21300000, guid: 5b34721d503027643898da5844846fd7, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: bones
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dark-boots
+    displayName: Dark Boots
+    description: Dark Boots is a boots rebuilt directly from the current Dark Mage image set.
+    templateIcon: {fileID: 21300000, guid: 733da674a6ce6fe46aebe48859ce0110, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: dwarven-boots
+    displayName: Dwarven Boots
+    description: Dwarven Boots is a boots rebuilt directly from the current Dwarven image set.
+    templateIcon: {fileID: 21300000, guid: 6b4f1008f695b7446a9e7e9075ab386b, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: dvergrium
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: earth-boots
+    displayName: Earth Boots
+    description: Earth Boots is a boots rebuilt directly from the current Earth Mage image set.
+    templateIcon: {fileID: 21300000, guid: 53884edc209617842b7e2f30ea477f3a, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: elven-boots
+    displayName: Elven Boots
+    description: Elven Boots is a boots rebuilt directly from the current Elven image set.
+    templateIcon: {fileID: 21300000, guid: 6ac293b5c0601244d93a8bf05a8f6002, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: elven_papyrus
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: flame-boots
+    displayName: Flame Boots
+    description: Flame Boots is a boots rebuilt directly from the current Flame Mage image set.
+    templateIcon: {fileID: 21300000, guid: a2b5559ae8f2c1847b1928f293a459e7, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: ice-boots
+    displayName: Ice Boots
+    description: Ice Boots is a boots rebuilt directly from the current Ice Mage image set.
+    templateIcon: {fileID: 21300000, guid: c59cf13016faba34287f22160298541b, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-l-boots
+    displayName: Iron L Boots
+    description: Iron L Boots is a boots rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 7969134087879b24d8f09f5a3d459509, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
@@ -1092,7 +922,7 @@ MonoBehaviour:
       accuracy: 0
     randomRanges:
       armor: {x: 0, y: 0}
-      ward: {x: 2, y: 2}
+      ward: {x: 0, y: 0}
       movementPenalty: {x: 0, y: 0}
       meleeDamage: {x: 0, y: 0}
       rangeDamage: {x: 0, y: 0}
@@ -1100,130 +930,40 @@ MonoBehaviour:
       accuracy: {x: 0, y: 0}
     startingScaling:
       strength: 0
-      dexterity: 1
-      vitality: 0
-      constitution: 1
+      dexterity: 0
+      vitality: 1
+      constitution: 2
       perception: 0
-      intelligence: 1
+      intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 1
+      requiredCraftTier: 2
       ingredients:
-      - resourceId: silver
-        amount: 3
-      - resourceId: gems
-        amount: 1
+      - resourceId: iron
+        amount: 4
       - resourceId: textiles
         amount: 1
     startingStarRolls:
       rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
+      dieSides: 5
+      minimumSuccess: 3
     statGrowth:
     - stat: 0
-      growthWeight: 60
-      zeroWeight: 1
+      growthWeight: 65
+      zeroWeight: 0
       amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 40
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
     excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 60
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-silver-boots-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 40
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-silver-boots-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1238,19 +978,893 @@ MonoBehaviour:
     excludedTypeActions: []
     addedActions: []
     addedEffects: []
-    startingResistances:
-    - damageType: 16
-      percent: 5
+    startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: armor-steel-boots
-    displayName: Steel Sabatons
-    description: Steel Sabatons designed to protect the feet while crossing rough ground. Dense steel plates meant to absorb punishment at the cost of weight.
-    templateIcon: {fileID: 21300000, guid: f5a5bf1bdbc074146918bd18f3ab79a7, type: 3}
-    legacyItemId: armor-steel-boots
-    legacyRecipeId: craft.item.armor-steel-boots
+  - templateId: iron-m-boots
+    displayName: Iron M Boots
+    description: Iron M Boots is a boots rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: c96e04b3fc7adf64f9b1e3d92a3f88a1, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-s-boots
+    displayName: Iron S Boots
+    description: Iron S Boots is a boots rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 2ec080f75f621344fb85f278b1d85805, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 4
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: leather-boots
+    displayName: Leather Boots
+    description: Leather Boots is a boots rebuilt directly from the current Leather image set.
+    templateIcon: {fileID: 21300000, guid: 7b573cb59da4ca541bdb5703140b5b25, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 2
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: textiles
+        amount: 3
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: lightning-boots
+    displayName: Lightning Boots
+    description: Lightning Boots is a boots rebuilt directly from the current Lightning Mage image set.
+    templateIcon: {fileID: 21300000, guid: 36029411c7ccfe04fb9b198b9e98a78e, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: master-boots
+    displayName: Master Boots
+    description: Master Boots is a boots rebuilt directly from the current Master Mage image set.
+    templateIcon: {fileID: 21300000, guid: 232786d554d483145a7aa28475266060, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 5
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: mutanium-boots
+    displayName: Mutanium Boots
+    description: Mutanium Boots is a boots rebuilt directly from the current Mutanium image set.
+    templateIcon: {fileID: 21300000, guid: c2c4e512d51f7ca468980c385f34228d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 8
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 4
+      ingredients:
+      - resourceId: mutantium
+        amount: 6
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 3
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: novice-boots
+    displayName: Novice Boots
+    description: Novice Boots is a boots rebuilt directly from the current Novice Mage image set.
+    templateIcon: {fileID: 21300000, guid: dd1631592a4b5b4499122bfcfa337676, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 2
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 3
+      - resourceId: maana_crystals
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: peasant-boots
+    displayName: Peasant Boots
+    description: Peasant Boots is a boots rebuilt directly from the current Peasant image set.
+    templateIcon: {fileID: 21300000, guid: 2f1ae7451c40ef44aacd4ae2bd4af055, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 2
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: textiles
+        amount: 3
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: poison-boots
+    displayName: Poison Boots
+    description: Poison Boots is a boots rebuilt directly from the current Poison Mage image set.
+    templateIcon: {fileID: 21300000, guid: fcdbf6c27b50e6848965522a65fa8f65, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: rune-boots
+    displayName: Rune Boots
+    description: Rune Boots is a boots rebuilt directly from the current Rune image set.
+    templateIcon: {fileID: 21300000, guid: 240b9df445e8b134ebee4ace9e2397c3, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 4
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: runes
+        amount: 5
+      - resourceId: enchanted_textiles
+        amount: 1
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: scrap-boots
+    displayName: Scrap Boots
+    description: Scrap Boots is a boots rebuilt directly from the current Scrap image set.
+    templateIcon: {fileID: 21300000, guid: 37e84559142b4554d822127342c442a1, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: scrap
+        amount: 3
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-l-boots
+    displayName: Silver L Boots
+    description: Silver L Boots is a boots rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 5f9d9a6bf789b8c4cbca28d0236aafdb, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
     generationType: 1
     fixedStats:
       armor: 5
@@ -1269,78 +1883,41 @@ MonoBehaviour:
       magicDamage: {x: 0, y: 0}
       accuracy: {x: 0, y: 0}
     startingScaling:
-      strength: 1
+      strength: 0
       dexterity: 0
-      vitality: 0
+      vitality: 1
       constitution: 2
       perception: 0
       intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 1
+      requiredCraftTier: 3
       ingredients:
-      - resourceId: steel
-        amount: 4
+      - resourceId: silver
+        amount: 5
       - resourceId: textiles
         amount: 1
     startingStarRolls:
       rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
+      dieSides: 5
+      minimumSuccess: 2
     statGrowth:
     - stat: 0
-      growthWeight: 100
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 100
-      stat: 0
-      damageType: 0
+      growthWeight: 65
+      zeroWeight: 0
       amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-armor-steel-boots-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    scalingOpportunities: []
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1358,17 +1935,173 @@ MonoBehaviour:
     startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: armor-wooden-boots
-    displayName: Wooden Boots
-    description: Wooden foot protection with textile straps.
-    templateIcon: {fileID: 21300000, guid: 61e8435950673b4448adb2edc4f9b6ec, type: 3}
-    legacyItemId: armor-wooden-boots
-    legacyRecipeId: craft.item.armor-wooden-boots
+  - templateId: silver-m-boots
+    displayName: Silver M Boots
+    description: Silver M Boots is a boots rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: c94143024aec664499c23de127412695, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-s-boots
+    displayName: Silver S Boots
+    description: Silver S Boots is a boots rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 4d696a3fab64a964a877eea91a947b23, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-l-boots
+    displayName: Steel L Boots
+    description: Steel L Boots is a boots rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: 6c801bbd678715e449530ed44c3e2bbc, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 1
     generationType: 1
     fixedStats:
-      armor: 1
+      armor: 5
       ward: 0
       movementPenalty: 0
       meleeDamage: 0
@@ -1386,25 +2119,509 @@ MonoBehaviour:
     startingScaling:
       strength: 0
       dexterity: 0
-      vitality: 0
-      constitution: 1
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-m-boots
+    displayName: Steel M Boots
+    description: Steel M Boots is a boots rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: 796735b12dab24f47b1d20a04d7e02d0, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 6
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-s-boots
+    displayName: Steel S Boots
+    description: Steel S Boots is a boots rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: c4ff9571c082ef340a8c483e61bf876b, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 7
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 5
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: stone-boots
+    displayName: Stone Boots
+    description: Stone Boots is a boots rebuilt directly from the current Stone image set.
+    templateIcon: {fileID: 21300000, guid: 1c186d86d99cc564a85c515e8289899a, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 3
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 0
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: stone
+        amount: 2
+      - resourceId: textiles
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: thief-boots
+    displayName: Thief Boots
+    description: Thief Boots is a boots rebuilt directly from the current Thief image set.
+    templateIcon: {fileID: 21300000, guid: 31cf0b61feb6f144a8789f456d5d5256, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: textiles
+        amount: 4
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: water-boots
+    displayName: Water Boots
+    description: Water Boots is a boots rebuilt directly from the current Water Mage image set.
+    templateIcon: {fileID: 21300000, guid: 9a70f83ecd0da154f9dc15b36cd39c4d, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 1
+    generationType: 1
+    fixedStats:
+      armor: 4
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 1
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: enchanted_textiles
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: wood-boots
+    displayName: Wood Boots
+    description: Wood Boots is a boots rebuilt directly from the current Wood image set.
+    templateIcon: {fileID: 21300000, guid: a7e3e3b62ee631144ab61c6c6acd60b6, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 2
+    generationType: 1
+    fixedStats:
+      armor: 3
+      ward: 0
+      movementPenalty: 1
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 0
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 1
+      constitution: 2
       perception: 0
       intelligence: 0
     craftingRecipe:
       requiredCraftTier: 0
       ingredients:
       - resourceId: wood
-        amount: 1
+        amount: 2
       - resourceId: textiles
         amount: 1
     startingStarRolls:
-      rollCount: 0
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth: []
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 0
+      growthWeight: 65
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 20
+      zeroWeight: 0
+      amountRange: {x: 1, y: 1}
     excludedTypeBonusIds: []
     addedUpgradeBonuses: []
-    scalingOpportunities: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0300000002000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0300000002000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}

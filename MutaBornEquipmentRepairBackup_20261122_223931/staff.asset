@@ -1,0 +1,617 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9426835ade34359a5f7312faf913101, type: 3}
+  m_Name: staff
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentType
+  typeId: staff
+  displayTypeLabel: Staff
+  typeIcon: {fileID: 21300000, guid: 12f04bbff9293014db128810c74935fd, type: 3}
+  equipmentFit: 1
+  requiresBothHands: 0
+  armorCategory: 0
+  weaponCategory: 3
+  weaponSubtype: 13
+  accessoryCategory: 0
+  primaryDamageType: 4
+  upgradeBonuses: []
+  upgradeCosts: []
+  defaultSocket: 0
+  modelPrefab: {fileID: 7976265534634159510, guid: 2582250c509bedc48a1546b7784e7514, type: 3}
+  positionOffset: {x: 0, y: 0, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  scale: {x: 1, y: 1, z: 1}
+  applyColors: 0
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+  accentColor: {r: 1, g: 1, b: 1, a: 1}
+  grantedActionSet: {fileID: 11400000, guid: 8d1ffb5a294b44c428c6c546ac07e80a, type: 2}
+  grantedEffectCollection: {fileID: 0}
+  startingActions:
+  - {fileID: 11400000, guid: 9c4eb5ed959644b7919a246090431fa2, type: 2}
+  - {fileID: 11400000, guid: df65c6269ed848adb36cfc2f7c8bfcb6, type: 2}
+  - {fileID: 11400000, guid: ef2441f2344779f428833a8e65f75783, type: 2}
+  startingEffects: []
+  templates:
+  - templateId: bone-staff
+    displayName: Bone Staff
+    description: Bone Staff is a weapon rebuilt directly from the current Bone image set.
+    templateIcon: {fileID: 21300000, guid: cbb71f2d77e69a647b08bb9debb24550, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 2
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 9
+      accuracy: 5
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 2
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: bones
+        amount: 4
+      - resourceId: maana_crystals
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0500000004000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0500000004000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: elven-staff
+    displayName: Elven Staff
+    description: Elven Staff is a weapon rebuilt directly from the current Elven image set.
+    templateIcon: {fileID: 21300000, guid: 02db1e6bda88bc24c9bd3fe0acb18f36, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 3
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 11
+      accuracy: 6
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 2
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: elven_papyrus
+        amount: 5
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0500000004000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0500000004000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: rune-staff
+    displayName: Rune Staff
+    description: Rune Staff is a weapon rebuilt directly from the current Rune image set.
+    templateIcon: {fileID: 21300000, guid: f3bfc70a17efca04f844c84bf6678aef, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 13
+      accuracy: 7
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 2
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: runes
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0500000004000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0500000004000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-staff
+    displayName: Silver Staff
+    description: Silver Staff is a weapon rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 924e33e71c311214b805f412c4ef154a, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 13
+      accuracy: 7
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 2
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0500000004000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0500000004000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-staff
+    displayName: Steel Staff
+    description: Steel Staff is a weapon rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: eb6b0547541389344b02e55bcd3bf0d0, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 4
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 13
+      accuracy: 7
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 2
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0500000004000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0500000004000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: stone-staff
+    displayName: Stone Staff
+    description: Stone Staff is a weapon rebuilt directly from the current Stone image set.
+    templateIcon: {fileID: 21300000, guid: 241867f3c21bb474da7547a5f28f60aa, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 7
+      accuracy: 4
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 2
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: stone
+        amount: 3
+      - resourceId: maana_crystals
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0500000004000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0500000004000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: wood-staff
+    displayName: Wood Staff
+    description: Wood Staff is a weapon rebuilt directly from the current Wood image set.
+    templateIcon: {fileID: 21300000, guid: ed6644bba2352ea468ae91049bf79bc1, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 1
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 7
+      accuracy: 4
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 0
+      dexterity: 0
+      vitality: 0
+      constitution: 0
+      perception: 1
+      intelligence: 2
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: wood
+        amount: 3
+      - resourceId: maana_crystals
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 1
+      growthWeight: 35
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 4
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0500000004000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0500000004000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0

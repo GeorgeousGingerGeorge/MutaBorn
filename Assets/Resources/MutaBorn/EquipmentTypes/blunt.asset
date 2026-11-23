@@ -22,7 +22,54 @@ MonoBehaviour:
   weaponSubtype: 3
   accessoryCategory: 0
   primaryDamageType: 3
-  upgradeBonuses: []
+  upgradeBonuses:
+  - kind: 0
+    weight: 1
+    stat: 2
+    damageType: 0
+    amountRange: {x: 1, y: 2}
+    effect:
+      definition: {fileID: 0}
+      procChancePercent: 100
+      procChanceSchemaVersion: 1
+      activation:
+        trigger: 0
+        phase: 0
+        frequency: 0
+        eventActor: 0
+        requireGrantingSourceMatch: 0
+        requireAction: 0
+      targeting:
+        reference: 0
+        selection: 0
+        factionMask: 0
+        includeOwner: 0
+        radiusInTiles: 0
+        sameFloorOnly: 0
+      lifetime:
+        lifetime: 0
+        durationTurns: 0
+        maximumUses: 0
+      operationParameters:
+        resource: 0
+        stat: 0
+        statModifierMode: 0
+        damageType: 0
+        damageDelivery: 0
+        defenseStat: 0
+        statusId: 
+        statusDefinition: {fileID: 0}
+      value:
+        constant: 0
+        terms: []
+        rounding: 0
+      conditions: []
+    bonusId: imgset-growth-blunt
+    displayName: Equipment Mastery
+    repeatable: 1
+    maxStacks: 5
+    action: {fileID: 0}
+    scalingAttribute: 0
   upgradeCosts: []
   defaultSocket: 0
   modelPrefab: {fileID: 8322051652487996947, guid: d4e02e3ea1cd84541bc63afaff3fae26, type: 3}
@@ -33,703 +80,31 @@ MonoBehaviour:
   primaryColor: {r: 1, g: 1, b: 1, a: 1}
   secondaryColor: {r: 1, g: 1, b: 1, a: 1}
   accentColor: {r: 1, g: 1, b: 1, a: 1}
-  grantedActionSet: {fileID: 0}
+  grantedActionSet: {fileID: 11400000, guid: 1f326b862f1ce6d478e1d98595dc60c8, type: 2}
   grantedEffectCollection: {fileID: 0}
-  startingActions: []
+  startingActions:
+  - {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
+  - {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
+  - {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
   startingEffects: []
   templates:
-  - templateId: weapon-copper-warhammer
-    displayName: Copper Warhammer
-    description: Forged or assembled around Copper and Wood. One-handed blunt with flexible hand-slot use. Additional techniques can be earned through equipment stars.
-    templateIcon: {fileID: 21300000, guid: c88bf15ea1674071910ce94281a6939e, type: 3}
-    legacyItemId: weapon-copper-warhammer
-    legacyRecipeId: craft.item.weapon-copper-warhammer
+  - templateId: arcanite-hammer
+    displayName: Arcanite Hammer
+    description: Arcanite Hammer is a weapon rebuilt directly from the current Arcanite image set.
+    templateIcon: {fileID: 21300000, guid: c2cf7a8d00b59874cae977fceddcd583, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 0
     generationType: 1
     fixedStats:
       armor: 0
-      ward: 1
-      movementPenalty: 0
-      meleeDamage: 7
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 1, y: 1}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 2
-      dexterity: 0
-      vitality: 0
-      constitution: 2
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: copper
-        amount: 4
-      - resourceId: wood
-        amount: 1
-    startingStarRolls:
-      rollCount: 1
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 1
-      growthWeight: 35
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 2
-      growthWeight: 55
-      zeroWeight: 1
-      amountRange: {x: 1, y: 3}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 55
-      stat: 2
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-copper-warhammer-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 35
-      stat: 1
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-copper-warhammer-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 50
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-copper-warhammer-ability-0
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 35
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-copper-warhammer-ability-1
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 25
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-copper-warhammer-ability-2
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions:
-    - {fileID: 11400000, guid: e364a110e7604fa09f61b3c1158ab401, type: 2}
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: weapon-dvergrium-skullmaul
-    displayName: Dvergrium Skullmaul
-    description: Forged or assembled around Dvergrium and Steel. Two-handed blunt with stronger attacks but occupies both hands. Additional techniques can be earned through equipment stars.
-    templateIcon: {fileID: 21300000, guid: c88bf15ea1674071910ce94281a6939e, type: 3}
-    legacyItemId: weapon-dvergrium-skullmaul
-    legacyRecipeId: craft.item.weapon-dvergrium-skullmaul
-    handednessOverride: 2
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 2
-      ward: 1
-      movementPenalty: 1
-      meleeDamage: 18
-      rangeDamage: 11
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 1, y: 1}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 3
-      dexterity: 0
-      vitality: 0
-      constitution: 3
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 1
-      ingredients:
-      - resourceId: dvergrium
-        amount: 4
-      - resourceId: steel
-        amount: 2
-      - resourceId: wood
-        amount: 1
-      - resourceId: deepfire_coals
-        amount: 1
-    startingStarRolls:
-      rollCount: 4
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 20
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 1
-      growthWeight: 20
-      zeroWeight: 0
-      amountRange: {x: 1, y: 2}
-    - stat: 2
-      growthWeight: 55
-      zeroWeight: 1
-      amountRange: {x: 1, y: 3}
-    - stat: 3
-      growthWeight: 35
-      zeroWeight: 1
-      amountRange: {x: 1, y: 3}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 55
-      stat: 2
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-dvergrium-skullmaul-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 35
-      stat: 3
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-dvergrium-skullmaul-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 20
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-dvergrium-skullmaul-2
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 50
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-dvergrium-skullmaul-ability-0
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 35
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-dvergrium-skullmaul-ability-1
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 25
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-dvergrium-skullmaul-ability-2
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions:
-    - {fileID: 11400000, guid: f765e5838e9642cf89528a27f2b7f861, type: 2}
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: weapon-steel-morningstar
-    displayName: Steel Morningstar
-    description: Forged or assembled around Steel and Iron. One-handed blunt with flexible hand-slot use. Additional techniques can be earned through equipment stars.
-    templateIcon: {fileID: 21300000, guid: c88bf15ea1674071910ce94281a6939e, type: 3}
-    legacyItemId: weapon-steel-morningstar
-    legacyRecipeId: craft.item.weapon-steel-morningstar
-    handednessOverride: 0
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 1
       ward: 0
       movementPenalty: 0
-      meleeDamage: 10
-      rangeDamage: 3
+      meleeDamage: 15
+      rangeDamage: 0
       magicDamage: 0
-      accuracy: 0
+      accuracy: 5
     randomRanges:
       armor: {x: 0, y: 0}
       ward: {x: 0, y: 0}
@@ -740,640 +115,42 @@ MonoBehaviour:
       accuracy: {x: 0, y: 0}
     startingScaling:
       strength: 2
-      dexterity: 0
-      vitality: 0
-      constitution: 2
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 1
-      ingredients:
-      - resourceId: steel
-        amount: 4
-      - resourceId: wood
-        amount: 1
-    startingStarRolls:
-      rollCount: 2
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 0
-      growthWeight: 20
-      zeroWeight: 1
-      amountRange: {x: 1, y: 2}
-    - stat: 2
-      growthWeight: 55
-      zeroWeight: 1
-      amountRange: {x: 1, y: 3}
-    - stat: 3
-      growthWeight: 35
-      zeroWeight: 1
-      amountRange: {x: 1, y: 3}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 55
-      stat: 2
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-steel-morningstar-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 35
-      stat: 3
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-steel-morningstar-1
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 0
-      weight: 20
-      stat: 0
-      damageType: 0
-      amountRange: {x: 1, y: 2}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-steel-morningstar-2
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 50
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-steel-morningstar-ability-0
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 35
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-steel-morningstar-ability-1
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 25
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-steel-morningstar-ability-2
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions:
-    - {fileID: 11400000, guid: e364a110e7604fa09f61b3c1158ab401, type: 2}
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: weapon-stone-cudgel
-    displayName: Stone Cudgel
-    description: Forged or assembled around Stone and Wood. One-handed blunt with flexible hand-slot use. Additional techniques can be earned through equipment stars.
-    templateIcon: {fileID: 21300000, guid: c88bf15ea1674071910ce94281a6939e, type: 3}
-    legacyItemId: weapon-stone-cudgel
-    legacyRecipeId: craft.item.weapon-stone-cudgel
-    handednessOverride: 0
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 0
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 6
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 2
-      dexterity: 0
-      vitality: 0
-      constitution: 2
-      perception: 0
-      intelligence: 0
-    craftingRecipe:
-      requiredCraftTier: 0
-      ingredients:
-      - resourceId: stone
-        amount: 4
-      - resourceId: wood
-        amount: 2
-    startingStarRolls:
-      rollCount: 0
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth:
-    - stat: 2
-      growthWeight: 55
-      zeroWeight: 1
-      amountRange: {x: 1, y: 3}
-    excludedTypeBonusIds: []
-    addedUpgradeBonuses:
-    - kind: 0
-      weight: 55
-      stat: 2
-      damageType: 0
-      amountRange: {x: 1, y: 3}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-stone-cudgel-0
-      displayName: Stat Boost
-      repeatable: 1
-      maxStacks: 5
-      action: {fileID: 0}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 50
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-stone-cudgel-ability-0
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 35
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-stone-cudgel-ability-1
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
-      scalingAttribute: 0
-    - kind: 4
-      weight: 25
-      stat: 0
-      damageType: 0
-      amountRange: {x: 0, y: 0}
-      effect:
-        definition: {fileID: 0}
-        procChancePercent: 100
-        procChanceSchemaVersion: 1
-        activation:
-          trigger: 1
-          phase: 1
-          frequency: 0
-          eventActor: 0
-          requireGrantingSourceMatch: 0
-          requireAction: 0
-        targeting:
-          reference: 0
-          selection: 0
-          factionMask: 7
-          includeOwner: 1
-          radiusInTiles: 0
-          sameFloorOnly: 1
-        lifetime:
-          lifetime: 0
-          durationTurns: 1
-          maximumUses: 1
-        operationParameters:
-          resource: -1
-          stat: 0
-          statModifierMode: 0
-          damageType: 0
-          damageDelivery: 0
-          defenseStat: 0
-          statusId: 
-          statusDefinition: {fileID: 0}
-        value:
-          constant: 0
-          terms: []
-          rounding: 1
-        conditions: []
-      bonusId: legacy-weapon-stone-cudgel-ability-2
-      displayName: Learned Ability
-      repeatable: 0
-      maxStacks: 1
-      action: {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
-      scalingAttribute: 0
-    scalingOpportunities: []
-    costAdjustments: []
-    socketOverride: 0
-    modelOverride: {fileID: 0}
-    overrideAttachment: 0
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-    scale: {x: 1, y: 1, z: 1}
-    overrideColors: 0
-    primaryColor: {r: 1, g: 1, b: 1, a: 1}
-    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-    accentColor: {r: 1, g: 1, b: 1, a: 1}
-    excludedTypeActions: []
-    addedActions:
-    - {fileID: 11400000, guid: e364a110e7604fa09f61b3c1158ab401, type: 2}
-    addedEffects: []
-    startingResistances: []
-    startingBonusDamage: []
-    damageTypeOverride: 0
-  - templateId: weapon-wooden-hammer
-    displayName: Wooden Hammer
-    description: A crude wooden hammer. Weak but usable.
-    templateIcon: {fileID: 21300000, guid: 6ddb808d5f8aa274c92a4e8cda13ce52, type: 3}
-    legacyItemId: weapon-wooden-hammer
-    legacyRecipeId: craft.item.weapon-wooden-hammer
-    handednessOverride: 0
-    armorWeightOverride: 0
-    generationType: 1
-    fixedStats:
-      armor: 0
-      ward: 0
-      movementPenalty: 0
-      meleeDamage: 3
-      rangeDamage: 0
-      magicDamage: 0
-      accuracy: 0
-    randomRanges:
-      armor: {x: 0, y: 0}
-      ward: {x: 0, y: 0}
-      movementPenalty: {x: 0, y: 0}
-      meleeDamage: {x: 0, y: 0}
-      rangeDamage: {x: 0, y: 0}
-      magicDamage: {x: 0, y: 0}
-      accuracy: {x: 0, y: 0}
-    startingScaling:
-      strength: 1
-      dexterity: 0
+      dexterity: 1
       vitality: 0
       constitution: 0
       perception: 0
       intelligence: 0
     craftingRecipe:
-      requiredCraftTier: 0
+      requiredCraftTier: 3
       ingredients:
-      - resourceId: wood
+      - resourceId: arcanium
+        amount: 6
+      - resourceId: maana_crystals
         amount: 2
+      - resourceId: wood
+        amount: 1
     startingStarRolls:
-      rollCount: 0
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth: []
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
     excludedTypeBonusIds: []
     addedUpgradeBonuses: []
-    scalingOpportunities: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}
@@ -1391,12 +168,12 @@ MonoBehaviour:
     startingResistances: []
     startingBonusDamage: []
     damageTypeOverride: 0
-  - templateId: weapon-branch-club
-    displayName: Branch Club
-    description: A plain branch used as a club.
-    templateIcon: {fileID: 21300000, guid: 6ddb808d5f8aa274c92a4e8cda13ce52, type: 3}
-    legacyItemId: weapon-branch-club
-    legacyRecipeId: craft.item.weapon-branch-club
+  - templateId: dwarven-hammer
+    displayName: Dwarven Hammer
+    description: Dwarven Hammer is a weapon rebuilt directly from the current Dwarven image set.
+    templateIcon: {fileID: 21300000, guid: b910f2ba79cb7304286b0207b9cfd7df, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
     handednessOverride: 0
     armorWeightOverride: 0
     generationType: 1
@@ -1404,10 +181,10 @@ MonoBehaviour:
       armor: 0
       ward: 0
       movementPenalty: 0
-      meleeDamage: 1
+      meleeDamage: 15
       rangeDamage: 0
       magicDamage: 0
-      accuracy: 0
+      accuracy: 5
     randomRanges:
       armor: {x: 0, y: 0}
       ward: {x: 0, y: 0}
@@ -1417,8 +194,868 @@ MonoBehaviour:
       magicDamage: {x: 0, y: 0}
       accuracy: {x: 0, y: 0}
     startingScaling:
-      strength: 1
-      dexterity: 0
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: dvergrium
+        amount: 6
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: iron-hammer
+    displayName: Iron Hammer
+    description: Iron Hammer is a weapon rebuilt directly from the current Iron image set.
+    templateIcon: {fileID: 21300000, guid: 3160f03268075d741bea8415629c3ea2, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 13
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 4
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 2
+      ingredients:
+      - resourceId: iron
+        amount: 5
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 3
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: mutanium-hammer
+    displayName: Mutanium Hammer
+    description: Mutanium Hammer is a weapon rebuilt directly from the current Mutanium image set.
+    templateIcon: {fileID: 21300000, guid: 9f68471c48218324aa48ebd3fec44355, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 17
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 6
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 4
+      ingredients:
+      - resourceId: mutantium
+        amount: 7
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 3
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: rune-hammer
+    displayName: Rune Hammer
+    description: Rune Hammer is a weapon rebuilt directly from the current Rune image set.
+    templateIcon: {fileID: 21300000, guid: 04050dec0f657c1418f3a9b940db6ca1, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 15
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 5
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: runes
+        amount: 6
+      - resourceId: maana_crystals
+        amount: 2
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: scrap-hammer
+    displayName: Scrap Hammer
+    description: Scrap Hammer is a weapon rebuilt directly from the current Scrap image set.
+    templateIcon: {fileID: 21300000, guid: 1780dc3ef6d61fe45a14ebebcabb55f9, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 11
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 3
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 1
+      ingredients:
+      - resourceId: scrap
+        amount: 4
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 4
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-hammer
+    displayName: Silver Hammer
+    description: Silver Hammer is a weapon rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 05d15e18d07c6944f93d296cb43d9295, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 15
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 5
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: silver-mace
+    displayName: Silver Mace
+    description: Silver Mace is a weapon rebuilt directly from the current Silver image set.
+    templateIcon: {fileID: 21300000, guid: 89d2722c467101b45a17b5730847595a, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 15
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 5
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: silver
+        amount: 6
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-hammer
+    displayName: Steel Hammer
+    description: Steel Hammer is a weapon rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: 480405b33d481a0459bad6338ad565af, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 15
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 5
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: steel-mace
+    displayName: Steel Mace
+    description: Steel Mace is a weapon rebuilt directly from the current Steel image set.
+    templateIcon: {fileID: 21300000, guid: 59e2a27596dc17241be268e7fa35741e, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 15
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 5
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 3
+      ingredients:
+      - resourceId: steel
+        amount: 6
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 2
+      dieSides: 5
+      minimumSuccess: 2
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 3}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: stone-hammer
+    displayName: Stone Hammer
+    description: Stone Hammer is a weapon rebuilt directly from the current Stone image set.
+    templateIcon: {fileID: 21300000, guid: f71751379117a0a4692655d7b46878d4, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 9
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: bones
+        amount: 3
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: stone-hammer
+    displayName: Stone Hammer
+    description: Stone Hammer is a weapon rebuilt directly from the current Stone image set.
+    templateIcon: {fileID: 21300000, guid: 8a16541a8b3930545ba7e421f76a51f2, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 9
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: stone
+        amount: 3
+      - resourceId: wood
+        amount: 1
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: wood-club
+    displayName: Wood Club
+    description: Wood Club is a weapon rebuilt directly from the current Wood image set.
+    templateIcon: {fileID: 21300000, guid: 4ec60f713a8486945bfadf7a4a85a719, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 9
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
       vitality: 0
       constitution: 0
       perception: 0
@@ -1427,15 +1064,105 @@ MonoBehaviour:
       requiredCraftTier: 0
       ingredients:
       - resourceId: wood
-        amount: 1
+        amount: 3
     startingStarRolls:
-      rollCount: 0
-      dieSides: 4
-      minimumSuccess: 4
-    statGrowth: []
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
     excludedTypeBonusIds: []
     addedUpgradeBonuses: []
-    scalingOpportunities: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
+    costAdjustments: []
+    socketOverride: 0
+    modelOverride: {fileID: 0}
+    overrideAttachment: 0
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    overrideColors: 0
+    primaryColor: {r: 1, g: 1, b: 1, a: 1}
+    secondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    accentColor: {r: 1, g: 1, b: 1, a: 1}
+    excludedTypeActions: []
+    addedActions: []
+    addedEffects: []
+    startingResistances: []
+    startingBonusDamage: []
+    damageTypeOverride: 0
+  - templateId: wood-hammer
+    displayName: Wood Hammer
+    description: Wood Hammer is a weapon rebuilt directly from the current Wood image set.
+    templateIcon: {fileID: 21300000, guid: 8e763c9003ee0fd4f9fb2a7228652b22, type: 3}
+    legacyItemId: 
+    legacyRecipeId: 
+    handednessOverride: 0
+    armorWeightOverride: 0
+    generationType: 1
+    fixedStats:
+      armor: 0
+      ward: 0
+      movementPenalty: 0
+      meleeDamage: 9
+      rangeDamage: 0
+      magicDamage: 0
+      accuracy: 2
+    randomRanges:
+      armor: {x: 0, y: 0}
+      ward: {x: 0, y: 0}
+      movementPenalty: {x: 0, y: 0}
+      meleeDamage: {x: 0, y: 0}
+      rangeDamage: {x: 0, y: 0}
+      magicDamage: {x: 0, y: 0}
+      accuracy: {x: 0, y: 0}
+    startingScaling:
+      strength: 2
+      dexterity: 1
+      vitality: 0
+      constitution: 0
+      perception: 0
+      intelligence: 0
+    craftingRecipe:
+      requiredCraftTier: 0
+      ingredients:
+      - resourceId: wood
+        amount: 3
+    startingStarRolls:
+      rollCount: 1
+      dieSides: 5
+      minimumSuccess: 5
+    statGrowth:
+    - stat: 2
+      growthWeight: 70
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    - stat: 5
+      growthWeight: 30
+      zeroWeight: 0
+      amountRange: {x: 1, y: 2}
+    excludedTypeBonusIds: []
+    addedUpgradeBonuses: []
+    scalingOpportunities:
+    - star: 2
+      successChance: 0.55
+      eligibleAttributes: 0000000001000000i
+    - star: 4
+      successChance: 0.65
+      eligibleAttributes: 0000000001000000i
     costAdjustments: []
     socketOverride: 0
     modelOverride: {fileID: 0}

@@ -55915,7 +55915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HubStorageMenu
   itemContent: {fileID: 1406735437}
   itemRowPrefab: {fileID: 7432113092921881135, guid: b50fd6a9396b4e01b1d0dda9c89c470b, type: 3}
-  equipmentButton: {fileID: 0}
+  equipmentButton: {fileID: 1472360881}
   weaponsButton: {fileID: 1410043135}
   armorButton: {fileID: 2114061878}
   accessoriesButton: {fileID: 1027858396}
@@ -55927,6 +55927,8 @@ MonoBehaviour:
   itemsScroll: {fileID: 0}
   resourcesPanel: {fileID: 0}
   resourcesHud: {fileID: 0}
+  upgradeSelectedButton: {fileID: 1990203792}
+  workshopUpgradeMenu: {fileID: 2190162}
   itemPopup: {fileID: 1418597089}
   itemNameText: {fileID: 1059347355}
   itemTypeText: {fileID: 509932290}
@@ -71787,11 +71789,11 @@ MonoBehaviour:
   items:
   - kind: 0
     equipment:
-      itemName: Wooden Hammer
-      itemID: blunt:weapon-wooden-hammer
+      itemName: Wood Hammer
+      itemID: blunt:wood-hammer
       instanceId: b85cf7e9734a40ac966b76a2493df37c
       typeDefinition: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
-      templateId: weapon-wooden-hammer
+      templateId: wood-hammer
       armor: 0
       weapon: 1
       accessory: 0
@@ -71799,13 +71801,13 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 1f326b862f1ce6d478e1d98595dc60c8, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 3
       scalingCoefficient: 0
       attributeScaling:
-        strength: 1
-        dexterity: 0
+        strength: 2
+        dexterity: 1
         vitality: 0
         constitution: 0
         perception: 0
@@ -71820,10 +71822,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 3
+        meleeDamage: 9
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 2
       rolledStats:
         armor: 0
         ward: 0
@@ -71836,14 +71838,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
+      - {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
+      - {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 3
+      meleeDamage: 9
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 2
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -71857,11 +71862,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Hammer
-      itemID: blunt:weapon-wooden-hammer
+      itemName: Wood Hammer
+      itemID: blunt:wood-hammer
       instanceId: 437810c0756c4824ae04dfef5bb40abe
       typeDefinition: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
-      templateId: weapon-wooden-hammer
+      templateId: wood-hammer
       armor: 0
       weapon: 1
       accessory: 0
@@ -71869,13 +71874,13 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 1f326b862f1ce6d478e1d98595dc60c8, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 3
       scalingCoefficient: 0
       attributeScaling:
-        strength: 1
-        dexterity: 0
+        strength: 2
+        dexterity: 1
         vitality: 0
         constitution: 0
         perception: 0
@@ -71890,10 +71895,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 3
+        meleeDamage: 9
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 2
       rolledStats:
         armor: 0
         ward: 0
@@ -71906,14 +71911,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
+      - {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
+      - {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 3
+      meleeDamage: 9
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 2
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -71927,11 +71935,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Hammer
-      itemID: blunt:weapon-wooden-hammer
+      itemName: Wood Hammer
+      itemID: blunt:wood-hammer
       instanceId: a260a056292f49749f919bef000d5343
       typeDefinition: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
-      templateId: weapon-wooden-hammer
+      templateId: wood-hammer
       armor: 0
       weapon: 1
       accessory: 0
@@ -71939,13 +71947,13 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 1f326b862f1ce6d478e1d98595dc60c8, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 3
       scalingCoefficient: 0
       attributeScaling:
-        strength: 1
-        dexterity: 0
+        strength: 2
+        dexterity: 1
         vitality: 0
         constitution: 0
         perception: 0
@@ -71960,10 +71968,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 3
+        meleeDamage: 9
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 2
       rolledStats:
         armor: 0
         ward: 0
@@ -71976,14 +71984,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
+      - {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
+      - {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 3
+      meleeDamage: 9
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 2
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -71997,11 +72008,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Branch Club
-      itemID: blunt:weapon-branch-club
+      itemName: Wood Club
+      itemID: blunt:wood-club
       instanceId: 1a96b3f5b3ae43d3a6562a5d24c520b3
       typeDefinition: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
-      templateId: weapon-branch-club
+      templateId: wood-club
       armor: 0
       weapon: 1
       accessory: 0
@@ -72009,13 +72020,13 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 1f326b862f1ce6d478e1d98595dc60c8, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 3
       scalingCoefficient: 0
       attributeScaling:
-        strength: 1
-        dexterity: 0
+        strength: 2
+        dexterity: 1
         vitality: 0
         constitution: 0
         perception: 0
@@ -72030,10 +72041,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 1
+        meleeDamage: 9
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 2
       rolledStats:
         armor: 0
         ward: 0
@@ -72046,14 +72057,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
+      - {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
+      - {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 1
+      meleeDamage: 9
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 2
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72067,11 +72081,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Branch Club
-      itemID: blunt:weapon-branch-club
+      itemName: Wood Club
+      itemID: blunt:wood-club
       instanceId: 4e8a75283622402da83b2d5ec9679855
       typeDefinition: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
-      templateId: weapon-branch-club
+      templateId: wood-club
       armor: 0
       weapon: 1
       accessory: 0
@@ -72079,13 +72093,13 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 1f326b862f1ce6d478e1d98595dc60c8, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 3
       scalingCoefficient: 0
       attributeScaling:
-        strength: 1
-        dexterity: 0
+        strength: 2
+        dexterity: 1
         vitality: 0
         constitution: 0
         perception: 0
@@ -72100,10 +72114,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 1
+        meleeDamage: 9
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 2
       rolledStats:
         armor: 0
         ward: 0
@@ -72116,14 +72130,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
+      - {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
+      - {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 1
+      meleeDamage: 9
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 2
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72137,11 +72154,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Branch Club
-      itemID: blunt:weapon-branch-club
+      itemName: Wood Club
+      itemID: blunt:wood-club
       instanceId: 2f819dddd35143bbb29b12612d5cfc7a
       typeDefinition: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
-      templateId: weapon-branch-club
+      templateId: wood-club
       armor: 0
       weapon: 1
       accessory: 0
@@ -72149,13 +72166,13 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 1f326b862f1ce6d478e1d98595dc60c8, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 3
       scalingCoefficient: 0
       attributeScaling:
-        strength: 1
-        dexterity: 0
+        strength: 2
+        dexterity: 1
         vitality: 0
         constitution: 0
         perception: 0
@@ -72170,10 +72187,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 1
+        meleeDamage: 9
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 2
       rolledStats:
         armor: 0
         ward: 0
@@ -72186,14 +72203,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 2f656c176ee741c2bc2ecd4e111724a7, type: 2}
+      - {fileID: 11400000, guid: c6e44675ff844153b2176291752a848a, type: 2}
+      - {fileID: 11400000, guid: 9148823c8e0349849dcef2b85e565fde, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 1
+      meleeDamage: 9
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 2
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72207,11 +72227,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Sword
-      itemID: sword:weapon-wooden-sword
+      itemName: Wood Sword
+      itemID: sword:wood-sword
       instanceId: 05c6f0705d1a4b57baad40f9ce5e0ebd
       typeDefinition: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
-      templateId: weapon-wooden-sword
+      templateId: wood-sword
       armor: 0
       weapon: 1
       accessory: 0
@@ -72219,13 +72239,13 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: aa2e8b5a8a5d09746ac259e8b2f1eabb, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 1
       scalingCoefficient: 0
       attributeScaling:
-        strength: 1
-        dexterity: 0
+        strength: 2
+        dexterity: 1
         vitality: 0
         constitution: 0
         perception: 0
@@ -72240,10 +72260,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 3
+        meleeDamage: 7
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 4
       rolledStats:
         armor: 0
         ward: 0
@@ -72256,14 +72276,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: be753f8925e3ba94aa1ae565860a1177, type: 2}
+      - {fileID: 11400000, guid: 5c0f37784eaf9434bb1d85fdc8f85a19, type: 2}
+      - {fileID: 11400000, guid: 51896952722f7aa4eb2d355169b80d42, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 3
+      meleeDamage: 7
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 4
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72277,11 +72300,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Sword
-      itemID: sword:weapon-wooden-sword
+      itemName: Wood Sword
+      itemID: sword:wood-sword
       instanceId: 748709fc075a494aa36638cbf58bd6a4
       typeDefinition: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
-      templateId: weapon-wooden-sword
+      templateId: wood-sword
       armor: 0
       weapon: 1
       accessory: 0
@@ -72289,13 +72312,13 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: aa2e8b5a8a5d09746ac259e8b2f1eabb, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 1
       scalingCoefficient: 0
       attributeScaling:
-        strength: 1
-        dexterity: 0
+        strength: 2
+        dexterity: 1
         vitality: 0
         constitution: 0
         perception: 0
@@ -72310,10 +72333,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 3
+        meleeDamage: 7
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 4
       rolledStats:
         armor: 0
         ward: 0
@@ -72326,14 +72349,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: be753f8925e3ba94aa1ae565860a1177, type: 2}
+      - {fileID: 11400000, guid: 5c0f37784eaf9434bb1d85fdc8f85a19, type: 2}
+      - {fileID: 11400000, guid: 51896952722f7aa4eb2d355169b80d42, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 3
+      meleeDamage: 7
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 4
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72347,11 +72373,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Sword
-      itemID: sword:weapon-wooden-sword
+      itemName: Wood Sword
+      itemID: sword:wood-sword
       instanceId: aee1fc270ed14e16b2dfc0bcb16fb727
       typeDefinition: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
-      templateId: weapon-wooden-sword
+      templateId: wood-sword
       armor: 0
       weapon: 1
       accessory: 0
@@ -72359,13 +72385,13 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: aa2e8b5a8a5d09746ac259e8b2f1eabb, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 1
       scalingCoefficient: 0
       attributeScaling:
-        strength: 1
-        dexterity: 0
+        strength: 2
+        dexterity: 1
         vitality: 0
         constitution: 0
         perception: 0
@@ -72380,10 +72406,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 3
+        meleeDamage: 7
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 4
       rolledStats:
         armor: 0
         ward: 0
@@ -72396,14 +72422,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: be753f8925e3ba94aa1ae565860a1177, type: 2}
+      - {fileID: 11400000, guid: 5c0f37784eaf9434bb1d85fdc8f85a19, type: 2}
+      - {fileID: 11400000, guid: 51896952722f7aa4eb2d355169b80d42, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 3
+      meleeDamage: 7
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 4
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72417,11 +72446,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Dagger
-      itemID: dagger:weapon-wooden-dagger
+      itemName: Wood Dagger
+      itemID: dagger:wood-dagger
       instanceId: 26ebdb50d8954b829ba52c25c464dcaf
       typeDefinition: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
-      templateId: weapon-wooden-dagger
+      templateId: wood-dagger
       armor: 0
       weapon: 1
       accessory: 0
@@ -72429,16 +72458,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: fe4df1d7d8eb2c84aada9cbd8a0297fa, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 2
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 1
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 0
+        perception: 1
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -72450,10 +72479,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 2
+        meleeDamage: 6
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -72466,14 +72495,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 984978e35fad47479fb3c13b503c44ad, type: 2}
+      - {fileID: 11400000, guid: 6c4cfd8a87264778a4732e9bb533fc87, type: 2}
+      - {fileID: 11400000, guid: 55069648af7b48eebbbb1a3f0a37a588, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 2
+      meleeDamage: 6
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72487,11 +72519,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Dagger
-      itemID: dagger:weapon-wooden-dagger
+      itemName: Wood Dagger
+      itemID: dagger:wood-dagger
       instanceId: 3b2af99afd6b476abbc0d69e02fd85ff
       typeDefinition: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
-      templateId: weapon-wooden-dagger
+      templateId: wood-dagger
       armor: 0
       weapon: 1
       accessory: 0
@@ -72499,16 +72531,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: fe4df1d7d8eb2c84aada9cbd8a0297fa, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 2
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 1
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 0
+        perception: 1
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -72520,10 +72552,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 2
+        meleeDamage: 6
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -72536,14 +72568,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 984978e35fad47479fb3c13b503c44ad, type: 2}
+      - {fileID: 11400000, guid: 6c4cfd8a87264778a4732e9bb533fc87, type: 2}
+      - {fileID: 11400000, guid: 55069648af7b48eebbbb1a3f0a37a588, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 2
+      meleeDamage: 6
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72557,11 +72592,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Dagger
-      itemID: dagger:weapon-wooden-dagger
+      itemName: Wood Dagger
+      itemID: dagger:wood-dagger
       instanceId: a37b224665a948a2a823be7156c75234
       typeDefinition: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
-      templateId: weapon-wooden-dagger
+      templateId: wood-dagger
       armor: 0
       weapon: 1
       accessory: 0
@@ -72569,16 +72604,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: fe4df1d7d8eb2c84aada9cbd8a0297fa, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 2
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 1
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 0
+        perception: 1
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -72590,10 +72625,10 @@ MonoBehaviour:
         armor: 0
         ward: 0
         movementPenalty: 0
-        meleeDamage: 2
+        meleeDamage: 6
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -72606,14 +72641,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 984978e35fad47479fb3c13b503c44ad, type: 2}
+      - {fileID: 11400000, guid: 6c4cfd8a87264778a4732e9bb533fc87, type: 2}
+      - {fileID: 11400000, guid: 55069648af7b48eebbbb1a3f0a37a588, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
-      meleeDamage: 2
+      meleeDamage: 6
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72627,11 +72665,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Driftwood Bow
-      itemID: bow:weapon-driftwood-bow
+      itemName: Wood Bow
+      itemID: bow:wood-bow
       instanceId: 7ca4befc28cd4803b66e32bd48216d6e
       typeDefinition: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
-      templateId: weapon-driftwood-bow
+      templateId: wood-bow
       armor: 0
       weapon: 2
       accessory: 0
@@ -72639,16 +72677,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: c64a5549f95e34742b65e817db7a319e, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 2
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 1
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 0
+        perception: 2
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -72661,9 +72699,9 @@ MonoBehaviour:
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
-        rangeDamage: 3
+        rangeDamage: 7
         magicDamage: 0
-        accuracy: 0
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -72676,14 +72714,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 71e40b67186575141884f47ca9057db0, type: 2}
+      - {fileID: 11400000, guid: 2896ae8302a238e49866d7a723972148, type: 2}
+      - {fileID: 11400000, guid: 80125f131e084ad188d020b97af7960d, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
-      rangeDamage: 3
+      rangeDamage: 7
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72697,11 +72738,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Driftwood Bow
-      itemID: bow:weapon-driftwood-bow
+      itemName: Wood Bow
+      itemID: bow:wood-bow
       instanceId: 4c56b23c4797477b9eaa19448fbbe02d
       typeDefinition: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
-      templateId: weapon-driftwood-bow
+      templateId: wood-bow
       armor: 0
       weapon: 2
       accessory: 0
@@ -72709,16 +72750,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: c64a5549f95e34742b65e817db7a319e, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 2
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 1
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 0
+        perception: 2
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -72731,9 +72772,9 @@ MonoBehaviour:
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
-        rangeDamage: 3
+        rangeDamage: 7
         magicDamage: 0
-        accuracy: 0
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -72746,14 +72787,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 71e40b67186575141884f47ca9057db0, type: 2}
+      - {fileID: 11400000, guid: 2896ae8302a238e49866d7a723972148, type: 2}
+      - {fileID: 11400000, guid: 80125f131e084ad188d020b97af7960d, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
-      rangeDamage: 3
+      rangeDamage: 7
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72767,11 +72811,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Driftwood Bow
-      itemID: bow:weapon-driftwood-bow
+      itemName: Wood Bow
+      itemID: bow:wood-bow
       instanceId: c3e785dbff9c4c0681554f4e2e95d93c
       typeDefinition: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
-      templateId: weapon-driftwood-bow
+      templateId: wood-bow
       armor: 0
       weapon: 2
       accessory: 0
@@ -72779,16 +72823,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: c64a5549f95e34742b65e817db7a319e, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 2
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 1
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 0
+        perception: 2
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -72801,9 +72845,9 @@ MonoBehaviour:
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
-        rangeDamage: 3
+        rangeDamage: 7
         magicDamage: 0
-        accuracy: 0
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -72816,14 +72860,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 71e40b67186575141884f47ca9057db0, type: 2}
+      - {fileID: 11400000, guid: 2896ae8302a238e49866d7a723972148, type: 2}
+      - {fileID: 11400000, guid: 80125f131e084ad188d020b97af7960d, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
-      rangeDamage: 3
+      rangeDamage: 7
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72837,11 +72884,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Simple Wooden Crossbow
-      itemID: crossbow:weapon-simple-wooden-crossbow
+      itemName: Wood Crossbow
+      itemID: crossbow:wood-crossbow
       instanceId: eb012480d1b34bc2ae3d5e0c0e7d3fb4
       typeDefinition: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
-      templateId: weapon-simple-wooden-crossbow
+      templateId: wood-crossbow
       armor: 0
       weapon: 2
       accessory: 0
@@ -72849,16 +72896,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 0264eef47e9a0034dab82fc412c997eb, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 2
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 1
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 0
+        perception: 2
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -72871,9 +72918,9 @@ MonoBehaviour:
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
-        rangeDamage: 3
+        rangeDamage: 8
         magicDamage: 0
-        accuracy: 0
+        accuracy: 4
       rolledStats:
         armor: 0
         ward: 0
@@ -72886,14 +72933,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 87318f80c4c24c79a0e0ff2b0883f13f, type: 2}
+      - {fileID: 11400000, guid: 10d42a414fa14680a0666c9060561dce, type: 2}
+      - {fileID: 11400000, guid: a0d31a2b9ae04419be2beb6b5dc24b7d, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
-      rangeDamage: 3
+      rangeDamage: 8
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 4
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72907,11 +72957,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Simple Wooden Crossbow
-      itemID: crossbow:weapon-simple-wooden-crossbow
+      itemName: Wood Crossbow
+      itemID: crossbow:wood-crossbow
       instanceId: 6157331b5307482eb058006258392215
       typeDefinition: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
-      templateId: weapon-simple-wooden-crossbow
+      templateId: wood-crossbow
       armor: 0
       weapon: 2
       accessory: 0
@@ -72919,16 +72969,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 0264eef47e9a0034dab82fc412c997eb, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 2
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 1
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 0
+        perception: 2
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -72941,9 +72991,9 @@ MonoBehaviour:
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
-        rangeDamage: 3
+        rangeDamage: 8
         magicDamage: 0
-        accuracy: 0
+        accuracy: 4
       rolledStats:
         armor: 0
         ward: 0
@@ -72956,14 +73006,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 87318f80c4c24c79a0e0ff2b0883f13f, type: 2}
+      - {fileID: 11400000, guid: 10d42a414fa14680a0666c9060561dce, type: 2}
+      - {fileID: 11400000, guid: a0d31a2b9ae04419be2beb6b5dc24b7d, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
-      rangeDamage: 3
+      rangeDamage: 8
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 4
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -72977,11 +73030,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Simple Wooden Crossbow
-      itemID: crossbow:weapon-simple-wooden-crossbow
+      itemName: Wood Crossbow
+      itemID: crossbow:wood-crossbow
       instanceId: 387c6cad057f487fb3f2b71c6e3e4fcc
       typeDefinition: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
-      templateId: weapon-simple-wooden-crossbow
+      templateId: wood-crossbow
       armor: 0
       weapon: 2
       accessory: 0
@@ -72989,16 +73042,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 0264eef47e9a0034dab82fc412c997eb, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 2
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 1
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 0
+        perception: 2
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -73011,9 +73064,9 @@ MonoBehaviour:
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
-        rangeDamage: 3
+        rangeDamage: 8
         magicDamage: 0
-        accuracy: 0
+        accuracy: 4
       rolledStats:
         armor: 0
         ward: 0
@@ -73026,14 +73079,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 87318f80c4c24c79a0e0ff2b0883f13f, type: 2}
+      - {fileID: 11400000, guid: 10d42a414fa14680a0666c9060561dce, type: 2}
+      - {fileID: 11400000, guid: a0d31a2b9ae04419be2beb6b5dc24b7d, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
-      rangeDamage: 3
+      rangeDamage: 8
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 4
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73047,11 +73103,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Simple Sling
-      itemID: sling:weapon-simple-sling
+      itemName: Wood Sling
+      itemID: sling:wood-sling
       instanceId: f1b199baa0464f57bf67cf088be83642
       typeDefinition: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
-      templateId: weapon-simple-sling
+      templateId: wood-sling
       armor: 0
       weapon: 2
       accessory: 0
@@ -73059,16 +73115,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 115d0f72422d03f47a1769aa8f417f6c, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 3
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 0
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 1
+        perception: 2
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -73081,9 +73137,9 @@ MonoBehaviour:
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
-        rangeDamage: 2
+        rangeDamage: 6
         magicDamage: 0
-        accuracy: 0
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -73096,14 +73152,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 48c0ff5c0d714f12ac28e745c056a690, type: 2}
+      - {fileID: 11400000, guid: 7a32f6fcd6ba4f1f983ba344162cb4b3, type: 2}
+      - {fileID: 11400000, guid: 44e14bc0682249b8ad94dece086516a3, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
-      rangeDamage: 2
+      rangeDamage: 6
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73117,11 +73176,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Simple Sling
-      itemID: sling:weapon-simple-sling
+      itemName: Wood Sling
+      itemID: sling:wood-sling
       instanceId: 24ec3fd3ded64d25bc8333a3bcb84ed7
       typeDefinition: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
-      templateId: weapon-simple-sling
+      templateId: wood-sling
       armor: 0
       weapon: 2
       accessory: 0
@@ -73129,16 +73188,16 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 115d0f72422d03f47a1769aa8f417f6c, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 3
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
-        dexterity: 0
+        dexterity: 2
         vitality: 0
         constitution: 0
-        perception: 1
+        perception: 2
         intelligence: 0
       lastStatRoll1:
         stat: 0
@@ -73151,9 +73210,9 @@ MonoBehaviour:
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
-        rangeDamage: 2
+        rangeDamage: 6
         magicDamage: 0
-        accuracy: 0
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -73166,14 +73225,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 48c0ff5c0d714f12ac28e745c056a690, type: 2}
+      - {fileID: 11400000, guid: 7a32f6fcd6ba4f1f983ba344162cb4b3, type: 2}
+      - {fileID: 11400000, guid: 44e14bc0682249b8ad94dece086516a3, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
-      rangeDamage: 2
+      rangeDamage: 6
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73187,11 +73249,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Simple Sling
-      itemID: sling:weapon-simple-sling
+      itemName: Wood Sling
+      itemID: sling:wood-sling
       instanceId: 4f8a596794d84ac0b4062927b27dca29
       typeDefinition: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
-      templateId: weapon-simple-sling
+      templateId: wood-sling
       armor: 0
       weapon: 2
       accessory: 0
@@ -73199,9 +73261,301 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 115d0f72422d03f47a1769aa8f417f6c, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 3
+      scalingCoefficient: 0
+      attributeScaling:
+        strength: 0
+        dexterity: 2
+        vitality: 0
+        constitution: 0
+        perception: 2
+        intelligence: 0
+      lastStatRoll1:
+        stat: 0
+        amount: 0
+      lastStatRoll2:
+        stat: 0
+        amount: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 6
+        magicDamage: 0
+        accuracy: 5
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: 48c0ff5c0d714f12ac28e745c056a690, type: 2}
+      - {fileID: 11400000, guid: 7a32f6fcd6ba4f1f983ba344162cb4b3, type: 2}
+      - {fileID: 11400000, guid: 44e14bc0682249b8ad94dece086516a3, type: 2}
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 6
+      magicDamage: 0
+      accuracyBonus: 5
+      bonusStacks: []
+      lastUpgradeBonus: 
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Wood Polearm
+      itemID: polearm:wood-polearm
+      instanceId: 6eec81ef858642a49cee136988348118
+      typeDefinition: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+      templateId: wood-polearm
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: bbebc8370366b454b8400b1c2624fc1c, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 2
+      scalingCoefficient: 0
+      attributeScaling:
+        strength: 2
+        dexterity: 1
+        vitality: 0
+        constitution: 0
+        perception: 0
+        intelligence: 0
+      lastStatRoll1:
+        stat: 0
+        amount: 0
+      lastStatRoll2:
+        stat: 0
+        amount: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 8
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 4
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: b47d43d2625c4f838b1b7b3b7ba5c28f, type: 2}
+      - {fileID: 11400000, guid: 9535526ef8274e5e8a660df76351ecf6, type: 2}
+      - {fileID: 11400000, guid: 2bd45e9088264c059a6d44f8f4251cfe, type: 2}
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 8
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 4
+      bonusStacks: []
+      lastUpgradeBonus: 
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Wood Polearm
+      itemID: polearm:wood-polearm
+      instanceId: 14de9b586bd441aa8a2889c506389f48
+      typeDefinition: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+      templateId: wood-polearm
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: bbebc8370366b454b8400b1c2624fc1c, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 2
+      scalingCoefficient: 0
+      attributeScaling:
+        strength: 2
+        dexterity: 1
+        vitality: 0
+        constitution: 0
+        perception: 0
+        intelligence: 0
+      lastStatRoll1:
+        stat: 0
+        amount: 0
+      lastStatRoll2:
+        stat: 0
+        amount: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 8
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 4
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: b47d43d2625c4f838b1b7b3b7ba5c28f, type: 2}
+      - {fileID: 11400000, guid: 9535526ef8274e5e8a660df76351ecf6, type: 2}
+      - {fileID: 11400000, guid: 2bd45e9088264c059a6d44f8f4251cfe, type: 2}
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 8
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 4
+      bonusStacks: []
+      lastUpgradeBonus: 
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Wood Polearm
+      itemID: polearm:wood-polearm
+      instanceId: cb4290a4450b4f939424b0997e7415bc
+      typeDefinition: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+      templateId: wood-polearm
+      armor: 0
+      weapon: 1
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: bbebc8370366b454b8400b1c2624fc1c, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 2
+      scalingCoefficient: 0
+      attributeScaling:
+        strength: 2
+        dexterity: 1
+        vitality: 0
+        constitution: 0
+        perception: 0
+        intelligence: 0
+      lastStatRoll1:
+        stat: 0
+        amount: 0
+      lastStatRoll2:
+        stat: 0
+        amount: 0
+      baseStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 8
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 4
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 0
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions:
+      - {fileID: 11400000, guid: b47d43d2625c4f838b1b7b3b7ba5c28f, type: 2}
+      - {fileID: 11400000, guid: 9535526ef8274e5e8a660df76351ecf6, type: 2}
+      - {fileID: 11400000, guid: 2bd45e9088264c059a6d44f8f4251cfe, type: 2}
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 8
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 4
+      bonusStacks: []
+      lastUpgradeBonus: 
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Wood Wand
+      itemID: wand:wood-wand
+      instanceId: f01906d4c29848de97ab172a4e071717
+      typeDefinition: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
+      templateId: wood-wand
+      armor: 0
+      weapon: 3
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 11400000, guid: d99181a7a76138447ba313365fdc17c6, type: 2}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 4
       scalingCoefficient: 0
       attributeScaling:
         strength: 0
@@ -73209,287 +73563,7 @@ MonoBehaviour:
         vitality: 0
         constitution: 0
         perception: 1
-        intelligence: 0
-      lastStatRoll1:
-        stat: 0
-        amount: 0
-      lastStatRoll2:
-        stat: 0
-        amount: 0
-      baseStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 2
-        magicDamage: 0
-        accuracy: 0
-      rolledStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      armorRating: 0
-      wardRating: 0
-      resistances: []
-      bonusDamage: []
-      grantedActions: []
-      grantedEffects: []
-      abilityWeights: []
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 2
-      magicDamage: 0
-      accuracyBonus: 0
-      bonusStacks: []
-      lastUpgradeBonus: 
-    consumable:
-      instanceId: 
-      definition: {fileID: 0}
-      consumableType: 0
-      consumeOnUse: 0
-      remainingUses: 0
-      magnitude: 0
-      damage: 0
-      coverValue: 0
-  - kind: 0
-    equipment:
-      itemName: Branch Spear
-      itemID: polearm:weapon-branch-spear
-      instanceId: 6eec81ef858642a49cee136988348118
-      typeDefinition: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
-      templateId: weapon-branch-spear
-      armor: 0
-      weapon: 1
-      accessory: 0
-      slot: 0
-      rarity: 0
-      type: 1
-      statModifier: 0
-      grantedActionSet: {fileID: 0}
-      grantedEffectCollection: {fileID: 0}
-      primaryDamageType: 2
-      scalingCoefficient: 0
-      attributeScaling:
-        strength: 0
-        dexterity: 1
-        vitality: 0
-        constitution: 0
-        perception: 0
-        intelligence: 0
-      lastStatRoll1:
-        stat: 0
-        amount: 0
-      lastStatRoll2:
-        stat: 0
-        amount: 0
-      baseStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 2
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      rolledStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      armorRating: 0
-      wardRating: 0
-      resistances: []
-      bonusDamage: []
-      grantedActions: []
-      grantedEffects: []
-      abilityWeights: []
-      movementPenalty: 0
-      meleeDamage: 2
-      rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
-      bonusStacks: []
-      lastUpgradeBonus: 
-    consumable:
-      instanceId: 
-      definition: {fileID: 0}
-      consumableType: 0
-      consumeOnUse: 0
-      remainingUses: 0
-      magnitude: 0
-      damage: 0
-      coverValue: 0
-  - kind: 0
-    equipment:
-      itemName: Branch Spear
-      itemID: polearm:weapon-branch-spear
-      instanceId: 14de9b586bd441aa8a2889c506389f48
-      typeDefinition: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
-      templateId: weapon-branch-spear
-      armor: 0
-      weapon: 1
-      accessory: 0
-      slot: 0
-      rarity: 0
-      type: 1
-      statModifier: 0
-      grantedActionSet: {fileID: 0}
-      grantedEffectCollection: {fileID: 0}
-      primaryDamageType: 2
-      scalingCoefficient: 0
-      attributeScaling:
-        strength: 0
-        dexterity: 1
-        vitality: 0
-        constitution: 0
-        perception: 0
-        intelligence: 0
-      lastStatRoll1:
-        stat: 0
-        amount: 0
-      lastStatRoll2:
-        stat: 0
-        amount: 0
-      baseStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 2
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      rolledStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      armorRating: 0
-      wardRating: 0
-      resistances: []
-      bonusDamage: []
-      grantedActions: []
-      grantedEffects: []
-      abilityWeights: []
-      movementPenalty: 0
-      meleeDamage: 2
-      rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
-      bonusStacks: []
-      lastUpgradeBonus: 
-    consumable:
-      instanceId: 
-      definition: {fileID: 0}
-      consumableType: 0
-      consumeOnUse: 0
-      remainingUses: 0
-      magnitude: 0
-      damage: 0
-      coverValue: 0
-  - kind: 0
-    equipment:
-      itemName: Branch Spear
-      itemID: polearm:weapon-branch-spear
-      instanceId: cb4290a4450b4f939424b0997e7415bc
-      typeDefinition: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
-      templateId: weapon-branch-spear
-      armor: 0
-      weapon: 1
-      accessory: 0
-      slot: 0
-      rarity: 0
-      type: 1
-      statModifier: 0
-      grantedActionSet: {fileID: 0}
-      grantedEffectCollection: {fileID: 0}
-      primaryDamageType: 2
-      scalingCoefficient: 0
-      attributeScaling:
-        strength: 0
-        dexterity: 1
-        vitality: 0
-        constitution: 0
-        perception: 0
-        intelligence: 0
-      lastStatRoll1:
-        stat: 0
-        amount: 0
-      lastStatRoll2:
-        stat: 0
-        amount: 0
-      baseStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 2
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      rolledStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      armorRating: 0
-      wardRating: 0
-      resistances: []
-      bonusDamage: []
-      grantedActions: []
-      grantedEffects: []
-      abilityWeights: []
-      movementPenalty: 0
-      meleeDamage: 2
-      rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
-      bonusStacks: []
-      lastUpgradeBonus: 
-    consumable:
-      instanceId: 
-      definition: {fileID: 0}
-      consumableType: 0
-      consumeOnUse: 0
-      remainingUses: 0
-      magnitude: 0
-      damage: 0
-      coverValue: 0
-  - kind: 0
-    equipment:
-      itemName: Branch Wand
-      itemID: wand:weapon-branch-wand
-      instanceId: f01906d4c29848de97ab172a4e071717
-      typeDefinition: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
-      templateId: weapon-branch-wand
-      armor: 0
-      weapon: 3
-      accessory: 0
-      slot: 0
-      rarity: 0
-      type: 1
-      statModifier: 0
-      grantedActionSet: {fileID: 0}
-      grantedEffectCollection: {fileID: 0}
-      primaryDamageType: 4
-      scalingCoefficient: 0
-      attributeScaling:
-        strength: 0
-        dexterity: 0
-        vitality: 0
-        constitution: 0
-        perception: 0
-        intelligence: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -73502,8 +73576,8 @@ MonoBehaviour:
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 2
-        accuracy: 0
+        magicDamage: 6
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -73516,14 +73590,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: c0dee28ef90746c5b8dedc1c8a45eaea, type: 2}
+      - {fileID: 11400000, guid: 00d1e50d054a4dfe9dc4920dbb9d8e34, type: 2}
+      - {fileID: 11400000, guid: a54d7c84b7f7407cb7c4cf77a2b6d6ed, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 2
-      accuracyBonus: 0
+      magicDamage: 6
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73537,11 +73614,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Branch Wand
-      itemID: wand:weapon-branch-wand
+      itemName: Wood Wand
+      itemID: wand:wood-wand
       instanceId: d1d669d278c049619aefc78ff4feeb42
       typeDefinition: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
-      templateId: weapon-branch-wand
+      templateId: wood-wand
       armor: 0
       weapon: 3
       accessory: 0
@@ -73549,7 +73626,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: d99181a7a76138447ba313365fdc17c6, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -73558,8 +73635,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -73572,8 +73649,8 @@ MonoBehaviour:
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 2
-        accuracy: 0
+        magicDamage: 6
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -73586,14 +73663,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: c0dee28ef90746c5b8dedc1c8a45eaea, type: 2}
+      - {fileID: 11400000, guid: 00d1e50d054a4dfe9dc4920dbb9d8e34, type: 2}
+      - {fileID: 11400000, guid: a54d7c84b7f7407cb7c4cf77a2b6d6ed, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 2
-      accuracyBonus: 0
+      magicDamage: 6
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73607,11 +73687,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Branch Wand
-      itemID: wand:weapon-branch-wand
+      itemName: Wood Wand
+      itemID: wand:wood-wand
       instanceId: 2ef8cf0a970f42a485710574e4c4dfd8
       typeDefinition: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
-      templateId: weapon-branch-wand
+      templateId: wood-wand
       armor: 0
       weapon: 3
       accessory: 0
@@ -73619,7 +73699,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: d99181a7a76138447ba313365fdc17c6, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -73628,8 +73708,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -73642,8 +73722,8 @@ MonoBehaviour:
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 2
-        accuracy: 0
+        magicDamage: 6
+        accuracy: 5
       rolledStats:
         armor: 0
         ward: 0
@@ -73656,14 +73736,17 @@ MonoBehaviour:
       wardRating: 0
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: c0dee28ef90746c5b8dedc1c8a45eaea, type: 2}
+      - {fileID: 11400000, guid: 00d1e50d054a4dfe9dc4920dbb9d8e34, type: 2}
+      - {fileID: 11400000, guid: a54d7c84b7f7407cb7c4cf77a2b6d6ed, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 2
-      accuracyBonus: 0
+      magicDamage: 6
+      accuracyBonus: 5
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73677,11 +73760,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Branch Staff
-      itemID: staff:weapon-branch-staff
+      itemName: Wood Staff
+      itemID: staff:wood-staff
       instanceId: cfb8e657eb3942f09850f2b115ad5b79
       typeDefinition: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
-      templateId: weapon-branch-staff
+      templateId: wood-staff
       armor: 0
       weapon: 3
       accessory: 0
@@ -73689,7 +73772,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 8d1ffb5a294b44c428c6c546ac07e80a, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -73698,8 +73781,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -73708,12 +73791,12 @@ MonoBehaviour:
         amount: 0
       baseStats:
         armor: 0
-        ward: 0
+        ward: 1
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 3
-        accuracy: 0
+        magicDamage: 7
+        accuracy: 4
       rolledStats:
         armor: 0
         ward: 0
@@ -73723,17 +73806,20 @@ MonoBehaviour:
         magicDamage: 0
         accuracy: 0
       armorRating: 0
-      wardRating: 0
+      wardRating: 1
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 9c4eb5ed959644b7919a246090431fa2, type: 2}
+      - {fileID: 11400000, guid: df65c6269ed848adb36cfc2f7c8bfcb6, type: 2}
+      - {fileID: 11400000, guid: ef2441f2344779f428833a8e65f75783, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 3
-      accuracyBonus: 0
+      magicDamage: 7
+      accuracyBonus: 4
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73747,11 +73833,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Branch Staff
-      itemID: staff:weapon-branch-staff
+      itemName: Wood Staff
+      itemID: staff:wood-staff
       instanceId: a274bd0e8959412692b7a7067b95abbb
       typeDefinition: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
-      templateId: weapon-branch-staff
+      templateId: wood-staff
       armor: 0
       weapon: 3
       accessory: 0
@@ -73759,7 +73845,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 8d1ffb5a294b44c428c6c546ac07e80a, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -73768,8 +73854,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -73778,12 +73864,12 @@ MonoBehaviour:
         amount: 0
       baseStats:
         armor: 0
-        ward: 0
+        ward: 1
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 3
-        accuracy: 0
+        magicDamage: 7
+        accuracy: 4
       rolledStats:
         armor: 0
         ward: 0
@@ -73793,17 +73879,20 @@ MonoBehaviour:
         magicDamage: 0
         accuracy: 0
       armorRating: 0
-      wardRating: 0
+      wardRating: 1
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 9c4eb5ed959644b7919a246090431fa2, type: 2}
+      - {fileID: 11400000, guid: df65c6269ed848adb36cfc2f7c8bfcb6, type: 2}
+      - {fileID: 11400000, guid: ef2441f2344779f428833a8e65f75783, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 3
-      accuracyBonus: 0
+      magicDamage: 7
+      accuracyBonus: 4
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73817,11 +73906,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Branch Staff
-      itemID: staff:weapon-branch-staff
+      itemName: Wood Staff
+      itemID: staff:wood-staff
       instanceId: 8981c24da5484f728de862389948ddaf
       typeDefinition: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
-      templateId: weapon-branch-staff
+      templateId: wood-staff
       armor: 0
       weapon: 3
       accessory: 0
@@ -73829,7 +73918,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 8d1ffb5a294b44c428c6c546ac07e80a, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -73838,8 +73927,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -73848,12 +73937,12 @@ MonoBehaviour:
         amount: 0
       baseStats:
         armor: 0
-        ward: 0
+        ward: 1
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 3
-        accuracy: 0
+        magicDamage: 7
+        accuracy: 4
       rolledStats:
         armor: 0
         ward: 0
@@ -73863,17 +73952,20 @@ MonoBehaviour:
         magicDamage: 0
         accuracy: 0
       armorRating: 0
-      wardRating: 0
+      wardRating: 1
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 9c4eb5ed959644b7919a246090431fa2, type: 2}
+      - {fileID: 11400000, guid: df65c6269ed848adb36cfc2f7c8bfcb6, type: 2}
+      - {fileID: 11400000, guid: ef2441f2344779f428833a8e65f75783, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 3
-      accuracyBonus: 0
+      magicDamage: 7
+      accuracyBonus: 4
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73887,11 +73979,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Tome
-      itemID: spellbook:weapon-wooden-tome
+      itemName: Wood Tablet
+      itemID: spellbook:wood-tablet
       instanceId: a20f74dc3e9f497ebbf693611b7cf285
       typeDefinition: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
-      templateId: weapon-wooden-tome
+      templateId: wood-tablet
       armor: 0
       weapon: 3
       accessory: 0
@@ -73899,7 +73991,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: b5d421779a5323d4eb1e827e1308a4e3, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -73908,8 +74000,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -73918,12 +74010,12 @@ MonoBehaviour:
         amount: 0
       baseStats:
         armor: 0
-        ward: 0
+        ward: 1
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 2
-        accuracy: 0
+        magicDamage: 8
+        accuracy: 3
       rolledStats:
         armor: 0
         ward: 0
@@ -73933,17 +74025,20 @@ MonoBehaviour:
         magicDamage: 0
         accuracy: 0
       armorRating: 0
-      wardRating: 0
+      wardRating: 1
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 539080b969624cf58526934bf632062f, type: 2}
+      - {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+      - {fileID: 11400000, guid: fbf3898950e49b1408be72e2a219308e, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 2
-      accuracyBonus: 0
+      magicDamage: 8
+      accuracyBonus: 3
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -73957,11 +74052,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Tome
-      itemID: spellbook:weapon-wooden-tome
+      itemName: Wood Tablet
+      itemID: spellbook:wood-tablet
       instanceId: 0eb531957726464bb2768596dd93fd90
       typeDefinition: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
-      templateId: weapon-wooden-tome
+      templateId: wood-tablet
       armor: 0
       weapon: 3
       accessory: 0
@@ -73969,7 +74064,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: b5d421779a5323d4eb1e827e1308a4e3, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -73978,8 +74073,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -73988,12 +74083,12 @@ MonoBehaviour:
         amount: 0
       baseStats:
         armor: 0
-        ward: 0
+        ward: 1
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 2
-        accuracy: 0
+        magicDamage: 8
+        accuracy: 3
       rolledStats:
         armor: 0
         ward: 0
@@ -74003,17 +74098,20 @@ MonoBehaviour:
         magicDamage: 0
         accuracy: 0
       armorRating: 0
-      wardRating: 0
+      wardRating: 1
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 539080b969624cf58526934bf632062f, type: 2}
+      - {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+      - {fileID: 11400000, guid: fbf3898950e49b1408be72e2a219308e, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 2
-      accuracyBonus: 0
+      magicDamage: 8
+      accuracyBonus: 3
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -74027,11 +74125,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Tome
-      itemID: spellbook:weapon-wooden-tome
+      itemName: Wood Tablet
+      itemID: spellbook:wood-tablet
       instanceId: 1722dfd3873a47cda18d9301404fc2aa
       typeDefinition: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
-      templateId: weapon-wooden-tome
+      templateId: wood-tablet
       armor: 0
       weapon: 3
       accessory: 0
@@ -74039,7 +74137,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: b5d421779a5323d4eb1e827e1308a4e3, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -74048,8 +74146,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -74058,12 +74156,12 @@ MonoBehaviour:
         amount: 0
       baseStats:
         armor: 0
-        ward: 0
+        ward: 1
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 2
-        accuracy: 0
+        magicDamage: 8
+        accuracy: 3
       rolledStats:
         armor: 0
         ward: 0
@@ -74073,17 +74171,20 @@ MonoBehaviour:
         magicDamage: 0
         accuracy: 0
       armorRating: 0
-      wardRating: 0
+      wardRating: 1
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: 539080b969624cf58526934bf632062f, type: 2}
+      - {fileID: 11400000, guid: e2738cd657a096d479a227ade9d9adfc, type: 2}
+      - {fileID: 11400000, guid: fbf3898950e49b1408be72e2a219308e, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 2
-      accuracyBonus: 0
+      magicDamage: 8
+      accuracyBonus: 3
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -74097,11 +74198,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Charm
-      itemID: charm:weapon-wooden-charm
+      itemName: Wood Charm
+      itemID: charm:wood-charm
       instanceId: 63e73ab90ca24d228df2207fb29688e6
       typeDefinition: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
-      templateId: weapon-wooden-charm
+      templateId: wood-charm
       armor: 0
       weapon: 3
       accessory: 0
@@ -74109,7 +74210,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 7572bb9e8d7b7e046be7dc151d7d9a37, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -74118,8 +74219,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -74128,12 +74229,12 @@ MonoBehaviour:
         amount: 0
       baseStats:
         armor: 0
-        ward: 1
+        ward: 2
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
+        magicDamage: 4
+        accuracy: 2
       rolledStats:
         armor: 0
         ward: 0
@@ -74143,17 +74244,20 @@ MonoBehaviour:
         magicDamage: 0
         accuracy: 0
       armorRating: 0
-      wardRating: 1
+      wardRating: 2
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: ac3105ba0ae848a6938622b75b9b2ddd, type: 2}
+      - {fileID: 11400000, guid: 0095004f43ab40af9f5d65721e4f9946, type: 2}
+      - {fileID: 11400000, guid: a32708844a964be7822a4b3cc155e3b8, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
+      magicDamage: 4
+      accuracyBonus: 2
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -74167,11 +74271,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Charm
-      itemID: charm:weapon-wooden-charm
+      itemName: Wood Charm
+      itemID: charm:wood-charm
       instanceId: c3f19a2fb20442638a91a9a816bc160a
       typeDefinition: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
-      templateId: weapon-wooden-charm
+      templateId: wood-charm
       armor: 0
       weapon: 3
       accessory: 0
@@ -74179,7 +74283,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 7572bb9e8d7b7e046be7dc151d7d9a37, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -74188,8 +74292,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -74198,12 +74302,12 @@ MonoBehaviour:
         amount: 0
       baseStats:
         armor: 0
-        ward: 1
+        ward: 2
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
+        magicDamage: 4
+        accuracy: 2
       rolledStats:
         armor: 0
         ward: 0
@@ -74213,17 +74317,20 @@ MonoBehaviour:
         magicDamage: 0
         accuracy: 0
       armorRating: 0
-      wardRating: 1
+      wardRating: 2
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: ac3105ba0ae848a6938622b75b9b2ddd, type: 2}
+      - {fileID: 11400000, guid: 0095004f43ab40af9f5d65721e4f9946, type: 2}
+      - {fileID: 11400000, guid: a32708844a964be7822a4b3cc155e3b8, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
+      magicDamage: 4
+      accuracyBonus: 2
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -74237,11 +74344,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Charm
-      itemID: charm:weapon-wooden-charm
+      itemName: Wood Charm
+      itemID: charm:wood-charm
       instanceId: a51ae855423b4f36ad013aa01bf983a7
       typeDefinition: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
-      templateId: weapon-wooden-charm
+      templateId: wood-charm
       armor: 0
       weapon: 3
       accessory: 0
@@ -74249,7 +74356,7 @@ MonoBehaviour:
       rarity: 0
       type: 1
       statModifier: 0
-      grantedActionSet: {fileID: 0}
+      grantedActionSet: {fileID: 11400000, guid: 7572bb9e8d7b7e046be7dc151d7d9a37, type: 2}
       grantedEffectCollection: {fileID: 0}
       primaryDamageType: 4
       scalingCoefficient: 0
@@ -74258,8 +74365,8 @@ MonoBehaviour:
         dexterity: 0
         vitality: 0
         constitution: 0
-        perception: 0
-        intelligence: 1
+        perception: 1
+        intelligence: 2
       lastStatRoll1:
         stat: 0
         amount: 0
@@ -74268,12 +74375,12 @@ MonoBehaviour:
         amount: 0
       baseStats:
         armor: 0
-        ward: 1
+        ward: 2
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
+        magicDamage: 4
+        accuracy: 2
       rolledStats:
         armor: 0
         ward: 0
@@ -74283,17 +74390,20 @@ MonoBehaviour:
         magicDamage: 0
         accuracy: 0
       armorRating: 0
-      wardRating: 1
+      wardRating: 2
       resistances: []
       bonusDamage: []
-      grantedActions: []
+      grantedActions:
+      - {fileID: 11400000, guid: ac3105ba0ae848a6938622b75b9b2ddd, type: 2}
+      - {fileID: 11400000, guid: 0095004f43ab40af9f5d65721e4f9946, type: 2}
+      - {fileID: 11400000, guid: a32708844a964be7822a4b3cc155e3b8, type: 2}
       grantedEffects: []
       abilityWeights: []
       movementPenalty: 0
       meleeDamage: 0
       rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
+      magicDamage: 4
+      accuracyBonus: 2
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -74307,12 +74417,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Helm
-      itemID: helmet:armor-wooden-helm
+      itemName: Wood Helmet
+      itemID: helmet:wood-helmet
       instanceId: 8979fd5ba4fe497aae7befda0dce4d34
       typeDefinition: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
-      templateId: armor-wooden-helm
-      armor: 1
+      templateId: wood-helmet
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74326,8 +74436,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74337,7 +74447,7 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 4
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
@@ -74352,7 +74462,7 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 4
       wardRating: 0
       resistances: []
       bonusDamage: []
@@ -74377,12 +74487,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Helm
-      itemID: helmet:armor-wooden-helm
+      itemName: Wood Helmet
+      itemID: helmet:wood-helmet
       instanceId: 8bfca330fed344ae8c5cf8ee80a495f6
       typeDefinition: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
-      templateId: armor-wooden-helm
-      armor: 1
+      templateId: wood-helmet
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74396,8 +74506,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74407,7 +74517,7 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 4
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
@@ -74422,7 +74532,7 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 4
       wardRating: 0
       resistances: []
       bonusDamage: []
@@ -74447,12 +74557,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Helm
-      itemID: helmet:armor-wooden-helm
+      itemName: Wood Helmet
+      itemID: helmet:wood-helmet
       instanceId: 781704569f6c424fbf79bd4df479d44a
       typeDefinition: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
-      templateId: armor-wooden-helm
-      armor: 1
+      templateId: wood-helmet
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74466,8 +74576,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74477,7 +74587,7 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 4
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
@@ -74492,7 +74602,7 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 4
       wardRating: 0
       resistances: []
       bonusDamage: []
@@ -74517,12 +74627,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Chest Armor
-      itemID: chest:armor-wooden-chest
+      itemName: Wood Chest
+      itemID: chest:wood-chest
       instanceId: bf36f12399a04563b6d4932dd6cd55b6
       typeDefinition: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
-      armor: 1
+      templateId: wood-chest
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74536,8 +74646,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74547,9 +74657,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 2
+        armor: 5
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -74562,14 +74672,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 2
+      armorRating: 5
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -74587,12 +74697,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Chest Armor
-      itemID: chest:armor-wooden-chest
+      itemName: Wood Chest
+      itemID: chest:wood-chest
       instanceId: c46343ece3c641e7871df92cff0a0ab7
       typeDefinition: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
-      armor: 1
+      templateId: wood-chest
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74606,8 +74716,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74617,9 +74727,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 2
+        armor: 5
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -74632,14 +74742,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 2
+      armorRating: 5
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -74657,12 +74767,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Chest Armor
-      itemID: chest:armor-wooden-chest
+      itemName: Wood Chest
+      itemID: chest:wood-chest
       instanceId: 4fbb7ab8d8634625afe8c5ef27eb0dcb
       typeDefinition: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
-      armor: 1
+      templateId: wood-chest
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74676,8 +74786,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74687,9 +74797,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 2
+        armor: 5
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -74702,14 +74812,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 2
+      armorRating: 5
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -74727,12 +74837,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Gloves
-      itemID: gloves:armor-wooden-gloves
+      itemName: Wood Gloves
+      itemID: gloves:wood-gloves
       instanceId: fddfe46991a34bfd940ba646027ba7c9
       typeDefinition: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
-      templateId: armor-wooden-gloves
-      armor: 1
+      templateId: wood-gloves
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74746,8 +74856,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74757,13 +74867,13 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 3
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 1
       rolledStats:
         armor: 0
         ward: 0
@@ -74772,7 +74882,7 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 3
       wardRating: 0
       resistances: []
       bonusDamage: []
@@ -74783,7 +74893,7 @@ MonoBehaviour:
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 1
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -74797,12 +74907,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Gloves
-      itemID: gloves:armor-wooden-gloves
+      itemName: Wood Gloves
+      itemID: gloves:wood-gloves
       instanceId: d1f02a9ec6db4dd2be19c8f116aaa47a
       typeDefinition: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
-      templateId: armor-wooden-gloves
-      armor: 1
+      templateId: wood-gloves
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74816,8 +74926,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74827,13 +74937,13 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 3
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 1
       rolledStats:
         armor: 0
         ward: 0
@@ -74842,7 +74952,7 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 3
       wardRating: 0
       resistances: []
       bonusDamage: []
@@ -74853,7 +74963,7 @@ MonoBehaviour:
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 1
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -74867,12 +74977,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Gloves
-      itemID: gloves:armor-wooden-gloves
+      itemName: Wood Gloves
+      itemID: gloves:wood-gloves
       instanceId: a27ec85cb95c4afe810a763c32f5aa41
       typeDefinition: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
-      templateId: armor-wooden-gloves
-      armor: 1
+      templateId: wood-gloves
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74886,8 +74996,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74897,13 +75007,13 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 3
         ward: 0
         movementPenalty: 0
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
-        accuracy: 0
+        accuracy: 1
       rolledStats:
         armor: 0
         ward: 0
@@ -74912,7 +75022,7 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 3
       wardRating: 0
       resistances: []
       bonusDamage: []
@@ -74923,7 +75033,7 @@ MonoBehaviour:
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
-      accuracyBonus: 0
+      accuracyBonus: 1
       bonusStacks: []
       lastUpgradeBonus: 
     consumable:
@@ -74937,12 +75047,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Pants
-      itemID: pants:armor-wooden-pants
+      itemName: Wood Pants
+      itemID: pants:wood-pants
       instanceId: 8b87e8bea9f64c00b9a7b62b8a8df926
       typeDefinition: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
-      templateId: armor-wooden-pants
-      armor: 1
+      templateId: wood-pants
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -74956,8 +75066,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -74967,9 +75077,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 4
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -74982,14 +75092,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 4
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75007,12 +75117,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Pants
-      itemID: pants:armor-wooden-pants
+      itemName: Wood Pants
+      itemID: pants:wood-pants
       instanceId: 4d584a4bfad9446aba6e203be2951c4f
       typeDefinition: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
-      templateId: armor-wooden-pants
-      armor: 1
+      templateId: wood-pants
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -75026,8 +75136,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75037,9 +75147,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 4
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75052,14 +75162,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 4
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75077,12 +75187,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Pants
-      itemID: pants:armor-wooden-pants
+      itemName: Wood Pants
+      itemID: pants:wood-pants
       instanceId: 0033d610c4ff4f07a459d03c5303023c
       typeDefinition: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
-      templateId: armor-wooden-pants
-      armor: 1
+      templateId: wood-pants
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -75096,8 +75206,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75107,9 +75217,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 4
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75122,14 +75232,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 4
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75147,12 +75257,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Boots
-      itemID: boots:armor-wooden-boots
+      itemName: Wood Boots
+      itemID: boots:wood-boots
       instanceId: 30f05a27621e4b47830c63368dc0a9b2
       typeDefinition: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
-      templateId: armor-wooden-boots
-      armor: 1
+      templateId: wood-boots
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -75166,8 +75276,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75177,9 +75287,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 3
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75192,14 +75302,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 3
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75217,12 +75327,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Boots
-      itemID: boots:armor-wooden-boots
+      itemName: Wood Boots
+      itemID: boots:wood-boots
       instanceId: ee6f8a0ddb1043fdb0dcc13861fcdf7a
       typeDefinition: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
-      templateId: armor-wooden-boots
-      armor: 1
+      templateId: wood-boots
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -75236,8 +75346,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75247,9 +75357,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 3
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75262,14 +75372,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 3
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75287,12 +75397,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Boots
-      itemID: boots:armor-wooden-boots
+      itemName: Wood Boots
+      itemID: boots:wood-boots
       instanceId: 6cbcb18a879a4980b3f7836b8230de43
       typeDefinition: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
-      templateId: armor-wooden-boots
-      armor: 1
+      templateId: wood-boots
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -75306,8 +75416,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75317,9 +75427,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 1
+        armor: 3
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75332,14 +75442,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 1
+      armorRating: 3
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75357,11 +75467,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Kite Shield
-      itemID: shield:shield-wooden-kite
+      itemName: Wood M Shield
+      itemID: shield:wood-m-shield
       instanceId: 5f6d12c2befa4f6cac3a4f7c38e6fe54
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-wooden-kite
+      templateId: wood-m-shield
       armor: 2
       weapon: 0
       accessory: 0
@@ -75376,8 +75486,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75387,9 +75497,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 2
+        armor: 6
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75402,14 +75512,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 2
+      armorRating: 6
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75427,11 +75537,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Kite Shield
-      itemID: shield:shield-wooden-kite
+      itemName: Wood M Shield
+      itemID: shield:wood-m-shield
       instanceId: be6bb7b316e2490e9fd427ca3b3974dc
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-wooden-kite
+      templateId: wood-m-shield
       armor: 2
       weapon: 0
       accessory: 0
@@ -75446,8 +75556,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75457,9 +75567,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 2
+        armor: 6
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75472,14 +75582,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 2
+      armorRating: 6
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75497,11 +75607,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Kite Shield
-      itemID: shield:shield-wooden-kite
+      itemName: Wood M Shield
+      itemID: shield:wood-m-shield
       instanceId: 1d9fff985d1b4dccaee24997e77f5774
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-wooden-kite
+      templateId: wood-m-shield
       armor: 2
       weapon: 0
       accessory: 0
@@ -75516,8 +75626,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75527,9 +75637,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 2
+        armor: 6
         ward: 0
-        movementPenalty: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75542,14 +75652,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 2
+      armorRating: 6
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75567,12 +75677,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Tower Shield
-      itemID: shield:shield-wooden-tower
+      itemName: Wood L Shield
+      itemID: shield:wood-l-shield
       instanceId: fe419fe156c54b529f47b7f39eecb3f3
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-wooden-tower
-      armor: 3
+      templateId: wood-l-shield
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -75586,8 +75696,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75597,9 +75707,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 3
+        armor: 7
         ward: 0
-        movementPenalty: 1
+        movementPenalty: 2
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75612,14 +75722,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 3
+      armorRating: 7
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 1
+      movementPenalty: 2
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75637,12 +75747,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Tower Shield
-      itemID: shield:shield-wooden-tower
+      itemName: Wood L Shield
+      itemID: shield:wood-l-shield
       instanceId: 5ff9d691d82742ad9814d24e67673ca8
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-wooden-tower
-      armor: 3
+      templateId: wood-l-shield
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -75656,8 +75766,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75667,9 +75777,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 3
+        armor: 7
         ward: 0
-        movementPenalty: 1
+        movementPenalty: 2
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -75682,14 +75792,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 3
+      armorRating: 7
       wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 1
+      movementPenalty: 2
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -75707,12 +75817,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Wooden Tower Shield
-      itemID: shield:shield-wooden-tower
+      itemName: Wood L Shield
+      itemID: shield:wood-l-shield
       instanceId: cac3d798bc9a4022b3e830f5f7bc7daa
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-wooden-tower
-      armor: 3
+      templateId: wood-l-shield
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -75726,8 +75836,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -75737,7 +75847,287 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 3
+        armor: 7
+        ward: 0
+        movementPenalty: 2
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 7
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 2
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+      bonusStacks: []
+      lastUpgradeBonus: 
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Carved Wood S Shield
+      itemID: shield:carved-wood-s-shield
+      instanceId: b9988415d8ad496f9ce9590d1a72dc0a
+      typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+      templateId: carved-wood-s-shield
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      attributeScaling:
+        strength: 0
+        dexterity: 0
+        vitality: 1
+        constitution: 2
+        perception: 0
+        intelligence: 0
+      lastStatRoll1:
+        stat: 0
+        amount: 0
+      lastStatRoll2:
+        stat: 0
+        amount: 0
+      baseStats:
+        armor: 5
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 5
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+      bonusStacks: []
+      lastUpgradeBonus: 
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Carved Wood S Shield
+      itemID: shield:carved-wood-s-shield
+      instanceId: 529d0f98c8434cf195ef6e8cd34c7647
+      typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+      templateId: carved-wood-s-shield
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      attributeScaling:
+        strength: 0
+        dexterity: 0
+        vitality: 1
+        constitution: 2
+        perception: 0
+        intelligence: 0
+      lastStatRoll1:
+        stat: 0
+        amount: 0
+      lastStatRoll2:
+        stat: 0
+        amount: 0
+      baseStats:
+        armor: 5
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 5
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+      bonusStacks: []
+      lastUpgradeBonus: 
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Carved Wood S Shield
+      itemID: shield:carved-wood-s-shield
+      instanceId: 6fa8ea0fbeba4730b89d7e23048fe766
+      typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+      templateId: carved-wood-s-shield
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      attributeScaling:
+        strength: 0
+        dexterity: 0
+        vitality: 1
+        constitution: 2
+        perception: 0
+        intelligence: 0
+      lastStatRoll1:
+        stat: 0
+        amount: 0
+      lastStatRoll2:
+        stat: 0
+        amount: 0
+      baseStats:
+        armor: 5
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      rolledStats:
+        armor: 0
+        ward: 0
+        movementPenalty: 0
+        meleeDamage: 0
+        rangeDamage: 0
+        magicDamage: 0
+        accuracy: 0
+      armorRating: 5
+      wardRating: 0
+      resistances: []
+      bonusDamage: []
+      grantedActions: []
+      grantedEffects: []
+      abilityWeights: []
+      movementPenalty: 0
+      meleeDamage: 0
+      rangeDamage: 0
+      magicDamage: 0
+      accuracyBonus: 0
+      bonusStacks: []
+      lastUpgradeBonus: 
+    consumable:
+      instanceId: 
+      definition: {fileID: 0}
+      consumableType: 0
+      consumeOnUse: 0
+      remainingUses: 0
+      magnitude: 0
+      damage: 0
+      coverValue: 0
+  - kind: 0
+    equipment:
+      itemName: Carved Wood M Shield
+      itemID: shield:carved-wood-m-shield
+      instanceId: 51a34897d8684609a964baa6e40476dd
+      typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+      templateId: carved-wood-m-shield
+      armor: 2
+      weapon: 0
+      accessory: 0
+      slot: 0
+      rarity: 0
+      type: 1
+      statModifier: 0
+      grantedActionSet: {fileID: 0}
+      grantedEffectCollection: {fileID: 0}
+      primaryDamageType: 0
+      scalingCoefficient: 0
+      attributeScaling:
+        strength: 0
+        dexterity: 0
+        vitality: 1
+        constitution: 2
+        perception: 0
+        intelligence: 0
+      lastStatRoll1:
+        stat: 0
+        amount: 0
+      lastStatRoll2:
+        stat: 0
+        amount: 0
+      baseStats:
+        armor: 6
         ward: 0
         movementPenalty: 1
         meleeDamage: 0
@@ -75752,7 +76142,7 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 3
+      armorRating: 6
       wardRating: 0
       resistances: []
       bonusDamage: []
@@ -75777,291 +76167,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Carved Buckler
-      itemID: shield:shield-carved-buckler
-      instanceId: b9988415d8ad496f9ce9590d1a72dc0a
-      typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-buckler
-      armor: 1
-      weapon: 0
-      accessory: 0
-      slot: 0
-      rarity: 0
-      type: 1
-      statModifier: 0
-      grantedActionSet: {fileID: 0}
-      grantedEffectCollection: {fileID: 0}
-      primaryDamageType: 0
-      scalingCoefficient: 0
-      attributeScaling:
-        strength: 0
-        dexterity: 0
-        vitality: 0
-        constitution: 1
-        perception: 0
-        intelligence: 0
-      lastStatRoll1:
-        stat: 0
-        amount: 0
-      lastStatRoll2:
-        stat: 0
-        amount: 0
-      baseStats:
-        armor: 1
-        ward: 1
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      rolledStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      armorRating: 1
-      wardRating: 1
-      resistances: []
-      bonusDamage: []
-      grantedActions: []
-      grantedEffects: []
-      abilityWeights: []
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
-      bonusStacks: []
-      lastUpgradeBonus: 
-    consumable:
-      instanceId: 
-      definition: {fileID: 0}
-      consumableType: 0
-      consumeOnUse: 0
-      remainingUses: 0
-      magnitude: 0
-      damage: 0
-      coverValue: 0
-  - kind: 0
-    equipment:
-      itemName: Carved Buckler
-      itemID: shield:shield-carved-buckler
-      instanceId: 529d0f98c8434cf195ef6e8cd34c7647
-      typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-buckler
-      armor: 1
-      weapon: 0
-      accessory: 0
-      slot: 0
-      rarity: 0
-      type: 1
-      statModifier: 0
-      grantedActionSet: {fileID: 0}
-      grantedEffectCollection: {fileID: 0}
-      primaryDamageType: 0
-      scalingCoefficient: 0
-      attributeScaling:
-        strength: 0
-        dexterity: 0
-        vitality: 0
-        constitution: 1
-        perception: 0
-        intelligence: 0
-      lastStatRoll1:
-        stat: 0
-        amount: 0
-      lastStatRoll2:
-        stat: 0
-        amount: 0
-      baseStats:
-        armor: 1
-        ward: 1
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      rolledStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      armorRating: 1
-      wardRating: 1
-      resistances: []
-      bonusDamage: []
-      grantedActions: []
-      grantedEffects: []
-      abilityWeights: []
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
-      bonusStacks: []
-      lastUpgradeBonus: 
-    consumable:
-      instanceId: 
-      definition: {fileID: 0}
-      consumableType: 0
-      consumeOnUse: 0
-      remainingUses: 0
-      magnitude: 0
-      damage: 0
-      coverValue: 0
-  - kind: 0
-    equipment:
-      itemName: Carved Buckler
-      itemID: shield:shield-carved-buckler
-      instanceId: 6fa8ea0fbeba4730b89d7e23048fe766
-      typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-buckler
-      armor: 1
-      weapon: 0
-      accessory: 0
-      slot: 0
-      rarity: 0
-      type: 1
-      statModifier: 0
-      grantedActionSet: {fileID: 0}
-      grantedEffectCollection: {fileID: 0}
-      primaryDamageType: 0
-      scalingCoefficient: 0
-      attributeScaling:
-        strength: 0
-        dexterity: 0
-        vitality: 0
-        constitution: 1
-        perception: 0
-        intelligence: 0
-      lastStatRoll1:
-        stat: 0
-        amount: 0
-      lastStatRoll2:
-        stat: 0
-        amount: 0
-      baseStats:
-        armor: 1
-        ward: 1
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      rolledStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      armorRating: 1
-      wardRating: 1
-      resistances: []
-      bonusDamage: []
-      grantedActions: []
-      grantedEffects: []
-      abilityWeights: []
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
-      bonusStacks: []
-      lastUpgradeBonus: 
-    consumable:
-      instanceId: 
-      definition: {fileID: 0}
-      consumableType: 0
-      consumeOnUse: 0
-      remainingUses: 0
-      magnitude: 0
-      damage: 0
-      coverValue: 0
-  - kind: 0
-    equipment:
-      itemName: Carved Kite Shield
-      itemID: shield:shield-carved-kite
-      instanceId: 51a34897d8684609a964baa6e40476dd
-      typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-kite
-      armor: 2
-      weapon: 0
-      accessory: 0
-      slot: 0
-      rarity: 0
-      type: 1
-      statModifier: 0
-      grantedActionSet: {fileID: 0}
-      grantedEffectCollection: {fileID: 0}
-      primaryDamageType: 0
-      scalingCoefficient: 0
-      attributeScaling:
-        strength: 0
-        dexterity: 0
-        vitality: 0
-        constitution: 1
-        perception: 0
-        intelligence: 0
-      lastStatRoll1:
-        stat: 0
-        amount: 0
-      lastStatRoll2:
-        stat: 0
-        amount: 0
-      baseStats:
-        armor: 2
-        ward: 1
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      rolledStats:
-        armor: 0
-        ward: 0
-        movementPenalty: 0
-        meleeDamage: 0
-        rangeDamage: 0
-        magicDamage: 0
-        accuracy: 0
-      armorRating: 2
-      wardRating: 1
-      resistances: []
-      bonusDamage: []
-      grantedActions: []
-      grantedEffects: []
-      abilityWeights: []
-      movementPenalty: 0
-      meleeDamage: 0
-      rangeDamage: 0
-      magicDamage: 0
-      accuracyBonus: 0
-      bonusStacks: []
-      lastUpgradeBonus: 
-    consumable:
-      instanceId: 
-      definition: {fileID: 0}
-      consumableType: 0
-      consumeOnUse: 0
-      remainingUses: 0
-      magnitude: 0
-      damage: 0
-      coverValue: 0
-  - kind: 0
-    equipment:
-      itemName: Carved Kite Shield
-      itemID: shield:shield-carved-kite
+      itemName: Carved Wood M Shield
+      itemID: shield:carved-wood-m-shield
       instanceId: eb134e828de540fd9c1c6619e31da6a3
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-kite
+      templateId: carved-wood-m-shield
       armor: 2
       weapon: 0
       accessory: 0
@@ -76076,8 +76186,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -76087,9 +76197,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 2
-        ward: 1
-        movementPenalty: 0
+        armor: 6
+        ward: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -76102,14 +76212,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 2
-      wardRating: 1
+      armorRating: 6
+      wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -76127,11 +76237,11 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Carved Kite Shield
-      itemID: shield:shield-carved-kite
+      itemName: Carved Wood M Shield
+      itemID: shield:carved-wood-m-shield
       instanceId: e0e243b7959e428fa5548677e6cc1e03
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-kite
+      templateId: carved-wood-m-shield
       armor: 2
       weapon: 0
       accessory: 0
@@ -76146,8 +76256,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -76157,9 +76267,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 2
-        ward: 1
-        movementPenalty: 0
+        armor: 6
+        ward: 0
+        movementPenalty: 1
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -76172,14 +76282,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 2
-      wardRating: 1
+      armorRating: 6
+      wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 0
+      movementPenalty: 1
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -76197,12 +76307,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Carved Tower Shield
-      itemID: shield:shield-carved-tower
+      itemName: Carved Wood L Shield
+      itemID: shield:carved-wood-l-shield
       instanceId: bd8e19992c444dceb9ec628b836d15b0
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-tower
-      armor: 3
+      templateId: carved-wood-l-shield
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -76216,8 +76326,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -76227,9 +76337,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 3
-        ward: 1
-        movementPenalty: 1
+        armor: 7
+        ward: 0
+        movementPenalty: 2
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -76242,14 +76352,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 3
-      wardRating: 1
+      armorRating: 7
+      wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 1
+      movementPenalty: 2
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -76267,12 +76377,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Carved Tower Shield
-      itemID: shield:shield-carved-tower
+      itemName: Carved Wood L Shield
+      itemID: shield:carved-wood-l-shield
       instanceId: 936902cdb29c46169cb515d443031621
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-tower
-      armor: 3
+      templateId: carved-wood-l-shield
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -76286,8 +76396,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -76297,9 +76407,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 3
-        ward: 1
-        movementPenalty: 1
+        armor: 7
+        ward: 0
+        movementPenalty: 2
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -76312,14 +76422,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 3
-      wardRating: 1
+      armorRating: 7
+      wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 1
+      movementPenalty: 2
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -76337,12 +76447,12 @@ MonoBehaviour:
       coverValue: 0
   - kind: 0
     equipment:
-      itemName: Carved Tower Shield
-      itemID: shield:shield-carved-tower
+      itemName: Carved Wood L Shield
+      itemID: shield:carved-wood-l-shield
       instanceId: 3742d13c2e424e268821b7b6b7f94152
       typeDefinition: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-tower
-      armor: 3
+      templateId: carved-wood-l-shield
+      armor: 2
       weapon: 0
       accessory: 0
       slot: 0
@@ -76356,8 +76466,8 @@ MonoBehaviour:
       attributeScaling:
         strength: 0
         dexterity: 0
-        vitality: 0
-        constitution: 1
+        vitality: 1
+        constitution: 2
         perception: 0
         intelligence: 0
       lastStatRoll1:
@@ -76367,9 +76477,9 @@ MonoBehaviour:
         stat: 0
         amount: 0
       baseStats:
-        armor: 3
-        ward: 1
-        movementPenalty: 1
+        armor: 7
+        ward: 0
+        movementPenalty: 2
         meleeDamage: 0
         rangeDamage: 0
         magicDamage: 0
@@ -76382,14 +76492,14 @@ MonoBehaviour:
         rangeDamage: 0
         magicDamage: 0
         accuracy: 0
-      armorRating: 3
-      wardRating: 1
+      armorRating: 7
+      wardRating: 0
       resistances: []
       bonusDamage: []
       grantedActions: []
       grantedEffects: []
       abilityWeights: []
-      movementPenalty: 1
+      movementPenalty: 2
       meleeDamage: 0
       rangeDamage: 0
       magicDamage: 0
@@ -81341,19 +81451,19 @@ MonoBehaviour:
     startingMutations: 
     startingEquipment:
     - equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
-      templateId: weapon-wooden-tome
+      templateId: wood-tablet
     - equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-wooden-kite
+      templateId: wood-m-shield
     - equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
-      templateId: armor-wooden-helm
+      templateId: wood-helmet
     - equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
+      templateId: wood-chest
     - equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
-      templateId: armor-wooden-gloves
+      templateId: wood-gloves
     - equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
-      templateId: armor-wooden-pants
+      templateId: wood-pants
     - equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
-      templateId: armor-wooden-boots
+      templateId: wood-boots
     startingConsumables:
     - {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
     singleStartingEquipment:
@@ -81366,19 +81476,19 @@ MonoBehaviour:
     startingMutations: 
     startingEquipment:
     - equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
-      templateId: weapon-wooden-sword
+      templateId: wood-sword
     - equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-wooden-tower
+      templateId: wood-l-shield
     - equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
-      templateId: armor-wooden-helm
+      templateId: wood-helmet
     - equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
+      templateId: wood-chest
     - equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
-      templateId: armor-wooden-gloves
+      templateId: wood-gloves
     - equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
-      templateId: armor-wooden-pants
+      templateId: wood-pants
     - equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
-      templateId: armor-wooden-boots
+      templateId: wood-boots
     startingConsumables:
     - {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
     singleStartingEquipment:
@@ -81391,11 +81501,11 @@ MonoBehaviour:
     startingMutations: 
     startingEquipment:
     - equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
-      templateId: weapon-driftwood-bow
+      templateId: wood-bow
     - equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
+      templateId: wood-chest
     - equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
-      templateId: armor-wooden-gloves
+      templateId: wood-gloves
     startingConsumables:
     - {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
     singleStartingEquipment:
@@ -81408,11 +81518,11 @@ MonoBehaviour:
     startingMutations: 
     startingEquipment:
     - equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
-      templateId: weapon-wooden-sword
+      templateId: wood-sword
     - equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
+      templateId: wood-chest
     - equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
-      templateId: armor-wooden-boots
+      templateId: wood-boots
     startingConsumables:
     - {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
     singleStartingEquipment:
@@ -81425,19 +81535,19 @@ MonoBehaviour:
     startingMutations: 
     startingEquipment:
     - equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
-      templateId: weapon-wooden-tome
+      templateId: wood-tablet
     - equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-wooden-kite
+      templateId: wood-m-shield
     - equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
-      templateId: armor-wooden-helm
+      templateId: wood-helmet
     - equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
+      templateId: wood-chest
     - equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
-      templateId: armor-wooden-gloves
+      templateId: wood-gloves
     - equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
-      templateId: armor-wooden-pants
+      templateId: wood-pants
     - equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
-      templateId: armor-wooden-boots
+      templateId: wood-boots
     startingConsumables:
     - {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
     singleStartingEquipment:
@@ -81450,9 +81560,9 @@ MonoBehaviour:
     startingMutations: 
     startingEquipment:
     - equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
-      templateId: weapon-driftwood-bow
+      templateId: wood-bow
     - equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
-      templateId: armor-wooden-helm
+      templateId: wood-helmet
     startingConsumables:
     - {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
     singleStartingEquipment:
@@ -81465,17 +81575,17 @@ MonoBehaviour:
     startingMutations: 
     startingEquipment:
     - equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
-      templateId: weapon-wooden-sword
+      templateId: wood-sword
     - equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
-      templateId: shield-carved-buckler
+      templateId: carved-wood-s-shield
     - equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
+      templateId: wood-chest
     - equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
-      templateId: armor-wooden-gloves
+      templateId: wood-gloves
     - equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
-      templateId: armor-wooden-pants
+      templateId: wood-pants
     - equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
-      templateId: armor-wooden-boots
+      templateId: wood-boots
     startingConsumables:
     - {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
     singleStartingEquipment:
@@ -81488,17 +81598,17 @@ MonoBehaviour:
     startingMutations: 
     startingEquipment:
     - equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
-      templateId: weapon-wooden-sword
+      templateId: wood-sword
     - equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
-      templateId: armor-wooden-helm
+      templateId: wood-helmet
     - equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
-      templateId: armor-wooden-chest
+      templateId: wood-chest
     - equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
-      templateId: armor-wooden-gloves
+      templateId: wood-gloves
     - equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
-      templateId: armor-wooden-pants
+      templateId: wood-pants
     - equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
-      templateId: armor-wooden-boots
+      templateId: wood-boots
     startingConsumables:
     - {fileID: 11400000, guid: b0cef6acbebf4bbc945f52e57fce25f1, type: 2}
     singleStartingEquipment:

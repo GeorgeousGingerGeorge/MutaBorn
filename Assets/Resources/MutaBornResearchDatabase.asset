@@ -276,56 +276,6 @@ MonoBehaviour:
         templateId: 
       slot: 0
       amount: 1
-  - id: e.armor
-    displayName: Steel Armor
-    description: Unlock the complete five-piece Steel armor family.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - e.steel
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 55
-    - resourceId: steel
-      amount: 4
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: craft.item.armor-steel-chest
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-steel-gloves
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-steel-pants
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-steel-helmet
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-steel-boots
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
   - id: e.potions
     displayName: Field Medicine
     description: Unlock the Field Mending Potion recipe.
@@ -367,107 +317,6 @@ MonoBehaviour:
     benefits:
     - type: 0
       recipeId: craft.item.consumable-rescue-kit
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.dvergrium
-    displayName: Dvergrium Smithing
-    description: Learn to craft Dvergrium weapons, wards, shields and the full armor family.
-    category: 0
-    requiredTier: 2
-    prerequisiteIds:
-    - p.tier2
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 130
-    - resourceId: dvergrium
-      amount: 5
-    - resourceId: deepfire_coals
-      amount: 2
-    battlesRequired: 3
-    benefits:
-    - type: 0
-      recipeId: craft.item.dvergrium-sword
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.dvergrium-shield
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.dvergrium-cuirass
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-dvergrium-arbalest
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-dvergrium-cleaver
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-dvergrium-gauntlets
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-dvergrium-greaves
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-dvergrium-helm
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-dvergrium-sabatons
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-dvergrium-skullmaul
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-dvergrium-thunder-rifle
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-dvergrium-wardplate
       equipmentTemplate:
         equipmentType: {fileID: 0}
         templateId: 
@@ -557,1045 +406,6 @@ MonoBehaviour:
         templateId: 
       slot: 0
       amount: 1
-  - id: e.melee-starters
-    displayName: Basic Melee Weaponcraft
-    description: Learn the simple edged, blunt and improvised melee patterns.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - p.foundations
-    costs:
-    - resourceId: gold
-      amount: 35
-    - resourceId: wood
-      amount: 6
-    - resourceId: iron
-      amount: 4
-    battlesRequired: 1
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon-ashwood-spear
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-bone-shiv
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.sword-wooden
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-stone-cudgel
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.ranged-starters
-    displayName: Basic Ranged Weaponcraft
-    description: Learn low-tech bows, slings, dart launchers and other ranged patterns.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - p.foundations
-    costs:
-    - resourceId: gold
-      amount: 40
-    - resourceId: wood
-      amount: 8
-    - resourceId: textiles
-      amount: 5
-    battlesRequired: 1
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon-pebble-sling
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-wooden-compact-bow
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-wooden-hand-crossbow
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.arcane-starters
-    displayName: Introductory Arcane Equipment
-    description: Craft simple books, staves, charms and wands.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - p.foundations
-    costs:
-    - resourceId: gold
-      amount: 40
-    - resourceId: maana_crystals
-      amount: 5
-    battlesRequired: 1
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon-apprentice-notes
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-carved-wooden-wand
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-stone-ward-charm
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-wooden-channeling-staff
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.shieldcraft
-    displayName: Shieldcraft
-    description: Craft simple shields, from bucklers to heavy field shields.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - p.foundations
-    costs:
-    - resourceId: gold
-      amount: 35
-    - resourceId: wood
-      amount: 8
-    - resourceId: iron
-      amount: 3
-    battlesRequired: 1
-    benefits:
-    - type: 0
-      recipeId: craft.item.shield-buckler
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.shield-kite
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.shield-tower
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-wooden-roundshield
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.field-accessories
-    displayName: Field Accessories
-    description: Craft basic field trinkets, survival tools and utility accessories.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - p.foundations
-    costs:
-    - resourceId: gold
-      amount: 30
-    - resourceId: textiles
-      amount: 5
-    - resourceId: wood
-      amount: 5
-    battlesRequired: 1
-    benefits:
-    - type: 0
-      recipeId: craft.item.accessory-bone-pathfinder-totem
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-woodland-survey-compass
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.leatherwork
-    displayName: Leather Armor Patterns
-    description: Unlock the full five-piece leather armor family and other leather equipment.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - p.foundations
-    costs:
-    - resourceId: gold
-      amount: 35
-    - resourceId: textiles
-      amount: 8
-    - resourceId: bones
-      amount: 2
-    battlesRequired: 1
-    benefits:
-    - type: 0
-      recipeId: craft.item.armor-leather-boots
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-leather-gloves
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-leather-helmet
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-leather-chest
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-leather-pants
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-woven-leather-sling
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.ironwork
-    displayName: Iron Smithing
-    description: Forge the five-piece iron armor family and iron armaments.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - p.foundations
-    costs:
-    - resourceId: gold
-      amount: 45
-    - resourceId: iron
-      amount: 12
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: 
-      equipmentTemplate:
-        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
-        templateId: iron_sword
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-iron-arming-sword
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-iron-chest
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-iron-gloves
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-iron-pants
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-iron-halberd
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-iron-hand-crossbow
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-iron-helmet
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-iron-boots
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-iron-stiletto
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-iron-woodcutter-hatchet
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-ironstrung-recurve
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.copperwork
-    displayName: Copper Forging
-    description: Craft the five-piece copper armor family and copper weapons and tools.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - p.foundations
-    costs:
-    - resourceId: gold
-      amount: 40
-    - resourceId: copper
-      amount: 10
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: craft.item.armor-copper-boots
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-copper-cuirass
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-copper-focus-wand
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-copper-fork-slingshot
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-copper-gloves
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-copper-helm
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-copper-kite-shield
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-copper-legguards
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-copper-mechanics-loop
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-copper-shortsword
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-copper-warhammer
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.firearms
-    displayName: Blackpowder Weapons
-    description: Unlock the flintlock and other early firearm blueprints.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 65
-    - resourceId: iron
-      amount: 6
-    - resourceId: gunpowder
-      amount: 3
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon-copper-flintlock
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-iron-cavalry-pistol
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-steel-long-rifle
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.steel-arsenal
-    displayName: Steel Armaments
-    description: Unlock steel blades, firearms, crossbows and heavier steel weapons.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - e.steel
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 75
-    - resourceId: steel
-      amount: 6
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon-steel-boarding-axe
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-steel-guard-link
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-steel-morningstar
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-steel-siege-crossbow
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.silverwork
-    displayName: Silver Smithing
-    description: Unlock silver armor, weapons and warding trinkets.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 65
-    - resourceId: silver
-      amount: 8
-    - resourceId: gems
-      amount: 1
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: craft.item.armor-silver-boots
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-silver-cuirass
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-silver-duelblade
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-silver-fang
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-silver-glaive
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-silver-gloves
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-silver-helm
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-silver-legguards
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-silver-night-sigil
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-silver-warden-shield
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.precision-crafting
-    displayName: Glasswork and Gemcraft
-    description: Create crystal focuses, glass instruments, specialized weapons and precision accessories.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 70
-    - resourceId: glass
-      amount: 3
-    - resourceId: gems
-      amount: 2
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: craft.item.accessory-crystal-mana-vial
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-crystal-primer
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-crystal-tipped-staff
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-surveyors-lens
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-gemcut-focus-prism
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-gemstone-wand
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-glass-aegis-charm
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-glassheart-locket
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-hearthglass-charm
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.runecraft
-    displayName: Runic Equipment Inscription
-    description: Unlock weapons, charms, shields and accessories built around runic effects.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 85
-    - resourceId: runes
-      amount: 4
-    - resourceId: maana_crystals
-      amount: 4
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: craft.item.accessory-apprentice-wardstone
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-enchanted-sash
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-rune-spun-sling
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-runebound-greatbow
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-runebound-talisman
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-runic-battlestaff
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-runic-field-token
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-runic-spell-ledger
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.shield-runic-tome
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.runewoven
-    displayName: Runewoven Armor
-    description: Unlock all five pieces of magically warded runewoven armor.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - e.runecraft
-    costs:
-    - resourceId: gold
-      amount: 90
-    - resourceId: runes
-      amount: 3
-    - resourceId: enchanted_textiles
-      amount: 4
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: craft.item.armor-runewoven-cap
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-runewoven-gloves
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-runewoven-leggings
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-runewoven-treads
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-runewoven-vest
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.dragonhide
-    displayName: Dragonhide Tailoring
-    description: Unlock the five-piece Dragonhide armor family.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 90
-    - resourceId: bones
-      amount: 5
-    - resourceId: enchanted_textiles
-      amount: 5
-    - resourceId: beast_skull
-      amount: 1
-    - resourceId: deepfire_coals
-      amount: 1
-    battlesRequired: 2
-    benefits:
-    - type: 0
-      recipeId: craft.item.armor-dragonhide-helmet
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-dragonhide-gloves
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-dragonhide-pants
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-dragonhide-boots
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor_dragonhide_vest
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.mythicwood
-    displayName: Mythical Lumber Construction
-    description: Unlock enchanted bows, staves and polearms shaped from mythical lumber.
-    category: 0
-    requiredTier: 1
-    prerequisiteIds:
-    - e.runecraft
-    costs:
-    - resourceId: gold
-      amount: 100
-    - resourceId: mythical_lumber
-      amount: 4
-    - resourceId: runes
-      amount: 2
-    battlesRequired: 3
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon-mythical-lumber-pike
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-mythical-lumber-warbow
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-mythicwood-conduit
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.advanced-ranged
-    displayName: Advanced Ranged Arsenal
-    description: Unlock specialized bows and additional long-range equipment.
-    category: 0
-    requiredTier: 2
-    prerequisiteIds:
-    - p.tier2
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 95
-    - resourceId: steel
-      amount: 4
-    - resourceId: gems
-      amount: 2
-    battlesRequired: 3
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon_alchemist_greatbow
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon_scout_recurve
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon_war_longbow
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.advanced-arcana
-    displayName: Advanced Arcane Tomes
-    description: Unlock powerful specialized spellbooks and arcane focuses.
-    category: 0
-    requiredTier: 2
-    prerequisiteIds:
-    - p.tier2
-    - e.runecraft
-    - e.arcanium-refining
-    costs:
-    - resourceId: gold
-      amount: 115
-    - resourceId: runes
-      amount: 4
-    - resourceId: maana_crystals
-      amount: 8
-    - resourceId: arcanium
-      amount: 2
-    - resourceId: elven_papyrus
-      amount: 1
-    battlesRequired: 3
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon_cinder_codex
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon_tempest_grimoire
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-magic-umbral-codex
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon_verdant_lexicon
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.master-blades
-    displayName: Master Bladecraft
-    description: Unlock expert-made sabres, reinforced longblades and heavy reavers.
-    category: 0
-    requiredTier: 2
-    prerequisiteIds:
-    - p.tier2
-    - e.equipment-tier
-    costs:
-    - resourceId: gold
-      amount: 115
-    - resourceId: steel
-      amount: 6
-    - resourceId: silver
-      amount: 4
-    - resourceId: deepfire_coals
-      amount: 2
-    battlesRequired: 3
-    benefits:
-    - type: 0
-      recipeId: craft.item.sword-duelist-sabre
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.sword-guardian-longsword
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.sword-war-reaver
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
   - id: e.master-fabrication
     displayName: Master Equipment Fabrication
     description: Unlock equipment crafting tier two for corrupted metals and high-risk artifacts.
@@ -1620,154 +430,6 @@ MonoBehaviour:
     benefits:
     - type: 13
       recipeId: 
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.mutantium
-    displayName: Mutantium Forging
-    description: Unlock the five-piece Mutantium armor set, weapons and accessories.
-    category: 0
-    requiredTier: 2
-    prerequisiteIds:
-    - e.master-fabrication
-    - p.mutationlab
-    costs:
-    - resourceId: gold
-      amount: 175
-    - resourceId: mutantium
-      amount: 3
-    - resourceId: corrupt_nodule
-      amount: 2
-    battlesRequired: 4
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon-mutantium-bulwark
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-mutantium-conduit
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-mutantium-cuirass
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-mutantium-edge
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-mutantium-gauntlets
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-mutantium-greaves
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-mutantium-helm
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-mutantium-kris
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-mutantium-reaver
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.armor-mutantium-sabatons
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.corruption
-    displayName: Corrupted Equipment Research
-    description: Unlock corrupted, nodule-grown and blood-drinking equipment.
-    category: 0
-    requiredTier: 2
-    prerequisiteIds:
-    - e.master-fabrication
-    - p.mutationlab
-    costs:
-    - resourceId: gold
-      amount: 145
-    - resourceId: unstable_compound
-      amount: 5
-    - resourceId: corrupt_nodule
-      amount: 2
-    battlesRequired: 3
-    benefits:
-    - type: 0
-      recipeId: craft.item.sword-blood-thirster
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.weapon-corrupted-crystal-wand
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-    - type: 0
-      recipeId: craft.item.accessory-nodule-brooch
-      equipmentTemplate:
-        equipmentType: {fileID: 0}
-        templateId: 
-      slot: 0
-      amount: 1
-  - id: e.heart-artifacts
-    displayName: Mutated Heart Artifacts
-    description: Use the rare beating hearts of late-stage mutants in arcane gear.
-    category: 0
-    requiredTier: 2
-    prerequisiteIds:
-    - e.corruption
-    costs:
-    - resourceId: gold
-      amount: 200
-    - resourceId: mutated_heart
-      amount: 1
-    - resourceId: runes
-      amount: 4
-    battlesRequired: 4
-    benefits:
-    - type: 0
-      recipeId: craft.item.weapon-mutated-heart-codex
       equipmentTemplate:
         equipmentType: {fileID: 0}
         templateId: 
@@ -2107,6 +769,2961 @@ MonoBehaviour:
     benefits:
     - type: 0
       recipeId: craft.resource.skull-bones
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: imgset.accesories
+    displayName: Unlock Accesories Equipment
+    description: Unlocks crafting recipes for the current Accesories equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: gems
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: apprentice-wardstone
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: crystal-mana-vial
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: enchanted-sash
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: field-surveyors-lens
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: gemcut-focus-prism
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: glassheart-locket
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: hearthglass-charm
+      slot: 0
+      amount: 1
+  - id: imgset.bone
+    displayName: Unlock Bone Equipment
+    description: Unlocks crafting recipes for the current Bone equipment set.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds: []
+    costs:
+    - resourceId: bones
+      amount: 5
+    - resourceId: gold
+      amount: 50
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: bone-accessory
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: bone-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
+        templateId: bone-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: bone-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: bone-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: bone-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: bone-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: bone-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
+        templateId: bone-staff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
+        templateId: bone-wand
+      slot: 0
+      amount: 1
+  - id: imgset.dwarven
+    displayName: Unlock Dwarven Equipment
+    description: Unlocks crafting recipes for the current Dwarven equipment set.
+    category: 0
+    requiredTier: 3
+    prerequisiteIds: []
+    costs:
+    - resourceId: dvergrium
+      amount: 9
+    - resourceId: gold
+      amount: 100
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 4
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: dwarven-accessory
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: dwarven-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: dwarven-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: dwarven-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: dwarven-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
+        templateId: dwarven-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: dwarven-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: dwarven-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: dwarven-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: dwarven-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: dwarven-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: dwarven-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: dwarven-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: dwarven-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: dwarven-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: dwarven-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: dwarven-war-axe
+      slot: 0
+      amount: 1
+  - id: imgset.elven
+    displayName: Unlock Elven Equipment
+    description: Unlocks crafting recipes for the current Elven equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: elven_papyrus
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: elven-accessory
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: elven-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: elven-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: elven-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: elven-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
+        templateId: elven-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: elven-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: elven-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: elven-crown
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: elven-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: f48f60e6e5ba5555ac5f1500edd74624, type: 2}
+        templateId: elven-firearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: elven-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: elven-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: elven-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: elven-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
+        templateId: elven-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
+        templateId: elven-staff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: elven-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
+        templateId: elven-wand
+      slot: 0
+      amount: 1
+  - id: imgset.rune
+    displayName: Unlock Rune Equipment
+    description: Unlocks crafting recipes for the current Rune equipment set.
+    category: 0
+    requiredTier: 3
+    prerequisiteIds: []
+    costs:
+    - resourceId: runes
+      amount: 9
+    - resourceId: gold
+      amount: 100
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 4
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: rune-accessory
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: rune-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: rune-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: rune-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
+        templateId: rune-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: rune-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: rune-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: rune-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: f48f60e6e5ba5555ac5f1500edd74624, type: 2}
+        templateId: rune-firearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: rune-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: rune-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: rune-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: rune-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: rune-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: rune-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
+        templateId: rune-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
+        templateId: rune-staff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: rune-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
+        templateId: rune-wand
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: runic-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: runic-field-token
+      slot: 0
+      amount: 1
+  - id: imgset.silver
+    displayName: Unlock Silver Equipment
+    description: Unlocks crafting recipes for the current Silver equipment set.
+    category: 0
+    requiredTier: 3
+    prerequisiteIds: []
+    costs:
+    - resourceId: silver
+      amount: 9
+    - resourceId: gold
+      amount: 100
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 4
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: silver-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: silver-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: silver-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
+        templateId: silver-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: silver-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: silver-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: f48f60e6e5ba5555ac5f1500edd74624, type: 2}
+        templateId: silver-firearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: silver-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: silver-l-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: silver-l-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: silver-l-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: silver-l-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: silver-l-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: silver-l-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: silver-m-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: silver-m-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: silver-m-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: silver-m-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: silver-m-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: silver-m-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: silver-mace
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: silver-night-sigil
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: f48f60e6e5ba5555ac5f1500edd74624, type: 2}
+        templateId: silver-pistol
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: silver-plate-accessory
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: silver-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: silver-s-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: silver-s-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: silver-s-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: silver-s-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: silver-s-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: silver-s-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
+        templateId: silver-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: silver-spear
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
+        templateId: silver-staff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: silver-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
+        templateId: silver-wand
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: silver-war-axe
+      slot: 0
+      amount: 1
+  - id: imgset.steel
+    displayName: Unlock Steel Equipment
+    description: Unlocks crafting recipes for the current Steel equipment set.
+    category: 0
+    requiredTier: 3
+    prerequisiteIds: []
+    costs:
+    - resourceId: steel
+      amount: 9
+    - resourceId: gold
+      amount: 100
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 4
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: steel-accessory
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: steel-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: steel-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: steel-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
+        templateId: steel-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: steel-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: steel-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: f48f60e6e5ba5555ac5f1500edd74624, type: 2}
+        templateId: steel-firearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: steel-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: steel-l-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: steel-l-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: steel-l-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: steel-l-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: steel-l-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: steel-l-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: steel-m-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: steel-m-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: steel-m-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: steel-m-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: steel-m-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: steel-m-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: steel-mace
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: f48f60e6e5ba5555ac5f1500edd74624, type: 2}
+        templateId: steel-pistol
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: steel-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: steel-s-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: steel-s-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: steel-s-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: steel-s-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: steel-s-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: steel-s-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
+        templateId: steel-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: steel-spear
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
+        templateId: steel-staff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: steel-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
+        templateId: steel-wand
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: steel-war-axe
+      slot: 0
+      amount: 1
+  - id: imgset.stone
+    displayName: Unlock Stone Equipment
+    description: Unlocks crafting recipes for the current Stone equipment set.
+    category: 0
+    requiredTier: 0
+    prerequisiteIds: []
+    costs:
+    - resourceId: stone
+      amount: 3
+    - resourceId: gold
+      amount: 25
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: stone-accessory
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: stone-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: stone-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: stone-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: stone-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: stone-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
+        templateId: stone-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: stone-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: stone-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: stone-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: stone-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: stone-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: stone-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: stone-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: stone-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: stone-l-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: stone-m-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: stone-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: stone-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: stone-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: stone-s-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
+        templateId: stone-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
+        templateId: stone-staff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: stone-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: stone-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: stone-tablet
+      slot: 0
+      amount: 1
+  - id: imgset.wood
+    displayName: Unlock Wood Equipment
+    description: Unlocks crafting recipes for the current Wood equipment set.
+    category: 0
+    requiredTier: 0
+    prerequisiteIds: []
+    costs:
+    - resourceId: wood
+      amount: 3
+    - resourceId: gold
+      amount: 25
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: carved-wood-l-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: carved-wood-m-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: carved-wood-s-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d630fb097aa956dfa6d213667ddd511e, type: 2}
+        templateId: wood-accessory
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: wood-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: wood-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d64244e2367455439646244779fe4d82, type: 2}
+        templateId: wood-charm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: wood-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: wood-club
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: wood-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: wood-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: wood-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: wood-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: wood-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: wood-l-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: wood-m-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: wood-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: wood-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
+        templateId: wood-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 74fe232df34658ff934c1324006ca6c8, type: 2}
+        templateId: wood-staff
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: wood-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: wood-tablet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
+        templateId: wood-wand
+      slot: 0
+      amount: 1
+  - id: imgset.arcanite
+    displayName: Unlock Arcanite Equipment
+    description: Unlocks crafting recipes for the current Arcanite equipment set.
+    category: 0
+    requiredTier: 3
+    prerequisiteIds: []
+    costs:
+    - resourceId: arcanium
+      amount: 9
+    - resourceId: gold
+      amount: 100
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 4
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: arcanite-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: arcanite-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: arcanite-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: arcanite-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: arcanite-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: arcanite-l-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: arcanite-l-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: arcanite-l-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: arcanite-l-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: arcanite-l-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: arcanite-l-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: arcanite-m-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: arcanite-m-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: arcanite-m-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: arcanite-m-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: arcanite-m-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: arcanite-m-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: arcanite-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: arcanite-s-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: arcanite-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
+        templateId: arcanite-wand
+      slot: 0
+      amount: 1
+  - id: imgset.iron
+    displayName: Unlock Iron Equipment
+    description: Unlocks crafting recipes for the current Iron equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: iron
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: iron-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: iron-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: iron-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: iron-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: f48f60e6e5ba5555ac5f1500edd74624, type: 2}
+        templateId: iron-firearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: iron-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: iron-l-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: iron-l-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: iron-l-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: iron-l-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: iron-l-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: iron-l-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: iron-m-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: iron-m-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: iron-m-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: iron-m-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: iron-m-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: iron-m-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: iron-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: iron-s-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: iron-s-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: iron-s-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: iron-s-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: iron-s-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: iron-s-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
+        templateId: iron-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: iron-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: d464c55039b05a128feed076642a6c60, type: 2}
+        templateId: iron-wand
+      slot: 0
+      amount: 1
+  - id: imgset.mutanium
+    displayName: Unlock Mutanium Equipment
+    description: Unlocks crafting recipes for the current Mutanium equipment set.
+    category: 0
+    requiredTier: 4
+    prerequisiteIds: []
+    costs:
+    - resourceId: mutantium
+      amount: 11
+    - resourceId: gold
+      amount: 125
+    - resourceId: maana_crystals
+      amount: 5
+    battlesRequired: 5
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: mutanium-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: mutanium-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: mutanium-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: mutanium-buckler
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: mutanium-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: mutanium-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: mutanium-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: f48f60e6e5ba5555ac5f1500edd74624, type: 2}
+        templateId: mutanium-firearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: mutanium-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: mutanium-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: mutanium-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: mutanium-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: mutanium-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: mutanium-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
+        templateId: mutanium-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: mutanium-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: mutanium-tower-shield
+      slot: 0
+      amount: 1
+  - id: imgset.scrap
+    displayName: Unlock Scrap Equipment
+    description: Unlocks crafting recipes for the current Scrap equipment set.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds: []
+    costs:
+    - resourceId: scrap
+      amount: 5
+    - resourceId: gold
+      amount: 50
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 071331e07c41514e8e530f03e7fc4399, type: 2}
+        templateId: scrap-axe
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: scrap-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1ea21dae2c2f55ef8e807ae683a03944, type: 2}
+        templateId: scrap-bow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: scrap-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4722be53c39e5368ba085b1e53a43a9e, type: 2}
+        templateId: scrap-crossbow
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ac48462a3ff0533b993664d24bfca1c1, type: 2}
+        templateId: scrap-dagger
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: f48f60e6e5ba5555ac5f1500edd74624, type: 2}
+        templateId: scrap-firearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: scrap-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b0e6b86e02fb59588ef129f23f27a151, type: 2}
+        templateId: scrap-hammer
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: scrap-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: scrap-kite-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: scrap-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: b3fe512c40755a509f9c3f459b49a8b0, type: 2}
+        templateId: scrap-polearm
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: scrap-shield
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: c1a2f09fdc6b5fed98721fd6581917cd, type: 2}
+        templateId: scrap-sling
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1a6409330909af946b9c5d9e26e3e238, type: 2}
+        templateId: scrap-sword
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: scrap-tower-shield
+      slot: 0
+      amount: 1
+  - id: imgset.acid-mage
+    displayName: Unlock Acid Mage Equipment
+    description: Unlocks crafting recipes for the current Acid Mage equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: acid-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: acid-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: acid-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: acid-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: acid-pants
+      slot: 0
+      amount: 1
+  - id: imgset.dark-mage
+    displayName: Unlock Dark Mage Equipment
+    description: Unlocks crafting recipes for the current Dark Mage equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: dark-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: dark-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: dark-crown
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: dark-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: dark-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: dark-pants
+      slot: 0
+      amount: 1
+  - id: imgset.earth-mage
+    displayName: Unlock Earth Mage Equipment
+    description: Unlocks crafting recipes for the current Earth Mage equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: earth-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: earth-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: earth-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: earth-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: earth-pants
+      slot: 0
+      amount: 1
+  - id: imgset.flame-mage
+    displayName: Unlock Flame Mage Equipment
+    description: Unlocks crafting recipes for the current Flame Mage equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: flame-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: flame-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: flame-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: flame-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: flame-pants
+      slot: 0
+      amount: 1
+  - id: imgset.ice-mage
+    displayName: Unlock Ice Mage Equipment
+    description: Unlocks crafting recipes for the current Ice Mage equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: ice-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: ice-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: ice-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: ice-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: ice-pants
+      slot: 0
+      amount: 1
+  - id: imgset.leather
+    displayName: Unlock Leather Equipment
+    description: Unlocks crafting recipes for the current Leather equipment set.
+    category: 0
+    requiredTier: 0
+    prerequisiteIds: []
+    costs:
+    - resourceId: textiles
+      amount: 3
+    - resourceId: gold
+      amount: 25
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: leather-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: leather-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: leather-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: leather-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: leather-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: leather-shield
+      slot: 0
+      amount: 1
+  - id: imgset.lightning-mage
+    displayName: Unlock Lightning Mage Equipment
+    description: Unlocks crafting recipes for the current Lightning Mage equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: lightning-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: lightning-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: lightning-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: lightning-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: lightning-pants
+      slot: 0
+      amount: 1
+  - id: imgset.master-mage
+    displayName: Unlock Master Mage Equipment
+    description: Unlocks crafting recipes for the current Master Mage equipment set.
+    category: 0
+    requiredTier: 3
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 9
+    - resourceId: gold
+      amount: 100
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 4
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: master-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: master-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: master-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: master-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: master-pants
+      slot: 0
+      amount: 1
+  - id: imgset.novice-mage
+    displayName: Unlock Novice Mage Equipment
+    description: Unlocks crafting recipes for the current Novice Mage equipment set.
+    category: 0
+    requiredTier: 0
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 3
+    - resourceId: gold
+      amount: 25
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: novice-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: novice-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: novice-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: novice-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: novice-pants
+      slot: 0
+      amount: 1
+  - id: imgset.peasant
+    displayName: Unlock Peasant Equipment
+    description: Unlocks crafting recipes for the current Peasant equipment set.
+    category: 0
+    requiredTier: 0
+    prerequisiteIds: []
+    costs:
+    - resourceId: textiles
+      amount: 3
+    - resourceId: gold
+      amount: 25
+    battlesRequired: 1
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: peasant-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: peasant-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: peasant-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: peasant-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: peasant-pants
+      slot: 0
+      amount: 1
+  - id: imgset.poison-mage
+    displayName: Unlock Poison Mage Equipment
+    description: Unlocks crafting recipes for the current Poison Mage equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: poison-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: poison-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: poison-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: poison-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: poison-pants
+      slot: 0
+      amount: 1
+  - id: imgset.thief
+    displayName: Unlock Thief Equipment
+    description: Unlocks crafting recipes for the current Thief equipment set.
+    category: 0
+    requiredTier: 1
+    prerequisiteIds: []
+    costs:
+    - resourceId: textiles
+      amount: 5
+    - resourceId: gold
+      amount: 50
+    battlesRequired: 2
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: thief-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: thief-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: thief-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: thief-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: thief-pants
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 455e3937f4df51f5804e5b41524b538a, type: 2}
+        templateId: thief-shield
+      slot: 0
+      amount: 1
+  - id: imgset.water-mage
+    displayName: Unlock Water Mage Equipment
+    description: Unlocks crafting recipes for the current Water Mage equipment set.
+    category: 0
+    requiredTier: 2
+    prerequisiteIds: []
+    costs:
+    - resourceId: enchanted_textiles
+      amount: 7
+    - resourceId: gold
+      amount: 75
+    - resourceId: maana_crystals
+      amount: 3
+    battlesRequired: 3
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4b26c4c4ac87518e8e77e8b632e86557, type: 2}
+        templateId: water-boots
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 7cccf39d26e455e28003fd431af99220, type: 2}
+        templateId: water-chest
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: ef0ad174a400507a86cc3613abbb7938, type: 2}
+        templateId: water-gloves
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 4ed839324d8859748812b876b8ecdc93, type: 2}
+        templateId: water-helmet
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 1b1ffd55474d574f9f3f233631b5a1d0, type: 2}
+        templateId: water-pants
+      slot: 0
+      amount: 1
+  - id: imgset.magic
+    displayName: Unlock Magic Equipment
+    description: Unlocks crafting recipes for the current Magic equipment set.
+    category: 0
+    requiredTier: 3
+    prerequisiteIds: []
+    costs:
+    - resourceId: elven_papyrus
+      amount: 9
+    - resourceId: gold
+      amount: 100
+    - resourceId: maana_crystals
+      amount: 4
+    battlesRequired: 4
+    benefits:
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: adept-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: astral-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: curse-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: earth-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: flame-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: frost-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: lightning-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: novice-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: poison-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: sacred-book
+      slot: 0
+      amount: 1
+    - type: 0
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 11400000, guid: 58de6cee24e659138d9fcc22f6f0f3db, type: 2}
+        templateId: water-book
+      slot: 0
+      amount: 1
+  - id: imgset.progression.tier3
+    displayName: Advanced Equipment Research III
+    description: Unlocks the next level of research and image-based equipment fabrication.
+    category: 1
+    requiredTier: 2
+    prerequisiteIds:
+    - e.master-fabrication
+    costs:
+    - resourceId: gold
+      amount: 150
+    - resourceId: steel
+      amount: 10
+    - resourceId: runes
+      amount: 4
+    battlesRequired: 3
+    benefits:
+    - type: 11
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+    - type: 13
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+  - id: imgset.progression.tier4
+    displayName: Master Equipment Research IV
+    description: Unlocks the next level of research and image-based equipment fabrication.
+    category: 1
+    requiredTier: 3
+    prerequisiteIds:
+    - imgset.progression.tier3
+    costs:
+    - resourceId: gold
+      amount: 250
+    - resourceId: arcanium
+      amount: 8
+    - resourceId: mutantium
+      amount: 3
+    battlesRequired: 4
+    benefits:
+    - type: 11
+      recipeId: 
+      equipmentTemplate:
+        equipmentType: {fileID: 0}
+        templateId: 
+      slot: 0
+      amount: 1
+    - type: 13
+      recipeId: 
       equipmentTemplate:
         equipmentType: {fileID: 0}
         templateId: 

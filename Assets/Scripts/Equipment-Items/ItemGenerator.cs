@@ -431,7 +431,11 @@ public static class EquipmentGenerator
         int choice = PickWeightedIndex(eligible, i => pool[i].weight);
         if (choice < 0)
         {
-            return false;
+            // Flat-stat growth already succeeded. An empty/exhausted optional bonus pool
+            // must not invalidate the whole upgrade.
+            item.lastUpgradeBonus = "Stat growth only";
+
+            return true;
 
         }
 
